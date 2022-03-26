@@ -1,0 +1,31 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    
+    - name: GenerateTools
+      run: cmake ./Tools
+      
+    - name: BuildTools
+      run: cmake --build . --config Release
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        path: 
+          Bin/*
+          Source/*
