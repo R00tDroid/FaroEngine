@@ -2,7 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 public class ProjectManifestData
 {
@@ -88,7 +89,7 @@ public class ProjectManifest
             if (data.Length > 0)
             {
                 PerformanceTimer parseTime = new PerformanceTimer();
-                manifestData = Newtonsoft.Json.JsonConvert.DeserializeObject<ProjectManifestData>(data);
+                manifestData = JsonSerializer.Deserialize<ProjectManifestData>(data);
                 parseTime.Stop("Parse project manifest");
             }
 
