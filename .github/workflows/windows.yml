@@ -17,15 +17,18 @@ jobs:
       with:
         submodules: recursive
     
-    - name: GenerateTools
+    - name: Generate tools
       run: cmake ./Tools
       
-    - name: BuildTools
+    - name: Build tools
       run: cmake --build . --config Release
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
-        path: 
-          Bin/*
-          Source/*
+        name: FaroEngine
+        if-no-files-found: error
+        path: |
+          Bin/*.exe
+          Bin/*.dll
+          Source/**/*
