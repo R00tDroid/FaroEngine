@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 
 public class ProjectManifestData
 {
@@ -89,7 +88,17 @@ public class ProjectManifest
             if (data.Length > 0)
             {
                 PerformanceTimer parseTime = new PerformanceTimer();
-                manifestData = JsonSerializer.Deserialize<ProjectManifestData>(data);
+                manifestData = new ProjectManifestData();
+
+                JsonDocument rawObject = JsonDocument.Parse(data);
+                JsonElement rootObject = rawObject.RootElement;
+
+                JsonElement nameProperty;
+                if (rootObject.TryGetProperty("name", out nameProperty))
+                {
+                    manifestData.name = nameProperty.GetString();
+                }
+
                 parseTime.Stop("Parse project manifest");
             }
 

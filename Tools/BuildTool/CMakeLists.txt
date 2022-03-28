@@ -1,5 +1,5 @@
-project(FaroBuildTool LANGUAGES CSharp)
 cmake_minimum_required(VERSION 3.15)
+project(FaroBuildTool LANGUAGES CSharp)
 
 include(CSharpUtilities)
 
@@ -18,6 +18,6 @@ LIST(APPEND VS_DOTNET_REFERENCES "System.Memory")
 LIST(APPEND VS_DOTNET_REFERENCES "System.Text.Json")
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
+    DOTNET_TARGET_FRAMEWORK_VERSION "v4.8"
     VS_DOTNET_REFERENCES "${VS_DOTNET_REFERENCES}"
-    DOTNET_TARGET_FRAMEWORK_VERSION "4.8"
 )

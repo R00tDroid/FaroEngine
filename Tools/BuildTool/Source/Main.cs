@@ -51,9 +51,8 @@ class EntryPoint
             projectPath = parameters.GetArguments("project")[0];
         }
 
-        if (parameters.HasArguments("platform"))
+        if (parameters.CountArguments("platform") == 2)
         {
-            //TODO sanity checks
             buildPlatform = parameters.GetArguments("platform")[0];
             buildArchitecture = parameters.GetArguments("platform")[1];
         }
