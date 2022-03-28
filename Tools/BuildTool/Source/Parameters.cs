@@ -43,6 +43,11 @@ public class ParameterList
         return Contains(check) && parameters[check].Count > 0;
     }
 
+    public int CountArguments(String check)
+    {
+        return Contains(check) ? parameters[check].Count : 0;
+    }
+
     public String[] GetArguments(String check)
     {
         return parameters[check].ToArray();
