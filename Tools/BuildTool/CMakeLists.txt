@@ -1,4 +1,4 @@
-project(FaroBuildTool LANGUAGES CXX CSharp)
+project(FaroBuildTool LANGUAGES CSharp)
 cmake_minimum_required(VERSION 3.15)
 
 include(CSharpUtilities)
