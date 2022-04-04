@@ -5,6 +5,8 @@ include(${CMAKE_CURRENT_LIST_DIR}/../../CMake/ProjectVersion.cmake)
 
 message("Engine version: ${FaroEngineVersionFull}")
 
+configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/Version.cs.in ${CMAKE_CURRENT_LIST_DIR}/Source/Version.cs @ONLY)
+
 include(CSharpUtilities)
 
 file(GLOB_RECURSE SourceFiles

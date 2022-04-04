@@ -12,3 +12,4 @@ _deps
 
 /Bin
 /Tools/Build
+/Tools/BuildTool/Source/Version.cs
