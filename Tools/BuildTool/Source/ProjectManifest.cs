@@ -7,7 +7,7 @@ using System.Text.Json;
 public class ProjectManifestData
 {
     public String name = "Unnamed project";
-    public String[] modules;
+    public String[] modules = null;
 }
 
 public class ProjectManifest
@@ -98,6 +98,8 @@ public class ProjectManifest
                 {
                     manifestData.name = nameProperty.GetString();
                 }
+
+                if (manifestData.modules == null) manifestData.modules = Array.Empty<string>();
 
                 parseTime.Stop("Parse project manifest");
             }
