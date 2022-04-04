@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: FaroEngine Windows Toolchain
 
 on:
   push:
@@ -7,8 +7,7 @@ on:
   pull_request:
 
 jobs:
-  build:
-
+  Toolchain:
     runs-on: windows-latest
 
     steps:
@@ -17,10 +16,10 @@ jobs:
       with:
         submodules: recursive
     
-    - name: Generate tools
+    - name: Generate
       run: cmake ./Tools
       
-    - name: Build tools
+    - name: Build
       run: cmake --build . --config Release
 
     - name: Upload artifacts
