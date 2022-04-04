@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.15)
 project(FaroBuildTool LANGUAGES CSharp)
 
+include(${CMAKE_CURRENT_LIST_DIR}/../../CMake/ProjectVersion.cmake)
+
+message("Engine version: ${FaroEngineVersionFull}")
+
 include(CSharpUtilities)
 
 file(GLOB_RECURSE SourceFiles
