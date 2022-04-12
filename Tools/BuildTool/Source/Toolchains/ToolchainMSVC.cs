@@ -69,7 +69,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
             return false;
         }
 
-        objDir = manifest.project.faroRootDirectory + "\\build\\obj\\" + manifest.name;
+        objDir = manifest.buildRoot + "\\obj\\";
         Directory.CreateDirectory(objDir);
 
         libPath = GetModuleLibrary(manifest);
@@ -131,10 +131,10 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return result == 0;
     }
 
-    public override bool LinkLibrary(List<string> sourceFiles)
+    public override bool LinkLibrary(ModuleManifest module)
     {
         string objs = "";
-        foreach (string sourceFile in sourceFiles)
+        foreach (string sourceFile in module.sourceFiles)
         {
             objs += " \"" + GetObjForSource(sourceFile) + "\"";
         }
@@ -159,7 +159,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return result == 0;
     }
 
-    public override bool LinkExecutable(ProjectManifest project, List<ModuleManifest> modules)
+    public override bool LinkExecutable(ModuleManifest module)
     {
         string libs = "";
         string libDirectories = "";
@@ -176,18 +176,15 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         libDirectories += " /LIBPATH:\"" + windowsSdkLib + "\\um\\x64\"";
         libDirectories += " /LIBPATH:\"" + msvcRoot + "\\lib\\x64\"";
 
-        foreach (ModuleManifest module in modules)
-        {
-            string moduleLib = GetModuleLibrary(module);
-            moduleLibs += " /WHOLEARCHIVE:\"" + moduleLib + "\"";
-        }
+        //TODO link against other modules (/WHOLEARCHIVE)
+        //TODO link against dependencies
 
         string linkExe = "\"" + msvcTools + "\\link.exe\"";
         string msvcDrive = msvcRoot.Substring(0, 1);
 
-        string outDir = project.faroRootDirectory + "\\build\\application";
+        string outDir = module.buildRoot + "\\bin";
         Directory.CreateDirectory(outDir);
-        string outputFile = outDir + "\\" + project.projectName + ".exe";
+        string outputFile = outDir + "\\" + module.name + ".exe";
 
         string log = "";
         int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + linkExe + " /NOLOGO /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile + "\" " + libs + libDirectories + moduleLibs, out log);
@@ -213,7 +210,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
 
     private string GetLibDirForModule(ModuleManifest manifest)
     {
-        return manifest.project.faroRootDirectory + "\\build\\lib\\" + manifest.name;
+        return manifest.buildRoot + "\\lib";
     }
 
     private string GetModuleLibrary(ModuleManifest manifest)

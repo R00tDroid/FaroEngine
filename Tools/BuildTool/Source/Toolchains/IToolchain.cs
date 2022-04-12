@@ -79,16 +79,15 @@ public abstract class IToolchain
     }
 
 
-
     public abstract List<BuildPlatform> GetPlatforms();
 
     public abstract bool PrepareModuleForBuild(ModuleManifest manifest, BuildPlatform target);
 
     public abstract bool BuildSource(string sourceFile, List<string> includePaths, List<string> preprocessorDefines);
 
-    public abstract bool LinkLibrary(List<string> sourceFiles);
+    public abstract bool LinkLibrary(ModuleManifest module);
 
-    public abstract bool LinkExecutable(ProjectManifest project, List<ModuleManifest> modules);
+    public abstract bool LinkExecutable(ModuleManifest module);
 }
 
 public abstract class IToolchainInterface<T> : IToolchain where T : IToolchain, new()
