@@ -115,7 +115,7 @@ class PerformanceTimer
     }
 }
 
-public class GUIDManager
+/*public class GUIDManager
 {
     public GUIDManager(ProjectManifest project)
     {
@@ -182,7 +182,7 @@ public class GUIDManager
     {
         return project.faroRootDirectory + "\\bin\\guids_database.bin";
     }
-}
+}*/
 
 public static class EngineRegistry
 {
