@@ -25,9 +25,6 @@ public class ModuleManifest
     // Build directory of this module
     public String buildRoot = "";
 
-    // Source directory of this module
-    public List<String> sourcePaths = new List<string>();
-
     // Project this module belongs to
     public ProjectManifest project = null;
 
@@ -48,27 +45,26 @@ public class ModuleManifest
             {
                 _sourceFiles = new List<string>();
 
-                for (int i = 0; i < sourcePaths.Count; i++)
+                for (int i = 0; i < moduleInstance.sourcePaths.Count; i++)
                 {
                     // Ensure path is absolute
-                    if (!Path.IsPathRooted(sourcePaths[i]))
+                    if (!Path.IsPathRooted(moduleInstance.sourcePaths[i]))
                     {
-                        sourcePaths[i] = moduleRoot + "\\" + sourcePaths[i];
+                        moduleInstance.sourcePaths[i] = moduleRoot + "\\" + moduleInstance.sourcePaths[i];
                     }
 
-                    // Canonicalize path
-                    sourcePaths[i] = Path.GetFullPath(sourcePaths[i]);
-
-                    if (!sourcePaths[i].Contains('*'))
+                    if (!moduleInstance.sourcePaths[i].Contains('*'))
                     {
-                        _sourceFiles.Add(sourcePaths[i]);
+                        _sourceFiles.Add(moduleInstance.sourcePaths[i]);
                     }
                     else
                     {
-                        string searchRoot = sourcePaths[i].Substring(0, sourcePaths[i].IndexOf('*'));
+                        int index = moduleInstance.sourcePaths[i].IndexOf('*');
+                        string searchRoot = moduleInstance.sourcePaths[i].Substring(0, index - 1);
+                        string searchPattern = moduleInstance.sourcePaths[i].Substring(index);
 
                         Matcher matcher = new Matcher();
-                        matcher.AddInclude(sourcePaths[i]);
+                        matcher.AddInclude(searchPattern);
 
                         foreach (string foundFile in matcher.GetResultsInFullPath(searchRoot))
                         {
@@ -195,7 +191,7 @@ public class ModuleManifest
     {
         String binaryPath = buildRoot + "\\bin\\" + name + ".dll";
 
-        if (File.Exists(binaryPath))
+        if (File.Exists(binaryPath) && false) //TODO check for changes
         {
             PerformanceTimer timer = new PerformanceTimer();
             Utility.PrintLineD("Loading prebuild module assembly: " + binaryPath);
