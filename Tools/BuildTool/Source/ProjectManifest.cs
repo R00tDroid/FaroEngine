@@ -4,21 +4,16 @@ using System.Diagnostics.Eventing.Reader;
 using System.IO;
 using System.Text.Json;
 
-public class ProjectManifestData
-{
-    public String name = "Unnamed project";
-    public String[] modules = null;
-}
-
 public class ProjectManifest
 {
     public string manifestPath = "";
     public string projectDirectory = "";
-    public string faroRootDirectory = "";
+
+    // Build directory of this project
+    public String buildRoot = "";
+
     public string projectName = "";
     public List<ModuleManifest> projectModules = new List<ModuleManifest>();
-
-    public GUIDManager GUIDs = null;
 
     public bool Parse(String path)
     {
@@ -28,108 +23,74 @@ public class ProjectManifest
 
         manifestPath = path;
         projectDirectory = Directory.GetParent(manifestPath).FullName;
-        faroRootDirectory = projectDirectory + "\\.Faro";
+        buildRoot = projectDirectory + "\\.Faro";
 
-        GUIDs = new GUIDManager(this);
-
-        if (!Directory.Exists(faroRootDirectory))
+        Utility.PrintLineD("Compiling new binary manifest");
+        String data = "";
+        try
         {
-            DirectoryInfo di = Directory.CreateDirectory(faroRootDirectory);
-            di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+            PerformanceTimer readTime = new PerformanceTimer();
+            data = File.ReadAllText(path);
+            readTime.Stop("Read manifest");
+        }
+        catch
+        {
+            Utility.PrintLine("Failed to read project manifest: " + path);
+            return false;
         }
 
-        if (!Directory.Exists(faroRootDirectory + "\\bin"))
+        List<String> expectedModules = new List<String>();
+
+        if (data.Length > 0)
         {
-            DirectoryInfo di = Directory.CreateDirectory(faroRootDirectory + "\\bin");
-        }
+            PerformanceTimer parseTime = new PerformanceTimer();
 
-        if (!Directory.Exists(faroRootDirectory + "\\project"))
-        {
-            DirectoryInfo di = Directory.CreateDirectory(faroRootDirectory + "\\project");
-        }
+            JsonDocument rawObject = JsonDocument.Parse(data);
+            JsonElement rootObject = rawObject.RootElement;
 
-        ProjectManifestData manifestData = null;
-        String projectBinary = faroRootDirectory + "\\bin\\project.bin";
-        if (File.Exists(projectBinary)) //TODO check for change
-        {
-            PerformanceTimer loadTime = new PerformanceTimer();
-            Utility.PrintLineD("Loading binary manifest");
-            // Read previous project manifest binary
-            BinaryReader reader = new BinaryReader(File.OpenRead(projectBinary));
-            manifestData = new ProjectManifestData();
-            manifestData.name = reader.ReadString();
-            int moduleCount = reader.ReadInt32();
-            List<String> modules = new List<String>();
-            for(int i = 0; i < moduleCount; i++) 
+            foreach (JsonProperty element in rootObject.EnumerateObject())
             {
-                modules.Add(reader.ReadString());
-            }
-
-            manifestData.modules = modules.ToArray();
-            loadTime.Stop("Load manifest binary");
-        }
-        else
-        {
-            Utility.PrintLineD("Compiling new binary manifest");
-            String data = "";
-            try
-            {
-                PerformanceTimer readTime = new PerformanceTimer();
-                data = File.ReadAllText(path);
-                readTime.Stop("Read manifest");
-            }
-            catch
-            {
-                Utility.PrintLine("Failed to read project manifest: " + path);
-                return false;
-            }
-
-
-            if (data.Length > 0)
-            {
-                PerformanceTimer parseTime = new PerformanceTimer();
-                manifestData = new ProjectManifestData();
-
-                JsonDocument rawObject = JsonDocument.Parse(data);
-                JsonElement rootObject = rawObject.RootElement;
-
-                JsonElement nameProperty;
-                if (rootObject.TryGetProperty("name", out nameProperty))
+                try
                 {
-                    manifestData.name = nameProperty.GetString();
+                    string propertyName = element.Name.ToLower();
+
+                    if (propertyName.Equals("name"))
+                    {
+                        projectName = element.Value.GetString();
+                    }
+                    else if (propertyName.Equals("modules"))
+                    {
+                        foreach (JsonElement moduleEntry in element.Value.EnumerateArray())
+                        {
+                            expectedModules.Add(moduleEntry.GetString());
+                        }
+                    }
+                    else if (propertyName.Equals("engineversion"))
+                    {
+                        //TODO use engine version to check compatibility
+                    }
+                    else
+                    {
+                        Utility.PrintLine("Unknown property in manifest: " + element.Name);
+                    }
                 }
-
-                if (manifestData.modules == null) manifestData.modules = Array.Empty<string>();
-
-                parseTime.Stop("Parse project manifest");
-            }
-
-            if (manifestData != null)
-            {
-                PerformanceTimer saveTime = new PerformanceTimer();
-                // Save manifest to binary
-                BinaryWriter writer = new BinaryWriter(File.Open(projectBinary, FileMode.Create));
-                writer.Write(manifestData.name);
-                writer.Write((Int32)manifestData.modules.Length);
-                foreach (string modulePath in manifestData.modules)
+                catch (Exception e)
                 {
-                    writer.Write(modulePath);
+                    Utility.PrintLine("Failed to parse property in manifest: \"" + element.Name + "\" > " + e.Message + ")");
                 }
-                writer.Close();
-                saveTime.Stop("Save manifest binary");
             }
+
+            parseTime.Stop("Parse project manifest");
         }
 
-        if (manifestData == null)
+        if (expectedModules.Count == 0)
         {
             Utility.PrintLine("Failed to load project manifest: " + path);
             return false;
         }
 
-        projectName = manifestData.name;
-
         projectModules.Clear();
-        foreach (String modulePath in manifestData.modules)
+        foreach (String modulePath in expectedModules)
         {
             String fullModulePath = projectDirectory + "\\" + modulePath;
             
@@ -160,11 +121,6 @@ public class ProjectManifest
             projectModules.Add(module);
         }
 
-        if (projectModules.Count != manifestData.modules.Length)
-        {
-            return false;
-        }
-
         Utility.PrintLineD("Loading modules");
         foreach (ModuleManifest mod in projectModules)
         {
@@ -183,7 +139,7 @@ public class ProjectManifest
             }
         }
 
-        Utility.PrintLineD("Parsed project: " + manifestData.name);
+        Utility.PrintLineD("Parsed project: " + projectName);
         timer.Stop("Parse project");
 
         return true;
