@@ -24,7 +24,7 @@ class EntryPoint
             Utility.Print("Compilation: -compile\n");
             Utility.Print("-project <path>										The project to compile\n");
             Utility.Print("-module <module1, module2>							Modules to be compile\n");
-            Utility.Print("-debug / -deployment / -release						The configuration to compile with (debug / deployment / release)\n");
+            Utility.Print("-debug / -development / -release						The configuration to compile with (debug / deployment / release)\n");
             Utility.Print("-platform <platform type> <architecture>         	Defines the platform (windows, android or linux) and architecture (x86, x64, arm, arm-v7, arm64, mips)\n\n");
 
             Utility.Print("Cleaning: -clean\n");
