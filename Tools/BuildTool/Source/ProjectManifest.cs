@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.IO;
-using System.Text.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Serialization;
 
 public class ProjectManifest
 {
@@ -45,10 +46,10 @@ public class ProjectManifest
         {
             PerformanceTimer parseTime = new PerformanceTimer();
 
-            JsonDocument rawObject = JsonDocument.Parse(data);
-            JsonElement rootObject = rawObject.RootElement;
 
-            foreach (JsonProperty element in rootObject.EnumerateObject())
+            JObject rootObject = JObject.Parse(data);
+
+            foreach (JProperty element in rootObject.Properties())
             {
                 try
                 {
@@ -56,13 +57,13 @@ public class ProjectManifest
 
                     if (propertyName.Equals("name"))
                     {
-                        projectName = element.Value.GetString();
+                        projectName = element.Value.ToString();
                     }
                     else if (propertyName.Equals("modules"))
                     {
-                        foreach (JsonElement moduleEntry in element.Value.EnumerateArray())
+                        foreach (JValue moduleEntry in element.Value.Values())
                         {
-                            expectedModules.Add(moduleEntry.GetString());
+                            expectedModules.Add(moduleEntry.ToString());
                         }
                     }
                     else if (propertyName.Equals("engineversion"))
