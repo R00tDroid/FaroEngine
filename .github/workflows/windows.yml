@@ -9,7 +9,6 @@ on:
 jobs:
   Toolchain:
     runs-on: windows-latest
-
     steps:
     - name: Checkout repository and submodules
       uses: actions/checkout@v2
@@ -31,3 +30,15 @@ jobs:
           Bin/*.exe
           Bin/*.dll
           Source/**/*
+
+  BuildEngine:
+    runs-on: windows-latest
+    steps:
+    - name: actions/download-artifact
+      uses: actions/download-artifact
+      with:
+        name: FaroEngine
+    
+    - name: Build
+      run: Bin/FaroBuildTool.exe -build -project Source/FaroEngine.faroproj
+
