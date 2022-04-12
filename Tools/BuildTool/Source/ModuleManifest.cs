@@ -72,6 +72,8 @@ public class ModuleManifest
                         }
                     }
                 }
+
+                _sourceFiles.Sort();
             }
             return _sourceFiles;
         }
