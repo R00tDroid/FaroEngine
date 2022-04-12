@@ -24,6 +24,14 @@ public class TaskBuild : ITask
 
     public override bool Run(ProjectManifest project)
     {
+        foreach (ModuleManifest module in project.projectModules)
+        {
+            foreach (string sourceFile in module.sourceFiles)
+            {
+                Utility.PrintLine(sourceFile);
+            }
+        }
+
         /*targetToolchain = null;
         targetPlatform = null;
 
