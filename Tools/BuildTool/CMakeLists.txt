@@ -27,4 +27,5 @@ LIST(APPEND VS_DOTNET_REFERENCES "System.Runtime.CompilerServices.Unsafe")
 set_target_properties(${PROJECT_NAME} PROPERTIES
     DOTNET_TARGET_FRAMEWORK_VERSION "v4.8"
     VS_DOTNET_REFERENCES "${VS_DOTNET_REFERENCES}"
+    VS_PACKAGE_REFERENCES "Microsoft.Extensions.FileSystemGlobbing_6.0.0"
 )
