@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.Remoting;
 using Microsoft.CSharp;
 using FaroEngine;
+using Microsoft.Extensions.FileSystemGlobbing;
 
 public class ModuleManifest
 {
@@ -21,8 +22,11 @@ public class ModuleManifest
     // Root directory of this module
     public String moduleRoot = "";
 
+    // Build directory of this module
+    public String buildRoot = "";
+
     // Source directory of this module
-    public String sourceRoot = "";
+    public List<String> sourcePaths = new List<string>();
 
     // Project this module belongs to
     public ProjectManifest project = null;
@@ -42,7 +46,36 @@ public class ModuleManifest
         {
             if (_sourceFiles == null)
             {
-                _sourceFiles = Directory.GetFiles(sourceRoot, "*.*", SearchOption.AllDirectories).ToList();
+                _sourceFiles = new List<string>();
+
+                for (int i = 0; i < sourcePaths.Count; i++)
+                {
+                    // Ensure path is absolute
+                    if (!Path.IsPathRooted(sourcePaths[i]))
+                    {
+                        sourcePaths[i] = moduleRoot + "\\" + sourcePaths[i];
+                    }
+
+                    // Canonicalize path
+                    sourcePaths[i] = Path.GetFullPath(sourcePaths[i]);
+
+                    if (!sourcePaths[i].Contains('*'))
+                    {
+                        _sourceFiles.Add(sourcePaths[i]);
+                    }
+                    else
+                    {
+                        string searchRoot = sourcePaths[i].Substring(0, sourcePaths[i].IndexOf('*'));
+
+                        Matcher matcher = new Matcher();
+                        matcher.AddInclude(sourcePaths[i]);
+
+                        foreach (string foundFile in matcher.GetResultsInFullPath(searchRoot))
+                        {
+                            _sourceFiles.Add(foundFile);
+                        }
+                    }
+                }
             }
             return _sourceFiles;
         }
@@ -70,7 +103,7 @@ public class ModuleManifest
     {
         manifestPath = file;
         moduleRoot = Directory.GetParent(manifestPath).FullName;
-        sourceRoot = moduleRoot + "\\Source";
+        buildRoot = moduleRoot + "\\.Faro";
         this.project = project;
         name = Path.GetFileName(manifestPath).Replace(moduleFileSuffix, "");
     }
@@ -160,7 +193,7 @@ public class ModuleManifest
     // Load or compile the build script assembly
     public Assembly GetAssembly()
     {
-        String binaryPath = project.faroRootDirectory + "\\bin\\" + name + ".dll";
+        String binaryPath = buildRoot + "\\bin\\" + name + ".dll";
 
         if (File.Exists(binaryPath))
         {
@@ -340,6 +373,8 @@ namespace FaroEngine
         // Libraries to link against
         public List<String> libraryDependencies = new List<String>();
         public List<String> librarySearchDirectories = new List<String>();
+
+        public List<String> sourcePaths = new List<String>();
 
         // Additional include directories
         public List<String> privateIncludeDirectories = new List<String>();
