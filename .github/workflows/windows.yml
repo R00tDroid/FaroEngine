@@ -27,8 +27,6 @@ jobs:
         name: FaroEngine
         if-no-files-found: error
         path: |
-#          Bin/*.exe
-#          Bin/*.dll
           Bin/*
           Source/**/*
 
