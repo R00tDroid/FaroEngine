@@ -12,7 +12,7 @@ public class TaskGenerate : ITask
 
     public override bool Run(ProjectManifest project)
     {
-        Utility.PrintLine("Performing solution generation...");
+        /*Utility.PrintLine("Performing solution generation...");
 
         PerformanceTimer timer = new PerformanceTimer();
         foreach (ModuleManifest moduleManifest in project.projectModules)
@@ -33,10 +33,12 @@ public class TaskGenerate : ITask
 
         timer = new PerformanceTimer();
         WriteSolutionFile(project);
-        timer.Stop("generate solution file");
+        timer.Stop("generate solution file");*/
 
         return true;
     }
+
+    /*
 
     private String VSPlatformVersion = "v142";
     private String VSVersion = "16.0";
@@ -394,5 +396,5 @@ public class TaskGenerate : ITask
     private string GetGUIDForModule(ModuleManifest moduleManifest)
     {
         return moduleManifest.project.GUIDs.GetGUID("module_" + moduleManifest.name);
-    }
+    }*/
 }

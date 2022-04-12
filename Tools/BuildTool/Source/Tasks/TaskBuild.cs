@@ -24,7 +24,7 @@ public class TaskBuild : ITask
 
     public override bool Run(ProjectManifest project)
     {
-        targetToolchain = null;
+        /*targetToolchain = null;
         targetPlatform = null;
 
         List<IToolchain> toolchains = IToolchain.GetToolchains();
@@ -120,7 +120,7 @@ public class TaskBuild : ITask
 
         //TODO Only link when needed
         Utility.PrintLine("Linking modules");
-        targetToolchain.LinkExecutable(project, moduleOrder);
+        targetToolchain.LinkExecutable(project, moduleOrder);*/
 
         return true;
     }
