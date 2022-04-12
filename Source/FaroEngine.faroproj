@@ -1,5 +1,5 @@
 {
     "name": "Faro Engine",
     "EngineVersion": "0.0.0",
-    "Modules": []
+    "Modules": [ "Engine/Core" ]
 }
