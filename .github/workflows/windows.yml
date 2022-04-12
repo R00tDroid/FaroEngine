@@ -34,8 +34,8 @@ jobs:
   BuildEngine:
     runs-on: windows-latest
     steps:
-    - name: actions/download-artifact
-      uses: actions/download-artifact
+    - name: actions/download-artifact@master
+      uses: actions/download-artifact@master
       with:
         name: FaroEngine
     
