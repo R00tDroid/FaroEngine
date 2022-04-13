@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 using Microsoft.Win32;
 
 public static class Utility
@@ -10,6 +11,11 @@ public static class Utility
     [DllImport("ToolchainInfo.dll")]
     public static extern int CountAvailableWindowsKits();
 
+    [DllImport("ToolchainInfo.dll")]
+    public static extern IntPtr GetAvailableWindowsKitRoot(int Index);
+
+    [DllImport("ToolchainInfo.dll")]
+    public static extern IntPtr GetAvailableWindowsKitVersion(int Index);
 
     public static void PrintLine(String log)
     {

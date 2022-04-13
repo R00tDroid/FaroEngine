@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 
 enum EMSVCArchetecture 
 {
@@ -38,7 +40,13 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
     {
         MSVCBuildPlatform buildPlatform = (MSVCBuildPlatform)target;
 
-        int WindoowsKitCount = Utility.CountAvailableWindowsKits();
+        int WindowsKitCount = Utility.CountAvailableWindowsKits();
+        for (int i = 0; i < WindowsKitCount; i++)
+        {
+            string Root = Marshal.PtrToStringAnsi(Utility.GetAvailableWindowsKitRoot(i));
+            string Version = Marshal.PtrToStringAnsi(Utility.GetAvailableWindowsKitVersion(i));
+            Utility.PrintLine("MSVC: " + Root + " " + Version);
+        }
 
         msvcRoot = EngineRegistry.GetString("MSVC");
         windowsSdkInclude = EngineRegistry.GetString("WindowsKitLocation") + "\\Include\\" + EngineRegistry.GetString("WindowsKitVersion");
