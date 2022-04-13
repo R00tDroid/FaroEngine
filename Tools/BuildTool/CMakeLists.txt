@@ -26,3 +26,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
     VS_DOTNET_REFERENCES "${VS_DOTNET_REFERENCES}"
     VS_PACKAGE_REFERENCES "Microsoft.Extensions.FileSystemGlobbing_6.0.0;Newtonsoft.Json_13.0.1"
 )
+add_dependencies(${PROJECT_NAME} ToolchainInfo)
