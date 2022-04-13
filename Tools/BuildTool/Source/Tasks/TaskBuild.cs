@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
+using System.Text;
 using FaroEngine;
 
 public class TaskBuild : ITask
@@ -22,13 +24,22 @@ public class TaskBuild : ITask
     IToolchain targetToolchain = null;
     BuildPlatform targetPlatform = null;
 
+    public string GetRelativePath(string originPath, string relativePath)
+    {
+        var origin = new Uri(originPath);
+        var relative = Uri.UnescapeDataString(origin.MakeRelativeUri(new Uri(relativePath)).ToString()).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+        return relative;
+    }
+
     public override bool Run(ProjectManifest project)
     {
         foreach (ModuleManifest module in project.projectModules)
         {
             foreach (string sourceFile in module.sourceFiles)
             {
-                Utility.PrintLine(sourceFile);
+                string displayName = GetRelativePath(module.moduleRoot + "\\", sourceFile);
+
+                Utility.PrintLine(displayName);
             }
         }
 
