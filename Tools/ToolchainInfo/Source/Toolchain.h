@@ -2,4 +2,5 @@
 #include "Dll.h"
 
 DllExport int CountAvailableWindowsKits();
-DllExport void GetAvailableWindowsKit(int Index, char** Root, char** Version);
+DllExport char* GetAvailableWindowsKitRoot(int Index);
+DllExport char* GetAvailableWindowsKitVersion(int Index);

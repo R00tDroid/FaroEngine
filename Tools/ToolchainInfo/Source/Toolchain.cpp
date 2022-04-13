@@ -68,13 +68,26 @@ int CountAvailableWindowsKits()
     return WindowsKits.size();
 }
 
-void GetAvailableWindowsKit(int Index, char** Root, char** Version)
+char* GetAvailableWindowsKitRoot(int Index)
 {
     FindWindowsKits();
 
     if (Index >= 0 && Index < WindowsKits.size())
     {
-        *Root = const_cast<char*>(WindowsKits[Index].Root.c_str());
-        *Version = const_cast<char*>(WindowsKits[Index].Version.c_str());
+        return const_cast<char*>(WindowsKits[Index].Root.c_str());
     }
+
+    return nullptr;
+}
+
+char* GetAvailableWindowsKitVersion(int Index)
+{
+    FindWindowsKits();
+
+    if (Index >= 0 && Index < WindowsKits.size())
+    {
+        return const_cast<char*>(WindowsKits[Index].Version.c_str());
+    }
+
+    return nullptr;
 }
