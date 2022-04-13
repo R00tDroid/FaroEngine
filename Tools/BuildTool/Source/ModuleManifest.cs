@@ -104,6 +104,12 @@ public class ModuleManifest
         buildRoot = moduleRoot + "\\.Faro";
         this.project = project;
         name = Path.GetFileName(manifestPath).Replace(moduleFileSuffix, "");
+
+        if (!Directory.Exists(buildRoot))
+        {
+            DirectoryInfo dirInfo = Directory.CreateDirectory(buildRoot);
+            dirInfo.Attributes |= FileAttributes.Hidden;
+        }
     }
 
     // Parse the build script and register this new module
@@ -191,7 +197,7 @@ public class ModuleManifest
     // Load or compile the build script assembly
     public Assembly GetAssembly()
     {
-        String binaryPath = buildRoot + "\\bin\\" + name + ".dll";
+        String binaryPath = buildRoot + "\\Data\\" + name + ".dll";
 
         if (File.Exists(binaryPath) && false) //TODO check for changes
         {
@@ -253,8 +259,7 @@ public class ModuleManifest
         Utility.PrintLineD("Creating assembly output directory");
         if (!Directory.Exists(Directory.GetParent(output).FullName))
         {
-            DirectoryInfo di = Directory.CreateDirectory(Directory.GetParent(output).FullName);
-            di.Attributes = FileAttributes.Directory | FileAttributes.Hidden;
+            Directory.CreateDirectory(Directory.GetParent(output).FullName);
         }
 
         Utility.PrintLineD("Compiling assembly");
