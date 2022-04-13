@@ -2,10 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
 public static class Utility
 {
+    [DllImport("ToolchainInfo.dll")]
+    public static extern int CountAvailableWindowsKits();
+
+
     public static void PrintLine(String log)
     {
         Print(log + "\n");

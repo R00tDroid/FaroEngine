@@ -38,6 +38,8 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
     {
         MSVCBuildPlatform buildPlatform = (MSVCBuildPlatform)target;
 
+        int WindoowsKitCount = Utility.CountAvailableWindowsKits();
+
         msvcRoot = EngineRegistry.GetString("MSVC");
         windowsSdkInclude = EngineRegistry.GetString("WindowsKitLocation") + "\\Include\\" + EngineRegistry.GetString("WindowsKitVersion");
         windowsSdkLib = EngineRegistry.GetString("WindowsKitLocation") + "\\Lib\\" + EngineRegistry.GetString("WindowsKitVersion");
