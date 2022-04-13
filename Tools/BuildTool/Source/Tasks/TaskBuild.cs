@@ -24,26 +24,16 @@ public class TaskBuild : ITask
     IToolchain targetToolchain = null;
     BuildPlatform targetPlatform = null;
 
-    public string GetRelativePath(string originPath, string relativePath)
+    public string GetDisplayName(ModuleManifest module, string filePath)
     {
-        var origin = new Uri(originPath);
-        var relative = Uri.UnescapeDataString(origin.MakeRelativeUri(new Uri(relativePath)).ToString()).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+        var origin = new Uri(module.moduleRoot);
+        var relative = Uri.UnescapeDataString(origin.MakeRelativeUri(new Uri(filePath)).ToString()).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
         return relative;
     }
 
     public override bool Run(ProjectManifest project)
     {
-        foreach (ModuleManifest module in project.projectModules)
-        {
-            foreach (string sourceFile in module.sourceFiles)
-            {
-                string displayName = GetRelativePath(module.moduleRoot + "\\", sourceFile);
-
-                Utility.PrintLine(displayName);
-            }
-        }
-
-        /*targetToolchain = null;
+        targetToolchain = null;
         targetPlatform = null;
 
         List<IToolchain> toolchains = IToolchain.GetToolchains();
@@ -109,13 +99,13 @@ public class TaskBuild : ITask
                 prepareTimer.Stop("Prepare");
 
                 List<string> includes = new List<string>();
-                includes.Add(module.sourceRoot);
+                //includes.Add(module.sourceRoot);
 
                 PerformanceTimer sourceFilesTimer = new PerformanceTimer();
                 foreach (string file in filesToCompile) 
                 {
                     PerformanceTimer fileTimer = new PerformanceTimer();
-                    string displayName = file.Replace(module.sourceRoot + "\\", "");
+                    string displayName = GetDisplayName(module, file);
                     Utility.PrintLine(displayName);
 
                     if (!targetToolchain.BuildSource(file, includes, targetPlatform.preprocessorDefines)) 
@@ -127,8 +117,8 @@ public class TaskBuild : ITask
                 }
                 sourceFilesTimer.Stop("Build source");
 
-                Utility.PrintLine("Generating module");
-                targetToolchain.LinkLibrary(sourceFiles);
+                //Utility.PrintLine("Generating module");
+                //targetToolchain.LinkLibrary(sourceFiles);
 
                 buildTimer.Stop("Build");
             }
@@ -138,8 +128,8 @@ public class TaskBuild : ITask
         }
 
         //TODO Only link when needed
-        Utility.PrintLine("Linking modules");
-        targetToolchain.LinkExecutable(project, moduleOrder);*/
+        //Utility.PrintLine("Linking modules");
+        //targetToolchain.LinkExecutable(project, moduleOrder);
 
         return true;
     }
