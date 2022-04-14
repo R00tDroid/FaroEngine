@@ -1,6 +1,9 @@
 #pragma once
 #include "Dll.h"
 
-DllExport int CountAvailableWindowsKits();
-DllExport char* GetAvailableWindowsKitRoot(int Index);
-DllExport char* GetAvailableWindowsKitVersion(int Index);
+DllExport int CountWindowsKits();
+DllExport char* GetWindowsKitRoot(int Index);
+DllExport char* GetWindowsKitVersion(int Index);
+
+DllExport int CountMSVC();
+DllExport char* GetMSVCRoot(int Index);

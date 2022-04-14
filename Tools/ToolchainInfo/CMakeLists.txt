@@ -11,5 +11,7 @@ file(GLOB_RECURSE ToolchainSourceFiles
 )
 
 add_library(ToolchainInfo SHARED
-    ${ToolchainSourceFiles} 
+    ${ToolchainSourceFiles}
 )
+
+target_compile_features(ToolchainInfo PRIVATE cxx_std_17)

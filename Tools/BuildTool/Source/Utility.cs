@@ -9,13 +9,19 @@ using Microsoft.Win32;
 public static class Utility
 {
     [DllImport("ToolchainInfo.dll")]
-    public static extern int CountAvailableWindowsKits();
+    public static extern int CountWindowsKits();
 
     [DllImport("ToolchainInfo.dll")]
-    public static extern IntPtr GetAvailableWindowsKitRoot(int Index);
+    public static extern IntPtr GetWindowsKitRoot(int Index);
 
     [DllImport("ToolchainInfo.dll")]
-    public static extern IntPtr GetAvailableWindowsKitVersion(int Index);
+    public static extern IntPtr GetWindowsKitVersion(int Index);
+
+    [DllImport("ToolchainInfo.dll")]
+    public static extern int CountMSVC();
+
+    [DllImport("ToolchainInfo.dll")]
+    public static extern IntPtr GetMSVCRoot(int Index);
 
     public static void PrintLine(String log)
     {

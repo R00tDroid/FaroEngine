@@ -40,12 +40,19 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
     {
         MSVCBuildPlatform buildPlatform = (MSVCBuildPlatform)target;
 
-        int WindowsKitCount = Utility.CountAvailableWindowsKits();
+        int WindowsKitCount = Utility.CountWindowsKits();
         for (int i = 0; i < WindowsKitCount; i++)
         {
-            string Root = Marshal.PtrToStringAnsi(Utility.GetAvailableWindowsKitRoot(i));
-            string Version = Marshal.PtrToStringAnsi(Utility.GetAvailableWindowsKitVersion(i));
-            Utility.PrintLine("MSVC: " + Root + " " + Version);
+            string Root = Marshal.PtrToStringAnsi(Utility.GetWindowsKitRoot(i));
+            string Version = Marshal.PtrToStringAnsi(Utility.GetWindowsKitVersion(i));
+            Utility.PrintLine("WindowsKit: " + Root + " " + Version);
+        }
+
+        int MSVCCount = Utility.CountMSVC();
+        for (int i = 0; i < MSVCCount; i++)
+        {
+            string Root = Marshal.PtrToStringAnsi(Utility.GetMSVCRoot(i));
+            Utility.PrintLine("MSVC: " + Root);
         }
 
         msvcRoot = EngineRegistry.GetString("MSVC");
