@@ -70,17 +70,17 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
             return false;
         }
 
-        msvcTools = msvcRoot + "\\bin\\Hostx86\\";
+        msvcTools = msvcRoot + "\\bin\\";
         switch (buildPlatform.Architecture)
         {
             case EMSVCArchetecture.x64:
                 {
-                    msvcTools += "x64";
+                    msvcTools += "Hostx64\\x64";
                     break;
                 }
             case EMSVCArchetecture.x86:
                 {
-                    msvcTools += "x86";
+                    msvcTools += "Hostx86\\x86";
                     break;
                 }
         }
