@@ -91,7 +91,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
             return false;
         }
 
-        objDir = manifest.buildRoot + "\\obj\\";
+        objDir = manifest.buildRoot + "\\Obj\\";
         Directory.CreateDirectory(objDir);
 
         libPath = GetModuleLibrary(manifest);
