@@ -40,24 +40,29 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
     {
         MSVCBuildPlatform buildPlatform = (MSVCBuildPlatform)target;
 
-        int WindowsKitCount = Utility.CountWindowsKits();
-        for (int i = 0; i < WindowsKitCount; i++)
+        int windowsKitCount = Utility.CountWindowsKits();
+        if (windowsKitCount > 0)
         {
-            string Root = Marshal.PtrToStringAnsi(Utility.GetWindowsKitRoot(i));
-            string Version = Marshal.PtrToStringAnsi(Utility.GetWindowsKitVersion(i));
-            Utility.PrintLine("WindowsKit: " + Root + " " + Version);
+            string root = Marshal.PtrToStringAnsi(Utility.GetWindowsKitRoot(0));
+            string version = Marshal.PtrToStringAnsi(Utility.GetWindowsKitVersion(0));
+
+            windowsSdkInclude = root + "\\Include\\" + version;
+            windowsSdkLib = root + "\\Lib\\" + version;
+
+            Utility.PrintLine("WindowsKit: " + root + " " + version);
         }
 
         int MSVCCount = Utility.CountMSVC();
-        for (int i = 0; i < MSVCCount; i++)
+        if (MSVCCount > 0)
         {
-            string Root = Marshal.PtrToStringAnsi(Utility.GetMSVCRoot(i));
-            Utility.PrintLine("MSVC: " + Root);
+            msvcRoot = Marshal.PtrToStringAnsi(Utility.GetMSVCRoot(0));
         }
 
-        msvcRoot = EngineRegistry.GetString("MSVC");
-        windowsSdkInclude = EngineRegistry.GetString("WindowsKitLocation") + "\\Include\\" + EngineRegistry.GetString("WindowsKitVersion");
-        windowsSdkLib = EngineRegistry.GetString("WindowsKitLocation") + "\\Lib\\" + EngineRegistry.GetString("WindowsKitVersion");
+        if (windowsSdkLib == "" || windowsSdkInclude == "" || !Directory.Exists(windowsSdkLib) || !Directory.Exists(windowsSdkInclude))
+        {
+            Utility.PrintLine("Invalid WindowsKit directory");
+            return false;
+        }
 
         if (msvcRoot == "" || !Directory.Exists(msvcRoot))
         {

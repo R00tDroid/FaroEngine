@@ -200,24 +200,3 @@ class PerformanceTimer
         return project.faroRootDirectory + "\\bin\\guids_database.bin";
     }
 }*/
-
-public static class EngineRegistry
-{
-    public static string GetString(string key)
-    {
-        string result = "";
-
-        try
-        {
-            RegistryKey regKey = Registry.LocalMachine.OpenSubKey("SOFTWARE\\FaroEngine\\" + Version.EngineVersion);
-            result = (string)regKey.GetValue(key);
-            regKey.Close();
-        }
-        catch (Exception e)
-        {
-            Utility.PrintLine("Unable to read registry key: " + e.Message);
-        }
-
-        return result;
-    }
-}
