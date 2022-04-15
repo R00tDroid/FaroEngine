@@ -48,8 +48,6 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
 
             windowsSdkInclude = root + "\\Include\\" + version;
             windowsSdkLib = root + "\\Lib\\" + version;
-
-            Utility.PrintLine("WindowsKit: " + root + " " + version);
         }
 
         int MSVCCount = Utility.CountMSVC();
