@@ -88,6 +88,16 @@ public abstract class IToolchain
     public abstract bool LinkLibrary(ModuleManifest module);
 
     public abstract bool LinkExecutable(ModuleManifest module);
+
+    public string GetObjDirForModule(ModuleManifest manifest, BuildPlatform target)
+    {
+        return manifest.buildRoot + "\\Obj\\" + target.platformName.ToLower().Replace(' ', '_');
+    }
+
+    public string GetModuleLibrary(ModuleManifest manifest, BuildPlatform target)
+    {
+        return manifest.buildRoot + "\\Lib\\" + target.platformName.ToLower().Replace(' ', '_');
+    }
 }
 
 public abstract class IToolchainInterface<T> : IToolchain where T : IToolchain, new()

@@ -89,11 +89,11 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
             return false;
         }
 
-        objDir = manifest.buildRoot + "\\Obj\\";
+        objDir = GetObjDirForModule(manifest, target);
         Directory.CreateDirectory(objDir);
 
-        libPath = GetModuleLibrary(manifest);
-        Directory.CreateDirectory(GetLibDirForModule(manifest));
+        libPath = GetModuleLibrary(manifest, target) + ".lib";
+        Directory.CreateDirectory(Directory.GetParent(libPath).ToString());
 
         return true;
     }
@@ -226,15 +226,5 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
     {
         //TODO add MSVC IDE path
         return "set \"path=C:\\Windows\\System32;\"";
-    }
-
-    private string GetLibDirForModule(ModuleManifest manifest)
-    {
-        return manifest.buildRoot + "\\lib";
-    }
-
-    private string GetModuleLibrary(ModuleManifest manifest)
-    {
-        return GetLibDirForModule(manifest) + "\\Windows.lib";
     }
 }
