@@ -117,8 +117,28 @@ public class TaskBuild : ITask
                 }
                 sourceFilesTimer.Stop("Build source");
 
-                Utility.PrintLine("Generating module");
-                targetToolchain.LinkLibrary(module, targetPlatform, sourceFiles);
+                switch (module.GetModuleType())
+                {
+                    case ModuleType.Library:
+                    {
+                        Utility.PrintLine("Generating library...");
+                        targetToolchain.LinkLibrary(module, targetPlatform, sourceFiles);
+                        break;
+                    }
+
+                    case ModuleType.Executable:
+                    {
+                        Utility.PrintLine("Generating executable...");
+                        targetToolchain.LinkExecutable(module, targetPlatform, sourceFiles);
+                        break;
+                    }
+
+                    default:
+                    {
+                        Utility.PrintLine("Unknown module type");
+                        return false;
+                    }
+                }
 
                 buildTimer.Stop("Build");
             }

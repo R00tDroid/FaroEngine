@@ -214,6 +214,11 @@ public class ModuleManifest
         }
     }
 
+    public ModuleType GetModuleType()
+    {
+        return moduleInstance.moduleType;
+    }
+
     public static Assembly CompileAssembly(String output, List<String> sourceFileNames, List<string> referencedAssemblies, List<string> preprocessorDefines = null, bool treatWarningsAsErrors = false)
     {
         PerformanceTimer timer = new PerformanceTimer();
@@ -341,6 +346,13 @@ namespace FaroEngine
         Shipping
     }
 
+    public enum ModuleType
+    {
+        Unknown,
+        Library,
+        Executable
+    }
+
 
     public class TargetConfiguration
     {
@@ -382,5 +394,7 @@ namespace FaroEngine
         // Additional include directories
         public List<String> privateIncludeDirectories = new List<String>();
         public List<String> publicIncludeDirectories = new List<String>();
+
+        public ModuleType moduleType = ModuleType.Unknown;
     }
 }
