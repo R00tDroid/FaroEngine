@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 
@@ -83,21 +84,42 @@ public abstract class IToolchain
 
     public abstract bool PrepareModuleForBuild(ModuleManifest manifest, BuildPlatform target);
 
-    public abstract bool BuildSource(string sourceFile, List<string> includePaths, List<string> preprocessorDefines);
+    public abstract bool BuildSource(ModuleManifest manifest, BuildPlatform target, string sourceFile, List<string> includePaths, List<string> preprocessorDefines);
 
-    public abstract bool LinkLibrary(ModuleManifest module);
+    public abstract bool LinkLibrary(ModuleManifest manifest, BuildPlatform target, List<string> sourceFiles);
 
-    public abstract bool LinkExecutable(ModuleManifest module);
+    public abstract bool LinkExecutable(ModuleManifest manifest, BuildPlatform target, List<string> sourceFiles);
 
-    public string GetObjDirForModule(ModuleManifest manifest, BuildPlatform target)
+    public string GetObjDirectory(ModuleManifest manifest, BuildPlatform target)
     {
         return manifest.buildRoot + "\\Obj\\" + target.platformName.ToLower().Replace(' ', '_');
     }
 
-    public string GetModuleLibrary(ModuleManifest manifest, BuildPlatform target)
+    public string GetObjPath(ModuleManifest manifest, BuildPlatform target, string sourceFile)
     {
-        return manifest.buildRoot + "\\Lib\\" + target.platformName.ToLower().Replace(' ', '_');
+        return GetObjDirectory(manifest, target) + "\\" + Path.GetFileNameWithoutExtension(sourceFile) + ".obj";
     }
+
+    public abstract string GetObjExtension();
+
+    public string GetLibDirectory(ModuleManifest manifest)
+    {
+        return manifest.buildRoot + "\\Lib";
+    }
+
+    public string GetLibPath(ModuleManifest manifest, BuildPlatform target)
+    {
+        return GetLibDirectory(manifest) + "\\" + target.platformName.ToLower().Replace(' ', '_') + "." + GetLibExtension();
+    }
+
+    public string GetExePath(ModuleManifest manifest, BuildPlatform target)
+    {
+        return GetLibDirectory(manifest) + "\\" + manifest.name + "_" + target.platformName.ToLower().Replace(' ', '_') + "." + GetExeExtension();
+    }
+
+    public abstract string GetLibExtension();
+
+    public abstract string GetExeExtension();
 }
 
 public abstract class IToolchainInterface<T> : IToolchain where T : IToolchain, new()

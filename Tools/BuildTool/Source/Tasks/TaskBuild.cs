@@ -90,7 +90,7 @@ public class TaskBuild : ITask
             }
             treescanTimer.Stop("Change check treescan");
 
-                if (filesToCompile.Count > 0)
+            if (filesToCompile.Count > 0)
             {
                 PerformanceTimer buildTimer = new PerformanceTimer();
 
@@ -108,7 +108,7 @@ public class TaskBuild : ITask
                     string displayName = GetDisplayName(module, file);
                     Utility.PrintLine(displayName);
 
-                    if (!targetToolchain.BuildSource(file, includes, targetPlatform.preprocessorDefines)) 
+                    if (!targetToolchain.BuildSource(module, targetPlatform, file, includes, targetPlatform.preprocessorDefines)) 
                     {
                         Utility.PrintLine("Build error!");
                         return false;
@@ -117,8 +117,8 @@ public class TaskBuild : ITask
                 }
                 sourceFilesTimer.Stop("Build source");
 
-                //Utility.PrintLine("Generating module");
-                //targetToolchain.LinkLibrary(sourceFiles);
+                Utility.PrintLine("Generating module");
+                targetToolchain.LinkLibrary(module, targetPlatform, sourceFiles);
 
                 buildTimer.Stop("Build");
             }
@@ -129,7 +129,7 @@ public class TaskBuild : ITask
 
         //TODO Only link when needed
         //Utility.PrintLine("Linking modules");
-        //targetToolchain.LinkExecutable(project, moduleOrder);
+        //targetToolchain.LinkExecutable(module, targetPlatform, project, moduleOrder);
 
         return true;
     }

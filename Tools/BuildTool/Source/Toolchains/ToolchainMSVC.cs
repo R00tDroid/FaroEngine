@@ -28,7 +28,6 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
     }
 
     private string objDir = "";
-    private string libPath = "";
 
     private string msvcRoot = "";
     private string msvcTools = "";
@@ -89,21 +88,15 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
             return false;
         }
 
-        objDir = GetObjDirForModule(manifest, target);
+        objDir = GetObjDirectory(manifest, target);
         Directory.CreateDirectory(objDir);
 
-        libPath = GetModuleLibrary(manifest, target) + ".lib";
-        Directory.CreateDirectory(Directory.GetParent(libPath).ToString());
+
 
         return true;
     }
 
-    private string GetObjForSource(string file)
-    {
-        return objDir + "\\" + Path.GetFileNameWithoutExtension(file) + ".obj";
-    }
-
-    public override bool BuildSource(string sourceFile, List<string> includePaths, List<string> preprocessorDefines)
+    public override bool BuildSource(ModuleManifest manifest, BuildPlatform target, string sourceFile, List<string> includePaths, List<string> preprocessorDefines)
     {
         string includes = "";
 
@@ -126,7 +119,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
 
         string clExe = "\"" + msvcTools + "\\cl.exe\"";
         string msvcDrive = msvcRoot.Substring(0, 1);
-        string outputFile = GetObjForSource(sourceFile);
+        string outputFile = GetObjPath(manifest, target, sourceFile);
 
         string log = "";
         int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + clExe + " /c /FC /nologo /EHsc /Z7 /Od " + defines + " " + sourceFile + " /Fo\"" + outputFile + "\" " + includes, out log);
@@ -151,16 +144,19 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return result == 0;
     }
 
-    public override bool LinkLibrary(ModuleManifest module)
+    public override bool LinkLibrary(ModuleManifest manifest, BuildPlatform target, List<string> sourceFiles)
     {
         string objs = "";
-        foreach (string sourceFile in module.sourceFiles)
+        foreach (string sourceFile in sourceFiles)
         {
-            objs += " \"" + GetObjForSource(sourceFile) + "\"";
+            objs += " \"" + GetObjPath(manifest, target, sourceFile) + "\"";
         }
 
         string libExe = "\"" + msvcTools + "\\lib.exe\"";
         string msvcDrive = msvcRoot.Substring(0, 1);
+
+        string libPath = GetLibPath(manifest, target);
+        Directory.CreateDirectory(GetLibDirectory(manifest));
 
         string log = "";
         int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + libExe + " /nologo /OUT:\"" + libPath + "\" " + objs, out log);
@@ -179,7 +175,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return result == 0;
     }
 
-    public override bool LinkExecutable(ModuleManifest module)
+    public override bool LinkExecutable(ModuleManifest manifest, BuildPlatform target, List<string> sourceFiles)
     {
         string libs = "";
         string libDirectories = "";
@@ -202,9 +198,8 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         string linkExe = "\"" + msvcTools + "\\link.exe\"";
         string msvcDrive = msvcRoot.Substring(0, 1);
 
-        string outDir = module.buildRoot + "\\bin";
-        Directory.CreateDirectory(outDir);
-        string outputFile = outDir + "\\" + module.name + ".exe";
+        Directory.CreateDirectory(GetLibDirectory(manifest));
+        string outputFile = GetExePath(manifest, target);
 
         string log = "";
         int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + linkExe + " /NOLOGO /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile + "\" " + libs + libDirectories + moduleLibs, out log);
@@ -220,6 +215,21 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
             }
         }
         return result == 0;
+    }
+
+    public override string GetObjExtension()
+    {
+        return "obj";
+    }
+
+    public override string GetLibExtension()
+    {
+        return "lib";
+    }
+
+    public override string GetExeExtension()
+    {
+        return "exe";
     }
 
     private string GetEnvCommand()
