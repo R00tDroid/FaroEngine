@@ -97,24 +97,27 @@ public abstract class IToolchain
 
     public string GetObjPath(ModuleManifest manifest, BuildPlatform target, string sourceFile)
     {
-        return GetObjDirectory(manifest, target) + "\\" + Path.GetFileNameWithoutExtension(sourceFile) + ".obj";
+        return GetObjDirectory(manifest, target) + "\\" + Path.GetFileNameWithoutExtension(sourceFile) + "." + GetObjExtension();
     }
 
     public abstract string GetObjExtension();
 
-    public string GetLibDirectory(ModuleManifest manifest)
+    public string GetBinDirectory(ModuleManifest manifest)
     {
-        return manifest.buildRoot + "\\Lib";
+        return manifest.buildRoot + "\\Bin";
     }
 
-    public string GetLibPath(ModuleManifest manifest, BuildPlatform target)
+    public string GetBinPath(ModuleManifest manifest, BuildPlatform target)
     {
-        return GetLibDirectory(manifest) + "\\" + target.platformName.ToLower().Replace(' ', '_') + "." + GetLibExtension();
-    }
-
-    public string GetExePath(ModuleManifest manifest, BuildPlatform target)
-    {
-        return GetLibDirectory(manifest) + "\\" + manifest.name + "_" + target.platformName.ToLower().Replace(' ', '_') + "." + GetExeExtension();
+        if (true) //TODO switch for libraries and executables
+        {
+            return GetBinDirectory(manifest) + "\\" + target.platformName.ToLower().Replace(' ', '_') + "." +
+                   GetLibExtension();
+        }
+        else
+        {
+            return GetBinDirectory(manifest) + "\\" + manifest.name + "_" + target.platformName.ToLower().Replace(' ', '_') + "." + GetExeExtension();
+        }
     }
 
     public abstract string GetLibExtension();

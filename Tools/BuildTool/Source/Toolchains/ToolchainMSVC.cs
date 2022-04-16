@@ -155,8 +155,8 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         string libExe = "\"" + msvcTools + "\\lib.exe\"";
         string msvcDrive = msvcRoot.Substring(0, 1);
 
-        string libPath = GetLibPath(manifest, target);
-        Directory.CreateDirectory(GetLibDirectory(manifest));
+        string libPath = GetBinPath(manifest, target);
+        Directory.CreateDirectory(GetBinDirectory(manifest));
 
         string log = "";
         int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + libExe + " /nologo /OUT:\"" + libPath + "\" " + objs, out log);
@@ -198,8 +198,8 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         string linkExe = "\"" + msvcTools + "\\link.exe\"";
         string msvcDrive = msvcRoot.Substring(0, 1);
 
-        Directory.CreateDirectory(GetLibDirectory(manifest));
-        string outputFile = GetExePath(manifest, target);
+        Directory.CreateDirectory(GetBinDirectory(manifest));
+        string outputFile = GetBinPath(manifest, target);
 
         string log = "";
         int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + linkExe + " /NOLOGO /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile + "\" " + libs + libDirectories + moduleLibs, out log);
