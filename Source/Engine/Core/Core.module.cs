@@ -8,5 +8,7 @@ class CoreModule : Module
 
         sourcePaths.Add("Source/**/*.cpp");
         sourcePaths.Add("Source/**/*.h");
+
+        publicIncludeDirectories.Add("Source");
     }
 }
