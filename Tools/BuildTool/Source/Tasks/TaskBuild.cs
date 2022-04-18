@@ -98,8 +98,8 @@ public class TaskBuild : ITask
                 if (!targetToolchain.PrepareModuleForBuild(module, targetPlatform)) return false;
                 prepareTimer.Stop("Prepare");
 
-                List<string> includes = new List<string>();
-                //includes.Add(module.sourceRoot);
+                List<string> includes = module.GetModuleIncludeDirectories();
+                includes.Sort();
 
                 PerformanceTimer sourceFilesTimer = new PerformanceTimer();
                 foreach (string file in filesToCompile) 

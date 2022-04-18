@@ -219,6 +219,30 @@ public class ModuleManifest
         return moduleInstance.moduleType;
     }
 
+    // Get public include directories for this module
+    public List<string> GetPublicIncludeDirectories()
+    {
+        return moduleInstance.publicIncludeDirectories;
+    }
+
+    // Get private include directories for this module
+    public List<string> GetPrivateIncludeDirectories()
+    {
+        return moduleInstance.privateIncludeDirectories;
+    }
+
+    // Get all include directories for this module and dependencies
+    public List<string> GetModuleIncludeDirectories()
+    {
+        List<string> includes = GetPublicIncludeDirectories().Concat(GetPrivateIncludeDirectories()).ToList();
+        foreach (ModuleManifest dependency in moduleDependencies)
+        {
+            includes = includes.Concat(dependency.GetPublicIncludeDirectories()).ToList();
+        }
+
+        return includes;
+    }
+
     public static Assembly CompileAssembly(String output, List<String> sourceFileNames, List<string> referencedAssemblies, List<string> preprocessorDefines = null, bool treatWarningsAsErrors = false)
     {
         PerformanceTimer timer = new PerformanceTimer();
