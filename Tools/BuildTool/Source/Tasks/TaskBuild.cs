@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using FaroEngine;
@@ -98,7 +99,8 @@ public class TaskBuild : ITask
                 if (!targetToolchain.PrepareModuleForBuild(module, targetPlatform)) return false;
                 prepareTimer.Stop("Prepare");
 
-                List<string> includes = module.GetModuleIncludeDirectories();
+                List<string> includes = module.GetPublicIncludeTree();
+                includes = includes.Concat(module.privateIncludeDirectories).ToList();
                 includes.Sort();
 
                 PerformanceTimer sourceFilesTimer = new PerformanceTimer();

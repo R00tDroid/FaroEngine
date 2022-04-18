@@ -219,25 +219,61 @@ public class ModuleManifest
         return moduleInstance.moduleType;
     }
 
-    // Get public include directories for this module
-    public List<string> GetPublicIncludeDirectories()
+    public List<string> publicIncludeDirectories
     {
-        return moduleInstance.publicIncludeDirectories;
-    }
+        get
+        {
+            if (_publicIncludeDirectories == null)
+            {
+                _publicIncludeDirectories = new List<string>();
 
-    // Get private include directories for this module
-    public List<string> GetPrivateIncludeDirectories()
-    {
-        return moduleInstance.privateIncludeDirectories;
-    }
+                for (int i = 0; i < moduleInstance.publicIncludeDirectories.Count; i++)
+                {
+                    // Ensure path is absolute
+                    if (!Path.IsPathRooted(moduleInstance.publicIncludeDirectories[i]))
+                    {
+                        moduleInstance.publicIncludeDirectories[i] = moduleRoot + "\\" + moduleInstance.publicIncludeDirectories[i];
+                    }
 
-    // Get all include directories for this module and dependencies
-    public List<string> GetModuleIncludeDirectories()
+                    _publicIncludeDirectories.Add(moduleInstance.publicIncludeDirectories[i]);
+                }
+            }
+            return _publicIncludeDirectories;
+        }
+    }
+    private List<string> _publicIncludeDirectories = null;
+
+    public List<string> privateIncludeDirectories
     {
-        List<string> includes = GetPublicIncludeDirectories().Concat(GetPrivateIncludeDirectories()).ToList();
+        get
+        {
+            if (_privateIncludeDirectories == null)
+            {
+                _privateIncludeDirectories = new List<string>();
+
+                for (int i = 0; i < moduleInstance.privateIncludeDirectories.Count; i++)
+                {
+                    // Ensure path is absolute
+                    if (!Path.IsPathRooted(moduleInstance.publicIncludeDirectories[i]))
+                    {
+                        moduleInstance.privateIncludeDirectories[i] = moduleRoot + "\\" + moduleInstance.privateIncludeDirectories[i];
+                    }
+
+                    _privateIncludeDirectories.Add(moduleInstance.privateIncludeDirectories[i]);
+                }
+            }
+            return _privateIncludeDirectories;
+        }
+    }
+    private List<string> _privateIncludeDirectories = null;
+
+    // Get all public include directories for this module and dependencies
+    public List<string> GetPublicIncludeTree()
+    {
+        List<string> includes = publicIncludeDirectories;
         foreach (ModuleManifest dependency in moduleDependencies)
         {
-            includes = includes.Concat(dependency.GetPublicIncludeDirectories()).ToList();
+            includes = includes.Concat(dependency.GetPublicIncludeTree()).ToList();
         }
 
         return includes;
