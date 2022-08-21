@@ -1,106 +1,57 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
-using Microsoft.Win32;
+#include <iostream>
+#include <Windows.h>
+#include <string>
 
-public static class Utility
+namespace Utility
 {
-    [DllImport("ToolchainInfo.dll")]
-    public static extern int CountWindowsKits();
+    inline void Print(std::string log)
+    {
+        std::cout << log.c_str();
+        OutputDebugStringA(log.c_str());
+    }
 
-    [DllImport("ToolchainInfo.dll")]
-    public static extern IntPtr GetWindowsKitRoot(int Index);
-
-    [DllImport("ToolchainInfo.dll")]
-    public static extern IntPtr GetWindowsKitVersion(int Index);
-
-    [DllImport("ToolchainInfo.dll")]
-    public static extern int CountMSVC();
-
-    [DllImport("ToolchainInfo.dll")]
-    public static extern IntPtr GetMSVCRoot(int Index);
-
-    public static void PrintLine(String log)
+    inline void PrintLine(std::string log)
     {
         Print(log + "\n");
     }
 
-    public static void Print(String log)
+    inline void PrintD(std::string log)
     {
-        Console.Write(log);
-        Trace.Write(log);
-    }
-
-    public static void PrintLineD(String log)
-    {
-#if DEBUG
-        PrintD(log + "\n");
+#ifndef NDEBUG
+        Print("[D] " + log);
 #endif
     }
 
-    public static void PrintD(String log)
+    inline void PrintLineD(std::string log)
     {
-#if DEBUG
-        Print("[D] " + log);
+#ifndef NDEBUG
+        PrintD(log + "\n");
 #endif
     }
 }
 
 class PerformanceTimer
 {
-    private static Stopwatch applicationTimer = null;
-
-    public static void StartGlobalTimer()
+public:
+    static void StartGlobalTimer()
     {
-        applicationTimer = Stopwatch.StartNew();
+        //applicationTimer = Stopwatch.StartNew();
     }
 
-    public static float GetMillisSinceStart()
+    static float GetMillisSinceStart()
     {
-        if (applicationTimer == null)
-        {
-            return 0.0f;
-        }
-        else
-        {
-            long microseconds = applicationTimer.ElapsedTicks / (Stopwatch.Frequency / (1000L * 1000L));
-            return microseconds / 1000.0f;
-        }
+        return 0.0f;
     }
 
-
-    private static int globalDepth = 0;
-    private static int timerCount = 0;
-    private int depth = 0;
-    private int index = 0;
-    private Stopwatch timer = null;
-
-    private static SortedDictionary<int, string> timerReports = new SortedDictionary<int, string>();
-
-    public PerformanceTimer()
+    PerformanceTimer()
     {
-        timer = Stopwatch.StartNew();
-
-        depth = globalDepth;
-        globalDepth++;
-
-        index = timerCount;
-        timerCount++;
     }
 
     ~PerformanceTimer()
     {
-        if (timer != null) 
-        {
-            globalDepth--;
-            timer = null;
-        }
     }
 
-    public void Stop(string label)
+    public void Stop(std::string label)
     {
         if (timer != null)
         {
@@ -124,7 +75,7 @@ class PerformanceTimer
 
     public static void PrintTimers() 
     {
-        Utility.PrintLine("\n--Perf report--");
+        Utility::PrintLine("\n--Perf report--");
         foreach (var report in timerReports.Values) 
         {
             Utility.PrintLine(report);
