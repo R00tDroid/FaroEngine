@@ -56,7 +56,7 @@ public class TaskBuild : ITask
 
         if (targetToolchain == null || targetPlatform == null) 
         {
-            Utility.PrintLine("Unable to find suitable toolchain for platform: " + buildPlatform + " " + buildArchitecture);
+            Utility::PrintLine("Unable to find suitable toolchain for platform: " + buildPlatform + " " + buildArchitecture);
             return false;
         }
 
@@ -64,7 +64,7 @@ public class TaskBuild : ITask
         List<ModuleManifest> moduleOrder = new List<ModuleManifest>();
         moduleOrder = project.projectModules;
 
-        Utility.PrintLine("Performing build...");
+        Utility::PrintLine("Performing build...");
 
         foreach (var module in moduleOrder)
         {
@@ -108,11 +108,11 @@ public class TaskBuild : ITask
                 {
                     PerformanceTimer fileTimer = new PerformanceTimer();
                     string displayName = GetDisplayName(module, file);
-                    Utility.PrintLine(displayName);
+                    Utility::PrintLine(displayName);
 
                     if (!targetToolchain.BuildSource(module, targetPlatform, file, includes, targetPlatform.preprocessorDefines)) 
                     {
-                        Utility.PrintLine("Build error!");
+                        Utility::PrintLine("Build error!");
                         return false;
                     }
                     fileTimer.Stop("Source: " + displayName);
@@ -123,21 +123,21 @@ public class TaskBuild : ITask
                 {
                     case ModuleType.Library:
                     {
-                        Utility.PrintLine("Generating library...");
+                        Utility::PrintLine("Generating library...");
                         targetToolchain.LinkLibrary(module, targetPlatform, sourceFiles);
                         break;
                     }
 
                     case ModuleType.Executable:
                     {
-                        Utility.PrintLine("Generating executable...");
+                        Utility::PrintLine("Generating executable...");
                         targetToolchain.LinkExecutable(module, targetPlatform, sourceFiles);
                         break;
                     }
 
                     default:
                     {
-                        Utility.PrintLine("Unknown module type");
+                        Utility::PrintLine("Unknown module type");
                         return false;
                     }
                 }
@@ -145,12 +145,12 @@ public class TaskBuild : ITask
                 buildTimer.Stop("Build");
             }
 
-            Utility.Print("\n");
+            Utility::Print("\n");
             moduleTimer.Stop("Module: " + module.name);
         }
 
         //TODO Only link when needed
-        //Utility.PrintLine("Linking modules");
+        //Utility::PrintLine("Linking modules");
         //targetToolchain.LinkExecutable(module, targetPlatform, project, moduleOrder);
 
         return true;

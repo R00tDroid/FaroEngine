@@ -6,7 +6,7 @@ public class ParameterList
     public ParameterList(String[] input)
     {
         PerformanceTimer timer = new PerformanceTimer();
-        Utility.PrintLineD("Parsing ParameterList...");
+        Utility::PrintLineD("Parsing ParameterList...");
 
         String lastAdded = "";
         
@@ -25,11 +25,11 @@ public class ParameterList
             }
             else
             {
-                Utility.PrintLineD("Invalid parameter input: " + argl);
+                Utility::PrintLineD("Invalid parameter input: " + argl);
             }
         }
         
-        Utility.PrintLineD("Parsed " + input.Length + " input(s) to " + parameters.Count + " parameter(s)");
+        Utility::PrintLineD("Parsed " + input.Length + " input(s) to " + parameters.Count + " parameter(s)");
         timer.Stop("Parse commandline");
     }
 

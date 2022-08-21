@@ -12,7 +12,7 @@ public class TaskGenerate : ITask
 
     public override bool Run(ProjectManifest project)
     {
-        /*Utility.PrintLine("Performing solution generation...");
+        /*Utility::PrintLine("Performing solution generation...");
 
         PerformanceTimer timer = new PerformanceTimer();
         foreach (ModuleManifest moduleManifest in project.projectModules)

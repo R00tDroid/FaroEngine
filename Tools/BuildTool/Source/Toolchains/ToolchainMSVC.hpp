@@ -39,31 +39,31 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
     {
         MSVCBuildPlatform buildPlatform = (MSVCBuildPlatform)target;
 
-        int windowsKitCount = Utility.CountWindowsKits();
+        int windowsKitCount = Utility::CountWindowsKits();
         if (windowsKitCount > 0)
         {
-            string root = Marshal.PtrToStringAnsi(Utility.GetWindowsKitRoot(0));
-            string version = Marshal.PtrToStringAnsi(Utility.GetWindowsKitVersion(0));
+            string root = Marshal.PtrToStringAnsi(Utility::GetWindowsKitRoot(0));
+            string version = Marshal.PtrToStringAnsi(Utility::GetWindowsKitVersion(0));
 
             windowsSdkInclude = root + "\\Include\\" + version;
             windowsSdkLib = root + "\\Lib\\" + version;
         }
 
-        int MSVCCount = Utility.CountMSVC();
+        int MSVCCount = Utility::CountMSVC();
         if (MSVCCount > 0)
         {
-            msvcRoot = Marshal.PtrToStringAnsi(Utility.GetMSVCRoot(0));
+            msvcRoot = Marshal.PtrToStringAnsi(Utility::GetMSVCRoot(0));
         }
 
         if (windowsSdkLib == "" || windowsSdkInclude == "" || !Directory.Exists(windowsSdkLib) || !Directory.Exists(windowsSdkInclude))
         {
-            Utility.PrintLine("Invalid WindowsKit directory");
+            Utility::PrintLine("Invalid WindowsKit directory");
             return false;
         }
 
         if (msvcRoot == "" || !Directory.Exists(msvcRoot))
         {
-            Utility.PrintLine("Invalid MSVC directory");
+            Utility::PrintLine("Invalid MSVC directory");
             return false;
         }
 
@@ -84,7 +84,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
 
         if (!Directory.Exists(windowsSdkInclude) || !Directory.Exists(windowsSdkLib) || !Directory.Exists(msvcTools))
         {
-            Utility.PrintLine("Invalid WindowsKit");
+            Utility::PrintLine("Invalid WindowsKit");
             return false;
         }
 
@@ -137,7 +137,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
 
             if (log.Length > 0)
             {
-                Utility.PrintLine(log);
+                Utility::PrintLine(log);
             }
         }
 
@@ -168,7 +168,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
 
             if (log.Length > 0)
             {
-                Utility.PrintLine(log);
+                Utility::PrintLine(log);
             }
         }
 
@@ -211,7 +211,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
 
             if (log.Length > 0)
             {
-                Utility.PrintLine(log);
+                Utility::PrintLine(log);
             }
         }
         return result == 0;

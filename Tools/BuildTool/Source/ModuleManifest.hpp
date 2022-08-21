@@ -117,7 +117,7 @@ public class ModuleManifest
     {
         PerformanceTimer timer = new PerformanceTimer();
 
-        Utility.PrintLineD("Loading module assembly");
+        Utility::PrintLineD("Loading module assembly");
         moduleAssembly = GetAssembly();
 
         if (moduleAssembly == null)
@@ -126,20 +126,20 @@ public class ModuleManifest
         }
 
         PerformanceTimer loadTimer = new PerformanceTimer();
-        Utility.PrintLineD("Loading module into domain");
+        Utility::PrintLineD("Loading module into domain");
         try
         {
             AppDomain.CurrentDomain.Load(moduleAssembly.GetName());
         }
         catch (Exception Ex)
         {
-            Utility.PrintLine("Unable to load module assembly: " + Ex.Message);
+            Utility::PrintLine("Unable to load module assembly: " + Ex.Message);
             return false;
         }
         loadTimer.Stop("Load assembly");
 
         PerformanceTimer reflectTimer = new PerformanceTimer();
-        Utility.PrintLineD("Loading module instance");
+        Utility::PrintLineD("Loading module instance");
         Type[] typesInAssembly = moduleAssembly.GetTypes();
         Type[] moduleTypes = typesInAssembly.Where(c => c.IsSubclassOf(typeof(FaroEngine.Module))).ToArray();
         reflectTimer.Stop("Reflection scan");
@@ -147,13 +147,13 @@ public class ModuleManifest
         PerformanceTimer executeTimer = new PerformanceTimer();
         if (moduleTypes.Length == 0)
         {
-            Utility.PrintLine("No module found");
+            Utility::PrintLine("No module found");
             return false;
         }
         else if (moduleTypes.Length > 1)
         {
             string[] moduleTypeNames = Array.ConvertAll<Type, string>(moduleTypes, o => o.FullName);
-            Utility.PrintLine("Too many modules found (" + String.Join(", ", moduleTypeNames) + "). Only 1 expected!");
+            Utility::PrintLine("Too many modules found (" + String.Join(", ", moduleTypeNames) + "). Only 1 expected!");
             return false;
 
         }
@@ -186,7 +186,7 @@ public class ModuleManifest
             }
             else
             {
-                Utility.PrintLine("Unable to find module dependency: " + moduleName);
+                Utility::PrintLine("Unable to find module dependency: " + moduleName);
                 failed = true;
             }
         }
@@ -202,7 +202,7 @@ public class ModuleManifest
         if (File.Exists(binaryPath) && false) //TODO check for changes
         {
             PerformanceTimer timer = new PerformanceTimer();
-            Utility.PrintLineD("Loading prebuild module assembly: " + binaryPath);
+            Utility::PrintLineD("Loading prebuild module assembly: " + binaryPath);
             Assembly result = Assembly.LoadFile(binaryPath);
             timer.Stop("Load module binary");
             return result;
@@ -283,7 +283,7 @@ public class ModuleManifest
     {
         PerformanceTimer timer = new PerformanceTimer();
 
-        Utility.PrintLineD("Preparing assembly compilation");
+        Utility::PrintLineD("Preparing assembly compilation");
 
 		TempFileCollection temporaryFiles = new TempFileCollection();
 
@@ -301,7 +301,7 @@ public class ModuleManifest
 
         CompileParams.IncludeDebugInformation = false;
 
-        Utility.PrintLineD("Compiling " + output);
+        Utility::PrintLineD("Compiling " + output);
 
         // Add assembly references
         if (referencedAssemblies == null)
@@ -321,13 +321,13 @@ public class ModuleManifest
 
         CompileParams.CompilerOptions = "-preferreduilang:en-US";
 
-        Utility.PrintLineD("Creating assembly output directory");
+        Utility::PrintLineD("Creating assembly output directory");
         if (!Directory.Exists(Directory.GetParent(output).FullName))
         {
             Directory.CreateDirectory(Directory.GetParent(output).FullName);
         }
 
-        Utility.PrintLineD("Compiling assembly");
+        Utility::PrintLineD("Compiling assembly");
         CompilerResults CompileResults;
         try
         {
@@ -337,20 +337,20 @@ public class ModuleManifest
         }
         catch (Exception Ex)
         {
-            Utility.PrintLine("Failed to launch compiler to build module assembly: " + Ex.Message);
+            Utility::PrintLine("Failed to launch compiler to build module assembly: " + Ex.Message);
 			return null;
         }
 
         if (CompileResults.Errors.Count > 0)
         {
-            Utility.PrintLine("Module compilation:");
+            Utility::PrintLine("Module compilation:");
             foreach (CompilerError CurError in CompileResults.Errors)
             {
-                Utility.PrintLine("\t" + CurError.ToString());
+                Utility::PrintLine("\t" + CurError.ToString());
             }
             if (CompileResults.Errors.HasErrors || treatWarningsAsErrors)
             {
-                Utility.PrintLine("Unable to compile");
+                Utility::PrintLine("Unable to compile");
                 return null;
             }
         }
@@ -358,7 +358,7 @@ public class ModuleManifest
         Assembly compiledAssembly = CompileResults.CompiledAssembly;
         if (compiledAssembly == null)
         {
-            Utility.PrintLine("Failed to compile an assembly for: " + sourceFileNames.ToString());
+            Utility::PrintLine("Failed to compile an assembly for: " + sourceFileNames.ToString());
             return null;
         }
 
@@ -381,7 +381,7 @@ public class ModuleManifest
         }
         catch (Exception e)
         {
-            Utility.PrintLine("Failed to run module script: " + e.Message);
+            Utility::PrintLine("Failed to run module script: " + e.Message);
             return null;
         }
 

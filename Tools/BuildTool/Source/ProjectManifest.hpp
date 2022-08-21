@@ -20,13 +20,13 @@ public class ProjectManifest
     {
         PerformanceTimer timer = new PerformanceTimer();
 
-        Utility.PrintLineD("Parsing project manifest: " + path);
+        Utility::PrintLineD("Parsing project manifest: " + path);
 
         manifestPath = path;
         projectDirectory = Directory.GetParent(manifestPath).FullName;
         buildRoot = projectDirectory + "\\.Faro";
 
-        Utility.PrintLineD("Compiling new binary manifest");
+        Utility::PrintLineD("Compiling new binary manifest");
         String data = "";
         try
         {
@@ -36,7 +36,7 @@ public class ProjectManifest
         }
         catch
         {
-            Utility.PrintLine("Failed to read project manifest: " + path);
+            Utility::PrintLine("Failed to read project manifest: " + path);
             return false;
         }
 
@@ -72,12 +72,12 @@ public class ProjectManifest
                     }
                     else
                     {
-                        Utility.PrintLine("Unknown property in manifest: " + element.Name);
+                        Utility::PrintLine("Unknown property in manifest: " + element.Name);
                     }
                 }
                 catch (Exception e)
                 {
-                    Utility.PrintLine("Failed to parse property in manifest: \"" + element.Name + "\" > " + e.Message + ")");
+                    Utility::PrintLine("Failed to parse property in manifest: \"" + element.Name + "\" > " + e.Message + ")");
                 }
             }
 
@@ -86,7 +86,7 @@ public class ProjectManifest
 
         if (expectedModules.Count == 0)
         {
-            Utility.PrintLine("Failed to load project manifest: " + path);
+            Utility::PrintLine("Failed to load project manifest: " + path);
             return false;
         }
 
@@ -102,19 +102,19 @@ public class ProjectManifest
             }
             catch
             {
-                Utility.PrintLine("Failed to find module script in: " + fullModulePath);
+                Utility::PrintLine("Failed to find module script in: " + fullModulePath);
                 continue;
             }
 
             if (moduleScripts.Length == 0)
             {
-                Utility.PrintLine("No module script found in: " + fullModulePath);
+                Utility::PrintLine("No module script found in: " + fullModulePath);
                 continue;
             }
 
             if (moduleScripts.Length > 1)
             {
-                Utility.PrintLine("More than one module scripts found in: " + fullModulePath);
+                Utility::PrintLine("More than one module scripts found in: " + fullModulePath);
                 continue;
             }
 
@@ -122,7 +122,7 @@ public class ProjectManifest
             projectModules.Add(module);
         }
 
-        Utility.PrintLineD("Loading modules");
+        Utility::PrintLineD("Loading modules");
         foreach (ModuleManifest mod in projectModules)
         {
             if (!mod.LoadModule())
@@ -131,7 +131,7 @@ public class ProjectManifest
             }
         }
 
-        Utility.PrintLineD("Resolving module dependencies");
+        Utility::PrintLineD("Resolving module dependencies");
         foreach (ModuleManifest mod in projectModules)
         {
             if (!mod.ResolveDependencies())
@@ -140,7 +140,7 @@ public class ProjectManifest
             }
         }
 
-        Utility.PrintLineD("Parsed project: " + projectName);
+        Utility::PrintLineD("Parsed project: " + projectName);
         timer.Stop("Parse project");
 
         return true;
