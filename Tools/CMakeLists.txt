@@ -3,5 +3,4 @@ project(FaroTools)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${CMAKE_CURRENT_LIST_DIR}/../Bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${CMAKE_CURRENT_LIST_DIR}/../Bin)
 
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ToolchainInfo")
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/BuildTool")

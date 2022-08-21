@@ -1,29 +1,19 @@
 cmake_minimum_required(VERSION 3.15)
-project(FaroBuildTool LANGUAGES CSharp)
+project(FaroBuildTool LANGUAGES CXX)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../../CMake/ProjectVersion.cmake)
 
 message("Engine version: ${FaroEngineVersionFull}")
 
-configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/Version.cs.in ${CMAKE_CURRENT_LIST_DIR}/Source/Version.cs @ONLY)
-
-include(CSharpUtilities)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/Version.hpp.in ${CMAKE_CURRENT_LIST_DIR}/Source/Version.generated.hpp @ONLY)
 
 file(GLOB_RECURSE SourceFiles
-    ${CMAKE_CURRENT_LIST_DIR}/Source/*.cs
+    ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
 )
 
-add_executable(
+add_library(    
     ${PROJECT_NAME}
     ${SourceFiles} 
 )
 
-LIST(APPEND VS_DOTNET_REFERENCES "System")
-LIST(APPEND VS_DOTNET_REFERENCES "System.Xml")
-
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    DOTNET_TARGET_FRAMEWORK_VERSION "v4.8"
-    VS_DOTNET_REFERENCES "${VS_DOTNET_REFERENCES}"
-    VS_PACKAGE_REFERENCES "Microsoft.Extensions.FileSystemGlobbing_6.0.0;Newtonsoft.Json_13.0.1"
-)
-add_dependencies(${PROJECT_NAME} ToolchainInfo)
+target_compile_features(ToolchainInfo PRIVATE cxx_std_17)
