@@ -11,7 +11,7 @@ file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
 )
 
-add_library(    
+add_executable(
     ${PROJECT_NAME}
     ${SourceFiles} 
 )
