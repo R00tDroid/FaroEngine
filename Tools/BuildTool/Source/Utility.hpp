@@ -1,6 +1,8 @@
 #include <iostream>
 #include <Windows.h>
 #include <string>
+#include <chrono>
+#include <map>
 
 namespace Utility
 {
@@ -35,53 +37,67 @@ class PerformanceTimer
 public:
     static void StartGlobalTimer()
     {
-        //applicationTimer = Stopwatch.StartNew();
+        AppStart = std::chrono::high_resolution_clock::now();
     }
 
     static float GetMillisSinceStart()
     {
-        return 0.0f;
+        std::chrono::high_resolution_clock::time_point Now = std::chrono::high_resolution_clock::now();
+        return std::chrono::duration_cast<std::chrono::microseconds>(Now - AppStart).count() / 1000.0f;
     }
 
     PerformanceTimer()
     {
+        timer = std::chrono::high_resolution_clock::now();
+
+        depth = globalDepth;
+        globalDepth++;
+
+        index = timerCount;
+        timerCount++;
     }
 
     ~PerformanceTimer()
     {
     }
 
-    public void Stop(std::string label)
+    void Stop(std::string label)
     {
-        if (timer != null)
+        globalDepth--;
+
+        std::chrono::high_resolution_clock::time_point Now = std::chrono::high_resolution_clock::now();
+        long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(Now - timer).count();
+
+        std::string message = "";
+        for (int i = 0; i < depth; i++)
         {
-            globalDepth--;
-
-            timer.Stop();
-            long microseconds = timer.ElapsedTicks / (Stopwatch.Frequency / (1000L * 1000L));
-            string message = "";
-            for (int i = 0; i < depth; i++) 
-            {
-                message += " |";
-            }
-            message += "-*>";
-            message += "[" + label + "] " + (microseconds / 1000.0f);
-
-            timerReports.Add(index, message);
-
-            timer = null;
+            message += " |";
         }
+        message += "-*>";
+        message += "[" + label + "] " + std::to_string(microseconds / 1000.0f);
+
+        timerReports.insert(std::pair<int, std::string>(index, message));
     }
 
-    public static void PrintTimers() 
+    static void PrintTimers()
     {
         Utility::PrintLine("\n--Perf report--");
-        foreach (var report in timerReports.Values) 
+        for (const auto& report : timerReports)
         {
-            Utility.PrintLine(report);
+            Utility::PrintLine(report.second);
         }
     }
-}
+
+private:
+    inline static std::chrono::high_resolution_clock::time_point AppStart;
+    inline static int globalDepth = 0;
+    inline static int timerCount = 0;
+    int depth = 0;
+    int index = 0;
+    std::chrono::high_resolution_clock::time_point timer = {};
+
+    inline static std::map<int, std::string> timerReports;
+};
 
 /*public class GUIDManager
 {
