@@ -1,4 +1,3 @@
-public static class Version
-{
-    public static string EngineVersion = "@FaroEngineVersionLong@";
-}
+#pragma once
+
+#define EngineVersion "@FaroEngineVersionLong@"
