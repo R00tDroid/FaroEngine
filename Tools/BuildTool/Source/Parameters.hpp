@@ -3,20 +3,20 @@ using System.Collections.Generic;
 
 public class ParameterList
 {
-    public ParameterList(String[] input)
+    public ParameterList(std::string[] input)
     {
         PerformanceTimer timer = new PerformanceTimer();
         Utility::PrintLineD("Parsing ParameterList...");
 
-        String lastAdded = "";
+        std::string lastAdded = "";
         
-        foreach (String arg in input)
+        foreach (std::string arg in input)
         {
-            String argl = arg.ToLower();
+            std::string argl = arg.ToLower();
             if (argl[0] == '-')
             {
                 argl = argl.Substring(1);
-                parameters.Add(argl, new List<String>());
+                parameters.Add(argl, new List<std::string>());
                 lastAdded = argl;
             }
             else if(lastAdded.Length > 0)
@@ -33,25 +33,25 @@ public class ParameterList
         timer.Stop("Parse commandline");
     }
 
-    public bool Contains(String check)
+    public bool Contains(std::string check)
     {
         return parameters.ContainsKey(check);
     }
 
-    public bool HasArguments(String check)
+    public bool HasArguments(std::string check)
     {
         return Contains(check) && parameters[check].Count > 0;
     }
 
-    public int CountArguments(String check)
+    public int CountArguments(std::string check)
     {
         return Contains(check) ? parameters[check].Count : 0;
     }
 
-    public String[] GetArguments(String check)
+    public std::string[] GetArguments(std::string check)
     {
         return parameters[check].ToArray();
     }
 
-    private Dictionary<String, List<String>> parameters = new Dictionary<string, List<string>>();
+    private Dictionary<std::string, List<std::string>> parameters = new Dictionary<std::string, List<std::string>>();
 }

@@ -1,41 +1,37 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using FaroEngine;
+#pragma once
+#include <string>
 
-public class TaskBuild : ITask
+#include "ITask.hpp"
+#include "../Utility.hpp"
+
+
+class TaskBuild : public ITask
 {
-    private string buildPlatform;
-    private string buildArchitecture;
-    public TaskBuild(string platform, string architecture)
+public:
+    TaskBuild(std::string platform, std::string architecture)
     {
         buildPlatform = platform;
         buildArchitecture = architecture;
     }
 
-    public override int GetPriority()
+    int GetPriority() override
     {
         return 2;
     }
 
-    IToolchain targetToolchain = null;
-    BuildPlatform targetPlatform = null;
 
-    public string GetDisplayName(ModuleManifest module, string filePath)
+
+    std::string GetDisplayName(ModuleManifest module, std::string filePath)
     {
         var origin = new Uri(module.moduleRoot);
         var relative = Uri.UnescapeDataString(origin.MakeRelativeUri(new Uri(filePath)).ToString()).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
         return relative;
     }
 
-    public override bool Run(ProjectManifest project)
+    bool Run(ProjectManifest& project) override
     {
-        targetToolchain = null;
-        targetPlatform = null;
+        targetToolchain = nullptr;
+        targetPlatform = nullptr;
 
         List<IToolchain> toolchains = IToolchain.GetToolchains();
         foreach (IToolchain toolchain in toolchains) 
@@ -51,10 +47,10 @@ public class TaskBuild : ITask
                 }
             }
 
-            if (targetToolchain != null) break;
+            if (targetToolchain != nullptr) break;
         }
 
-        if (targetToolchain == null || targetPlatform == null) 
+        if (targetToolchain == nullptr || targetPlatform == nullptr) 
         {
             Utility::PrintLine("Unable to find suitable toolchain for platform: " + buildPlatform + " " + buildArchitecture);
             return false;
@@ -70,16 +66,16 @@ public class TaskBuild : ITask
         {
             PerformanceTimer moduleTimer = new PerformanceTimer();
 
-            List<string> source = module.sourceFiles;
+            List<std::string> source = module.sourceFiles;
 
-            List<string> filesToCompile = new List<string>();
-            List<string> sourceFiles = new List<string>();
+            List<std::string> filesToCompile = new List<std::string>();
+            List<std::string> sourceFiles = new List<std::string>();
 
      
             PerformanceTimer treescanTimer = new PerformanceTimer();
             foreach (var file in source)
             {
-                string extension = Path.GetExtension(file);
+                std::string extension = Path.GetExtension(file);
                 if (extension == ".c" || extension == ".cpp")
                 {
                     sourceFiles.Add(file);
@@ -99,15 +95,15 @@ public class TaskBuild : ITask
                 if (!targetToolchain.PrepareModuleForBuild(module, targetPlatform)) return false;
                 prepareTimer.Stop("Prepare");
 
-                List<string> includes = module.GetPublicIncludeTree();
+                List<std::string> includes = module.GetPublicIncludeTree();
                 includes = includes.Concat(module.privateIncludeDirectories).ToList();
                 includes.Sort();
 
                 PerformanceTimer sourceFilesTimer = new PerformanceTimer();
-                foreach (string file in filesToCompile) 
+                foreach (std::string file in filesToCompile) 
                 {
                     PerformanceTimer fileTimer = new PerformanceTimer();
-                    string displayName = GetDisplayName(module, file);
+                    std::string displayName = GetDisplayName(module, file);
                     Utility::PrintLine(displayName);
 
                     if (!targetToolchain.BuildSource(module, targetPlatform, file, includes, targetPlatform.preprocessorDefines)) 
@@ -155,4 +151,11 @@ public class TaskBuild : ITask
 
         return true;
     }
-}
+
+private:
+    std::string buildPlatform;
+    std::string buildArchitecture;
+
+    IToolchain* targetToolchain = nullptr;
+    BuildPlatform* targetPlatform = nullptr;
+}F

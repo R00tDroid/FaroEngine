@@ -14,19 +14,19 @@ public enum BuildType
 
 public class BuildPlatform
 {
-    public String platformName;
-    public List<String> preprocessorDefines = new List<string>();
-    public List<String> linkerLibraries = new List<string>();
+    public std::string platformName;
+    public List<std::string> preprocessorDefines = new List<std::string>();
+    public List<std::string> linkerLibraries = new List<std::string>();
 }
 
 
 public abstract class IToolchain
 {
-    private static List<IToolchain> _toolchains = null;
+    private static List<IToolchain> _toolchains = nullptr;
 
     public static List<IToolchain> GetToolchains()
     {
-        if (_toolchains == null)
+        if (_toolchains == nullptr)
         {
             _toolchains = new List<IToolchain>();
 
@@ -37,12 +37,12 @@ public abstract class IToolchain
                 {
                     var instanceProperty = type.GetProperty("Instance",
                         BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                    if (instanceProperty != null)
+                    if (instanceProperty != nullptr)
                     {
 
                         try
                         {
-                            IToolchain toolchain = (IToolchain) instanceProperty.GetValue(null, null);
+                            IToolchain toolchain = (IToolchain) instanceProperty.GetValue(nullptr, nullptr);
                             _toolchains.Add(toolchain);
                         }
                         catch (Exception)
@@ -56,7 +56,7 @@ public abstract class IToolchain
         return _toolchains;
     }
 
-    protected static int ExecuteCommand(string command, out string output)
+    protected static int ExecuteCommand(std::string command, out std::string output)
     {
         Process process = new Process();
         process.StartInfo.UseShellExecute = false;
@@ -73,9 +73,9 @@ public abstract class IToolchain
         return process.ExitCode;
     }
 
-    protected static int ExecuteCommand(string command)
+    protected static int ExecuteCommand(std::string command)
     {
-        string discardLog = "";
+        std::string discardLog = "";
         return ExecuteCommand(command, out discardLog);
     }
 
@@ -84,30 +84,30 @@ public abstract class IToolchain
 
     public abstract bool PrepareModuleForBuild(ModuleManifest manifest, BuildPlatform target);
 
-    public abstract bool BuildSource(ModuleManifest manifest, BuildPlatform target, string sourceFile, List<string> includePaths, List<string> preprocessorDefines);
+    public abstract bool BuildSource(ModuleManifest manifest, BuildPlatform target, std::string sourceFile, List<std::string> includePaths, List<std::string> preprocessorDefines);
 
-    public abstract bool LinkLibrary(ModuleManifest manifest, BuildPlatform target, List<string> sourceFiles);
+    public abstract bool LinkLibrary(ModuleManifest manifest, BuildPlatform target, List<std::string> sourceFiles);
 
-    public abstract bool LinkExecutable(ModuleManifest manifest, BuildPlatform target, List<string> sourceFiles);
+    public abstract bool LinkExecutable(ModuleManifest manifest, BuildPlatform target, List<std::string> sourceFiles);
 
-    public string GetObjDirectory(ModuleManifest manifest, BuildPlatform target)
+    public std::string GetObjDirectory(ModuleManifest manifest, BuildPlatform target)
     {
         return manifest.buildRoot + "\\Obj\\" + target.platformName.ToLower().Replace(' ', '_');
     }
 
-    public string GetObjPath(ModuleManifest manifest, BuildPlatform target, string sourceFile)
+    public std::string GetObjPath(ModuleManifest manifest, BuildPlatform target, std::string sourceFile)
     {
         return GetObjDirectory(manifest, target) + "\\" + Path.GetFileNameWithoutExtension(sourceFile) + "." + GetObjExtension();
     }
 
-    public abstract string GetObjExtension();
+    public abstract std::string GetObjExtension();
 
-    public string GetBinDirectory(ModuleManifest manifest)
+    public std::string GetBinDirectory(ModuleManifest manifest)
     {
         return manifest.buildRoot + "\\Bin";
     }
 
-    public string GetBinPath(ModuleManifest manifest, BuildPlatform target)
+    public std::string GetBinPath(ModuleManifest manifest, BuildPlatform target)
     {
         if (true) //TODO switch for libraries and executables
         {
@@ -120,9 +120,9 @@ public abstract class IToolchain
         }
     }
 
-    public abstract string GetLibExtension();
+    public abstract std::string GetLibExtension();
 
-    public abstract string GetExeExtension();
+    public abstract std::string GetExeExtension();
 }
 
 public abstract class IToolchainInterface<T> : IToolchain where T : IToolchain, new()
@@ -131,7 +131,7 @@ public abstract class IToolchainInterface<T> : IToolchain where T : IToolchain, 
     {
         get
         {
-            if (_instance == null)
+            if (_instance == nullptr)
             {
                 _instance = new T();
             }
@@ -140,5 +140,5 @@ public abstract class IToolchainInterface<T> : IToolchain where T : IToolchain, 
         }
     }
 
-    private static T _instance = null;
+    private static T _instance = nullptr;
 }

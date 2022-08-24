@@ -11,39 +11,39 @@ using Microsoft.Extensions.FileSystemGlobbing;
 
 public class ModuleManifest
 {
-    public static String moduleFileSuffix = ".module.cs";
+    public static std::string moduleFileSuffix = ".module.cs";
 
     // Name of the module
-    public String name = "";
+    public std::string name = "";
 
     // Full path to module manifest
-    public String manifestPath = "";
+    public std::string manifestPath = "";
 
     // Root directory of this module
-    public String moduleRoot = "";
+    public std::string moduleRoot = "";
 
     // Build directory of this module
-    public String buildRoot = "";
+    public std::string buildRoot = "";
 
     // Project this module belongs to
-    public ProjectManifest project = null;
+    public ProjectManifest project = nullptr;
 
     // Build script assembly of manifest
-    private Assembly moduleAssembly = null;
+    private Assembly moduleAssembly = nullptr;
 
     // Build script instance of manifest
-    private FaroEngine.Module moduleInstance = null;
+    private FaroEngine.Module moduleInstance = nullptr;
 
     // List of modules this module depends on
     public List<ModuleManifest> moduleDependencies = new List<ModuleManifest>();
 
-    public List<string> sourceFiles
+    public List<std::string> sourceFiles
     {
         get
         {
-            if (_sourceFiles == null)
+            if (_sourceFiles == nullptr)
             {
-                _sourceFiles = new List<string>();
+                _sourceFiles = new List<std::string>();
 
                 for (int i = 0; i < moduleInstance.sourcePaths.Count; i++)
                 {
@@ -60,13 +60,13 @@ public class ModuleManifest
                     else
                     {
                         int index = moduleInstance.sourcePaths[i].IndexOf('*');
-                        string searchRoot = moduleInstance.sourcePaths[i].Substring(0, index - 1);
-                        string searchPattern = moduleInstance.sourcePaths[i].Substring(index);
+                        std::string searchRoot = moduleInstance.sourcePaths[i].Substring(0, index - 1);
+                        std::string searchPattern = moduleInstance.sourcePaths[i].Substring(index);
 
                         Matcher matcher = new Matcher();
                         matcher.AddInclude(searchPattern);
 
-                        foreach (string foundFile in matcher.GetResultsInFullPath(searchRoot))
+                        foreach (std::string foundFile in matcher.GetResultsInFullPath(searchRoot))
                         {
                             _sourceFiles.Add(foundFile);
                         }
@@ -78,12 +78,12 @@ public class ModuleManifest
             return _sourceFiles;
         }
     }
-    private List<string> _sourceFiles = null;
+    private List<std::string> _sourceFiles = nullptr;
 
     // Stores all modules keyed to their name
-    private static Dictionary<string, ModuleManifest> moduleMapping = new Dictionary<string, ModuleManifest>();
+    private static Dictionary<std::string, ModuleManifest> moduleMapping = new Dictionary<std::string, ModuleManifest>();
 
-    public static ModuleManifest FindModuleByName(string name)
+    public static ModuleManifest FindModuleByName(std::string name)
     {
         name = name.ToLower();
 
@@ -94,10 +94,10 @@ public class ModuleManifest
 
         //TODO search in SDK and plugins directories
 
-        return null;
+        return nullptr;
     }
 
-    public ModuleManifest(String file, ProjectManifest project)
+    public ModuleManifest(std::string file, ProjectManifest project)
     {
         manifestPath = file;
         moduleRoot = Directory.GetParent(manifestPath).FullName;
@@ -120,7 +120,7 @@ public class ModuleManifest
         Utility::PrintLineD("Loading module assembly");
         moduleAssembly = GetAssembly();
 
-        if (moduleAssembly == null)
+        if (moduleAssembly == nullptr)
         {
             return false;
         }
@@ -152,8 +152,8 @@ public class ModuleManifest
         }
         else if (moduleTypes.Length > 1)
         {
-            string[] moduleTypeNames = Array.ConvertAll<Type, string>(moduleTypes, o => o.FullName);
-            Utility::PrintLine("Too many modules found (" + String.Join(", ", moduleTypeNames) + "). Only 1 expected!");
+            std::string[] moduleTypeNames = Array.ConvertAll<Type, std::string>(moduleTypes, o => o.FullName);
+            Utility::PrintLine("Too many modules found (" + std::string.Join(", ", moduleTypeNames) + "). Only 1 expected!");
             return false;
 
         }
@@ -177,10 +177,10 @@ public class ModuleManifest
 
         bool failed = false;
 
-        foreach (string moduleName in moduleInstance.moduleDependencies)
+        foreach (std::string moduleName in moduleInstance.moduleDependencies)
         {
             ModuleManifest otherModule = FindModuleByName(moduleName);
-            if (otherModule != null)
+            if (otherModule != nullptr)
             {
                 moduleDependencies.Add(otherModule);
             }
@@ -197,7 +197,7 @@ public class ModuleManifest
     // Load or compile the build script assembly
     public Assembly GetAssembly()
     {
-        String binaryPath = buildRoot + "\\Data\\" + name + ".dll";
+        std::string binaryPath = buildRoot + "\\Data\\" + name + ".dll";
 
         if (File.Exists(binaryPath) && false) //TODO check for changes
         {
@@ -209,7 +209,7 @@ public class ModuleManifest
         }
         else
         {
-            Assembly result = CompileAssembly(binaryPath, new List<string>() { manifestPath }, new List<string>(), null, false);
+            Assembly result = CompileAssembly(binaryPath, new List<std::string>() { manifestPath }, new List<std::string>(), nullptr, false);
             return result;
         }
     }
@@ -219,13 +219,13 @@ public class ModuleManifest
         return moduleInstance.moduleType;
     }
 
-    public List<string> publicIncludeDirectories
+    public List<std::string> publicIncludeDirectories
     {
         get
         {
-            if (_publicIncludeDirectories == null)
+            if (_publicIncludeDirectories == nullptr)
             {
-                _publicIncludeDirectories = new List<string>();
+                _publicIncludeDirectories = new List<std::string>();
 
                 for (int i = 0; i < moduleInstance.publicIncludeDirectories.Count; i++)
                 {
@@ -241,15 +241,15 @@ public class ModuleManifest
             return _publicIncludeDirectories;
         }
     }
-    private List<string> _publicIncludeDirectories = null;
+    private List<std::string> _publicIncludeDirectories = nullptr;
 
-    public List<string> privateIncludeDirectories
+    public List<std::string> privateIncludeDirectories
     {
         get
         {
-            if (_privateIncludeDirectories == null)
+            if (_privateIncludeDirectories == nullptr)
             {
-                _privateIncludeDirectories = new List<string>();
+                _privateIncludeDirectories = new List<std::string>();
 
                 for (int i = 0; i < moduleInstance.privateIncludeDirectories.Count; i++)
                 {
@@ -265,12 +265,12 @@ public class ModuleManifest
             return _privateIncludeDirectories;
         }
     }
-    private List<string> _privateIncludeDirectories = null;
+    private List<std::string> _privateIncludeDirectories = nullptr;
 
     // Get all public include directories for this module and dependencies
-    public List<string> GetPublicIncludeTree()
+    public List<std::string> GetPublicIncludeTree()
     {
-        List<string> includes = publicIncludeDirectories;
+        List<std::string> includes = publicIncludeDirectories;
         foreach (ModuleManifest dependency in moduleDependencies)
         {
             includes = includes.Concat(dependency.GetPublicIncludeTree()).ToList();
@@ -279,7 +279,7 @@ public class ModuleManifest
         return includes;
     }
 
-    public static Assembly CompileAssembly(String output, List<String> sourceFileNames, List<string> referencedAssemblies, List<string> preprocessorDefines = null, bool treatWarningsAsErrors = false)
+    public static Assembly CompileAssembly(std::string output, List<std::string> sourceFileNames, List<std::string> referencedAssemblies, List<std::string> preprocessorDefines = nullptr, bool treatWarningsAsErrors = false)
     {
         PerformanceTimer timer = new PerformanceTimer();
 
@@ -304,7 +304,7 @@ public class ModuleManifest
         Utility::PrintLineD("Compiling " + output);
 
         // Add assembly references
-        if (referencedAssemblies == null)
+        if (referencedAssemblies == nullptr)
 		{
 			// Always depend on the CLR System assembly
 			CompileParams.ReferencedAssemblies.Add("System.dll");
@@ -331,14 +331,14 @@ public class ModuleManifest
         CompilerResults CompileResults;
         try
         {
-            Dictionary<string, string> ProviderOptions = new Dictionary<string, string>() { { "CompilerVersion", "v4.0" }};
+            Dictionary<std::string, std::string> ProviderOptions = new Dictionary<std::string, std::string>() { { "CompilerVersion", "v4.0" }};
             CSharpCodeProvider Compiler = new CSharpCodeProvider(ProviderOptions);
             CompileResults = Compiler.CompileAssemblyFromFile(CompileParams, sourceFileNames.ToArray());
         }
         catch (Exception Ex)
         {
             Utility::PrintLine("Failed to launch compiler to build module assembly: " + Ex.Message);
-			return null;
+			return nullptr;
         }
 
         if (CompileResults.Errors.Count > 0)
@@ -351,15 +351,15 @@ public class ModuleManifest
             if (CompileResults.Errors.HasErrors || treatWarningsAsErrors)
             {
                 Utility::PrintLine("Unable to compile");
-                return null;
+                return nullptr;
             }
         }
 
         Assembly compiledAssembly = CompileResults.CompiledAssembly;
-        if (compiledAssembly == null)
+        if (compiledAssembly == nullptr)
         {
             Utility::PrintLine("Failed to compile an assembly for: " + sourceFileNames.ToString());
-            return null;
+            return nullptr;
         }
 
         timer.Stop("Compile module");
@@ -373,7 +373,7 @@ public class ModuleManifest
         config.platform = platform;
         config.configuration = configuration;
 
-        FaroEngine.Module instance = null;
+        FaroEngine.Module instance = nullptr;
 
         try
         {
@@ -382,7 +382,7 @@ public class ModuleManifest
         catch (Exception e)
         {
             Utility::PrintLine("Failed to run module script: " + e.Message);
-            return null;
+            return nullptr;
         }
 
         return instance;
@@ -425,12 +425,12 @@ namespace FaroEngine
         public BuildPlatform platform;
         public BuildConfiguration configuration;
 
-        protected String GetModuleDirectory()
+        protected std::string GetModuleDirectory()
         {
             return manifest.moduleRoot;
         }
 
-        protected String GetProjectDirectory()
+        protected std::string GetProjectDirectory()
         {
             return manifest.project.projectDirectory;
         }
@@ -443,17 +443,17 @@ namespace FaroEngine
         }
 
         // Module interface
-        public List<String> moduleDependencies = new List<String>();
+        public List<std::string> moduleDependencies = new List<std::string>();
 
         // Libraries to link against
-        public List<String> libraryDependencies = new List<String>();
-        public List<String> librarySearchDirectories = new List<String>();
+        public List<std::string> libraryDependencies = new List<std::string>();
+        public List<std::string> librarySearchDirectories = new List<std::string>();
 
-        public List<String> sourcePaths = new List<String>();
+        public List<std::string> sourcePaths = new List<std::string>();
 
         // Additional include directories
-        public List<String> privateIncludeDirectories = new List<String>();
-        public List<String> publicIncludeDirectories = new List<String>();
+        public List<std::string> privateIncludeDirectories = new List<std::string>();
+        public List<std::string> publicIncludeDirectories = new List<std::string>();
 
         public ModuleType moduleType = ModuleType.Unknown;
     }

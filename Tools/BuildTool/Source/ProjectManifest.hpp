@@ -7,16 +7,16 @@ using Newtonsoft.Json.Serialization;
 
 public class ProjectManifest
 {
-    public string manifestPath = "";
-    public string projectDirectory = "";
+    public std::string manifestPath = "";
+    public std::string projectDirectory = "";
 
     // Build directory of this project
-    public String buildRoot = "";
+    public std::string buildRoot = "";
 
-    public string projectName = "";
+    public std::string projectName = "";
     public List<ModuleManifest> projectModules = new List<ModuleManifest>();
 
-    public bool Parse(String path)
+    public bool Parse(std::string path)
     {
         PerformanceTimer timer = new PerformanceTimer();
 
@@ -27,7 +27,7 @@ public class ProjectManifest
         buildRoot = projectDirectory + "\\.Faro";
 
         Utility::PrintLineD("Compiling new binary manifest");
-        String data = "";
+        std::string data = "";
         try
         {
             PerformanceTimer readTime = new PerformanceTimer();
@@ -40,7 +40,7 @@ public class ProjectManifest
             return false;
         }
 
-        List<String> expectedModules = new List<String>();
+        List<std::string> expectedModules = new List<std::string>();
 
         if (data.Length > 0)
         {
@@ -53,7 +53,7 @@ public class ProjectManifest
             {
                 try
                 {
-                    string propertyName = element.Name.ToLower();
+                    std::string propertyName = element.Name.ToLower();
 
                     if (propertyName.Equals("name"))
                     {
@@ -91,11 +91,11 @@ public class ProjectManifest
         }
 
         projectModules.Clear();
-        foreach (String modulePath in expectedModules)
+        foreach (std::string modulePath in expectedModules)
         {
-            String fullModulePath = projectDirectory + "\\" + modulePath;
+            std::string fullModulePath = projectDirectory + "\\" + modulePath;
             
-            String[] moduleScripts = null;
+            std::string[] moduleScripts = nullptr;
             try
             {
                 moduleScripts = Directory.GetFiles(fullModulePath, "*" + ModuleManifest.moduleFileSuffix);

@@ -27,13 +27,13 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         };
     }
 
-    private string objDir = "";
+    private std::string objDir = "";
 
-    private string msvcRoot = "";
-    private string msvcTools = "";
+    private std::string msvcRoot = "";
+    private std::string msvcTools = "";
 
-    private string windowsSdkInclude = "";
-    private string windowsSdkLib = "";
+    private std::string windowsSdkInclude = "";
+    private std::string windowsSdkLib = "";
 
     public override bool PrepareModuleForBuild(ModuleManifest manifest, BuildPlatform target)
     {
@@ -42,8 +42,8 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         int windowsKitCount = Utility::CountWindowsKits();
         if (windowsKitCount > 0)
         {
-            string root = Marshal.PtrToStringAnsi(Utility::GetWindowsKitRoot(0));
-            string version = Marshal.PtrToStringAnsi(Utility::GetWindowsKitVersion(0));
+            std::string root = Marshal.PtrToStringAnsi(Utility::GetWindowsKitRoot(0));
+            std::string version = Marshal.PtrToStringAnsi(Utility::GetWindowsKitVersion(0));
 
             windowsSdkInclude = root + "\\Include\\" + version;
             windowsSdkLib = root + "\\Lib\\" + version;
@@ -96,9 +96,9 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return true;
     }
 
-    public override bool BuildSource(ModuleManifest manifest, BuildPlatform target, string sourceFile, List<string> includePaths, List<string> preprocessorDefines)
+    public override bool BuildSource(ModuleManifest manifest, BuildPlatform target, std::string sourceFile, List<std::string> includePaths, List<std::string> preprocessorDefines)
     {
-        string includes = "";
+        std::string includes = "";
 
         includes += " /I\"" + msvcRoot + "\\include\"";
         includes += " /I\"" + windowsSdkInclude + "\\shared\"";
@@ -106,22 +106,22 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         includes += " /I\"" + windowsSdkInclude + "\\winrt\"";
         includes += " /I\"" + windowsSdkInclude + "\\um\"";
 
-        foreach (string include in includePaths) 
+        foreach (std::string include in includePaths) 
         {
             includes += " /I\"" + include + "\"";
         }
 
-        string defines = "";
-        foreach (string define in preprocessorDefines)
+        std::string defines = "";
+        foreach (std::string define in preprocessorDefines)
         {
             includes += " /D" + define;
         }
 
-        string clExe = "\"" + msvcTools + "\\cl.exe\"";
-        string msvcDrive = msvcRoot.Substring(0, 1);
-        string outputFile = GetObjPath(manifest, target, sourceFile);
+        std::string clExe = "\"" + msvcTools + "\\cl.exe\"";
+        std::string msvcDrive = msvcRoot.Substring(0, 1);
+        std::string outputFile = GetObjPath(manifest, target, sourceFile);
 
-        string log = "";
+        std::string log = "";
         int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + clExe + " /c /FC /nologo /EHsc /Z7 /Od " + defines + " " + sourceFile + " /Fo\"" + outputFile + "\" " + includes, out log);
         
         //Format, trim and print output message
@@ -129,7 +129,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         {
             log = log.Replace("\r", "");
 
-            string header = Path.GetFileName(sourceFile) + "\n";
+            std::string header = Path.GetFileName(sourceFile) + "\n";
             if (log.StartsWith(header))
             {
                 log = log.Substring(header.Length);
@@ -144,21 +144,21 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return result == 0;
     }
 
-    public override bool LinkLibrary(ModuleManifest manifest, BuildPlatform target, List<string> sourceFiles)
+    public override bool LinkLibrary(ModuleManifest manifest, BuildPlatform target, List<std::string> sourceFiles)
     {
-        string objs = "";
-        foreach (string sourceFile in sourceFiles)
+        std::string objs = "";
+        foreach (std::string sourceFile in sourceFiles)
         {
             objs += " \"" + GetObjPath(manifest, target, sourceFile) + "\"";
         }
 
-        string libExe = "\"" + msvcTools + "\\lib.exe\"";
-        string msvcDrive = msvcRoot.Substring(0, 1);
+        std::string libExe = "\"" + msvcTools + "\\lib.exe\"";
+        std::string msvcDrive = msvcRoot.Substring(0, 1);
 
-        string libPath = GetBinPath(manifest, target);
+        std::string libPath = GetBinPath(manifest, target);
         Directory.CreateDirectory(GetBinDirectory(manifest));
 
-        string log = "";
+        std::string log = "";
         int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + libExe + " /nologo /OUT:\"" + libPath + "\" " + objs, out log);
 
         //Format, trim and print output message
@@ -175,11 +175,11 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return result == 0;
     }
 
-    public override bool LinkExecutable(ModuleManifest manifest, BuildPlatform target, List<string> sourceFiles)
+    public override bool LinkExecutable(ModuleManifest manifest, BuildPlatform target, List<std::string> sourceFiles)
     {
-        string libs = "";
-        string libDirectories = "";
-        string moduleLibs = "";
+        std::string libs = "";
+        std::string libDirectories = "";
+        std::string moduleLibs = "";
 
         libs += " \"user32.lib\"";
 
@@ -195,13 +195,13 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         //TODO link against other modules (/WHOLEARCHIVE)
         //TODO link against dependencies
 
-        string linkExe = "\"" + msvcTools + "\\link.exe\"";
-        string msvcDrive = msvcRoot.Substring(0, 1);
+        std::string linkExe = "\"" + msvcTools + "\\link.exe\"";
+        std::string msvcDrive = msvcRoot.Substring(0, 1);
 
         Directory.CreateDirectory(GetBinDirectory(manifest));
-        string outputFile = GetBinPath(manifest, target);
+        std::string outputFile = GetBinPath(manifest, target);
 
-        string log = "";
+        std::string log = "";
         int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + linkExe + " /NOLOGO /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile + "\" " + libs + libDirectories + moduleLibs, out log);
 
         //Format, trim and print output message
@@ -217,22 +217,22 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return result == 0;
     }
 
-    public override string GetObjExtension()
+    public override std::string GetObjExtension()
     {
         return "obj";
     }
 
-    public override string GetLibExtension()
+    public override std::string GetLibExtension()
     {
         return "lib";
     }
 
-    public override string GetExeExtension()
+    public override std::string GetExeExtension()
     {
         return "exe";
     }
 
-    private string GetEnvCommand()
+    private std::string GetEnvCommand()
     {
         //TODO add MSVC IDE path
         return "set \"path=C:\\Windows\\System32;\"";

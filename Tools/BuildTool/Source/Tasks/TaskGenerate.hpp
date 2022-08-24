@@ -40,14 +40,14 @@ public class TaskGenerate : ITask
 
     /*
 
-    private String VSPlatformVersion = "v142";
-    private String VSVersion = "16.0";
+    private std::string VSPlatformVersion = "v142";
+    private std::string VSVersion = "16.0";
 
-    private List<string> sourceExtensions = new List<string>() { ".cpp", ".c", "hlsl" };
+    private List<std::string> sourceExtensions = new List<std::string>() { ".cpp", ".c", "hlsl" };
 
     public void WriteProjectFile(ModuleManifest moduleManifest)
     {
-        string filePath = moduleManifest.project.faroRootDirectory + "\\project\\" + moduleManifest.name + ".vcxproj";
+        std::string filePath = moduleManifest.project.faroRootDirectory + "\\project\\" + moduleManifest.name + ".vcxproj";
 
         XmlWriterSettings settings = new XmlWriterSettings();
         settings.Indent = true;
@@ -72,7 +72,7 @@ public class TaskGenerate : ITask
                     List<BuildPlatform> platforms = toolchain.GetPlatforms();
                     foreach (BuildPlatform platform in platforms)
                     {
-                        foreach (string buildTypeName in Enum.GetNames(typeof(BuildType)))
+                        foreach (std::string buildTypeName in Enum.GetNames(typeof(BuildType)))
                         {
                             writer.WriteStartElement("ProjectConfiguration");
                             writer.WriteAttributeString("Include", platform.platformName + " " + buildTypeName + "|Win32");
@@ -130,7 +130,7 @@ public class TaskGenerate : ITask
                 List<BuildPlatform> platforms = toolchain.GetPlatforms();
                 foreach (BuildPlatform platform in platforms)
                 {
-                    foreach (string buildTypeName in Enum.GetNames(typeof(BuildType)))
+                    foreach (std::string buildTypeName in Enum.GetNames(typeof(BuildType)))
                     {
                         writer.WriteStartElement("PropertyGroup");
                         writer.WriteAttributeString("Condition", "'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'");
@@ -175,7 +175,7 @@ public class TaskGenerate : ITask
                 List<BuildPlatform> platforms = toolchain.GetPlatforms();
                 foreach (BuildPlatform platform in platforms)
                 {
-                    foreach (string buildTypeName in Enum.GetNames(typeof(BuildType)))
+                    foreach (std::string buildTypeName in Enum.GetNames(typeof(BuildType)))
                     {
                         writer.WriteStartElement("ImportGroup");
                         writer.WriteAttributeString("Condition", "'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'");
@@ -258,10 +258,10 @@ public class TaskGenerate : ITask
 
             {
                 writer.WriteStartElement("ItemGroup");
-                List<string> sourceFiles = moduleManifest.sourceFiles;
-                foreach (string file in sourceFiles)
+                List<std::string> sourceFiles = moduleManifest.sourceFiles;
+                foreach (std::string file in sourceFiles)
                 {
-                    string extension = Path.GetExtension(file).ToLower();
+                    std::string extension = Path.GetExtension(file).ToLower();
                     bool shouldCompile = sourceExtensions.Contains(extension);
                     writer.WriteStartElement(shouldCompile ? "ClCompile" : "ClInclude");
                     writer.WriteAttributeString("Include", file);
@@ -278,22 +278,22 @@ public class TaskGenerate : ITask
         writer.Close();
     }
 
-    private static string GetFileRelativeDirectory(ModuleManifest moduleManifest, string file)
+    private static std::string GetFileRelativeDirectory(ModuleManifest moduleManifest, std::string file)
     {
-        string directory = Directory.GetParent(file).FullName;
+        std::string directory = Directory.GetParent(file).FullName;
         return directory.Replace(moduleManifest.moduleRoot + "\\", "");
     }
 
-    private static List<string> GetAllDirectories(string root)
+    private static List<std::string> GetAllDirectories(std::string root)
     {
-        List<string> result = new List<string>() { root };
+        List<std::string> result = new List<std::string>() { root };
         while (true)
         {
-            string current = result[result.Count - 1];
+            std::string current = result[result.Count - 1];
             int pos = current.LastIndexOf('\\');
             if (pos >= 0)
             {
-                string parent = current.Substring(0, pos);
+                std::string parent = current.Substring(0, pos);
                 result.Add(parent);
             }
             else
@@ -307,7 +307,7 @@ public class TaskGenerate : ITask
 
     public void WriteFilterFile(ModuleManifest moduleManifest)
     {
-        string filePath = moduleManifest.project.faroRootDirectory + "\\project\\" + moduleManifest.name + ".vcxproj.filters";
+        std::string filePath = moduleManifest.project.faroRootDirectory + "\\project\\" + moduleManifest.name + ".vcxproj.filters";
 
         XmlWriterSettings settings = new XmlWriterSettings();
         settings.Indent = true;
@@ -320,14 +320,14 @@ public class TaskGenerate : ITask
 
         writer.WriteStartElement("ItemGroup");
 
-        List<string> sourceFiles = moduleManifest.sourceFiles;
-        Dictionary<string, string> directories = new Dictionary<string, string>();
-        foreach (string file in sourceFiles)
+        List<std::string> sourceFiles = moduleManifest.sourceFiles;
+        Dictionary<std::string, std::string> directories = new Dictionary<std::string, std::string>();
+        foreach (std::string file in sourceFiles)
         {
-            string directory = GetFileRelativeDirectory(moduleManifest, file);
-            List<string> allDirectories = GetAllDirectories(directory);
+            std::string directory = GetFileRelativeDirectory(moduleManifest, file);
+            List<std::string> allDirectories = GetAllDirectories(directory);
 
-            foreach (string dir in allDirectories)
+            foreach (std::string dir in allDirectories)
             {
                 if (!directories.ContainsKey(dir))
                 {
@@ -335,7 +335,7 @@ public class TaskGenerate : ITask
                 }
             }
 
-            string extension = Path.GetExtension(file).ToLower();
+            std::string extension = Path.GetExtension(file).ToLower();
             bool shouldCompile = sourceExtensions.Contains(extension);
             writer.WriteStartElement(shouldCompile ? "ClCompile" : "ClInclude");
             writer.WriteAttributeString("Include", file);
@@ -347,7 +347,7 @@ public class TaskGenerate : ITask
             writer.WriteEndElement();
         }
 
-        foreach (string directory in directories.Keys)
+        foreach (std::string directory in directories.Keys)
         {
             writer.WriteStartElement("Filter");
             writer.WriteAttributeString("Include", directory);
@@ -372,7 +372,7 @@ public class TaskGenerate : ITask
         stream.WriteLine("# Visual Studio 16");
         stream.WriteLine("MinimumVisualStudioVersion = 10.0.40219.1");
 
-        string projectGUID = project.GUIDs.GetGUID("project_" + project.projectName);
+        std::string projectGUID = project.GUIDs.GetGUID("project_" + project.projectName);
 
         foreach (ModuleManifest moduleManifest in project.projectModules)
         {
@@ -393,7 +393,7 @@ public class TaskGenerate : ITask
         stream.Close();
     }
 
-    private string GetGUIDForModule(ModuleManifest moduleManifest)
+    private std::string GetGUIDForModule(ModuleManifest moduleManifest)
     {
         return moduleManifest.project.GUIDs.GetGUID("module_" + moduleManifest.name);
     }*/
