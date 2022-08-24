@@ -1,18 +1,22 @@
+#include <vector>
 #include "Parameters.hpp"
+#include "ProjectManifest.hpp"
 #include "Utility.hpp"
+#include "Version.generated.hpp"
+#include "Tasks/ITask.hpp"
 
 int main(int argc, char** argv)
 {
     PerformanceTimer::StartGlobalTimer();
     PerformanceTimer mainTimer;
 
-    ParameterList parameters = new ParameterList(args);
+    ParameterList parameters(argc, argv);
 
-    List<ITask> tasks = new List<ITask>();
+    std::vector<ITask*> tasks;
 
     if (parameters.Contains("help"))
     {
-        Utility::Print("Faro Engine build tool " + Version.EngineVersion + "\n\n");
+        Utility::Print("Faro Engine build tool " + std::string(EngineVersion) + "\n\n");
         Utility::Print("Tasks:\n");
         Utility::Print("-build	Compile the specified source\n");
         Utility::Print("-clean		Clean intermediates\n");
@@ -37,11 +41,11 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    String projectPath = "";
-    ProjectManifest projectManifest = new ProjectManifest();
+    std::string projectPath = "";
+    ProjectManifest projectManifest;
 
-    string buildPlatform = "";
-    string buildArchitecture = "";
+    std::string buildPlatform = "";
+    std::string buildArchitecture = "";
 
 	if (parameters.HasArguments("project"))
     {
@@ -57,35 +61,35 @@ int main(int argc, char** argv)
 
     if (parameters.Contains("generate"))
     {
-        if (projectPath.Length <= 0)
+        if (projectPath.length() <= 0)
         {
             Utility::PrintLine("'-generate' requires a project to be specified");
             return -1;
         }
 
-        tasks.Add(new TaskGenerate());
+        tasks.push_back(new TaskGenerate());
     }
 
 	if (parameters.Contains("build"))
     {
-        if (projectPath.Length <= 0)
+        if (projectPath.length() <= 0)
         {
             Utility::PrintLine("'-build' requires a project to be specified");
             return -1;
         }
 
-        if (buildPlatform.Length == 0) 
+        if (buildPlatform.length() == 0) 
         {
             Utility::PrintLine("'-build' requires a platform to be specified");
             return -1;
         }
         else
         {
-            tasks.Add(new TaskBuild(buildPlatform, buildArchitecture));
+            tasks.push_back(new TaskBuild(buildPlatform, buildArchitecture));
         }
     }
 
-    if (tasks.Count > 0)
+    if (tasks.size() > 0)
     {
         tasks.Sort((a, b) => b.GetPriority() - a.GetPriority());
 
@@ -100,12 +104,12 @@ int main(int argc, char** argv)
             return -1;
         }
 
-        foreach (ITask task in tasks)
+        for (ITask* task : tasks)
         {
-            PerformanceTimer taskTimer = new PerformanceTimer(); ;
-            Utility::PrintLineD("Executing task: " + task.GetType().Name);
-            if (!task.Run(projectManifest)) return -1;
-            taskTimer.Stop("Task: " + task.GetType().Name);
+            PerformanceTimer taskTimer = new PerformanceTimer();
+            Utility::PrintLineD("Executing task: " + task->GetType().Name);
+            if (!task->Run(projectManifest)) return -1;
+            taskTimer.Stop("Task: " + task->GetType().Name);
         }
         Utility::PrintLine("Done");
 

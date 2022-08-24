@@ -1,9 +1,9 @@
-using System;
-using System.Diagnostics;
+#pragma once
 
-public abstract class ITask
+class ITask
 {
-    public abstract int GetPriority();
+public:
+    virtual int GetPriority() = 0;
 
-    public abstract bool Run(ProjectManifest project);
-}
+    virtual bool Run(ProjectManifest& project) = 0;
+};
