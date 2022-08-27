@@ -67,7 +67,7 @@ int main(int argc, char** argv)
             return -1;
         }
 
-        tasks.push_back(new TaskGenerate());
+        //tasks.push_back(new TaskGenerate());
     }
 
 	if (parameters.Contains("build"))
@@ -85,20 +85,20 @@ int main(int argc, char** argv)
         }
         else
         {
-            tasks.push_back(new TaskBuild(buildPlatform, buildArchitecture));
+            //tasks.push_back(new TaskBuild(buildPlatform, buildArchitecture));
         }
     }
 
-    if (tasks.size() > 0)
+    if (!tasks.empty())
     {
-        tasks.Sort((a, b) => b.GetPriority() - a.GetPriority());
+        //tasks.Sort((a, b) => b.GetPriority() - a.GetPriority());
 
         if (!projectManifest.Parse(projectPath))
         {
             return -1;
         }
 
-        if (projectManifest.projectModules.Count == 0)
+        if (projectManifest.projectModules.empty())
         {
             Utility::PrintLine("Project does not contain any modules");
             return -1;
@@ -106,10 +106,10 @@ int main(int argc, char** argv)
 
         for (ITask* task : tasks)
         {
-            PerformanceTimer taskTimer = new PerformanceTimer();
-            Utility::PrintLineD("Executing task: " + task->GetType().Name);
+            PerformanceTimer taskTimer;
+            Utility::PrintLineD("Executing task: ");
             if (!task->Run(projectManifest)) return -1;
-            taskTimer.Stop("Task: " + task->GetType().Name);
+            taskTimer.Stop("Task: ");
         }
         Utility::PrintLine("Done");
 
