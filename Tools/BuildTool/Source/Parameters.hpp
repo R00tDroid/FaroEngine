@@ -1,57 +1,65 @@
-using System;
-using System.Collections.Generic;
+#pragma once
+#include <algorithm>
+#include <map>
+#include <string>
+#include "Utility.hpp"
 
-public class ParameterList
+class ParameterList
 {
-    public ParameterList(std::string[] input)
+public:
+    ParameterList(int argc, char** argv)
     {
-        PerformanceTimer timer = new PerformanceTimer();
+        PerformanceTimer timer;
         Utility::PrintLineD("Parsing ParameterList...");
 
         std::string lastAdded = "";
-        
-        foreach (std::string arg in input)
+
+        for (int i = 1; i < argc; i++)
         {
-            std::string argl = arg.ToLower();
+            std::string arg = argv[i];
+            std::string argl = arg;
+            std::transform(argl.begin(), argl.end(), argl.begin(), tolower);
+
             if (argl[0] == '-')
             {
-                argl = argl.Substring(1);
-                parameters.Add(argl, new List<std::string>());
+                argl = argl.substr(1);
+                parameters.insert(std::pair<std::string, std::vector<std::string>>(argl, {}));
                 lastAdded = argl;
             }
-            else if(lastAdded.Length > 0)
+            else if (!lastAdded.empty())
             {
-                parameters[lastAdded].Add(arg);
+                parameters[lastAdded].push_back(arg);
             }
             else
             {
                 Utility::PrintLineD("Invalid parameter input: " + argl);
             }
         }
-        
-        Utility::PrintLineD("Parsed " + input.Length + " input(s) to " + parameters.Count + " parameter(s)");
+
+        Utility::PrintLineD("Parsed " + std::to_string(argc - 1) + " input(s) to " + std::to_string(parameters.size()) + " parameter(s)");
         timer.Stop("Parse commandline");
     }
 
-    public bool Contains(std::string check)
+    bool Contains(std::string check)
     {
-        return parameters.ContainsKey(check);
+        return parameters.find(check) != parameters.end();
     }
 
-    public bool HasArguments(std::string check)
+    bool HasArguments(std::string check)
     {
-        return Contains(check) && parameters[check].Count > 0;
+        return Contains(check) && !parameters[check].empty();
     }
 
-    public int CountArguments(std::string check)
+    int CountArguments(std::string check)
     {
-        return Contains(check) ? parameters[check].Count : 0;
+        return Contains(check) ? parameters[check].size() : 0;
     }
 
-    public std::string[] GetArguments(std::string check)
+    std::vector<std::string> GetArguments(std::string check)
     {
-        return parameters[check].ToArray();
+        return parameters[check];
     }
 
-    private Dictionary<std::string, List<std::string>> parameters = new Dictionary<std::string, List<std::string>>();
-}
+private:
+    std::map<std::string, std::vector<std::string>> parameters;
+};
