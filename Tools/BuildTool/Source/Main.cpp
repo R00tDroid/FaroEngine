@@ -42,7 +42,7 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    std::string projectPath = "";
+    std::filesystem::path projectPath = "";
     ProjectManifest projectManifest;
 
     std::string buildPlatform = "";
@@ -51,7 +51,7 @@ int main(int argc, char** argv)
     if (parameters.HasArguments("project"))
     {
         //TODO sanity checks
-        projectPath = parameters.GetArguments("project")[0];
+        projectPath = std::filesystem::canonical(parameters.GetArguments("project")[0]);
     }
 
     if (parameters.CountArguments("platform") == 2)
@@ -62,7 +62,7 @@ int main(int argc, char** argv)
 
     if (parameters.Contains("generate"))
     {
-        if (projectPath.length() <= 0)
+        if (projectPath.empty())
         {
             Utility::PrintLine("'-generate' requires a project to be specified");
             return -1;
@@ -73,7 +73,7 @@ int main(int argc, char** argv)
 
     if (parameters.Contains("build"))
     {
-        if (projectPath.length() <= 0)
+        if (projectPath.empty())
         {
             Utility::PrintLine("'-build' requires a project to be specified");
             return -1;
