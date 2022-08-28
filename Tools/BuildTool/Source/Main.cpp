@@ -50,9 +50,16 @@ int main(int argc, char** argv)
 
     if (parameters.HasArguments("project"))
     {
-        //TODO sanity checks
-        projectPath = std::filesystem::canonical(parameters.GetArguments("project")[0]);
-        projectPath.make_preferred();
+        try 
+        {
+            projectPath = std::filesystem::canonical(parameters.GetArguments("project")[0]);
+            projectPath.make_preferred();
+        }
+        catch (std::exception e)
+        {
+            Utility::PrintLine("Failed to locate project: " + parameters.GetArguments("project")[0] + " (" + e.what() + ")");
+            return -1;
+        }
     }
 
     if (parameters.CountArguments("platform") == 2)
