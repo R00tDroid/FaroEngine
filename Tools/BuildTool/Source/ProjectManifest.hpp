@@ -87,7 +87,7 @@ public:
                     return false;
                 }
 
-                std::filesystem::path moduleRoot = projectDirectory.append(moduleValue.get<std::string>());
+                std::filesystem::path moduleRoot = projectDirectory / moduleValue.get<std::string>();
                 moduleRoot.make_preferred();
 
                 bool foundManifest = false;
@@ -101,6 +101,8 @@ public:
                             foundManifest = true;
                             ModuleManifest* moduleManifest = new ModuleManifest;
                             moduleManifest->manifestPath = entry.path();
+                            moduleManifest->project = this;
+                            moduleManifest->Load();
                             projectModules.push_back(moduleManifest);
                             break;
                         }

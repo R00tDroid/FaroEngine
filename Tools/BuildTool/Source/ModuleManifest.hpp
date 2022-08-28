@@ -27,4 +27,18 @@ public:
     std::vector<ModuleManifest*> moduleDependencies;
 
     std::vector<std::filesystem::path> sourceFiles;
+
+    void Load()
+    {
+        moduleRoot = manifestPath.parent_path();
+        name = manifestPath.filename().string();
+        name.erase(name.length() - moduleFileSuffix.length());
+
+        buildRoot = moduleRoot / ".Faro";
+    }
+
+    void Save()
+    {
+        
+    }
 };
