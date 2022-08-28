@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <fstream>
 #include <picojson.h>
+#include <glob/glob.hpp>
 
 class ProjectManifest;
 
@@ -79,6 +80,7 @@ public:
 
     bool ParseSourceFiles(picojson::object& rootObject)
     {
+        std::vector<std::filesystem::path> filters;
         if (rootObject.find("SourceFilters") != rootObject.end())
         {
             picojson::value& value = rootObject["SourceFilters"];
@@ -100,7 +102,37 @@ public:
                 std::filesystem::path filter = moduleRoot / filterValue.get<std::string>();
                 filter = std::filesystem::weakly_canonical(filter);
                 filter.make_preferred();
+                filters.push_back(filter);
+
+                while (true)
+                {
+                    std::string string = filter.string();
+
+                    size_t index = string.find("**");
+                    if (index == std::string::npos) break;
+
+                    string[index] = '.';
+                    string.erase(index + 1, 1);
+
+                    filter = std::filesystem::weakly_canonical(string);
+                    filters.push_back(filter);
+                }
             }
         }
+
+        for (std::filesystem::path& filter : filters)
+        {
+            Utility::PrintLine("> " + filter.string());
+            for (auto& file : glob::rglob(filter.string()))
+            {
+                Utility::PrintLine("* " + file.string());
+                sourceFiles.push_back(file);
+            }
+        }
+
+        sourceFiles.erase(std::unique(sourceFiles.begin(), sourceFiles.end()), sourceFiles.end());
+        std::sort(sourceFiles.begin(), sourceFiles.end());
+
+        return true;
     }
 };
