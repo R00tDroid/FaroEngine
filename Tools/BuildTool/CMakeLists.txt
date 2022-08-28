@@ -22,4 +22,5 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "
 
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/picojson
+    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/glob/single_include
 )

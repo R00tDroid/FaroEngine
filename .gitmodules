@@ -1,3 +1,6 @@
 [submodule "Tools/BuildTool/Dependencies/picojson"]
 	path = Tools/BuildTool/Dependencies/picojson
 	url = https://github.com/kazuho/picojson.git
+[submodule "Tools/BuildTool/Dependencies/glob"]
+	path = Tools/BuildTool/Dependencies/glob
+	url = https://github.com/p-ranav/glob.git
