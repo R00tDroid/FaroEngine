@@ -122,10 +122,8 @@ public:
 
         for (std::filesystem::path& filter : filters)
         {
-            Utility::PrintLine("> " + filter.string());
             for (auto& file : glob::rglob(filter.string()))
             {
-                Utility::PrintLine("* " + file.string());
                 sourceFiles.push_back(file);
             }
         }
