@@ -4,6 +4,8 @@
     ],
     "PrivateIncludeDirectories": [
     ],
+    "Dependencies": [
+    ],
     "SourceFilters": [
         "Source/**/*.cpp",
         "Source/**/*.hpp",
