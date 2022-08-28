@@ -19,6 +19,9 @@ public:
 
     bool Parse(std::filesystem::path path)
     {
+        manifestPath = path;
+        projectDirectory = manifestPath.parent_path();
+
         std::ifstream fileStream(path);
         if (!fileStream.is_open())
         {
@@ -66,6 +69,30 @@ public:
 
     bool ParseModules(picojson::object& rootObject)
     {
+        if (rootObject.find("Modules") != rootObject.end())
+        {
+            picojson::value& value = rootObject["Modules"];
+            if (!value.is<picojson::array>())
+            {
+                Utility::PrintLine("Expected Modules to be an array");
+                return false;
+            }
+
+            picojson::array& moduleArray = value.get<picojson::array>();
+            for (picojson::value& moduleValue : moduleArray)
+            {
+                if (!moduleValue.is<std::string>())
+                {
+                    Utility::PrintLine("Expected module path to be a string");
+                    return false;
+                }
+
+                ModuleManifest moduleManifest;
+                moduleManifest.moduleRoot = projectDirectory.append(moduleValue.get<std::string>());
+                moduleManifest.moduleRoot.make_preferred();
+                projectModules.push_back(moduleManifest);
+            }
+        }
         return true;
     }
 };
