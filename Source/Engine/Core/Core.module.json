@@ -1,0 +1,14 @@
+{
+    "PublicIncludeDirectories": [
+        "Source"
+    ],
+    "PrivateIncludeDirectories": [
+    ],
+    "SourceFilters": [
+        "Source/**/*.cpp",
+        "Source/**/*.hpp",
+        "Source/**/*.c",
+        "Source/**/*.h"
+    ],
+    "ModuleType": "Library"
+}
