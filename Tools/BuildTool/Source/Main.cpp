@@ -52,6 +52,7 @@ int main(int argc, char** argv)
     {
         //TODO sanity checks
         projectPath = std::filesystem::canonical(parameters.GetArguments("project")[0]);
+        projectPath.make_preferred();
     }
 
     if (parameters.CountArguments("platform") == 2)
