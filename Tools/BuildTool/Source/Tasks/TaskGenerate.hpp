@@ -1,29 +1,30 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Xml;
+#pragma once
+#include <filesystem>
 
-public class TaskGenerate : ITask
+#include "ITask.hpp"
+
+class TaskGenerate : public ITask
 {
-    public override int GetPriority()
+public:
+    int GetPriority() override
     {
         return 3;
     }
 
-    public override bool Run(ProjectManifest project)
+    bool Run(ProjectManifest& project) override
     {
-        /*Utility::PrintLine("Performing solution generation...");
+        Utility::PrintLine("Performing solution generation...");
 
-        PerformanceTimer timer = new PerformanceTimer();
-        foreach (ModuleManifest moduleManifest in project.projectModules)
+        PerformanceTimer timer;
+        for (ModuleManifest& moduleManifest : project.projectModules)
         {
-            PerformanceTimer moduleTimer = new PerformanceTimer();
+            PerformanceTimer moduleTimer;
 
-            PerformanceTimer writeTimer = new PerformanceTimer();
+            PerformanceTimer writeTimer;
             WriteProjectFile(moduleManifest);
             writeTimer.Stop("Project file");
 
-            writeTimer = new PerformanceTimer();
+            writeTimer = {};
             WriteFilterFile(moduleManifest);
             writeTimer.Stop("Filter file");
 
@@ -31,23 +32,22 @@ public class TaskGenerate : ITask
         }
         timer.Stop("Generate module projects");
 
-        timer = new PerformanceTimer();
+        timer = {};
         WriteSolutionFile(project);
-        timer.Stop("generate solution file");*/
+        timer.Stop("generate solution file");
 
         return true;
     }
 
-    /*
+private:
+    std::string VSPlatformVersion = "v142";
+    std::string VSVersion = "16.0";
 
-    private std::string VSPlatformVersion = "v142";
-    private std::string VSVersion = "16.0";
+    std::vector<std::string> sourceExtensions = { ".cpp", ".c", ".hlsl" };
 
-    private List<std::string> sourceExtensions = new List<std::string>() { ".cpp", ".c", "hlsl" };
-
-    public void WriteProjectFile(ModuleManifest moduleManifest)
+    void WriteProjectFile(ModuleManifest& moduleManifest)
     {
-        std::string filePath = moduleManifest.project.faroRootDirectory + "\\project\\" + moduleManifest.name + ".vcxproj";
+        /*std::string filePath = moduleManifest.project.faroRootDirectory + "\\project\\" + moduleManifest.name + ".vcxproj";
 
         XmlWriterSettings settings = new XmlWriterSettings();
         settings.Indent = true;
@@ -275,26 +275,25 @@ public class TaskGenerate : ITask
 
         writer.WriteEndDocument();
 
-        writer.Close();
+        writer.Close();*/
     }
 
-    private static std::string GetFileRelativeDirectory(ModuleManifest moduleManifest, std::string file)
+    static std::filesystem::path GetFileRelativeDirectory(ModuleManifest& moduleManifest, std::filesystem::path file)
     {
-        std::string directory = Directory.GetParent(file).FullName;
-        return directory.Replace(moduleManifest.moduleRoot + "\\", "");
+        std::filesystem::path directory = std::filesystem::absolute(file.parent_path());
+        return std::filesystem::proximate(directory, moduleManifest.moduleRoot);
     }
 
-    private static List<std::string> GetAllDirectories(std::string root)
+    static std::vector<std::filesystem::path> GetAllDirectories(std::filesystem::path& root)
     {
-        List<std::string> result = new List<std::string>() { root };
+        std::vector<std::filesystem::path> result = { root };
         while (true)
         {
-            std::string current = result[result.Count - 1];
-            int pos = current.LastIndexOf('\\');
-            if (pos >= 0)
+            std::filesystem::path& current = result[result.size() - 1];
+            std::filesystem::path parent = current.parent_path();
+            if (!parent.empty())
             {
-                std::string parent = current.Substring(0, pos);
-                result.Add(parent);
+                result.push_back(parent);
             }
             else
             {
@@ -305,8 +304,9 @@ public class TaskGenerate : ITask
         return result;
     }
 
-    public void WriteFilterFile(ModuleManifest moduleManifest)
+    void WriteFilterFile(ModuleManifest& moduleManifest)
     {
+        /*
         std::string filePath = moduleManifest.project.faroRootDirectory + "\\project\\" + moduleManifest.name + ".vcxproj.filters";
 
         XmlWriterSettings settings = new XmlWriterSettings();
@@ -362,11 +362,12 @@ public class TaskGenerate : ITask
         writer.WriteEndElement();
         writer.WriteEndDocument();
         writer.Close();
+        */
     }
 
-    public void WriteSolutionFile(ProjectManifest project)
+    void WriteSolutionFile(ProjectManifest project)
     {
-        StreamWriter stream = new StreamWriter(File.Open(project.projectDirectory + "\\" + project.projectName + ".sln", FileMode.Create));
+        /*StreamWriter stream = new StreamWriter(File.Open(project.projectDirectory + "\\" + project.projectName + ".sln", FileMode.Create));
 
         stream.WriteLine("Microsoft Visual Studio Solution File, Format Version 12.00");
         stream.WriteLine("# Visual Studio 16");
@@ -390,11 +391,12 @@ public class TaskGenerate : ITask
             stream.WriteLine("EndProject");
         }
 
-        stream.Close();
+        stream.Close();*/
     }
 
-    private std::string GetGUIDForModule(ModuleManifest moduleManifest)
+    std::string GetGUIDForModule(ModuleManifest moduleManifest)
     {
-        return moduleManifest.project.GUIDs.GetGUID("module_" + moduleManifest.name);
-    }*/
-}
+        return "";
+        //return moduleManifest.project.GUIDs.GetGUID("module_" + moduleManifest.name);
+    }
+};
