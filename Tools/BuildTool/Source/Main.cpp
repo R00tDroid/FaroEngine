@@ -52,7 +52,7 @@ int main(int argc, char** argv)
     {
         try 
         {
-            projectPath = std::filesystem::canonical(parameters.GetArguments("project")[0]);
+            projectPath = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
             projectPath.make_preferred();
         }
         catch (std::exception e)

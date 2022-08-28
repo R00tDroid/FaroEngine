@@ -13,6 +13,12 @@ public:
 
     bool Run(ProjectManifest& project) override
     {
+        for (ModuleManifest* moduleManifest : project.projectModules)
+        {
+            moduleManifest->Parse();
+            moduleManifest->Save();
+        }
+
         Utility::PrintLine("Performing solution generation...");
 
         PerformanceTimer timer;
