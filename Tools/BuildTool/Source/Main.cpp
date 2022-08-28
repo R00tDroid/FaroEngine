@@ -4,6 +4,7 @@
 #include "Utility.hpp"
 #include "Version.generated.hpp"
 #include "Tasks/ITask.hpp"
+#include "Tasks/TaskGenerate.hpp"
 
 int main(int argc, char** argv)
 {
@@ -47,7 +48,7 @@ int main(int argc, char** argv)
     std::string buildPlatform = "";
     std::string buildArchitecture = "";
 
-	if (parameters.HasArguments("project"))
+    if (parameters.HasArguments("project"))
     {
         //TODO sanity checks
         projectPath = parameters.GetArguments("project")[0];
@@ -67,10 +68,10 @@ int main(int argc, char** argv)
             return -1;
         }
 
-        //tasks.push_back(new TaskGenerate());
+        tasks.push_back(new TaskGenerate());
     }
 
-	if (parameters.Contains("build"))
+    if (parameters.Contains("build"))
     {
         if (projectPath.length() <= 0)
         {
@@ -123,5 +124,5 @@ int main(int argc, char** argv)
     }
 
     Utility::PrintLine("No tasks specified");
-	return -1;
+    return -1;
 }
