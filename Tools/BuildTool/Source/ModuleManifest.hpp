@@ -1,4 +1,5 @@
 #pragma once
+#include <filesystem>
 
 class ProjectManifest;
 
@@ -11,13 +12,13 @@ public:
     std::string name = "";
 
     // Full path to module manifest
-    std::string manifestPath = "";
+    std::filesystem::path manifestPath = "";
 
     // Root directory of this module
-    std::string moduleRoot = "";
+    std::filesystem::path moduleRoot = "";
 
     // Build directory of this module
-    std::string buildRoot = "";
+    std::filesystem::path buildRoot = "";
 
     // Project this module belongs to
     ProjectManifest* project = nullptr;
@@ -25,5 +26,5 @@ public:
     // List of modules this module depends on
     std::vector<ModuleManifest*> moduleDependencies;
 
-    std::vector<std::string> sourceFiles;
+    std::vector<std::filesystem::path> sourceFiles;
 };
