@@ -1,5 +1,7 @@
 #pragma once
 #include "ModuleManifest.hpp"
+#include <picojson.h>
+#include <fstream>
 
 class ProjectManifest
 {
@@ -17,6 +19,21 @@ public:
 
     bool Parse(std::filesystem::path path)
     {
+        std::ifstream fileStream(path);
+        if (!fileStream.is_open())
+        {
+            Utility::PrintLine("Failed to open project file: " + path.string());
+            return false;
+        }
+
+        picojson::value rootObject;
+        std::string error = picojson::parse(rootObject, fileStream);
+        if (!error.empty())
+        {
+            Utility::Print("JSON parsing error: " + error);
+            return false;
+        }
+
         return true;
     }
 };
