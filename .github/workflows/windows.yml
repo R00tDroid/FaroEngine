@@ -39,7 +39,9 @@ jobs:
       uses: actions/download-artifact@master
       with:
         name: FaroEngine
+
+    - name: Generate
+      run: Bin/FaroBuildTool.exe -generate -project Source/FaroEngine.faroproject.json
     
     - name: Build
-      run: Bin/FaroBuildTool.exe -build -platform Windows x64 -project Source/FaroEngine.faroproj
-
+      run: Bin/FaroBuildTool.exe -build -platform Windows x64 -project Source/FaroEngine.faroproject.json
