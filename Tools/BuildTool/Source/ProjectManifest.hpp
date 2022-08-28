@@ -4,6 +4,8 @@
 class ProjectManifest
 {
 public:
+    inline static std::string projectFileSuffix = ".faroproject.json";
+
     std::filesystem::path manifestPath = "";
     std::filesystem::path projectDirectory = "";
 
