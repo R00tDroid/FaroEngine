@@ -16,19 +16,19 @@ public:
         Utility::PrintLine("Performing solution generation...");
 
         PerformanceTimer timer;
-        for (ModuleManifest& moduleManifest : project.projectModules)
+        for (ModuleManifest* moduleManifest : project.projectModules)
         {
             PerformanceTimer moduleTimer;
 
             PerformanceTimer writeTimer;
-            WriteProjectFile(moduleManifest);
+            WriteProjectFile(*moduleManifest);
             writeTimer.Stop("Project file");
 
             writeTimer = {};
-            WriteFilterFile(moduleManifest);
+            WriteFilterFile(*moduleManifest);
             writeTimer.Stop("Filter file");
 
-            moduleTimer.Stop("Module: " + moduleManifest.name);
+            moduleTimer.Stop("Module: " + moduleManifest->name);
         }
         timer.Stop("Generate module projects");
 

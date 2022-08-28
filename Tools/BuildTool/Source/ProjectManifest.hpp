@@ -15,7 +15,7 @@ public:
     std::filesystem::path buildRoot = "";
 
     std::string projectName = "";
-    std::vector<ModuleManifest> projectModules;
+    std::vector<ModuleManifest*> projectModules;
 
     bool Parse(std::filesystem::path path)
     {
@@ -87,10 +87,31 @@ public:
                     return false;
                 }
 
-                ModuleManifest moduleManifest;
-                moduleManifest.moduleRoot = projectDirectory.append(moduleValue.get<std::string>());
-                moduleManifest.moduleRoot.make_preferred();
-                projectModules.push_back(moduleManifest);
+                std::filesystem::path moduleRoot = projectDirectory.append(moduleValue.get<std::string>());
+                moduleRoot.make_preferred();
+
+                bool foundManifest = false;
+                for (auto const& entry : std::filesystem::directory_iterator(moduleRoot))
+                {
+                    if (std::filesystem::is_regular_file(entry))
+                    {
+                        std::string path = entry.path().string().substr();
+                        if (path.length() > ModuleManifest::moduleFileSuffix.length() && path.substr(path.length() - ModuleManifest::moduleFileSuffix.length()) == ModuleManifest::moduleFileSuffix)
+                        {
+                            foundManifest = true;
+                            ModuleManifest* moduleManifest = new ModuleManifest;
+                            moduleManifest->manifestPath = entry.path();
+                            projectModules.push_back(moduleManifest);
+                            break;
+                        }
+                    }
+                }
+
+                if (!foundManifest)
+                {
+                    Utility::PrintLine("Could not find module manifest in: " + moduleRoot.string());
+                    return false;
+                }
             }
         }
         return true;
