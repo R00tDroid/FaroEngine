@@ -4,6 +4,7 @@
 #include <Windows.h>
 #include <string>
 #include <chrono>
+#include <filesystem>
 #include <map>
 
 namespace Utility
@@ -31,6 +32,13 @@ namespace Utility
 #ifndef NDEBUG
         PrintD(log + "\n");
 #endif
+    }
+    inline void EnsureDirectory(std::filesystem::path path)
+    {
+        if (!std::filesystem::exists(path)) 
+        {
+            std::filesystem::create_directories(path);
+        }
     }
 }
 
