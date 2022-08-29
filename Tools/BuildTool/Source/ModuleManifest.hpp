@@ -42,7 +42,15 @@ public:
 
     void Save()
     {
-        
+        std::filesystem::path moduleInfo = moduleRoot / ".Faro\\Module";
+        Utility::EnsureDirectory(moduleInfo);
+
+        std::ofstream filesList(moduleInfo / "Source.txt");
+        for (std::filesystem::path & sourceFile : sourceFiles)
+        {
+            filesList << sourceFile.string() << "\n";
+        }
+        filesList.close();
     }
 
     bool Parse()
