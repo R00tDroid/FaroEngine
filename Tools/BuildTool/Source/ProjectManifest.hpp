@@ -12,7 +12,7 @@ public:
     std::filesystem::path projectDirectory = "";
 
     // Build directory of this project
-    std::filesystem::path buildRoot = "";
+    std::filesystem::path faroRoot = "";
 
     std::string projectName = "";
     std::vector<ModuleManifest*> projectModules;
@@ -21,6 +21,10 @@ public:
     {
         manifestPath = path;
         projectDirectory = manifestPath.parent_path();
+
+        faroRoot = projectDirectory / ".Faro";
+
+        Utility::EnsureDirectory(faroRoot);
 
         std::ifstream fileStream(path);
         if (!fileStream.is_open())

@@ -21,7 +21,7 @@ public:
     std::filesystem::path moduleRoot = "";
 
     // Build directory of this module
-    std::filesystem::path buildRoot = "";
+    std::filesystem::path faroRoot = "";
 
     // Project this module belongs to
     ProjectManifest* project = nullptr;
@@ -37,7 +37,10 @@ public:
         name = manifestPath.filename().string();
         name.erase(name.length() - moduleFileSuffix.length());
 
-        buildRoot = moduleRoot / ".Faro";
+        faroRoot = moduleRoot / ".Faro";
+
+        //TODO load file list
+        //TODO load dependency list
     }
 
     void Save()
@@ -82,6 +85,8 @@ public:
         picojson::object& rootObject = rootValue.get<picojson::object>();
 
         if (!ParseSourceFiles(rootObject)) return false;
+
+        //TODO parse dependencies
 
         return true;
     }
