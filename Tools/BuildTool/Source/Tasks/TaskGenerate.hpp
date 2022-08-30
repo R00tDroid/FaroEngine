@@ -281,7 +281,7 @@ private:
         return std::filesystem::proximate(directory, moduleManifest.moduleRoot);
     }
 
-    static std::vector<std::filesystem::path> GetAllDirectories(std::filesystem::path& root)
+    static std::vector<std::filesystem::path> GetDirectoryTree(std::filesystem::path& root)
     {
         std::vector<std::filesystem::path> result = { root };
         while (true)
@@ -303,63 +303,57 @@ private:
 
     void WriteFilterFile(ModuleManifest& moduleManifest)
     {
-        /*
-        std::string filePath = moduleManifest.project.faroRootDirectory + "\\project\\" + moduleManifest.name + ".vcxproj.filters";
+        std::filesystem::path filePath = moduleManifest.project->faroRoot / "Project";
+        Utility::EnsureDirectory(filePath);
+        filePath /= moduleManifest.name + ".vcxproj.filters";
 
-        XmlWriterSettings settings = new XmlWriterSettings();
-        settings.Indent = true;
-        settings.IndentChars = "    ";
-        XmlWriter writer = XmlWriter.Create(filePath, settings);
+        tinyxml2::XMLDocument doc;
 
-        writer.WriteStartDocument();
-        writer.WriteStartElement("Project", "http://schemas.microsoft.com/developer/msbuild/2003");
-        writer.WriteAttributeString("ToolsVersion", "15.0");
+        tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
+        projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
+        projectElement->SetAttribute("ToolsVersion", "15.0");
+        doc.InsertEndChild(projectElement);
 
-        writer.WriteStartElement("ItemGroup");
+        tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
 
-        List<std::string> sourceFiles = moduleManifest.sourceFiles;
-        Dictionary<std::string, std::string> directories = new Dictionary<std::string, std::string>();
-        foreach (std::string file in sourceFiles)
+        std::vector<std::filesystem::path>& sourceFiles = moduleManifest.sourceFiles;
+
+        std::map<std::filesystem::path, std::string> directories;
+        for (std::filesystem::path& file : sourceFiles)
         {
-            std::string directory = GetFileRelativeDirectory(moduleManifest, file);
-            List<std::string> allDirectories = GetAllDirectories(directory);
+            std::filesystem::path directory = GetFileRelativeDirectory(moduleManifest, file);
+            std::vector<std::filesystem::path> allDirectories = GetDirectoryTree(directory);
 
-            foreach (std::string dir in allDirectories)
+            for (std::filesystem::path& dir : allDirectories)
             {
-                if (!directories.ContainsKey(dir))
+                if (directories.find(dir) == directories.end())
                 {
-                    directories.Add(dir, moduleManifest.project.GUIDs.GetGUID("filter_" + moduleManifest.name + "_" + dir));
+                    directories.insert(std::pair<std::filesystem::path, std::string>(dir, "sdf"));
+                    //directories.Add(dir, moduleManifest.project.GUIDs.GetGUID("filter_" + moduleManifest.name + "_" + dir));
                 }
             }
 
-            std::string extension = Path.GetExtension(file).ToLower();
-            bool shouldCompile = sourceExtensions.Contains(extension);
-            writer.WriteStartElement(shouldCompile ? "ClCompile" : "ClInclude");
-            writer.WriteAttributeString("Include", file);
-            {
-                writer.WriteStartElement("Filter");
-                writer.WriteString(directory);
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
+            std::string extension = file.extension().string();
+            std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
+            bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
+
+            tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
+            fileElement->SetAttribute("Include", file.string().c_str());
+
+            tinyxml2::XMLElement* filterElement = fileElement->InsertNewChildElement("Filter");
+            filterElement->SetText(directory.string().c_str());
         }
 
-        foreach (std::string directory in directories.Keys)
+        for (auto& directory : directories)
         {
-            writer.WriteStartElement("Filter");
-            writer.WriteAttributeString("Include", directory);
-            {
-                writer.WriteStartElement("UniqueIdentifier");
-                writer.WriteString("{" + directories[directory] + "}");
-                writer.WriteEndElement();
-            }
-            writer.WriteEndElement();
+            tinyxml2::XMLElement* filterElement = itemGroup->InsertNewChildElement("Filter");
+            filterElement->SetAttribute("Include", directory.first.string().c_str());
+
+            tinyxml2::XMLElement* idElement = filterElement->InsertNewChildElement("UniqueIdentifier");
+            idElement->SetText(("{" + directory.second + "}").c_str());
         }
 
-        writer.WriteEndElement();
-        writer.WriteEndDocument();
-        writer.Close();
-        */
+        doc.SaveFile(filePath.string().c_str());
     }
 
     void WriteSolutionFile(ProjectManifest project)
