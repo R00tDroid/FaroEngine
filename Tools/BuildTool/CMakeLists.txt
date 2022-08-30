@@ -13,7 +13,8 @@ file(GLOB_RECURSE SourceFiles
 
 add_executable(
     ${PROJECT_NAME}
-    ${SourceFiles} 
+    ${SourceFiles}
+    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/tinyxml2/tinyxml2.cpp
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
@@ -23,4 +24,5 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/picojson
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/glob/single_include
+    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/tinyxml2
 )
