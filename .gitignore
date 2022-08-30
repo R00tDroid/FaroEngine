@@ -14,3 +14,4 @@ _deps
 /Tools/Build
 *.generated*
 .Faro
+*.sln
