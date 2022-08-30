@@ -364,36 +364,28 @@ private:
 
     void WriteSolutionFile(ProjectManifest project)
     {
-        /*StreamWriter stream = new StreamWriter(File.Open(project.projectDirectory + "\\" + project.projectName + ".sln", FileMode.Create));
+        std::ofstream stream(project.projectDirectory / (project.projectName + ".sln"));
 
-        stream.WriteLine("Microsoft Visual Studio Solution File, Format Version 12.00");
-        stream.WriteLine("# Visual Studio 16");
-        stream.WriteLine("MinimumVisualStudioVersion = 10.0.40219.1");
+        stream << "Microsoft Visual Studio Solution File, Format Version 12.00\n";
+        stream << "# Visual Studio 16\n";
+        stream << "MinimumVisualStudioVersion = 10.0.40219.1\n";
 
-        std::string projectGUID = project.GUIDs.GetGUID("project_" + project.projectName);
-
-        foreach (ModuleManifest moduleManifest in project.projectModules)
+        for (ModuleManifest* moduleManifest : project.projectModules)
         {
-            stream.WriteLine("Project(\"{" + projectGUID + "}\") = \"" + moduleManifest.name + "\", \".Faro\\project\\" + moduleManifest.name + ".vcxproj\", \"{" + GetGUIDForModule(moduleManifest) + "}\"");
-            if (moduleManifest.moduleDependencies.Count > 0)
+            stream << "Project(\"{" + project.uuid + "}\") = \"" + moduleManifest->name + "\", \"" + (moduleManifest->project->faroRoot / "Project" / (moduleManifest->name + ".vcxproj")).string() + "\", \"{" + moduleManifest->uuid + "}\"\n";
+            if (!moduleManifest->moduleDependencies.empty())
             {
-                stream.WriteLine("\tProjectSection(ProjectDependencies) = postProject");
-                foreach (ModuleManifest dependency in moduleManifest.moduleDependencies)
+                stream << "\tProjectSection(ProjectDependencies) = postProject\n";
+                for (ModuleManifest* dependency : moduleManifest->moduleDependencies)
                 {
-                    stream.WriteLine("\t\t{" + GetGUIDForModule(dependency) + "} = {" + GetGUIDForModule(dependency) + "}");
+                    stream << "\t\t{" + dependency->uuid + "} = {" + dependency->uuid + "}\n";
                 }
-                stream.WriteLine("\tEndProjectSection");
+                stream << "\tEndProjectSection\n";
             }
 
-            stream.WriteLine("EndProject");
+            stream << "EndProject\n";
         }
 
-        stream.Close();*/
-    }
-
-    std::string GetGUIDForModule(ModuleManifest moduleManifest)
-    {
-        return "";
-        //return moduleManifest.project.GUIDs.GetGUID("module_" + moduleManifest.name);
+        stream.close();
     }
 };
