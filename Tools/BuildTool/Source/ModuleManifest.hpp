@@ -31,6 +31,8 @@ public:
 
     std::vector<std::filesystem::path> sourceFiles;
 
+    std::string uuid = "";
+
     void Load()
     {
         moduleRoot = manifestPath.parent_path();
@@ -41,6 +43,12 @@ public:
 
         //TODO load file list
         //TODO load dependency list
+        //TODO load uuid
+
+        if (uuid.empty())
+        {
+            uuid = Utility::GenerateUUID();
+        }
     }
 
     void Save()
@@ -54,6 +62,10 @@ public:
             filesList << sourceFile.string() << "\n";
         }
         filesList.close();
+
+        std::ofstream uuidFile(moduleInfo / "ModuleId.txt");
+        uuidFile << uuid;
+        uuidFile.close();
     }
 
     bool Parse()
