@@ -1,6 +1,6 @@
 #pragma once
 #include <filesystem>
-
+#include <tinyxml2.h>
 #include "ITask.hpp"
 
 class TaskGenerate : public ITask
@@ -53,27 +53,25 @@ private:
 
     void WriteProjectFile(ModuleManifest& moduleManifest)
     {
-        /*std::string filePath = moduleManifest.project.faroRootDirectory + "\\project\\" + moduleManifest.name + ".vcxproj";
+        std::filesystem::path filePath = moduleManifest.project->faroRoot / "Project";
+        Utility::EnsureDirectory(filePath);
+        filePath /= moduleManifest.name + ".vcxproj";
 
-        XmlWriterSettings settings = new XmlWriterSettings();
-        settings.Indent = true;
-        settings.IndentChars = "    ";
-        XmlWriter writer = XmlWriter.Create(filePath, settings);
+        //std::vector<IToolchain> toolchains = IToolchain.GetToolchains();
 
-        List<IToolchain> toolchains = IToolchain.GetToolchains();
-
-        writer.WriteStartDocument();
-
+        tinyxml2::XMLDocument doc;
         {
-            writer.WriteStartElement("Project", "http://schemas.microsoft.com/developer/msbuild/2003");
-            writer.WriteAttributeString("DefaultTargets", "Build");
-            writer.WriteAttributeString("ToolsVersion", "15.0");
+            tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
+            projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
+            projectElement->SetAttribute("DefaultTargets", "Build");
+            projectElement->SetAttribute("ToolsVersion", "15.0");
+            doc.InsertEndChild(projectElement);
 
-            {
-                writer.WriteStartElement("ItemGroup");
-                writer.WriteAttributeString("Label", "ProjectConfigurations");
+            /* {
+                tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
+                projectElement->SetAttribute("Label", "ProjectConfigurations");
 
-                foreach (IToolchain toolchain in toolchains)
+                for (IToolchain toolchain in toolchains)
                 {
                     List<BuildPlatform> platforms = toolchain.GetPlatforms();
                     foreach (BuildPlatform platform in platforms)
@@ -248,40 +246,33 @@ private:
                         writer.WriteEndElement();
                     }
                 }
+            }*/
+
+            {
+                tinyxml2::XMLElement* importElement = projectElement->InsertNewChildElement("Import");
+                importElement->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.targets");
             }
 
             {
-                writer.WriteStartElement("Import");
-                writer.WriteAttributeString("Project", "$(VCTargetsPath)\\Microsoft.Cpp.targets");
-                writer.WriteEndElement();
+                tinyxml2::XMLElement* ImportGroupElement = projectElement->InsertNewChildElement("ImportGroup");
+                ImportGroupElement->SetAttribute("Label", "ExtensionTargets");
             }
 
             {
-                writer.WriteStartElement("ImportGroup");
-                writer.WriteAttributeString("Label", "ExtensionTargets");
-                writer.WriteEndElement();
-            }
-
-            {
-                writer.WriteStartElement("ItemGroup");
-                List<std::string> sourceFiles = moduleManifest.sourceFiles;
-                foreach (std::string file in sourceFiles)
+                tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
+                std::vector<std::filesystem::path>& sourceFiles = moduleManifest.sourceFiles;
+                for (std::filesystem::path& file : sourceFiles)
                 {
-                    std::string extension = Path.GetExtension(file).ToLower();
-                    bool shouldCompile = sourceExtensions.Contains(extension);
-                    writer.WriteStartElement(shouldCompile ? "ClCompile" : "ClInclude");
-                    writer.WriteAttributeString("Include", file);
-                    writer.WriteEndElement();
+                    std::string extension = file.extension().string();
+                    std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
+                    bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
+                    tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
+                    fileElement->SetAttribute("Include", file.string().c_str());
                 }
-                writer.WriteEndElement();
             }
-
-            writer.WriteEndElement();
         }
 
-        writer.WriteEndDocument();
-
-        writer.Close();*/
+        doc.SaveFile(filePath.string().c_str());
     }
 
     static std::filesystem::path GetFileRelativeDirectory(ModuleManifest& moduleManifest, std::filesystem::path file)
