@@ -328,8 +328,7 @@ private:
             {
                 if (directories.find(dir) == directories.end())
                 {
-                    directories.insert(std::pair<std::filesystem::path, std::string>(dir, "sdf"));
-                    //directories.Add(dir, moduleManifest.project.GUIDs.GetGUID("filter_" + moduleManifest.name + "_" + dir));
+                    directories.insert(std::pair<std::filesystem::path, std::string>(dir, Utility::GenerateUUID()));
                 }
             }
 
