@@ -17,6 +17,8 @@ public:
     std::string projectName = "";
     std::vector<ModuleManifest*> projectModules;
 
+    std::string uuid = "";
+
     bool Parse(std::filesystem::path path)
     {
         manifestPath = path;
@@ -51,6 +53,13 @@ public:
 
         if (!ParseProject(rootObject)) return false;
         if (!ParseModules(rootObject)) return false;
+
+        //TODO load from file
+        if (uuid.empty())
+        {
+            uuid = Utility::GenerateUUID();
+            //TODO save to file
+        }
 
         return true;
     }
