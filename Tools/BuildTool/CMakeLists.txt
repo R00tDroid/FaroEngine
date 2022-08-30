@@ -17,6 +17,10 @@ add_executable(
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/tinyxml2/tinyxml2.cpp
 )
 
+target_link_libraries(${PROJECT_NAME}
+    Rpcrt4.lib
+)
+
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "-project \"${CMAKE_CURRENT_LIST_DIR}\\..\\..\\Source\\FaroEngine.faroproject.json\" -platform windows x64 -generate -build") 

@@ -40,6 +40,27 @@ namespace Utility
             std::filesystem::create_directories(path);
         }
     }
+
+    inline std::string GenerateUUID()
+    {
+#ifdef WIN32
+        UUID uuid;
+        UuidCreate(&uuid);
+
+        unsigned char* uuidString = nullptr;
+        UuidToStringA(&uuid, &uuidString);
+
+        std::string string(reinterpret_cast<char*>(uuidString));
+
+        RpcStringFreeA(&uuidString);
+#else
+        uuid_t uuid;
+        uuid_generate_random(uuid);
+        char string[37];
+        uuid_unparse(uuid, string);
+#endif
+        return string;
+    }
 }
 
 class PerformanceTimer
