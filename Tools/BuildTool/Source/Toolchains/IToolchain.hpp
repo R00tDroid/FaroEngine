@@ -1,3 +1,4 @@
+#pragma once
 #include <filesystem>
 #include <string>
 #include <vector>
@@ -13,7 +14,7 @@ enum BuildType
     ENUMSIZE
 };
 
-const char* BuildTypeNames[] =
+inline const char* BuildTypeNames[] =
 {
     "Debug",
     "Development",
