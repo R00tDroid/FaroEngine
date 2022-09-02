@@ -120,34 +120,32 @@ private:
                 importElement->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.Default.props");
             }
 
-            /*foreach(IToolchain toolchain in toolchains)
+            for( IToolchain* toolchain : toolchains)
             {
-                List<BuildPlatform> platforms = toolchain.GetPlatforms();
-                foreach (BuildPlatform platform in platforms)
+                std::vector<BuildPlatform> platforms = toolchain->GetPlatforms();
+                for (BuildPlatform& platform : platforms)
                 {
-                    foreach (std::string buildTypeName in Enum.GetNames(typeof(BuildType)))
+                    for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
                     {
-                        writer.WriteStartElement("PropertyGroup");
-                        writer.WriteAttributeString("Condition", "'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'");
-                        writer.WriteAttributeString("Label", "Configuration");
+                        const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+
+                        tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
+                        propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'").c_str());
+                        propertyGroup->SetAttribute("Label", "Configuration");
 
                         {
-                            writer.WriteStartElement("ConfigurationType");
-                            writer.WriteString("Makefile");
-                            writer.WriteEndElement();
+                            tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("ConfigurationType");
+                            element->SetValue("Makefile");
                         }
                         {
-                            writer.WriteStartElement("PlatformToolset");
-                            writer.WriteString(VSPlatformVersion);
-                            writer.WriteEndElement();
+                            tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("PlatformToolset");
+                            element->SetValue(VSPlatformVersion.c_str());
                         }
-
-                        writer.WriteEndElement();
                     }
                 }
             }
 
-            {
+            /* {
                 writer.WriteStartElement("Import");
                 writer.WriteAttributeString("Project", "$(VCTargetsPath)\\Microsoft.Cpp.Default.props");
                 writer.WriteEndElement();
