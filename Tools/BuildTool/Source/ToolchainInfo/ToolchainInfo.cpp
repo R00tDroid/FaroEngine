@@ -9,11 +9,7 @@
 
 #include "Setup.Configuration.h"
 
-struct WindowsKit
-{
-    std::string Root;
-    std::string Version;
-};
+
 std::vector<WindowsKit> WindowsKits;
 void FindWindowsKits()
 {
@@ -63,6 +59,12 @@ void FindWindowsKits()
                 });
         }
     }
+}
+
+const std::vector<WindowsKit>& GetWindowsKits()
+{
+    FindWindowsKits();
+    return WindowsKits;
 }
 
 int CountWindowsKits()
@@ -156,12 +158,6 @@ void FindVisualStudioInstallations()
     }
 }
 
-
-
-struct MSVCVersion
-{
-    std::string Root;
-};
 std::vector<MSVCVersion> MSVCInstallations;
 void FindMSVCInstallations()
 {
@@ -182,6 +178,12 @@ void FindMSVCInstallations()
             }
         }
     }
+}
+
+const std::vector<MSVCVersion>& GetMSVCInstallations()
+{
+    FindMSVCInstallations();
+    return MSVCInstallations;
 }
 
 int CountMSVC()
