@@ -24,6 +24,11 @@ int IToolchain::ExecuteCommand(std::string command)
     return ExecuteCommand(command, discardLog);
 }
 
+std::vector<IToolchain*> IToolchain::GetToolchains()
+{
+    return {};
+}
+
 std::filesystem::path IToolchain::GetObjDirectory(ModuleManifest& manifest, BuildPlatform target)
 {
     std::string platformName = target.platformName;

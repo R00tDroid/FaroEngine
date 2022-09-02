@@ -21,6 +21,8 @@ struct BuildPlatform
 class IToolchain
 {
 public:
+    static std::vector<IToolchain*> GetToolchains();
+
     virtual ~IToolchain() = default;
 
     virtual std::vector<BuildPlatform> GetPlatforms() = 0;
