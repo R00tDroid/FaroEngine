@@ -145,97 +145,80 @@ private:
                 }
             }
 
-            /* {
-                writer.WriteStartElement("Import");
-                writer.WriteAttributeString("Project", "$(VCTargetsPath)\\Microsoft.Cpp.Default.props");
-                writer.WriteEndElement();
+            {
+                tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("Import");
+                element->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.Default.props");
             }
 
             {
-                writer.WriteStartElement("ImportGroup");
-                writer.WriteAttributeString("Label", "ExtensionTargets");
-                writer.WriteEndElement();
+                tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("ImportGroup");
+                element->SetAttribute("Label", "ExtensionTargets");
             }
 
             {
-                writer.WriteStartElement("PropertyGroup");
-                writer.WriteAttributeString("Label", "UserMacros");
-                writer.WriteEndElement();
+                tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("PropertyGroup");
+                element->SetAttribute("Label", "UserMacros");
             }
 
-            foreach (IToolchain toolchain in toolchains)
+            for (IToolchain* toolchain : toolchains)
             {
-                List<BuildPlatform> platforms = toolchain.GetPlatforms();
-                foreach (BuildPlatform platform in platforms)
+                std::vector<BuildPlatform> platforms = toolchain->GetPlatforms();
+                for (BuildPlatform& platform : platforms)
                 {
-                    foreach (std::string buildTypeName in Enum.GetNames(typeof(BuildType)))
+                    for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
                     {
-                        writer.WriteStartElement("ImportGroup");
-                        writer.WriteAttributeString("Condition", "'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'");
-                        writer.WriteAttributeString("Label", "PropertySheets");
+                        const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+
+                        tinyxml2::XMLElement* importGroup = projectElement->InsertNewChildElement("ImportGroup");
+                        importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'").c_str());
+                        importGroup->SetAttribute("Label", "PropertySheets");
+
                         {
-                            writer.WriteStartElement("Import");
-                            writer.WriteAttributeString("Project", "$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props");
-                            writer.WriteAttributeString("Condition", "exists('$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props')");
-                            writer.WriteAttributeString("Label", "LocalAppDataPlatform");
-                            writer.WriteEndElement();
+                            tinyxml2::XMLElement* element = importGroup->InsertNewChildElement("Import");
+                            element->SetAttribute("Project", "$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props");
+                            element->SetAttribute("Condition", "exists('$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props')");
+                            element->SetAttribute("Label", "LocalAppDataPlatform");
                         }
-                        writer.WriteEndElement();
 
-                        writer.WriteStartElement("PropertyGroup");
-                        writer.WriteAttributeString("Condition", "'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'");
+                        tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
+                        importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'").c_str());
                         {
-                            writer.WriteStartElement("IncludePath");
-                            writer.WriteString("$(VC_IncludePath);$(WindowsSDK_IncludePath);");
-                            writer.WriteEndElement();
+                            tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
+                            element->SetValue("$(VC_IncludePath);$(WindowsSDK_IncludePath);");
 
-                            writer.WriteStartElement("ReferencePath");
-                            writer.WriteEndElement();
-                            writer.WriteStartElement("LibraryPath");
-                            writer.WriteEndElement();
-                            writer.WriteStartElement("LibraryWPath");
-                            writer.WriteEndElement();
-                            writer.WriteStartElement("SourcePath");
-                            writer.WriteEndElement();
-                            writer.WriteStartElement("ExcludePath");
-                            writer.WriteEndElement();
+                            element = propertyGroup->InsertNewChildElement("ReferencePath");
+                            element = propertyGroup->InsertNewChildElement("LibraryPath");
+                            element = propertyGroup->InsertNewChildElement("LibraryWPath");
+                            element = propertyGroup->InsertNewChildElement("SourcePath");
+                            element = propertyGroup->InsertNewChildElement("ExcludePath");
 
-                            writer.WriteStartElement("OutDir");
-                            writer.WriteString("$(ProjectDir)\\..\\Bin");
-                            writer.WriteEndElement();
+                            element = propertyGroup->InsertNewChildElement("OutDir");
+                            element->SetValue("$(ProjectDir)\\..\\Bin");
 
-                            writer.WriteStartElement("IntDir");
-                            writer.WriteString("$(ProjectDir)\\Intermediate");
-                            writer.WriteEndElement();
+                            element = propertyGroup->InsertNewChildElement("IntDir");
+                            element->SetValue("$(ProjectDir)\\Intermediate");
 
-                            writer.WriteStartElement("NMakeBuildCommandLine");
-                            writer.WriteString("faro-build -build -project " + moduleManifest.project.manifestPath + " -module " + moduleManifest.name + " -platform \"" + platform.platformName + "\" -config " + buildTypeName);
-                            writer.WriteEndElement();
+                            element = propertyGroup->InsertNewChildElement("NMakeBuildCommandLine");
+                            element->SetValue(("faro-build -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform.platformName + "\" -config " + buildTypeName).c_str());
 
-                            writer.WriteStartElement("NMakeReBuildCommandLine");
-                            writer.WriteString("faro-build -clean -build -project " + moduleManifest.project.manifestPath + " -module " + moduleManifest.name + " -platform \"" + platform.platformName + "\" -config " + buildTypeName);
-                            writer.WriteEndElement();
+                            element = propertyGroup->InsertNewChildElement("NMakeReBuildCommandLine");
+                            element->SetValue(("faro-build -clean -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform.platformName + "\" -config " + buildTypeName).c_str());
 
-                            writer.WriteStartElement("NMakeCleanCommandLine");
-                            writer.WriteString("faro-build -clean -project " + moduleManifest.project.manifestPath + " -module " + moduleManifest.name + " -platform \"" + platform.platformName + "\" -config " + buildTypeName);
-                            writer.WriteEndElement();
+                            element = propertyGroup->InsertNewChildElement("NMakeCleanCommandLine");
+                            element->SetValue(("faro-build -clean -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform.platformName + "\" -config " + buildTypeName).c_str());
 
-                            writer.WriteStartElement("NMakeOutput");
-                            writer.WriteString("");
-                            writer.WriteEndElement();
+                            element = propertyGroup->InsertNewChildElement("NMakeOutput");
+                            element->SetValue("");
 
-                            writer.WriteStartElement("NMakeIncludeSearchPath");
-                            writer.WriteString(""); //TODO set include paths
-                            writer.WriteEndElement();
+                            element = propertyGroup->InsertNewChildElement("NMakeIncludeSearchPath");
+                            element->SetValue(""); // TODO set include paths
 
-                            writer.WriteStartElement("NMakePreprocessorDefinitions");
-                            writer.WriteString(""); //TODO set preprocessor defines
-                            writer.WriteEndElement();
+                            element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
+                            element->SetValue(""); //TODO set preprocessor defines
                         }
-                        writer.WriteEndElement();
                     }
                 }
-            }*/
+            }
 
             {
                 tinyxml2::XMLElement* importElement = projectElement->InsertNewChildElement("Import");
