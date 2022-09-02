@@ -1,6 +1,7 @@
 #include "IToolchain.hpp"
 #include "../ModuleManifest.hpp"
 #include <array>
+#include "ToolchainMSVC.hpp"
 
 int IToolchain::ExecuteCommand(std::string command, std::string& output)
 {
@@ -26,18 +27,18 @@ int IToolchain::ExecuteCommand(std::string command)
 
 std::vector<IToolchain*> IToolchain::GetToolchains()
 {
-    return {};
+    return { &ToolchainMSVC::Instance };
 }
 
-std::filesystem::path IToolchain::GetObjDirectory(ModuleManifest& manifest, BuildPlatform target)
+std::filesystem::path IToolchain::GetObjDirectory(ModuleManifest& manifest, BuildPlatform* target)
 {
-    std::string platformName = target.platformName;
+    std::string platformName = target->platformName;
     std::transform(platformName.begin(), platformName.end(), platformName.begin(), tolower);
     std::replace(platformName.begin(), platformName.end(), ' ', '_');
     return manifest.faroRoot / "Obj" / platformName;
 }
 
-std::filesystem::path IToolchain::GetObjPath(ModuleManifest& manifest, BuildPlatform target, std::filesystem::path sourceFile)
+std::filesystem::path IToolchain::GetObjPath(ModuleManifest& manifest, BuildPlatform* target, std::filesystem::path sourceFile)
 {
     return GetObjDirectory(manifest, target) / sourceFile.parent_path() / (sourceFile.stem().string() + "." + GetObjExtension());
 }
@@ -47,9 +48,9 @@ std::filesystem::path IToolchain::GetBinDirectory(ModuleManifest& manifest)
     return manifest.faroRoot / "Bin";
 }
 
-std::filesystem::path IToolchain::GetBinPath(ModuleManifest& manifest, BuildPlatform target)
+std::filesystem::path IToolchain::GetBinPath(ModuleManifest& manifest, BuildPlatform* target)
 {
-    std::string platformName = target.platformName;
+    std::string platformName = target->platformName;
     std::transform(platformName.begin(), platformName.end(), platformName.begin(), tolower);
     std::replace(platformName.begin(), platformName.end(), ' ', '_');
 

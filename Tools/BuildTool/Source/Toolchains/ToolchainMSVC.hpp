@@ -1,141 +1,133 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
-using System.Text;
+#include "IToolchain.hpp"
+#include "../ModuleManifest.hpp"
+#include "../ToolchainInfo/ToolchainInfo.hpp"
 
-enum EMSVCArchetecture 
+enum EMSVCArchitecture 
 {
     x64,
     x86
 };
 
-class MSVCBuildPlatform : BuildPlatform 
+struct MSVCBuildPlatform : BuildPlatform
 {
-    public EMSVCArchetecture Architecture;
-}
+    EMSVCArchitecture Architecture;
+};
 
-public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
+class ToolchainMSVC : public IToolchain
 {
-    public override List<BuildPlatform> GetPlatforms()
+public:
+    static ToolchainMSVC Instance;
+
+    std::vector<BuildPlatform*> GetPlatforms() override
     {
-        return new List<BuildPlatform>()
+        if (platforms.empty())
         {
-            new MSVCBuildPlatform() { Architecture = EMSVCArchetecture.x64, platformName = "Windows x64", preprocessorDefines = { "FARO_OS_WINDOWS", "FARO_ARCH_X64" }, linkerLibraries = {} },
-            new MSVCBuildPlatform() { Architecture = EMSVCArchetecture.x86, platformName = "Windows x86", preprocessorDefines = { "FARO_OS_WINDOWS", "FARO_ARCH_X86" }, linkerLibraries = {} }
-        };
+            platforms.push_back(new MSVCBuildPlatform{ "Windows x64", { "FARO_OS_WINDOWS", "FARO_ARCH_X64" }, {}, EMSVCArchitecture::x64 });
+            platforms.push_back(new MSVCBuildPlatform{ "Windows x86", { "FARO_OS_WINDOWS", "FARO_ARCH_X86" }, {}, EMSVCArchitecture::x86 });
+        }
+
+        return platforms;
     }
 
-    private std::string objDir = "";
-
-    private std::string msvcRoot = "";
-    private std::string msvcTools = "";
-
-    private std::string windowsSdkInclude = "";
-    private std::string windowsSdkLib = "";
-
-    public override bool PrepareModuleForBuild(ModuleManifest manifest, BuildPlatform target)
+    bool PrepareModuleForBuild(ModuleManifest& manifest, BuildPlatform* target) override
     {
-        MSVCBuildPlatform buildPlatform = (MSVCBuildPlatform)target;
+        MSVCBuildPlatform* buildPlatform = reinterpret_cast<MSVCBuildPlatform*>(target);
 
-        int windowsKitCount = Utility::CountWindowsKits();
-        if (windowsKitCount > 0)
+        const std::vector<WindowsKit>& windowsKits = GetWindowsKits();
+        if (!windowsKits.empty())
         {
-            std::string root = Marshal.PtrToStringAnsi(Utility::GetWindowsKitRoot(0));
-            std::string version = Marshal.PtrToStringAnsi(Utility::GetWindowsKitVersion(0));
+            std::string root = windowsKits[0].Root;
+            std::string version = windowsKits[0].Version;
 
             windowsSdkInclude = root + "\\Include\\" + version;
             windowsSdkLib = root + "\\Lib\\" + version;
         }
 
-        int MSVCCount = Utility::CountMSVC();
-        if (MSVCCount > 0)
+        const std::vector<MSVCVersion>& MSVCInstallations = GetMSVCInstallations();
+        if (!MSVCInstallations.empty())
         {
-            msvcRoot = Marshal.PtrToStringAnsi(Utility::GetMSVCRoot(0));
+            msvcRoot = MSVCInstallations[0].Root;
         }
 
-        if (windowsSdkLib == "" || windowsSdkInclude == "" || !Directory.Exists(windowsSdkLib) || !Directory.Exists(windowsSdkInclude))
+        if (windowsSdkLib == "" || windowsSdkInclude == "" || !std::filesystem::exists(windowsSdkLib) || !std::filesystem::exists(windowsSdkInclude))
         {
             Utility::PrintLine("Invalid WindowsKit directory");
             return false;
         }
 
-        if (msvcRoot == "" || !Directory.Exists(msvcRoot))
+        if (msvcRoot == "" || !std::filesystem::exists(msvcRoot))
         {
             Utility::PrintLine("Invalid MSVC directory");
             return false;
         }
 
-        msvcTools = msvcRoot + "\\bin\\";
-        switch (buildPlatform.Architecture)
+        msvcTools = msvcRoot / "bin";
+        switch (buildPlatform->Architecture)
         {
-            case EMSVCArchetecture.x64:
-                {
-                    msvcTools += "Hostx64\\x64";
-                    break;
-                }
-            case EMSVCArchetecture.x86:
-                {
-                    msvcTools += "Hostx86\\x86";
-                    break;
-                }
+            case EMSVCArchitecture::x64:
+            {
+                msvcTools += "Hostx64\\x64";
+                break;
+            }
+            case EMSVCArchitecture::x86:
+            {
+                msvcTools += "Hostx86\\x86";
+                break;
+            }
         }
 
-        if (!Directory.Exists(windowsSdkInclude) || !Directory.Exists(windowsSdkLib) || !Directory.Exists(msvcTools))
+        if (!std::filesystem::exists(windowsSdkInclude) || !std::filesystem::exists(windowsSdkLib) || !std::filesystem::exists(msvcTools))
         {
             Utility::PrintLine("Invalid WindowsKit");
             return false;
         }
 
         objDir = GetObjDirectory(manifest, target);
-        Directory.CreateDirectory(objDir);
-
-
+        Utility::EnsureDirectory(objDir);
 
         return true;
     }
 
-    public override bool BuildSource(ModuleManifest manifest, BuildPlatform target, std::string sourceFile, List<std::string> includePaths, List<std::string> preprocessorDefines)
+    bool BuildSource(ModuleManifest& manifest, BuildPlatform* target, std::filesystem::path sourceFile, std::vector<std::filesystem::path> includePaths, std::vector<std::string> preprocessorDefines) override
     {
         std::string includes = "";
 
-        includes += " /I\"" + msvcRoot + "\\include\"";
-        includes += " /I\"" + windowsSdkInclude + "\\shared\"";
-        includes += " /I\"" + windowsSdkInclude + "\\ucrt\"";
-        includes += " /I\"" + windowsSdkInclude + "\\winrt\"";
-        includes += " /I\"" + windowsSdkInclude + "\\um\"";
+        includes += " /I\"" + msvcRoot.string() + "\\include\"";
+        includes += " /I\"" + windowsSdkInclude.string() + "\\shared\"";
+        includes += " /I\"" + windowsSdkInclude.string() + "\\ucrt\"";
+        includes += " /I\"" + windowsSdkInclude.string() + "\\winrt\"";
+        includes += " /I\"" + windowsSdkInclude.string() + "\\um\"";
 
-        foreach (std::string include in includePaths) 
+        for (std::filesystem::path& include : includePaths)
         {
-            includes += " /I\"" + include + "\"";
+            includes += " /I\"" + include.string() + "\"";
         }
 
         std::string defines = "";
-        foreach (std::string define in preprocessorDefines)
+        for (std::string& define : preprocessorDefines)
         {
             includes += " /D" + define;
         }
 
-        std::string clExe = "\"" + msvcTools + "\\cl.exe\"";
-        std::string msvcDrive = msvcRoot.Substring(0, 1);
-        std::string outputFile = GetObjPath(manifest, target, sourceFile);
+        std::filesystem::path clExe = "\"" + msvcTools.string() + "\\cl.exe\"";
+        std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
+        std::filesystem::path outputFile = GetObjPath(manifest, target, sourceFile);
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + clExe + " /c /FC /nologo /EHsc /Z7 /Od " + defines + " " + sourceFile + " /Fo\"" + outputFile + "\" " + includes, out log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + clExe.string() + " /c /FC /nologo /EHsc /Z7 /Od " + defines + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
         
         //Format, trim and print output message
-        if (log.Length > 0)
+        if (!log.empty())
         {
-            log = log.Replace("\r", "");
+            log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
 
-            std::string header = Path.GetFileName(sourceFile) + "\n";
-            if (log.StartsWith(header))
+            std::string header = sourceFile.filename().string() + "\n";
+            if (log.substr(0, header.size()) == header)
             {
-                log = log.Substring(header.Length);
+                log = log.substr(header.size());
             }
 
-            if (log.Length > 0)
+            if (!log.empty())
             {
                 Utility::PrintLine(log);
             }
@@ -144,29 +136,29 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return result == 0;
     }
 
-    public override bool LinkLibrary(ModuleManifest manifest, BuildPlatform target, List<std::string> sourceFiles)
+    bool LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, std::vector<std::filesystem::path> sourceFiles) override
     {
         std::string objs = "";
-        foreach (std::string sourceFile in sourceFiles)
+        for (std::filesystem::path& sourceFile : sourceFiles)
         {
-            objs += " \"" + GetObjPath(manifest, target, sourceFile) + "\"";
+            objs += " \"" + GetObjPath(manifest, target, sourceFile).string() + "\"";
         }
 
-        std::string libExe = "\"" + msvcTools + "\\lib.exe\"";
-        std::string msvcDrive = msvcRoot.Substring(0, 1);
+        std::filesystem::path libExe = "\"" / msvcTools / "lib.exe\"";
+        std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
 
-        std::string libPath = GetBinPath(manifest, target);
-        Directory.CreateDirectory(GetBinDirectory(manifest));
+        std::filesystem::path libPath = GetBinPath(manifest, target);
+        Utility::EnsureDirectory(GetBinDirectory(manifest));
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + libExe + " /nologo /OUT:\"" + libPath + "\" " + objs, out log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + libExe.string() + " /nologo /OUT:\"" + libPath.string() + "\" " + objs, log);
 
         //Format, trim and print output message
-        if (log.Length > 0)
+        if (!log.empty())
         {
-            log = log.Replace("\r", "");
+            log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
 
-            if (log.Length > 0)
+            if (!log.empty())
             {
                 Utility::PrintLine(log);
             }
@@ -175,7 +167,7 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return result == 0;
     }
 
-    public override bool LinkExecutable(ModuleManifest manifest, BuildPlatform target, List<std::string> sourceFiles)
+    bool LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, std::vector<std::filesystem::path> sourceFiles) override
     {
         std::string libs = "";
         std::string libDirectories = "";
@@ -188,28 +180,28 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         libs += " \"libvcruntimed.lib\"";
 
         //TODO Set correct architecture
-        libDirectories += " /LIBPATH:\"" + windowsSdkLib + "\\ucrt\\x64\"";
-        libDirectories += " /LIBPATH:\"" + windowsSdkLib + "\\um\\x64\"";
-        libDirectories += " /LIBPATH:\"" + msvcRoot + "\\lib\\x64\"";
+        libDirectories += " /LIBPATH:\"" + windowsSdkLib.string() + "\\ucrt\\x64\"";
+        libDirectories += " /LIBPATH:\"" + windowsSdkLib.string() + "\\um\\x64\"";
+        libDirectories += " /LIBPATH:\"" + msvcRoot.string() + "\\lib\\x64\"";
 
         //TODO link against other modules (/WHOLEARCHIVE)
         //TODO link against dependencies
 
-        std::string linkExe = "\"" + msvcTools + "\\link.exe\"";
-        std::string msvcDrive = msvcRoot.Substring(0, 1);
+        std::filesystem::path linkExe = "\"" / msvcTools / "link.exe\"";
+        std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
 
-        Directory.CreateDirectory(GetBinDirectory(manifest));
-        std::string outputFile = GetBinPath(manifest, target);
+        Utility::EnsureDirectory(GetBinDirectory(manifest));
+        std::filesystem::path outputFile = GetBinPath(manifest, target);
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive + ": & " + GetEnvCommand() + " & " + linkExe + " /NOLOGO /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile + "\" " + libs + libDirectories + moduleLibs, out log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + linkExe.string() + " /NOLOGO /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
 
         //Format, trim and print output message
-        if (log.Length > 0)
+        if (!log.empty())
         {
-            log = log.Replace("\r", "");
+            log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
 
-            if (log.Length > 0)
+            if (!log.empty())
             {
                 Utility::PrintLine(log);
             }
@@ -217,24 +209,36 @@ public class ToolchainMSVC : IToolchainInterface<ToolchainMSVC>
         return result == 0;
     }
 
-    public override std::string GetObjExtension()
+    std::string GetObjExtension() override
     {
         return "obj";
     }
 
-    public override std::string GetLibExtension()
+    std::string GetLibExtension() override
     {
         return "lib";
     }
 
-    public override std::string GetExeExtension()
+    std::string GetExeExtension() override
     {
         return "exe";
     }
 
-    private std::string GetEnvCommand()
+private:
+    std::string GetEnvCommand()
     {
         //TODO add MSVC IDE path
         return "set \"path=C:\\Windows\\System32;\"";
     }
-}
+    std::filesystem::path objDir = "";
+
+    std::filesystem::path msvcRoot = "";
+    std::filesystem::path msvcTools = "";
+
+    std::filesystem::path windowsSdkInclude = "";
+    std::filesystem::path windowsSdkLib = "";
+
+    std::vector<BuildPlatform*> platforms;
+};
+
+inline ToolchainMSVC ToolchainMSVC::Instance;

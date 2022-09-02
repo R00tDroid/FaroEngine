@@ -74,19 +74,19 @@ private:
 
                 for (IToolchain* toolchain : toolchains)
                 {
-                    std::vector<BuildPlatform> platforms = toolchain->GetPlatforms();
-                    for (BuildPlatform& platform : platforms)
+                    std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+                    for (BuildPlatform* platform : platforms)
                     {
                         for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
                         {
                             const char* buildTypeName = BuildTypeNames[buildTypeIndex];
 
                             tinyxml2::XMLElement* projectConfig = itemGroup->InsertNewChildElement("ProjectConfiguration");
-                            projectConfig->SetAttribute("Include", (platform.platformName + " " + buildTypeName + "|Win32").c_str());
+                            projectConfig->SetAttribute("Include", (platform->platformName + " " + buildTypeName + "|Win32").c_str());
 
                             {
                                 tinyxml2::XMLElement* configElement = projectConfig->InsertNewChildElement("Configuration");
-                                configElement->SetAttribute("Include", (platform.platformName + " " + buildTypeName).c_str());
+                                configElement->SetAttribute("Include", (platform->platformName + " " + buildTypeName).c_str());
                             }
                             {
                                 tinyxml2::XMLElement* platformElement = projectConfig->InsertNewChildElement("Platform");
@@ -103,16 +103,16 @@ private:
                 propertyGroup->SetAttribute("Label", "Globals");
 
                 tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("ProjectGuid");
-                element->SetValue(moduleManifest.uuid.c_str());
+                element->SetText(moduleManifest.uuid.c_str());
 
                 element = projectElement->InsertNewChildElement("PlatformToolset");
-                element->SetValue(VSPlatformVersion.c_str());
+                element->SetText(VSPlatformVersion.c_str());
 
                 element = projectElement->InsertNewChildElement("MinimumVisualStudioVersion");
-                element->SetValue(VSVersion.c_str());
+                element->SetText(VSVersion.c_str());
 
                 element = projectElement->InsertNewChildElement("TargetRuntime");
-                element->SetValue("Native");
+                element->SetText("Native");
             }
 
             {
@@ -122,24 +122,24 @@ private:
 
             for( IToolchain* toolchain : toolchains)
             {
-                std::vector<BuildPlatform> platforms = toolchain->GetPlatforms();
-                for (BuildPlatform& platform : platforms)
+                std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+                for (BuildPlatform* platform : platforms)
                 {
                     for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
                     {
                         const char* buildTypeName = BuildTypeNames[buildTypeIndex];
 
                         tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
-                        propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'").c_str());
+                        propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
                         propertyGroup->SetAttribute("Label", "Configuration");
 
                         {
                             tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("ConfigurationType");
-                            element->SetValue("Makefile");
+                            element->SetText("Makefile");
                         }
                         {
                             tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("PlatformToolset");
-                            element->SetValue(VSPlatformVersion.c_str());
+                            element->SetText(VSPlatformVersion.c_str());
                         }
                     }
                 }
@@ -162,15 +162,15 @@ private:
 
             for (IToolchain* toolchain : toolchains)
             {
-                std::vector<BuildPlatform> platforms = toolchain->GetPlatforms();
-                for (BuildPlatform& platform : platforms)
+                std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+                for (BuildPlatform* platform : platforms)
                 {
                     for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
                     {
                         const char* buildTypeName = BuildTypeNames[buildTypeIndex];
 
                         tinyxml2::XMLElement* importGroup = projectElement->InsertNewChildElement("ImportGroup");
-                        importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'").c_str());
+                        importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
                         importGroup->SetAttribute("Label", "PropertySheets");
 
                         {
@@ -181,10 +181,10 @@ private:
                         }
 
                         tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
-                        importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform.platformName + " " + buildTypeName + "|Win32'").c_str());
+                        importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
                         {
                             tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
-                            element->SetValue("$(VC_IncludePath);$(WindowsSDK_IncludePath);");
+                            element->SetText("$(VC_IncludePath);$(WindowsSDK_IncludePath);");
 
                             element = propertyGroup->InsertNewChildElement("ReferencePath");
                             element = propertyGroup->InsertNewChildElement("LibraryPath");
@@ -193,28 +193,28 @@ private:
                             element = propertyGroup->InsertNewChildElement("ExcludePath");
 
                             element = propertyGroup->InsertNewChildElement("OutDir");
-                            element->SetValue("$(ProjectDir)\\..\\Bin");
+                            element->SetText("$(ProjectDir)\\..\\Bin");
 
                             element = propertyGroup->InsertNewChildElement("IntDir");
-                            element->SetValue("$(ProjectDir)\\Intermediate");
+                            element->SetText("$(ProjectDir)\\Intermediate");
 
                             element = propertyGroup->InsertNewChildElement("NMakeBuildCommandLine");
-                            element->SetValue(("faro-build -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform.platformName + "\" -config " + buildTypeName).c_str());
+                            element->SetText(("faro-build -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform->platformName + "\" -config " + buildTypeName).c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakeReBuildCommandLine");
-                            element->SetValue(("faro-build -clean -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform.platformName + "\" -config " + buildTypeName).c_str());
+                            element->SetText(("faro-build -clean -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform->platformName + "\" -config " + buildTypeName).c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakeCleanCommandLine");
-                            element->SetValue(("faro-build -clean -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform.platformName + "\" -config " + buildTypeName).c_str());
+                            element->SetText(("faro-build -clean -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform->platformName + "\" -config " + buildTypeName).c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakeOutput");
-                            element->SetValue("");
+                            element->SetText("");
 
                             element = propertyGroup->InsertNewChildElement("NMakeIncludeSearchPath");
-                            element->SetValue(""); // TODO set include paths
+                            element->SetText(""); // TODO set include paths
 
                             element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
-                            element->SetValue(""); //TODO set preprocessor defines
+                            element->SetText(""); //TODO set preprocessor defines
                         }
                     }
                 }

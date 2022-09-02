@@ -35,25 +35,25 @@ public:
 
     virtual ~IToolchain() = default;
 
-    virtual std::vector<BuildPlatform> GetPlatforms() = 0;
+    virtual std::vector<BuildPlatform*> GetPlatforms() = 0;
 
-    virtual bool PrepareModuleForBuild(ModuleManifest& manifest, BuildPlatform target) = 0;
+    virtual bool PrepareModuleForBuild(ModuleManifest& manifest, BuildPlatform* target) = 0;
 
-    virtual bool BuildSource(ModuleManifest& manifest, BuildPlatform target, std::filesystem::path sourceFile, std::vector<std::filesystem::path> includePaths, std::vector<std::string> preprocessorDefines) = 0;
+    virtual bool BuildSource(ModuleManifest& manifest, BuildPlatform* target, std::filesystem::path sourceFile, std::vector<std::filesystem::path> includePaths, std::vector<std::string> preprocessorDefines) = 0;
 
-    virtual bool LinkLibrary(ModuleManifest& manifest, BuildPlatform target, std::vector<std::filesystem::path> sourceFiles) = 0;
+    virtual bool LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, std::vector<std::filesystem::path> sourceFiles) = 0;
 
-    virtual bool LinkExecutable(ModuleManifest& manifest, BuildPlatform target, std::vector<std::filesystem::path> sourceFiles) = 0;
+    virtual bool LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, std::vector<std::filesystem::path> sourceFiles) = 0;
 
-    std::filesystem::path GetObjDirectory(ModuleManifest& manifest, BuildPlatform target);
+    std::filesystem::path GetObjDirectory(ModuleManifest& manifest, BuildPlatform* target);
 
-    std::filesystem::path GetObjPath(ModuleManifest& manifest, BuildPlatform target, std::filesystem::path sourceFile);
+    std::filesystem::path GetObjPath(ModuleManifest& manifest, BuildPlatform* target, std::filesystem::path sourceFile);
 
     virtual std::string GetObjExtension() = 0;
 
     std::filesystem::path GetBinDirectory(ModuleManifest& manifest);
 
-    std::filesystem::path GetBinPath(ModuleManifest& manifest, BuildPlatform target);
+    std::filesystem::path GetBinPath(ModuleManifest& manifest, BuildPlatform* target);
 
     virtual std::string GetLibExtension() = 0;
 

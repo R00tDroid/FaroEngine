@@ -37,7 +37,7 @@ public:
         foreach (IToolchain toolchain in toolchains) 
         {
             List<BuildPlatform> platforms = toolchain.GetPlatforms();
-            foreach (BuildPlatform platform in platforms)
+            foreach (BuildPlatform* platform in platforms)
             {
                 if (platform.platformName.ToLower() == (buildPlatform + " " + buildArchitecture).ToLower()) 
                 {
