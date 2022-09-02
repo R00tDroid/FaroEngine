@@ -8,7 +8,16 @@ enum BuildType
 {
     Debug,
     Development,
-    Release
+    Release,
+
+    ENUMSIZE
+};
+
+const char* BuildTypeNames[] =
+{
+    "Debug",
+    "Development",
+    "Release",
 };
 
 struct BuildPlatform

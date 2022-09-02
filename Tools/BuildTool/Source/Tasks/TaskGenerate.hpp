@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <tinyxml2.h>
 #include "ITask.hpp"
+#include "Toolchains/IToolchain.hpp"
 
 class TaskGenerate : public ITask
 {
@@ -57,7 +58,7 @@ private:
         Utility::EnsureDirectory(filePath);
         filePath /= moduleManifest.name + ".vcxproj";
 
-        //std::vector<IToolchain> toolchains = IToolchain.GetToolchains();
+        std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
 
         tinyxml2::XMLDocument doc;
         {
@@ -67,45 +68,42 @@ private:
             projectElement->SetAttribute("ToolsVersion", "15.0");
             doc.InsertEndChild(projectElement);
 
-            /* {
+            {
                 tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
                 projectElement->SetAttribute("Label", "ProjectConfigurations");
 
-                for (IToolchain toolchain in toolchains)
+                for (IToolchain* toolchain : toolchains)
                 {
-                    List<BuildPlatform> platforms = toolchain.GetPlatforms();
-                    foreach (BuildPlatform platform in platforms)
+                    std::vector<BuildPlatform> platforms = toolchain->GetPlatforms();
+                    for (BuildPlatform& platform : platforms)
                     {
-                        foreach (std::string buildTypeName in Enum.GetNames(typeof(BuildType)))
+                        for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
                         {
-                            writer.WriteStartElement("ProjectConfiguration");
-                            writer.WriteAttributeString("Include", platform.platformName + " " + buildTypeName + "|Win32");
+                            const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+
+                            tinyxml2::XMLElement* projectConfig = itemGroup->InsertNewChildElement("ProjectConfiguration");
+                            projectConfig->SetAttribute("Include", (platform.platformName + " " + buildTypeName + "|Win32").c_str());
 
                             {
-                                writer.WriteStartElement("Configuration");
-                                writer.WriteString(platform.platformName + " " + buildTypeName);
-                                writer.WriteEndElement();
+                                tinyxml2::XMLElement* configElement = projectConfig->InsertNewChildElement("Configuration");
+                                configElement->SetAttribute("Include", (platform.platformName + " " + buildTypeName).c_str());
                             }
                             {
-                                writer.WriteStartElement("Platform");
-                                writer.WriteString("Win32");
-                                writer.WriteEndElement();
+                                tinyxml2::XMLElement* platformElement = projectConfig->InsertNewChildElement("Platform");
+                                platformElement->SetAttribute("Include", "Win32");
                             }
-
-                            writer.WriteEndElement();
                         }
                     }
                 }
-
-                writer.WriteEndElement();
             }
 
+            /*
             {
                 writer.WriteStartElement("PropertyGroup");
                 writer.WriteAttributeString("Label", "Globals");
 
                 writer.WriteStartElement("ProjectGuid");
-                writer.WriteValue(GetGUIDForModule(moduleManifest));
+                writer.WriteValue(moduleManifest.uuid);
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("PlatformToolset");
