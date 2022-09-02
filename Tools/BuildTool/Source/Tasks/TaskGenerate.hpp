@@ -97,37 +97,30 @@ private:
                 }
             }
 
-            /*
+            
             {
-                writer.WriteStartElement("PropertyGroup");
-                writer.WriteAttributeString("Label", "Globals");
+                tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
+                propertyGroup->SetAttribute("Label", "Globals");
 
-                writer.WriteStartElement("ProjectGuid");
-                writer.WriteValue(moduleManifest.uuid);
-                writer.WriteEndElement();
+                tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("ProjectGuid");
+                element->SetValue(moduleManifest.uuid.c_str());
 
-                writer.WriteStartElement("PlatformToolset");
-                writer.WriteValue(VSPlatformVersion);
-                writer.WriteEndElement();
+                element = projectElement->InsertNewChildElement("PlatformToolset");
+                element->SetValue(VSPlatformVersion.c_str());
 
-                writer.WriteStartElement("MinimumVisualStudioVersion");
-                writer.WriteValue(VSVersion);
-                writer.WriteEndElement();
+                element = projectElement->InsertNewChildElement("MinimumVisualStudioVersion");
+                element->SetValue(VSVersion.c_str());
 
-                writer.WriteStartElement("TargetRuntime");
-                writer.WriteValue("Native");
-                writer.WriteEndElement();
-
-                writer.WriteEndElement();
+                element = projectElement->InsertNewChildElement("TargetRuntime");
+                element->SetValue("Native");
             }
 
             {
-                writer.WriteStartElement("Import");
-                writer.WriteAttributeString("Project", "$(VCTargetsPath)\\Microsoft.Cpp.Default.props");
-                writer.WriteEndElement();
+                tinyxml2::XMLElement* importElement = projectElement->InsertNewChildElement("Import");
+                importElement->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.Default.props");
             }
 
-            foreach (IToolchain toolchain in toolchains)
+            /*foreach(IToolchain toolchain in toolchains)
             {
                 List<BuildPlatform> platforms = toolchain.GetPlatforms();
                 foreach (BuildPlatform platform in platforms)
