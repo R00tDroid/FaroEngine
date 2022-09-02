@@ -3,6 +3,7 @@
 #include <fstream>
 #include <picojson.h>
 #include <glob/glob.hpp>
+#include "Utility.hpp"
 
 class ProjectManifest;
 
