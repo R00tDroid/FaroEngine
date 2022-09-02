@@ -86,11 +86,11 @@ private:
 
                             {
                                 tinyxml2::XMLElement* configElement = projectConfig->InsertNewChildElement("Configuration");
-                                configElement->SetAttribute("Include", (platform->platformName + " " + buildTypeName).c_str());
+                                configElement->SetText((platform->platformName + " " + buildTypeName).c_str());
                             }
                             {
                                 tinyxml2::XMLElement* platformElement = projectConfig->InsertNewChildElement("Platform");
-                                platformElement->SetAttribute("Include", "Win32");
+                                platformElement->SetText("Win32");
                             }
                         }
                     }
@@ -102,16 +102,16 @@ private:
                 tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
                 propertyGroup->SetAttribute("Label", "Globals");
 
-                tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("ProjectGuid");
+                tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("ProjectGuid");
                 element->SetText(moduleManifest.uuid.c_str());
 
-                element = projectElement->InsertNewChildElement("PlatformToolset");
+                element = propertyGroup->InsertNewChildElement("PlatformToolset");
                 element->SetText(VSPlatformVersion.c_str());
 
-                element = projectElement->InsertNewChildElement("MinimumVisualStudioVersion");
+                element = propertyGroup->InsertNewChildElement("MinimumVisualStudioVersion");
                 element->SetText(VSVersion.c_str());
 
-                element = projectElement->InsertNewChildElement("TargetRuntime");
+                element = propertyGroup->InsertNewChildElement("TargetRuntime");
                 element->SetText("Native");
             }
 
