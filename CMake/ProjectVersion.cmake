@@ -5,13 +5,10 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-message("GITHUB_BASE_REF $ENV{GITHUB_BASE_REF}")
-message("GITHUB_HEAD_REF $ENV{GITHUB_HEAD_REF}")
-message("GITHUB_REF_NAME $ENV{GITHUB_REF_NAME}")
-message("GITHUB_REF $ENV{GITHUB_REF}")
-
-if(DEFINED ENV{GITHUB_HEAD_REF})
+if(DEFINED ENV{GITHUB_HEAD_REF} AND NOT $ENV{GITHUB_HEAD_REF} EQUAL "")
     set(FaroEngineVersionBranch $ENV{GITHUB_HEAD_REF})
+elseif(DEFINED ENV{GITHUB_REF_NAME})
+    set(FaroEngineVersionBranch $ENV{GITHUB_REF_NAME})
 else()
     execute_process(COMMAND git rev-parse --abbrev-ref HEAD OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE FaroEngineVersionBranch)
 endif()
