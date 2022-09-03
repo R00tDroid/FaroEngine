@@ -61,6 +61,17 @@ namespace Utility
 #endif
         return string;
     }
+
+    inline std::filesystem::path GetExecutablePath()
+    {
+#ifdef WIN32
+        char filename[MAX_PATH];
+        GetModuleFileNameA(nullptr, filename, MAX_PATH);
+        return filename;
+#else
+        return std::filesystem::canonical("/proc/self/exe");
+#endif
+    }
 }
 
 class PerformanceTimer
