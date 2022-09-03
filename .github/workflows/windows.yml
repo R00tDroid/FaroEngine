@@ -68,12 +68,6 @@ jobs:
           ./Documentation/*
           ./Documentation/**/*
 
-    - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./Documentation/html
-
   PublishDocumentation:
     runs-on: ubuntu-latest
     needs: Documentation
@@ -82,7 +76,7 @@ jobs:
       uses: actions/download-artifact@master
       with:
         name: Documentation
-        
+
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
