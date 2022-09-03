@@ -66,12 +66,12 @@ public:
         {
             case EMSVCArchitecture::x64:
             {
-                msvcTools += "Hostx64\\x64";
+                msvcTools /= "Hostx64\\x64";
                 break;
             }
             case EMSVCArchitecture::x86:
             {
-                msvcTools += "Hostx86\\x86";
+                msvcTools /= "Hostx86\\x86";
                 break;
             }
         }
@@ -112,6 +112,7 @@ public:
         std::filesystem::path clExe = "\"" + msvcTools.string() + "\\cl.exe\"";
         std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
         std::filesystem::path outputFile = GetObjPath(manifest, target, sourceFile);
+        Utility::EnsureDirectory(outputFile.parent_path());
 
         std::string log = "";
         int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + clExe.string() + " /c /FC /nologo /EHsc /Z7 /Od " + defines + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
