@@ -15,8 +15,8 @@ jobs:
       with:
         submodules: recursive
     
-    #- name: Generate
-    #  run: cmake ./Docs
+    - name: Generate
+      run: cmake ./Docs
       
     - name: Build
       uses: mattnotmitt/doxygen-action@v1.9.4
