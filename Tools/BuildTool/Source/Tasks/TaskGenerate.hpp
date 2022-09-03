@@ -192,6 +192,8 @@ private:
                             element = propertyGroup->InsertNewChildElement("SourcePath");
                             element = propertyGroup->InsertNewChildElement("ExcludePath");
 
+                            std::filesystem::path faroBuildTool = Utility::GetExecutablePath();
+
                             element = propertyGroup->InsertNewChildElement("OutDir");
                             element->SetText("$(ProjectDir)\\..\\Bin");
 
@@ -199,13 +201,13 @@ private:
                             element->SetText("$(ProjectDir)\\Intermediate");
 
                             element = propertyGroup->InsertNewChildElement("NMakeBuildCommandLine");
-                            element->SetText(("faro-build -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform->platformName + "\" -config " + buildTypeName).c_str());
+                            element->SetText((faroBuildTool.string() + " -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform " + platform->platformName + " - config " + buildTypeName).c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakeReBuildCommandLine");
-                            element->SetText(("faro-build -clean -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform->platformName + "\" -config " + buildTypeName).c_str());
+                            element->SetText((faroBuildTool.string() + " -clean -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform " + platform->platformName + " -config " + buildTypeName).c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakeCleanCommandLine");
-                            element->SetText(("faro-build -clean -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform \"" + platform->platformName + "\" -config " + buildTypeName).c_str());
+                            element->SetText((faroBuildTool.string() + " -clean -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform " + platform->platformName + " -config " + buildTypeName).c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakeOutput");
                             element->SetText("");
