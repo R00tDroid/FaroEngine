@@ -19,13 +19,9 @@ public:
         return 2;
     }
 
-
-
-    std::string GetDisplayName(ModuleManifest module, std::string filePath)
+    static std::string GetDisplayName(ModuleManifest& module, std::filesystem::path& filePath)
     {
-        var origin = new Uri(module.moduleRoot);
-        var relative = Uri.UnescapeDataString(origin.MakeRelativeUri(new Uri(filePath)).ToString()).Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
-        return relative;
+        return filePath.lexically_proximate(module.moduleRoot).string();
     }
 
     bool Run(ProjectManifest& project) override
@@ -33,13 +29,19 @@ public:
         targetToolchain = nullptr;
         targetPlatform = nullptr;
 
-        List<IToolchain> toolchains = IToolchain.GetToolchains();
-        foreach (IToolchain toolchain in toolchains) 
+        std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
+        for (IToolchain* toolchain : toolchains) 
         {
-            List<BuildPlatform> platforms = toolchain.GetPlatforms();
-            foreach (BuildPlatform* platform in platforms)
+            std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+            for (BuildPlatform* platform : platforms)
             {
-                if (platform.platformName.ToLower() == (buildPlatform + " " + buildArchitecture).ToLower()) 
+                std::string platformName = platform->platformName;
+                std::string requiredPlatform = buildPlatform + " " + buildArchitecture;
+
+                std::transform(platformName.begin(), platformName.end(), platformName.begin(), tolower);
+                std::transform(requiredPlatform.begin(), requiredPlatform.end(), requiredPlatform.begin(), tolower);
+
+                if (platformName == requiredPlatform)
                 {
                     targetToolchain = toolchain;
                     targetPlatform = platform;
@@ -57,56 +59,55 @@ public:
         }
 
         //TODO sort module order based on dependencies
-        List<ModuleManifest> moduleOrder = new List<ModuleManifest>();
-        moduleOrder = project.projectModules;
+        std::vector<ModuleManifest*> moduleOrder = project.projectModules;
 
         Utility::PrintLine("Performing build...");
 
-        foreach (var module in moduleOrder)
+        for (ModuleManifest* module : moduleOrder)
         {
-            PerformanceTimer moduleTimer = new PerformanceTimer();
+            PerformanceTimer moduleTimer;
 
-            List<std::string> source = module.sourceFiles;
+            std::vector<std::filesystem::path> source = module->sourceFiles;
 
-            List<std::string> filesToCompile = new List<std::string>();
-            List<std::string> sourceFiles = new List<std::string>();
+            std::vector<std::filesystem::path> filesToCompile;
+            std::vector<std::filesystem::path> sourceFiles;
 
      
-            PerformanceTimer treescanTimer = new PerformanceTimer();
-            foreach (var file in source)
+            PerformanceTimer treescanTimer;
+            for (std::filesystem::path& file : source)
             {
-                std::string extension = Path.GetExtension(file);
+                std::string extension = file.extension().string();
                 if (extension == ".c" || extension == ".cpp")
                 {
-                    sourceFiles.Add(file);
+                    sourceFiles.push_back(file);
 
                     //TODO check for changes
-                    filesToCompile.Add(file);
+                    filesToCompile.push_back(file);
                     
                 }
             }
             treescanTimer.Stop("Change check treescan");
 
-            if (filesToCompile.Count > 0)
+            if (!filesToCompile.empty())
             {
-                PerformanceTimer buildTimer = new PerformanceTimer();
+                PerformanceTimer buildTimer;
 
-                PerformanceTimer prepareTimer = new PerformanceTimer();
-                if (!targetToolchain.PrepareModuleForBuild(module, targetPlatform)) return false;
+                PerformanceTimer prepareTimer;
+                if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform)) return false;
                 prepareTimer.Stop("Prepare");
 
-                List<std::string> includes = module.GetPublicIncludeTree();
-                includes = includes.Concat(module.privateIncludeDirectories).ToList();
-                includes.Sort();
+                std::vector<std::filesystem::path> includes;// = module->GetPublicIncludeTree();
+                //includes = includes.Concat(module->privateIncludeDirectories).ToList();
+                //includes.Sort();
 
-                PerformanceTimer sourceFilesTimer = new PerformanceTimer();
-                foreach (std::string file in filesToCompile) 
+                PerformanceTimer sourceFilesTimer;
+                for (std::filesystem::path& file : filesToCompile)
                 {
-                    PerformanceTimer fileTimer = new PerformanceTimer();
-                    std::string displayName = GetDisplayName(module, file);
+                    PerformanceTimer fileTimer;
+                    std::string displayName = GetDisplayName(*module, file);
                     Utility::PrintLine(displayName);
 
-                    if (!targetToolchain.BuildSource(module, targetPlatform, file, includes, targetPlatform.preprocessorDefines)) 
+                    if (!targetToolchain->BuildSource(*module, targetPlatform, file, includes, targetPlatform->preprocessorDefines)) 
                     {
                         Utility::PrintLine("Build error!");
                         return false;
@@ -115,34 +116,16 @@ public:
                 }
                 sourceFilesTimer.Stop("Build source");
 
-                switch (module.GetModuleType())
-                {
-                    case ModuleType.Library:
-                    {
-                        Utility::PrintLine("Generating library...");
-                        targetToolchain.LinkLibrary(module, targetPlatform, sourceFiles);
-                        break;
-                    }
+                Utility::PrintLine("Generating library...");
+                targetToolchain->LinkLibrary(*module, targetPlatform, sourceFiles);
 
-                    case ModuleType.Executable:
-                    {
-                        Utility::PrintLine("Generating executable...");
-                        targetToolchain.LinkExecutable(module, targetPlatform, sourceFiles);
-                        break;
-                    }
-
-                    default:
-                    {
-                        Utility::PrintLine("Unknown module type");
-                        return false;
-                    }
-                }
+                //TODO link all modules into executable
 
                 buildTimer.Stop("Build");
             }
 
             Utility::Print("\n");
-            moduleTimer.Stop("Module: " + module.name);
+            moduleTimer.Stop("Module: " + module->name);
         }
 
         //TODO Only link when needed
@@ -158,4 +141,4 @@ private:
 
     IToolchain* targetToolchain = nullptr;
     BuildPlatform* targetPlatform = nullptr;
-}F
+};
