@@ -70,13 +70,14 @@ jobs:
 
   PublishDocumentation:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    #if: github.ref == 'refs/heads/main'
     needs: Documentation
     steps:
     - name: actions/download-artifact@master
       uses: actions/download-artifact@master
       with:
         name: Documentation
+        path: Documentation
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
