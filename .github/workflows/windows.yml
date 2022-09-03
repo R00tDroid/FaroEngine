@@ -41,4 +41,4 @@ jobs:
         name: FaroEngine
 
     - name: Build
-      run: Bin/FaroBuildTool.exe -generate -build -platform Windows x64 -project Source/FaroEngine.faroproject.json
+      run: Bin/FaroBuildTool.exe -generate -build -platform Windows x64 -release -project Source/FaroEngine.faroproject.json
