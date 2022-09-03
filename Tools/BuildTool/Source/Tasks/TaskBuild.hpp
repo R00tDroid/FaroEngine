@@ -117,7 +117,11 @@ public:
                 sourceFilesTimer.Stop("Build source");
 
                 Utility::PrintLine("Generating library...");
-                targetToolchain->LinkLibrary(*module, targetPlatform, sourceFiles);
+                if (!targetToolchain->LinkLibrary(*module, targetPlatform, sourceFiles))
+                {
+                    Utility::PrintLine("Linking error!");
+                    return false;
+                }
 
                 //TODO link all modules into executable
 
