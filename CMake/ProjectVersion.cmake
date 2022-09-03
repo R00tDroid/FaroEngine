@@ -8,6 +8,7 @@ execute_process(
 message("GITHUB_BASE_REF $ENV{GITHUB_BASE_REF}")
 message("GITHUB_HEAD_REF $ENV{GITHUB_HEAD_REF}")
 message("GITHUB_REF_NAME $ENV{GITHUB_REF_NAME}")
+message("GITHUB_REF $ENV{GITHUB_REF}")
 
 if(DEFINED ENV{GITHUB_HEAD_REF})
     set(FaroEngineVersionBranch $ENV{GITHUB_HEAD_REF})
