@@ -109,13 +109,13 @@ public:
             includes += " /D" + define;
         }
 
-        std::filesystem::path clExe = "\"" + msvcTools.string() + "\\cl.exe\"";
+        std::filesystem::path clExe = msvcTools.string() + "\\cl.exe";
         std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
         std::filesystem::path outputFile = GetObjPath(manifest, target, sourceFile);
         Utility::EnsureDirectory(outputFile.parent_path());
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + clExe.string() + " /c /FC /nologo /EHsc /Z7 /Od " + defines + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + clExe.string() + "\" /c /FC /nologo /EHsc /Z7 /Od " + defines + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
         
         //Format, trim and print output message
         if (!log.empty())
@@ -145,14 +145,14 @@ public:
             objs += " \"" + GetObjPath(manifest, target, sourceFile).string() + "\"";
         }
 
-        std::filesystem::path libExe = "\"" / msvcTools / "lib.exe\"";
+        std::filesystem::path libExe = msvcTools / "lib.exe";
         std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
 
         std::filesystem::path libPath = GetBinPath(manifest, target);
-        Utility::EnsureDirectory(GetBinDirectory(manifest));
+        Utility::EnsureDirectory(libPath.parent_path());
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + libExe.string() + " /nologo /OUT:\"" + libPath.string() + "\" " + objs, log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + libExe.string() + "\" /nologo /OUT:\"" + libPath.string() + "\" " + objs, log);
 
         //Format, trim and print output message
         if (!log.empty())
@@ -195,7 +195,7 @@ public:
         std::filesystem::path outputFile = GetBinPath(manifest, target);
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + linkExe.string() + " /NOLOGO /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + linkExe.string() + " /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
 
         //Format, trim and print output message
         if (!log.empty())
