@@ -1,0 +1,17 @@
+name: FaroEngine Documentation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request: #TODO remove pull request trigger
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: DenverCoder1/doxygen-github-pages-action@v1.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          folder: Documentation
+          config_file: Docs/Doxyfile
