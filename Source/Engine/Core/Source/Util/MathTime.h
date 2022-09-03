@@ -33,7 +33,7 @@ namespace Faro
 
     private:
         std::chrono::steady_clock::time_point point;
-    };	
+    };    
 }
 
 #endif

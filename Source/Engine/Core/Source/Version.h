@@ -4,16 +4,16 @@
 
 namespace Faro
 {
-	struct Version
-	{
-		Version(uint8 Major, uint8 Minor, uint8 Revision) : Major(Major), Minor(Minor), Revision(Revision){}
+    struct Version
+    {
+        Version(uint8 Major, uint8 Minor, uint8 Revision) : Major(Major), Minor(Minor), Revision(Revision){}
 
-		uint8 Major;
-		uint8 Minor;
-		uint8 Revision;
-	};
+        uint8 Major;
+        uint8 Minor;
+        uint8 Revision;
+    };
 
-	static Version EngineVersion(3, 0, 0);
+    static Version EngineVersion(3, 0, 0);
 }
 
 #endif
