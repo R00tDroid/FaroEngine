@@ -70,6 +70,7 @@ jobs:
 
   PublishDocumentation:
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
     needs: Documentation
     steps:
     - name: actions/download-artifact@master
