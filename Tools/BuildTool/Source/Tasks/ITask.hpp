@@ -8,7 +8,7 @@ public:
     virtual ~ITask() = default;
 
     // Get the task priority. This is used to determine the execution order (clean before build for exmaple).
-    virtual int GetPriority() = 0;
+    virtual int GetPriority() const = 0;
 
     // Perform the task action/
     virtual bool Run(ProjectManifest& project) = 0;

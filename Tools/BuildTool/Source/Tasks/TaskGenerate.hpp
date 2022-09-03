@@ -7,9 +7,9 @@
 class TaskGenerate : public ITask
 {
 public:
-    int GetPriority() override
+    int GetPriority() const override
     {
-        return 3;
+        return 1;
     }
 
     bool Run(ProjectManifest& project) override

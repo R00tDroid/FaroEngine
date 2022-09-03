@@ -101,7 +101,7 @@ int main(int argc, char** argv)
 
     if (!tasks.empty())
     {
-        //tasks.Sort((a, b) => b.GetPriority() - a.GetPriority());
+        std::sort(tasks.begin(), tasks.end(), [](const ITask* A, const ITask* B) { return A->GetPriority() < B->GetPriority(); });
 
         if (!projectManifest.Parse(projectPath))
         {

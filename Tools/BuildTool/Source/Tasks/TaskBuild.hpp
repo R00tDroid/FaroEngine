@@ -14,9 +14,9 @@ public:
         buildArchitecture = architecture;
     }
 
-    int GetPriority() override
+    int GetPriority() const override
     {
-        return 2;
+        return 3;
     }
 
     static std::string GetDisplayName(ModuleManifest& module, std::filesystem::path& filePath)
