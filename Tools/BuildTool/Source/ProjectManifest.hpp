@@ -25,8 +25,8 @@ public:
         projectDirectory = manifestPath.parent_path();
 
         faroRoot = projectDirectory / ".Faro";
-
         Utility::EnsureDirectory(faroRoot);
+        Utility::HideFolder(faroRoot);
 
         std::ifstream fileStream(path);
         if (!fileStream.is_open())

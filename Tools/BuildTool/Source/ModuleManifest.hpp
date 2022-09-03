@@ -41,6 +41,8 @@ public:
         name.erase(name.length() - moduleFileSuffix.length());
 
         faroRoot = moduleRoot / ".Faro";
+        Utility::EnsureDirectory(faroRoot);
+        Utility::HideFolder(faroRoot);
 
         //TODO load file list
         //TODO load dependency list

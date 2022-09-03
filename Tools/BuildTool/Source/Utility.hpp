@@ -72,6 +72,13 @@ namespace Utility
         return std::filesystem::canonical("/proc/self/exe");
 #endif
     }
+
+    inline void HideFolder(std::filesystem::path folder)
+    {
+#ifdef WIN32
+        SetFileAttributesA(folder.string().c_str(), FILE_ATTRIBUTE_HIDDEN);
+#endif
+    }
 }
 
 class PerformanceTimer
