@@ -8,10 +8,11 @@
 class TaskBuild : public ITask
 {
 public:
-    TaskBuild(std::string platform, std::string architecture)
+    TaskBuild(std::string platform, std::string architecture, BuildType configuration)
     {
         buildPlatform = platform;
         buildArchitecture = architecture;
+        buildType = configuration;
     }
 
     int GetPriority() const override
@@ -93,7 +94,7 @@ public:
                 PerformanceTimer buildTimer;
 
                 PerformanceTimer prepareTimer;
-                if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform)) return false;
+                if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform, buildType)) return false;
                 prepareTimer.Stop("Prepare");
 
                 std::vector<std::filesystem::path> includes;// = module->GetPublicIncludeTree();
@@ -107,7 +108,7 @@ public:
                     std::string displayName = GetDisplayName(*module, file);
                     Utility::PrintLine(displayName);
 
-                    if (!targetToolchain->BuildSource(*module, targetPlatform, file, includes, targetPlatform->preprocessorDefines)) 
+                    if (!targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetPlatform->preprocessorDefines)) 
                     {
                         Utility::PrintLine("Build error!");
                         return false;
@@ -117,7 +118,7 @@ public:
                 sourceFilesTimer.Stop("Build source");
 
                 Utility::PrintLine("Generating library...");
-                if (!targetToolchain->LinkLibrary(*module, targetPlatform, sourceFiles))
+                if (!targetToolchain->LinkLibrary(*module, targetPlatform, buildType, sourceFiles))
                 {
                     Utility::PrintLine("Linking error!");
                     return false;
@@ -142,6 +143,7 @@ public:
 private:
     std::string buildPlatform;
     std::string buildArchitecture;
+    BuildType buildType;
 
     IToolchain* targetToolchain = nullptr;
     BuildPlatform* targetPlatform = nullptr;

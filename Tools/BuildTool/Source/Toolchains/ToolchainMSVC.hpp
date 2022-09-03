@@ -29,7 +29,7 @@ public:
         return platforms;
     }
 
-    bool PrepareModuleForBuild(ModuleManifest& manifest, BuildPlatform* target) override
+    bool PrepareModuleForBuild(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration) override
     {
         MSVCBuildPlatform* buildPlatform = reinterpret_cast<MSVCBuildPlatform*>(target);
 
@@ -82,13 +82,13 @@ public:
             return false;
         }
 
-        objDir = GetObjDirectory(manifest, target);
+        objDir = GetObjDirectory(manifest, target, configuration);
         Utility::EnsureDirectory(objDir);
 
         return true;
     }
 
-    bool BuildSource(ModuleManifest& manifest, BuildPlatform* target, std::filesystem::path sourceFile, std::vector<std::filesystem::path> includePaths, std::vector<std::string> preprocessorDefines) override
+    bool BuildSource(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::filesystem::path sourceFile, std::vector<std::filesystem::path> includePaths, std::vector<std::string> preprocessorDefines) override
     {
         std::string includes = "";
 
@@ -111,7 +111,7 @@ public:
 
         std::filesystem::path clExe = msvcTools.string() + "\\cl.exe";
         std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
-        std::filesystem::path outputFile = GetObjPath(manifest, target, sourceFile);
+        std::filesystem::path outputFile = GetObjPath(manifest, target, configuration, sourceFile);
         Utility::EnsureDirectory(outputFile.parent_path());
 
         std::string log = "";
@@ -137,18 +137,18 @@ public:
         return result == 0;
     }
 
-    bool LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, std::vector<std::filesystem::path> sourceFiles) override
+    bool LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) override
     {
         std::string objs = "";
         for (std::filesystem::path& sourceFile : sourceFiles)
         {
-            objs += " \"" + GetObjPath(manifest, target, sourceFile).string() + "\"";
+            objs += " \"" + GetObjPath(manifest, target, configuration, sourceFile).string() + "\"";
         }
 
         std::filesystem::path libExe = msvcTools / "lib.exe";
         std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
 
-        std::filesystem::path libPath = GetBinPath(manifest, target);
+        std::filesystem::path libPath = GetBinPath(manifest, target, configuration);
         Utility::EnsureDirectory(libPath.parent_path());
 
         std::string log = "";
@@ -168,7 +168,7 @@ public:
         return result == 0;
     }
 
-    bool LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, std::vector<std::filesystem::path> sourceFiles) override
+    bool LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) override
     {
         std::string libs = "";
         std::string libDirectories = "";
@@ -191,8 +191,8 @@ public:
         std::filesystem::path linkExe = "\"" / msvcTools / "link.exe\"";
         std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
 
-        Utility::EnsureDirectory(GetBinDirectory(manifest));
-        std::filesystem::path outputFile = GetBinPath(manifest, target);
+        Utility::EnsureDirectory(GetBinDirectory(manifest, configuration));
+        std::filesystem::path outputFile = GetBinPath(manifest, target, configuration);
 
         std::string log = "";
         int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + linkExe.string() + " /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);

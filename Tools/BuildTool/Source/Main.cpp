@@ -34,7 +34,7 @@ int main(int argc, char** argv)
         Utility::Print("Cleaning: -clean\n");
         Utility::Print("-project <path>										The project to clean\n");
         Utility::Print("-module <module1, module2>							Modules to be cleaned\n");
-        Utility::Print("-debug / -release									The configuration to clean (debug / release)\n");
+        Utility::Print("-debug / -development / -release					The configuration to build or clean (debug / development / release)\n");
         Utility::Print("-platform <platform type> <architecture> [flavor]	Defines the platform (windows, android or linux) and architecture (x86, x64, arm, arm-v7, arm64, mips)\n\n");
 
         Utility::Print("solution generation: -generate\n");
@@ -48,6 +48,7 @@ int main(int argc, char** argv)
 
     std::string buildPlatform = "";
     std::string buildArchitecture = "";
+    BuildType buildType = BuildType::ENUMSIZE;
 
     if (parameters.HasArguments("project"))
     {
@@ -67,6 +68,19 @@ int main(int argc, char** argv)
     {
         buildPlatform = parameters.GetArguments("platform")[0];
         buildArchitecture = parameters.GetArguments("platform")[1];
+    }
+
+    if (parameters.Contains("debug"))
+    {
+        buildType = BuildType::Debug;
+    }
+    if (parameters.Contains("development"))
+    {
+        buildType = BuildType::Development;
+    }
+    if (parameters.Contains("release"))
+    {
+        buildType = BuildType::Release;
     }
 
     if (parameters.Contains("generate"))
@@ -93,10 +107,14 @@ int main(int argc, char** argv)
             Utility::PrintLine("'-build' requires a platform to be specified");
             return -1;
         }
-        else
+
+        if (buildType == BuildType::ENUMSIZE)
         {
-            tasks.push_back(new TaskBuild(buildPlatform, buildArchitecture));
+            Utility::PrintLine("'-build' requires a build configuration to be specified");
+            return -1;
         }
+     
+        tasks.push_back(new TaskBuild(buildPlatform, buildArchitecture, buildType));
     }
 
     if (!tasks.empty())
