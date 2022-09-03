@@ -154,7 +154,6 @@ void FindVisualStudioInstallations()
 
             VisualStudioInstallations.push_back(VSInfo);
         }
-        CoUninitialize();
     }
 }
 
