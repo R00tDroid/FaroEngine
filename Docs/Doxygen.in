@@ -1,0 +1,19 @@
+WARN_AS_ERROR = FAIL_ON_WARNINGS
+WARN_NO_PARAMDOC = YES
+WARN_FORMAT = "$file($line): $text"
+
+OUTPUT_DIRECTORY = Documentation
+RECURSIVE = YES
+EXTRACT_STATIC = YES
+EXTRACT_ALL = YES
+
+PROJECT_NAME = "Faro Engine"
+PROJECT_NUMBER = "@FaroEngineVersionFull@"
+
+GENERATE_HTML = YES
+GENERATE_LATEX = NO
+
+USE_MDFILE_AS_MAINPAGE = Docs/Index.md
+
+INPUT += Source/Engine
+INPUT += Docs/Index.md

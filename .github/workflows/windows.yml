@@ -42,3 +42,44 @@ jobs:
 
     - name: Build
       run: Bin/FaroBuildTool.exe -generate -build -platform Windows x64 -release -project Source/FaroEngine.faroproject.json
+
+  Documentation:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+    
+    - name: Generate
+      run: cmake ./Docs
+      
+    - name: Build
+      uses: mattnotmitt/doxygen-action@v1.9.4
+      with:
+        doxyfile-path: 'Docs/Doxygen'
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Documentation
+        if-no-files-found: error
+        path: |
+          ./Documentation/*
+          ./Documentation/**/*
+
+  PublishDocumentation:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: Documentation
+    steps:
+    - name: actions/download-artifact@master
+      uses: actions/download-artifact@master
+      with:
+        name: Documentation
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./Documentation/html
