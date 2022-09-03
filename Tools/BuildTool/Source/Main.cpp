@@ -5,6 +5,7 @@
 #include "Version.generated.hpp"
 #include "Tasks/ITask.hpp"
 #include "Tasks/TaskGenerate.hpp"
+#include "Tasks/TaskBuild.hpp"
 
 int main(int argc, char** argv)
 {
@@ -94,7 +95,7 @@ int main(int argc, char** argv)
         }
         else
         {
-            //tasks.push_back(new TaskBuild(buildPlatform, buildArchitecture));
+            tasks.push_back(new TaskBuild(buildPlatform, buildArchitecture));
         }
     }
 
