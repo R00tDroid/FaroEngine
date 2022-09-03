@@ -40,7 +40,7 @@ std::filesystem::path IToolchain::GetObjDirectory(ModuleManifest& manifest, Buil
 
 std::filesystem::path IToolchain::GetObjPath(ModuleManifest& manifest, BuildPlatform* target, std::filesystem::path sourceFile)
 {
-    return GetObjDirectory(manifest, target) / sourceFile.parent_path() / (sourceFile.stem().string() + "." + GetObjExtension());
+    return GetObjDirectory(manifest, target) / sourceFile.filename().replace_extension(GetObjExtension());
 }
 
 std::filesystem::path IToolchain::GetBinDirectory(ModuleManifest& manifest)
