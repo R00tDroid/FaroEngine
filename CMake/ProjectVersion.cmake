@@ -5,6 +5,9 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
+message("GITHUB_HEAD_REF $ENV{GITHUB_HEAD_REF}")
+message("GITHUB_REF_NAME $ENV{GITHUB_REF_NAME}")
+
 if(DEFINED ENV{GITHUB_HEAD_REF})
     set(FaroEngineVersionBranch $ENV{GITHUB_HEAD_REF})
 else()
