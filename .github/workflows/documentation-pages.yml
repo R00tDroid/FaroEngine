@@ -26,23 +26,14 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: Documentation
+        name: FaroEngineDocumentation
         if-no-files-found: error
         path: |
-          Documentation/*
-          Documentation/**/*
-
-  DeployPages:
-    runs-on: ubuntu-latest
-    needs: Documentation
-    steps:
-    - name: actions/download-artifact@master
-      uses: actions/download-artifact@master
-      with:
-        name: Documentation
+          ./Documentation/*
+          ./Documentation/**/*
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: Documentation/html
+        publish_dir: ./Documentation/html
