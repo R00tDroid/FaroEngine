@@ -147,7 +147,7 @@ private:
 
             {
                 tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("Import");
-                element->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.Default.props");
+                element->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.props");
             }
 
             {
@@ -181,7 +181,7 @@ private:
                         }
 
                         tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
-                        importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
+                        propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
                         {
                             tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
                             element->SetText("$(VC_IncludePath);$(WindowsSDK_IncludePath);");
@@ -201,13 +201,13 @@ private:
                             element->SetText("$(ProjectDir)\\Intermediate");
 
                             element = propertyGroup->InsertNewChildElement("NMakeBuildCommandLine");
-                            element->SetText((faroBuildTool.string() + " -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform " + platform->platformName + " - config " + buildTypeName).c_str());
+                            element->SetText((faroBuildTool.string() + " -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakeReBuildCommandLine");
-                            element->SetText((faroBuildTool.string() + " -clean -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform " + platform->platformName + " -config " + buildTypeName).c_str());
+                            element->SetText((faroBuildTool.string() + " -clean -build -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakeCleanCommandLine");
-                            element->SetText((faroBuildTool.string() + " -clean -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform " + platform->platformName + " -config " + buildTypeName).c_str());
+                            element->SetText((faroBuildTool.string() + " -clean -project " + moduleManifest.project->manifestPath.string() + " -module " + moduleManifest.name + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakeOutput");
                             element->SetText("");
