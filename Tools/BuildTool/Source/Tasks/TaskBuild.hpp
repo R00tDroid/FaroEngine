@@ -68,7 +68,15 @@ public:
         {
             PerformanceTimer moduleTimer;
 
+            Utility::PrintLine("Module: " + module->name);
+
             std::vector<std::filesystem::path> source = module->sourceFiles;
+
+            if (source.empty())
+            {
+                Utility::PrintLine("No source found");
+                return false;
+            }
 
             std::vector<std::filesystem::path> filesToCompile;
             std::vector<std::filesystem::path> sourceFiles;
@@ -89,7 +97,10 @@ public:
             }
             treescanTimer.Stop("Change check treescan");
 
-            if (!filesToCompile.empty())
+            if (filesToCompile.empty())
+            {
+                Utility::PrintLine("All files up-to-date");
+            }
             {
                 PerformanceTimer buildTimer;
 
