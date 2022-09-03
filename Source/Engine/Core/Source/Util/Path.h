@@ -3,36 +3,36 @@
 
 namespace Faro
 {
-	enum PathType
-	{
-		Unknown,
-		Filepath,
-		Directory
-	};
+    enum PathType
+    {
+        Unknown,
+        Filepath,
+        Directory
+    };
 
-	class Path
-	{
-	public:
-		Path();
-		Path(String path);
+    class Path
+    {
+    public:
+        Path();
+        Path(String path);
 
-		Path ParentDirectory();
+        Path ParentDirectory();
 
-		bool Exists();
+        bool Exists();
 
-		PathType GetType();
+        PathType GetType();
 
-		String Get();
+        String Get();
 
-		Path GetFileName();
+        Path GetFileName();
 
-		Path RemoveExtension();
+        Path RemoveExtension();
 
-		Path operator+ (String);
+        Path operator+ (String);
 
-	private:
-		String path_;
+    private:
+        String path;
 
-		void format_();
-	};
+        void format_();
+    };
 }

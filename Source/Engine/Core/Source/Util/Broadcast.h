@@ -12,14 +12,14 @@ using Faro::Array;
 
 #define BROADCAST_BASE(NAME, TYPES, PARAMETERS, VARIABLES) class NAME \
 { \
-	public: \
-	void Bind(std::function<void(TYPES)> func){ binds_.Add(func); } \
-	void Dispatch(PARAMETERS) { \
-		for(std::function<void(TYPES)>& func : binds_){ func(VARIABLES); } \
-	} \
-	\
-	private: \
-	Array<std::function<void(TYPES)>> binds_; \
+    public: \
+    void Bind(std::function<void(TYPES)> func){ binds_.Add(func); } \
+    void Dispatch(PARAMETERS) { \
+        for(std::function<void(TYPES)>& func : binds_){ func(VARIABLES); } \
+    } \
+    \
+    private: \
+    Array<std::function<void(TYPES)>> binds_; \
 };
 
 #define DECLARE_BROADCAST(NAME) BROADCAST_BASE(NAME, NOARG, NOARG, NOARG)
