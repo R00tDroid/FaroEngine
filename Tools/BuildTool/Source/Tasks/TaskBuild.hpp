@@ -92,7 +92,6 @@ public:
 
                     //TODO check for changes
                     filesToCompile.push_back(file);
-                    
                 }
             }
             treescanTimer.Stop("Change check treescan");
