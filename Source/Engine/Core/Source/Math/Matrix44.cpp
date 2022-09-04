@@ -203,7 +203,6 @@ namespace Faro
                 m[i][j] = self.m[j][i];
             }
         }
-
     }
 
     Matrix44 Matrix44::Transposed()
@@ -339,7 +338,6 @@ namespace Faro
     }
 
     Matrix44 Matrix44::CreateFrustum(float left, float right, float bottom, float top, float nearZ, float farZ) {
-
         Matrix44 out;
         out.m[0][0] = (2 * nearZ) / (right - left);
         out.m[1][1] = (2 * nearZ) / (top - bottom);
