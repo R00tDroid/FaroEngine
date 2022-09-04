@@ -1,18 +1,18 @@
 #ifndef STRING_HEADER
 #define STRING_HEADER
 
+#include <algorithm>
+
 #include "../Primitives.h"
-#include "../Version.h"
 #include <string>
 
-namespace Faro {
-
+namespace Faro
+{
     class String
     {
         typedef char* iterator;
 
     public:
-
         String() { data = ""; }
         String(String& str) { data = str.data; }
         String(const String& str) { data = str.data; }
@@ -73,6 +73,30 @@ namespace Faro {
             return pos;
         }
 
+        void ToLower()
+        {
+            std::transform(data.begin(), data.end(), data.begin(), tolower);
+        }
+
+        String Lower()
+        {
+            String copy = data;
+            copy.ToLower();
+            return copy;
+        }
+
+        void ToUpper()
+        {
+            std::transform(data.begin(), data.end(), data.begin(), toupper);
+        }
+
+        String Upper()
+        {
+            String copy = data;
+            copy.ToUpper();
+            return copy;
+        }
+
         char operator [](int index) const
         {
             return data[index];
@@ -131,12 +155,6 @@ namespace Faro {
     inline String ToString(T value)
     {
         return std::to_string(value);
-    }
-
-    template<>
-    inline String ToString<Version>(Version value)
-    {
-        return ToString(value.Major) + "." + ToString(value.Minor) + "." + ToString(value.Revision);
     }
 
     template<class T>
