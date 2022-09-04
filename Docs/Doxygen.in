@@ -2,7 +2,7 @@ WARN_AS_ERROR = FAIL_ON_WARNINGS
 WARN_NO_PARAMDOC = YES
 WARN_FORMAT = "$file($line): $text"
 
-OUTPUT_DIRECTORY = Documentation
+OUTPUT_DIRECTORY = @DocumentRoot@/../Documentation
 RECURSIVE = YES
 EXTRACT_STATIC = YES
 EXTRACT_ALL = YES
@@ -13,7 +13,8 @@ PROJECT_NUMBER = "@FaroEngineVersionFull@"
 GENERATE_HTML = YES
 GENERATE_LATEX = NO
 
-USE_MDFILE_AS_MAINPAGE = Docs/Index.md
+USE_MDFILE_AS_MAINPAGE = @DocumentRoot@/Index.md
 
-INPUT += Source/Engine
-INPUT += Docs/Index.md
+INPUT += @DocumentRoot@/../Source/Engine
+INPUT += @DocumentRoot@/Index.md
+INPUT += @DocumentRoot@/Style.md
