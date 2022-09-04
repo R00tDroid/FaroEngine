@@ -13,7 +13,6 @@ namespace Faro
         typedef char* iterator;
 
     public:
-
         String() { data = ""; }
         String(String& str) { data = str.data; }
         String(const String& str) { data = str.data; }
