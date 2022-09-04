@@ -59,7 +59,17 @@ public:
             Utility::PrintLineD("Generated new module uuid: " + uuid);
         }
 
-        //TODO load file list
+        std::ifstream filesList(moduleInfo / "Source.txt");
+        if (filesList.is_open())
+        {
+            sourceFiles = {};
+            for (std::string line; std::getline(filesList, line);)
+            {
+                sourceFiles.push_back(line);
+            }
+            filesList.close();
+        }
+
         //TODO load dependency list
     }
 
