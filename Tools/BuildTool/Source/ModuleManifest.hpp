@@ -44,14 +44,23 @@ public:
         Utility::EnsureDirectory(faroRoot);
         Utility::HideFolder(faroRoot);
 
-        //TODO load file list
-        //TODO load dependency list
-        //TODO load uuid
+        std::filesystem::path moduleInfo = moduleRoot / ".Faro\\Module";
+
+        std::ifstream uuidFile(moduleInfo / "ModuleId.txt");
+        if (uuidFile.is_open())
+        {
+            uuidFile >> uuid;
+            uuidFile.close();
+        }
 
         if (uuid.empty())
         {
             uuid = Utility::GenerateUUID();
+            Utility::PrintLineD("Generated new module uuid: " + uuid);
         }
+
+        //TODO load file list
+        //TODO load dependency list
     }
 
     void Save()
