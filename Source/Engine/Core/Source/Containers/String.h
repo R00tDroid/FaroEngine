@@ -1,11 +1,13 @@
 #ifndef STRING_HEADER
 #define STRING_HEADER
 
+#include <algorithm>
+
 #include "../Primitives.h"
 #include <string>
 
-namespace Faro {
-
+namespace Faro
+{
     class String
     {
         typedef char* iterator;
@@ -70,6 +72,30 @@ namespace Faro {
             if (pos == std::string::npos) return -1;
 
             return pos;
+        }
+
+        void ToLower()
+        {
+            std::transform(data.begin(), data.end(), data.begin(), tolower);
+        }
+
+        String Lower()
+        {
+            String copy = data;
+            copy.ToLower();
+            return copy;
+        }
+
+        void ToUpper()
+        {
+            std::transform(data.begin(), data.end(), data.begin(), toupper);
+        }
+
+        String Upper()
+        {
+            String copy = data;
+            copy.ToUpper();
+            return copy;
         }
 
         char operator [](int index) const
