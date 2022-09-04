@@ -11,30 +11,30 @@ namespace Faro{
     public:
         void Add(KeyType k, ValueType v)
         {
-            data_.insert(std::pair<KeyType, ValueType>(k, v));
+            data.insert(std::pair<KeyType, ValueType>(k, v));
         }
 
         void Remove(KeyType k)
         {
-            auto it = data_.find(k);
-            if (it != data_.end()) data_.erase(k);
+            auto it = data.find(k);
+            if (it != data.end()) data.erase(k);
         }
 
         bool Contains(KeyType k)
         {
-            return data_.find(k) != data_.end();
+            return data.find(k) != data.end();
         }
 
         void Clear()
         {
-            data_.clear();
+            data.clear();
         }
 
         Array<KeyType> GetKeys()
         {
             Array<KeyType> keys;
 
-            for (auto it = data_.begin(); it != data_.end(); ++it)
+            for (auto it = data.begin(); it != data.end(); ++it)
             {
                 keys.Add(it->first);
             }
@@ -46,7 +46,7 @@ namespace Faro{
         {
             Array<ValueType> values;
 
-            for (auto it = data_.begin(); it != data_.end(); ++it)
+            for (auto it = data.begin(); it != data.end(); ++it)
             {
                 values.Add(it->second);
             }
@@ -56,16 +56,16 @@ namespace Faro{
 
         uint32 Size()
         {
-            return data_.size();
+            return data.size();
         }
 
         ValueType& operator [](KeyType k)
         {
-            return data_[k];
+            return data[k];
         }
 
     private:
-        std::map<KeyType, ValueType> data_;
+        std::map<KeyType, ValueType> data;
     };
 }
 
