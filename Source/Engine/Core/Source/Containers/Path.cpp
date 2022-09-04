@@ -124,5 +124,4 @@ void Faro::Path::format_()
             }
         }
     }
-
 }
