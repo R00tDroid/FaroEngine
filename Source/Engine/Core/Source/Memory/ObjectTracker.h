@@ -2,7 +2,7 @@
 #define OBJECTTRACKER_HEADER
 #include "../Containers/String.h"
 #include "../Containers/Map.h"
-#include "../Math/Util.h"
+#include "../Math/MathUtil.h"
 
 namespace Faro
 {
@@ -13,22 +13,22 @@ namespace Faro
         void AddCount()
         {
             std::string class_name = typeid(T).name();
-            if(!objects_.Contains(class_name))
+            if(!objects.Contains(class_name))
             {
-                objects_.Add(class_name, 0);
+                objects.Add(class_name, 0);
             }
 
-            objects_[class_name]++;
+            objects[class_name]++;
         }
 
         template<class T>
         void RemoveCount()
         {
             std::string class_name = typeid(T).name();
-            if (objects_.Contains(class_name))
+            if (objects.Contains(class_name))
             {
-                objects_[class_name]--;
-                if (objects_[class_name] == 0) objects_.Remove(class_name);
+                objects[class_name]--;
+                if (objects[class_name] == 0) objects.Remove(class_name);
             }
         }
 
@@ -38,12 +38,12 @@ namespace Faro
             uint16 widest = 0;
 
             String out;
-            for(String& name : objects_.GetKeys())
+            for(String& name : objects.GetKeys())
             {
-                if (objects_[name] != 0)
+                if (objects[name] != 0)
                 {
                     names.Add(name);
-                    widest = Math::Max(widest, (uint16)name.Length());
+                    widest = Max(widest, (uint16)name.Length());
                 }
             }
 
@@ -51,14 +51,14 @@ namespace Faro
             {
                 String out_name = name;
                 out_name.FillToWidth(widest + 2);
-                out += out_name + " " + ToString(objects_[name]) + "\n";
+                out += out_name + " " + ToString(objects[name]) + "\n";
             }
 
             return out;
         }
 
     private:
-        Map<String, uint32> objects_;
+        Map<String, uint32> objects;
     };
 }
 
