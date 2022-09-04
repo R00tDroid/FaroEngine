@@ -2,7 +2,6 @@
 #define STRING_HEADER
 
 #include "../Primitives.h"
-#include "../Version.h"
 #include <string>
 
 namespace Faro {
@@ -131,12 +130,6 @@ namespace Faro {
     inline String ToString(T value)
     {
         return std::to_string(value);
-    }
-
-    template<>
-    inline String ToString<Version>(Version value)
-    {
-        return ToString(value.Major) + "." + ToString(value.Minor) + "." + ToString(value.Revision);
     }
 
     template<class T>
