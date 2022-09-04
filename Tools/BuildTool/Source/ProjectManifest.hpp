@@ -54,11 +54,25 @@ public:
         if (!ParseProject(rootObject)) return false;
         if (!ParseModules(rootObject)) return false;
 
-        //TODO load from file
+        std::filesystem::path projectInfo = faroRoot / "ProjectInfo";
+        Utility::EnsureDirectory(projectInfo);
+
+        std::ifstream uuidFile(projectInfo / "ProjectId.txt");
+        if (uuidFile.is_open())
+        {
+            uuidFile >> uuid;
+            uuidFile.close();
+        }
+
         if (uuid.empty())
         {
             uuid = Utility::GenerateUUID();
-            //TODO save to file
+
+            Utility::PrintLineD("Generated new project uuid: " + uuid);
+
+            std::ofstream uuidFile(projectInfo / "ProjectId.txt");
+            uuidFile << uuid;
+            uuidFile.close();
         }
 
         return true;
