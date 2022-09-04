@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['duration_0',['Duration',['../classFaro_1_1Duration.html',1,'Faro']]]
+  ['icolor_0',['IColor',['../structFaro_1_1IColor.html',1,'Faro']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['yz_0',['yz',['../structFaro_1_1Math_1_1Vector3.html#a3475ecb0ccaec9d0e28b8800f2437c8f',1,'Faro::Math::Vector3::yz()'],['../structFaro_1_1Math_1_1Vector4.html#a38ab5a2da808206b837d1e6ce1af14ef',1,'Faro::Math::Vector4::yz()']]]
+  ['yz_0',['yz',['../structFaro_1_1Vector3.html#a197eb9ecbaf6ec46e492ff799e21a836',1,'Faro::Vector3::yz()'],['../structFaro_1_1Vector4.html#ae7780bc7b51b02ef3dbd7fe382e0c0b1',1,'Faro::Vector4::yz()']]]
 ];

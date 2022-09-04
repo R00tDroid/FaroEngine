@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['x_0',['x',['../structFaro_1_1Math_1_1Vector2.html#a73eeb4495b284e4c7a74d750b4b84ea3',1,'Faro::Math::Vector2::x()'],['../structFaro_1_1Math_1_1Vector3.html#a45e5c1b439e0661aeea80edc8a087e81',1,'Faro::Math::Vector3::x()'],['../structFaro_1_1Math_1_1Vector4.html#a9017e85aa3dcec174a5ad3589f7fda67',1,'Faro::Math::Vector4::x()']]],
-  ['xy_1',['xy',['../structFaro_1_1Math_1_1Vector3.html#a613864d06c7eb957c644b485bf67d7dc',1,'Faro::Math::Vector3::xy()'],['../structFaro_1_1Math_1_1Vector4.html#a467fefae8a02b80ddc1b17bcb23358bf',1,'Faro::Math::Vector4::xy()']]],
-  ['xyz_2',['xyz',['../structFaro_1_1Math_1_1Vector4.html#a47a6f2e3465e2b8a035fa14c625ad7be',1,'Faro::Math::Vector4']]]
+  ['x_0',['x',['../structFaro_1_1Vector2.html#a795ac5574c63503b50bab26470f86207',1,'Faro::Vector2::x()'],['../structFaro_1_1Vector3.html#a83d720c547585c002604c4ae823eab2d',1,'Faro::Vector3::x()'],['../structFaro_1_1Vector4.html#aa8659aefad65457be994dd27c98327a5',1,'Faro::Vector4::x()']]],
+  ['xy_1',['xy',['../structFaro_1_1Vector3.html#a97392bf7a96f792fdfe66161fd20e3db',1,'Faro::Vector3::xy()'],['../structFaro_1_1Vector4.html#a913221754e3e791ba48799f61a91b0ff',1,'Faro::Vector4::xy()']]],
+  ['xyz_2',['xyz',['../structFaro_1_1Vector4.html#a1acd6ba14855c4858deeb5e653ef18fe',1,'Faro::Vector4']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['a_0',['a',['../structFaro_1_1Math_1_1Color.html#aef97cd08e08631f02f0375848b8d6b3b',1,'Faro::Math::Color']]]
+  ['a_0',['a',['../structFaro_1_1IColor.html#aa61f097ca22e170354513cc6dd4524ad',1,'Faro::IColor']]]
 ];

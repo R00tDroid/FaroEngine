@@ -1,9 +1,9 @@
 var searchData=
 [
-  ['radtodeg_0',['RadToDeg',['../namespaceFaro_1_1Math.html#a14777e6f7be8d452dda7ca623991c925',1,'Faro::Math']]],
-  ['random_1',['Random',['../classFaro_1_1Math_1_1RandomStream.html#a3609c935887cb2f5a7eb142926924478',1,'Faro::Math::RandomStream::Random()'],['../structFaro_1_1Math_1_1RandomGenerator.html#aa3a377d8d0f5ddcc5355f9937372e480',1,'Faro::Math::RandomGenerator::Random()']]],
-  ['randomseed_2',['RandomSeed',['../classFaro_1_1Math_1_1RandomStream.html#a7f8cc6b38174626c4b4a4c244d1364da',1,'Faro::Math::RandomStream']]],
-  ['randomstream_3',['RandomStream',['../classFaro_1_1Math_1_1RandomStream.html#a4c2c530dfaf5b9a3876b15c33e0d3296',1,'Faro::Math::RandomStream']]],
+  ['radtodeg_0',['RadToDeg',['../namespaceFaro.html#a0b5182d1423c48b38d4ea2677b4c9764',1,'Faro']]],
+  ['random_1',['Random',['../classFaro_1_1RandomStream.html#acd62d9e3b29dd5de257840a1dabbbade',1,'Faro::RandomStream::Random()'],['../structFaro_1_1RandomGenerator.html#a04646277e861fb44b1ef767339ed6b57',1,'Faro::RandomGenerator::Random()']]],
+  ['randomseed_2',['RandomSeed',['../classFaro_1_1RandomStream.html#a42c818ffaf406223baf8cf32d44487ab',1,'Faro::RandomStream']]],
+  ['randomstream_3',['RandomStream',['../classFaro_1_1RandomStream.html#ae9a95b52e15a66351c950d2fa8650c3b',1,'Faro::RandomStream']]],
   ['remove_4',['Remove',['../classFaro_1_1Array.html#a93a4d4e293901e7a530a56cf0c71b158',1,'Faro::Array::Remove()'],['../classFaro_1_1Map.html#aac06a0776e9ae534a237ef73ad27d022',1,'Faro::Map::Remove()']]],
   ['removeat_5',['RemoveAt',['../classFaro_1_1Array.html#a9214310d35e34511b7a6f4657da802d3',1,'Faro::Array::RemoveAt(uint32 index)'],['../classFaro_1_1Array.html#ae269bb0137a64b34c01eec04914ec344',1,'Faro::Array::RemoveAt(uint32 index, uint32 amount)']]],
   ['removecount_6',['RemoveCount',['../classFaro_1_1LiveObjectTracker.html#af6ada59f3744cd266cb2566f72bda200',1,'Faro::LiveObjectTracker']]],
