@@ -46,3 +46,5 @@ if (Condition){       // Bad - The bracket must be placed on a newline
     DoSomething();
 }
 ```
+
+## Documentation
