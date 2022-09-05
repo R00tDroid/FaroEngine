@@ -1,10 +1,11 @@
 ## Types naming
 Types must be named following pascal case. Example: `TypeName`
 
+### Interfaces
+Types that can not be used directly, and must be extended by another must be prefixed by `I`. Example: `IVehicle` and `Car : IVehicle`
+
 ## Functions
 Functions must be named following pascal case. Example: `FunctionName`
-
-### Interfaces
 
 ## Variable naming
 Variables and class members must be named following camel case. Example: `variableName`.
