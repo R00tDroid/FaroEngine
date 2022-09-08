@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.f2d58cf (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.191f05a (main)</span>
    </div>
   </td>
  </tr>
@@ -103,7 +103,13 @@ Documentation</h1>
 <p >The documentation consists of a comment block before the function definition. An <code>@brief</code> tag is required to give a short description of the function.</p>
 <p >All parameter must be listed by an <code>@param [ParameterName]</code> tag. Parameters meant as an output are marked by <code>@param[out] [ParameterName]</code>.</p>
 <p >Where applicable, the return value must be explained by an <code>@return</code> tag.</p>
-<p >Example: </p><div class="fragment"><div class="line"> </div>
+<p >Example: </p><div class="fragment"><div class="line"><span class="comment">/**</span></div>
+<div class="line"><span class="comment"> * @brief Attempt to add two integers together</span></div>
+<div class="line"><span class="comment"> * @param A The first integer used for addition</span></div>
+<div class="line"><span class="comment"> * @param B The second integer used for addition</span></div>
+<div class="line"><span class="comment"> * @param[out] Output The resulting integer if addition was possible</span></div>
+<div class="line"><span class="comment"> * @return Wether or not the addition was successful</span></div>
+<div class="line"><span class="comment"> */</span></div>
 <div class="line"><span class="keywordtype">bool</span> Add(<span class="keywordtype">int</span> A, <span class="keywordtype">int</span> B, <span class="keywordtype">int</span>&amp; Output);</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
 Warnings</h2>
