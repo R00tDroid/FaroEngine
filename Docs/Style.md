@@ -48,3 +48,30 @@ if (Condition){       // Bad - The bracket must be placed on a newline
 ```
 
 ## Documentation
+Publicly accessible functions must be documented. This should describe what the function does, how it must be used and what the result will be.
+
+The documentation consists of a comment block before the function definition. An `@brief` tag is required to give a short description of the function.
+
+All parameter must be listed by an `@param [ParameterName]` tag. Parameters meant as an output are marked by `@param[out] [ParameterName]`.
+
+Where applicable, the return value must be explained by an `@return` tag.
+
+Example:
+```cpp
+/**
+ * @brief Attempt to add two integers together
+ * @param A The first integer used for addition
+ * @param B The second integer used for addition
+ * @param[out] Output The resulting integer if addition was possible
+ * @return Wether or not the addition was successful
+ */
+bool Add(int A, int B, int& Output);
+```
+
+### Warnings
+Warning messages must be marked explicitly. This is done like this:
+
+```cpp
+// @warning This is a dangerous function
+void DangerousFunction();
+```
