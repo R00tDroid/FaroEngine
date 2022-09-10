@@ -260,7 +260,6 @@ public:
         {
             moduleDependencies.push_back(it->second);
             return true;
-            
         }
         else
         {
