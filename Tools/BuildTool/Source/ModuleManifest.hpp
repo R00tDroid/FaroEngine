@@ -36,11 +36,17 @@ public:
 
     std::string uuid = "";
 
+    static std::map<std::string, std::filesystem::path> knownModules;
+    static std::map<std::filesystem::path, ModuleManifest*> loadedModules;
+
     void Load()
     {
         moduleRoot = manifestPath.parent_path();
         name = manifestPath.filename().string();
         name.erase(name.length() - moduleFileSuffix.length());
+
+        knownModules.insert(std::pair<std::string, std::filesystem::path>(Utility::ToLower(name), manifestPath));
+        loadedModules.insert(std::pair<std::filesystem::path, ModuleManifest*>(manifestPath, this));
 
         faroRoot = moduleRoot / ".Faro";
         Utility::EnsureDirectory(faroRoot);
@@ -72,7 +78,16 @@ public:
             filesList.close();
         }
 
-        //TODO load dependency list
+        std::ifstream dependencyList(moduleInfo / "Dependencies.txt");
+        if (dependencyList.is_open())
+        {
+            moduleDependencies = {};
+            for (std::string line; std::getline(dependencyList, line);)
+            {
+                LoadModuleDependency(line);
+            }
+            dependencyList.close();
+        }
     }
 
     void Save()
@@ -90,6 +105,13 @@ public:
         std::ofstream uuidFile(moduleInfo / "ModuleId.txt");
         uuidFile << uuid;
         uuidFile.close();
+
+        std::ofstream dependencyList(moduleInfo / "Dependencies.txt");
+        for (ModuleManifest* dependency : moduleDependencies)
+        {
+            dependencyList << dependency->manifestPath.string() << "\n";
+        }
+        dependencyList.close();
     }
 
     bool Parse()
@@ -212,4 +234,42 @@ public:
 
         return true;
     }
+
+    bool ResolveDependencies()
+    {
+        for (std::string& dependencyName : unresolvedDependencies)
+        {
+            auto it = knownModules.find(Utility::ToLower(dependencyName));
+            if (it != knownModules.end())
+            {
+                LoadModuleDependency(it->second);
+            }
+            else
+            {
+                Utility::PrintLine("Unable to resolve module dependency: " + dependencyName);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool LoadModuleDependency(std::filesystem::path dependencyManifest)
+    {
+        auto it = loadedModules.find(dependencyManifest);
+        if (it != loadedModules.end())
+        {
+            moduleDependencies.push_back(it->second);
+            return true;
+            
+        }
+        else
+        {
+            //TODO Attempt to find module in engine or plugins
+            Utility::PrintLine("Failed to find module dependency: " + dependencyManifest.string());
+            return false;
+        }
+    }
 };
+
+inline std::map<std::string, std::filesystem::path> ModuleManifest::knownModules;
+inline std::map<std::filesystem::path, ModuleManifest*> ModuleManifest::loadedModules;

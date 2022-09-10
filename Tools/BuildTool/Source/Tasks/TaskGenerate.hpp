@@ -16,7 +16,12 @@ public:
     {
         for (ModuleManifest* moduleManifest : project.projectModules)
         {
-            moduleManifest->Parse();
+            if (!moduleManifest->Parse()) return false;
+        }
+
+        for (ModuleManifest* moduleManifest : project.projectModules)
+        {
+            if (!moduleManifest->ResolveDependencies()) return false;
             moduleManifest->Save();
         }
 
