@@ -27,6 +27,8 @@ public:
     // Project this module belongs to
     ProjectManifest* project = nullptr;
 
+    std::vector<std::string> unresolvedDependencies;
+
     // List of modules this module depends on
     std::vector<ModuleManifest*> moduleDependencies;
 
@@ -120,7 +122,7 @@ public:
 
         if (!ParseSourceFiles(rootObject)) return false;
 
-        //TODO parse dependencies
+        if (!ParseDependencies(rootObject)) return false;
 
         return true;
     }
@@ -177,6 +179,36 @@ public:
 
         sourceFiles.erase(std::unique(sourceFiles.begin(), sourceFiles.end()), sourceFiles.end());
         std::sort(sourceFiles.begin(), sourceFiles.end());
+
+        return true;
+    }
+
+    bool ParseDependencies(picojson::object& rootObject)
+    {
+        unresolvedDependencies = {};
+        moduleDependencies = {};
+
+        if (rootObject.find("Dependencies") != rootObject.end())
+        {
+            picojson::value& value = rootObject["Dependencies"];
+            if (!value.is<picojson::array>())
+            {
+                Utility::PrintLine("Expected Dependencies to be an array");
+                return false;
+            }
+
+            picojson::array& dependencyArray = value.get<picojson::array>();
+            for (picojson::value& dependecyValue : dependencyArray)
+            {
+                if (!dependecyValue.is<std::string>())
+                {
+                    Utility::PrintLine("Expected dependency to be a string");
+                    return false;
+                }
+
+                unresolvedDependencies.push_back(dependecyValue.get<std::string>());
+            }
+        }
 
         return true;
     }
