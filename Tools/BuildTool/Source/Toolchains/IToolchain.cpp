@@ -11,7 +11,7 @@ int IToolchain::ExecuteCommand(std::string command, std::string& output)
     {
         return -1;
     }
-    while (fgets(logBuffer.data(), logBuffer.size(), processPipe) != nullptr)
+    while (fgets(logBuffer.data(), int(logBuffer.size()), processPipe) != nullptr)
     {
         output += logBuffer.data();
     }
