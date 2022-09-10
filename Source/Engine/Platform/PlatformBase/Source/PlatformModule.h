@@ -3,8 +3,5 @@
 
 namespace Faro
 {
-    class PlatformModule : public IModule
-    {
-        
-    };
+    class PlatformModule : public IModule { };
 }
