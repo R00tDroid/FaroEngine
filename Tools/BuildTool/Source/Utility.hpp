@@ -83,7 +83,7 @@ namespace Utility
     inline std::string ToLower(std::string& Input)
     {
         std::string Result;
-        std::transform(Input.begin(), Input.end(), Result.begin(), [](unsigned char c) { return std::tolower(c); });
+        std::transform(Input.begin(), Input.end(), Result.begin(), [](char c) { return static_cast<char>(std::tolower(c)); });
         return Result;
     }
 }
