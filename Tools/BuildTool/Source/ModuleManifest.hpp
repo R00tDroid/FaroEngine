@@ -353,6 +353,16 @@ public:
         }
         return result;
     }
+
+    std::vector<std::filesystem::path> GetModuleIncludeDirectories()
+    {
+        std::vector<std::filesystem::path> result = GetPublicIncludeTree();
+        for (std::filesystem::path& path : privateIncludes)
+        {
+            result.push_back(path);
+        }
+        return result;
+    }
 };
 
 inline std::map<std::string, std::filesystem::path> ModuleManifest::knownModules;
