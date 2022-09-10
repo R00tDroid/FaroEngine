@@ -238,7 +238,7 @@ private:
                 for (std::filesystem::path& file : sourceFiles)
                 {
                     std::string extension = file.extension().string();
-                    std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
+                    extension = Utility::ToLower(extension);
                     bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
                     tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
                     fileElement->SetAttribute("Include", file.string().c_str());
@@ -307,7 +307,7 @@ private:
             }
 
             std::string extension = file.extension().string();
-            std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
+            extension = Utility::ToLower(extension);
             bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
 
             tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");

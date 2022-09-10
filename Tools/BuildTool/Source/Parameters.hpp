@@ -17,8 +17,7 @@ public:
         for (int i = 1; i < argc; i++)
         {
             std::string arg = argv[i];
-            std::string argl = arg;
-            std::transform(argl.begin(), argl.end(), argl.begin(), tolower);
+            std::string argl = Utility::ToLower(arg);
 
             if (argl[0] == '-')
             {

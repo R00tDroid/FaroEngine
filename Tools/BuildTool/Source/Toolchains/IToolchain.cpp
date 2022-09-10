@@ -33,7 +33,7 @@ std::vector<IToolchain*> IToolchain::GetToolchains()
 std::filesystem::path IToolchain::GetObjDirectory(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)
 {
     std::string platformName = target->platformName + " " + BuildTypeNames[configuration];
-    std::transform(platformName.begin(), platformName.end(), platformName.begin(), tolower);
+    platformName = Utility::ToLower(platformName);
     std::replace(platformName.begin(), platformName.end(), ' ', '_');
     return manifest.faroRoot / "Obj" / platformName;
 }
@@ -51,7 +51,7 @@ std::filesystem::path IToolchain::GetBinDirectory(ModuleManifest& manifest, Buil
 std::filesystem::path IToolchain::GetBinPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)
 {
     std::string platformName = target->platformName + " " + BuildTypeNames[configuration];
-    std::transform(platformName.begin(), platformName.end(), platformName.begin(), tolower);
+    platformName = Utility::ToLower(platformName);
     std::replace(platformName.begin(), platformName.end(), ' ', '_');
 
     if (true) //TODO switch for libraries and executables

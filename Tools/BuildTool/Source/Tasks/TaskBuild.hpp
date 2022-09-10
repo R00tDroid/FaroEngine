@@ -39,8 +39,8 @@ public:
                 std::string platformName = platform->platformName;
                 std::string requiredPlatform = buildPlatform + " " + buildArchitecture;
 
-                std::transform(platformName.begin(), platformName.end(), platformName.begin(), tolower);
-                std::transform(requiredPlatform.begin(), requiredPlatform.end(), requiredPlatform.begin(), tolower);
+                platformName = Utility::ToLower(platformName);
+                requiredPlatform = Utility::ToLower(requiredPlatform);
 
                 if (platformName == requiredPlatform)
                 {

@@ -79,6 +79,13 @@ namespace Utility
         SetFileAttributesA(folder.string().c_str(), FILE_ATTRIBUTE_HIDDEN);
 #endif
     }
+
+    inline std::string ToLower(std::string& Input)
+    {
+        std::string Result;
+        std::transform(Input.begin(), Input.end(), Result.begin(), [](unsigned char c) { return std::tolower(c); });
+        return Result;
+    }
 }
 
 class PerformanceTimer
