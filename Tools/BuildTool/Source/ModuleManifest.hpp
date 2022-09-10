@@ -32,6 +32,9 @@ public:
     // List of modules this module depends on
     std::vector<ModuleManifest*> moduleDependencies;
 
+    std::vector<std::filesystem::path> privateIncludes;
+    std::vector<std::filesystem::path> publicIncludes;
+
     std::vector<std::filesystem::path> sourceFiles;
 
     std::string uuid = "";
@@ -78,6 +81,28 @@ public:
             filesList.close();
         }
 
+        std::ifstream publicIncludeList(moduleInfo / "PublicIncludes.txt");
+        if (publicIncludeList.is_open())
+        {
+            publicIncludes = {};
+            for (std::string line; std::getline(publicIncludeList, line);)
+            {
+                publicIncludes.push_back(line);
+            }
+            publicIncludeList.close();
+        }
+
+        std::ifstream privateIncludeList(moduleInfo / "PrivateIncludes.txt");
+        if (privateIncludeList.is_open())
+        {
+            privateIncludes = {};
+            for (std::string line; std::getline(privateIncludeList, line);)
+            {
+                privateIncludes.push_back(line);
+            }
+            privateIncludeList.close();
+        }
+
         std::ifstream dependencyList(moduleInfo / "Dependencies.txt");
         if (dependencyList.is_open())
         {
@@ -96,11 +121,25 @@ public:
         Utility::EnsureDirectory(moduleInfo);
 
         std::ofstream filesList(moduleInfo / "Source.txt");
-        for (std::filesystem::path & sourceFile : sourceFiles)
+        for (std::filesystem::path & path : sourceFiles)
         {
-            filesList << sourceFile.string() << "\n";
+            filesList << path.string() << "\n";
         }
         filesList.close();
+
+        std::ofstream publicIncludeList(moduleInfo / "PublicIncludes.txt");
+        for (std::filesystem::path & path : publicIncludes)
+        {
+            publicIncludeList << path.string() << "\n";
+        }
+        publicIncludeList.close();
+
+        std::ofstream privateIncludeList(moduleInfo / "PrivateIncludes.txt");
+        for (std::filesystem::path& path : privateIncludes)
+        {
+            privateIncludeList << path.string() << "\n";
+        }
+        privateIncludeList.close();
 
         std::ofstream uuidFile(moduleInfo / "ModuleId.txt");
         uuidFile << uuid;
@@ -145,6 +184,10 @@ public:
         if (!ParseSourceFiles(rootObject)) return false;
 
         if (!ParseDependencies(rootObject)) return false;
+
+        if (!ParseIncludeDirectories(rootObject, "PublicIncludeDirectories", publicIncludes)) return false;
+
+        if (!ParseIncludeDirectories(rootObject, "PrivateIncludeDirectories", privateIncludes)) return false;
 
         return true;
     }
@@ -229,6 +272,35 @@ public:
                 }
 
                 unresolvedDependencies.push_back(dependecyValue.get<std::string>());
+            }
+        }
+
+        return true;
+    }
+
+    bool ParseIncludeDirectories(picojson::object& rootObject, std::string tag, std::vector<std::filesystem::path>& output)
+    {
+        output = {};
+
+        if (rootObject.find(tag) != rootObject.end())
+        {
+            picojson::value& value = rootObject[tag];
+            if (!value.is<picojson::array>())
+            {
+                Utility::PrintLine("Expected "  + tag + " to be an array");
+                return false;
+            }
+
+            picojson::array& includeArray = value.get<picojson::array>();
+            for (picojson::value& includeValue : includeArray)
+            {
+                if (!includeValue.is<std::string>())
+                {
+                    Utility::PrintLine("Expected include path to be a string");
+                    return false;
+                }
+
+                output.push_back(std::filesystem::weakly_canonical(moduleRoot / includeValue.get<std::string>()));
             }
         }
 
