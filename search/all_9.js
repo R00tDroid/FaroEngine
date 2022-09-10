@@ -25,8 +25,7 @@ var searchData=
   ['min_22',['Min',['../namespaceFaro.html#afddb901d79d8c494cb1b8053fe9112e4',1,'Faro']]],
   ['minor_23',['minor',['../structFaro_1_1Version.html#afa665040fa462e71aee71ee93620ebba',1,'Faro::Version']]],
   ['minutes_24',['Minutes',['../classFaro_1_1Duration.html#a816973a0ff0ba7c31571fca593340a5d',1,'Faro::Duration']]],
-  ['module_25',['Module',['../classFaro_1_1Module.html',1,'Faro']]],
-  ['module_2ecpp_26',['Module.cpp',['../Module_8cpp.html',1,'']]],
-  ['module_2eh_27',['Module.h',['../Module_8h.html',1,'']]],
-  ['moveto_28',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
+  ['module_2ecpp_25',['Module.cpp',['../Module_8cpp.html',1,'']]],
+  ['module_2eh_26',['Module.h',['../Module_8h.html',1,'']]],
+  ['moveto_27',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
 ];

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.4"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Faro Engine: Faro::Module Class Reference</title>
+<title>Faro Engine: Faro::IModule Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.191f05a (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.20fa6ef (main)</span>
    </div>
   </td>
  </tr>
@@ -62,33 +62,42 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="namespaceFaro.html">Faro</a></li><li class="navelem"><a class="el" href="classFaro_1_1Module.html">Module</a></li>  </ul>
+<li class="navelem"><a class="el" href="namespaceFaro.html">Faro</a></li><li class="navelem"><a class="el" href="classFaro_1_1IModule.html">IModule</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="classFaro_1_1Module-members.html">List of all members</a>  </div>
-  <div class="headertitle"><div class="title">Faro::Module Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
+<a href="classFaro_1_1IModule-members.html">List of all members</a>  </div>
+  <div class="headertitle"><div class="title">Faro::IModule Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="Module_8h_source.html">Module.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Faro::IModule:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classFaro_1_1IModule.png" usemap="#Faro::IModule_map" alt=""/>
+  <map id="Faro::IModule_map" name="Faro::IModule_map">
+<area href="classFaro_1_1PlatformModule.html" alt="Faro::PlatformModule" shape="rect" coords="0,56,133,80"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aff18deffe9006ba76e024badb31c1d5f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Module.html#aff18deffe9006ba76e024badb31c1d5f">Load</a> ()=0</td></tr>
-<tr class="separator:aff18deffe9006ba76e024badb31c1d5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af6d1d84ca319605838e0e3f7d7bfe1ac"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Module.html#af6d1d84ca319605838e0e3f7d7bfe1ac">Unload</a> ()=0</td></tr>
-<tr class="separator:af6d1d84ca319605838e0e3f7d7bfe1ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af35605b3d2afe42bcd9c5dcce61c25ae"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Module.html#af35605b3d2afe42bcd9c5dcce61c25ae">GetName</a> ()=0</td></tr>
-<tr class="separator:af35605b3d2afe42bcd9c5dcce61c25ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a57d1653a5ab6a025d5a8f688de82dfbf"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1String.html">String</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Module.html#a57d1653a5ab6a025d5a8f688de82dfbf">GetRuntimeDependencies</a> ()=0</td></tr>
-<tr class="separator:a57d1653a5ab6a025d5a8f688de82dfbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af212af69423e7758cd01d10bf6d80fcd"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IModule.html#af212af69423e7758cd01d10bf6d80fcd">Load</a> ()=0</td></tr>
+<tr class="separator:af212af69423e7758cd01d10bf6d80fcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab19df5ad302907304990cf96b24a6966"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IModule.html#ab19df5ad302907304990cf96b24a6966">Unload</a> ()=0</td></tr>
+<tr class="separator:ab19df5ad302907304990cf96b24a6966"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a814037fc88f03106b75b67d3a10fab33"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IModule.html#a814037fc88f03106b75b67d3a10fab33">GetName</a> ()=0</td></tr>
+<tr class="separator:a814037fc88f03106b75b67d3a10fab33"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5b86e6843da0d601a464436a10e1c7e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1String.html">String</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IModule.html#ab5b86e6843da0d601a464436a10e1c7e">GetRuntimeDependencies</a> ()=0</td></tr>
+<tr class="separator:ab5b86e6843da0d601a464436a10e1c7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="af35605b3d2afe42bcd9c5dcce61c25ae" name="af35605b3d2afe42bcd9c5dcce61c25ae"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af35605b3d2afe42bcd9c5dcce61c25ae">&#9670;&nbsp;</a></span>GetName()</h2>
+<a id="a814037fc88f03106b75b67d3a10fab33" name="a814037fc88f03106b75b67d3a10fab33"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a814037fc88f03106b75b67d3a10fab33">&#9670;&nbsp;</a></span>GetName()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -97,7 +106,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classFaro_1_1String.html">String</a> Faro::Module::GetName </td>
+          <td class="memname">virtual <a class="el" href="classFaro_1_1String.html">String</a> Faro::IModule::GetName </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -112,8 +121,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="a57d1653a5ab6a025d5a8f688de82dfbf" name="a57d1653a5ab6a025d5a8f688de82dfbf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a57d1653a5ab6a025d5a8f688de82dfbf">&#9670;&nbsp;</a></span>GetRuntimeDependencies()</h2>
+<a id="ab5b86e6843da0d601a464436a10e1c7e" name="ab5b86e6843da0d601a464436a10e1c7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab5b86e6843da0d601a464436a10e1c7e">&#9670;&nbsp;</a></span>GetRuntimeDependencies()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -122,7 +131,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual <a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1String.html">String</a> &gt; Faro::Module::GetRuntimeDependencies </td>
+          <td class="memname">virtual <a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1String.html">String</a> &gt; Faro::IModule::GetRuntimeDependencies </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -137,8 +146,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aff18deffe9006ba76e024badb31c1d5f" name="aff18deffe9006ba76e024badb31c1d5f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aff18deffe9006ba76e024badb31c1d5f">&#9670;&nbsp;</a></span>Load()</h2>
+<a id="af212af69423e7758cd01d10bf6d80fcd" name="af212af69423e7758cd01d10bf6d80fcd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af212af69423e7758cd01d10bf6d80fcd">&#9670;&nbsp;</a></span>Load()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -147,7 +156,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void Faro::Module::Load </td>
+          <td class="memname">virtual void Faro::IModule::Load </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -162,8 +171,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="af6d1d84ca319605838e0e3f7d7bfe1ac" name="af6d1d84ca319605838e0e3f7d7bfe1ac"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af6d1d84ca319605838e0e3f7d7bfe1ac">&#9670;&nbsp;</a></span>Unload()</h2>
+<a id="ab19df5ad302907304990cf96b24a6966" name="ab19df5ad302907304990cf96b24a6966"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab19df5ad302907304990cf96b24a6966">&#9670;&nbsp;</a></span>Unload()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -172,7 +181,7 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void Faro::Module::Unload </td>
+          <td class="memname">virtual void Faro::IModule::Unload </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>

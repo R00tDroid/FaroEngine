@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.191f05a (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.20fa6ef (main)</span>
    </div>
   </td>
  </tr>
@@ -72,25 +72,25 @@ $(function() {
 <a href="Module_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#ifndef MODULE_HEADER</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#define MODULE_HEADER</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &quot;<a class="code" href="Array_8h.html">./Containers/Array.h</a>&quot;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &quot;<a class="code" href="String_8h.html">./Containers/String.h</a>&quot;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &quot;<a class="code" href="ClassRegistry_8h.html">Util/ClassRegistry.h</a>&quot;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;<a class="code" href="Array_8h.html">Containers/Array.h</a>&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;<a class="code" href="String_8h.html">Containers/String.h</a>&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;<a class="code" href="ClassRegistry_8h.html">Util/ClassRegistry.h</a>&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceFaro.html">Faro</a></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classFaro_1_1Module.html">   10</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classFaro_1_1Module.html">Module</a></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classFaro_1_1IModule.html">   10</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classFaro_1_1IModule.html">IModule</a></div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    {</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classFaro_1_1Module.html#aff18deffe9006ba76e024badb31c1d5f">   13</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1Module.html#aff18deffe9006ba76e024badb31c1d5f">Load</a>() = 0;</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classFaro_1_1Module.html#af6d1d84ca319605838e0e3f7d7bfe1ac">   14</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1Module.html#af6d1d84ca319605838e0e3f7d7bfe1ac">Unload</a>() = 0;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classFaro_1_1Module.html#af35605b3d2afe42bcd9c5dcce61c25ae">   15</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1String.html">String</a> <a class="code hl_function" href="classFaro_1_1Module.html#af35605b3d2afe42bcd9c5dcce61c25ae">GetName</a>() = 0;</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classFaro_1_1Module.html#a57d1653a5ab6a025d5a8f688de82dfbf">   16</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;String&gt;</a> <a class="code hl_function" href="classFaro_1_1Module.html#a57d1653a5ab6a025d5a8f688de82dfbf">GetRuntimeDependencies</a>() = 0;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classFaro_1_1IModule.html#af212af69423e7758cd01d10bf6d80fcd">   13</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1IModule.html#af212af69423e7758cd01d10bf6d80fcd">Load</a>() = 0;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classFaro_1_1IModule.html#ab19df5ad302907304990cf96b24a6966">   14</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1IModule.html#ab19df5ad302907304990cf96b24a6966">Unload</a>() = 0;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classFaro_1_1IModule.html#a814037fc88f03106b75b67d3a10fab33">   15</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1String.html">String</a> <a class="code hl_function" href="classFaro_1_1IModule.html#a814037fc88f03106b75b67d3a10fab33">GetName</a>() = 0;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classFaro_1_1IModule.html#ab5b86e6843da0d601a464436a10e1c7e">   16</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;String&gt;</a> <a class="code hl_function" href="classFaro_1_1IModule.html#ab5b86e6843da0d601a464436a10e1c7e">GetRuntimeDependencies</a>() = 0;</div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    };</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">extern</span> <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;Module*&gt;</a> <a class="code hl_function" href="namespaceFaro.html#a4bc7316d36ba5325e56c8f94a9488560">GetRegisteredModules</a>();</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">extern</span> <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;IModule*&gt;</a> <a class="code hl_function" href="namespaceFaro.html#a63d0f3d5693a4d4f79b11d5c187b591c">GetRegisteredModules</a>();</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_define" href="ClassRegistry_8h.html#a09fc4481c9a48806677d5c6efb384504">DEFINE_INSTANCE_REGISTRY</a>(<a class="code hl_class" href="classFaro_1_1Module.html">Module</a>, <a class="code hl_class" href="classFaro_1_1Module.html">Faro::Module</a>)</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="Module_8h.html#a4227e52e8152c977ed2b3331b2ea560a">   22</a></span><span class="preprocessor">#define REGISTER_MODULE(MODULE) REGISTER_INSTANCE(Module, MODULE)    </span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_define" href="ClassRegistry_8h.html#a09fc4481c9a48806677d5c6efb384504">DEFINE_INSTANCE_REGISTRY</a>(Module, <a class="code hl_class" href="classFaro_1_1IModule.html">Faro::IModule</a>)</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="Module_8h.html#a4227e52e8152c977ed2b3331b2ea560a">   22</a></span><span class="preprocessor">#define REGISTER_MODULE(MODULE) REGISTER_INSTANCE(IModule, MODULE)    </span></div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>}</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">#endif</span></div>
@@ -99,14 +99,14 @@ $(function() {
 <div class="ttc" id="aClassRegistry_8h_html_a09fc4481c9a48806677d5c6efb384504"><div class="ttname"><a href="ClassRegistry_8h.html#a09fc4481c9a48806677d5c6efb384504">DEFINE_INSTANCE_REGISTRY</a></div><div class="ttdeci">#define DEFINE_INSTANCE_REGISTRY(NAME, TYPE)</div><div class="ttdef"><b>Definition:</b> ClassRegistry.h:8</div></div>
 <div class="ttc" id="aString_8h_html"><div class="ttname"><a href="String_8h.html">String.h</a></div></div>
 <div class="ttc" id="aclassFaro_1_1Array_html"><div class="ttname"><a href="classFaro_1_1Array.html">Faro::Array</a></div><div class="ttdef"><b>Definition:</b> Array.h:11</div></div>
-<div class="ttc" id="aclassFaro_1_1Module_html"><div class="ttname"><a href="classFaro_1_1Module.html">Faro::Module</a></div><div class="ttdef"><b>Definition:</b> Module.h:11</div></div>
-<div class="ttc" id="aclassFaro_1_1Module_html_a57d1653a5ab6a025d5a8f688de82dfbf"><div class="ttname"><a href="classFaro_1_1Module.html#a57d1653a5ab6a025d5a8f688de82dfbf">Faro::Module::GetRuntimeDependencies</a></div><div class="ttdeci">virtual Array&lt; String &gt; GetRuntimeDependencies()=0</div></div>
-<div class="ttc" id="aclassFaro_1_1Module_html_af35605b3d2afe42bcd9c5dcce61c25ae"><div class="ttname"><a href="classFaro_1_1Module.html#af35605b3d2afe42bcd9c5dcce61c25ae">Faro::Module::GetName</a></div><div class="ttdeci">virtual String GetName()=0</div></div>
-<div class="ttc" id="aclassFaro_1_1Module_html_af6d1d84ca319605838e0e3f7d7bfe1ac"><div class="ttname"><a href="classFaro_1_1Module.html#af6d1d84ca319605838e0e3f7d7bfe1ac">Faro::Module::Unload</a></div><div class="ttdeci">virtual void Unload()=0</div></div>
-<div class="ttc" id="aclassFaro_1_1Module_html_aff18deffe9006ba76e024badb31c1d5f"><div class="ttname"><a href="classFaro_1_1Module.html#aff18deffe9006ba76e024badb31c1d5f">Faro::Module::Load</a></div><div class="ttdeci">virtual void Load()=0</div></div>
+<div class="ttc" id="aclassFaro_1_1IModule_html"><div class="ttname"><a href="classFaro_1_1IModule.html">Faro::IModule</a></div><div class="ttdef"><b>Definition:</b> Module.h:11</div></div>
+<div class="ttc" id="aclassFaro_1_1IModule_html_a814037fc88f03106b75b67d3a10fab33"><div class="ttname"><a href="classFaro_1_1IModule.html#a814037fc88f03106b75b67d3a10fab33">Faro::IModule::GetName</a></div><div class="ttdeci">virtual String GetName()=0</div></div>
+<div class="ttc" id="aclassFaro_1_1IModule_html_ab19df5ad302907304990cf96b24a6966"><div class="ttname"><a href="classFaro_1_1IModule.html#ab19df5ad302907304990cf96b24a6966">Faro::IModule::Unload</a></div><div class="ttdeci">virtual void Unload()=0</div></div>
+<div class="ttc" id="aclassFaro_1_1IModule_html_ab5b86e6843da0d601a464436a10e1c7e"><div class="ttname"><a href="classFaro_1_1IModule.html#ab5b86e6843da0d601a464436a10e1c7e">Faro::IModule::GetRuntimeDependencies</a></div><div class="ttdeci">virtual Array&lt; String &gt; GetRuntimeDependencies()=0</div></div>
+<div class="ttc" id="aclassFaro_1_1IModule_html_af212af69423e7758cd01d10bf6d80fcd"><div class="ttname"><a href="classFaro_1_1IModule.html#af212af69423e7758cd01d10bf6d80fcd">Faro::IModule::Load</a></div><div class="ttdeci">virtual void Load()=0</div></div>
 <div class="ttc" id="aclassFaro_1_1String_html"><div class="ttname"><a href="classFaro_1_1String.html">Faro::String</a></div><div class="ttdef"><b>Definition:</b> String.h:12</div></div>
 <div class="ttc" id="anamespaceFaro_html"><div class="ttname"><a href="namespaceFaro.html">Faro</a></div><div class="ttdef"><b>Definition:</b> Array.h:7</div></div>
-<div class="ttc" id="anamespaceFaro_html_a4bc7316d36ba5325e56c8f94a9488560"><div class="ttname"><a href="namespaceFaro.html#a4bc7316d36ba5325e56c8f94a9488560">Faro::GetRegisteredModules</a></div><div class="ttdeci">Array&lt; Module * &gt; GetRegisteredModules()</div><div class="ttdef"><b>Definition:</b> Module.cpp:7</div></div>
+<div class="ttc" id="anamespaceFaro_html_a63d0f3d5693a4d4f79b11d5c187b591c"><div class="ttname"><a href="namespaceFaro.html#a63d0f3d5693a4d4f79b11d5c187b591c">Faro::GetRegisteredModules</a></div><div class="ttdeci">Array&lt; IModule * &gt; GetRegisteredModules()</div><div class="ttdef"><b>Definition:</b> Module.cpp:7</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.191f05a (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.20fa6ef (main)</span>
    </div>
   </td>
  </tr>
@@ -74,15 +74,15 @@ $(function() {
   <div class="headertitle"><div class="title">Module.h File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="Array_8h_source.html">./Containers/Array.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="String_8h_source.html">./Containers/String.h</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="ClassRegistry_8h_source.html">Util/ClassRegistry.h</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="Array_8h_source.html">Containers/Array.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="String_8h_source.html">Containers/String.h</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="ClassRegistry_8h_source.html">Util/ClassRegistry.h</a>&gt;</code><br />
 </div>
 <p><a href="Module_8h_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Module.html">Faro::Module</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IModule.html">Faro::IModule</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -92,13 +92,13 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a4227e52e8152c977ed2b3331b2ea560a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Module_8h.html#a4227e52e8152c977ed2b3331b2ea560a">REGISTER_MODULE</a>(MODULE)&#160;&#160;&#160;<a class="el" href="ClassRegistry_8h.html#ac6ed08950ec32cefa5cde27b7bf124a3">REGISTER_INSTANCE</a>(Module, MODULE)</td></tr>
+<tr class="memitem:a4227e52e8152c977ed2b3331b2ea560a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Module_8h.html#a4227e52e8152c977ed2b3331b2ea560a">REGISTER_MODULE</a>(MODULE)&#160;&#160;&#160;<a class="el" href="ClassRegistry_8h.html#ac6ed08950ec32cefa5cde27b7bf124a3">REGISTER_INSTANCE</a>(IModule, MODULE)</td></tr>
 <tr class="separator:a4227e52e8152c977ed2b3331b2ea560a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4bc7316d36ba5325e56c8f94a9488560"><td class="memItemLeft" align="right" valign="top">Array&lt; Module * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a4bc7316d36ba5325e56c8f94a9488560">Faro::GetRegisteredModules</a> ()</td></tr>
-<tr class="separator:a4bc7316d36ba5325e56c8f94a9488560"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a63d0f3d5693a4d4f79b11d5c187b591c"><td class="memItemLeft" align="right" valign="top">Array&lt; IModule * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a63d0f3d5693a4d4f79b11d5c187b591c">Faro::GetRegisteredModules</a> ()</td></tr>
+<tr class="separator:a63d0f3d5693a4d4f79b11d5c187b591c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a4227e52e8152c977ed2b3331b2ea560a" name="a4227e52e8152c977ed2b3331b2ea560a"></a>
@@ -112,7 +112,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype">&#160;</td>
           <td class="paramname">MODULE</td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="ClassRegistry_8h.html#ac6ed08950ec32cefa5cde27b7bf124a3">REGISTER_INSTANCE</a>(Module, MODULE)</td>
+          <td>&#160;&#160;&#160;<a class="el" href="ClassRegistry_8h.html#ac6ed08950ec32cefa5cde27b7bf124a3">REGISTER_INSTANCE</a>(IModule, MODULE)</td>
         </tr>
       </table>
 </div><div class="memdoc">

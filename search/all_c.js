@@ -7,7 +7,10 @@ var searchData=
   ['path_2ecpp_4',['Path.cpp',['../Path_8cpp.html',1,'']]],
   ['path_2eh_5',['Path.h',['../Path_8h.html',1,'']]],
   ['pathtype_6',['PathType',['../namespaceFaro.html#acf284d5454602e0adc26108820a23d71',1,'Faro']]],
-  ['pi_7',['pi',['../MathUtil_8cpp.html#a9cb0638a7b1d7af8ff421d2dc025d3a8',1,'MathUtil.cpp']]],
-  ['pi_8',['Pi',['../namespaceFaro.html#a6ccfe601da6bf259918ce41a78b59d85',1,'Faro']]],
-  ['primitives_2eh_9',['Primitives.h',['../Primitives_8h.html',1,'']]]
+  ['pi_7',['Pi',['../namespaceFaro.html#a6ccfe601da6bf259918ce41a78b59d85',1,'Faro']]],
+  ['pi_8',['pi',['../MathUtil_8cpp.html#a9cb0638a7b1d7af8ff421d2dc025d3a8',1,'MathUtil.cpp']]],
+  ['platformmodule_9',['PlatformModule',['../classFaro_1_1PlatformModule.html',1,'Faro']]],
+  ['platformmodule_2ecpp_10',['PlatformModule.cpp',['../PlatformModule_8cpp.html',1,'']]],
+  ['platformmodule_2eh_11',['PlatformModule.h',['../PlatformModule_8h.html',1,'']]],
+  ['primitives_2eh_12',['Primitives.h',['../Primitives_8h.html',1,'']]]
 ];
