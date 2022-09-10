@@ -189,7 +189,19 @@ private:
                         propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
                         {
                             tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
-                            element->SetText("$(VC_IncludePath);$(WindowsSDK_IncludePath);");
+
+                            std::string includePaths = "$(VC_IncludePath);$(WindowsSDK_IncludePath)"; //TODO directly reference used windows sdk
+                            for (std::filesystem::path& path : moduleManifest.privateIncludes)
+                            {
+                                includePaths += ";" + path.string();
+                            }
+                            for (std::filesystem::path& path : moduleManifest.GetPublicIncludeTree())
+                            {
+                                includePaths += ";" + path.string();
+                            }
+                            includePaths += ";";
+
+                            element->SetText(includePaths.c_str());
 
                             element = propertyGroup->InsertNewChildElement("ReferencePath");
                             element = propertyGroup->InsertNewChildElement("LibraryPath");
