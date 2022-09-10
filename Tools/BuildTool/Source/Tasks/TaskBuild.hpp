@@ -107,9 +107,7 @@ public:
                 if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform, buildType)) return false;
                 prepareTimer.Stop("Prepare");
 
-                std::vector<std::filesystem::path> includes;// = module->GetPublicIncludeTree();
-                //includes = includes.Concat(module->privateIncludeDirectories).ToList();
-                //includes.Sort();
+                std::vector<std::filesystem::path> includes = module->GetModuleIncludeDirectories();
 
                 PerformanceTimer sourceFilesTimer;
                 for (std::filesystem::path& file : filesToCompile)
