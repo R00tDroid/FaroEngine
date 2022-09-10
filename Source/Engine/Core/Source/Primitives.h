@@ -1,5 +1,4 @@
-#ifndef PRIMITIVETYPES_HEADER
-#define PRIMITIVETYPES_HEADER
+#pragma once
 
 namespace Faro
 {
@@ -15,5 +14,3 @@ namespace Faro
     typedef unsigned long uint64;
     typedef long int64;
 }
-
-#endif
