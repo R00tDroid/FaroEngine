@@ -340,6 +340,19 @@ public:
             return false;
         }
     }
+
+    std::vector<std::filesystem::path> GetPublicIncludeTree()
+    {
+        std::vector<std::filesystem::path> result = publicIncludes;
+        for (ModuleManifest* dependency : moduleDependencies)
+        {
+            for (std::filesystem::path& path : dependency->GetPublicIncludeTree())
+            {
+                result.push_back(path);
+            }
+        }
+        return result;
+    }
 };
 
 inline std::map<std::string, std::filesystem::path> ModuleManifest::knownModules;
