@@ -57,11 +57,11 @@ public:
         std::filesystem::path projectInfo = faroRoot / "ProjectInfo";
         Utility::EnsureDirectory(projectInfo);
 
-        std::ifstream uuidFile(projectInfo / "ProjectId.txt");
-        if (uuidFile.is_open())
+        std::ifstream uuidFileIn(projectInfo / "ProjectId.txt");
+        if (uuidFileIn.is_open())
         {
-            uuidFile >> uuid;
-            uuidFile.close();
+            uuidFileIn >> uuid;
+            uuidFileIn.close();
         }
 
         if (uuid.empty())
@@ -70,9 +70,9 @@ public:
 
             Utility::PrintLineD("Generated new project uuid: " + uuid);
 
-            std::ofstream uuidFile(projectInfo / "ProjectId.txt");
-            uuidFile << uuid;
-            uuidFile.close();
+            std::ofstream uuidFileOut(projectInfo / "ProjectId.txt");
+            uuidFileOut << uuid;
+            uuidFileOut.close();
         }
 
         return true;
