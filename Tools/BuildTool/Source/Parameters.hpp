@@ -52,7 +52,7 @@ public:
 
     int CountArguments(std::string check)
     {
-        return Contains(check) ? parameters[check].size() : 0;
+        return Contains(check) ? int(parameters[check].size()) : 0;
     }
 
     std::vector<std::string> GetArguments(std::string check)
