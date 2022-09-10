@@ -190,12 +190,8 @@ private:
                         {
                             tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
 
-                            std::string includePaths = "$(VC_IncludePath);$(WindowsSDK_IncludePath)"; //TODO directly reference used windows sdk
-                            for (std::filesystem::path& path : moduleManifest.privateIncludes)
-                            {
-                                includePaths += ";" + path.string();
-                            }
-                            for (std::filesystem::path& path : moduleManifest.GetPublicIncludeTree())
+                            std::string includePaths = "$(VC_IncludePath);$(WindowsSDK_IncludePath)"; //TODO directly reference used platform includes from toolchain
+                            for (std::filesystem::path& path : moduleManifest.GetModuleIncludeDirectories())
                             {
                                 includePaths += ";" + path.string();
                             }
