@@ -6,6 +6,7 @@
 #include <chrono>
 #include <filesystem>
 #include <map>
+#include <fstream>
 
 namespace Utility
 {
@@ -60,6 +61,26 @@ namespace Utility
         uuid_unparse(uuid, string);
 #endif
         return string;
+    }
+
+    inline std::string GetCachedUUID(std::filesystem::path storageLocation)
+    {
+        std::ifstream uuidFile(storageLocation);
+        if (uuidFile.is_open())
+        {
+            std::string uuid;
+            uuidFile >> uuid;
+            uuidFile.close();
+            return uuid;
+        }
+        else
+        {
+            std::string uuid = Utility::GenerateUUID();
+            std::ofstream uuidOutFile(storageLocation);
+            uuidOutFile << uuid;
+            uuidOutFile.close();
+            return uuid;
+        }
     }
 
     inline std::filesystem::path GetExecutablePath()
