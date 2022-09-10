@@ -45,10 +45,10 @@ namespace Utility
     {
 #ifdef WIN32
         UUID uuid;
-        UuidCreate(&uuid);
+        if (UuidCreate(&uuid) != RPC_S_OK) { Utility::PrintLine("Failed to generate uuid"); return {}; }
 
         unsigned char* uuidString = nullptr;
-        UuidToStringA(&uuid, &uuidString);
+        if (UuidToStringA(&uuid, &uuidString) != RPC_S_OK) { Utility::PrintLine("Failed to process uuid"); return {}; }
 
         std::string string(reinterpret_cast<char*>(uuidString));
 
@@ -89,10 +89,11 @@ public:
         AppStart = std::chrono::high_resolution_clock::now();
     }
 
-    static float GetMillisSinceStart()
+    static double GetMillisSinceStart()
     {
         std::chrono::high_resolution_clock::time_point Now = std::chrono::high_resolution_clock::now();
-        return std::chrono::duration_cast<std::chrono::microseconds>(Now - AppStart).count() / 1000.0f;
+        const long long microseconds = static_cast<long long>(std::chrono::duration_cast<std::chrono::microseconds>(Now - AppStart).count());
+        return static_cast<double>(microseconds / 1000.0);
     }
 
     PerformanceTimer()
@@ -115,7 +116,7 @@ public:
         globalDepth--;
 
         std::chrono::high_resolution_clock::time_point Now = std::chrono::high_resolution_clock::now();
-        long microseconds = std::chrono::duration_cast<std::chrono::microseconds>(Now - timer).count();
+        const long long microseconds = static_cast<long long>(std::chrono::duration_cast<std::chrono::microseconds>(Now - timer).count());
 
         std::string message = "";
         for (int i = 0; i < depth; i++)
