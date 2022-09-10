@@ -21,10 +21,7 @@ namespace Faro
             return -1;
         }
 
-        while (Update())
-        {
-            
-        }
+        while (Update()) {}
 
         if (!Destroy())
         {
