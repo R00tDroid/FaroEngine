@@ -40,8 +40,11 @@ jobs:
       with:
         name: FaroEngine
 
+    - name: Generate
+      run: Bin/FaroBuildTool.exe -generate -project Source/FaroEngine.faroproject.json
+
     - name: Build
-      run: Bin/FaroBuildTool.exe -generate -build -platform Windows x64 -release -project Source/FaroEngine.faroproject.json
+      run: Bin/FaroBuildTool.exe -build -platform Windows x64 -release -project Source/FaroEngine.faroproject.json
 
   Documentation:
     runs-on: ubuntu-latest

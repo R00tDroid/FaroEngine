@@ -17,8 +17,7 @@ public:
         for (int i = 1; i < argc; i++)
         {
             std::string arg = argv[i];
-            std::string argl = arg;
-            std::transform(argl.begin(), argl.end(), argl.begin(), tolower);
+            std::string argl = Utility::ToLower(arg);
 
             if (argl[0] == '-')
             {
@@ -52,7 +51,7 @@ public:
 
     int CountArguments(std::string check)
     {
-        return Contains(check) ? parameters[check].size() : 0;
+        return Contains(check) ? int(parameters[check].size()) : 0;
     }
 
     std::vector<std::string> GetArguments(std::string check)

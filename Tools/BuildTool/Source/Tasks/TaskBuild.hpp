@@ -39,8 +39,8 @@ public:
                 std::string platformName = platform->platformName;
                 std::string requiredPlatform = buildPlatform + " " + buildArchitecture;
 
-                std::transform(platformName.begin(), platformName.end(), platformName.begin(), tolower);
-                std::transform(requiredPlatform.begin(), requiredPlatform.end(), requiredPlatform.begin(), tolower);
+                platformName = Utility::ToLower(platformName);
+                requiredPlatform = Utility::ToLower(requiredPlatform);
 
                 if (platformName == requiredPlatform)
                 {
@@ -107,9 +107,7 @@ public:
                 if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform, buildType)) return false;
                 prepareTimer.Stop("Prepare");
 
-                std::vector<std::filesystem::path> includes;// = module->GetPublicIncludeTree();
-                //includes = includes.Concat(module->privateIncludeDirectories).ToList();
-                //includes.Sort();
+                std::vector<std::filesystem::path> includes = module->GetModuleIncludeDirectories();
 
                 PerformanceTimer sourceFilesTimer;
                 for (std::filesystem::path& file : filesToCompile)

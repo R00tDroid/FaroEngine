@@ -1,13 +1,13 @@
 #ifndef MODULE_HEADER
 #define MODULE_HEADER
 
-#include "./Containers/Array.h"
-#include "./Containers/String.h"
-#include "Util/ClassRegistry.h"
+#include <Containers/Array.h>
+#include <Containers/String.h>
+#include <Util/ClassRegistry.h>
 
 namespace Faro
 {
-    class Module
+    class IModule
     {
     public:
         virtual void Load() = 0;
@@ -16,10 +16,10 @@ namespace Faro
         virtual Array<String> GetRuntimeDependencies() = 0;
     };
 
-    extern Array<Module*> GetRegisteredModules();
+    extern Array<IModule*> GetRegisteredModules();
 
-    DEFINE_INSTANCE_REGISTRY(Module, Faro::Module)
-#define REGISTER_MODULE(MODULE) REGISTER_INSTANCE(Module, MODULE)    
+    DEFINE_INSTANCE_REGISTRY(Module, Faro::IModule)
+#define REGISTER_MODULE(MODULE) REGISTER_INSTANCE(IModule, MODULE)    
 }
 
 #endif

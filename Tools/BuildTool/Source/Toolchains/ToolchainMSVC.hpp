@@ -92,7 +92,7 @@ public:
     {
         std::string includes = "";
 
-        includes += " /I\"" + msvcRoot.string() + "\\include\"";
+        includes += " /I\"" + msvcRoot.string() + "\\include\""; //TODO Don't define here but expose to ensure they're in-line with the generated project
         includes += " /I\"" + windowsSdkInclude.string() + "\\shared\"";
         includes += " /I\"" + windowsSdkInclude.string() + "\\ucrt\"";
         includes += " /I\"" + windowsSdkInclude.string() + "\\winrt\"";

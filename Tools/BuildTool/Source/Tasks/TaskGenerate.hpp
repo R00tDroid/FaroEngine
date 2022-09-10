@@ -16,7 +16,12 @@ public:
     {
         for (ModuleManifest* moduleManifest : project.projectModules)
         {
-            moduleManifest->Parse();
+            if (!moduleManifest->Parse()) return false;
+        }
+
+        for (ModuleManifest* moduleManifest : project.projectModules)
+        {
+            if (!moduleManifest->ResolveDependencies()) return false;
             moduleManifest->Save();
         }
 
@@ -184,7 +189,15 @@ private:
                         propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
                         {
                             tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
-                            element->SetText("$(VC_IncludePath);$(WindowsSDK_IncludePath);");
+
+                            std::string includePaths = "$(VC_IncludePath);$(WindowsSDK_IncludePath)"; //TODO directly reference used platform includes from toolchain
+                            for (std::filesystem::path& path : moduleManifest.GetModuleIncludeDirectories())
+                            {
+                                includePaths += ";" + path.string();
+                            }
+                            includePaths += ";";
+
+                            element->SetText(includePaths.c_str());
 
                             element = propertyGroup->InsertNewChildElement("ReferencePath");
                             element = propertyGroup->InsertNewChildElement("LibraryPath");
@@ -238,7 +251,7 @@ private:
                 for (std::filesystem::path& file : sourceFiles)
                 {
                     std::string extension = file.extension().string();
-                    std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
+                    extension = Utility::ToLower(extension);
                     bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
                     tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
                     fileElement->SetAttribute("Include", file.string().c_str());
@@ -307,7 +320,7 @@ private:
             }
 
             std::string extension = file.extension().string();
-            std::transform(extension.begin(), extension.end(), extension.begin(), tolower);
+            extension = Utility::ToLower(extension);
             bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
 
             tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");

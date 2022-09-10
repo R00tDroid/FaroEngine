@@ -1,10 +1,10 @@
-#include "./Module.h"
+#include "Module.h"
 
 namespace Faro {
-    IMPLEMENT_INSTANCE_REGISTRY(Module, Faro::Module)
+    IMPLEMENT_INSTANCE_REGISTRY(Module, Faro::IModule)
 }
 
-Faro::Array<Faro::Module*> Faro::GetRegisteredModules()
+Faro::Array<Faro::IModule*> Faro::GetRegisteredModules()
 {
     return InstanceRegistry_Module::Get().GetValues();
 }
