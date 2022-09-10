@@ -57,12 +57,7 @@ public:
 
         std::filesystem::path moduleInfo = moduleRoot / ".Faro\\Module";
 
-        std::ifstream uuidFile(moduleInfo / "ModuleId.txt");
-        if (uuidFile.is_open())
-        {
-            uuidFile >> uuid;
-            uuidFile.close();
-        }
+        uuid = Utility::GetCachedUUID(moduleInfo / "ModuleId.txt");
 
         if (uuid.empty())
         {
@@ -140,10 +135,6 @@ public:
             privateIncludeList << path.string() << "\n";
         }
         privateIncludeList.close();
-
-        std::ofstream uuidFile(moduleInfo / "ModuleId.txt");
-        uuidFile << uuid;
-        uuidFile.close();
 
         std::ofstream dependencyList(moduleInfo / "Dependencies.txt");
         for (ModuleManifest* dependency : moduleDependencies)
