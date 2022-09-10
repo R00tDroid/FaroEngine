@@ -340,7 +340,7 @@ private:
                 propertyGroup->SetAttribute("Label", "Globals");
 
                 tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("ProjectGuid");
-                //element->SetText(moduleManifest.uuid.c_str());
+                element->SetText(commandInfo.uuid.c_str());
 
                 element = propertyGroup->InsertNewChildElement("PlatformToolset");
                 element->SetText(VSPlatformVersion.c_str());
