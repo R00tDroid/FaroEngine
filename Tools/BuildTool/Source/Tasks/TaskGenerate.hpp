@@ -12,6 +12,7 @@ public:
         std::string name;
         std::filesystem::path projectPath;
         std::string uuid;
+        bool buildByDefault = false;
     };
 
     int GetPriority() const override
@@ -55,12 +56,12 @@ public:
 
         std::vector<CustomCommandInfo> customCommands;
 
-        WriteCommandProjectFile(project, customCommands, "Build",
+        WriteCommandProjectFile(project, customCommands, true, "Build",
             faroBuildTool.string() + " -build -project " + project.manifestPath.string(), 
             faroBuildTool.string() + " -clean -project " + project.manifestPath.string(), 
             faroBuildTool.string() + " -clean -build -project " + project.manifestPath.string());
 
-        WriteCommandProjectFile(project, customCommands, "Generate",
+        WriteCommandProjectFile(project, customCommands, false, "Generate",
             faroBuildTool.string() + " -generate -project " + project.manifestPath.string(), 
             faroBuildTool.string() + " -generate -project " + project.manifestPath.string(),
             faroBuildTool.string() + " -generate -project " + project.manifestPath.string());
@@ -247,7 +248,7 @@ private:
                             element->SetText("");
 
                             element = propertyGroup->InsertNewChildElement("NMakeIncludeSearchPath");
-                            element->SetText(""); // TODO set include paths
+                            element->SetText(includePaths.c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
                             element->SetText(""); //TODO set preprocessor defines
@@ -283,10 +284,11 @@ private:
         doc.SaveFile(filePath.string().c_str());
     }
 
-    void WriteCommandProjectFile(ProjectManifest& project, std::vector<CustomCommandInfo>& customCommands, std::string name, std::string buildCommand, std::string cleanCommand, std::string rebuildCommand)
+    void WriteCommandProjectFile(ProjectManifest& project, std::vector<CustomCommandInfo>& customCommands, bool buildByDefault, std::string name, std::string buildCommand, std::string cleanCommand, std::string rebuildCommand)
     {
         CustomCommandInfo commandInfo;
         commandInfo.name = name;
+        commandInfo.buildByDefault = buildByDefault;
         commandInfo.uuid = Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / (name + "Id.txt"));
 
         commandInfo.projectPath = project.faroRoot / "Project";
@@ -448,10 +450,10 @@ private:
                             element->SetText("");
 
                             element = propertyGroup->InsertNewChildElement("NMakeIncludeSearchPath");
-                            element->SetText(""); // TODO set include paths
+                            element->SetText("");
 
                             element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
-                            element->SetText(""); //TODO set preprocessor defines
+                            element->SetText("");
                         }
                     }
                 }
@@ -580,6 +582,66 @@ private:
 
             stream << "EndProject\n";
         }
+
+        stream << "Global\n";
+        stream << "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution\n";
+        std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
+        for (IToolchain* toolchain : toolchains)
+        {
+            std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+            for (BuildPlatform* platform : platforms)
+            {
+                for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+                {
+                    const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+                    stream << "\t\t" << platform->platformName << " " << buildTypeName << "|x86 = " << platform->platformName << " " << buildTypeName << "|x86\n";
+                }
+            }
+
+        }
+        stream << "\tEndGlobalSection\n";
+
+        stream << "\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n";
+        for (ModuleManifest* moduleManifest : project.projectModules)
+        {
+            for (IToolchain* toolchain : toolchains)
+            {
+                std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+                for (BuildPlatform* platform : platforms)
+                {
+                    for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+                    {
+                        const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+                        stream << "\t\t{" << moduleManifest->uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.ActiveCfg = " << platform->platformName << " " << buildTypeName << "|Win32\n";
+                    }
+                }
+
+            }
+        }
+        for (CustomCommandInfo& customCommand : customCommands)
+        {
+            for (IToolchain* toolchain : toolchains)
+            {
+                std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+                for (BuildPlatform* platform : platforms)
+                {
+                    for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+                    {
+                        const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+                        stream << "\t\t{" << customCommand.uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.ActiveCfg = " << platform->platformName << " " << buildTypeName << "|Win32\n";
+                        if (customCommand.buildByDefault)
+                        {
+                            stream << "\t\t{" << customCommand.uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.Build.0 = " << platform->platformName << " " << buildTypeName << "|Win32\n";
+                        }
+                    }
+                }
+
+            }
+        }
+        stream << "\tEndGlobalSection\n";
+        stream << "EndGlobal\n";
+
+
 
         stream.close();
     }
