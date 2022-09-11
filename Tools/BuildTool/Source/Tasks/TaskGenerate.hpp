@@ -615,7 +615,6 @@ private:
                         stream << "\t\t{" << moduleManifest->uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.ActiveCfg = " << platform->platformName << " " << buildTypeName << "|Win32\n";
                     }
                 }
-
             }
         }
         for (CustomCommandInfo& customCommand : customCommands)
@@ -635,7 +634,6 @@ private:
                         }
                     }
                 }
-
             }
         }
         stream << "\tEndGlobalSection\n";
