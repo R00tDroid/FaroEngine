@@ -597,7 +597,6 @@ private:
                     stream << "\t\t" << platform->platformName << " " << buildTypeName << "|x86 = " << platform->platformName << " " << buildTypeName << "|x86\n";
                 }
             }
-
         }
         stream << "\tEndGlobalSection\n";
 
