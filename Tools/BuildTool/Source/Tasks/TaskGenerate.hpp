@@ -604,37 +604,11 @@ private:
         stream << "\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n";
         for (ModuleManifest* moduleManifest : project.projectModules)
         {
-            for (IToolchain* toolchain : toolchains)
-            {
-                std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-                for (BuildPlatform* platform : platforms)
-                {
-                    for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
-                    {
-                        const char* buildTypeName = BuildTypeNames[buildTypeIndex];
-                        stream << "\t\t{" << moduleManifest->uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.ActiveCfg = " << platform->platformName << " " << buildTypeName << "|Win32\n";
-                    }
-                }
-            }
+            WriteSolutionProjectConfig(stream, moduleManifest->uuid, false);
         }
         for (CustomCommandInfo& customCommand : customCommands)
         {
-            for (IToolchain* toolchain : toolchains)
-            {
-                std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-                for (BuildPlatform* platform : platforms)
-                {
-                    for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
-                    {
-                        const char* buildTypeName = BuildTypeNames[buildTypeIndex];
-                        stream << "\t\t{" << customCommand.uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.ActiveCfg = " << platform->platformName << " " << buildTypeName << "|Win32\n";
-                        if (customCommand.buildByDefault)
-                        {
-                            stream << "\t\t{" << customCommand.uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.Build.0 = " << platform->platformName << " " << buildTypeName << "|Win32\n";
-                        }
-                    }
-                }
-            }
+            WriteSolutionProjectConfig(stream, customCommand.uuid, customCommand.buildByDefault);
         }
         stream << "\tEndGlobalSection\n";
         stream << "EndGlobal\n";
@@ -642,5 +616,26 @@ private:
 
 
         stream.close();
+    }
+
+    inline static  void WriteSolutionProjectConfig(std::ofstream& stream, std::string uuid, bool buildByDefault)
+    {
+        std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
+        for (IToolchain* toolchain : toolchains)
+        {
+            std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+            for (BuildPlatform* platform : platforms)
+            {
+                for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+                {
+                    const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+                    stream << "\t\t{" << uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.ActiveCfg = " << platform->platformName << " " << buildTypeName << "|Win32\n";
+                    if (buildByDefault)
+                    {
+                        stream << "\t\t{" << uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.Build.0 = " << platform->platformName << " " << buildTypeName << "|Win32\n";
+                    }
+                }
+            }
+        }
     }
 };
