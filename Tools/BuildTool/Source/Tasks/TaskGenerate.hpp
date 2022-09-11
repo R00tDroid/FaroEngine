@@ -520,25 +520,28 @@ private:
         for (std::filesystem::path& file : sourceFiles)
         {
             std::filesystem::path directory = GetFileRelativeDirectory(moduleManifest, file);
-            std::vector<std::filesystem::path> allDirectories = GetDirectoryTree(directory);
-
-            for (std::filesystem::path& dir : allDirectories)
+            if (!directory.empty() && directory.string() != ".") 
             {
-                if (directories.find(dir) == directories.end())
+                std::vector<std::filesystem::path> allDirectories = GetDirectoryTree(directory);
+
+                for (std::filesystem::path& dir : allDirectories)
                 {
-                    directories.insert(std::pair<std::filesystem::path, std::string>(dir, Utility::GenerateUUID()));
+                    if (directories.find(dir) == directories.end())
+                    {
+                        directories.insert(std::pair<std::filesystem::path, std::string>(dir, Utility::GenerateUUID()));
+                    }
                 }
+
+                std::string extension = file.extension().string();
+                extension = Utility::ToLower(extension);
+                bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
+
+                tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
+                fileElement->SetAttribute("Include", file.string().c_str());
+
+                tinyxml2::XMLElement* filterElement = fileElement->InsertNewChildElement("Filter");
+                filterElement->SetText(directory.string().c_str());
             }
-
-            std::string extension = file.extension().string();
-            extension = Utility::ToLower(extension);
-            bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
-
-            tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
-            fileElement->SetAttribute("Include", file.string().c_str());
-
-            tinyxml2::XMLElement* filterElement = fileElement->InsertNewChildElement("Filter");
-            filterElement->SetText(directory.string().c_str());
         }
 
         for (auto& directory : directories)

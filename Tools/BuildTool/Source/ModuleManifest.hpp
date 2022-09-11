@@ -233,6 +233,8 @@ public:
             }
         }
 
+        sourceFiles.push_back(manifestPath);
+
         sourceFiles.erase(std::unique(sourceFiles.begin(), sourceFiles.end()), sourceFiles.end());
         std::sort(sourceFiles.begin(), sourceFiles.end());
 
