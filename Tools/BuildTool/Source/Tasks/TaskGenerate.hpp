@@ -13,6 +13,7 @@ public:
         std::filesystem::path projectPath;
         std::string uuid;
         bool buildByDefault = false;
+        std::filesystem::path solutionPath;
 
         virtual bool HasSourceFiles() { return false; }
         virtual std::vector<std::filesystem::path> GetSourceFiles() { return {}; }
@@ -91,6 +92,7 @@ public:
         commandInfo->rebuildCommand = faroBuildTool.string() + " -clean -build -project " + project.manifestPath.string();
         commandInfo->uuid = Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / (commandInfo->name + "Id.txt"));
         commandInfo->projectPath = project.faroRoot / "Project" / (commandInfo->name + ".vcxproj");
+        commandInfo->solutionPath = "Project/Actions";
         projectInfoList.push_back(commandInfo);
 
         commandInfo = new CustomCommandInfo();
@@ -100,6 +102,7 @@ public:
         commandInfo->rebuildCommand = faroBuildTool.string() + " -generate -build -project " + project.manifestPath.string();
         commandInfo->uuid = Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / (commandInfo->name + "Id.txt"));
         commandInfo->projectPath = project.faroRoot / "Project" / (commandInfo->name + ".vcxproj");
+        commandInfo->solutionPath = "Project/Actions";
         projectInfoList.push_back(commandInfo);
 
         PerformanceTimer timer;
@@ -112,7 +115,11 @@ public:
             moduleInfo->module = moduleManifest;
             moduleInfo->uuid = moduleManifest->uuid;
             moduleInfo->projectPath = moduleManifest->project->faroRoot / "Project" / (moduleManifest->name + ".vcxproj");
-
+            moduleInfo->solutionPath = "Project/Modules";
+            if (!moduleManifest->solutionLocation.empty())
+            {
+                moduleInfo->solutionPath /= moduleManifest->solutionLocation;
+            }
             projectInfoList.push_back(moduleInfo);
 
             moduleTimer.Stop("Module: " + moduleManifest->name);

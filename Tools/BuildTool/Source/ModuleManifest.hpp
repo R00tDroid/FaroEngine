@@ -306,7 +306,7 @@ public:
 
     bool ParseSolutionLocation(picojson::object& rootObject)
     {
-        solutionLocation = "Project/Modules";
+        solutionLocation = "";
         moduleDependencies = {};
 
         if (rootObject.find("SolutionLocation") != rootObject.end())
@@ -318,7 +318,7 @@ public:
                 return false;
             }
 
-            solutionLocation /= value.get<std::string>();
+            solutionLocation = value.get<std::string>();
         }
 
         solutionLocation = std::filesystem::weakly_canonical(solutionLocation);
