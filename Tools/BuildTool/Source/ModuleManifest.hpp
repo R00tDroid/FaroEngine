@@ -307,7 +307,6 @@ public:
     bool ParseSolutionLocation(picojson::object& rootObject)
     {
         solutionLocation = "";
-        moduleDependencies = {};
 
         if (rootObject.find("SolutionLocation") != rootObject.end())
         {
