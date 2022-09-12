@@ -42,6 +42,20 @@ namespace Utility
         }
     }
 
+    inline std::string ToLower(std::string& Input)
+    {
+        std::string Result = Input;
+        std::transform(Result.begin(), Result.end(), Result.begin(), [](char c) { return static_cast<char>(std::tolower(c)); });
+        return Result;
+    }
+
+    inline std::string ToUpper(std::string& Input)
+    {
+        std::string Result = Input;
+        std::transform(Result.begin(), Result.end(), Result.begin(), [](char c) { return static_cast<char>(std::toupper(c)); });
+        return Result;
+    }
+
     inline std::string GenerateUUID()
     {
 #ifdef WIN32
@@ -60,7 +74,7 @@ namespace Utility
         char string[37];
         uuid_unparse(uuid, string);
 #endif
-        return string;
+        return ToUpper(string);
     }
 
     inline std::string GetCachedUUID(std::filesystem::path storageLocation)
@@ -71,7 +85,7 @@ namespace Utility
             std::string uuid;
             uuidFile >> uuid;
             uuidFile.close();
-            return uuid;
+            return ToUpper(uuid);
         }
         else
         {
@@ -99,13 +113,6 @@ namespace Utility
 #ifdef WIN32
         SetFileAttributesA(folder.string().c_str(), FILE_ATTRIBUTE_HIDDEN);
 #endif
-    }
-
-    inline std::string ToLower(std::string& Input)
-    {
-        std::string Result = Input;
-        std::transform(Result.begin(), Result.end(), Result.begin(), [](char c) { return static_cast<char>(std::tolower(c)); });
-        return Result;
     }
 }
 
