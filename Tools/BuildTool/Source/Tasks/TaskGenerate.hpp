@@ -138,6 +138,7 @@ public:
         timer.Stop("Generate module projects");
 
         timer = {};
+        WriteSolutionFile(project, projectInfoList);
         timer.Stop("generate solution file");
 
         return true;
@@ -448,19 +449,26 @@ private:
             stream << "EndProject\n";
         }
 
-        for (ModuleManifest* moduleManifest : project.projectModules)
+        std::map<std::filesystem::path, std::string> solutionDirectories;
+        for (ProjectInfo* projectInfo : projectInfoList)
         {
-            stream << "Project(\"{" + project.uuid + "}\") = \"" + moduleManifest->name + "\", \"" + (moduleManifest->project->faroRoot / "Project" / (moduleManifest->name + ".vcxproj")).string() + "\", \"{" + moduleManifest->uuid + "}\"\n";
-            if (!moduleManifest->moduleDependencies.empty())
-            {
-                stream << "\tProjectSection(ProjectDependencies) = postProject\n";
-                for (ModuleManifest* dependency : moduleManifest->moduleDependencies)
-                {
-                    stream << "\t\t{" + dependency->uuid + "} = {" + dependency->uuid + "}\n";
-                }
-                stream << "\tEndProjectSection\n";
-            }
+            projectInfo->solutionPath.make_preferred();
+            projectInfo->solutionPath = std::filesystem::weakly_canonical(projectInfo->solutionPath);
 
+            std::vector<std::filesystem::path> tree = GetDirectoryTree(projectInfo->solutionPath);
+            for (std::filesystem::path& solutionDir : tree)
+            {
+                auto it = solutionDirectories.find(solutionDir);
+                if (it == solutionDirectories.end())
+                {
+                    solutionDirectories.insert(std::pair<std::filesystem::path, std::string>(solutionDir, Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / ("Dir" + solutionDir.filename().string() + "Id.txt"))));
+                }
+            }
+        }
+
+        for (auto& it : solutionDirectories)
+        {
+            stream << "Project(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\") = \"" + it.first.filename().string() + "\", \"" + it.first.filename().string() + "\", \"{" + it.second + "}\"\n";
             stream << "EndProject\n";
         }
 
@@ -487,9 +495,23 @@ private:
             WriteSolutionProjectConfig(stream, *projectInfo);
         }
         stream << "\tEndGlobalSection\n";
+
+        stream << "\tGlobalSection(NestedProjects) = preSolution\n";
+        for (ProjectInfo* projectInfo : projectInfoList)
+        {
+            stream << "\t\t{" << projectInfo->uuid << "} = {" << solutionDirectories[projectInfo->solutionPath] << "}\n";
+        }
+        for (auto& it : solutionDirectories)
+        {
+            std::filesystem::path parent = it.first.parent_path();
+            if (!parent.empty())
+            {
+                stream << "\t\t{" << it.second << "} = {" << solutionDirectories[parent] << "}\n";
+            }
+        }
+        stream << "\tEndGlobalSection\n";
+
         stream << "EndGlobal\n";
-
-
 
         stream.close();
     }
