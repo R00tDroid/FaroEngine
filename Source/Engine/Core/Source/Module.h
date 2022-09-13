@@ -19,7 +19,7 @@ namespace Faro
     extern Array<IModule*> GetRegisteredModules();
 
     DEFINE_INSTANCE_REGISTRY(Module, Faro::IModule)
-#define REGISTER_MODULE(MODULE) REGISTER_INSTANCE(IModule, MODULE)    
+#define REGISTER_MODULE(MODULE) REGISTER_INSTANCE(Module, MODULE)
 }
 
 #endif

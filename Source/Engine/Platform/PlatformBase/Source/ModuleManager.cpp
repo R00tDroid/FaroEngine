@@ -1,4 +1,5 @@
 #include "ModuleManager.h"
+#include <Module.h>
 
 namespace Faro
 {
@@ -17,6 +18,15 @@ namespace Faro
 
     bool ModuleManager::Init()
     {
+        modules = GetRegisteredModules();
+
+        //TODO sort modules based on dependencies
+
+        for (IModule* module : modules) 
+        {
+            module->Load();
+        }
+    
         return true;
     }
 
@@ -27,6 +37,10 @@ namespace Faro
 
     bool ModuleManager::Destroy()
     {
+        for (IModule* module : modules)
+        {
+            module->Unload();
+        }
         return true;
     }
 }

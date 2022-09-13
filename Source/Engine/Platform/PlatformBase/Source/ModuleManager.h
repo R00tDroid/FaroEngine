@@ -1,4 +1,5 @@
 #pragma once
+#include <Module.h>
 
 namespace Faro
 {
@@ -11,6 +12,9 @@ namespace Faro
         bool Init();
         bool Update();
         bool Destroy();
+
+    private:
+        Array<IModule*> modules;
     };
 
     extern ModuleManager* GModuleManager;
