@@ -1,5 +1,6 @@
 #include "IToolchain.hpp"
 #include "../ModuleManifest.hpp"
+#include "../ProjectManifest.hpp"
 #include <array>
 #include "ToolchainMSVC.hpp"
 
@@ -43,23 +44,30 @@ std::filesystem::path IToolchain::GetObjPath(ModuleManifest& manifest, BuildPlat
     return GetObjDirectory(manifest, target, configuration) / sourceFile.filename().replace_extension(GetObjExtension());
 }
 
-std::filesystem::path IToolchain::GetBinDirectory(ModuleManifest& manifest, BuildType)
+std::filesystem::path IToolchain::GetLibDirectory(ModuleManifest& manifest)
 {
     return manifest.faroRoot / "Bin";
 }
 
-std::filesystem::path IToolchain::GetBinPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)
+std::filesystem::path IToolchain::GetLibPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)
 {
     std::string platformName = target->platformName + " " + BuildTypeNames[configuration];
     platformName = Utility::ToLower(platformName);
     std::replace(platformName.begin(), platformName.end(), ' ', '_');
 
-    if (true) //TODO switch for libraries and executables
-    {
-        return GetBinDirectory(manifest, configuration) / (platformName + "." + GetLibExtension());
-    }
-    else
-    {
-        return GetBinDirectory(manifest, configuration) / (manifest.name + "_" + platformName + "." + GetExeExtension());
-    }
+    return GetLibDirectory(manifest) / (platformName + "." + GetLibExtension());
+}
+
+std::filesystem::path IToolchain::GetExeDirectory(ProjectManifest& manifest)
+{
+    return manifest.faroRoot / "Bin";
+}
+
+std::filesystem::path IToolchain::GetExePath(ProjectManifest& manifest, BuildPlatform* target, BuildType configuration)
+{
+    std::string platformName = target->platformName + " " + BuildTypeNames[configuration];
+    platformName = Utility::ToLower(platformName);
+    std::replace(platformName.begin(), platformName.end(), ' ', '_');
+
+    return GetExeDirectory(manifest) / (manifest.projectName + "_" + platformName + "." + GetExeExtension());
 }
