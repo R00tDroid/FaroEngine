@@ -4,6 +4,7 @@
     "Modules": 
     [
         "Engine/Core",
-        "Engine/Platform/PlatformBase"
+        "Engine/Platform/PlatformBase",
+        "Engine/Platform/PlatformWindows"
     ]
 }
