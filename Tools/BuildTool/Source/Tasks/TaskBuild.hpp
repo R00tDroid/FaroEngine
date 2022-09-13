@@ -132,8 +132,6 @@ public:
                     return false;
                 }
 
-                //TODO link all modules into executable
-
                 buildTimer.Stop("Build");
             }
 
@@ -142,8 +140,12 @@ public:
         }
 
         //TODO Only link when needed
-        //Utility::PrintLine("Linking modules");
-        //targetToolchain.LinkExecutable(module, targetPlatform, project, moduleOrder);
+        Utility::PrintLine("Linking modules");
+        if (!targetToolchain->LinkExecutable(project, targetPlatform, buildType, moduleOrder))
+        {
+            Utility::PrintLine("Linkage error!");
+            return false;
+        }
 
         return true;
     }

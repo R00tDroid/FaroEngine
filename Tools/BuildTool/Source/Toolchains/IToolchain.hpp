@@ -4,6 +4,7 @@
 #include <vector>
 
 class ModuleManifest;
+class ProjectManifest;
 
 enum BuildType
 {
@@ -43,7 +44,7 @@ public:
 
     virtual bool LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) = 0;
 
-    virtual bool LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) = 0;
+    virtual bool LinkExecutable(ProjectManifest& project, BuildPlatform* target, BuildType configuration, std::vector<ModuleManifest*> modules) = 0;
 
     std::filesystem::path GetObjDirectory(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
 
@@ -51,9 +52,13 @@ public:
 
     virtual std::string GetObjExtension() = 0;
 
-    std::filesystem::path GetBinDirectory(ModuleManifest& manifest, BuildType configuration);
+    std::filesystem::path GetLibDirectory(ModuleManifest& manifest);
 
-    std::filesystem::path GetBinPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
+    std::filesystem::path GetLibPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
+
+    std::filesystem::path GetExeDirectory(ProjectManifest& manifest);
+
+    std::filesystem::path GetExePath(ProjectManifest& manifest, BuildPlatform* target, BuildType configuration);
 
     virtual std::string GetLibExtension() = 0;
 

@@ -148,7 +148,7 @@ public:
         std::filesystem::path libExe = msvcTools / "lib.exe";
         std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
 
-        std::filesystem::path libPath = GetBinPath(manifest, target, configuration);
+        std::filesystem::path libPath = GetLibPath(manifest, target, configuration);
         Utility::EnsureDirectory(libPath.parent_path());
 
         std::string log = "";
@@ -168,7 +168,7 @@ public:
         return result == 0;
     }
 
-    bool LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) override
+    bool LinkExecutable(ProjectManifest& project, BuildPlatform* target, BuildType configuration, std::vector<ModuleManifest*> modules) override
     {
         std::string libs = "";
         std::string libDirectories = "";
@@ -185,17 +185,21 @@ public:
         libDirectories += " /LIBPATH:\"" + windowsSdkLib.string() + "\\um\\x64\"";
         libDirectories += " /LIBPATH:\"" + msvcRoot.string() + "\\lib\\x64\"";
 
-        //TODO link against other modules (/WHOLEARCHIVE)
         //TODO link against dependencies
 
-        std::filesystem::path linkExe = "\"" / msvcTools / "link.exe\"";
+        for (ModuleManifest* module : modules)
+        {
+            moduleLibs += " /WHOLEARCHIVE:\""+ GetLibPath(*module, target, configuration).string() + "\"";
+        }
+
+        std::filesystem::path linkExe = msvcTools / "link.exe";
         std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
 
-        Utility::EnsureDirectory(GetBinDirectory(manifest, configuration));
-        std::filesystem::path outputFile = GetBinPath(manifest, target, configuration);
+        Utility::EnsureDirectory(GetExeDirectory(project));
+        std::filesystem::path outputFile = GetExePath(project, target, configuration);
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + linkExe.string() + " /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + linkExe.string() + "\" /NOLOGO /DEBUG /SUBSYSTEM:CONSOLE /WX /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
 
         //Format, trim and print output message
         if (!log.empty())
