@@ -199,7 +199,7 @@ public:
         std::filesystem::path outputFile = GetExePath(project, target, configuration);
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + linkExe.string() + "\" /NOLOGO /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + linkExe.string() + "\" /NOLOGO /DEBUG /SUBSYSTEM:CONSOLE /WX /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
 
         //Format, trim and print output message
         if (!log.empty())
