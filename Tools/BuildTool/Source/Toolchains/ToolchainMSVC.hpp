@@ -192,14 +192,14 @@ public:
             moduleLibs += " /WHOLEARCHIVE:\""+ GetLibPath(*module, target, configuration).string() + "\"";
         }
 
-        std::filesystem::path linkExe = "\"" / msvcTools / "link.exe\"";
+        std::filesystem::path linkExe = msvcTools / "link.exe";
         std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
 
         Utility::EnsureDirectory(GetExeDirectory(project));
         std::filesystem::path outputFile = GetExePath(project, target, configuration);
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & " + linkExe.string() + " /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + linkExe.string() + "\" /DEBUG /SUBSYSTEM:WINDOWS /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
 
         //Format, trim and print output message
         if (!log.empty())
