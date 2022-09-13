@@ -24,6 +24,8 @@ public:
     // Build directory of this module
     std::filesystem::path faroRoot = "";
 
+    std::filesystem::path solutionLocation = "";
+
     // Project this module belongs to
     ProjectManifest* project = nullptr;
 
@@ -180,6 +182,8 @@ public:
 
         if (!ParseIncludeDirectories(rootObject, "PrivateIncludeDirectories", privateIncludes)) return false;
 
+        if (!ParseSolutionLocation(rootObject)) return false;
+
         return true;
     }
 
@@ -232,6 +236,8 @@ public:
                 sourceFiles.push_back(file);
             }
         }
+
+        sourceFiles.push_back(manifestPath);
 
         sourceFiles.erase(std::unique(sourceFiles.begin(), sourceFiles.end()), sourceFiles.end());
         std::sort(sourceFiles.begin(), sourceFiles.end());
@@ -297,6 +303,28 @@ public:
 
         return true;
     }
+
+    bool ParseSolutionLocation(picojson::object& rootObject)
+    {
+        solutionLocation = "";
+
+        if (rootObject.find("SolutionLocation") != rootObject.end())
+        {
+            picojson::value& value = rootObject["SolutionLocation"];
+            if (!value.is<std::string>())
+            {
+                Utility::PrintLine("Expected SolutionLocation to be a string");
+                return false;
+            }
+
+            solutionLocation = value.get<std::string>();
+        }
+
+        solutionLocation = std::filesystem::weakly_canonical(solutionLocation);
+
+        return true;
+    }
+
 
     bool ResolveDependencies()
     {

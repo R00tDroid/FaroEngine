@@ -13,5 +13,6 @@
         "Source/**/*.c",
         "Source/**/*.h"
     ],
-    "ModuleType": "Library"
+    "ModuleType": "Library",
+    "SolutionLocation": "Platform"
 }
