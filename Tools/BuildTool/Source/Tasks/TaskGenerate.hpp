@@ -14,6 +14,7 @@ public:
         std::string uuid;
         bool buildByDefault = false;
         std::filesystem::path solutionPath;
+        bool debuggable = false;
 
         virtual bool HasSourceFiles() { return false; }
         virtual std::vector<std::filesystem::path> GetSourceFiles() { return {}; }
@@ -93,6 +94,7 @@ public:
         commandInfo->uuid = Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / (commandInfo->name + "Id.txt"));
         commandInfo->projectPath = project.faroRoot / "Project" / (commandInfo->name + ".vcxproj");
         commandInfo->solutionPath = "Project/Actions";
+        commandInfo->debuggable = true;
         projectInfoList.push_back(commandInfo);
 
         commandInfo = new CustomCommandInfo();
@@ -128,6 +130,7 @@ public:
         for (ProjectInfo* projectInfo : projectInfoList)
         {
             WriteProjectFile(*projectInfo);
+            WriteProjectUserFile(project, *projectInfo);
 
             if (projectInfo->HasSourceFiles())
             {
@@ -351,6 +354,50 @@ private:
         }
 
         doc.SaveFile(projectInfo.projectPath.string().c_str());
+    }
+
+    void WriteProjectUserFile(ProjectManifest& projectManifest, ProjectInfo& projectInfo)
+    {
+        if (!projectInfo.debuggable) return;
+
+        std::filesystem::path file = projectInfo.projectPath;
+        file.replace_extension(".vcxproj.user");
+
+        Utility::EnsureDirectory(file.parent_path());
+
+        std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
+
+        tinyxml2::XMLDocument doc;
+        {
+            tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
+            projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
+            projectElement->SetAttribute("ToolsVersion", "Current");
+            doc.InsertEndChild(projectElement);
+
+            
+            for (IToolchain* toolchain : toolchains)
+            {
+                std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+                for (BuildPlatform* platform : platforms)
+                {
+                    for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+                    {
+                        const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+
+                        tinyxml2::XMLElement* propGroup = projectElement->InsertNewChildElement("PropertyGroup");
+                        propGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)'=='" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
+
+                        tinyxml2::XMLElement* element = propGroup->InsertNewChildElement("LocalDebuggerCommand");
+                        element->SetText(toolchain->GetExePath(projectManifest, platform, (BuildType)buildTypeIndex).string().c_str());
+                        element = propGroup->InsertNewChildElement("DebuggerFlavor");
+                        element->SetText("WindowsLocalDebugger");
+                    }
+                }
+            }
+        }
+        
+
+        doc.SaveFile(file.string().c_str());
     }
 
     static std::filesystem::path GetFileRelativeDirectory(std::filesystem::path root, std::filesystem::path file)
