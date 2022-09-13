@@ -2,6 +2,6 @@
 
 int main()
 {
-    Faro::Application App;
-    return App.Run();
+    Faro::Application app;
+    return app.Run();
 }
