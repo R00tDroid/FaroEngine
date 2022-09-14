@@ -1,5 +1,4 @@
-#ifndef UTIL_HEADER
-#define UTIL_HEADER
+#pragma once
 #include "../Primitives.h"
 #include <random>
 
@@ -40,5 +39,3 @@ namespace Faro
     typedef RandomGenerator<int8> RandomInt8;
     typedef RandomGenerator<uint8> RandomUInt8;
 }
-
-#endif

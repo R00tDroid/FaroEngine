@@ -1,6 +1,4 @@
-#ifndef MODULE_HEADER
-#define MODULE_HEADER
-
+#pragma once
 #include <Containers/Array.h>
 #include <Containers/String.h>
 #include <Util/ClassRegistry.h>
@@ -21,5 +19,3 @@ namespace Faro
     DEFINE_INSTANCE_REGISTRY(Module, Faro::IModule)
 #define REGISTER_MODULE(MODULE) REGISTER_INSTANCE(Module, MODULE)
 }
-
-#endif
