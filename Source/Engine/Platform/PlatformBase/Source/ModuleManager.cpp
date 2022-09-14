@@ -22,7 +22,7 @@ namespace Faro
 
         //TODO sort modules based on dependencies
 
-        for (IModule* module : modules) 
+        for (IModule* module : modules)
         {
             module->Load();
         }
