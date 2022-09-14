@@ -2,6 +2,7 @@
 #define STRING_HEADER
 
 #include <algorithm>
+#include <cstdarg>
 
 #include "../Primitives.h"
 #include <string>
@@ -167,6 +168,27 @@ namespace Faro
     inline float ParseString<float>(String value)
     {
         return std::stof(value.Data());
+    }
+
+    inline String FormatStringVA(String format, va_list args)
+    {
+        int size = std::snprintf(nullptr, 0, format.Data(), args) + 1;
+        if (size <= 0) return {};
+        char* buffer = (char*)malloc(size);
+        std::snprintf(buffer, size, format.Data(), args);
+        String result(buffer);
+        free(buffer);
+        return result;
+    }
+
+    inline String FormatString(String format, ...)
+    {
+        va_list args;
+        va_start(args, format);
+        String result = FormatStringVA(format, args);
+        va_end(args);
+
+        return result;
     }
 }
 #endif
