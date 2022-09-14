@@ -99,7 +99,7 @@ public:
 
         commandInfo = new CustomCommandInfo();
         commandInfo->name = "Generate";
-        commandInfo->buildByDefault = true;
+        commandInfo->buildByDefault = false;
         commandInfo->buildCommand = faroBuildTool.string() + " -generate -project " + project.manifestPath.string();
         commandInfo->rebuildCommand = faroBuildTool.string() + " -generate -build -project " + project.manifestPath.string();
         commandInfo->uuid = Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / (commandInfo->name + "Id.txt"));
