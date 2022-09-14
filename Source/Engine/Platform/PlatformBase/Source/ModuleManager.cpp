@@ -1,8 +1,11 @@
 #include "ModuleManager.h"
 #include <Module.h>
+#include <Log.hpp>
 
 namespace Faro
 {
+    LOG_DECLARATION(ModuleManagerLog)
+
     ModuleManager moduleManagerInstance;
     ModuleManager* GModuleManager;
 
@@ -22,8 +25,10 @@ namespace Faro
 
         //TODO sort modules based on dependencies
 
+        Log(ModuleManagerLog, LC_Debug, "Loading modules");
         for (IModule* module : modules)
         {
+            Log(ModuleManagerLog, LC_Debug, "Loading module: %s", module->GetName().Data());
             module->Load();
         }
     
@@ -37,6 +42,7 @@ namespace Faro
 
     bool ModuleManager::Destroy()
     {
+        Log(ModuleManagerLog, LC_Debug, "Unloading modules");
         for (IModule* module : modules)
         {
             module->Unload();
