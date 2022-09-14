@@ -6,7 +6,7 @@ namespace Faro
 {
     typedef String LogTag;
 #define LOG_DEFINITION(Tag) extern LogTag Tag;
-#define LOG_DECLARATION(Tag) LogTag Tag;
+#define LOG_DECLARATION(Tag, Header) LogTag Tag = #Header;
 
     enum ELogCategory
     {

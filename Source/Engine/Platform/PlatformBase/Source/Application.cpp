@@ -4,7 +4,7 @@
 
 namespace Faro
 {
-    LOG_DECLARATION(AppLog)
+    LOG_DECLARATION(AppLog, Application)
 
     Application* GApplication = nullptr;
 

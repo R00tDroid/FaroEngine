@@ -4,7 +4,7 @@
 
 namespace Faro
 {
-    LOG_DECLARATION(ModuleManagerLog)
+    LOG_DECLARATION(ModuleManagerLog, ModuleManager)
 
     ModuleManager moduleManagerInstance;
     ModuleManager* GModuleManager;
