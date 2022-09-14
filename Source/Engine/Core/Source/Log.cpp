@@ -35,8 +35,11 @@ namespace Faro
         }
         else
         {
-
             logSink(tag, category, message);
+        }
+        if (category == LC_Fatal)
+        {
+            std::abort();
         }
     }
 }
