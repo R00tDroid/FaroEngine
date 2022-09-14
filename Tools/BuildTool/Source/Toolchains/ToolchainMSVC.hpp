@@ -189,7 +189,9 @@ public:
 
         for (ModuleManifest* module : modules)
         {
-            moduleLibs += " /WHOLEARCHIVE:\""+ GetLibPath(*module, target, configuration).string() + "\"";
+            std::filesystem::path lib = GetLibPath(*module, target, configuration);
+            Utility::PrintLineD("\t" + lib.string());
+            moduleLibs += " /WHOLEARCHIVE:\""+ lib.string() + "\"";
         }
 
         std::filesystem::path linkExe = msvcTools / "link.exe";

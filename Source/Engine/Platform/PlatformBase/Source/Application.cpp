@@ -1,4 +1,5 @@
 #include "Application.h"
+#include "ModuleManager.h"
 
 namespace Faro
 {
@@ -33,16 +34,22 @@ namespace Faro
 
     bool Application::Init()
     {
+        if (!GModuleManager->Init()) return false;
+
         return true;
     }
 
     bool Application::Update()
     {
+        if (!GModuleManager->Update()) return false;
+
         return true;
     }
 
     bool Application::Destroy()
     {
+        if (!GModuleManager->Destroy()) return false;
+
         return true;
     }
 }
