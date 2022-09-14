@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['objecttracker_2eh_0',['ObjectTracker.h',['../ObjectTracker_8h.html',1,'']]]
+  ['objecttracker_2ehpp_0',['ObjectTracker.hpp',['../ObjectTracker_8hpp.html',1,'']]]
 ];

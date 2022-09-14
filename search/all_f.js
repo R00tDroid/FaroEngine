@@ -4,7 +4,7 @@ var searchData=
   ['tan_1',['Tan',['../namespaceFaro.html#a98b391360794fdcf72f845395e733ace',1,'Faro']]],
   ['tandeg_2',['TanDeg',['../namespaceFaro.html#a58913797a582be8de9408753f88fe841',1,'Faro']]],
   ['time_2ecpp_3',['Time.cpp',['../Time_8cpp.html',1,'']]],
-  ['time_2eh_4',['Time.h',['../Time_8h.html',1,'']]],
+  ['time_2ehpp_4',['Time.hpp',['../Time_8hpp.html',1,'']]],
   ['timepoint_5',['TimePoint',['../classFaro_1_1TimePoint.html',1,'Faro']]],
   ['tolower_6',['ToLower',['../classFaro_1_1String.html#a99345870a0794906db8ebc1ca9609787',1,'Faro::String']]],
   ['tostring_7',['ToString',['../structFaro_1_1Vector2.html#af354de82dd4b99bf32bcd6cbb5657321',1,'Faro::Vector2::ToString()'],['../structFaro_1_1Vector3.html#aa3ffe7ec3fe764755bd8c40b3b0414d3',1,'Faro::Vector3::ToString()'],['../structFaro_1_1Vector4.html#aa351b12680c844b57af49d685ab10126',1,'Faro::Vector4::ToString()'],['../namespaceFaro.html#a29ca964f89a01258ac5d2c01fc7e2cd9',1,'Faro::ToString()']]],

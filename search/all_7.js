@@ -2,7 +2,7 @@ var searchData=
 [
   ['icolor_0',['IColor',['../structFaro_1_1IColor.html',1,'Faro::IColor&lt; T, TMax &gt;'],['../structFaro_1_1IColor.html#a1b0157e833368290e91301252122d37d',1,'Faro::IColor::IColor(T r, T g, T b, T a=TMax)'],['../structFaro_1_1IColor.html#a97ec6fe2e500586746ab5489c9f1868d',1,'Faro::IColor::IColor(float color[4])'],['../structFaro_1_1IColor.html#aaa547e7152e976a697142d8d6ed11393',1,'Faro::IColor::IColor()']]],
   ['imodule_1',['IModule',['../classFaro_1_1IModule.html',1,'Faro']]],
-  ['implement_5finstance_5fregistry_2',['IMPLEMENT_INSTANCE_REGISTRY',['../ClassRegistry_8h.html#af528b9a1fb39079116a7cfb721f855c8',1,'ClassRegistry.h']]],
+  ['implement_5finstance_5fregistry_2',['IMPLEMENT_INSTANCE_REGISTRY',['../ClassRegistry_8hpp.html#af528b9a1fb39079116a7cfb721f855c8',1,'ClassRegistry.hpp']]],
   ['index_2emd_3',['Index.md',['../Index_8md.html',1,'']]],
   ['init_4',['Init',['../classFaro_1_1ModuleManager.html#a256720b0f9686ab636dcb7608749a872',1,'Faro::ModuleManager::Init()'],['../classFaro_1_1Platform.html#a5dd6bd7b0040009c2d784db98a45f93d',1,'Faro::Platform::Init()'],['../classFaro_1_1PlatformWindows.html#ae594c1e5cc898e69d28af2410ff199e6',1,'Faro::PlatformWindows::Init()']]],
   ['insert_5',['Insert',['../classFaro_1_1Array.html#a70c2298d63e2ce01172325f1ab6df343',1,'Faro::Array']]],

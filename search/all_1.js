@@ -6,6 +6,6 @@ var searchData=
   ['black_3',['Black',['../structFaro_1_1IColor.html#a2dab21d02dcbca079258b1632c456014',1,'Faro::IColor']]],
   ['blue_4',['Blue',['../structFaro_1_1IColor.html#ac99a831f624951ba0d62496dd6974522',1,'Faro::IColor']]],
   ['branch_5',['branch',['../structFaro_1_1Version.html#a446a2a93c2c80b8fc494e70c03f83d94',1,'Faro::Version']]],
-  ['broadcast_2eh_6',['Broadcast.h',['../Broadcast_8h.html',1,'']]],
-  ['broadcast_5fbase_7',['BROADCAST_BASE',['../Broadcast_8h.html#aa5e0843a19d7cfa20892eb237fbf7178',1,'Broadcast.h']]]
+  ['broadcast_2ehpp_6',['Broadcast.hpp',['../Broadcast_8hpp.html',1,'']]],
+  ['broadcast_5fbase_7',['BROADCAST_BASE',['../Broadcast_8hpp.html#aa5e0843a19d7cfa20892eb237fbf7178',1,'Broadcast.hpp']]]
 ];

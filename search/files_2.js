@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['classregistry_2eh_0',['ClassRegistry.h',['../ClassRegistry_8h.html',1,'']]],
-  ['color_2eh_1',['Color.h',['../Color_8h.html',1,'']]],
-  ['core_2eh_2',['Core.h',['../Core_8h.html',1,'']]]
+  ['classregistry_2ehpp_0',['ClassRegistry.hpp',['../ClassRegistry_8hpp.html',1,'']]],
+  ['color_2ehpp_1',['Color.hpp',['../Color_8hpp.html',1,'']]],
+  ['core_2ehpp_2',['Core.hpp',['../Core_8hpp.html',1,'']]]
 ];
