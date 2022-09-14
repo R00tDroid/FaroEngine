@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 #include <Containers/String.h>
 
 namespace Faro
@@ -18,4 +19,6 @@ namespace Faro
     };
 
     extern void Log(LogTag tag, ELogCategory category, String format, ...);
+
+    extern void SetLogSink(std::function<void(LogTag, ELogCategory, String)> logSink);
 }
