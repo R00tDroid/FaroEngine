@@ -103,7 +103,8 @@ public:
             includes += " /I\"" + include.string() + "\"";
         }
 
-        std::string defines = "";
+        //TODO switch debug and release
+        std::string defines = " /DDEBUG /D_DEBUG /D_MT /D_CRTDBG_MAP_ALLOC /MTd";
         for (std::string& define : preprocessorDefines)
         {
             includes += " /D" + define;

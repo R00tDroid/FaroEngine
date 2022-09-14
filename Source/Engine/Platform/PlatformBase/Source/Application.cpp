@@ -1,8 +1,11 @@
 #include "Application.h"
+#include <Log.hpp>
 #include "ModuleManager.h"
 
 namespace Faro
 {
+    LOG_DECLARATION(AppLog, Application)
+
     Application* GApplication = nullptr;
 
     Application::Application()
@@ -17,13 +20,18 @@ namespace Faro
 
     int Application::Run()
     {
+        Log(AppLog, LC_Info, "Faro Engine");
+
+        Log(AppLog, LC_Debug, "Initializing");
         if (!Init())
         {
             return -1;
         }
 
+        Log(AppLog, LC_Debug, "Entering main loop");
         while (Update()) {}
 
+        Log(AppLog, LC_Debug, "Starting destruction");
         if (!Destroy())
         {
             return -1;
