@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.56c24cb (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.9cdb949 (main)</span>
    </div>
   </td>
  </tr>
@@ -86,6 +86,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1LiveObjectTracker.html">LiveObjectTracker</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1LogMessage.html">LogMessage</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Map.html">Map</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1Matrix44.html">Matrix44</a></td></tr>
@@ -96,7 +98,11 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Path.html">Path</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Platform.html">Platform</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1PlatformModule.html">PlatformModule</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1PlatformWindows.html">PlatformWindows</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1RandomGenerator.html">RandomGenerator</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -117,6 +123,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
+<tr class="memitem:adbadbd48c5fa8621c4ddd6e35e1a41e5"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classFaro_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a></td></tr>
+<tr class="separator:adbadbd48c5fa8621c4ddd6e35e1a41e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10742bd7fd8df5f5e9b33298674ba31e"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structFaro_1_1IColor.html">IColor</a>&lt; float, 1 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a10742bd7fd8df5f5e9b33298674ba31e">FloatColor</a></td></tr>
 <tr class="separator:a10742bd7fd8df5f5e9b33298674ba31e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e410c13c116e2a243b95d26640aedf4"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structFaro_1_1IColor.html">IColor</a>&lt; <a class="el" href="namespaceFaro.html#ad2c0f3261ab209e8901c67f099fe7c81">uint8</a>, 255 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a6e410c13c116e2a243b95d26640aedf4">UInt8Color</a></td></tr>
@@ -165,6 +173,17 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespaceFaro.html#acf284d5454602e0adc26108820a23d71a6c7b9da6e44ddc0df67f261ba238bcea">Directory</a>
  }</td></tr>
 <tr class="separator:acf284d5454602e0adc26108820a23d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8955838e5e64cbdce8086c5839ebe35b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a> { <br />
+&#160;&#160;<a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35baad33e372063d14b4258c8772c1a959c6">LC_Trace</a>
+, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35ba497e77859c2408e11f037b1a1763779f">LC_Debug</a>
+, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35ba6ed31d364fac6665261a1dd971c7e7a4">LC_Info</a>
+, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35ba3cc81afc466cdeb3871bfaf4c792d2cb">LC_Warning</a>
+, <br />
+&#160;&#160;<a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35bace1b11594792a0579e346905002d0ba3">LC_Error</a>
+, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35baaf0a74f01afe09f0c73437f17f5878bc">LC_Fatal</a>
+<br />
+ }</td></tr>
+<tr class="separator:a8955838e5e64cbdce8086c5839ebe35b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -181,6 +200,14 @@ Functions</h2></td></tr>
 <tr class="memitem:acdea1ba7a2d52081ea1e03dacf0a6b0f"><td class="memItemLeft" align="right" valign="top">template&lt;&gt; </td></tr>
 <tr class="memitem:acdea1ba7a2d52081ea1e03dacf0a6b0f"><td class="memTemplItemLeft" align="right" valign="top">float&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#acdea1ba7a2d52081ea1e03dacf0a6b0f">ParseString&lt; float &gt;</a> (<a class="el" href="classFaro_1_1String.html">String</a> value)</td></tr>
 <tr class="separator:acdea1ba7a2d52081ea1e03dacf0a6b0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d8667c7d65c2f2e460efe0e5fe073b6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a5d8667c7d65c2f2e460efe0e5fe073b6">FormatStringVA</a> (<a class="el" href="classFaro_1_1String.html">String</a> format, va_list args)</td></tr>
+<tr class="separator:a5d8667c7d65c2f2e460efe0e5fe073b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e7f5c34826af34ca25dbdc346ee308b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a9e7f5c34826af34ca25dbdc346ee308b">FormatString</a> (<a class="el" href="classFaro_1_1String.html">String</a> format,...)</td></tr>
+<tr class="separator:a9e7f5c34826af34ca25dbdc346ee308b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86c86c162f7e2713a4ab887cd9d545de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a86c86c162f7e2713a4ab887cd9d545de">SetLogSink</a> (std::function&lt; void(<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>, <a class="el" href="classFaro_1_1String.html">String</a>)&gt; inLogSink)</td></tr>
+<tr class="separator:a86c86c162f7e2713a4ab887cd9d545de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6ab18fbbcc81e4caa036d09ab8a45e44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a6ab18fbbcc81e4caa036d09ab8a45e44">Log</a> (<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a> tag, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a> category, <a class="el" href="classFaro_1_1String.html">String</a> format,...)</td></tr>
+<tr class="separator:a6ab18fbbcc81e4caa036d09ab8a45e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ccfe601da6bf259918ce41a78b59d85"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a6ccfe601da6bf259918ce41a78b59d85">Pi</a> ()</td></tr>
 <tr class="separator:a6ccfe601da6bf259918ce41a78b59d85"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a45765c03aad848332bf8f9dfd230760f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a45765c03aad848332bf8f9dfd230760f">SetPIPrecision</a> (int)</td></tr>
@@ -240,9 +267,17 @@ Functions</h2></td></tr>
 <tr class="separator:abb1342999f524158e177a795398beccd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a63d0f3d5693a4d4f79b11d5c187b591c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1IModule.html">IModule</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a63d0f3d5693a4d4f79b11d5c187b591c">GetRegisteredModules</a> ()</td></tr>
 <tr class="separator:a63d0f3d5693a4d4f79b11d5c187b591c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1726315c1482fd5bd59b0b56f1833cc7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1Platform.html">Platform</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a1726315c1482fd5bd59b0b56f1833cc7">GetRegisteredPlatforms</a> ()</td></tr>
+<tr class="separator:a1726315c1482fd5bd59b0b56f1833cc7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac56dd31aace4f8ebe42eb03e6190491b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#ac56dd31aace4f8ebe42eb03e6190491b">LogWindows</a> (<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a> tag, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a> category, <a class="el" href="classFaro_1_1String.html">String</a> message)</td></tr>
+<tr class="separator:ac56dd31aace4f8ebe42eb03e6190491b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
+<tr class="memitem:a451d12982605d71fdb55eea7dc9651ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="structFaro_1_1LogMessage.html">LogMessage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a451d12982605d71fdb55eea7dc9651ad">pendingLogMessages</a></td></tr>
+<tr class="separator:a451d12982605d71fdb55eea7dc9651ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3670553b43a689553d52beb7c611a13e"><td class="memItemLeft" align="right" valign="top">std::function&lt; void(<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>, <a class="el" href="classFaro_1_1String.html">String</a>)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a3670553b43a689553d52beb7c611a13e">logSink</a> = nullptr</td></tr>
+<tr class="separator:a3670553b43a689553d52beb7c611a13e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc83d7c9014076e732ec9dfc525918dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1RandomStream.html">RandomStream</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#afc83d7c9014076e732ec9dfc525918dd">global_rng_stream_</a></td></tr>
 <tr class="separator:afc83d7c9014076e732ec9dfc525918dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9df44b6248c2bc373fb4b6556b43908"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Application.html">Application</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#ad9df44b6248c2bc373fb4b6556b43908">GApplication</a> = nullptr</td></tr>
@@ -251,6 +286,8 @@ Variables</h2></td></tr>
 <tr class="separator:a495ae4e318fd32526f59edd67a89a629"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a17e0c805299660ecb4a9ab01b0fd98c6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1ModuleManager.html">ModuleManager</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a17e0c805299660ecb4a9ab01b0fd98c6">GModuleManager</a></td></tr>
 <tr class="separator:a17e0c805299660ecb4a9ab01b0fd98c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a361b946b88e5607247d549cd2b50e8f9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Platform.html">Platform</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a361b946b88e5607247d549cd2b50e8f9">GPlatform</a> = nullptr</td></tr>
+<tr class="separator:a361b946b88e5607247d549cd2b50e8f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="ac9cc0487cae1d1432ad8a226c707a3b0" name="ac9cc0487cae1d1432ad8a226c707a3b0"></a>
@@ -407,6 +444,20 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="adbadbd48c5fa8621c4ddd6e35e1a41e5" name="adbadbd48c5fa8621c4ddd6e35e1a41e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adbadbd48c5fa8621c4ddd6e35e1a41e5">&#9670;&nbsp;</a></span>LogTag</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="classFaro_1_1String.html">String</a> <a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">Faro::LogTag</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="afeec617f70cf1f6722dc902c5a5bdd5e" name="afeec617f70cf1f6722dc902c5a5bdd5e"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afeec617f70cf1f6722dc902c5a5bdd5e">&#9670;&nbsp;</a></span>RandomFloat</h2>
 
@@ -534,6 +585,28 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a8955838e5e64cbdce8086c5839ebe35b" name="a8955838e5e64cbdce8086c5839ebe35b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8955838e5e64cbdce8086c5839ebe35b">&#9670;&nbsp;</a></span>ELogCategory</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">Faro::ELogCategory</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a8955838e5e64cbdce8086c5839ebe35baad33e372063d14b4258c8772c1a959c6" name="a8955838e5e64cbdce8086c5839ebe35baad33e372063d14b4258c8772c1a959c6"></a>LC_Trace&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8955838e5e64cbdce8086c5839ebe35ba497e77859c2408e11f037b1a1763779f" name="a8955838e5e64cbdce8086c5839ebe35ba497e77859c2408e11f037b1a1763779f"></a>LC_Debug&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8955838e5e64cbdce8086c5839ebe35ba6ed31d364fac6665261a1dd971c7e7a4" name="a8955838e5e64cbdce8086c5839ebe35ba6ed31d364fac6665261a1dd971c7e7a4"></a>LC_Info&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8955838e5e64cbdce8086c5839ebe35ba3cc81afc466cdeb3871bfaf4c792d2cb" name="a8955838e5e64cbdce8086c5839ebe35ba3cc81afc466cdeb3871bfaf4c792d2cb"></a>LC_Warning&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8955838e5e64cbdce8086c5839ebe35bace1b11594792a0579e346905002d0ba3" name="a8955838e5e64cbdce8086c5839ebe35bace1b11594792a0579e346905002d0ba3"></a>LC_Error&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a8955838e5e64cbdce8086c5839ebe35baaf0a74f01afe09f0c73437f17f5878bc" name="a8955838e5e64cbdce8086c5839ebe35baaf0a74f01afe09f0c73437f17f5878bc"></a>LC_Fatal&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="acf284d5454602e0adc26108820a23d71" name="acf284d5454602e0adc26108820a23d71"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#acf284d5454602e0adc26108820a23d71">&#9670;&nbsp;</a></span>PathType</h2>
 
@@ -804,6 +877,78 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a9e7f5c34826af34ca25dbdc346ee308b" name="a9e7f5c34826af34ca25dbdc346ee308b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e7f5c34826af34ca25dbdc346ee308b">&#9670;&nbsp;</a></span>FormatString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1String.html">String</a> Faro::FormatString </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a5d8667c7d65c2f2e460efe0e5fe073b6" name="a5d8667c7d65c2f2e460efe0e5fe073b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5d8667c7d65c2f2e460efe0e5fe073b6">&#9670;&nbsp;</a></span>FormatStringVA()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1String.html">String</a> Faro::FormatStringVA </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">va_list&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a63d0f3d5693a4d4f79b11d5c187b591c" name="a63d0f3d5693a4d4f79b11d5c187b591c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a63d0f3d5693a4d4f79b11d5c187b591c">&#9670;&nbsp;</a></span>GetRegisteredModules()</h2>
 
@@ -812,6 +957,23 @@ template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classFaro_1_1Array.html">Faro::Array</a>&lt; <a class="el" href="classFaro_1_1IModule.html">Faro::IModule</a> * &gt; Faro::GetRegisteredModules </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1726315c1482fd5bd59b0b56f1833cc7" name="a1726315c1482fd5bd59b0b56f1833cc7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1726315c1482fd5bd59b0b56f1833cc7">&#9670;&nbsp;</a></span>GetRegisteredPlatforms()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1Platform.html">Platform</a> * &gt; Faro::GetRegisteredPlatforms </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -846,6 +1008,80 @@ template&lt;class T , class AlphaType &gt; </div>
           <td></td>
           <td class="paramtype">AlphaType&#160;</td>
           <td class="paramname"><em>alpha</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6ab18fbbcc81e4caa036d09ab8a45e44" name="a6ab18fbbcc81e4caa036d09ab8a45e44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6ab18fbbcc81e4caa036d09ab8a45e44">&#9670;&nbsp;</a></span>Log()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::Log </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>&#160;</td>
+          <td class="paramname"><em>category</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td>
+          <td class="paramname"><em>format</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">&#160;</td>
+          <td class="paramname"><em>...</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ac56dd31aace4f8ebe42eb03e6190491b" name="ac56dd31aace4f8ebe42eb03e6190491b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac56dd31aace4f8ebe42eb03e6190491b">&#9670;&nbsp;</a></span>LogWindows()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::LogWindows </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>&#160;</td>
+          <td class="paramname"><em>category</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td>
+          <td class="paramname"><em>message</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1082,6 +1318,24 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a86c86c162f7e2713a4ab887cd9d545de" name="a86c86c162f7e2713a4ab887cd9d545de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a86c86c162f7e2713a4ab887cd9d545de">&#9670;&nbsp;</a></span>SetLogSink()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::SetLogSink </td>
+          <td>(</td>
+          <td class="paramtype">std::function&lt; void(<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>, <a class="el" href="classFaro_1_1String.html">String</a>)&gt;&#160;</td>
+          <td class="paramname"><em>inLogSink</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a45765c03aad848332bf8f9dfd230760f" name="a45765c03aad848332bf8f9dfd230760f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45765c03aad848332bf8f9dfd230760f">&#9670;&nbsp;</a></span>SetPIPrecision()</h2>
 
@@ -1259,6 +1513,34 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a361b946b88e5607247d549cd2b50e8f9" name="a361b946b88e5607247d549cd2b50e8f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a361b946b88e5607247d549cd2b50e8f9">&#9670;&nbsp;</a></span>GPlatform</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1Platform.html">Platform</a> * Faro::GPlatform = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a3670553b43a689553d52beb7c611a13e" name="a3670553b43a689553d52beb7c611a13e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3670553b43a689553d52beb7c611a13e">&#9670;&nbsp;</a></span>logSink</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::function&lt;void(<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>, <a class="el" href="classFaro_1_1String.html">String</a>)&gt; Faro::logSink = nullptr</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a495ae4e318fd32526f59edd67a89a629" name="a495ae4e318fd32526f59edd67a89a629"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a495ae4e318fd32526f59edd67a89a629">&#9670;&nbsp;</a></span>moduleManagerInstance</h2>
 
@@ -1267,6 +1549,20 @@ template&lt;class T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classFaro_1_1ModuleManager.html">ModuleManager</a> Faro::moduleManagerInstance</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a451d12982605d71fdb55eea7dc9651ad" name="a451d12982605d71fdb55eea7dc9651ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a451d12982605d71fdb55eea7dc9651ad">&#9670;&nbsp;</a></span>pendingLogMessages</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt;<a class="el" href="structFaro_1_1LogMessage.html">LogMessage</a>&gt; Faro::pendingLogMessages</td>
         </tr>
       </table>
 </div><div class="memdoc">

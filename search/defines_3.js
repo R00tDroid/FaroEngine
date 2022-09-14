@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['merge2_0',['MERGE2',['../Broadcast_8h.html#a6a8d4818c90fc8d151bd6d049ecb321b',1,'Broadcast.h']]],
-  ['merge3_1',['MERGE3',['../Broadcast_8h.html#a58f9fbe993e5a1f367ef064fb992743c',1,'Broadcast.h']]],
-  ['merge4_2',['MERGE4',['../Broadcast_8h.html#ab87690a9b73144f00ace71def6814f90',1,'Broadcast.h']]]
+  ['log_5fdeclaration_0',['LOG_DECLARATION',['../Log_8hpp.html#a30525f312abf3bb8b7403ec2cf64b3e5',1,'Log.hpp']]],
+  ['log_5fdefinition_1',['LOG_DEFINITION',['../Log_8hpp.html#acf5ee802b13a496f0fcae380b3f3dc2b',1,'Log.hpp']]]
 ];

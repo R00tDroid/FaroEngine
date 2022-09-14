@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pathtype_0',['PathType',['../namespaceFaro.html#acf284d5454602e0adc26108820a23d71',1,'Faro']]]
+  ['elogcategory_0',['ELogCategory',['../namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b',1,'Faro']]]
 ];

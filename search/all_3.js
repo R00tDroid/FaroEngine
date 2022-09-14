@@ -11,7 +11,7 @@ var searchData=
   ['define_5finstance_5fregistry_8',['DEFINE_INSTANCE_REGISTRY',['../ClassRegistry_8h.html#a09fc4481c9a48806677d5c6efb384504',1,'ClassRegistry.h']]],
   ['degtorad_9',['DegToRad',['../namespaceFaro.html#aabd029271b2f374bc64a7e273abe810c',1,'Faro']]],
   ['delete_10',['Delete',['../classFaro_1_1MemoryManager.html#ab4d1d7261482116f63f083336a2be288',1,'Faro::MemoryManager']]],
-  ['destroy_11',['Destroy',['../classFaro_1_1ModuleManager.html#a3a4d119d6292d376c874e0a875bfa19a',1,'Faro::ModuleManager']]],
+  ['destroy_11',['Destroy',['../classFaro_1_1PlatformWindows.html#a17ab95b0889de471bf54ef76894bf8c6',1,'Faro::PlatformWindows::Destroy()'],['../classFaro_1_1Platform.html#a5bd65deb59e1c4e3d46dae8407bea167',1,'Faro::Platform::Destroy()'],['../classFaro_1_1ModuleManager.html#a3a4d119d6292d376c874e0a875bfa19a',1,'Faro::ModuleManager::Destroy()']]],
   ['determinant_12',['Determinant',['../structFaro_1_1Matrix44.html#aed1e0929cf331968fd3b02cc81ab6ef1',1,'Faro::Matrix44']]],
   ['determinant33_13',['Determinant33',['../namespaceFaro.html#abb1342999f524158e177a795398beccd',1,'Faro']]],
   ['directory_14',['Directory',['../namespaceFaro.html#acf284d5454602e0adc26108820a23d71a6c7b9da6e44ddc0df67f261ba238bcea',1,'Faro']]],

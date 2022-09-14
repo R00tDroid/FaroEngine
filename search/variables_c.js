@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['x_0',['x',['../structFaro_1_1Vector2.html#a795ac5574c63503b50bab26470f86207',1,'Faro::Vector2::x()'],['../structFaro_1_1Vector3.html#a83d720c547585c002604c4ae823eab2d',1,'Faro::Vector3::x()'],['../structFaro_1_1Vector4.html#aa8659aefad65457be994dd27c98327a5',1,'Faro::Vector4::x()']]]
+  ['w_0',['w',['../structFaro_1_1Vector4.html#a4098793e0e8030d27fc45fb6ed94b609',1,'Faro::Vector4']]],
+  ['white_1',['White',['../structFaro_1_1IColor.html#a2553857653a64d229fc4963f4735835c',1,'Faro::IColor']]]
 ];

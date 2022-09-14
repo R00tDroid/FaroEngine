@@ -4,7 +4,7 @@ var searchData=
   ['imodule_1',['IModule',['../classFaro_1_1IModule.html',1,'Faro']]],
   ['implement_5finstance_5fregistry_2',['IMPLEMENT_INSTANCE_REGISTRY',['../ClassRegistry_8h.html#af528b9a1fb39079116a7cfb721f855c8',1,'ClassRegistry.h']]],
   ['index_2emd_3',['Index.md',['../Index_8md.html',1,'']]],
-  ['init_4',['Init',['../classFaro_1_1ModuleManager.html#a256720b0f9686ab636dcb7608749a872',1,'Faro::ModuleManager']]],
+  ['init_4',['Init',['../classFaro_1_1ModuleManager.html#a256720b0f9686ab636dcb7608749a872',1,'Faro::ModuleManager::Init()'],['../classFaro_1_1Platform.html#a5dd6bd7b0040009c2d784db98a45f93d',1,'Faro::Platform::Init()'],['../classFaro_1_1PlatformWindows.html#ae594c1e5cc898e69d28af2410ff199e6',1,'Faro::PlatformWindows::Init()']]],
   ['insert_5',['Insert',['../classFaro_1_1Array.html#a70c2298d63e2ce01172325f1ab6df343',1,'Faro::Array']]],
   ['int16_6',['int16',['../namespaceFaro.html#af49bbcd2b8ba1acd766356cee10b08ec',1,'Faro']]],
   ['int2d_7',['Int2D',['../namespaceFaro.html#a806c528578ae2db75b5c716bf4bb6030',1,'Faro']]],
