@@ -8,5 +8,6 @@ var searchData=
   ['milliseconds_5',['Milliseconds',['../classFaro_1_1Duration.html#ae1762fdfa7edbbfce5e826768b369ed0',1,'Faro::Duration']]],
   ['min_6',['Min',['../namespaceFaro.html#afddb901d79d8c494cb1b8053fe9112e4',1,'Faro']]],
   ['minutes_7',['Minutes',['../classFaro_1_1Duration.html#a816973a0ff0ba7c31571fca593340a5d',1,'Faro::Duration']]],
-  ['moveto_8',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
+  ['modulemanager_8',['ModuleManager',['../classFaro_1_1ModuleManager.html#ad9720f5e61709b081c572c7a31ad6150',1,'Faro::ModuleManager']]],
+  ['moveto_9',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
 ];

@@ -10,5 +10,7 @@ var searchData=
   ['memorymanager_2ecpp_7',['MemoryManager.cpp',['../MemoryManager_8cpp.html',1,'']]],
   ['memorymanager_2eh_8',['MemoryManager.h',['../MemoryManager_8h.html',1,'']]],
   ['module_2ecpp_9',['Module.cpp',['../Module_8cpp.html',1,'']]],
-  ['module_2eh_10',['Module.h',['../Module_8h.html',1,'']]]
+  ['module_2eh_10',['Module.h',['../Module_8h.html',1,'']]],
+  ['modulemanager_2ecpp_11',['ModuleManager.cpp',['../ModuleManager_8cpp.html',1,'']]],
+  ['modulemanager_2eh_12',['ModuleManager.h',['../ModuleManager_8h.html',1,'']]]
 ];

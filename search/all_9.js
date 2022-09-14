@@ -28,5 +28,9 @@ var searchData=
   ['minutes_25',['Minutes',['../classFaro_1_1Duration.html#a816973a0ff0ba7c31571fca593340a5d',1,'Faro::Duration']]],
   ['module_2ecpp_26',['Module.cpp',['../Module_8cpp.html',1,'']]],
   ['module_2eh_27',['Module.h',['../Module_8h.html',1,'']]],
-  ['moveto_28',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
+  ['modulemanager_28',['ModuleManager',['../classFaro_1_1ModuleManager.html',1,'Faro::ModuleManager'],['../classFaro_1_1ModuleManager.html#ad9720f5e61709b081c572c7a31ad6150',1,'Faro::ModuleManager::ModuleManager()']]],
+  ['modulemanager_2ecpp_29',['ModuleManager.cpp',['../ModuleManager_8cpp.html',1,'']]],
+  ['modulemanager_2eh_30',['ModuleManager.h',['../ModuleManager_8h.html',1,'']]],
+  ['modulemanagerinstance_31',['moduleManagerInstance',['../namespaceFaro.html#a495ae4e318fd32526f59edd67a89a629',1,'Faro']]],
+  ['moveto_32',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
 ];
