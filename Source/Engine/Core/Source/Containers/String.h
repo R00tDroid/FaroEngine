@@ -172,10 +172,10 @@ namespace Faro
 
     inline String FormatStringVA(String format, va_list args)
     {
-        int size = std::snprintf(nullptr, 0, format.Data(), args) + 1;
+        int size = std::vsnprintf(nullptr, 0, format.Data(), args) + 1;
         if (size <= 0) return {};
         char* buffer = (char*)malloc(size);
-        std::snprintf(buffer, size, format.Data(), args);
+        std::vsnprintf(buffer, size, format.Data(), args);
         String result(buffer);
         free(buffer);
         return result;
