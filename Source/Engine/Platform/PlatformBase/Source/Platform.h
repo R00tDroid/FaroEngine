@@ -8,6 +8,7 @@ namespace Faro
     public:
         virtual void Init() = 0;
         virtual void Destroy() = 0;
+        virtual String GetName() = 0;
     };
 
     extern Platform* GPlatform;

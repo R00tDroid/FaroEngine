@@ -8,6 +8,8 @@ namespace Faro
     public:
         void Init() override;
         void Destroy() override;
+
+        String GetName() override { return "Windows"; }
     };
 
     REGISTER_PLATFORM(PlatformWindows)
