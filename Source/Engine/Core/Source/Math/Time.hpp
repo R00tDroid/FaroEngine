@@ -1,8 +1,6 @@
-#ifndef MATHTIME_HEADER
-#define MATHTIME_HEADER
-
+#pragma once
 #include <chrono>
-#include "../Primitives.h"
+#include "../Primitives.hpp"
 
 namespace Faro
 {
@@ -35,5 +33,3 @@ namespace Faro
         std::chrono::steady_clock::time_point point;
     };    
 }
-
-#endif

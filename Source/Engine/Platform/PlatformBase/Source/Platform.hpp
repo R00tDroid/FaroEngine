@@ -1,5 +1,5 @@
 #pragma once
-#include <Util/ClassRegistry.h>
+#include <Util/ClassRegistry.hpp>
 
 namespace Faro
 {

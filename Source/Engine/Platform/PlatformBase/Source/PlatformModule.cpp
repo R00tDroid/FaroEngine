@@ -1,5 +1,5 @@
-#include "PlatformModule.h"
-#include "Platform.h"
+#include "PlatformModule.hpp"
+#include "Platform.hpp"
 #include <Log.hpp>
 
 namespace Faro

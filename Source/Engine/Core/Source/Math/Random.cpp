@@ -1,4 +1,4 @@
-#include "Random.h"
+#include "Random.hpp"
 #include <ctime>
 
 Faro::RandomStream::RandomStream()

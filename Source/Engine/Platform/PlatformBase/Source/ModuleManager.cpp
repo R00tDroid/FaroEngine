@@ -1,5 +1,5 @@
-#include "ModuleManager.h"
-#include <Module.h>
+#include "ModuleManager.hpp"
+#include <Module.hpp>
 #include <Log.hpp>
 
 namespace Faro

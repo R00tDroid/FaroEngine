@@ -1,4 +1,4 @@
-#include "MathUtil.h"
+#include "MathUtil.hpp"
 
 float pi = 0;
 

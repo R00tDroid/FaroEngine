@@ -1,6 +1,5 @@
-#ifndef UTIL_HEADER
-#define UTIL_HEADER
-#include "../Primitives.h"
+#pragma once
+#include "../Primitives.hpp"
 #include <random>
 
 namespace Faro
@@ -107,5 +106,3 @@ namespace Faro
         return a + (b - a) * alpha;
     }
 }
-
-#endif

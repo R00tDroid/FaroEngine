@@ -1,4 +1,4 @@
-#include "Time.h"
+#include "Time.hpp"
 #include <cmath>
 
 namespace Faro

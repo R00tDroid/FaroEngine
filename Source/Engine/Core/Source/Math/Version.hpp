@@ -1,7 +1,6 @@
-#ifndef VERSION_HEADER
-#define VERSION_HEADER
-#include "Primitives.h"
-#include "Containers/String.h"
+#pragma once
+#include "Primitives.hpp"
+#include "Containers/String.hpp"
 
 namespace Faro
 {
@@ -16,5 +15,3 @@ namespace Faro
         String branch;
     };
 }
-
-#endif
