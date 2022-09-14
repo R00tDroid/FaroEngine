@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <cstdarg>
 
-#include "../Primitives.h"
+#include "../Primitives.hpp"
 #include <string>
 
 namespace Faro

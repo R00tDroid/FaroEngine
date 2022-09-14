@@ -1,4 +1,4 @@
-#include "Module.h"
+#include "Module.hpp"
 
 namespace Faro {
     IMPLEMENT_INSTANCE_REGISTRY(Module, Faro::IModule)

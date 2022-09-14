@@ -1,7 +1,6 @@
 #pragma once
-
-#include "../Containers/Map.h"
-#include "../Containers/String.h"
+#include "../Containers/Map.hpp"
+#include "../Containers/String.hpp"
 #include <functional>
 
 #define DEFINE_INSTANCE_REGISTRY(NAME, TYPE)    namespace InstanceRegistry_##NAME { static Faro::Map<Faro::String, TYPE*> & Get() { static Faro::Map<Faro::String, TYPE*> instances; return instances; } } extern void InstanceRegistrationFunction_##NAME(Faro::String, TYPE*); template<class T> struct InstanceRegistration_##NAME { T instance; InstanceRegistration_##NAME(Faro::String id){ InstanceRegistrationFunction_##NAME(id, &instance); } };

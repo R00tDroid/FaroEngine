@@ -1,7 +1,7 @@
 #pragma once
-#include <Containers/Array.h>
-#include <Containers/String.h>
-#include <Util/ClassRegistry.h>
+#include <Containers/Array.hpp>
+#include <Containers/String.hpp>
+#include <Util/ClassRegistry.hpp>
 
 namespace Faro
 {

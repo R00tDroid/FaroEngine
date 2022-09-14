@@ -1,6 +1,6 @@
 #pragma once
 #include <cmath>
-#include "../Containers/String.h"
+#include "../Containers/String.hpp"
 
 namespace Faro
 {

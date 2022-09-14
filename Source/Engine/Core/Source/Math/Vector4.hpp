@@ -1,7 +1,7 @@
 #pragma once
-#include "../Containers/String.h"
-#include "Vector2.h"
-#include "Vector3.h"
+#include "../Containers/String.hpp"
+#include "Vector2.hpp"
+#include "Vector3.hpp"
 
 namespace Faro
 {

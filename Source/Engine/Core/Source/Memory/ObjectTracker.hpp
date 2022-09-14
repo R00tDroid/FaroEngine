@@ -1,8 +1,8 @@
 #ifndef OBJECTTRACKER_HEADER
 #define OBJECTTRACKER_HEADER
-#include "../Containers/String.h"
-#include "../Containers/Map.h"
-#include "../Math/MathUtil.h"
+#include "../Containers/String.hpp"
+#include "../Containers/Map.hpp"
+#include "../Math/MathUtil.hpp"
 
 namespace Faro
 {

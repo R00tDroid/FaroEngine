@@ -1,6 +1,6 @@
 #pragma once
 #include <functional>
-#include "../Containers/Array.h"
+#include "../Containers/Array.hpp"
 
 using Faro::Array;
 

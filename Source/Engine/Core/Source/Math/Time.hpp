@@ -1,7 +1,6 @@
 #pragma once
-
 #include <chrono>
-#include "../Primitives.h"
+#include "../Primitives.hpp"
 
 namespace Faro
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include <map>
-#include "Array.h"
+#include "Array.hpp"
 
 namespace Faro
 {

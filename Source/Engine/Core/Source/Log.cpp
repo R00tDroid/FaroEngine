@@ -1,5 +1,5 @@
 #include "Log.hpp"
-#include <Containers/Array.h>
+#include <Containers/Array.hpp>
 
 namespace Faro
 {

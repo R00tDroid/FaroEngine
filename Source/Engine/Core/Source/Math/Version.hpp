@@ -1,6 +1,6 @@
 #pragma once
-#include "Primitives.h"
-#include "Containers/String.h"
+#include "Primitives.hpp"
+#include "Containers/String.hpp"
 
 namespace Faro
 {

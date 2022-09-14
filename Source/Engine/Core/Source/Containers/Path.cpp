@@ -1,6 +1,6 @@
-#include "Path.h"
+#include "Path.hpp"
 #include <algorithm>
-#include "../Containers/Array.h"
+#include "../Containers/Array.hpp"
 #include <sys/stat.h>
 
 Faro::Path::Path()

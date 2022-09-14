@@ -1,5 +1,5 @@
 #pragma once
-#include "../Containers/String.h"
+#include "../Containers/String.hpp"
 
 namespace Faro
 {

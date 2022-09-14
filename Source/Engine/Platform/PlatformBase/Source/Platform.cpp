@@ -1,4 +1,4 @@
-#include "Platform.h"
+#include "Platform.hpp"
 
 namespace Faro
 {

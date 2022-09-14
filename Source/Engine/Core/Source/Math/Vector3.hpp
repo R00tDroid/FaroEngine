@@ -1,6 +1,6 @@
 #pragma once
-#include "Vector2.h"
-#include "../Containers/String.h"
+#include "Vector2.hpp"
+#include "../Containers/String.hpp"
 
 namespace Faro
 {

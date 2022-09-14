@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdlib>
-#include "../Primitives.h"
+#include "../Primitives.hpp"
 
 namespace Faro
 {
