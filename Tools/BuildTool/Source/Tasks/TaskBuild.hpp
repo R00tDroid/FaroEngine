@@ -81,7 +81,6 @@ public:
             std::vector<std::filesystem::path> filesToCompile;
             std::vector<std::filesystem::path> sourceFiles;
 
-     
             PerformanceTimer treescanTimer;
             for (std::filesystem::path& file : source)
             {

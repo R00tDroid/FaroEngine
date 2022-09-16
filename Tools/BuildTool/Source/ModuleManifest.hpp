@@ -325,7 +325,6 @@ public:
         return true;
     }
 
-
     bool ResolveDependencies()
     {
         for (std::string& dependencyName : unresolvedDependencies)
