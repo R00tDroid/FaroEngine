@@ -81,6 +81,8 @@ public:
             std::vector<std::filesystem::path> filesToCompile;
             std::vector<std::filesystem::path> sourceFiles;
 
+            module->fileDates.ParseFiles();
+
             PerformanceTimer treescanTimer;
             for (std::filesystem::path& file : source)
             {
@@ -89,8 +91,16 @@ public:
                 {
                     sourceFiles.push_back(file);
 
-                    //TODO check for changes
-                    filesToCompile.push_back(file);
+                    //TODO check entire tree for changes
+
+                    if (module->fileDates.HasFileChanged(file))
+                    {
+                        filesToCompile.push_back(file);
+                    }
+                    else
+                    {
+                        module->fileDates.MarkFileUpdate(file);
+                    }
                 }
             }
             treescanTimer.Stop("Change check treescan");
@@ -109,18 +119,31 @@ public:
                 std::vector<std::filesystem::path> includes = module->GetModuleIncludeDirectories();
 
                 PerformanceTimer sourceFilesTimer;
+                bool anyError = false;
                 for (std::filesystem::path& file : filesToCompile)
                 {
                     PerformanceTimer fileTimer;
                     std::string displayName = GetDisplayName(*module, file);
                     Utility::PrintLine(displayName);
 
-                    if (!targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetPlatform->preprocessorDefines)) 
+                    if (targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetPlatform->preprocessorDefines))
                     {
-                        Utility::PrintLine("Build error!");
-                        return false;
+                        module->fileDates.MarkFileUpdate(file);
+                    }
+                    else
+                    {
+                        anyError = true;
+                        module->fileDates.MarkFileInvalid(file);
                     }
                     fileTimer.Stop("Source: " + displayName);
+                }
+
+                module->fileDates.Save();
+
+                if (anyError)
+                {
+                    Utility::PrintLine("Build error!");
+                    return false;
                 }
                 sourceFilesTimer.Stop("Build source");
 
