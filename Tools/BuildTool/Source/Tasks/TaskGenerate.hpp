@@ -55,7 +55,12 @@ public:
         }
 
         bool HasSourceFiles() override { return true; }
-        std::vector<std::filesystem::path> GetSourceFiles() override { return module->sourceFiles; }
+        std::vector<std::filesystem::path> GetSourceFiles() override
+        {
+            std::vector<std::filesystem::path> files = module->sourceFiles;
+            files.push_back(module->manifestPath);
+            return files;
+        }
         std::vector<std::filesystem::path> GetIncludePaths() override { return module->GetModuleIncludeDirectories(); }
         std::filesystem::path GetRootDirectory() override { return module->moduleRoot; }
 
