@@ -30,6 +30,7 @@ public:
         targetToolchain = nullptr;
         targetPlatform = nullptr;
 
+        PerformanceTimer toolchainTimer;
         std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
         for (IToolchain* toolchain : toolchains) 
         {
@@ -58,6 +59,7 @@ public:
             Utility::PrintLine("Unable to find suitable toolchain for platform: " + buildPlatform + " " + buildArchitecture);
             return false;
         }
+        toolchainTimer.Stop("Find toolchain");
 
         //TODO sort module order based on dependencies
         std::vector<ModuleManifest*> moduleOrder = project.projectModules;
@@ -81,9 +83,8 @@ public:
             std::vector<std::filesystem::path> filesToCompile;
             std::vector<std::filesystem::path> sourceFiles;
 
-            module->fileDates.ParseFiles();
-
             PerformanceTimer treescanTimer;
+            module->fileDates.ParseFiles();
             for (std::filesystem::path& file : source)
             {
                 std::string extension = file.extension().string();
@@ -149,11 +150,13 @@ public:
                 sourceFilesTimer.Stop("Build source");
 
                 Utility::PrintLine("Generating library...");
+                PerformanceTimer linkTimer;
                 if (!targetToolchain->LinkLibrary(*module, targetPlatform, buildType, sourceFiles))
                 {
                     Utility::PrintLine("Linking error!");
                     return false;
                 }
+                linkTimer.Stop("Link module");
 
                 buildTimer.Stop("Build");
             }
@@ -163,12 +166,14 @@ public:
         }
 
         //TODO Only link when needed
+        PerformanceTimer linkTimer;
         Utility::PrintLine("Linking modules");
         if (!targetToolchain->LinkExecutable(project, targetPlatform, buildType, moduleOrder))
         {
             Utility::PrintLine("Linkage error!");
             return false;
         }
+        linkTimer.Stop("Link executable");
 
         return true;
     }
