@@ -137,7 +137,7 @@ int main(int argc, char** argv)
             PerformanceTimer taskTimer;
             Utility::PrintLineD("Executing task: ");
             if (!task->Run(projectManifest)) return -1;
-            taskTimer.Stop("Task: ");
+            taskTimer.Stop("Task");
         }
         Utility::PrintLine("Done");
 

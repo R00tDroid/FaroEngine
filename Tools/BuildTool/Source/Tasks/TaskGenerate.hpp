@@ -74,20 +74,29 @@ public:
 
     bool Run(ProjectManifest& project) override
     {
+        PerformanceTimer timer;
+
         for (ModuleManifest* moduleManifest : project.projectModules)
         {
+            PerformanceTimer moduleTimer;
             if (!moduleManifest->Parse()) return false;
+            moduleTimer.Stop("Parse manifest: " + moduleManifest->name);
         }
 
         for (ModuleManifest* moduleManifest : project.projectModules)
         {
+            PerformanceTimer moduleTimer;
             if (!moduleManifest->ResolveDependencies()) return false;
             moduleManifest->Save();
+            moduleTimer.Stop("Resolve dependencies: " + moduleManifest->name);
         }
 
         Utility::PrintLine("Performing solution generation...");
 
         std::filesystem::path faroBuildTool = Utility::GetExecutablePath();
+
+        timer.Stop("Parse module manifests");
+        timer = {};
 
         std::vector<ProjectInfo*> projectInfoList;
         CustomCommandInfo* commandInfo = new CustomCommandInfo();
@@ -112,7 +121,9 @@ public:
         commandInfo->solutionPath = "Project/Actions";
         projectInfoList.push_back(commandInfo);
 
-        PerformanceTimer timer;
+        timer.Stop("Generate action projects");
+        timer = {};
+
         for (ModuleManifest* moduleManifest : project.projectModules)
         {
             PerformanceTimer moduleTimer;
