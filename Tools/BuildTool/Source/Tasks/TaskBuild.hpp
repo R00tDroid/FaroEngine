@@ -111,6 +111,7 @@ public:
             {
                 Utility::PrintLine("All files up-to-date");
             }
+            else
             {
                 PerformanceTimer buildTimer;
 
