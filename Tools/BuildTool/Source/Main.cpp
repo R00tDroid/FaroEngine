@@ -143,8 +143,8 @@ int main(int argc, char** argv)
 
         mainTimer.Stop("Main");
 
-#if DEBUG
-        PerformanceTimer.PrintTimers();
+#ifndef NDEBUG
+        PerformanceTimer::PrintTimers();
 #endif
 
         return 0;
