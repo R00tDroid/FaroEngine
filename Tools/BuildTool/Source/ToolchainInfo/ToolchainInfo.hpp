@@ -17,6 +17,7 @@ char* GetWindowsKitVersion(int Index);
 
 struct MSVCVersion
 {
+    std::string RedistVersion;
     std::string Root;
 };
 

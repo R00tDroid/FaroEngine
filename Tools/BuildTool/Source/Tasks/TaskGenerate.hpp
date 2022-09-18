@@ -3,6 +3,7 @@
 #include <tinyxml2.h>
 #include "ITask.hpp"
 #include "Toolchains/IToolchain.hpp"
+#include "ToolchainInfo/ToolchainInfo.hpp"
 
 class TaskGenerate : public ITask
 {
@@ -74,6 +75,17 @@ public:
 
     bool Run(ProjectManifest& project) override
     {
+        auto msvc_versions = GetMSVCInstallations();
+        if (msvc_versions.empty())
+        {
+            Utility::PrintLine("Failed to find a Visual Studio installation");
+            return false;
+        }
+        else
+        {
+            VSPlatformVersion = msvc_versions[0].RedistVersion;
+        }
+
         PerformanceTimer timer;
 
         for (ModuleManifest* moduleManifest : project.projectModules)
@@ -164,8 +176,7 @@ public:
     }
 
 private:
-    std::string VSPlatformVersion = "v142";
-    std::string VSVersion = "16.0";
+    std::string VSPlatformVersion = "";
 
     std::vector<std::string> sourceExtensions = { ".cpp", ".c", ".hlsl" };
 
@@ -180,7 +191,7 @@ private:
             tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
             projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
             projectElement->SetAttribute("DefaultTargets", "Build");
-            projectElement->SetAttribute("ToolsVersion", "15.0");
+            projectElement->SetAttribute("ToolsVersion", "Current");
             doc.InsertEndChild(projectElement);
 
             {
@@ -223,8 +234,6 @@ private:
                 element = propertyGroup->InsertNewChildElement("PlatformToolset");
                 element->SetText(VSPlatformVersion.c_str());
 
-                element = propertyGroup->InsertNewChildElement("MinimumVisualStudioVersion");
-                element->SetText(VSVersion.c_str());
 
                 element = propertyGroup->InsertNewChildElement("TargetRuntime");
                 element->SetText("Native");
@@ -451,7 +460,7 @@ private:
 
         tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
         projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
-        projectElement->SetAttribute("ToolsVersion", "15.0");
+        projectElement->SetAttribute("ToolsVersion", "Current");
         doc.InsertEndChild(projectElement);
 
         tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");

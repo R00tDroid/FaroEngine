@@ -6,7 +6,7 @@
 #include <Windows.h>
 #include <comdef.h>
 #include <filesystem>
-
+#include <glob/glob.hpp>
 #include "Setup.Configuration.h"
 
 
@@ -167,12 +167,19 @@ void FindMSVCInstallations()
         {
             std::string MSVCDirectory = VSVersion.Root + "\\VC\\Tools\\MSVC";
 
+            std::vector<std::filesystem::path> versions = glob::glob((std::filesystem::path(VSVersion.Root) / "VC" / "Redist" / "MSVC" / "v*").string());
+            std::string msvcVersion = "";
+            for (std::filesystem::path& version : versions)
+            {
+                msvcVersion = version.filename().string();
+            }
+
             for (auto const& DirectoryEntry : std::filesystem::directory_iterator(MSVCDirectory))
             {
                 if (DirectoryEntry.is_directory())
                 {
                     std::filesystem::path Path = DirectoryEntry.path();
-                    MSVCInstallations.push_back({ Path.string() });
+                    MSVCInstallations.push_back({ msvcVersion, Path.string() });
                 }
             }
         }
