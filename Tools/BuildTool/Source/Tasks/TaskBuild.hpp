@@ -91,9 +91,10 @@ public:
                 {
                     sourceFiles.push_back(file);
 
-                    //TODO check entire tree for changes
+                    std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
 
-                    if (module->fileDates.HasFileChanged(file))
+                    //TODO check entire tree for changes
+                    if (!std::filesystem::exists(objPath) || module->fileDates.HasFileChanged(file))
                     {
                         filesToCompile.push_back(file);
                     }
