@@ -33,6 +33,8 @@ public:
     void MarkFileInvalid(std::filesystem::path file);
     void MarkFileUpdate(std::filesystem::path file);
 
+    FileTimeInfo* FindFile(std::filesystem::path&);
+
     void Save();
 
     std::vector<FileTimeInfo*> fileInfo;
@@ -41,7 +43,16 @@ public:
 private:
     std::string GetFileIdentifier(const std::filesystem::path&);
     std::filesystem::path GetStoragePath();
-    FileTimeInfo* FindFile(std::filesystem::path&);
 
     ModuleManifest* module = nullptr;
+};
+
+class FileTreeGenerator
+{
+public:
+    static void ParseTree(std::vector<ModuleManifest*> modules);
+
+    static void UpdateTreeStatus(FileTimeInfo* file);
+
+    static bool HasChildChanged(FileTimeInfo* file);
 };

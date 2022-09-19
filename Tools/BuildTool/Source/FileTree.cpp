@@ -122,3 +122,87 @@ FileTimeInfo* ModuleFileDates::FindFile(std::filesystem::path& path)
         return it->second;
     }
 }
+
+void FileTreeGenerator::ParseTree(std::vector<ModuleManifest*> modules)
+{
+    std::map<std::filesystem::path, FileTimeInfo*> fileByPath;
+    for (ModuleManifest* module : modules)
+    {
+        for (auto& it : module->fileDates.fileByPath)
+        {
+            fileByPath.insert(it);
+        }
+    }
+
+    for (ModuleManifest* module : modules)
+    {
+        for (std::filesystem::path& file : module->sourceFiles)
+        {
+            FileTimeInfo* fileInfo = module->fileDates.FindFile(file);
+            if (fileInfo == nullptr) continue;
+
+            std::ifstream stream(file);
+            if (!stream.is_open()) continue;
+
+            std::string line;
+            while (std::getline(stream, line)) //TODO Ignore commented lines
+            {
+                if (line.find("#include") == std::string::npos) continue;
+
+                std::vector<std::string> matches;
+                if (Utility::MatchPattern(line, "(.*)(#include \")(.*)(\")(.*)", matches) || Utility::MatchPattern(line, "(.*)(#include <)(.*)(>)", matches))
+                {
+                    std::string include = matches[2];
+
+                    std::vector<std::filesystem::path> directories = module->GetPublicIncludeTree();
+                    directories.push_back(file.parent_path());
+
+                    for (std::filesystem::path& directory : directories)
+                    {
+                        std::filesystem::path path = directory / include;
+                        path = std::filesystem::weakly_canonical(path);
+
+                        auto it = fileByPath.find(path);
+                        if (it != fileByPath.end())
+                        {
+                            fileInfo->includeChildren.push_back(it->second);
+                            it->second->includeParents.push_back(fileInfo);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    for (ModuleManifest* module : modules)
+    {
+        for (std::filesystem::path& file : module->sourceFiles)
+        {
+            FileTimeInfo* fileInfo = module->fileDates.FindFile(file);
+            if (fileInfo == nullptr) continue;
+
+            UpdateTreeStatus(fileInfo);
+        }
+    }
+}
+
+void FileTreeGenerator::UpdateTreeStatus(FileTimeInfo* file)
+{
+    if (!file->hasChildChanged) file->hasChildChanged = HasChildChanged(file);
+}
+
+bool FileTreeGenerator::HasChildChanged(FileTimeInfo* file)
+{
+    for (FileTimeInfo* child : file->includeChildren)
+    {
+        UpdateTreeStatus(child);
+    }
+
+    for (FileTimeInfo* child : file->includeChildren)
+    {
+        if (child->hasChanged || child->hasChildChanged) return true;
+    }
+
+    return false;
+}

@@ -99,7 +99,7 @@ public:
             return true;
         }
 
-        //TODO parse include tree
+        FileTreeGenerator::ParseTree(moduleOrder);
 
         Utility::PrintLine("Performing build...");
 
