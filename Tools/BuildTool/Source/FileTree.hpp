@@ -56,4 +56,9 @@ public:
     static void UpdateTreeStatus(FileTimeInfo* file);
 
     static bool HasChildChanged(FileTimeInfo* file);
+
+private:
+    static void ResolveFiletree(ModuleManifest* module, std::filesystem::path& file, std::map<std::filesystem::path, FileTimeInfo*>& fileByPath);
+
+    static FileTimeInfo* FindFile(std::vector<std::filesystem::path>& directories, std::string name, std::map<std::filesystem::path, FileTimeInfo*>& fileByPath);
 };
