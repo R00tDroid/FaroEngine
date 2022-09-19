@@ -1,6 +1,7 @@
 #pragma once
 #include <Containers/Array.hpp>
 #include <Util/ClassRegistry.hpp>
+#include <GraphicsAdapter.hpp>
 
 namespace Faro
 {
@@ -9,6 +10,8 @@ namespace Faro
     public:
         virtual bool Init() = 0;
         virtual void Destroy() = 0;
+
+        virtual Array<GraphicsAdapterDesc> GetAdapters() = 0;
 
         virtual String GetName() = 0;
     };

@@ -10,6 +10,8 @@ namespace Faro
         void Destroy() override;
 
         String GetName() override { return "D3D12"; }
+
+        Array<GraphicsAdapterDesc> GetAdapters() override;
     };
 
     REGISTER_GRAPHICS(GraphicsInterfaceD3D12)
