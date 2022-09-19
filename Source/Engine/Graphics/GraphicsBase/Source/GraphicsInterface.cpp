@@ -6,10 +6,6 @@ namespace Faro
 
     GraphicsInterface* GGraphics = nullptr;
 
-    void GraphicsInterface::Destroy()
-    {
-    }
-
     Array<GraphicsInterface*> GetGraphicsInterfaces()
     {
         return InstanceRegistry_GraphicsInterface::Get().GetValues();
