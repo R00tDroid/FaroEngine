@@ -6,7 +6,11 @@ namespace Faro
 {
     class GraphicsInterface
     {
-        
+    public:
+        virtual bool Init() = 0;
+        virtual bool Destroy() = 0;
+
+        virtual String GetName() = 0;
     };
 
     extern GraphicsInterface* GGraphics;
