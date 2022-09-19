@@ -34,6 +34,8 @@ void ModuleFileDates::ParseFiles()
             stream >> fileTime;
             info->storedTime = std::filesystem::file_time_type(std::filesystem::file_time_type::duration(fileTime));
         }
+
+        info->hasChanged = info->storedTime != info->currentTime;
     }
 }
 
@@ -42,7 +44,18 @@ bool ModuleFileDates::HasFileChanged(std::filesystem::path file)
     FileTimeInfo* info = FindFile(file);
     if (info != nullptr)
     {
-        return info->storedTime != info->currentTime;
+        return info->hasChanged;
+    }
+
+    return true;
+}
+
+bool ModuleFileDates::HasTreeChanged(std::filesystem::path file)
+{
+    FileTimeInfo* info = FindFile(file);
+    if (info != nullptr)
+    {
+        return info->hasChanged || info->hasChildChanged;
     }
 
     return true;

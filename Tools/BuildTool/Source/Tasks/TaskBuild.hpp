@@ -64,6 +64,43 @@ public:
         //TODO sort module order based on dependencies
         std::vector<ModuleManifest*> moduleOrder = project.projectModules;
 
+        Utility::PrintLine("Checking for changes...");
+
+        bool anyChanges = false;
+        for (ModuleManifest* module : moduleOrder)
+        {
+            module->fileDates.ParseFiles();
+            if (!anyChanges)
+            {
+                for (std::filesystem::path& file : module->sourceFiles)
+                {
+                    std::string extension = file.extension().string();
+                    if (extension == ".c" || extension == ".cpp")
+                    {
+                        std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
+                        if (!std::filesystem::exists(objPath))
+                        {
+                            anyChanges = true;
+                            continue;
+                        }
+                    }
+
+                    if (module->fileDates.HasFileChanged(file))
+                    {
+                        anyChanges = true;
+                    }
+                }
+            }
+        }
+
+        if (!anyChanges)
+        {
+            Utility::PrintLine("Everything is up-to-date");
+            return true;
+        }
+
+        //TODO parse include tree
+
         Utility::PrintLine("Performing build...");
 
         for (ModuleManifest* module : moduleOrder)
@@ -94,8 +131,7 @@ public:
 
                     std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
 
-                    //TODO check entire tree for changes
-                    if (!std::filesystem::exists(objPath) || module->fileDates.HasFileChanged(file))
+                    if (!std::filesystem::exists(objPath) || module->fileDates.HasTreeChanged(file))
                     {
                         filesToCompile.push_back(file);
                     }

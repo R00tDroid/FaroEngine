@@ -28,6 +28,8 @@ public:
 
     bool HasFileChanged(std::filesystem::path file);
 
+    bool HasTreeChanged(std::filesystem::path file);
+
     void MarkFileInvalid(std::filesystem::path file);
     void MarkFileUpdate(std::filesystem::path file);
 
