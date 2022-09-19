@@ -1,5 +1,6 @@
 #pragma once
 #include <GraphicsInterface.hpp>
+#include <dxgi1_4.h>
 
 namespace Faro
 {
@@ -12,6 +13,12 @@ namespace Faro
         String GetName() override { return "D3D12"; }
 
         Array<GraphicsAdapterDesc> GetAdapters() override;
+
+    private:
+        void DetectAdapters();
+
+        IDXGIFactory4* dxgiFactory = nullptr;
+        Array<GraphicsAdapterDesc> adapterDescs;
     };
 
     REGISTER_GRAPHICS(GraphicsInterfaceD3D12)

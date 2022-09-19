@@ -9,5 +9,7 @@ namespace Faro
         String manufacturer;
 
         uint16 vram = 0;
+
+        void* payload = nullptr;
     };
 }
