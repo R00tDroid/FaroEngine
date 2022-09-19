@@ -2,4 +2,12 @@
 
 namespace Faro
 {
+    bool GraphicsInterfaceD3D12::Init()
+    {
+        return true;
+    }
+
+    void GraphicsInterfaceD3D12::Destroy()
+    {
+    }
 }

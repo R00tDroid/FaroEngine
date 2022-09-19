@@ -13,7 +13,7 @@ namespace Faro
         if (!graphicsInterfaces.Empty())
         {
             GGraphics = graphicsInterfaces[0];
-            Log(GraphicsLog, LC_Info, "Platform: %s", GGraphics->GetName().Data());
+            Log(GraphicsLog, LC_Info, "Graphics interface: %s", GGraphics->GetName().Data());
             GGraphics->Init();
         }
         else

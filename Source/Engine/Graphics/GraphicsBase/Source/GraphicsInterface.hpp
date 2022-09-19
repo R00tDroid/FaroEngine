@@ -8,7 +8,7 @@ namespace Faro
     {
     public:
         virtual bool Init() = 0;
-        virtual bool Destroy() = 0;
+        virtual void Destroy() = 0;
 
         virtual String GetName() = 0;
     };
@@ -18,5 +18,5 @@ namespace Faro
     extern Array<GraphicsInterface*> GetGraphicsInterfaces();
 
     DEFINE_INSTANCE_REGISTRY(GraphicsInterface, Faro::GraphicsInterface)
-#define REGISTER_GRAPHICS(TYPE) REGISTER_INSTANCE(Platform, TYPE)
+#define REGISTER_GRAPHICS(TYPE) REGISTER_INSTANCE(GraphicsInterface, TYPE)
 }
