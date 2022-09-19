@@ -1,0 +1,18 @@
+{
+    "PublicIncludeDirectories": [
+        "Source"
+    ],
+    "PrivateIncludeDirectories": [
+    ],
+    "Dependencies": [
+        "GraphicsBase"
+    ],
+    "SourceFilters": [
+        "Source/**/*.cpp",
+        "Source/**/*.hpp",
+        "Source/**/*.c",
+        "Source/**/*.h"
+    ],
+    "ModuleType": "Library",
+    "SolutionLocation": "Graphics"
+}
