@@ -199,7 +199,6 @@ public:
                 Utility::Print("\n");
                 moduleTimer.Stop("Module: " + module->name);
             }
-
         }
         else
         {
