@@ -79,6 +79,19 @@ void ModuleFileDates::MarkFileUpdate(std::filesystem::path file)
     }
 }
 
+void ModuleFileDates::MarkTreeUpdate(std::filesystem::path file)
+{
+    FileTimeInfo* info = FindFile(file);
+    if (info != nullptr)
+    {
+        info->saveTime = info->currentTime;
+        for (FileTimeInfo* child : info->includeChildren)
+        {
+            MarkTreeUpdate(child->file);
+        }
+    }
+}
+
 void ModuleFileDates::Save()
 {
     std::filesystem::path storageDir = GetStoragePath();

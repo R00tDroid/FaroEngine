@@ -99,9 +99,11 @@ public:
             return true;
         }
 
-        FileTreeGenerator::ParseTree(moduleOrder);
-
         Utility::PrintLine("Performing build...");
+
+        PerformanceTimer treescanTimer;
+        FileTreeGenerator::ParseTree(moduleOrder);
+        treescanTimer.Stop("Change check treescan");
 
         for (ModuleManifest* module : moduleOrder)
         {
@@ -120,8 +122,6 @@ public:
             std::vector<std::filesystem::path> filesToCompile;
             std::vector<std::filesystem::path> sourceFiles;
 
-            PerformanceTimer treescanTimer;
-            module->fileDates.ParseFiles();
             for (std::filesystem::path& file : source)
             {
                 std::string extension = file.extension().string();
@@ -137,11 +137,10 @@ public:
                     }
                     else
                     {
-                        module->fileDates.MarkFileUpdate(file);
+                        module->fileDates.MarkTreeUpdate(file);
                     }
                 }
             }
-            treescanTimer.Stop("Change check treescan");
 
             if (filesToCompile.empty())
             {
@@ -167,7 +166,7 @@ public:
 
                     if (targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetPlatform->preprocessorDefines))
                     {
-                        module->fileDates.MarkFileUpdate(file);
+                        module->fileDates.MarkTreeUpdate(file);
                     }
                     else
                     {

@@ -32,6 +32,7 @@ public:
 
     void MarkFileInvalid(std::filesystem::path file);
     void MarkFileUpdate(std::filesystem::path file);
+    void MarkTreeUpdate(std::filesystem::path file);
 
     FileTimeInfo* FindFile(std::filesystem::path&);
 
