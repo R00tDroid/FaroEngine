@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <map>
 #include <fstream>
+#include <regex>
 
 namespace Utility
 {
@@ -113,6 +114,22 @@ namespace Utility
 #ifdef WIN32
         SetFileAttributesA(folder.string().c_str(), FILE_ATTRIBUTE_HIDDEN);
 #endif
+    }
+
+    inline bool MatchPattern(std::string source, std::string pattern, std::vector<std::string>& outMatches)
+    {
+        std::smatch matches;
+        if (!std::regex_search(source, matches, std::regex(pattern)))
+        {
+            return false;
+        }
+
+        for (size_t i = 1; i < matches.size(); i++)
+        {
+            outMatches.push_back(matches[i]);
+        }
+
+        return true;
     }
 }
 
