@@ -3,6 +3,7 @@
 #include <tinyxml2.h>
 #include "ITask.hpp"
 #include "Toolchains/IToolchain.hpp"
+#include "ToolchainInfo/ToolchainInfo.hpp"
 
 class TaskGenerate : public ITask
 {
@@ -55,7 +56,12 @@ public:
         }
 
         bool HasSourceFiles() override { return true; }
-        std::vector<std::filesystem::path> GetSourceFiles() override { return module->sourceFiles; }
+        std::vector<std::filesystem::path> GetSourceFiles() override
+        {
+            std::vector<std::filesystem::path> files = module->sourceFiles;
+            files.push_back(module->manifestPath);
+            return files;
+        }
         std::vector<std::filesystem::path> GetIncludePaths() override { return module->GetModuleIncludeDirectories(); }
         std::filesystem::path GetRootDirectory() override { return module->moduleRoot; }
 
@@ -69,20 +75,40 @@ public:
 
     bool Run(ProjectManifest& project) override
     {
+        auto msvc_versions = GetMSVCInstallations();
+        if (msvc_versions.empty())
+        {
+            Utility::PrintLine("Failed to find a Visual Studio installation");
+            return false;
+        }
+        else
+        {
+            VSPlatformVersion = msvc_versions[0].RedistVersion;
+        }
+
+        PerformanceTimer timer;
+
         for (ModuleManifest* moduleManifest : project.projectModules)
         {
+            PerformanceTimer moduleTimer;
             if (!moduleManifest->Parse()) return false;
+            moduleTimer.Stop("Parse manifest: " + moduleManifest->name);
         }
 
         for (ModuleManifest* moduleManifest : project.projectModules)
         {
+            PerformanceTimer moduleTimer;
             if (!moduleManifest->ResolveDependencies()) return false;
             moduleManifest->Save();
+            moduleTimer.Stop("Resolve dependencies: " + moduleManifest->name);
         }
 
         Utility::PrintLine("Performing solution generation...");
 
         std::filesystem::path faroBuildTool = Utility::GetExecutablePath();
+
+        timer.Stop("Parse module manifests");
+        timer = {};
 
         std::vector<ProjectInfo*> projectInfoList;
         CustomCommandInfo* commandInfo = new CustomCommandInfo();
@@ -107,7 +133,9 @@ public:
         commandInfo->solutionPath = "Project/Actions";
         projectInfoList.push_back(commandInfo);
 
-        PerformanceTimer timer;
+        timer.Stop("Generate action projects");
+        timer = {};
+
         for (ModuleManifest* moduleManifest : project.projectModules)
         {
             PerformanceTimer moduleTimer;
@@ -148,8 +176,7 @@ public:
     }
 
 private:
-    std::string VSPlatformVersion = "v142";
-    std::string VSVersion = "16.0";
+    std::string VSPlatformVersion = "";
 
     std::vector<std::string> sourceExtensions = { ".cpp", ".c", ".hlsl" };
 
@@ -164,7 +191,7 @@ private:
             tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
             projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
             projectElement->SetAttribute("DefaultTargets", "Build");
-            projectElement->SetAttribute("ToolsVersion", "15.0");
+            projectElement->SetAttribute("ToolsVersion", "Current");
             doc.InsertEndChild(projectElement);
 
             {
@@ -207,8 +234,6 @@ private:
                 element = propertyGroup->InsertNewChildElement("PlatformToolset");
                 element->SetText(VSPlatformVersion.c_str());
 
-                element = propertyGroup->InsertNewChildElement("MinimumVisualStudioVersion");
-                element->SetText(VSVersion.c_str());
 
                 element = propertyGroup->InsertNewChildElement("TargetRuntime");
                 element->SetText("Native");
@@ -435,7 +460,7 @@ private:
 
         tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
         projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
-        projectElement->SetAttribute("ToolsVersion", "15.0");
+        projectElement->SetAttribute("ToolsVersion", "Current");
         doc.InsertEndChild(projectElement);
 
         tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");

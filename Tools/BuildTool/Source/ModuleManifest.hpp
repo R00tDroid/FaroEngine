@@ -3,6 +3,8 @@
 #include <fstream>
 #include <picojson.h>
 #include <glob/glob.hpp>
+
+#include "FileTree.hpp"
 #include "Utility.hpp"
 
 class ProjectManifest;
@@ -10,6 +12,8 @@ class ProjectManifest;
 class ModuleManifest
 {
 public:
+    ModuleManifest() : fileDates(this) {}
+
     inline static std::string moduleFileSuffix = ".module.json";
 
     // Name of the module
@@ -43,6 +47,8 @@ public:
 
     static std::map<std::string, std::filesystem::path> knownModules;
     static std::map<std::filesystem::path, ModuleManifest*> loadedModules;
+
+    ModuleFileDates fileDates;
 
     void Load()
     {
@@ -237,8 +243,6 @@ public:
             }
         }
 
-        sourceFiles.push_back(manifestPath);
-
         sourceFiles.erase(std::unique(sourceFiles.begin(), sourceFiles.end()), sourceFiles.end());
         std::sort(sourceFiles.begin(), sourceFiles.end());
 
@@ -324,7 +328,6 @@ public:
 
         return true;
     }
-
 
     bool ResolveDependencies()
     {

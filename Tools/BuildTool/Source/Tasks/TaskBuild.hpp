@@ -30,6 +30,7 @@ public:
         targetToolchain = nullptr;
         targetPlatform = nullptr;
 
+        PerformanceTimer toolchainTimer;
         std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
         for (IToolchain* toolchain : toolchains) 
         {
@@ -58,93 +59,162 @@ public:
             Utility::PrintLine("Unable to find suitable toolchain for platform: " + buildPlatform + " " + buildArchitecture);
             return false;
         }
+        toolchainTimer.Stop("Find toolchain");
 
         //TODO sort module order based on dependencies
         std::vector<ModuleManifest*> moduleOrder = project.projectModules;
 
-        Utility::PrintLine("Performing build...");
+        Utility::PrintLine("Checking for changes...");
 
+        bool anyChanges = false;
         for (ModuleManifest* module : moduleOrder)
         {
-            PerformanceTimer moduleTimer;
-
-            Utility::PrintLine("Module: " + module->name);
-
-            std::vector<std::filesystem::path> source = module->sourceFiles;
-
-            if (source.empty())
+            module->fileDates.ParseFiles();
+            if (!anyChanges)
             {
-                Utility::PrintLine("No source found");
-                return false;
-            }
-
-            std::vector<std::filesystem::path> filesToCompile;
-            std::vector<std::filesystem::path> sourceFiles;
-
-     
-            PerformanceTimer treescanTimer;
-            for (std::filesystem::path& file : source)
-            {
-                std::string extension = file.extension().string();
-                if (extension == ".c" || extension == ".cpp")
+                for (std::filesystem::path& file : module->sourceFiles)
                 {
-                    sourceFiles.push_back(file);
+                    std::string extension = file.extension().string();
+                    if (extension == ".c" || extension == ".cpp")
+                    {
+                        std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
+                        if (!std::filesystem::exists(objPath))
+                        {
+                            anyChanges = true;
+                            continue;
+                        }
+                    }
 
-                    //TODO check for changes
-                    filesToCompile.push_back(file);
+                    if (module->fileDates.HasFileChanged(file)) //TODO Add quick-exit for non included headers
+                    {
+                        anyChanges = true;
+                    }
                 }
             }
+        }
+
+        bool buildAnything = false;
+
+        if (anyChanges)
+        {
+            Utility::PrintLine("Performing build...");
+
+            PerformanceTimer treescanTimer;
+            FileTreeGenerator::ParseTree(moduleOrder);
             treescanTimer.Stop("Change check treescan");
 
-            if (filesToCompile.empty())
+            for (ModuleManifest* module : moduleOrder)
             {
-                Utility::PrintLine("All files up-to-date");
-            }
-            {
-                PerformanceTimer buildTimer;
+                PerformanceTimer moduleTimer;
 
-                PerformanceTimer prepareTimer;
-                if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform, buildType)) return false;
-                prepareTimer.Stop("Prepare");
+                Utility::PrintLine("Module: " + module->name);
 
-                std::vector<std::filesystem::path> includes = module->GetModuleIncludeDirectories();
+                std::vector<std::filesystem::path> source = module->sourceFiles;
 
-                PerformanceTimer sourceFilesTimer;
-                for (std::filesystem::path& file : filesToCompile)
+                if (source.empty())
                 {
-                    PerformanceTimer fileTimer;
-                    std::string displayName = GetDisplayName(*module, file);
-                    Utility::PrintLine(displayName);
+                    Utility::PrintLine("No source found");
+                    return false;
+                }
 
-                    if (!targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetPlatform->preprocessorDefines)) 
+                std::vector<std::filesystem::path> filesToCompile;
+                std::vector<std::filesystem::path> sourceFiles;
+
+                for (std::filesystem::path& file : source)
+                {
+                    std::string extension = file.extension().string();
+                    if (extension == ".c" || extension == ".cpp")
+                    {
+                        sourceFiles.push_back(file);
+
+                        std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
+
+                        if (!std::filesystem::exists(objPath) || module->fileDates.HasTreeChanged(file))
+                        {
+                            filesToCompile.push_back(file);
+                        }
+                        else
+                        {
+                            module->fileDates.MarkTreeUpdate(file);
+                        }
+                    }
+                }
+
+                if (filesToCompile.empty())
+                {
+                    Utility::PrintLine("All files up-to-date");
+                }
+                else
+                {
+                    PerformanceTimer buildTimer;
+
+                    PerformanceTimer prepareTimer;
+                    if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform, buildType)) return false;
+                    prepareTimer.Stop("Prepare");
+
+                    std::vector<std::filesystem::path> includes = module->GetModuleIncludeDirectories();
+
+                    PerformanceTimer sourceFilesTimer;
+                    bool anyError = false;
+                    for (std::filesystem::path& file : filesToCompile)
+                    {
+                        PerformanceTimer fileTimer;
+                        std::string displayName = GetDisplayName(*module, file);
+                        Utility::PrintLine(displayName);
+
+                        if (targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetPlatform->preprocessorDefines))
+                        {
+                            module->fileDates.MarkTreeUpdate(file);
+                        }
+                        else
+                        {
+                            anyError = true;
+                            module->fileDates.MarkFileInvalid(file);
+                        }
+                        fileTimer.Stop("Source: " + displayName);
+                    }
+
+                    module->fileDates.Save();
+
+                    if (anyError)
                     {
                         Utility::PrintLine("Build error!");
                         return false;
                     }
-                    fileTimer.Stop("Source: " + displayName);
-                }
-                sourceFilesTimer.Stop("Build source");
+                    sourceFilesTimer.Stop("Build source");
 
-                Utility::PrintLine("Generating library...");
-                if (!targetToolchain->LinkLibrary(*module, targetPlatform, buildType, sourceFiles))
-                {
-                    Utility::PrintLine("Linking error!");
-                    return false;
+                    Utility::PrintLine("Generating library...");
+                    PerformanceTimer linkTimer;
+                    if (!targetToolchain->LinkLibrary(*module, targetPlatform, buildType, sourceFiles))
+                    {
+                        Utility::PrintLine("Linking error!");
+                        return false;
+                    }
+                    linkTimer.Stop("Link module");
+                    buildTimer.Stop("Build");
+
+                    buildAnything = true;
                 }
 
-                buildTimer.Stop("Build");
+                Utility::Print("\n");
+                moduleTimer.Stop("Module: " + module->name);
             }
-
-            Utility::Print("\n");
-            moduleTimer.Stop("Module: " + module->name);
+        }
+        else
+        {
+            Utility::PrintLine("Everything is up-to-date");
         }
 
-        //TODO Only link when needed
-        Utility::PrintLine("Linking modules");
-        if (!targetToolchain->LinkExecutable(project, targetPlatform, buildType, moduleOrder))
+        if (buildAnything || !std::filesystem::exists(targetToolchain->GetExePath(project, targetPlatform, buildType))) 
         {
-            Utility::PrintLine("Linkage error!");
-            return false;
+            PerformanceTimer linkTimer;
+            Utility::PrintLine("Linking modules");
+            if (!targetToolchain->LinkExecutable(project, targetPlatform, buildType, moduleOrder))
+            {
+                Utility::PrintLine("Linkage error!");
+                return false;
+            }
+            linkTimer.Stop("Link executable");
         }
 
         return true;
