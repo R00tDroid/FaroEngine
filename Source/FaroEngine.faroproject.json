@@ -5,6 +5,8 @@
     [
         "Engine/Core",
         "Engine/Platform/PlatformBase",
-        "Engine/Platform/PlatformWindows"
+        "Engine/Platform/PlatformWindows",
+        "Engine/Graphics/GraphicsBase",
+        "Engine/Graphics/GraphicsD3D12"
     ]
 }

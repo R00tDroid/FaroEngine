@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdlib>
+#include "Object.hpp"
 #include "../Primitives.hpp"
 
 namespace Faro
@@ -29,6 +30,15 @@ namespace Faro
         {
             address->~T();
             Free(address);
+        }
+
+        static void SafeDelete(IObject*& objectPtr)
+        {
+            if (objectPtr != nullptr)
+            {
+                objectPtr->Destroy();
+                objectPtr = nullptr;
+            }
         }
     };
 }

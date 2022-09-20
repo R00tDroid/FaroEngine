@@ -1,0 +1,22 @@
+{
+    "PublicIncludeDirectories": [
+        "Source"
+    ],
+    "PrivateIncludeDirectories": [
+    ],
+    "Dependencies": [
+        "GraphicsBase"
+    ],
+    "SourceFilters": [
+        "Source/**/*.cpp",
+        "Source/**/*.hpp",
+        "Source/**/*.c",
+        "Source/**/*.h"
+    ],
+    "ModuleType": "Library",
+    "SolutionLocation": "Graphics",
+    "Libraries": [
+        "D3D12.lib",
+        "DXGI.lib"
+    ]
+}

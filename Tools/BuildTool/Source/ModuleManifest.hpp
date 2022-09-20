@@ -35,6 +35,8 @@ public:
 
     std::vector<std::string> unresolvedDependencies;
 
+    std::vector<std::string> linkingLibraries;
+
     // List of modules this module depends on
     std::vector<ModuleManifest*> moduleDependencies;
 
@@ -116,6 +118,17 @@ public:
             }
             dependencyList.close();
         }
+
+        std::ifstream libraryList(moduleInfo / "Libraries.txt");
+        if (libraryList.is_open())
+        {
+            linkingLibraries = {};
+            for (std::string line; std::getline(libraryList, line);)
+            {
+                linkingLibraries.push_back(line);
+            }
+            libraryList.close();
+        }
     }
 
     void Save()
@@ -150,6 +163,13 @@ public:
             dependencyList << dependency->manifestPath.string() << "\n";
         }
         dependencyList.close();
+
+        std::ofstream libraryList(moduleInfo / "Libraries.txt");
+        for (std::string& path : linkingLibraries)
+        {
+            libraryList << path.c_str() << "\n";
+        }
+        libraryList.close();
     }
 
     bool Parse()
@@ -189,6 +209,8 @@ public:
         if (!ParseIncludeDirectories(rootObject, "PrivateIncludeDirectories", privateIncludes)) return false;
 
         if (!ParseSolutionLocation(rootObject)) return false;
+
+        if (!ParseLinkerLibraries(rootObject)) return false;
 
         return true;
     }
@@ -325,6 +347,35 @@ public:
         }
 
         solutionLocation = std::filesystem::weakly_canonical(solutionLocation);
+
+        return true;
+    }
+
+    bool ParseLinkerLibraries(picojson::object& rootObject)
+    {
+        linkingLibraries = {};
+
+        if (rootObject.find("Libraries") != rootObject.end())
+        {
+            picojson::value& value = rootObject["Libraries"];
+            if (!value.is<picojson::array>())
+            {
+                Utility::PrintLine("Expected Libraries to be an array");
+                return false;
+            }
+
+            picojson::array& libArray = value.get<picojson::array>();
+            for (picojson::value& libValue : libArray)
+            {
+                if (!libValue.is<std::string>())
+                {
+                    Utility::PrintLine("Expected include path to be a string");
+                    return false;
+                }
+
+                linkingLibraries.push_back(libValue.get<std::string>());
+            }
+        }
 
         return true;
     }
