@@ -1,8 +1,9 @@
 #pragma once
+#include "GraphicsAdapterChild.hpp"
 
 namespace Faro
 {
-    class GraphicsCommandList 
+    class GraphicsCommandList : public IGraphicsAdapterChild
     {
     public:
         virtual void Reset() = 0;

@@ -11,6 +11,10 @@ namespace Faro
         void Init(GraphicsAdapterDesc&) override;
         void Destroy() override;
 
+        ID3D12Device2* GetDevice();
+
+        ID3D12CommandQueue* GetCommandQueue();
+
     private:
         GraphicsAdapterDesc desc;
 

@@ -1,19 +1,20 @@
 #pragma once
 #include <GraphicsCommandList.hpp>
-
-#include "GraphicsAdapterD3D12.hpp"
+#include <d3d12.h>
 
 namespace Faro
 {
     class GraphicsCommandListD3D12 : public GraphicsCommandList
     {
     public:
-        GraphicsCommandListD3D12(GraphicsAdapterD3D12*);
+        void Init(GraphicsAdapter* adapter) override;
+        void Destroy() override;
 
         void Reset() override;
         void Execute() override;
 
     private:
-        GraphicsAdapterD3D12* adapter = nullptr;
+        ID3D12CommandAllocator* allocator = nullptr;
+        ID3D12GraphicsCommandList* commandList = nullptr;
     };
 }

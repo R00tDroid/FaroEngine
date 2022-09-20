@@ -39,4 +39,14 @@ namespace Faro
         device->Release();
         dxgiAdapter->Release();
     }
+
+    ID3D12Device2* GraphicsAdapterD3D12::GetDevice()
+    {
+        return device;
+    }
+
+    ID3D12CommandQueue* GraphicsAdapterD3D12::GetCommandQueue()
+    {
+        return commandQueue;
+    }
 }
