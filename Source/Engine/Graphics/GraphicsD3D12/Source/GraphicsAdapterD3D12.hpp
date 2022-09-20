@@ -15,7 +15,7 @@ namespace Faro
 
         ID3D12CommandQueue* GetCommandQueue();
 
-        virtual GraphicsCommandList* CreateCommandList() override;
+        GraphicsCommandList* CreateCommandList() override;
 
     private:
         GraphicsAdapterDesc desc;
