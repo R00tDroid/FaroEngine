@@ -12,5 +12,8 @@
         "Source/**/*.c",
         "Source/**/*.h"
     ],
+    "GeneratedFiles": [
+        "Source/EngineVersion.cpp"
+    ],
     "ModuleType": "Library"
 }
