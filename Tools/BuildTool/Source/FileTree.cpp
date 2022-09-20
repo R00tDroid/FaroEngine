@@ -17,6 +17,8 @@ void ModuleFileDates::ParseFiles()
 
     for (const std::filesystem::path& file : module->sourceFiles)
     {
+        if (!std::filesystem::exists(file)) continue;
+
         FileTimeInfo* info = new FileTimeInfo();
         fileInfo.push_back(info);
         fileByPath.insert(std::pair<std::filesystem::path, FileTimeInfo*>(file, info));
