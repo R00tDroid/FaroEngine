@@ -13,7 +13,7 @@
         "Source/**/*.h"
     ],
     "GeneratedFiles": [
-        "Source/EngineVersion.cpp"
+        "Source/EngineVersion.generated.cpp"
     ],
     "ModuleType": "Library"
 }

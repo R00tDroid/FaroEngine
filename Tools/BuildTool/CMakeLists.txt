@@ -7,12 +7,7 @@ else()
     add_compile_options(-Wall -Wextra -pedantic -Werror)
 endif()
 
-include(${CMAKE_CURRENT_LIST_DIR}/../../CMake/ProjectVersion.cmake)
-
 message("Engine version: ${FaroEngineVersionFull}")
-
-
-configure_file(${CMAKE_CURRENT_LIST_DIR}/../../Source/Engine/Core/Source/EngineVersion.cpp.in ${CMAKE_CURRENT_LIST_DIR}/../../Source/Engine/Core/Source/EngineVersion.cpp @ONLY)
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/Version.hpp.in ${CMAKE_CURRENT_LIST_DIR}/Source/Version.generated.hpp @ONLY)
 
