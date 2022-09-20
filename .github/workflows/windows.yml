@@ -30,7 +30,7 @@ jobs:
           Bin/*.exe
           Bin/*.dll
           Source/**/*
-          !*.in
+          !Source/**/*.in
 
   BuildEngine:
     runs-on: windows-latest
