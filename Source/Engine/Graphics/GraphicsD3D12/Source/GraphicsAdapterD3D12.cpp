@@ -17,5 +17,8 @@ namespace Faro
 
     void GraphicsAdapterD3D12::Destroy()
     {
+        commandQueue->Release();
+        device->Release();
+        dxgiAdapter->Release();
     }
 }
