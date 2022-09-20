@@ -186,13 +186,16 @@ public:
         libDirectories += " /LIBPATH:\"" + windowsSdkLib.string() + "\\um\\x64\"";
         libDirectories += " /LIBPATH:\"" + msvcRoot.string() + "\\lib\\x64\"";
 
-        //TODO link against dependencies
-
         for (ModuleManifest* module : modules)
         {
             std::filesystem::path lib = GetLibPath(*module, target, configuration);
             Utility::PrintLineD("\t" + lib.string());
             moduleLibs += " /WHOLEARCHIVE:\""+ lib.string() + "\"";
+
+            for (std::string& linkerLibrary : module->linkingLibraries)
+            {
+                libs += " \"" + linkerLibrary + "\"";
+            }
         }
 
         std::filesystem::path linkExe = msvcTools / "link.exe";
