@@ -12,6 +12,8 @@ namespace Faro
         void Destroy() override;
 
     private:
+        GraphicsAdapterDesc desc;
+
         IDXGIAdapter1* dxgiAdapter = nullptr;
         ID3D12Device2* device = nullptr;
 
