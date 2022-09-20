@@ -291,8 +291,8 @@ public:
             }
         }
 
-        sourceFiles.erase(std::unique(sourceFiles.begin(), sourceFiles.end()), sourceFiles.end());
         std::sort(sourceFiles.begin(), sourceFiles.end());
+        sourceFiles.erase(std::unique(sourceFiles.begin(), sourceFiles.end()), sourceFiles.end());
 
         return true;
     }
