@@ -8,7 +8,7 @@ namespace Faro
         String name;
         String manufacturer;
 
-        uint16 vram = 0;
+        uint32 vram = 0;
 
         void* payload = nullptr;
     };

@@ -3,6 +3,8 @@
 #include <d3d12.h>
 #include <comdef.h>
 
+#include "Log.hpp"
+
 namespace Faro
 {
     bool GraphicsInterfaceD3D12::Init()
@@ -58,7 +60,7 @@ namespace Faro
 
             GraphicsAdapterDesc desc;
             desc.name = static_cast<char*>(_bstr_t(adapterDesc.Description));
-            desc.vram = (uint64)adapterDesc.DedicatedVideoMemory;
+            desc.vram = (uint32)adapterDesc.DedicatedVideoMemory;
             desc.payload = adapter;
 
             if (adapterDesc.VendorId == 0x1002)
