@@ -1,5 +1,7 @@
 #include "GraphicsAdapterD3D12.hpp"
 #include "GraphicsLogD3D12.hpp"
+#include "GraphicsCommandListD3D12.hpp"
+#include <Memory/MemoryManager.hpp>
 
 namespace Faro
 {
@@ -48,5 +50,11 @@ namespace Faro
     ID3D12CommandQueue* GraphicsAdapterD3D12::GetCommandQueue()
     {
         return commandQueue;
+    }
+    GraphicsCommandList* GraphicsAdapterD3D12::CreateCommandList()
+    {
+        GraphicsCommandListD3D12* commandList = MemoryManager::New<GraphicsCommandListD3D12>();
+        commandList->Init(this);
+        return commandList;
     }
 }
