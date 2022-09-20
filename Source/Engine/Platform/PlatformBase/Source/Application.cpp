@@ -1,6 +1,7 @@
 #include "Application.hpp"
 #include <Log.hpp>
 #include "ModuleManager.hpp"
+#include "EngineVersion.hpp"
 
 namespace Faro
 {
@@ -20,7 +21,7 @@ namespace Faro
 
     int Application::Run()
     {
-        Log(AppLog, LC_Info, "Faro Engine");
+        Log(AppLog, LC_Info, "Faro Engine %s", GEngineVersion.GetFullVersion().Data());
 
         Log(AppLog, LC_Debug, "Initializing");
         if (!Init())
