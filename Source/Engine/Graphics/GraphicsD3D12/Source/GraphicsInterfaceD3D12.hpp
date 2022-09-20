@@ -14,9 +14,12 @@ namespace Faro
 
         Array<GraphicsAdapterDesc> GetAdapters() override;
 
+        GraphicsAdapter* CreateAdapter(GraphicsAdapterDesc description) override;
+
     private:
         void DetectAdapters();
-
+        
+    private:
         IDXGIFactory4* dxgiFactory = nullptr;
         Array<GraphicsAdapterDesc> adapterDescs;
     };

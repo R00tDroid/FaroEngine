@@ -12,4 +12,11 @@ namespace Faro
 
         void* payload = nullptr;
     };
+
+    class GraphicsAdapter
+    {
+    public:
+        virtual void Init(GraphicsAdapterDesc&) = 0;
+        virtual void Destroy() = 0;
+    };
 }

@@ -13,6 +13,8 @@ namespace Faro
 
         virtual Array<GraphicsAdapterDesc> GetAdapters() = 0;
 
+        virtual GraphicsAdapter* CreateAdapter(GraphicsAdapterDesc description) = 0;
+
         virtual String GetName() = 0;
     };
 

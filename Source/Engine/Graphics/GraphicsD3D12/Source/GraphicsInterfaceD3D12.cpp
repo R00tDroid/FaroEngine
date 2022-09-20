@@ -2,8 +2,9 @@
 #include <Windows.h>
 #include <d3d12.h>
 #include <comdef.h>
-
+#include "GraphicsAdapterD3D12.hpp"
 #include "Log.hpp"
+#include "Memory/MemoryManager.hpp"
 
 namespace Faro
 {
@@ -42,6 +43,13 @@ namespace Faro
     Array<GraphicsAdapterDesc> GraphicsInterfaceD3D12::GetAdapters()
     {
         return adapterDescs;
+    }
+
+    GraphicsAdapter* GraphicsInterfaceD3D12::CreateAdapter(GraphicsAdapterDesc description)
+    {
+        GraphicsAdapterD3D12* adapter = MemoryManager::New<GraphicsAdapterD3D12>();
+        adapter->Init(description);
+        return adapter;
     }
 
     void GraphicsInterfaceD3D12::DetectAdapters()
