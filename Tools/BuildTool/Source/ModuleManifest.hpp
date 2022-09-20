@@ -265,6 +265,32 @@ public:
             }
         }
 
+        if (rootObject.find("GeneratedFiles") != rootObject.end())
+        {
+            picojson::value& value = rootObject["GeneratedFiles"];
+            if (!value.is<picojson::array>())
+            {
+                Utility::PrintLine("Expected GeneratedFiles to be an array");
+                return false;
+            }
+
+            picojson::array& filterArray = value.get<picojson::array>();
+            for (picojson::value& filterValue : filterArray)
+            {
+                if (!filterValue.is<std::string>())
+                {
+                    Utility::PrintLine("Expected file path to be a string");
+                    return false;
+                }
+
+                std::filesystem::path filter = moduleRoot / filterValue.get<std::string>();
+                filter = std::filesystem::weakly_canonical(filter);
+                filter.make_preferred();
+
+                sourceFiles.push_back(filter);
+            }
+        }
+
         sourceFiles.erase(std::unique(sourceFiles.begin(), sourceFiles.end()), sourceFiles.end());
         std::sort(sourceFiles.begin(), sourceFiles.end());
 

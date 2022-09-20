@@ -1,0 +1,7 @@
+#pragma once
+#include "EngineVersion.hpp"
+
+namespace Faro
+{
+    Version GEngineVersion(@FaroEngineVersionMajor@, @FaroEngineVersionMinor@, @FaroEngineVersionPatch@, "@FaroEngineVersionCommit@", "@FaroEngineVersionBranch@");
+}
