@@ -58,7 +58,8 @@ namespace Faro
 
             GraphicsAdapterDesc desc;
             desc.name = static_cast<char*>(_bstr_t(adapterDesc.Description));
-            desc.vram = uint64(adapterDesc.DedicatedVideoMemory);
+            desc.vram = (uint64)adapterDesc.DedicatedVideoMemory;
+            desc.payload = adapter;
 
             if (adapterDesc.VendorId == 0x1002)
             {
