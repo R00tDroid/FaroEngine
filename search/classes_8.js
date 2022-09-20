@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['timepoint_0',['TimePoint',['../classFaro_1_1TimePoint.html',1,'Faro']]]
+  ['string_0',['String',['../classFaro_1_1String.html',1,'Faro']]]
 ];

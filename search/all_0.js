@@ -9,11 +9,12 @@ var searchData=
   ['application_6',['Application',['../classFaro_1_1Application.html#a202a4d5bbab037cb24664bbd141ef3a3',1,'Faro::Application::Application()'],['../classFaro_1_1Application.html',1,'Faro::Application']]],
   ['application_2ecpp_7',['Application.cpp',['../Application_8cpp.html',1,'']]],
   ['application_2ehpp_8',['Application.hpp',['../Application_8hpp.html',1,'']]],
-  ['array_9',['Array',['../classFaro_1_1Array.html#a316abde49155b7edb71ff709b04b29d8',1,'Faro::Array::Array()'],['../classFaro_1_1Array.html#aa4274afbc37079fef808fc4992d637e3',1,'Faro::Array::Array(std::initializer_list&lt; T &gt; list)'],['../classFaro_1_1Array.html#ab2c432c4c0c4803ca93e28e9ae11fcce',1,'Faro::Array::Array(const Array&lt; T &gt; &amp;copy)'],['../classFaro_1_1Array.html#a7226367a31218b35989246b01a3f3a85',1,'Faro::Array::Array(Array&lt; T &gt; &amp;copy)'],['../classFaro_1_1Array.html',1,'Faro::Array&lt; T &gt;']]],
+  ['array_9',['Array',['../classFaro_1_1Array.html#a7226367a31218b35989246b01a3f3a85',1,'Faro::Array::Array(Array&lt; T &gt; &amp;copy)'],['../classFaro_1_1Array.html#a316abde49155b7edb71ff709b04b29d8',1,'Faro::Array::Array()'],['../classFaro_1_1Array.html#aa4274afbc37079fef808fc4992d637e3',1,'Faro::Array::Array(std::initializer_list&lt; T &gt; list)'],['../classFaro_1_1Array.html#ab2c432c4c0c4803ca93e28e9ae11fcce',1,'Faro::Array::Array(const Array&lt; T &gt; &amp;copy)'],['../classFaro_1_1Array.html',1,'Faro::Array&lt; T &gt;']]],
   ['array_2ehpp_10',['Array.hpp',['../Array_8hpp.html',1,'']]],
-  ['array_3c_20faro_3a_3aimodule_20_2a_20_3e_11',['Array&lt; Faro::IModule * &gt;',['../classFaro_1_1Array.html',1,'Faro']]],
-  ['asin_12',['ASin',['../namespaceFaro.html#ae9a1c0781ed62d86b9a351d69edcddbd',1,'Faro']]],
-  ['asindeg_13',['ASinDeg',['../namespaceFaro.html#a25994ae1e3a4cd8cba218f74dc21f73d',1,'Faro']]],
-  ['atan_14',['ATan',['../namespaceFaro.html#a9ae938adaf84156356d3efec851f831d',1,'Faro']]],
-  ['atandeg_15',['ATanDeg',['../namespaceFaro.html#a34139d5a11721f9b5564002e5dc77538',1,'Faro']]]
+  ['array_3c_20faro_3a_3agraphicsadapterdesc_20_3e_11',['Array&lt; Faro::GraphicsAdapterDesc &gt;',['../classFaro_1_1Array.html',1,'Faro']]],
+  ['array_3c_20faro_3a_3aimodule_20_2a_20_3e_12',['Array&lt; Faro::IModule * &gt;',['../classFaro_1_1Array.html',1,'Faro']]],
+  ['asin_13',['ASin',['../namespaceFaro.html#ae9a1c0781ed62d86b9a351d69edcddbd',1,'Faro']]],
+  ['asindeg_14',['ASinDeg',['../namespaceFaro.html#a25994ae1e3a4cd8cba218f74dc21f73d',1,'Faro']]],
+  ['atan_15',['ATan',['../namespaceFaro.html#a9ae938adaf84156356d3efec851f831d',1,'Faro']]],
+  ['atandeg_16',['ATanDeg',['../namespaceFaro.html#a34139d5a11721f9b5564002e5dc77538',1,'Faro']]]
 ];
