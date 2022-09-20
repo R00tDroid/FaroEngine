@@ -17,3 +17,4 @@ _deps
 .Faro
 *.sln
 /Docs/Doxygen
+/Source/Engine/Core/Source/EngineVersion.cpp
