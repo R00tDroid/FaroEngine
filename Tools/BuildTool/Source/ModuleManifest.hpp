@@ -118,6 +118,17 @@ public:
             }
             dependencyList.close();
         }
+
+        std::ifstream libraryList(moduleInfo / "Libraries.txt");
+        if (libraryList.is_open())
+        {
+            linkingLibraries = {};
+            for (std::string line; std::getline(libraryList, line);)
+            {
+                linkingLibraries.push_back(line);
+            }
+            libraryList.close();
+        }
     }
 
     void Save()
@@ -152,6 +163,13 @@ public:
             dependencyList << dependency->manifestPath.string() << "\n";
         }
         dependencyList.close();
+
+        std::ofstream libraryList(moduleInfo / "Libraries.txt");
+        for (std::string& path : linkingLibraries)
+        {
+            libraryList << path.c_str() << "\n";
+        }
+        libraryList.close();
     }
 
     bool Parse()
