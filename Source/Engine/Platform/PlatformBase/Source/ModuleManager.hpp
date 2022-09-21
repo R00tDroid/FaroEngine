@@ -14,6 +14,8 @@ namespace Faro
         bool Destroy();
 
     private:
+        bool SortModules();
+
         Array<IModule*> modules;
     };
 
