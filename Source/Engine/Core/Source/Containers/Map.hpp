@@ -19,7 +19,7 @@ namespace Faro
             if (it != data.end()) data.erase(k);
         }
 
-        bool Contains(KeyType k)
+        bool Contains(KeyType k) const
         {
             return data.find(k) != data.end();
         }
@@ -29,7 +29,7 @@ namespace Faro
             data.clear();
         }
 
-        Array<KeyType> GetKeys()
+        Array<KeyType> GetKeys() const
         {
             Array<KeyType> keys;
 
@@ -41,7 +41,7 @@ namespace Faro
             return keys;
         }
 
-        Array<ValueType> GetValues()
+        Array<ValueType> GetValues() const
         {
             Array<ValueType> values;
 
@@ -53,7 +53,7 @@ namespace Faro
             return values;
         }
 
-        uint32 Size()
+        uint32 Size() const
         {
             return data.size();
         }
@@ -62,6 +62,14 @@ namespace Faro
         {
             return data[k];
         }
+
+        typedef typename std::map<KeyType, ValueType>::iterator Iterator;
+        typedef typename std::map<KeyType, ValueType>::const_iterator CIterator;
+
+        Iterator begin() { return data.begin(); }
+        CIterator cbegin() const { return data.cbegin(); }
+        Iterator end() noexcept { return data.end(); }
+        CIterator cend() const { return data.cend(); }
 
     private:
         std::map<KeyType, ValueType> data;

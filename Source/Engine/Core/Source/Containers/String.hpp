@@ -131,7 +131,7 @@ namespace Faro
         iterator begin() { return &data[0]; }
         iterator end() { return &data[Length()]; }
 
-        const char* Data() { return data.c_str(); }
+        const char* Data() const { return data.c_str(); }
 
         const char* operator * () { return data.c_str(); }
 

@@ -12,6 +12,8 @@ namespace Faro
         virtual void Unload() = 0;
         virtual String GetName() = 0;
         virtual Array<String> GetRuntimeDependencies() = 0;
+
+        uint32 loadOrder = 0;
     };
 
     extern Array<IModule*> GetRegisteredModules();

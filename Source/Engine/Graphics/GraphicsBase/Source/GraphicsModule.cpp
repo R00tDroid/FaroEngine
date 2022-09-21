@@ -37,6 +37,6 @@ namespace Faro
 
     Array<String> GraphicsModule::GetRuntimeDependencies()
     {
-        return {};
+        return { "Platform" };
     }
 }
