@@ -26,13 +26,15 @@ var searchData=
   ['microseconds_23',['Microseconds',['../classFaro_1_1Duration.html#a77aacbf0be4ec5e8e75c05da9fa2acd5',1,'Faro::Duration']]],
   ['milliseconds_24',['Milliseconds',['../classFaro_1_1Duration.html#ae1762fdfa7edbbfce5e826768b369ed0',1,'Faro::Duration']]],
   ['min_25',['Min',['../namespaceFaro.html#afddb901d79d8c494cb1b8053fe9112e4',1,'Faro']]],
-  ['minor_26',['minor',['../structFaro_1_1Version.html#afa665040fa462e71aee71ee93620ebba',1,'Faro::Version::minor()'],['../structFaro_1_1Version.html#a9ecfdfe2799fdc2f2aa8d147ddf06a80',1,'Faro::Version::minor()']]],
+  ['minor_26',['minor',['../structFaro_1_1Version.html#a9ecfdfe2799fdc2f2aa8d147ddf06a80',1,'Faro::Version::minor()'],['../structFaro_1_1Version.html#afa665040fa462e71aee71ee93620ebba',1,'Faro::Version::minor()']]],
   ['minutes_27',['Minutes',['../classFaro_1_1Duration.html#a816973a0ff0ba7c31571fca593340a5d',1,'Faro::Duration']]],
-  ['module_2ecpp_28',['Module.cpp',['../Module_8cpp.html',1,'']]],
-  ['module_2ehpp_29',['Module.hpp',['../Module_8hpp.html',1,'']]],
-  ['modulemanager_30',['ModuleManager',['../classFaro_1_1ModuleManager.html',1,'Faro::ModuleManager'],['../classFaro_1_1ModuleManager.html#ad9720f5e61709b081c572c7a31ad6150',1,'Faro::ModuleManager::ModuleManager()']]],
-  ['modulemanager_2ecpp_31',['ModuleManager.cpp',['../ModuleManager_8cpp.html',1,'']]],
-  ['modulemanager_2ehpp_32',['ModuleManager.hpp',['../ModuleManager_8hpp.html',1,'']]],
-  ['modulemanagerinstance_33',['moduleManagerInstance',['../namespaceFaro.html#a495ae4e318fd32526f59edd67a89a629',1,'Faro']]],
-  ['moveto_34',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
+  ['module_28',['module',['../structFaro_1_1ModuleDependencies.html#a9b036bb71eab3b5314eb66e57636b2a7',1,'Faro::ModuleDependencies']]],
+  ['module_2ecpp_29',['Module.cpp',['../Module_8cpp.html',1,'']]],
+  ['module_2ehpp_30',['Module.hpp',['../Module_8hpp.html',1,'']]],
+  ['moduledependencies_31',['ModuleDependencies',['../structFaro_1_1ModuleDependencies.html',1,'Faro']]],
+  ['modulemanager_32',['ModuleManager',['../classFaro_1_1ModuleManager.html',1,'Faro::ModuleManager'],['../classFaro_1_1ModuleManager.html#ad9720f5e61709b081c572c7a31ad6150',1,'Faro::ModuleManager::ModuleManager()']]],
+  ['modulemanager_2ecpp_33',['ModuleManager.cpp',['../ModuleManager_8cpp.html',1,'']]],
+  ['modulemanager_2ehpp_34',['ModuleManager.hpp',['../ModuleManager_8hpp.html',1,'']]],
+  ['modulemanagerinstance_35',['moduleManagerInstance',['../namespaceFaro.html#a495ae4e318fd32526f59edd67a89a629',1,'Faro']]],
+  ['moveto_36',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
 ];

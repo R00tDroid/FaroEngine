@@ -1,10 +1,7 @@
 var searchData=
 [
-  ['int16_0',['int16',['../namespaceFaro.html#af49bbcd2b8ba1acd766356cee10b08ec',1,'Faro']]],
-  ['int2d_1',['Int2D',['../namespaceFaro.html#a806c528578ae2db75b5c716bf4bb6030',1,'Faro']]],
-  ['int32_2',['int32',['../namespaceFaro.html#a29f0340d8ff577f379f2379f917a526c',1,'Faro']]],
-  ['int3d_3',['Int3D',['../namespaceFaro.html#a5f2068f9863faaafdd74d95ec594cbca',1,'Faro']]],
-  ['int4d_4',['Int4D',['../namespaceFaro.html#a73725a937428f42e05bc66d6432f2c9b',1,'Faro']]],
-  ['int64_5',['int64',['../namespaceFaro.html#a88e660eee43c3b9d97af8d5ff8289cd6',1,'Faro']]],
-  ['int8_6',['int8',['../namespaceFaro.html#ae1ed0f4d741f45224de8df4c5e0afacb',1,'Faro']]]
+  ['float2d_0',['Float2D',['../namespaceFaro.html#ac9cc0487cae1d1432ad8a226c707a3b0',1,'Faro']]],
+  ['float3d_1',['Float3D',['../namespaceFaro.html#af8e5ce930cafee02334516bbb82bca69',1,'Faro']]],
+  ['float4d_2',['Float4D',['../namespaceFaro.html#a57a9231794a2899c1a74cef7f49bee0e',1,'Faro']]],
+  ['floatcolor_3',['FloatColor',['../namespaceFaro.html#a10742bd7fd8df5f5e9b33298674ba31e',1,'Faro']]]
 ];

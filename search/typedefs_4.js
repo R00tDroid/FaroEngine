@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['uint16_0',['uint16',['../namespaceFaro.html#a65a8fbc5055da14cc43249c8c24899c9',1,'Faro']]],
-  ['uint32_1',['uint32',['../namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93',1,'Faro']]],
-  ['uint64_2',['uint64',['../namespaceFaro.html#a475e104e13e5df0c061f358a0782f3e3',1,'Faro']]],
-  ['uint8_3',['uint8',['../namespaceFaro.html#ad2c0f3261ab209e8901c67f099fe7c81',1,'Faro']]],
-  ['uint8color_4',['UInt8Color',['../namespaceFaro.html#a6e410c13c116e2a243b95d26640aedf4',1,'Faro']]]
+  ['randomfloat_0',['RandomFloat',['../namespaceFaro.html#afeec617f70cf1f6722dc902c5a5bdd5e',1,'Faro']]],
+  ['randomint32_1',['RandomInt32',['../namespaceFaro.html#aa0947bf9e1f36a598b78d059a2f348c6',1,'Faro']]],
+  ['randomint8_2',['RandomInt8',['../namespaceFaro.html#a6a00b39df6dc672e33df78304aad76d2',1,'Faro']]],
+  ['randomuint8_3',['RandomUInt8',['../namespaceFaro.html#ab4c01a360deedf97ca7302966756b93c',1,'Faro']]]
 ];
