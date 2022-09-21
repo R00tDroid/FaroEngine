@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.4"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Faro Engine: Types naming</title>
+<title>Faro Engine: Coding style guide</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.8aa7338 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.5e931b4 (main)</span>
    </div>
   </td>
  </tr>
@@ -62,20 +62,22 @@ $(function() {
 
 </div><!-- top -->
 <div><div class="header">
-  <div class="headertitle"><div class="title">Types naming </div></div>
+  <div class="headertitle"><div class="title">Coding style guide </div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p >Types must be named following pascal case. Example: <code>TypeName</code></p>
-<h2><a class="anchor" id="autotoc_md2"></a>
+<div class="textblock"><h1><a class="anchor" id="autotoc_md2"></a>
+Types naming</h1>
+<p >Types must be named following pascal case. Example: <code>TypeName</code></p>
+<h2><a class="anchor" id="autotoc_md3"></a>
 Interfaces</h2>
 <p >Types that can not be used directly, and must be extended by another must be prefixed by <code>I</code>. Example: <code>IVehicle</code> and <code>Car : IVehicle</code></p>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 Functions</h1>
 <p >Functions must be named following pascal case. Example: <code>FunctionName</code></p>
-<h1><a class="anchor" id="autotoc_md4"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 Variable naming</h1>
 <p >Variables and class members must be named following camel case. Example: <code>variableName</code>.</p>
-<h1><a class="anchor" id="autotoc_md5"></a>
+<h1><a class="anchor" id="autotoc_md6"></a>
 Indentation and spacing</h1>
 <p >Code must be indented with 4 spaces rather than tabs.</p>
 <p >A space must be placed between sections. Example: spacing between <code>if</code> and the following condition.</p>
@@ -97,7 +99,7 @@ Indentation and spacing</h1>
 </div><!-- fragment --><div class="fragment"><div class="line"><span class="keywordflow">if</span> (Condition){       <span class="comment">// Bad - The bracket must be placed on a newline</span></div>
 <div class="line">    DoSomething();</div>
 <div class="line">}</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md6"></a>
+</div><!-- fragment --><h1><a class="anchor" id="autotoc_md7"></a>
 Documentation</h1>
 <p >Publicly accessible functions must be documented. This should describe what the function does, how it must be used and what the result will be.</p>
 <p >The documentation consists of a comment block before the function definition. An <code>@brief</code> tag is required to give a short description of the function.</p>
@@ -111,7 +113,7 @@ Documentation</h1>
 <div class="line"><span class="comment"> * @return Wether or not the addition was successful</span></div>
 <div class="line"><span class="comment"> */</span></div>
 <div class="line"><span class="keywordtype">bool</span> Add(<span class="keywordtype">int</span> A, <span class="keywordtype">int</span> B, <span class="keywordtype">int</span>&amp; Output);</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md7"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
 Warnings</h2>
 <p >Warning messages must be marked explicitly. This is done like this:</p>
 <div class="fragment"><div class="line"><span class="comment">// @warning This is a dangerous function</span></div>
