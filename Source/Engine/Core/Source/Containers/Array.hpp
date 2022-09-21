@@ -2,6 +2,7 @@
 #include "../Primitives.hpp"
 #include <vector>
 #include <algorithm>
+#include <functional>
 
 namespace Faro 
 {
@@ -107,7 +108,7 @@ namespace Faro
             data.clear();
         }
 
-        void Sort(bool(*function)(T& , T&))
+        void Sort(std::function<bool(T& , T&)> function)
         {
             std::sort(data.begin(), data.end(), function);
         }
