@@ -1,3 +1,5 @@
+# Coding style guide
+
 ## Types naming
 Types must be named following pascal case. Example: `TypeName`
 
