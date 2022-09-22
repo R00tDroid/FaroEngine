@@ -41,35 +41,8 @@ public:
 
         Utility::PrintLine("Checking for changes...");
 
-        bool anyChanges = false;
-        for (ModuleManifest* module : moduleOrder)
-        {
-            module->fileDates.ParseFiles();
-            if (!anyChanges)
-            {
-                for (std::filesystem::path& file : module->sourceFiles)
-                {
-                    std::string extension = file.extension().string();
-                    if (extension == ".c" || extension == ".cpp")
-                    {
-                        std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
-                        if (!std::filesystem::exists(objPath))
-                        {
-                            anyChanges = true;
-                            continue;
-                        }
-                    }
-
-                    if (module->fileDates.HasFileChanged(file)) //TODO Add quick-exit for non included headers
-                    {
-                        anyChanges = true;
-                    }
-                }
-            }
-        }
-
+        bool anyChanges = DetectAnySourceChanges(moduleOrder);
         bool buildAnything = false;
-
         if (anyChanges)
         {
             Utility::PrintLine("Performing build...");
@@ -223,6 +196,39 @@ private:
         }
 
         return false;
+    }
+
+    bool DetectAnySourceChanges(std::vector<ModuleManifest*>& moduleOrder)
+    {
+        bool anyChanges = false;
+
+        for (ModuleManifest* module : moduleOrder)
+        {
+            module->fileDates.ParseFiles();
+            if (!anyChanges)
+            {
+                for (std::filesystem::path& file : module->sourceFiles)
+                {
+                    std::string extension = file.extension().string();
+                    if (extension == ".c" || extension == ".cpp")
+                    {
+                        std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
+                        if (!std::filesystem::exists(objPath))
+                        {
+                            anyChanges = true;
+                            continue;
+                        }
+                    }
+
+                    if (module->fileDates.HasFileChanged(file)) //TODO Add quick-exit for non included headers
+                    {
+                        anyChanges = true;
+                    }
+                }
+            }
+        }
+
+        return anyChanges;
     }
 
     std::string buildPlatform;
