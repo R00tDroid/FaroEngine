@@ -12,5 +12,6 @@ var searchData=
   ['module_2ecpp_9',['Module.cpp',['../Module_8cpp.html',1,'']]],
   ['module_2ehpp_10',['Module.hpp',['../Module_8hpp.html',1,'']]],
   ['modulemanager_2ecpp_11',['ModuleManager.cpp',['../ModuleManager_8cpp.html',1,'']]],
-  ['modulemanager_2ehpp_12',['ModuleManager.hpp',['../ModuleManager_8hpp.html',1,'']]]
+  ['modulemanager_2ehpp_12',['ModuleManager.hpp',['../ModuleManager_8hpp.html',1,'']]],
+  ['modules_2emd_13',['Modules.md',['../Modules_8md.html',1,'']]]
 ];

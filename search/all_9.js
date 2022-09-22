@@ -36,5 +36,6 @@ var searchData=
   ['modulemanager_2ecpp_33',['ModuleManager.cpp',['../ModuleManager_8cpp.html',1,'']]],
   ['modulemanager_2ehpp_34',['ModuleManager.hpp',['../ModuleManager_8hpp.html',1,'']]],
   ['modulemanagerinstance_35',['moduleManagerInstance',['../namespaceFaro.html#a495ae4e318fd32526f59edd67a89a629',1,'Faro']]],
-  ['moveto_36',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
+  ['modules_2emd_36',['Modules.md',['../Modules_8md.html',1,'']]],
+  ['moveto_37',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
 ];
