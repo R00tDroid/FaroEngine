@@ -20,3 +20,4 @@ USE_MDFILE_AS_MAINPAGE = Index.md
 INPUT += ../Source/Engine
 INPUT += Index.md
 INPUT += Style.md
+INPUT += Modules.md
