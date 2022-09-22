@@ -41,9 +41,8 @@ public:
 
         Utility::PrintLine("Checking for changes...");
 
-        bool anyChanges = DetectAnySourceChanges(moduleOrder);
         bool buildAnything = false;
-        if (anyChanges)
+        if (DetectAnySourceChanges(moduleOrder))
         {
             Utility::PrintLine("Performing build...");
 
