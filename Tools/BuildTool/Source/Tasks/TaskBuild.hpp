@@ -52,54 +52,7 @@ public:
 
             for (ModuleManifest* module : moduleOrder)
             {
-                PerformanceTimer moduleTimer;
-
-                Utility::PrintLine("Module: " + module->name);
-
-                std::vector<std::filesystem::path> source = module->sourceFiles;
-
-                if (source.empty())
-                {
-                    Utility::PrintLine("No source found");
-                    return false;
-                }
-
-                std::vector<std::filesystem::path> filesToCompile;
-                std::vector<std::filesystem::path> sourceFiles;
-
-                for (std::filesystem::path& file : source)
-                {
-                    std::string extension = file.extension().string();
-                    if (extension == ".c" || extension == ".cpp")
-                    {
-                        sourceFiles.push_back(file);
-
-                        std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
-
-                        if (!std::filesystem::exists(objPath) || module->fileDates.HasTreeChanged(file))
-                        {
-                            filesToCompile.push_back(file);
-                        }
-                        else
-                        {
-                            module->fileDates.MarkTreeUpdate(file);
-                        }
-                    }
-                }
-
-                if (filesToCompile.empty())
-                {
-                    Utility::PrintLine("All files up-to-date");
-                }
-                else
-                {
-                    if (!BuildModule(module, sourceFiles, filesToCompile)) return false;
-
-                    buildAnything = true;
-                }
-
-                Utility::Print("\n");
-                moduleTimer.Stop("Module: " + module->name);
+                if (!ProcessModule(module, buildAnything)) return false;
             }
         }
         else
@@ -183,6 +136,60 @@ private:
         }
 
         return anyChanges;
+    }
+
+    bool ProcessModule(ModuleManifest* module, bool& buildAnything)
+    {
+        PerformanceTimer moduleTimer;
+
+        Utility::PrintLine("Module: " + module->name);
+
+        std::vector<std::filesystem::path> source = module->sourceFiles;
+
+        if (source.empty())
+        {
+            Utility::PrintLine("No source found");
+            return false;
+        }
+
+        std::vector<std::filesystem::path> filesToCompile;
+        std::vector<std::filesystem::path> sourceFiles;
+
+        for (std::filesystem::path& file : source)
+        {
+            std::string extension = file.extension().string();
+            if (extension == ".c" || extension == ".cpp")
+            {
+                sourceFiles.push_back(file);
+
+                std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
+
+                if (!std::filesystem::exists(objPath) || module->fileDates.HasTreeChanged(file))
+                {
+                    filesToCompile.push_back(file);
+                }
+                else
+                {
+                    module->fileDates.MarkTreeUpdate(file);
+                }
+            }
+        }
+
+        if (filesToCompile.empty())
+        {
+            Utility::PrintLine("All files up-to-date");
+        }
+        else
+        {
+            if (!BuildModule(module, sourceFiles, filesToCompile)) return false;
+
+            buildAnything = true;
+        }
+
+        Utility::Print("\n");
+        moduleTimer.Stop("Module: " + module->name);
+
+        return true;
     }
 
     bool BuildModule(ModuleManifest* module, std::vector<std::filesystem::path>& sourceFiles, std::vector<std::filesystem::path>& filesToCompile)
