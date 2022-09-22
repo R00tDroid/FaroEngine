@@ -93,52 +93,7 @@ public:
                 }
                 else
                 {
-                    PerformanceTimer buildTimer;
-
-                    PerformanceTimer prepareTimer;
-                    if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform, buildType)) return false;
-                    prepareTimer.Stop("Prepare");
-
-                    std::vector<std::filesystem::path> includes = module->GetModuleIncludeDirectories();
-
-                    PerformanceTimer sourceFilesTimer;
-                    bool anyError = false;
-                    for (std::filesystem::path& file : filesToCompile)
-                    {
-                        PerformanceTimer fileTimer;
-                        std::string displayName = GetDisplayName(*module, file);
-                        Utility::PrintLine(displayName);
-
-                        if (targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetPlatform->preprocessorDefines))
-                        {
-                            module->fileDates.MarkTreeUpdate(file);
-                        }
-                        else
-                        {
-                            anyError = true;
-                            module->fileDates.MarkFileInvalid(file);
-                        }
-                        fileTimer.Stop("Source: " + displayName);
-                    }
-
-                    module->fileDates.Save();
-
-                    if (anyError)
-                    {
-                        Utility::PrintLine("Build error!");
-                        return false;
-                    }
-                    sourceFilesTimer.Stop("Build source");
-
-                    Utility::PrintLine("Generating library...");
-                    PerformanceTimer linkTimer;
-                    if (!targetToolchain->LinkLibrary(*module, targetPlatform, buildType, sourceFiles))
-                    {
-                        Utility::PrintLine("Linking error!");
-                        return false;
-                    }
-                    linkTimer.Stop("Link module");
-                    buildTimer.Stop("Build");
+                    if (!BuildModule(module, sourceFiles, filesToCompile)) return false;
 
                     buildAnything = true;
                 }
@@ -228,6 +183,58 @@ private:
         }
 
         return anyChanges;
+    }
+
+    bool BuildModule(ModuleManifest* module, std::vector<std::filesystem::path>& sourceFiles, std::vector<std::filesystem::path>& filesToCompile)
+    {
+        PerformanceTimer buildTimer;
+
+        PerformanceTimer prepareTimer;
+        if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform, buildType)) return false;
+        prepareTimer.Stop("Prepare");
+
+        std::vector<std::filesystem::path> includes = module->GetModuleIncludeDirectories();
+
+        PerformanceTimer sourceFilesTimer;
+        bool anyError = false;
+        for (std::filesystem::path& file : filesToCompile)
+        {
+            PerformanceTimer fileTimer;
+            std::string displayName = GetDisplayName(*module, file);
+            Utility::PrintLine(displayName);
+
+            if (targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetPlatform->preprocessorDefines))
+            {
+                module->fileDates.MarkTreeUpdate(file);
+            }
+            else
+            {
+                anyError = true;
+                module->fileDates.MarkFileInvalid(file);
+            }
+            fileTimer.Stop("Source: " + displayName);
+        }
+
+        module->fileDates.Save();
+
+        if (anyError)
+        {
+            Utility::PrintLine("Build error!");
+            return false;
+        }
+        sourceFilesTimer.Stop("Build source");
+
+        Utility::PrintLine("Generating library...");
+        PerformanceTimer linkTimer;
+        if (!targetToolchain->LinkLibrary(*module, targetPlatform, buildType, sourceFiles))
+        {
+            Utility::PrintLine("Linking error!");
+            return false;
+        }
+        linkTimer.Stop("Link module");
+        buildTimer.Stop("Build");
+
+        return true;
     }
 
     std::string buildPlatform;
