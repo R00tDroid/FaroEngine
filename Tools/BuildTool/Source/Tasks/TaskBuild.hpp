@@ -30,36 +30,11 @@ public:
         targetToolchain = nullptr;
         targetPlatform = nullptr;
 
-        PerformanceTimer toolchainTimer;
-        std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
-        for (IToolchain* toolchain : toolchains) 
-        {
-            std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-            for (BuildPlatform* platform : platforms)
-            {
-                std::string platformName = platform->platformName;
-                std::string requiredPlatform = buildPlatform + " " + buildArchitecture;
-
-                platformName = Utility::ToLower(platformName);
-                requiredPlatform = Utility::ToLower(requiredPlatform);
-
-                if (platformName == requiredPlatform)
-                {
-                    targetToolchain = toolchain;
-                    targetPlatform = platform;
-                    break;
-                }
-            }
-
-            if (targetToolchain != nullptr) break;
-        }
-
-        if (targetToolchain == nullptr || targetPlatform == nullptr) 
+        if (!FindToolchain() || targetToolchain == nullptr || targetPlatform == nullptr) 
         {
             Utility::PrintLine("Unable to find suitable toolchain for platform: " + buildPlatform + " " + buildArchitecture);
             return false;
         }
-        toolchainTimer.Stop("Find toolchain");
 
         //TODO sort module order based on dependencies
         std::vector<ModuleManifest*> moduleOrder = project.projectModules;
@@ -221,6 +196,35 @@ public:
     }
 
 private:
+    bool FindToolchain()
+    {
+        PerformanceTimer toolchainTimer;
+        std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
+        for (IToolchain* toolchain : toolchains)
+        {
+            std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+            for (BuildPlatform* platform : platforms)
+            {
+                std::string platformName = platform->platformName;
+                std::string requiredPlatform = buildPlatform + " " + buildArchitecture;
+
+                platformName = Utility::ToLower(platformName);
+                requiredPlatform = Utility::ToLower(requiredPlatform);
+
+                if (platformName == requiredPlatform)
+                {
+                    targetToolchain = toolchain;
+                    targetPlatform = platform;
+
+                    toolchainTimer.Stop("Find toolchain");
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     std::string buildPlatform;
     std::string buildArchitecture;
     BuildType buildType;
