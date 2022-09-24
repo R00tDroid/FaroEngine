@@ -5,6 +5,17 @@
 
 namespace Faro
 {
+    enum WindowMode
+    {
+        WM_Hidden,
+        WM_Minimized,
+        WM_Windowed,
+        WM_Maximized,
+        WM_Fullscreen,
+
+        WM_ENUMSIZE
+    };
+
     class Window : public IObject
     {
     public:
@@ -16,5 +27,4 @@ namespace Faro
 
         virtual Int2D GetSize() = 0;
     };
-
 }
