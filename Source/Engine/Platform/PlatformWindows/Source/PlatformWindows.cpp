@@ -1,7 +1,9 @@
 #include "PlatformWindows.hpp"
 #include <iostream>
 #include <Log.hpp>
-#include <Windows.h>
+#include <MinWindows.hpp>
+#include <WindowWindows.hpp>
+#include <Memory/MemoryManager.hpp>
 
 namespace Faro
 {
@@ -31,5 +33,12 @@ namespace Faro
 
     void PlatformWindows::Destroy()
     {
+    }
+
+    Window* PlatformWindows::CreateWindow()
+    {
+        Window* window = MemoryManager::New<WindowWindows>();
+        window->Init();
+        return window;
     }
 }
