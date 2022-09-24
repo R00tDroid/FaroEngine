@@ -92,8 +92,13 @@ namespace Faro
         {
             return Vector2<N>((N)x, (N)y);
         }
+
+        static Vector2 zero;
+        static Vector2 one;
     };
 
+    template<class T> Vector2<T> Vector2<T>::zero = { 0, 0 };
+    template<class T> Vector2<T> Vector2<T>::one = { 1, 1 };
 
     typedef Vector2<float> Float2D;
     typedef Vector2<int32> Int2D;

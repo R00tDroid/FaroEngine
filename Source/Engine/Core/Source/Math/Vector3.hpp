@@ -92,7 +92,13 @@ namespace Faro
         {
             return Vector3<N>((N)x, (N)y, (N)z);
         }
+
+        static Vector3 zero;
+        static Vector3 one;
     };
+
+    template<class T> Vector3<T> Vector3<T>::zero = { 0, 0, 0 };
+    template<class T> Vector3<T> Vector3<T>::one = { 1, 1, 1 };
 
     typedef Vector3<float> Float3D;
     typedef Vector3<int32> Int3D;

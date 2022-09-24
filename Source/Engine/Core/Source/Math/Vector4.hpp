@@ -59,7 +59,13 @@ namespace Faro
         {
             return Vector4<N>((N)x, (N)y, (N)z, (N)w);
         }
+
+        static Vector4 zero;
+        static Vector4 one;
     };
+
+    template<class T> Vector4<T> Vector4<T>::zero = { 0, 0, 0, 0 };
+    template<class T> Vector4<T> Vector4<T>::one = { 1, 1, 1, 1 };
 
     typedef Vector4<float> Float4D;
     typedef Vector4<int32> Int4D;
