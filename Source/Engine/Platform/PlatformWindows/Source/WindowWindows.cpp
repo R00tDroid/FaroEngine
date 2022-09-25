@@ -6,6 +6,9 @@
 
 namespace Faro
 {
+    Mutex pendingCreationLock;
+    WindowThread* pendingCreation = nullptr;
+
     LRESULT MessageProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
     {
         WindowThread* parentThread = reinterpret_cast<WindowThread*>(GetWindowLongPtrA(handle, GWLP_USERDATA));
@@ -14,8 +17,13 @@ namespace Faro
             return parentThread->ProcessMessage(message, wParam, lParam);
         }
 
-        Log(PlatformWindowsLog, LC_Error, "Window message without window handler: %i", message);
+        if (pendingCreation != nullptr)
+        {
+            pendingCreation->windowHandle = handle;
+            return pendingCreation->ProcessMessage(message, wParam, lParam);
+        }
 
+        Log(PlatformWindowsLog, LC_Error, "Window message without window handler: %i", message);
         return DefWindowProcA(handle, message, wParam, lParam);
     }
 
@@ -53,9 +61,15 @@ namespace Faro
 
         RegisterClassExA(&windowThread);
 
+        pendingCreationLock.Lock();
+        pendingCreation = this;
+
         windowHandle = CreateWindowExA(0, WindowClass, nullptr, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 400, 300, nullptr, nullptr, processHandle, nullptr);
 
         SetWindowLongPtrA(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
+        pendingCreation = nullptr;
+        pendingCreationLock.Unlock();
 
         Log(PlatformWindowsLog, LC_Trace, "Created window: %i", windowHandle);
     }

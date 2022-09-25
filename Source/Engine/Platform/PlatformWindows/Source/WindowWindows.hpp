@@ -12,13 +12,12 @@ namespace Faro
 
         void SetTitle(String title);
 
+        HWND windowHandle = 0;
+
     protected:
         void ThreadInit() override;
         void ThreadUpdate() override;
         void ThreadDestroy() override;
-
-    private:
-        HWND windowHandle = 0;
     };
 
     class WindowWindows : public Window
