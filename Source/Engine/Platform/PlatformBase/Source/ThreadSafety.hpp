@@ -17,6 +17,8 @@ namespace Faro
         std::mutex mutex;
     };
 
+    /// @brief Container class providing thread-safe access to the internal object.
+    /// @tparam T Type of the contained data object
     template<class T>
     class ThreadSafe
     {
@@ -24,16 +26,22 @@ namespace Faro
         ThreadSafe() : data() { }
         ThreadSafe(T initialValue) : data(initialValue) { }
 
+        /// @brief Gain exclusive access to this object.
         void Lock()
         {
             mutex.Lock();
         }
 
+        /// @brief Release exclusive access to this object.
         void Unlock()
         {
             mutex.Unlock();
         }
 
+        /**
+         * @brief Set the value of this object.
+         * @param value New value of the object
+         */
         void Set(T value)
         {
             Lock();
@@ -41,6 +49,10 @@ namespace Faro
             Unlock();
         }
 
+        /**
+         * @brief Get a copy of the contained value.
+         * @return T Copy of the contained value
+         */
         T GetCopy()
         {
             Lock();
@@ -50,11 +62,21 @@ namespace Faro
             return returnValue;
         }
 
+        /**
+         * @brief Get a reference to the contained value.
+         * @warning Must be locked with #Lock and unlocked with #Unlock
+         * @return T& Reference to the contained value
+         */
         T& Get()
         {
             return data;
         }
 
+/**
+         * @brief Get a pointer to the contained value.
+         * @warning Must be locked with #Lock and unlocked with #Unlock
+         * @return T* Pointer to the contained value
+         */
         T* operator-> ()
         {
             return &data;
