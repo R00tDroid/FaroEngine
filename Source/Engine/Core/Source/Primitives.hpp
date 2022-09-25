@@ -1,4 +1,5 @@
 #pragma once
+#include <functional>
 
 namespace Faro
 {
@@ -13,4 +14,7 @@ namespace Faro
 
     typedef unsigned long uint64;
     typedef long int64;
+
+    template <typename T>
+    using Function = std::function<T>;
 }
