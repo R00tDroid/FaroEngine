@@ -16,5 +16,6 @@ var searchData=
   ['formatstringva_13',['FormatStringVA',['../namespaceFaro.html#a5d8667c7d65c2f2e460efe0e5fe073b6',1,'Faro']]],
   ['forward_14',['Forward',['../structFaro_1_1Vector3.html#a16fb15a776b9eedb1f55c70cdb84ed28',1,'Faro::Vector3']]],
   ['free_15',['Free',['../classFaro_1_1MemoryManager.html#a19e28e95b0364afb13a3f58a94c9909b',1,'Faro::MemoryManager']]],
-  ['fromhex_16',['FromHex',['../structFaro_1_1IColor.html#ab5497f0cc4ea28a05a58f6d494b6c884',1,'Faro::IColor']]]
+  ['fromhex_16',['FromHex',['../structFaro_1_1IColor.html#ab5497f0cc4ea28a05a58f6d494b6c884',1,'Faro::IColor']]],
+  ['function_17',['Function',['../namespaceFaro.html#a4cdc2818643bf458fb483be46ca6491a',1,'Faro']]]
 ];

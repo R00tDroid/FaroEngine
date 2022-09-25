@@ -5,5 +5,6 @@ var searchData=
   ['matrix44_2',['Matrix44',['../structFaro_1_1Matrix44.html',1,'Faro']]],
   ['memorymanager_3',['MemoryManager',['../classFaro_1_1MemoryManager.html',1,'Faro']]],
   ['moduledependencies_4',['ModuleDependencies',['../structFaro_1_1ModuleDependencies.html',1,'Faro']]],
-  ['modulemanager_5',['ModuleManager',['../classFaro_1_1ModuleManager.html',1,'Faro']]]
+  ['modulemanager_5',['ModuleManager',['../classFaro_1_1ModuleManager.html',1,'Faro']]],
+  ['mutex_6',['Mutex',['../classFaro_1_1Mutex.html',1,'Faro']]]
 ];

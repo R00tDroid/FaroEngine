@@ -10,7 +10,7 @@ var searchData=
   ['map_3c_20faro_3a_3astring_2c_20uint32_20_3e_7',['Map&lt; Faro::String, uint32 &gt;',['../classFaro_1_1Map.html',1,'Faro']]],
   ['mathutil_2ecpp_8',['MathUtil.cpp',['../MathUtil_8cpp.html',1,'']]],
   ['mathutil_2ehpp_9',['MathUtil.hpp',['../MathUtil_8hpp.html',1,'']]],
-  ['matrix44_10',['Matrix44',['../structFaro_1_1Matrix44.html',1,'Faro::Matrix44'],['../structFaro_1_1Matrix44.html#aa3ec845317a38c532cf6dba973fff3cf',1,'Faro::Matrix44::Matrix44()'],['../structFaro_1_1Matrix44.html#a2bd7a44bb6661c072d111a684a02f663',1,'Faro::Matrix44::Matrix44(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33)']]],
+  ['matrix44_10',['Matrix44',['../structFaro_1_1Matrix44.html',1,'Faro::Matrix44'],['../structFaro_1_1Matrix44.html#a2bd7a44bb6661c072d111a684a02f663',1,'Faro::Matrix44::Matrix44(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33)'],['../structFaro_1_1Matrix44.html#aa3ec845317a38c532cf6dba973fff3cf',1,'Faro::Matrix44::Matrix44()']]],
   ['matrix44_2ecpp_11',['Matrix44.cpp',['../Matrix44_8cpp.html',1,'']]],
   ['matrix44_2ehpp_12',['Matrix44.hpp',['../Matrix44_8hpp.html',1,'']]],
   ['max_13',['Max',['../namespaceFaro.html#aaf590d6bcc6e909c45c28db1da92d726',1,'Faro']]],
@@ -37,5 +37,6 @@ var searchData=
   ['modulemanager_2ehpp_34',['ModuleManager.hpp',['../ModuleManager_8hpp.html',1,'']]],
   ['modulemanagerinstance_35',['moduleManagerInstance',['../namespaceFaro.html#a495ae4e318fd32526f59edd67a89a629',1,'Faro']]],
   ['modules_2emd_36',['Modules.md',['../Modules_8md.html',1,'']]],
-  ['moveto_37',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]]
+  ['moveto_37',['MoveTo',['../classFaro_1_1Array.html#a2e8c6c1425217ede2f982e8acfb12481',1,'Faro::Array']]],
+  ['mutex_38',['Mutex',['../classFaro_1_1Mutex.html',1,'Faro']]]
 ];
