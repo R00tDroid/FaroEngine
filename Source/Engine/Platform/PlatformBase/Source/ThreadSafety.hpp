@@ -50,6 +50,11 @@ namespace Faro
             return data;
         }
 
+        T* operator-> ()
+        {
+            return &data;
+        }
+
     private:
         Mutex mutex;
 
