@@ -8,7 +8,7 @@ namespace Faro
     /// @brief Function type to be ran on another thread.
     typedef Function<void()> ThreadTask;
 
-    /// @brief Abstract interface of a thread
+    /// @brief Abstract interface of a thread.
     class IThreadInterface
     {
     public:
@@ -35,15 +35,24 @@ namespace Faro
         ThreadSafe<Array<ThreadTask>> tasks;
     };
 
+    /// @brief Base class for a thread.
     class IThread : public IThreadInterface
     {
     public:
+        /// @brief Start the thread.
         void Start();
 
+        /// @brief Request the thread to stop.
         void RequestStop();
 
+        /// @brief Request the thread to stop and wait for it.
         void WaitForStop();
 
+        /**
+         * @brief Check if the thread is currently running.
+         * @return true The thread is running
+         * @return false The thread is not running
+         */
         bool IsRunning();
 
     private:
