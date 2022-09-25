@@ -1,6 +1,7 @@
 #pragma once
 #include <Window.hpp>
 #include <Thread.hpp>
+#include <MinWindows.hpp>
 
 namespace Faro
 {
@@ -10,6 +11,9 @@ namespace Faro
         void ThreadInit() override;
         void ThreadUpdate() override;
         void ThreadDestroy() override;
+
+    private:
+        HWND windowHandle = 0;
     };
 
     class WindowWindows : public Window
