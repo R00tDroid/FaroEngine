@@ -1,5 +1,6 @@
 #include "WindowWindows.hpp"
 #include <MinWindows.hpp>
+#include "PlatformWindowsLog.hpp"
 
 #define WindowClass "FaroWindow"
 
@@ -12,6 +13,8 @@ namespace Faro
         {
             return parentThread->ProcessMessage(message, wParam, lParam);
         }
+
+        Log(PlatformWindowsLog, LC_Error, "Window message without window handler: %i", message);
 
         return DefWindowProcA(handle, message, wParam, lParam);
     }
@@ -31,6 +34,8 @@ namespace Faro
 
     void WindowThread::ThreadInit()
     {
+        Log(PlatformWindowsLog, LC_Trace, "Creating window");
+
         HINSTANCE processHandle = GetModuleHandleA(nullptr);
 
         WNDCLASSEXA windowThread;
@@ -51,6 +56,8 @@ namespace Faro
         windowHandle = CreateWindowExA(0, WindowClass, nullptr, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 400, 300, nullptr, nullptr, processHandle, nullptr);
 
         SetWindowLongPtrA(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
+        Log(PlatformWindowsLog, LC_Trace, "Created window: %i", windowHandle);
     }
 
     void WindowThread::ThreadUpdate()
@@ -70,6 +77,8 @@ namespace Faro
 
     void WindowThread::ThreadDestroy()
     {
+        Log(PlatformWindowsLog, LC_Trace, "Destroying window: %i", windowHandle);
+
         if (windowHandle != 0) 
         {
             DestroyWindow(windowHandle);
