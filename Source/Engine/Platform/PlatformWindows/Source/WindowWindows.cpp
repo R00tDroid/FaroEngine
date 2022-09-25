@@ -29,6 +29,22 @@ namespace Faro
 
     LRESULT WindowThread::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
     {
+        switch (message)
+        {
+            case WM_CLOSE:
+            {
+                //TODO dispatch onWindowCloseRequest
+                break;
+            }
+            case WM_DESTROY:
+            {
+                Log(PlatformWindowsLog, LC_Trace, "Window closed");
+                //TODO dispatch onWindowClose
+                RequestStop();
+                break;
+            }
+        }
+
         return DefWindowProcA(windowHandle, message, wParam, lParam);
     }
 
