@@ -8,8 +8,17 @@ namespace Faro
     LRESULT MessageProc(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
     {
         WindowThread* parentThread = reinterpret_cast<WindowThread*>(GetWindowLongPtrA(handle, GWLP_USERDATA));
+        if (parentThread != nullptr)
+        {
+            return parentThread->ProcessMessage(message, wParam, lParam);
+        }
 
         return DefWindowProcA(handle, message, wParam, lParam);
+    }
+
+    LRESULT WindowThread::ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam)
+    {
+        return DefWindowProcA(windowHandle, message, wParam, lParam);
     }
 
     void WindowThread::ThreadInit()

@@ -7,6 +7,9 @@ namespace Faro
 {
     class WindowThread : public IThread
     {
+    public:
+        LRESULT ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam);
+
     protected:
         void ThreadInit() override;
         void ThreadUpdate() override;
