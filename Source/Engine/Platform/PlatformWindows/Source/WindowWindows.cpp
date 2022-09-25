@@ -21,6 +21,14 @@ namespace Faro
         return DefWindowProcA(windowHandle, message, wParam, lParam);
     }
 
+    void WindowThread::SetTitle(String title)
+    {
+        if (windowHandle != 0)
+        {
+            SetWindowTextA(windowHandle, title.Data());
+        }
+    }
+
     void WindowThread::ThreadInit()
     {
         HINSTANCE processHandle = GetModuleHandleA(nullptr);
@@ -83,6 +91,10 @@ namespace Faro
 
     void WindowWindows::SetTitle(String title)
     {
+        windowThread.AddTask([title, this]()
+        {
+            windowThread.SetTitle(title);
+        });
     }
 
     void WindowWindows::SetSize(Int2D size)

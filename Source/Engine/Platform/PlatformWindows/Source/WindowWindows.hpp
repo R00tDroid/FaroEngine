@@ -10,6 +10,8 @@ namespace Faro
     public:
         LRESULT ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam);
 
+        void SetTitle(String title);
+
     protected:
         void ThreadInit() override;
         void ThreadUpdate() override;
