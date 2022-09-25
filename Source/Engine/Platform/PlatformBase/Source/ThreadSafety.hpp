@@ -3,10 +3,14 @@
 
 namespace Faro
 {
+    /// @brief Synchronization flag to gain exclusive access on the calling thread.
     class Mutex
     {
     public:
+        /// @brief Obtain exclusive access to this mutex.
         void Lock();
+
+        /// @brief Release the previously claimed access.
         void Unlock();
 
     private:
