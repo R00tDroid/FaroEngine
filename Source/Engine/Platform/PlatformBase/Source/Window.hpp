@@ -2,6 +2,7 @@
 #include <Containers/String.hpp>
 #include <Math/Vector2.hpp>
 #include <Memory/Object.hpp>
+#include <Util/Broadcast.hpp>
 
 namespace Faro
 {
@@ -26,5 +27,11 @@ namespace Faro
         virtual void SetSize(Int2D size) = 0;
 
         virtual Int2D GetSize() = 0;
+
+        Broadcast<Int2D> onWindowResize;
+
+        Broadcast<> onWindowClose;
+
+        Broadcast<bool&> onWindowCloseRequest;
     };
 }
