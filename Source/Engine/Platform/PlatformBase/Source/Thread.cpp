@@ -2,6 +2,24 @@
 
 namespace Faro
 {
+    void IThreadInterface::AddTask(ThreadTask task)
+    {
+        tasks.Lock();
+        tasks->Add(task);
+        tasks.Unlock();
+    }
+
+    void IThreadInterface::RunTasks()
+    {
+        tasks.Lock();
+        for (ThreadTask& task : tasks.Get())
+        {
+            task();
+        }
+        tasks->Clear();
+        tasks.Unlock();
+    }
+
     void IThread::Start()
     {
         shouldRun.Set(true);
@@ -34,6 +52,7 @@ namespace Faro
 
         while (shouldRun.GetCopy())
         {
+            RunTasks();
             ThreadUpdate();
         }
 
