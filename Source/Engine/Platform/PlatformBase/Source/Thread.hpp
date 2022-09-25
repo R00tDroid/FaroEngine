@@ -10,6 +10,8 @@ namespace Faro
     class IThreadInterface
     {
     public:
+        virtual ~IThreadInterface() = default;
+
         void AddTask(ThreadTask task);
 
     protected:
