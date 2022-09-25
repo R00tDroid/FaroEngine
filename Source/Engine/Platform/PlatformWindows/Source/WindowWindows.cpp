@@ -29,6 +29,8 @@ namespace Faro
         windowThread.cbWndExtra = 0;
         windowThread.hbrBackground = (HBRUSH)COLOR_BACKGROUND;
 
+        RegisterClassExA(&windowThread);
+
         windowHandle = CreateWindowExA(0, WindowClass, nullptr, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 400, 300, nullptr, nullptr, processHandle, nullptr);
 
         SetWindowLongPtrA(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
