@@ -17,6 +17,7 @@ namespace Faro
     class ThreadSafe
     {
     public:
+        ThreadSafe() : data() { }
         ThreadSafe(T initialValue) : data(initialValue) { }
 
         void Lock()
