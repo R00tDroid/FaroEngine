@@ -8,10 +8,10 @@ namespace Faro
     {
     public:
         static Duration FromHours(int16 hours) { return Duration(std::chrono::system_clock::duration(std::chrono::hours(hours))); }
-        static Duration FromMinutes(int16 hours) { return Duration(std::chrono::system_clock::duration(std::chrono::minutes(hours))); }
-        static Duration FromSeconds(int16 hours) { return Duration(std::chrono::system_clock::duration(std::chrono::seconds(hours))); }
-        static Duration FromMilliseconds(int16 hours) { return Duration(std::chrono::system_clock::duration(std::chrono::milliseconds(hours))); }
-        static Duration FromMicroseconds(int16 hours) { return Duration(std::chrono::system_clock::duration(std::chrono::microseconds(hours))); }
+        static Duration FromMinutes(int16 minutes) { return Duration(std::chrono::system_clock::duration(std::chrono::minutes(minutes))); }
+        static Duration FromSeconds(int16 seconds) { return Duration(std::chrono::system_clock::duration(std::chrono::seconds(seconds))); }
+        static Duration FromMilliseconds(int16 milliseconds) { return Duration(std::chrono::system_clock::duration(std::chrono::milliseconds(milliseconds))); }
+        static Duration FromMicroseconds(int16 microseconds) { return Duration(std::chrono::system_clock::duration(std::chrono::microseconds(microseconds))); }
 
         Duration(std::chrono::steady_clock::duration duration) : duration(duration){}
 
