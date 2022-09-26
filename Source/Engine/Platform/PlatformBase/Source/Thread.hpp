@@ -3,17 +3,20 @@
 #include <Primitives.hpp>
 #include <Containers/Array.hpp>
 #include <Math/Time.hpp>
+#include <Containers/String.hpp>
 
 namespace Faro
 {
+    /// @brief Function type to be ran on another thread.
+    typedef Function<void()> ThreadTask;
+
     /**
      * @brief Sleep the calling thread by the given duration.
      * @param duration Amount of time to sleep
      */
     extern void Sleep(Duration duration);
 
-    /// @brief Function type to be ran on another thread.
-    typedef Function<void()> ThreadTask;
+    extern void RunOnThread(String threadId, ThreadTask task);
 
     /// @brief Abstract interface of a thread.
     class IThreadInterface
@@ -27,6 +30,8 @@ namespace Faro
          */
         void AddTask(ThreadTask task);
 
+        virtual String GetThreadId() = 0;
+
     protected:
         /// @brief Executed while starting the thread.
         virtual void ThreadInit() = 0;
@@ -37,6 +42,9 @@ namespace Faro
 
         /// @brief Executed any pending tasks.
         void RunTasks();
+
+        void RegisterThread();
+        void UnregisterThread();
 
     private:
         ThreadSafe<Array<ThreadTask>> tasks;
@@ -62,9 +70,12 @@ namespace Faro
          */
         bool IsRunning();
 
+        String GetThreadId() override;
+
     private:
         void ThreadRun();
-
+        
+    private:
         std::thread thread;
 
         ThreadSafe<bool> shouldRun = true;
