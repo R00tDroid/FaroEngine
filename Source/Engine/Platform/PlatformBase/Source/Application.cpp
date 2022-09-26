@@ -19,31 +19,14 @@ namespace Faro
         GApplication = nullptr;
     }
 
-    int Application::Run()
-    {
-        Log(AppLog, LC_Info, "Faro Engine %s", GEngineVersion.GetFullVersion().Data());
-
-        Log(AppLog, LC_Debug, "Initializing");
-        if (!Init())
-        {
-            return -1;
-        }
-
-        Log(AppLog, LC_Debug, "Entering main loop");
-        while (Update()) {}
-
-        Log(AppLog, LC_Debug, "Starting destruction");
-        if (!Destroy())
-        {
-            return -1;
-        }
-
-        return 0;
-    }
-
     bool Application::Init()
     {
+        Log(AppLog, LC_Info, "Faro Engine %s", GEngineVersion.GetFullVersion().Data());
+        Log(AppLog, LC_Debug, "Initializing");
+
         if (!GModuleManager->Init()) return false;
+
+        Log(AppLog, LC_Debug, "Entering main loop");
 
         return true;
     }
@@ -57,6 +40,8 @@ namespace Faro
 
     bool Application::Destroy()
     {
+        Log(AppLog, LC_Debug, "Starting destruction");
+
         if (!GModuleManager->Destroy()) return false;
 
         return true;

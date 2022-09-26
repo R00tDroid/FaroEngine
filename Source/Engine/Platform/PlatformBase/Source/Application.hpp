@@ -8,9 +8,6 @@ namespace Faro
         Application();
         ~Application();
 
-        int Run();
-
-    private:
         bool Init();
         bool Update();
         bool Destroy();
