@@ -17,7 +17,7 @@ namespace Faro
         {
             for (Function<void(Args...)>& function : boundFunctions)
             {
-                function(boundFunctions...);
+                function(arguments...);
             }
         }
 
