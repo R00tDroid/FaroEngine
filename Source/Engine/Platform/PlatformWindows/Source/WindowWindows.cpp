@@ -102,7 +102,7 @@ namespace Faro
             }
         }
 
-        //TODO reduce cpu load
+        Sleep(Duration::FromMilliseconds(10));
     }
 
     void WindowThread::ThreadDestroy()
