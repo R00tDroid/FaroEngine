@@ -82,6 +82,11 @@ namespace Faro
 
         windowHandle = CreateWindowExA(0, WindowClass, nullptr, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 400, 300, nullptr, nullptr, processHandle, nullptr);
 
+        if (windowHandle == nullptr)
+        {
+            Log(PlatformWindowsLog, LC_Error, "Failed to create window");
+        }
+
         SetWindowLongPtrA(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
         pendingCreation = nullptr;
