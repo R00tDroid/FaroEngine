@@ -1,5 +1,6 @@
 #include "WindowWindows.hpp"
 #include <MinWindows.hpp>
+#include <MainThread.hpp>
 #include "PlatformWindowsLog.hpp"
 
 #define WindowClass "FaroWindow"
@@ -33,15 +34,29 @@ namespace Faro
         {
             case WM_CLOSE:
             {
-                //TODO dispatch onWindowCloseRequest
-                break;
+                bool closeWindow = true;
+                window->onWindowCloseRequest.Dispatch(closeWindow);
+
+                if (closeWindow)
+                {
+                    DestroyWindow(windowHandle);
+                }
+
+                return 0;
             }
             case WM_DESTROY:
             {
                 Log(PlatformWindowsLog, LC_Trace, "Window closed");
-                //TODO dispatch onWindowClose
+
                 RequestStop();
-                break;
+
+                WindowWindows* windowPtr = window;
+                RunOnThread(MainThread::id, [windowPtr]()
+                {
+                    windowPtr->onWindowClose.Dispatch();
+                });
+
+                return 0;
             }
         }
 
@@ -124,6 +139,7 @@ namespace Faro
     void WindowWindows::Init()
     {
         Window::Init();
+        windowThread.window = this;
         windowThread.Start();
     }
 

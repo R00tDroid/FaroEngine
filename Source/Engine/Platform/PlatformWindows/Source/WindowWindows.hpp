@@ -5,6 +5,8 @@
 
 namespace Faro
 {
+    class WindowWindows;
+
     class WindowThread : public IThread
     {
     public:
@@ -12,7 +14,9 @@ namespace Faro
 
         void SetTitle(String title);
 
-        HWND windowHandle = 0;
+        HWND windowHandle = nullptr;
+
+        WindowWindows* window = nullptr;
 
     protected:
         void ThreadInit() override;
