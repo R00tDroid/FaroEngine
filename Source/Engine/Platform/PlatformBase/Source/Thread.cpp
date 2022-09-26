@@ -2,6 +2,11 @@
 
 namespace Faro
 {
+    void Sleep(Duration duration)
+    {
+        std::this_thread::sleep_for(std::chrono::system_clock::duration(std::chrono::microseconds(duration.TotalMicroseconds())));
+    }
+
     void IThreadInterface::AddTask(ThreadTask task)
     {
         tasks.Lock();

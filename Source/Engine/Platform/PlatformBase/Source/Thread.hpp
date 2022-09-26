@@ -2,9 +2,16 @@
 #include <ThreadSafety.hpp>
 #include <Primitives.hpp>
 #include <Containers/Array.hpp>
+#include <Math/Time.hpp>
 
 namespace Faro
 {
+    /**
+     * @brief Sleep the calling thread by the given duration.
+     * @param duration Amount of time to sleep
+     */
+    extern void Sleep(Duration duration);
+
     /// @brief Function type to be ran on another thread.
     typedef Function<void()> ThreadTask;
 
