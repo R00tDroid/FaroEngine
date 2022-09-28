@@ -1,19 +1,21 @@
 <html>
-    <head>
-        <script src="index.js"></script>
-        <style>
-            #commandOutput
-            {
-                margin: 10px;
-                padding: 10px;
-                border: 1px black;
-                border-style: dashed;
-            }
-        </style>
-    </head>
-    <body>
-        test window<br/>
-        <button id="runBuildTool">Generate</button>
+<head>
+    <script src="index.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="titlebar">
+            <p>Faro Build Tool</p>
+            <button id="minimizeButton"></button>
+            <button id="closeButton"></button>
+        </div>
+        <div class="header">
+            <button id="runBuildTool">Generate</button>
+        </div>
         <div id="commandOutput"></div>
-    </body>
+    </div>
+</body>
 </html>
