@@ -1,12 +1,12 @@
 {
   "name": "toolgui",
   "version": "1.0.0",
-  "description": "",
+  "description": "GUI for FaroBuildTool",
   "main": "./main/main.js",
   "scripts": {
     "start": "electron ."
   },
-  "author": "",
+  "author": "R00tDroid",
   "license": "ISC",
   "dependencies": {
     "electron": "^21.0.0"
