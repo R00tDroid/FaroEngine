@@ -15,7 +15,7 @@ jobs:
       with:
         submodules: recursive
 
-    - name: Install Node.js, NPM and Yarn
+    - name: Prepare Electron
       uses: actions/setup-node@v3
       with:
         node-version: 18
