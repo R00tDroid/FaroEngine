@@ -10,7 +10,8 @@ const createWindow = () => {
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
         },
-        frame: false
+        frame: false,
+        transparent: true
     });
     
     win.loadFile('renderer/index.html');
