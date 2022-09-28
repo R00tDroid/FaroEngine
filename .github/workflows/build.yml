@@ -28,6 +28,9 @@ jobs:
         package_root: ./Tools/ToolGUI
         build_script_name: package
 
+    - name: Copy GUI
+      run: xcopy .\\Tools\\ToolGUI\\dist\\*.exe .\\Bin
+
     - name: Generate
       run: cmake ./Tools
 
