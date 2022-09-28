@@ -12,5 +12,9 @@
   "devDependencies": {
     "electron": "^21.0.0",
     "electron-builder": "^23.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/R00tDroid/FaroEngine.git"
   }
 }
