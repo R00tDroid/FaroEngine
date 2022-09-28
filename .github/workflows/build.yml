@@ -16,9 +16,9 @@ jobs:
         submodules: recursive
 
     - name: Install Node.js, NPM and Yarn
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
-        node-version: 10
+        node-version: 18
 
     - name: Build GUI
       uses: samuelmeuli/action-electron-builder@v1.6.0
