@@ -11,7 +11,7 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('commandOutput').innerHTML += value;
     });
 
-    const btn = document.getElementById('runBuildTool');
+    const btn = document.getElementById('runGenerate');
     btn.addEventListener('click', async () => {
         const result = await window.electronAPI.runBuildTool();
         console.log("command result: " + result);

@@ -9,11 +9,23 @@
     <div class="page">
         <div class="titlebar">
             <p>Faro Build Tool</p>
-            <button id="minimizeButton"></button>
             <button id="closeButton"></button>
+            <button id="minimizeButton"></button>
         </div>
         <div class="header">
-            <button id="runBuildTool">Generate</button>
+            <input type="text"></input>
+            <br>
+            <select name="cars" id="cars">
+                <option value="volvo">Windows x64</option>
+                <option value="saab">Windows x86</option>
+              </select>
+              <select name="cars" id="cars">
+                <option value="volvo">Debug</option>
+                <option value="saab">Development</option>
+                <option value="mercedes">Release</option>
+              </select>
+              <br>
+              <button id="runGenerate">Generate</button><button id="runClean">Clean</button><button id="runBuild">Build</button>
         </div>
         <div id="commandOutput"></div>
     </div>

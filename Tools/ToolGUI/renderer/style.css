@@ -64,6 +64,22 @@ body, html
     margin: .5em;
 }
 
+.header input
+{
+    width: 100%;
+}
+
+.header select
+{
+    width: 49%;
+}
+
+.header button
+{
+    width: 33%;
+}
+
+
 #commandOutput
 {
     color: #ffffff;
