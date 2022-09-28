@@ -1,8 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
+
 body, html 
 {
     width: 100%;
     height: 100%;
     margin: 0;
+}
+
+*
+{
+    font: 1em Source Sans Pro;
 }
 
 .page
@@ -43,6 +50,8 @@ body, html
 {
     color: white;
     margin: 0px;
+
+    font-size: 1.2em;
 
     position: absolute;
     top: 50%;
