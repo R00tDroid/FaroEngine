@@ -18,8 +18,6 @@ const createWindow = () => {
 app.whenReady().then(() => {
     
     ipcMain.handle('action:runBuildTool', runBuildTool)
-
-    console.log("app directory: " + app.getPath("exe"));
     
     createWindow();
     
