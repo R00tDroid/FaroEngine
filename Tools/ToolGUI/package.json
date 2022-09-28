@@ -1,5 +1,5 @@
 {
-  "name": "toolgui",
+  "name": "FaroBuildGUI",
   "version": "1.0.0",
   "description": "GUI for FaroBuildTool",
   "main": "./main/main.js",
@@ -16,5 +16,10 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/R00tDroid/FaroEngine.git"
+  },
+  "build": {
+    "appId": "nl.R00tDroid.FaroBuildGUI",
+    "productName": "FaroBuildGUI",
+    "artifactName": "${productName}.${ext}"
   }
 }
