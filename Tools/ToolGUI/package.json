@@ -4,11 +4,13 @@
   "description": "GUI for FaroBuildTool",
   "main": "./main/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package": "electron-builder --win portable"
   },
   "author": "R00tDroid",
   "license": "ISC",
-  "dependencies": {
-    "electron": "^21.0.0"
+  "devDependencies": {
+    "electron": "^21.0.0",
+    "electron-builder": "^23.3.3"
   }
 }
