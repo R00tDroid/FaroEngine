@@ -20,8 +20,8 @@ jobs:
       with:
         node-version: 10
 
-    - name: Build/release Electron app
-      uses: samuelmeuli/action-electron-builder@v1
+    - name: Build GUI
+      uses: samuelmeuli/action-electron-builder@v1.6.0
       with:
         github_token: ${{ secrets.github_token }}
         release: ${{ startsWith(github.ref, 'refs/tags/v') }}
