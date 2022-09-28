@@ -12,12 +12,14 @@ const createWindow = () => {
         },
     });
     
-    win.loadFile('index.html');
+    win.loadFile('renderer/index.html');
 };
 
 app.whenReady().then(() => {
     
     ipcMain.handle('action:runBuildTool', runBuildTool)
+
+    console.log("app directory: " + app.getPath("exe"));
     
     createWindow();
     
