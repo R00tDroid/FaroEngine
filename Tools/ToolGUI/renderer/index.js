@@ -11,10 +11,15 @@ window.addEventListener('DOMContentLoaded', () => {
         document.getElementById('commandOutput').innerHTML += value;
     });
 
-    const btn = document.getElementById('runGenerate');
-    btn.addEventListener('click', async () => {
-        const result = await window.electronAPI.runBuildTool();
-        console.log("command result: " + result);
-        document.getElementById('commandOutput').innerHTML += result;
+    document.getElementById('runGenerate').addEventListener('click', async () => {
+        window.electronAPI.runBuildTool("-generate");
+    });
+
+    document.getElementById('runClean').addEventListener('click', async () => {
+        window.electronAPI.runBuildTool("-clean");
+    });
+
+    document.getElementById('runBuild').addEventListener('click', async () => {
+        window.electronAPI.runBuildTool("-build");
     });
 });

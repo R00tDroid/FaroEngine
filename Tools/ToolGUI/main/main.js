@@ -40,14 +40,14 @@ function logAppend(string)
     win.webContents.send('event:onLogAppend', string)
 }
 
-async function runBuildTool()
+async function runBuildTool(event, command)
 {
     logClear();
     
     try
     {
         var executablePath = "D:\\Projects\\FaroEngine\\Bin\\FaroBuildTool.exe";
-        var parameters = ["-generate", "-build", "-project", "D:\\Projects\\FaroEngine\\Source\\FaroEngine.faroproject.json", "-platform", "windows" ,"x64", "-debug"];
+        var parameters = [command, "-project", "D:\\Projects\\FaroEngine\\Source\\FaroEngine.faroproject.json", "-platform", "windows" ,"x64", "-debug"];
         
         logAppend("Command: " + executablePath + "\n");
         logAppend("Parameters: " + parameters + "\n");
