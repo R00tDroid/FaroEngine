@@ -1,8 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 
-html { background-color:transparent }
+html 
+{
+    background-color: transparent;
+ }
 
-body, html 
+body 
 {
     width: 100%;
     height: 100%;
@@ -16,11 +19,13 @@ body, html
 
 .page
 {
+    padding: 0;
+    margin: 0;
+
     height:100%;
     -webkit-box-sizing: border-box;
     
     border-radius: 1em;
-    border: .2em solid #0069c0;
     
     display: flex;
     flex-flow: column;
@@ -73,12 +78,12 @@ body, html
 
 .header select
 {
-    width: 49%;
+    width: 45%;
 }
 
 .header button
 {
-    width: 33%;
+    width: 25%;
 }
 
 
