@@ -12,9 +12,25 @@ public:
     )
     SOM_PASSPORT_END
     
-    sciter::string InvokeCommand(sciter::string command)
+    void InvokeCommand(sciter::string command)
     {
-        return sciter::string(L"okay: " + command);
+        ConsoleClear();
+        ConsoleAppend(sciter::string(L"Command: ") + command + sciter::string(L"\n"));
+    }
+
+    static void ConsoleClear()
+    {
+        BEHAVIOR_EVENT_PARAMS params = { 0 };
+        params.name = WSTR("consoleClear");
+        frame::broadcast_event(params);
+    }
+
+    static void ConsoleAppend(const sciter::string& string)
+    {
+        BEHAVIOR_EVENT_PARAMS params = { 0 };
+        params.name = WSTR("consoleAppend");
+        params.data = string;
+        frame::broadcast_event(params);
     }
 };
 
