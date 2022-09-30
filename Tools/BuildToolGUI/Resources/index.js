@@ -19,5 +19,6 @@ Window.this.on('consoleClear', () => {
 });
 
 Window.this.on('consoleAppend', (p1) => {
-    document.getElementById("commandOutput").innerHTML += p1.data + "<br>";
+    string = p1.data.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    document.getElementById("commandOutput").innerHTML += string;
 });
