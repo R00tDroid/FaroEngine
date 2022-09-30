@@ -1,8 +1,8 @@
-window.addEventListener('DOMContentLoaded', (event) => {
+window.addEventListener('DOMContentLoaded', () => {
     const thisWindow = Window.this;
 
     document.getElementById("runGenerate").onclick = function(){
-        var result = thisWindow.frame.InvokeCommand("-generate");
+        thisWindow.frame.InvokeCommand("-generate");
     };
 
     document.getElementById("runClean").onclick = function(){
