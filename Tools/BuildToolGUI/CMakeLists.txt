@@ -25,6 +25,8 @@ target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/sciter/include
 )
 
+target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
 add_custom_target(${PROJECT_NAME}Resources
     COMMAND ${CMAKE_CURRENT_LIST_DIR}/Dependencies/sciter/bin/windows/packfolder ${CMAKE_CURRENT_LIST_DIR}/Resources ${CMAKE_CURRENT_LIST_DIR}/Source/Resources.generated.hpp
 )
