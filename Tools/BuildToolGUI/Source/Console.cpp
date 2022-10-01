@@ -1,5 +1,7 @@
 #include "Console.hpp"
 #include "Window.hpp"
+#include <array>
+#include <codecvt>
 
 std::filesystem::path Console::buildTool;
 
@@ -18,11 +20,49 @@ void Console::ExecuteCommand(std::wstring command)
 
     if (!std::filesystem::exists(buildTool))
     {
-        Append(L"Could not find FaroBuildTool at " + buildTool.wstring());
+        AppendLine(L"Could not find FaroBuildTool at " + buildTool.wstring());
         return;
     }
 
-    Append(L"Command: " + command + L"\n");
+    AppendLine(L"Command: " + command + L"\n");
+
+    InvokeCommand(L"\"" + buildTool.wstring() + L"\" " + command);
+}
+
+std::string Convert(std::wstring string)
+{
+    int stringLength = WideCharToMultiByte(CP_ACP, 0, string.c_str(), (int)string.length(), nullptr, 0, nullptr, nullptr);
+    std::string str(stringLength, 0);
+    WideCharToMultiByte(CP_ACP, 0, string.c_str(), -1, &str[0], stringLength, nullptr, nullptr);
+    return str;
+}
+
+std::wstring Convert(std::string string)
+{
+    int stringLength = MultiByteToWideChar(CP_ACP, 0, string.c_str(), (int)string.length(), nullptr, 0);
+    std::wstring wstr(stringLength, 0);
+    MultiByteToWideChar(CP_ACP, 0, string.c_str(), (int)string.length(), &wstr[0], stringLength);
+    return wstr;
+}
+
+void Console::InvokeCommand(std::wstring command)
+{
+    std::array<char, 16> logBuffer{};
+
+    FILE* processPipe = _popen((Convert(command) + " 2>&1").c_str(), "r");
+    if (!processPipe)
+    {
+        AppendLine(L"Failed to invoke command");
+        return;
+    }
+    while (fgets(logBuffer.data(), int(logBuffer.size()), processPipe) != nullptr)
+    {
+        std::string log(logBuffer.data());
+        Append(Convert(log));
+    }
+
+    int result = _pclose(processPipe);
+    AppendLine(L"Result: " + std::to_wstring(result));
 }
 
 void Console::Clear()
@@ -38,4 +78,9 @@ void Console::Append(std::wstring string)
     params.name = WSTR("consoleAppend");
     params.data = string;
     AppWindow::broadcast_event(params);
+}
+
+void Console::AppendLine(std::wstring string)
+{
+    Append(string + L"\n");
 }
