@@ -1,16 +1,19 @@
-window.addEventListener('DOMContentLoaded', () => {
-    const thisWindow = Window.this;
+function InvokeCommand(command)
+{
+    Window.this.AppWindow.InvokeCommand(command);
+}
 
+window.addEventListener('DOMContentLoaded', () => {
     document.getElementById("runGenerate").onclick = function(){
-        thisWindow.frame.InvokeCommand("-generate");
+        InvokeCommand("-generate");
     };
 
     document.getElementById("runClean").onclick = function(){
-        thisWindow.frame.InvokeCommand("-clean"); 
+        InvokeCommand("-clean"); 
     };
 
     document.getElementById("runBuild").onclick = function(){
-        thisWindow.frame.InvokeCommand("-build"); 
+        InvokeCommand("-build"); 
     };
 });
 
