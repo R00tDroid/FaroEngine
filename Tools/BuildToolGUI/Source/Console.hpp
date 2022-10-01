@@ -9,5 +9,4 @@ public:
 private:
     static void Clear();
     static void Append(std::wstring string);
-
 };
