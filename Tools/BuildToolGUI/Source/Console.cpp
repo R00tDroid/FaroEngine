@@ -1,7 +1,6 @@
 #include "Console.hpp"
 #include "Window.hpp"
 #include <array>
-#include <codecvt>
 #include <mutex>
 #include <thread>
 
@@ -53,7 +52,7 @@ void Console::InvokeCommand(std::wstring command)
     {
         invokeLock.lock();
 
-        std::array<char, 16> logBuffer{};
+        std::array<char, 128> logBuffer{};
 
         FILE* processPipe = _popen((Convert(command) + " 2>&1").c_str(), "r");
         if (!processPipe)
