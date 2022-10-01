@@ -7,7 +7,7 @@ class Console
 public:
     static void Init();
 
-    static void ExecuteCommand(std::wstring command);
+    static void ExecuteCommand(std::wstring command, std::wstring project);
 
 private:
     static void InvokeCommand(std::wstring command);

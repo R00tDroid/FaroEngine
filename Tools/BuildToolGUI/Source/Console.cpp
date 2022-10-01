@@ -16,7 +16,7 @@ void Console::Init()
     buildTool = exePath.parent_path() / "FaroBuildTool.exe";
 }
 
-void Console::ExecuteCommand(std::wstring command)
+void Console::ExecuteCommand(std::wstring command, std::wstring project)
 {
     Clear();
 
@@ -26,7 +26,7 @@ void Console::ExecuteCommand(std::wstring command)
         return;
     }
 
-    InvokeCommand(L"\"" + buildTool.wstring() + L"\" " + command);
+    InvokeCommand(L"\"" + buildTool.wstring() + L"\" " + command + L" -project " + project + L" -platform windows x64 -debug");
 }
 
 std::string Convert(std::wstring string)

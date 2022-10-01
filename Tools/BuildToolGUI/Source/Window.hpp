@@ -12,5 +12,5 @@ public:
     )
     SOM_PASSPORT_END
 
-    void InvokeCommand(sciter::string command);
+    void InvokeCommand(sciter::string command, sciter::string project);
 };
