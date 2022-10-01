@@ -21,7 +21,11 @@ Window.this.on('consoleClear', () => {
     document.getElementById("commandOutput").innerHTML = "";
 });
 
-Window.this.on('consoleAppend', (p1) => {
-    string = p1.data.replace(/(?:\r\n|\r|\n)/g, '<br>');
+Window.this.on('consoleAppend', (event) => {
+    string = event.data.replace(/(?:\r\n|\r|\n)/g, '<br>');
     document.getElementById("commandOutput").innerHTML += string;
+});
+
+Window.this.on('setProjectPath', (event) => {
+    document.getElementById("projectPath").innerHTML = event.data;
 });
