@@ -26,8 +26,6 @@ void Console::ExecuteCommand(std::wstring command)
         return;
     }
 
-    AppendLine(L"Command: " + command + L"\n");
-
     InvokeCommand(L"\"" + buildTool.wstring() + L"\" " + command);
 }
 
@@ -51,8 +49,6 @@ std::mutex invokeLock;
 
 void Console::InvokeCommand(std::wstring command)
 {
-    AppendLine(command);
-
     std::thread thread([command]()
     {
         invokeLock.lock();
