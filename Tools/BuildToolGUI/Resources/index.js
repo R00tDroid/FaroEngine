@@ -1,19 +1,19 @@
-function InvokeCommand(command)
+function InvokeCommand(command, project)
 {
-    Window.this.AppWindow.InvokeCommand(command);
+    Window.this.AppWindow.InvokeCommand(command, project);
 }
 
 window.addEventListener('DOMContentLoaded', () => {
     document.getElementById("runGenerate").onclick = function(){
-        InvokeCommand("-generate");
+        InvokeCommand("-generate", document.getElementById("projectPath").innerHTML);
     };
 
     document.getElementById("runClean").onclick = function(){
-        InvokeCommand("-clean"); 
+        InvokeCommand("-clean", document.getElementById("projectPath").innerHTML);
     };
 
     document.getElementById("runBuild").onclick = function(){
-        InvokeCommand("-build"); 
+        InvokeCommand("-build", document.getElementById("projectPath").innerHTML);
     };
 });
 
