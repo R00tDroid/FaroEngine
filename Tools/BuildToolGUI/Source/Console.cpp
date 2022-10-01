@@ -2,6 +2,8 @@
 #include "Window.hpp"
 #include <array>
 #include <codecvt>
+#include <mutex>
+#include <thread>
 
 std::filesystem::path Console::buildTool;
 
@@ -45,39 +47,63 @@ std::wstring Convert(std::string string)
     return wstr;
 }
 
+std::mutex invokeLock;
+
 void Console::InvokeCommand(std::wstring command)
 {
-    std::array<char, 16> logBuffer{};
+    AppendLine(command);
 
-    FILE* processPipe = _popen((Convert(command) + " 2>&1").c_str(), "r");
-    if (!processPipe)
+    std::thread thread([command]()
     {
-        AppendLine(L"Failed to invoke command");
-        return;
-    }
-    while (fgets(logBuffer.data(), int(logBuffer.size()), processPipe) != nullptr)
-    {
-        std::string log(logBuffer.data());
-        Append(Convert(log));
-    }
+        invokeLock.lock();
 
-    int result = _pclose(processPipe);
-    AppendLine(L"Result: " + std::to_wstring(result));
+        std::array<char, 16> logBuffer{};
+
+        FILE* processPipe = _popen((Convert(command) + " 2>&1").c_str(), "r");
+        if (!processPipe)
+        {
+            AppendLine(L"Failed to invoke command");
+            invokeLock.unlock();
+            return;
+        }
+        while (fgets(logBuffer.data(), int(logBuffer.size()), processPipe) != nullptr)
+        {
+            std::string log(logBuffer.data());
+            Append(Convert(log));
+        }
+
+        int result = _pclose(processPipe);
+        AppendLine(L"Result: " + std::to_wstring(result));
+
+        invokeLock.unlock();
+    });
+
+    thread.detach();
 }
+
+std::mutex consoleLock;
 
 void Console::Clear()
 {
+    consoleLock.lock();
+
     BEHAVIOR_EVENT_PARAMS params = { 0 };
     params.name = WSTR("consoleClear");
     AppWindow::broadcast_event(params);
+
+    consoleLock.unlock();
 }
 
 void Console::Append(std::wstring string)
 {
+    consoleLock.lock();
+
     BEHAVIOR_EVENT_PARAMS params = { 0 };
     params.name = WSTR("consoleAppend");
     params.data = string;
     AppWindow::broadcast_event(params);
+
+    consoleLock.unlock();
 }
 
 void Console::AppendLine(std::wstring string)
