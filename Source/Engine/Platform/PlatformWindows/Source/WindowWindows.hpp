@@ -13,6 +13,7 @@ namespace Faro
         LRESULT ProcessMessage(UINT message, WPARAM wParam, LPARAM lParam);
 
         void SetTitle(String title);
+        void SetState(WindowState state);
 
         HWND windowHandle = nullptr;
 

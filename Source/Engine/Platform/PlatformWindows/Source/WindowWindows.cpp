@@ -71,6 +71,11 @@ namespace Faro
         }
     }
 
+    void WindowThread::SetState(WindowState state)
+    {
+        //TODO resize window
+    }
+
     void WindowThread::ThreadInit()
     {
         Log(PlatformWindowsLog, LC_Trace, "Creating window");
@@ -159,6 +164,10 @@ namespace Faro
 
     void WindowWindows::SetWindowState(WindowState info)
     {
+        windowThread.AddTask([info, this]()
+        {
+            windowThread.SetState(info);
+        });
     }
 
     WindowState WindowWindows::GetWindowState()
