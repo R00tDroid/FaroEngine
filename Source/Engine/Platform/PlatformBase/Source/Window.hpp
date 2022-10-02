@@ -3,6 +3,7 @@
 #include <Math/Vector2.hpp>
 #include <Memory/Object.hpp>
 #include <Util/Broadcast.hpp>
+#include <Math/Rect.hpp>
 
 namespace Faro
 {
@@ -17,6 +18,13 @@ namespace Faro
         WM_ENUMSIZE
     };
 
+    struct WindowState
+    {
+        WindowMode mode = WM_Hidden;
+        IntRect outerRect;
+        Int2D innerSize = Int2D::zero;
+    };
+
     class Window : public IObject
     {
     public:
@@ -24,11 +32,10 @@ namespace Faro
 
         virtual void SetTitle(String title) = 0;
 
-        virtual void SetSize(Int2D size) = 0;
+        virtual void SetWindowState(WindowState info) = 0;
+        virtual WindowState GetWindowState() = 0;
 
-        virtual Int2D GetSize() = 0;
-
-        Broadcast<Int2D> onWindowResize;
+        Broadcast<WindowState> onWindowStateChanged;
 
         Broadcast<> onWindowClose;
 

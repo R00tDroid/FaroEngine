@@ -31,18 +31,13 @@ namespace Faro
         void Destroy() override;
 
         void SetTitle(String title) override;
-        void SetSize(Int2D size) override;
-        Int2D GetSize() override;
+
+        void SetWindowState(WindowState info) override;
+        WindowState GetWindowState() override;
 
     private:
-        struct WindowState
-        {
-            Int2D position = Int2D::zero;
-            Int2D size = Int2D::zero;
-        };
-
-        WindowState windowStates[WindowMode::WM_ENUMSIZE];
-
         WindowThread windowThread;
+
+        WindowState windowState;
     };
 }

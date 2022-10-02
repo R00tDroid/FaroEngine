@@ -157,12 +157,12 @@ namespace Faro
         });
     }
 
-    void WindowWindows::SetSize(Int2D size)
+    void WindowWindows::SetWindowState(WindowState info)
     {
     }
 
-    Int2D WindowWindows::GetSize()
+    WindowState WindowWindows::GetWindowState()
     {
-        return {};
+        return windowState;
     }
 }
