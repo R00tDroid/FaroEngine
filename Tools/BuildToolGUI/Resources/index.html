@@ -12,22 +12,24 @@
             <button id="closeButton"></button>
             <button id="minimizeButton"></button>
         </div>
-        <div class="header">
-            <input type="text" id="projectPath"></input>
-            <br>
-            <select id="selectPlatform">
-                <option value="win64">Windows x64</option>
-                <option value="win32">Windows x86</option>
-              </select>
-              <select id="selectConfig">
-                <option value="debug">Debug</option>
-                <option value="development">Development</option>
-                <option value="release">Release</option>
-              </select>
-              <br>
-              <button id="runGenerate">Generate</button><button id="runClean">Clean</button><button id="runBuild">Build</button>
+        <div class="headerContainer">
+            <div class="header">
+                <input type="text" id="projectPath"></input>
+                <br>
+                <select id="selectPlatform">
+                    <option value="win64">Windows x64</option>
+                    <option value="win32">Windows x86</option>
+                </select>
+                <select id="selectConfig">
+                    <option value="debug">Debug</option>
+                    <option value="development">Development</option>
+                    <option value="release">Release</option>
+                </select>
+                <br>
+                <button id="runGenerate">Generate</button><button id="runClean">Clean</button><button id="runBuild">Build</button>
+            </div>
         </div>
-        <div id="commandOutput"></div>
+        <div id="commandOutput"><div id="consoleText"></div></div>
     </div>
 </body>
 </html>

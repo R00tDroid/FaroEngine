@@ -27,9 +27,6 @@ body
     
     border-radius: 1em;
     
-    display: flex;
-    flex-flow: column;
-    
     background: #37474f;
     
     overflow: hidden;
@@ -66,9 +63,14 @@ body
     transform: translate(0, -50%);
 }
 
+.headerContainer
+{
+    overflow: auto;
+}
+
 .header
 {
-    margin: .5em;
+    margin: 8px;
 }
 
 .header input
@@ -91,11 +93,14 @@ body
 {
     color: #ffffff;
     background-color: #62727b;
-    
-    flex: 1 1 auto;
+
     overflow-y: scroll;
     
     word-wrap: break-word;
-    
-    padding: 10px;
+}
+
+#consoleText
+{
+    margin: 8px;
+    user-select: all; 
 }
