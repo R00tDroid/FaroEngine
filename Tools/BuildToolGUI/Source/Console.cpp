@@ -52,23 +52,55 @@ void Console::InvokeCommand(std::wstring command)
     {
         invokeLock.lock();
 
-        std::array<char, 128> logBuffer{};
+        HANDLE stdOutWrite = nullptr;
+        HANDLE stdOutRead = nullptr;
 
-        FILE* processPipe = _popen((Convert(command) + " 2>&1").c_str(), "r");
-        if (!processPipe)
+        SECURITY_ATTRIBUTES securityDesc;
+        securityDesc.nLength = sizeof(SECURITY_ATTRIBUTES);
+        securityDesc.bInheritHandle = true;
+        securityDesc.lpSecurityDescriptor = nullptr;
+        CreatePipe(&stdOutWrite, &stdOutRead, &securityDesc, 0);
+        SetHandleInformation(stdOutWrite, HANDLE_FLAG_INHERIT, 0);
+
+        PROCESS_INFORMATION processInfo;
+        ZeroMemory(&processInfo, sizeof(PROCESS_INFORMATION));
+
+        STARTUPINFOW startupInfo;
+        ZeroMemory(&startupInfo, sizeof(STARTUPINFO));
+        startupInfo.cb = sizeof(STARTUPINFO);
+        startupInfo.hStdOutput = stdOutRead;
+        startupInfo.dwFlags |= STARTF_USESTDHANDLES;
+
+        if (!CreateProcessW(nullptr, const_cast<wchar*>((command + L" 2>&1").c_str()), nullptr, nullptr, true, CREATE_NO_WINDOW, nullptr, nullptr, &startupInfo, &processInfo))
         {
+            CloseHandle(processInfo.hProcess);
+            CloseHandle(processInfo.hThread);
+
             AppendLine(L"Failed to invoke command");
             invokeLock.unlock();
             return;
         }
-        while (fgets(logBuffer.data(), int(logBuffer.size()), processPipe) != nullptr)
+
+        CloseHandle(stdOutRead);
+        
+        while (true)
         {
-            std::string log(logBuffer.data());
-            Append(Convert(log));
+            DWORD readSize;
+            CHAR logBuffer[128];
+            if (!ReadFile(stdOutWrite, logBuffer, 128, &readSize, nullptr)) break;
+            if (readSize == 0) break;
+            std::string logString(logBuffer, readSize);
+            Append(Convert(logString));
         }
 
-        int result = _pclose(processPipe);
-        AppendLine(L"Result: " + std::to_wstring(result));
+        WaitForSingleObject(processInfo.hProcess, INFINITE);
+        DWORD exitCode;
+        GetExitCodeProcess(processInfo.hProcess, &exitCode);
+
+        CloseHandle(processInfo.hProcess);
+        CloseHandle(processInfo.hThread);
+
+        AppendLine(L"Result: " + std::to_wstring((int)exitCode));
 
         invokeLock.unlock();
     });
