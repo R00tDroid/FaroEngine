@@ -95,11 +95,34 @@ body
     background-color: #62727b;
 
     overflow-y: scroll;
-    
+    vertical-scrollbar: VerticalScrollbar;
+
     word-wrap: break-word;
+
+    padding-right: 8px;
 }
 
 #consoleText
 {
     margin: 8px;
+}
+
+@set VerticalScrollbar
+{
+    .base
+    {
+        background: red;
+        width: 8px;
+    }
+    
+    .slider
+    {
+        background: #2196f3;
+        border-radius: 4px;
+    }
+
+    .slider:hover
+    {
+        background: #0069c0;
+    }
 }
