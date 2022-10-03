@@ -111,7 +111,7 @@ body
 {
     .base
     {
-        background: red;
+        display: none;
         width: 8px;
     }
     
