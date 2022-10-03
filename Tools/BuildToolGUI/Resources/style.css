@@ -25,7 +25,7 @@ body
     height:100%;
     -webkit-box-sizing: border-box;
     
-    border-radius: 1em;
+    border-radius: 16px;
     
     background: #37474f;
     
@@ -48,6 +48,13 @@ body
     height: 100%;
     padding: 0px;
     border: 0px;
+
+    border-radius: 0;
+}
+
+#minimizeButton
+{
+    border-radius: 16px 0 0 0;
 }
 
 .titlebar button:hover
