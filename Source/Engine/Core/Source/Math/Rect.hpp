@@ -26,6 +26,11 @@ namespace Faro
 
         Vector2<T> Size() const { return bottomRight - topLeft; }
 
+        Vector2<T> Center()
+        {
+            return topLeft + Size() / 2;
+        }
+
         bool operator==(const IRect& other) const
         {
             return topLeft == other.topLeft && bottomRight == other.bottomRight;
