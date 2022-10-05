@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.a99978e (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.aa02aec (main)</span>
    </div>
   </td>
  </tr>
@@ -85,6 +85,7 @@ Inheritance diagram for Faro::IThread:</div>
   <img src="classFaro_1_1IThread.png" usemap="#Faro::IThread_map" alt=""/>
   <map id="Faro::IThread_map" name="Faro::IThread_map">
 <area href="classFaro_1_1IThreadInterface.html" title="Abstract interface of a thread." alt="Faro::IThreadInterface" shape="rect" coords="0,0,138,24"/>
+<area href="classFaro_1_1WindowThread.html" alt="Faro::WindowThread" shape="rect" coords="0,112,138,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -102,6 +103,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a826eca1f2da1bcdf4654a4664f84118b"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IThread.html#a826eca1f2da1bcdf4654a4664f84118b">IsRunning</a> ()</td></tr>
 <tr class="memdesc:a826eca1f2da1bcdf4654a4664f84118b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if the thread is currently running.  <a href="classFaro_1_1IThread.html#a826eca1f2da1bcdf4654a4664f84118b">More...</a><br /></td></tr>
 <tr class="separator:a826eca1f2da1bcdf4654a4664f84118b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a765278eabd5bfd38268c6ffca44ae184"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IThread.html#a765278eabd5bfd38268c6ffca44ae184">GetThreadId</a> () override</td></tr>
+<tr class="separator:a765278eabd5bfd38268c6ffca44ae184"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9f3799c812ce170623661621ddc82508"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IThreadInterface.html#a9f3799c812ce170623661621ddc82508">AddTask</a> (<a class="el" href="namespaceFaro.html#a114edab755c16728bf1777703800de27">ThreadTask</a> task)</td></tr>
 <tr class="memdesc:a9f3799c812ce170623661621ddc82508"><td class="mdescLeft">&#160;</td><td class="mdescRight">Schedule the supplied task to be executed ont this thread.  <a href="classFaro_1_1IThreadInterface.html#a9f3799c812ce170623661621ddc82508">More...</a><br /></td></tr>
 <tr class="separator:a9f3799c812ce170623661621ddc82508"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -120,6 +123,10 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a50a5b74d2ad7b894e16efcd292439f80"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IThreadInterface.html#a50a5b74d2ad7b894e16efcd292439f80">RunTasks</a> ()</td></tr>
 <tr class="memdesc:a50a5b74d2ad7b894e16efcd292439f80"><td class="mdescLeft">&#160;</td><td class="mdescRight">Executed any pending tasks.  <a href="classFaro_1_1IThreadInterface.html#a50a5b74d2ad7b894e16efcd292439f80">More...</a><br /></td></tr>
 <tr class="separator:a50a5b74d2ad7b894e16efcd292439f80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e0347cf773fbc321c5c6aa04c27a477"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IThreadInterface.html#a2e0347cf773fbc321c5c6aa04c27a477">RegisterThread</a> ()</td></tr>
+<tr class="separator:a2e0347cf773fbc321c5c6aa04c27a477"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab06d6d68d594b51fdfbe93eeec771dac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IThreadInterface.html#ab06d6d68d594b51fdfbe93eeec771dac">UnregisterThread</a> ()</td></tr>
+<tr class="separator:ab06d6d68d594b51fdfbe93eeec771dac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Base class for a thread. </p>
@@ -158,6 +165,33 @@ Protected Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a765278eabd5bfd38268c6ffca44ae184" name="a765278eabd5bfd38268c6ffca44ae184"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a765278eabd5bfd38268c6ffca44ae184">&#9670;&nbsp;</a></span>GetThreadId()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1String.html">String</a> Faro::IThread::GetThreadId </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classFaro_1_1IThreadInterface.html#a2d6a06b348b6e757c262169ed8257e23">Faro::IThreadInterface</a>.</p>
+
+</div>
+</div>
 <a id="a826eca1f2da1bcdf4654a4664f84118b" name="a826eca1f2da1bcdf4654a4664f84118b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a826eca1f2da1bcdf4654a4664f84118b">&#9670;&nbsp;</a></span>IsRunning()</h2>
 
@@ -177,6 +211,31 @@ Protected Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>true The thread is running </dd>
 <dd>
 false The thread is not running </dd></dl>
+
+</div>
+</div>
+<a id="a2e0347cf773fbc321c5c6aa04c27a477" name="a2e0347cf773fbc321c5c6aa04c27a477"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e0347cf773fbc321c5c6aa04c27a477">&#9670;&nbsp;</a></span>RegisterThread()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::IThreadInterface::RegisterThread </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -270,6 +329,8 @@ false The thread is not running </dd></dl>
 
 <p>Executed when the thread is being stopped. </p>
 
+<p>Implemented in <a class="el" href="classFaro_1_1MainThread.html#a92d8318ee911aa1a66118bf805d9eb05">Faro::MainThread</a>, and <a class="el" href="classFaro_1_1WindowThread.html#a701bb35662cf0c67d459c51fca85ce8b">Faro::WindowThread</a>.</p>
+
 </div>
 </div>
 <a id="a2c8d72cfaaed2309a46e5a819c0dbc45" name="a2c8d72cfaaed2309a46e5a819c0dbc45"></a>
@@ -297,6 +358,8 @@ false The thread is not running </dd></dl>
 
 <p>Executed while starting the thread. </p>
 
+<p>Implemented in <a class="el" href="classFaro_1_1MainThread.html#a16e82f1025d87051e62f75f9de65ef42">Faro::MainThread</a>, and <a class="el" href="classFaro_1_1WindowThread.html#aeaf9bc337da6590633abc88b3da3e11e">Faro::WindowThread</a>.</p>
+
 </div>
 </div>
 <a id="a08953ad1cd82a01c7db831f254068894" name="a08953ad1cd82a01c7db831f254068894"></a>
@@ -323,6 +386,33 @@ false The thread is not running </dd></dl>
 </div><div class="memdoc">
 
 <p>Executed while the thread is active. </p>
+
+<p>Implemented in <a class="el" href="classFaro_1_1MainThread.html#a99ef28c40dd1d82eeac44445506ad5c5">Faro::MainThread</a>, and <a class="el" href="classFaro_1_1WindowThread.html#abf30da9e40bf94544a0fe756ae0eec80">Faro::WindowThread</a>.</p>
+
+</div>
+</div>
+<a id="ab06d6d68d594b51fdfbe93eeec771dac" name="ab06d6d68d594b51fdfbe93eeec771dac"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab06d6d68d594b51fdfbe93eeec771dac">&#9670;&nbsp;</a></span>UnregisterThread()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::IThreadInterface::UnregisterThread </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

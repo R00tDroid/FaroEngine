@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.a99978e (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.aa02aec (main)</span>
    </div>
   </td>
  </tr>
@@ -73,32 +73,36 @@ $(function() {
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;functional&gt;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &quot;../Containers/Array.hpp&quot;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">using </span><a class="code hl_class" href="classFaro_1_1Array.html">Faro::Array</a>;</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="Broadcast_8hpp.html#a74f56a19551635652d0dfee2b2859279">    7</a></span><span class="preprocessor">#define NOARG</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="Broadcast_8hpp.html#a6a8d4818c90fc8d151bd6d049ecb321b">    9</a></span><span class="preprocessor">#define MERGE2(A, B) A,B</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="Broadcast_8hpp.html#a58f9fbe993e5a1f367ef064fb992743c">   10</a></span><span class="preprocessor">#define MERGE3(A, B, C) A,B,C</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="Broadcast_8hpp.html#ab87690a9b73144f00ace71def6814f90">   11</a></span><span class="preprocessor">#define MERGE4(A, B, C, D) A,B,C,D</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="Broadcast_8hpp.html#aa5e0843a19d7cfa20892eb237fbf7178">   13</a></span><span class="preprocessor">#define BROADCAST_BASE(NAME, TYPES, PARAMETERS, VARIABLES) class NAME \</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">{ \</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">    public: \</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">    void Bind(std::function&lt;void(TYPES)&gt; func){ binds_.Add(func); } \</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">    void Dispatch(PARAMETERS) { \</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">        for(std::function&lt;void(TYPES)&gt;&amp; func : binds_){ func(VARIABLES); } \</span></div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">    } \</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">    \</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">    private: \</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">    Array&lt;std::function&lt;void(TYPES)&gt;&gt; binds_; \</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">};</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="Broadcast_8hpp.html#ac6162a7a354206ce17d870de5a91d2e6">   25</a></span><span class="preprocessor">#define DECLARE_BROADCAST(NAME) BROADCAST_BASE(NAME, NOARG, NOARG, NOARG)</span></div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="Broadcast_8hpp.html#adb813e2e3a84cd81975dda4d8cd55e0a">   26</a></span><span class="preprocessor">#define DECLARE_BROADCAST_1(NAME, TYPE) BROADCAST_BASE(NAME, TYPE, TYPE Var1, Var1)</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="Broadcast_8hpp.html#a40c369f3feb4e5fb3e376905350afec5">   27</a></span><span class="preprocessor">#define DECLARE_BROADCAST_2(NAME, TYPE1, TYPE2) BROADCAST_BASE(NAME, MERGE2(TYPE1, TYPE2), MERGE2(TYPE1 Var1, TYPE2 Var2), MERGE2(Var1, Var2))</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="Broadcast_8hpp.html#a9bf90f194b1c191dc23e89efbbb196ad">   28</a></span><span class="preprocessor">#define DECLARE_BROADCAST_3(NAME, TYPE1, TYPE2, TYPE3) BROADCAST_BASE(NAME, MERGE3(TYPE1, TYPE2, TYPE3), MERGE3(TYPE1 Var1, TYPE2 Var2, TYPE3 Var3), MERGE3(Var1, Var2, Var3))</span></div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="Broadcast_8hpp.html#adc52657586203bd565088907fafad5ac">   29</a></span><span class="preprocessor">#define DECLARE_BROADCAST_4(NAME, TYPE1, TYPE2, TYPE3, TYPE4) BROADCAST_BASE(NAME, MERGE4(TYPE1, TYPE2, TYPE3, TYPE4), MERGE4(TYPE1 Var1, TYPE2 Var2, TYPE3 Var3, TYPE4 Var4), MERGE4(Var1, Var2, Var3, Var4))</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceFaro.html">Faro</a></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>{</div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>    <span class="keyword">template</span>&lt;<span class="keyword">class </span>...Args&gt;</div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="classFaro_1_1Broadcast.html">    8</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classFaro_1_1Broadcast.html">Broadcast</a></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    {</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classFaro_1_1Broadcast.html#ae71c3dbc180f1be9ff311121725f6207">   11</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1Broadcast.html#ae71c3dbc180f1be9ff311121725f6207">Add</a>(<a class="code hl_typedef" href="namespaceFaro.html#a4cdc2818643bf458fb483be46ca6491a">Function</a>&lt;<span class="keywordtype">void</span>(Args...)&gt; function)</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>        {</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>            boundFunctions.<a class="code hl_function" href="classFaro_1_1Array.html#af57d8ab228cacb167c4bf3375558328e">Add</a>(function);</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        }</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="classFaro_1_1Broadcast.html#a363ee153d8c4864266f36afa1b29dcd8">   16</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1Broadcast.html#a363ee153d8c4864266f36afa1b29dcd8">Dispatch</a>(Args... arguments)</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        {</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            <span class="keywordflow">for</span> (<a class="code hl_typedef" href="namespaceFaro.html#a4cdc2818643bf458fb483be46ca6491a">Function</a>&lt;<span class="keywordtype">void</span>(Args...)&gt;&amp; function : boundFunctions)</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            {</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>                function(arguments...);</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>            }</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        }</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <a class="code hl_class" href="classFaro_1_1Array.html">Array</a>&lt;<a class="code hl_typedef" href="namespaceFaro.html#a4cdc2818643bf458fb483be46ca6491a">Function</a>&lt;void(Args...)&gt;&gt; boundFunctions;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    };</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>}</div>
 <div class="ttc" id="aclassFaro_1_1Array_html"><div class="ttname"><a href="classFaro_1_1Array.html">Faro::Array</a></div><div class="ttdef"><b>Definition:</b> Array.hpp:11</div></div>
+<div class="ttc" id="aclassFaro_1_1Array_html_af57d8ab228cacb167c4bf3375558328e"><div class="ttname"><a href="classFaro_1_1Array.html#af57d8ab228cacb167c4bf3375558328e">Faro::Array::Add</a></div><div class="ttdeci">void Add(T object)</div><div class="ttdef"><b>Definition:</b> Array.hpp:25</div></div>
+<div class="ttc" id="aclassFaro_1_1Broadcast_html"><div class="ttname"><a href="classFaro_1_1Broadcast.html">Faro::Broadcast</a></div><div class="ttdef"><b>Definition:</b> Broadcast.hpp:9</div></div>
+<div class="ttc" id="aclassFaro_1_1Broadcast_html_a363ee153d8c4864266f36afa1b29dcd8"><div class="ttname"><a href="classFaro_1_1Broadcast.html#a363ee153d8c4864266f36afa1b29dcd8">Faro::Broadcast::Dispatch</a></div><div class="ttdeci">void Dispatch(Args... arguments)</div><div class="ttdef"><b>Definition:</b> Broadcast.hpp:16</div></div>
+<div class="ttc" id="aclassFaro_1_1Broadcast_html_ae71c3dbc180f1be9ff311121725f6207"><div class="ttname"><a href="classFaro_1_1Broadcast.html#ae71c3dbc180f1be9ff311121725f6207">Faro::Broadcast::Add</a></div><div class="ttdeci">void Add(Function&lt; void(Args...)&gt; function)</div><div class="ttdef"><b>Definition:</b> Broadcast.hpp:11</div></div>
+<div class="ttc" id="anamespaceFaro_html"><div class="ttname"><a href="namespaceFaro.html">Faro</a></div><div class="ttdef"><b>Definition:</b> Array.hpp:8</div></div>
+<div class="ttc" id="anamespaceFaro_html_a4cdc2818643bf458fb483be46ca6491a"><div class="ttname"><a href="namespaceFaro.html#a4cdc2818643bf458fb483be46ca6491a">Faro::Function</a></div><div class="ttdeci">std::function&lt; T &gt; Function</div><div class="ttdef"><b>Definition:</b> Primitives.hpp:19</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

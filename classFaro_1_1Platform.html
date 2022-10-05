@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.a99978e (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.aa02aec (main)</span>
    </div>
   </td>
  </tr>
@@ -92,8 +92,41 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5bd65deb59e1c4e3d46dae8407bea167"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad16af4d801024fde258635180b43688e"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Platform.html#ad16af4d801024fde258635180b43688e">GetName</a> ()=0</td></tr>
 <tr class="separator:ad16af4d801024fde258635180b43688e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18e20b880558cd0a8469db654808406f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1Window.html">Window</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Platform.html#a18e20b880558cd0a8469db654808406f">CreateWindow</a> ()=0</td></tr>
+<tr class="separator:a18e20b880558cd0a8469db654808406f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6add8b163ccde420556961afd4b37cea"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="structFaro_1_1Monitor.html">Monitor</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Platform.html#a6add8b163ccde420556961afd4b37cea">GetMonitors</a> ()=0</td></tr>
+<tr class="separator:a6add8b163ccde420556961afd4b37cea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0719052fb71fe85f371006f5c310a032"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structFaro_1_1Monitor.html">Monitor</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Platform.html#a0719052fb71fe85f371006f5c310a032">GetPrimaryMonitor</a> ()</td></tr>
+<tr class="separator:a0719052fb71fe85f371006f5c310a032"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a18e20b880558cd0a8469db654808406f" name="a18e20b880558cd0a8469db654808406f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18e20b880558cd0a8469db654808406f">&#9670;&nbsp;</a></span>CreateWindow()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classFaro_1_1Window.html">Window</a> * Faro::Platform::CreateWindow </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classFaro_1_1PlatformWindows.html#a5e15e9fc6c74835a8054224665a6ceba">Faro::PlatformWindows</a>.</p>
+
+</div>
+</div>
 <a id="a5bd65deb59e1c4e3d46dae8407bea167" name="a5bd65deb59e1c4e3d46dae8407bea167"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5bd65deb59e1c4e3d46dae8407bea167">&#9670;&nbsp;</a></span>Destroy()</h2>
 
@@ -118,6 +151,33 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="classFaro_1_1PlatformWindows.html#a17ab95b0889de471bf54ef76894bf8c6">Faro::PlatformWindows</a>.</p>
+
+</div>
+</div>
+<a id="a6add8b163ccde420556961afd4b37cea" name="a6add8b163ccde420556961afd4b37cea"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6add8b163ccde420556961afd4b37cea">&#9670;&nbsp;</a></span>GetMonitors()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="structFaro_1_1Monitor.html">Monitor</a> &gt; Faro::Platform::GetMonitors </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classFaro_1_1PlatformWindows.html#aa436ac9e61d1c56cc8c7b22742b3aaf5">Faro::PlatformWindows</a>.</p>
 
 </div>
 </div>
@@ -148,6 +208,23 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a0719052fb71fe85f371006f5c310a032" name="a0719052fb71fe85f371006f5c310a032"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0719052fb71fe85f371006f5c310a032">&#9670;&nbsp;</a></span>GetPrimaryMonitor()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="structFaro_1_1Monitor.html">Monitor</a> Faro::Platform::GetPrimaryMonitor </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a5dd6bd7b0040009c2d784db98a45f93d" name="a5dd6bd7b0040009c2d784db98a45f93d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5dd6bd7b0040009c2d784db98a45f93d">&#9670;&nbsp;</a></span>Init()</h2>
 
@@ -175,8 +252,9 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/github/workspace/Source/Engine/Platform/PlatformBase/Source/<a class="el" href="Platform_8hpp_source.html">Platform.hpp</a></li>
+<li>/github/workspace/Source/Engine/Platform/PlatformBase/Source/<a class="el" href="Platform_8cpp.html">Platform.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

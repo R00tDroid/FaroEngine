@@ -7,5 +7,6 @@ var searchData=
   ['int4d_4',['Int4D',['../namespaceFaro.html#a73725a937428f42e05bc66d6432f2c9b',1,'Faro']]],
   ['int64_5',['int64',['../namespaceFaro.html#a88e660eee43c3b9d97af8d5ff8289cd6',1,'Faro']]],
   ['int8_6',['int8',['../namespaceFaro.html#ae1ed0f4d741f45224de8df4c5e0afacb',1,'Faro']]],
-  ['iterator_7',['Iterator',['../classFaro_1_1Map.html#ac70cb2e16dc68d3fc2e8f8cc81ba428f',1,'Faro::Map']]]
+  ['intrect_7',['IntRect',['../namespaceFaro.html#aaa44219a4db9ebb965456ff675ff4971',1,'Faro']]],
+  ['iterator_8',['Iterator',['../classFaro_1_1Map.html#ac70cb2e16dc68d3fc2e8f8cc81ba428f',1,'Faro::Map']]]
 ];

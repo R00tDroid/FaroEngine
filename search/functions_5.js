@@ -7,5 +7,10 @@ var searchData=
   ['formatstring_4',['FormatString',['../namespaceFaro.html#a9e7f5c34826af34ca25dbdc346ee308b',1,'Faro']]],
   ['formatstringva_5',['FormatStringVA',['../namespaceFaro.html#a5d8667c7d65c2f2e460efe0e5fe073b6',1,'Faro']]],
   ['free_6',['Free',['../classFaro_1_1MemoryManager.html#a19e28e95b0364afb13a3f58a94c9909b',1,'Faro::MemoryManager']]],
-  ['fromhex_7',['FromHex',['../structFaro_1_1IColor.html#ab5497f0cc4ea28a05a58f6d494b6c884',1,'Faro::IColor']]]
+  ['fromhex_7',['FromHex',['../structFaro_1_1IColor.html#ab5497f0cc4ea28a05a58f6d494b6c884',1,'Faro::IColor']]],
+  ['fromhours_8',['FromHours',['../classFaro_1_1Duration.html#a8589934220792088a574fa3fa0447e5d',1,'Faro::Duration']]],
+  ['frommicroseconds_9',['FromMicroseconds',['../classFaro_1_1Duration.html#ad5ef4fc794c0464d756f8299ab009cc4',1,'Faro::Duration']]],
+  ['frommilliseconds_10',['FromMilliseconds',['../classFaro_1_1Duration.html#a5818daa7e27bda2741711a7c65d18607',1,'Faro::Duration']]],
+  ['fromminutes_11',['FromMinutes',['../classFaro_1_1Duration.html#a288ddfd515dae9edd4efca44053488ae',1,'Faro::Duration']]],
+  ['fromseconds_12',['FromSeconds',['../classFaro_1_1Duration.html#a1c34be62191d336160ef74de7f9a212a',1,'Faro::Duration']]]
 ];

@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.a99978e (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.aa02aec (main)</span>
    </div>
   </td>
  </tr>
@@ -69,13 +69,16 @@ $(function() {
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">Thread.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="ThreadSafety_8hpp_source.html">ThreadSafety.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="Primitives_8hpp_source.html">Primitives.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="Array_8hpp_source.html">Containers/Array.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="Time_8hpp_source.html">Math/Time.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="String_8hpp_source.html">Containers/String.hpp</a>&gt;</code><br />
 </div>
 <p><a href="Thread_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -98,6 +101,14 @@ Typedefs</h2></td></tr>
 <tr class="memitem:a114edab755c16728bf1777703800de27"><td class="memItemLeft" align="right" valign="top">typedef Function&lt; void()&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a114edab755c16728bf1777703800de27">Faro::ThreadTask</a></td></tr>
 <tr class="memdesc:a114edab755c16728bf1777703800de27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Function type to be ran on another thread.  <a href="namespaceFaro.html#a114edab755c16728bf1777703800de27">More...</a><br /></td></tr>
 <tr class="separator:a114edab755c16728bf1777703800de27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:a863a6168bb781a2faa6a5e32adc07381"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a863a6168bb781a2faa6a5e32adc07381">Faro::Sleep</a> (Duration duration)</td></tr>
+<tr class="memdesc:a863a6168bb781a2faa6a5e32adc07381"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sleep the calling thread by the given duration.  <a href="namespaceFaro.html#a863a6168bb781a2faa6a5e32adc07381">More...</a><br /></td></tr>
+<tr class="separator:a863a6168bb781a2faa6a5e32adc07381"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a024daf5c4e1562b0bc6aa4da3a511db1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a024daf5c4e1562b0bc6aa4da3a511db1">Faro::RunOnThread</a> (String threadId, ThreadTask task)</td></tr>
+<tr class="separator:a024daf5c4e1562b0bc6aa4da3a511db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->
