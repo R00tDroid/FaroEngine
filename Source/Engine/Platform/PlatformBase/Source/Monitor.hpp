@@ -8,5 +8,10 @@ namespace Faro
     {
         IntRect desktop;
         String identifier;
+
+        inline bool IsValid() const
+        {
+            return desktop.Area() > 0;
+        }
     };
 }
