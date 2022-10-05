@@ -58,6 +58,28 @@ namespace Faro
 
                 return 0;
             }
+
+            case WM_SIZE:
+            case WM_MOVE:
+            {
+                RECT windowRect;
+                GetWindowRect(windowHandle , &windowRect);
+
+                RECT clientRect;
+                GetClientRect(windowHandle, &clientRect);
+
+                windowState.Lock();
+                windowState->outerRect = { {windowRect.left, windowRect.top }, { windowRect.right - windowRect.left, windowRect.bottom - windowRect.top } };
+                windowState->innerSize = { clientRect.right - clientRect.left, clientRect.bottom - clientRect.top };
+                windowState.Unlock();
+
+                WindowWindows* windowPtr = window;
+                RunOnThread(MainThread::id, [windowPtr]()
+                {
+                    windowPtr->NotifyStateChange();
+                });
+                return 0;
+            }
         }
 
         return DefWindowProcA(windowHandle, message, wParam, lParam);
@@ -164,6 +186,8 @@ namespace Faro
 
     void WindowWindows::SetWindowState(WindowState info)
     {
+        windowState = info;
+
         windowThread.AddTask([info, this]()
         {
             windowThread.SetState(info);
@@ -173,5 +197,11 @@ namespace Faro
     WindowState WindowWindows::GetWindowState()
     {
         return windowState;
+    }
+
+    void WindowWindows::NotifyStateChange()
+    {
+        windowState = windowThread.windowState.GetCopy();
+        //TODO dispatch broadcast
     }
 }

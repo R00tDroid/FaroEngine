@@ -19,6 +19,8 @@ namespace Faro
 
         WindowWindows* window = nullptr;
 
+        ThreadSafe<WindowState> windowState;
+
     protected:
         void ThreadInit() override;
         void ThreadUpdate() override;
@@ -35,6 +37,8 @@ namespace Faro
 
         void SetWindowState(WindowState info) override;
         WindowState GetWindowState() override;
+
+        void NotifyStateChange();
 
     private:
         WindowThread windowThread;
