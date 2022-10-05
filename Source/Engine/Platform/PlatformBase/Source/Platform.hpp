@@ -1,5 +1,7 @@
 #pragma once
 #include <Util/ClassRegistry.hpp>
+#include <Window.hpp>
+#include <Monitor.hpp>
 
 namespace Faro
 {
@@ -9,6 +11,12 @@ namespace Faro
         virtual void Init() = 0;
         virtual void Destroy() = 0;
         virtual String GetName() = 0;
+
+        virtual Window* CreateWindow() = 0;
+
+        virtual Array<Monitor> GetMonitors() = 0;
+
+        Monitor GetPrimaryMonitor();
     };
 
     extern Platform* GPlatform;

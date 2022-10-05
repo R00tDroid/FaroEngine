@@ -7,6 +7,7 @@
         "Engine/Platform/PlatformBase",
         "Engine/Platform/PlatformWindows",
         "Engine/Graphics/GraphicsBase",
-        "Engine/Graphics/GraphicsD3D12"
+        "Engine/Graphics/GraphicsD3D12",
+        "Tests/WindowCreation"
     ]
 }

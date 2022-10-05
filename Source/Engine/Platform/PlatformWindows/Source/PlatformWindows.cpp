@@ -1,7 +1,9 @@
 #include "PlatformWindows.hpp"
 #include <iostream>
 #include <Log.hpp>
-#include <Windows.h>
+#include <MinWindows.hpp>
+#include <WindowWindows.hpp>
+#include <Memory/MemoryManager.hpp>
 
 namespace Faro
 {
@@ -31,5 +33,40 @@ namespace Faro
 
     void PlatformWindows::Destroy()
     {
+    }
+
+    Window* PlatformWindows::CreateWindow()
+    {
+        Window* window = MemoryManager::New<WindowWindows>();
+        window->Init();
+        return window;
+    }
+
+    BOOL QueryMonitors(HMONITOR monitorHandle, HDC deviceContext, LPRECT rect, LPARAM userData)
+    {
+        Array<Monitor>& monitors = *reinterpret_cast<Array<Monitor>*>(userData);
+
+        Monitor monitor;
+        monitor.desktop = IntRect(rect->left, rect->top, rect->right - rect->left, rect->bottom - rect->top);
+
+        MONITORINFOEX monitorInfo;
+        MemoryManager::Zero(&monitorInfo);
+
+        monitorInfo.cbSize = sizeof(monitorInfo);
+        if (SUCCEEDED(GetMonitorInfoA(monitorHandle, &monitorInfo)))
+        {
+            monitor.identifier = monitorInfo.szDevice;
+        }
+
+        monitors.Add(monitor);
+
+        return TRUE;
+    }
+
+    Array<Monitor> PlatformWindows::GetMonitors()
+    {
+        Array<Monitor> monitors;
+        EnumDisplayMonitors(nullptr, nullptr, QueryMonitors, reinterpret_cast<LPARAM>(&monitors));
+        return monitors;
     }
 }

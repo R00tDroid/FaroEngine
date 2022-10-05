@@ -10,43 +10,53 @@ namespace Faro
         return p;
     }
 
-    int16 Duration::TotalMinutes()
+    int32 Duration::TotalHours()
+    {
+        return std::chrono::duration_cast<std::chrono::hours>(duration).count();
+    }
+
+    int32 Duration::TotalMinutes()
     {
         return std::chrono::duration_cast<std::chrono::minutes>(duration).count();
     }
 
-    float Duration::TotalSeconds()
+    int64 Duration::TotalSeconds()
     {
-        return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count() / 1000.0f;
+        return std::chrono::duration_cast<std::chrono::seconds>(duration).count();
     }
 
-    float Duration::TotalMilliseconds()
+    int64 Duration::TotalMilliseconds()
     {
-        return std::chrono::duration_cast<std::chrono::microseconds>(duration).count() / 1000.0f;
+        return std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
     }
 
-    int32 Duration::TotalMicroseconds()
+    int64 Duration::TotalMicroseconds()
     {
         return std::chrono::duration_cast<std::chrono::microseconds>(duration).count();
     }
 
-    int16 Duration::Minutes()
+    int8 Duration::Hours()
     {
-        return std::floor(TotalSeconds() / 60.0f);
+        return TotalHours() % 24;
     }
 
-    int16 Duration::Seconds()
+    int8 Duration::Minutes()
     {
-        return std::floor(TotalSeconds()) - Minutes() * 60;
+        return TotalSeconds() % 60;
+    }
+
+    int8 Duration::Seconds()
+    {
+        return TotalSeconds() % 60;
     }
 
     int16 Duration::Milliseconds()
     {
-        return std::floor(TotalMilliseconds()) - (Seconds() * 1000 + Minutes() * 60 * 1000);
+        return TotalMilliseconds() % 1000;
     }
 
-    int32 Duration::Microseconds()
+    int16 Duration::Microseconds()
     {
-        return std::floor(TotalMicroseconds()) - (Milliseconds() + Seconds() * 1000 + Minutes() * 60 * 1000) * 1000;
+        return TotalMicroseconds() % 1000;
     }
 }

@@ -32,6 +32,18 @@ namespace Faro
             Free(address);
         }
 
+        template<class T>
+        static void Set(T* address, uint8 value, uint32 amount)
+        {
+            memset((void*)address, value, sizeof(T) * amount);
+        }
+
+        template<class T>
+        static void Zero(T* address, uint32 amount = 1)
+        {
+            Set<T>(address, 0, amount);
+        }
+
         static void SafeDelete(IObject*& objectPtr)
         {
             if (objectPtr != nullptr)

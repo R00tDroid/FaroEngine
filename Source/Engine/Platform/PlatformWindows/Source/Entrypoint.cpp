@@ -1,7 +1,7 @@
-#include <Application.hpp>
+#include <MainThread.hpp>
 
 int main()
 {
-    Faro::Application app;
+    Faro::MainThread app;
     return app.Run();
 }
