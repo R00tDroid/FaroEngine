@@ -49,13 +49,13 @@ namespace Faro
         Monitor monitor;
         monitor.desktop = IntRect(rect->left, rect->top, rect->right - rect->left, rect->bottom - rect->top);
 
-        MONITORINFOEX MonitorInfo;
-        MemoryManager::Zero(&MonitorInfo);
+        MONITORINFOEX monitorInfo;
+        MemoryManager::Zero(&monitorInfo);
 
-        MonitorInfo.cbSize = sizeof(MonitorInfo);
-        if (SUCCEEDED(GetMonitorInfoA(monitorHandle, &MonitorInfo)))
+        monitorInfo.cbSize = sizeof(monitorInfo);
+        if (SUCCEEDED(GetMonitorInfoA(monitorHandle, &monitorInfo)))
         {
-            monitor.identifier = MonitorInfo.szDevice;
+            monitor.identifier = monitorInfo.szDevice;
         }
 
         monitors.Add(monitor);
