@@ -15,6 +15,8 @@ namespace Faro
         virtual Window* CreateWindow() = 0;
 
         virtual Array<Monitor> GetMonitors() = 0;
+
+        Monitor GetPrimaryMonitor();
     };
 
     extern Platform* GPlatform;
