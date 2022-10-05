@@ -41,4 +41,32 @@ namespace Faro
         window->Init();
         return window;
     }
+
+    BOOL QueryMonitors(HMONITOR monitorHandle, HDC deviceContext, LPRECT rect, LPARAM userData)
+    {
+        Array<Monitor>& monitors = *reinterpret_cast<Array<Monitor>*>(userData);
+
+        Monitor monitor;
+        monitor.desktop = IntRect(rect->left, rect->top, rect->right - rect->left, rect->bottom - rect->top);
+
+        MONITORINFOEX MonitorInfo;
+        MemoryManager::Zero(&MonitorInfo);
+
+        MonitorInfo.cbSize = sizeof(MonitorInfo);
+        if (SUCCEEDED(GetMonitorInfoA(monitorHandle, &MonitorInfo)))
+        {
+            monitor.identifier = MonitorInfo.szDevice;
+        }
+
+        monitors.Add(monitor);
+
+        return TRUE;
+    }
+
+    Array<Monitor> PlatformWindows::GetMonitors()
+    {
+        Array<Monitor> monitors;
+        EnumDisplayMonitors(nullptr, nullptr, QueryMonitors, reinterpret_cast<LPARAM>(&monitors));
+        return monitors;
+    }
 }

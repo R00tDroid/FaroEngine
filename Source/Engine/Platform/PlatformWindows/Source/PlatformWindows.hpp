@@ -12,6 +12,8 @@ namespace Faro
         String GetName() override { return "Windows"; }
 
         Window* CreateWindow() override;
+
+        Array<Monitor> GetMonitors() override;
     };
 
     REGISTER_PLATFORM(PlatformWindows)
