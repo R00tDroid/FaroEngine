@@ -21,3 +21,4 @@ INPUT += ../Source/Engine
 INPUT += Index.md
 INPUT += Style.md
 INPUT += Modules.md
+INPUT += Toolchain.md
