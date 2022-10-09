@@ -21,8 +21,18 @@ add_executable(
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/tinyxml2/tinyxml2.cpp
 )
 
-target_link_libraries(${PROJECT_NAME}
-    Rpcrt4.lib
+if(MSVC)
+    target_link_libraries(${PROJECT_NAME}
+        Rpcrt4.lib
+    )
+else()
+    target_link_libraries(${PROJECT_NAME}
+        uuid
+    )
+endif()
+
+include_directories(
+    ${CMAKE_CURRENT_LIST_DIR}/Source
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
