@@ -1,4 +1,4 @@
-name: FaroEngine Windows Toolchain
+name: FaroEngine Package Engine
 
 on:
   push:
