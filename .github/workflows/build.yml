@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  Toolchain:
+  ToolchainWindows:
     runs-on: windows-latest
     steps:
     - name: Checkout repository and submodules
@@ -24,28 +24,33 @@ jobs:
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
       with:
-        name: FaroEngine
+        name: ToolchainWindows
         if-no-files-found: error
         path: |
           Bin/*.exe
           Bin/*.dll
-          Source/**/*
-          !Source/**/*.in
 
-  BuildEngine:
-    runs-on: windows-latest
-    needs: Toolchain
+  ToolchainLinux:
+    runs-on: ubuntu-latest
     steps:
-    - name: actions/download-artifact@master
-      uses: actions/download-artifact@master
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v2
       with:
-        name: FaroEngine
+        submodules: recursive
 
     - name: Generate
-      run: Bin/FaroBuildTool.exe -generate -project Source/FaroEngine.faroproject.json
+      run: cmake ./Tools
 
     - name: Build
-      run: Bin/FaroBuildTool.exe -build -platform Windows x64 -release -project Source/FaroEngine.faroproject.json
+      run: cmake --build . --config Release
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ToolchainLinux
+        if-no-files-found: error
+        path: |
+          Bin/*.*
 
   Documentation:
     runs-on: ubuntu-latest
@@ -72,6 +77,50 @@ jobs:
         path: |
           ./Documentation/*
           ./Documentation/**/*
+
+  PackageEngine:
+    runs-on: windows-latest
+    needs: [ToolchainWindows, ToolchainLinux, Documentation]
+    steps:
+    - name: actions/download-artifact@master
+      uses: actions/download-artifact@master
+      with:
+        name: FaroEngine
+
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Generate
+      run: cmake ./Tools
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: FaroEngine
+        if-no-files-found: error
+        path: |
+          Bin/*.*
+          Source/**/*
+          !Source/**/*.in
+          Documentation/*
+          Documentation/**/*
+
+  BuildEngine:
+    runs-on: windows-latest
+    needs: PackageEngine
+    steps:
+    - name: actions/download-artifact@master
+      uses: actions/download-artifact@master
+      with:
+        name: FaroEngine
+
+    - name: Generate
+      run: Bin/FaroBuildTool.exe -generate -project Source/FaroEngine.faroproject.json
+
+    - name: Build
+      run: Bin/FaroBuildTool.exe -build -platform Windows x64 -release -project Source/FaroEngine.faroproject.json
 
   PublishDocumentation:
     runs-on: ubuntu-latest
