@@ -1,5 +1,6 @@
 #pragma once
 #include <Containers/String.hpp>
+#include <GraphicsHeap.hpp>
 
 namespace Faro
 {
@@ -22,5 +23,7 @@ namespace Faro
         virtual void Destroy() = 0;
 
         virtual GraphicsCommandList* CreateCommandList() = 0;
+
+        virtual GraphicsHeap* CreateHeap(GraphicsCommandList* commandList, GraphicsHeapDesc desc) = 0;
     };
 }

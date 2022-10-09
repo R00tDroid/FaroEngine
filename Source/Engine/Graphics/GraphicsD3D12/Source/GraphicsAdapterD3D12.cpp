@@ -57,4 +57,11 @@ namespace Faro
         commandList->Init(this);
         return commandList;
     }
+
+    GraphicsHeap* GraphicsAdapterD3D12::CreateHeap(GraphicsCommandList* commandList, GraphicsHeapDesc desc)
+    {
+        GraphicsCommandListD3D12* commandList = MemoryManager::New<GraphicsCommandListD3D12>();
+        commandList->Init(this);
+        return commandList;
+    }
 }
