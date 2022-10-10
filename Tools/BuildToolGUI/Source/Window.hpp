@@ -4,7 +4,7 @@
 class AppWindow : public sciter::window
 {
 public:
-    AppWindow() : window(SW_ALPHA | SW_POPUP | SW_MAIN | SW_ENABLE_DEBUG) {}
+    AppWindow(RECT frame = RECT()) : window(SW_ALPHA | SW_POPUP | SW_MAIN | SW_ENABLE_DEBUG, frame) {}
 
     SOM_PASSPORT_BEGIN(AppWindow)
     SOM_FUNCS(
