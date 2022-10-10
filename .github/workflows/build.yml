@@ -86,16 +86,19 @@ jobs:
       uses: actions/download-artifact@v3
       with:
         name: ToolchainWindows
+        path: ./Bin
 
     - name: DownloadToolchainLinux
       uses: actions/download-artifact@v3
       with:
         name: ToolchainLinux
+        path: ./Bin
 
     - name: DownloadDocumentation
       uses: actions/download-artifact@v3
       with:
         name: Documentation
+        path: ./Documentation
 
     - name: List files
       run: ls -R
