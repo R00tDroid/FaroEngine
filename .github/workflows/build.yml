@@ -79,13 +79,18 @@ jobs:
           ./Documentation/**/*
 
   PackageEngine:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: [ToolchainWindows, ToolchainLinux, Documentation]
     steps:
-    - name: actions/download-artifact@master
-      uses: actions/download-artifact@master
+    - name: actions/download-artifact@v3
+      uses: actions/download-artifact@v3
       with:
-        name: FaroEngine
+        name: ToolchainWindows
+        name: ToolchainLinux
+        name: Documentation
+
+    - name: List files
+      run: ls -R
 
     - name: Checkout repository and submodules
       uses: actions/checkout@v2
