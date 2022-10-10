@@ -54,7 +54,7 @@ body
 
 #minimizeButton
 {
-    border-radius: 16px 0 0 0;
+    border-top-left-radius: 16px;
 }
 
 .titlebar button:hover
