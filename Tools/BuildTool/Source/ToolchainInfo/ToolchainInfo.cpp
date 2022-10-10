@@ -3,16 +3,19 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-#include <Windows.h>
-#include <comdef.h>
 #include <filesystem>
 #include <glob/glob.hpp>
-#include "Setup.Configuration.h"
 
+#ifdef WIN32
+#include <Windows.h>
+#include <comdef.h>
+#include "Setup.Configuration.h"
+#endif
 
 std::vector<WindowsKit> WindowsKits;
 void FindWindowsKits()
 {
+    #ifdef WIN32
     if (WindowsKits.empty())
     {
         // Find root of windows kit installations
@@ -59,6 +62,7 @@ void FindWindowsKits()
                 });
         }
     }
+    #endif
 }
 
 const std::vector<WindowsKit>& GetWindowsKits()
@@ -78,7 +82,7 @@ char* GetWindowsKitRoot(int Index)
 {
     FindWindowsKits();
 
-    if (Index >= 0 && Index < WindowsKits.size())
+    if (Index >= 0 && Index < (int)WindowsKits.size())
     {
         return const_cast<char*>(WindowsKits[Index].Root.c_str());
     }
@@ -90,7 +94,7 @@ char* GetWindowsKitVersion(int Index)
 {
     FindWindowsKits();
 
-    if (Index >= 0 && Index < WindowsKits.size())
+    if (Index >= 0 && Index < (int)WindowsKits.size())
     {
         return const_cast<char*>(WindowsKits[Index].Version.c_str());
     }
@@ -99,12 +103,13 @@ char* GetWindowsKitVersion(int Index)
 }
 
 
-
+#ifdef WIN32
 _COM_SMARTPTR_TYPEDEF(ISetupConfiguration, __uuidof(ISetupConfiguration));
 _COM_SMARTPTR_TYPEDEF(IEnumSetupInstances, __uuidof(IEnumSetupInstances));
 _COM_SMARTPTR_TYPEDEF(ISetupInstance, __uuidof(ISetupInstance));
 _COM_SMARTPTR_TYPEDEF(ISetupInstanceCatalog, __uuidof(ISetupInstanceCatalog));
 _COM_SMARTPTR_TYPEDEF(ISetupPropertyStore, __uuidof(ISetupPropertyStore));
+#endif
 struct VSInstallation
 {
     std::string Root;
@@ -113,6 +118,7 @@ struct VSInstallation
 std::vector<VSInstallation> VisualStudioInstallations;
 void FindVisualStudioInstallations()
 {
+    #ifdef WIN32
     if (VisualStudioInstallations.empty())
     {
         ISetupConfigurationPtr SetupConfig;
@@ -155,6 +161,7 @@ void FindVisualStudioInstallations()
             VisualStudioInstallations.push_back(VSInfo);
         }
     }
+    #endif
 }
 
 std::vector<MSVCVersion> MSVCInstallations;
@@ -202,7 +209,7 @@ char* GetMSVCRoot(int Index)
 {
     FindMSVCInstallations();
 
-    if (Index >= 0 && Index < MSVCInstallations.size())
+    if (Index >= 0 && Index < (int)MSVCInstallations.size())
     {
         return const_cast<char*>(MSVCInstallations[Index].Root.c_str());
     }

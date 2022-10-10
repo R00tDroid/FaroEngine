@@ -1,0 +1,156 @@
+name: FaroEngine Package Engine
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  ToolchainWindows:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Generate
+      run: cmake ./Tools
+
+    - name: Build
+      run: cmake --build . --config Release
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ToolchainWindows
+        if-no-files-found: error
+        path: |
+          Bin/*.exe
+          Bin/*.dll
+
+  ToolchainLinux:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Generate
+      run: cmake ./Tools
+
+    - name: Build
+      run: cmake --build . --config Release
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ToolchainLinux
+        if-no-files-found: error
+        path: |
+          Bin/*
+
+  Documentation:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Generate
+      run: cmake ./Docs
+
+    - name: Build
+      uses: mattnotmitt/doxygen-action@v1.9.4
+      with:
+        doxyfile-path: 'Doxygen'
+        working-directory: 'Docs'
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: Documentation
+        if-no-files-found: error
+        path: |
+          ./Documentation/*
+          ./Documentation/**/*
+
+  PackageEngine:
+    runs-on: ubuntu-latest
+    needs: [ToolchainWindows, ToolchainLinux, Documentation]
+    steps:
+    - name: Checkout engine
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: DownloadToolchainWindows
+      uses: actions/download-artifact@v3
+      with:
+        name: ToolchainWindows
+        path: ./Bin
+
+    - name: DownloadToolchainLinux
+      uses: actions/download-artifact@v3
+      with:
+        name: ToolchainLinux
+        path: ./Bin
+
+    - name: DownloadDocumentation
+      uses: actions/download-artifact@v3
+      with:
+        name: Documentation
+        path: ./Documentation
+
+    - name: List files
+      run: ls -R
+
+    - name: Generate
+      run: cmake ./Tools
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: FaroEngine
+        if-no-files-found: error
+        path: |
+          Bin/*
+          Source/**/*
+          !Source/**/*.in
+          Documentation/*
+          Documentation/**/*
+
+  BuildEngine:
+    runs-on: windows-latest
+    needs: PackageEngine
+    steps:
+    - name: actions/download-artifact@v3
+      uses: actions/download-artifact@v3
+      with:
+        name: FaroEngine
+
+    - name: Generate
+      run: Bin/FaroBuildTool.exe -generate -project Source/FaroEngine.faroproject.json
+
+    - name: Build
+      run: Bin/FaroBuildTool.exe -build -platform Windows x64 -release -project Source/FaroEngine.faroproject.json
+
+  PublishDocumentation:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    needs: Documentation
+    steps:
+    - name: actions/download-artifact@master
+      uses: actions/download-artifact@master
+      with:
+        name: Documentation
+        path: Documentation
+
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./Documentation/html

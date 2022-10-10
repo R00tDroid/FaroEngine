@@ -4,10 +4,18 @@
 #include <array>
 #include "ToolchainMSVC.hpp"
 
+#ifdef WIN32
+#define popen_impl _popen
+#define pclose_impl _pclose
+#else
+#define popen_impl popen
+#define pclose_impl pclose
+#endif
+
 int IToolchain::ExecuteCommand(std::string command, std::string& output)
 {
     std::array<char, 16> logBuffer {};
-    FILE* processPipe = _popen((command + " 2>&1").c_str(), "r");
+    FILE* processPipe = popen_impl((command + " 2>&1").c_str(), "r");
     if (!processPipe)
     {
         return -1;
@@ -17,7 +25,7 @@ int IToolchain::ExecuteCommand(std::string command, std::string& output)
         output += logBuffer.data();
     }
 
-    return _pclose(processPipe);
+    return pclose_impl(processPipe);
 }
 
 int IToolchain::ExecuteCommand(std::string command)

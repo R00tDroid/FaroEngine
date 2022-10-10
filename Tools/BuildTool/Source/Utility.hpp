@@ -1,7 +1,6 @@
 #pragma once
 
 #include <iostream>
-#include <Windows.h>
 #include <string>
 #include <chrono>
 #include <filesystem>
@@ -9,12 +8,20 @@
 #include <fstream>
 #include <regex>
 
+#ifdef WIN32
+#include <Windows.h>
+#else
+#include <uuid/uuid.h>
+#endif
+
 namespace Utility
 {
     inline void Print(std::string log)
     {
         std::cout << log.c_str();
+        #ifdef WIN32
         OutputDebugStringA(log.c_str());
+        #endif
     }
 
     inline void PrintLine(std::string log)
@@ -72,8 +79,9 @@ namespace Utility
 #else
         uuid_t uuid;
         uuid_generate_random(uuid);
-        char string[37];
-        uuid_unparse(uuid, string);
+        char uuidString[37];
+        uuid_unparse(uuid, uuidString);
+        std::string string(uuidString);
 #endif
         return ToUpper(string);
     }
@@ -109,12 +117,14 @@ namespace Utility
 #endif
     }
 
+#ifdef WIN32
     inline void HideFolder(std::filesystem::path folder)
     {
-#ifdef WIN32
         SetFileAttributesA(folder.string().c_str(), FILE_ATTRIBUTE_HIDDEN);
-#endif
     }
+#else
+    inline void HideFolder(std::filesystem::path) {}
+#endif
 
     inline bool MatchPattern(std::string source, std::string pattern, std::vector<std::string>& outMatches)
     {

@@ -51,7 +51,7 @@ bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, Comm
             commandInfo.projectPath = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
             commandInfo.projectPath.make_preferred();
         }
-        catch (std::exception e)
+        catch (std::exception const& e)
         {
             Utility::PrintLine("Failed to locate project: " + parameters.GetArguments("project")[0] + " (" + e.what() + ")");
             return false;
