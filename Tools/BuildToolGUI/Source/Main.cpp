@@ -8,7 +8,7 @@ int uimain(std::function<int()> run)
 {
     sciter::archive::instance().open(aux::elements_of(resources));
 
-    sciter::om::hasset<AppWindow> window = new AppWindow({0, 0, 430, 713});
+    int windowSizeX = 430, windowSizeY = 713;
 
     // Get monitor from cursor position
     POINT cursorPosition;
@@ -21,9 +21,10 @@ int uimain(std::function<int()> run)
     // Move window to monitor in use by user
     int monitorCenterX = (monitorInfo.rcMonitor.left + monitorInfo.rcMonitor.right) / 2;
     int monitorCenterY = (monitorInfo.rcMonitor.top + monitorInfo.rcMonitor.bottom) / 2;
-    int windowSizeX, windowSizeY;
-    window->GetWindowSize(windowSizeX, windowSizeY);
-    window->SetWindowPosition(monitorCenterX - windowSizeX / 2, monitorCenterY - windowSizeY / 2);
+    int windowX = monitorCenterX - windowSizeX / 2;
+    int windowY = monitorCenterY - windowSizeY / 2;
+
+    sciter::om::hasset<AppWindow> window = new AppWindow({ windowX, windowY, windowX + windowSizeX, windowY + windowSizeY });
 
     // Setup GUI
     window->load(WSTR("this://app/index.html"));
