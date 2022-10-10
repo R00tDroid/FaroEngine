@@ -13,6 +13,9 @@ foreach(ConfigName ${CMAKE_CONFIGURATION_TYPES})
 endforeach()
 
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/BuildTool")
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/BuildToolGUI")
+
+if(MSVC)
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/BuildToolGUI")
+endif()
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.cpp.in ${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.generated.cpp @ONLY)
