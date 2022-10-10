@@ -1,9 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap');
 
+:root {
+    --background-light: #62717B;
+    --background-main: #37474f;
+    --background-titlebar: #102027;
+    --interact-idle: #00ADB5;
+    --interact-hover: #00949c;
+    --text-title: #ffffff;
+    --text-interact: #ffffff;
+    --text-console: #ffffff;
+  }
+
 html 
 {
     background-color: transparent;
- }
+}
 
 body 
 {
@@ -27,7 +38,7 @@ body
     
     border-radius: 16px;
     
-    background: #37474f;
+    background: var(--background-main);
     
     overflow: hidden;
 }
@@ -36,13 +47,13 @@ body
 {
     position: relative;
 
-    background: #102027;
+    background: var(--background-titlebar);
     height: 2em;
 }
 
 .titlebar button
 {
-    background: #2196f3;
+    background: var(--interact-idle);
     float: right;
     width: 2.5em;
     height: 100%;
@@ -59,12 +70,12 @@ body
 
 .titlebar button:hover
 {
-    background: #0069c0;
+    background: var(--interact-hover);
 }
 
 .titlebar p
 {
-    color: white;
+    color: var(--text-title);
     margin: 0px;
 
     font-size: 1.2em;
@@ -103,8 +114,8 @@ body
 
 #commandOutput
 {
-    color: #ffffff;
-    background-color: #62727b;
+    color: var(--text-console);
+    background-color: var(--background-light);
 
     overflow-y: scroll;
     vertical-scrollbar: VerticalScrollbar;
@@ -129,12 +140,26 @@ body
     
     .slider
     {
-        background: #2196f3;
+        background: var(--interact-idle);
         border-radius: 4px;
     }
 
     .slider:hover
     {
-        background: #0069c0;
+        background: var(--interact-hover);
     }
+}
+
+button
+{
+    color: var(--text-interact);
+    height: 26px;
+    border-radius: 5px;
+    border: 0px;
+    background: var(--interact-idle);
+}
+
+button:hover
+{
+    background: var(--interact-hover);
 }
