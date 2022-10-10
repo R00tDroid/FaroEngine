@@ -82,10 +82,20 @@ jobs:
     runs-on: ubuntu-latest
     needs: [ToolchainWindows, ToolchainLinux, Documentation]
     steps:
-    - name: actions/download-artifact@v3
+    - name: DownloadToolchainWindows
       uses: actions/download-artifact@v3
       with:
-        name: [ToolchainWindows, ToolchainLinux, Documentation]
+        name: ToolchainWindows
+
+    - name: DownloadToolchainLinux
+      uses: actions/download-artifact@v3
+      with:
+        name: ToolchainLinux
+
+    - name: DownloadDocumentation
+      uses: actions/download-artifact@v3
+      with:
+        name: Documentation
 
     - name: List files
       run: ls -R
