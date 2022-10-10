@@ -8,17 +8,31 @@ int uimain(std::function<int()> run)
 {
     sciter::archive::instance().open(aux::elements_of(resources));
 
-    sciter::om::hasset<AppWindow> window = new AppWindow();
+    sciter::om::hasset<AppWindow> window = new AppWindow({0, 0, 430, 713});
 
+    // Get monitor from cursor position
+    POINT cursorPosition;
+    GetCursorPos(&cursorPosition);
+    HMONITOR userMonitor = MonitorFromPoint(cursorPosition, MONITOR_DEFAULTTONEAREST);
+    MONITORINFO monitorInfo;
+    monitorInfo.cbSize = sizeof(MONITORINFO);
+    GetMonitorInfoA(userMonitor, &monitorInfo);
+
+    // Move window to monitor in use by user
+    int monitorCenterX = (monitorInfo.rcMonitor.left + monitorInfo.rcMonitor.right) / 2;
+    int monitorCenterY = (monitorInfo.rcMonitor.top + monitorInfo.rcMonitor.bottom) / 2;
+    int windowSizeX, windowSizeY;
+    window->GetWindowSize(windowSizeX, windowSizeY);
+    window->SetWindowPosition(monitorCenterX - windowSizeX / 2, monitorCenterY - windowSizeY / 2);
+
+    // Setup GUI
     window->load(WSTR("this://app/index.html"));
-
     window->expand();
 
+    // Parse commandline arguments
     std::wstring commandLine = GetCommandLineW();
-
     int argc = 0;
     LPWSTR* argv = CommandLineToArgvW(commandLine.c_str(), &argc);
-
     if (argc > 1)
     {
         std::filesystem::path projectPath = argv[1];
