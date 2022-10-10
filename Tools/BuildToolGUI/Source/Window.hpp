@@ -13,4 +13,8 @@ public:
     SOM_PASSPORT_END
 
     void InvokeCommand(sciter::string command, sciter::string project);
+
+    void GetWindowSize(int& x, int& y);
+
+    void SetWindowPosition(int x, int y);
 };
