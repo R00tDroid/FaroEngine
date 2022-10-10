@@ -15,6 +15,10 @@ file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
 )
 
+file(GLOB_RECURSE ResourceFiles
+    ${CMAKE_CURRENT_LIST_DIR}/Resources/*.*
+)
+
 add_executable(${PROJECT_NAME} WIN32
     ${SourceFiles}
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/sciter/include/sciter-win-main.cpp
@@ -31,6 +35,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "
 
 add_custom_target(${PROJECT_NAME}Resources
     COMMAND ${CMAKE_CURRENT_LIST_DIR}/Dependencies/sciter/bin/windows/packfolder ${CMAKE_CURRENT_LIST_DIR}/Resources ${CMAKE_CURRENT_LIST_DIR}/Source/Resources.generated.hpp
+    SOURCES ${ResourceFiles}
 )
 
 add_dependencies(${PROJECT_NAME} ${PROJECT_NAME}Resources)
