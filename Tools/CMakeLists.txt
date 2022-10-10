@@ -13,4 +13,3 @@ endforeach()
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/BuildTool")
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.cpp.in ${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.generated.cpp @ONLY)
-
