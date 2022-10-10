@@ -3,6 +3,8 @@ project(FaroTools)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../CMake/ProjectVersion.cmake)
 
+set(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_LIST_DIR}/../Bin")
+
 foreach(ConfigName ${CMAKE_CONFIGURATION_TYPES})
     string(TOUPPER ${ConfigName} ConfigName)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${ConfigName} "${CMAKE_CURRENT_LIST_DIR}/../Bin" CACHE PATH "" FORCE)
