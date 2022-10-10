@@ -85,9 +85,7 @@ jobs:
     - name: actions/download-artifact@v3
       uses: actions/download-artifact@v3
       with:
-        name: ToolchainWindows
-        name: ToolchainLinux
-        name: Documentation
+        name: [ToolchainWindows, ToolchainLinux, Documentation]
 
     - name: List files
       run: ls -R
