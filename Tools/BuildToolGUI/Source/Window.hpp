@@ -8,11 +8,14 @@ public:
 
     SOM_PASSPORT_BEGIN(AppWindow)
     SOM_FUNCS(
-        SOM_FUNC(InvokeCommand)
+        SOM_FUNC(InvokeCommand),
+        SOM_FUNC(MoveWindow)
     )
     SOM_PASSPORT_END
 
     void InvokeCommand(sciter::string command, sciter::string project);
+
+    void MoveWindow(sciter::string dx, sciter::string dy);
 
     void GetWindowSize(int& x, int& y);
 

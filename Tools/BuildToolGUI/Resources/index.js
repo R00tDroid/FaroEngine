@@ -3,6 +3,11 @@ function InvokeCommand(command, project)
     Window.this.AppWindow.InvokeCommand(command, project);
 }
 
+function MoveWindow(dx, dy)
+{
+    Window.this.AppWindow.MoveWindow(dx, dy);
+}
+
 function UpdateConsoleHeight()
 {
     var pageHeight = document.getElementsByClassName("page")[0].offsetHeight;
@@ -27,6 +32,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('resize', UpdateConsoleHeight);
     UpdateConsoleHeight();
+
+    document.getElementsByClassName("titlebar")[0].onmousedown = beginMouseDrag;
 });
 
 Window.this.on('consoleClear', () => {
@@ -44,3 +51,34 @@ Window.this.on('consoleAppend', (event) => {
 Window.this.on('setProjectPath', (event) => {
     document.getElementById("projectPath").innerHTML = event.data;
 });
+
+var dragMouseX, dragMouseY; 
+
+function beginMouseDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+
+    dragMouseX = e.clientX;
+    dragMouseY = e.clientY;
+
+    document.onmouseup = endMouseDrag;
+    document.onmousemove = mouseDrag;
+}
+
+function mouseDrag(e) {
+    e = e || window.event;
+    e.preventDefault();
+
+    x = e.clientX;
+    y = e.clientY;
+
+    dx = x - dragMouseX;
+    dy = y - dragMouseY;
+
+    MoveWindow(dx, dy);
+}
+
+function endMouseDrag() {
+    document.onmouseup = null;
+    document.onmousemove = null;
+}

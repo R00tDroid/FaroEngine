@@ -6,6 +6,14 @@ void AppWindow::InvokeCommand(sciter::string command, sciter::string project)
     Console::ExecuteCommand(command, project);
 }
 
+void AppWindow::MoveWindow(sciter::string dx, sciter::string dy)
+{
+    RECT rect;
+    GetWindowRect(get_hwnd(), &rect);
+
+    SetWindowPosition(rect.left + _wtoi(dx.c_str()), rect.top + _wtoi(dy.c_str()));
+}
+
 void AppWindow::GetWindowSize(int& x, int& y)
 {
     RECT rect;
