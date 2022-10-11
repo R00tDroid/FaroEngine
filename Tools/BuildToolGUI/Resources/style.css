@@ -48,14 +48,14 @@ body
     position: relative;
 
     background: var(--background-titlebar);
-    height: 2em;
+    height: 36px;
 }
 
 .titlebar button
 {
     background: var(--interact-idle);
     float: right;
-    width: 2.5em;
+    width: 36px;
     height: 100%;
     padding: 0px;
     border: 0px;
@@ -78,11 +78,11 @@ body
     color: var(--text-title);
     margin: 0px;
 
-    font-size: 1.2em;
+    font-size: 24px;
 
     position: absolute;
     top: 50%;
-    left: .5em;
+    left: 10px;
     transform: translate(0, -50%);
 }
 
