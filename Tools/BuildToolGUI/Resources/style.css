@@ -183,3 +183,21 @@ button:hover
 {
     background: var(--interact-hover);
 }
+
+#openFileButton
+{
+    width: 33px;
+    height: 33px;
+
+    position: relative;
+}
+
+#openFileButton img
+{
+    width: 20px;
+    height: 15px;
+
+    position: absolute;
+    left: 8px;
+    top: 9px;
+}
