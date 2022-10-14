@@ -14,6 +14,18 @@ void AppWindow::MoveWindow(sciter::string dx, sciter::string dy)
     SetWindowPosition(rect.left + _wtoi(dx.c_str()), rect.top + _wtoi(dy.c_str()));
 }
 
+void AppWindow::SetWindowState(sciter::string state)
+{
+    if (state == sciter::string(L"minimize"))
+    {
+        collapse();
+    }
+    else if (state == sciter::string(L"close"))
+    {
+        request_close();
+    }  
+}
+
 void AppWindow::GetWindowSize(int& x, int& y)
 {
     RECT rect;

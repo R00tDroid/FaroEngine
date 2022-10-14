@@ -8,6 +8,11 @@ function MoveWindow(dx, dy)
     Window.this.AppWindow.MoveWindow(dx, dy);
 }
 
+function SetWindowState(state)
+{
+    Window.this.AppWindow.SetWindowState(state);
+}
+
 function UpdateConsoleHeight()
 {
     var pageHeight = document.getElementsByClassName("page")[0].offsetHeight;
@@ -28,6 +33,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("runBuild").onclick = function(){
         InvokeCommand("-build", document.getElementById("projectPath").innerHTML);
+    };
+
+    document.getElementById("minimizeButton").onclick = function () {
+        SetWindowState("minimize");
+    };
+
+    document.getElementById("closeButton").onclick = function () {
+        SetWindowState("close");
     };
 
     window.addEventListener('resize', UpdateConsoleHeight);
