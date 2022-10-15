@@ -188,7 +188,7 @@ button:hover
 {
     width: 33px;
     height: 33px;
-
+    padding: 0;
     position: relative;
 }
 
