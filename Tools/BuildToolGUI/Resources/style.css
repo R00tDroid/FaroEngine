@@ -113,12 +113,40 @@ body
 
 .header
 {
-    margin: 8px;
+    margin: 0;
+    position: relative;
 }
 
-.header input
+#projectPath 
 {
-    width: 100%;
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    right: 45px;
+    height: 33px;
+
+    border: 0;
+    padding: 0;
+}
+
+
+#openFileButton 
+{
+    position: absolute;
+    right: 6px;
+    top: 6px;
+    width: 33px;
+    height: 33px;
+    padding: 0;
+}
+
+#openFileButton img 
+{
+    width: 20px;
+    height: 15px;
+    position: absolute;
+    left: 8px;
+    top: 9px;
 }
 
 .header select
@@ -182,22 +210,4 @@ button
 button:hover
 {
     background: var(--interact-hover);
-}
-
-#openFileButton
-{
-    width: 33px;
-    height: 33px;
-    padding: 0;
-    position: relative;
-}
-
-#openFileButton img
-{
-    width: 20px;
-    height: 15px;
-
-    position: absolute;
-    left: 8px;
-    top: 9px;
 }
