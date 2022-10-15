@@ -150,12 +150,33 @@ body
     top: 9px;
 }
 
-.header select
+select 
 {
     position: absolute;
     top: 45px;
     height: 26px;
     width: 180px;
+    background: var(--interact-idle);
+    border: 0;
+    border-radius: 5px;
+    color: var(--text-interact);
+}
+
+select:hover
+{
+    background: var(--interact-hover);
+}
+
+select button
+{
+    position: absolute;
+    top: 11px;
+    right: 7px;
+    width: 10px;
+    height: 5px;
+    foreground-image: none;
+    background: url("./img/dropdownArrow.png");
+    background-size: 10px 5px;
 }
 
 #selectPlatform 
@@ -168,12 +189,11 @@ body
     right: 6px;
 }
 
-.header button 
+.header > button 
 {
     width: 25%;
     height: 26px;
 }
-
 
 #commandOutput
 {
@@ -213,7 +233,7 @@ body
     }
 }
 
-button
+.header > button
 {
     color: var(--text-interact);
     height: 26px;
@@ -222,7 +242,7 @@ button
     background: var(--interact-idle);
 }
 
-button:hover
+.header > button:hover 
 {
     background: var(--interact-hover);
 }
