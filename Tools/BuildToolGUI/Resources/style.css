@@ -167,7 +167,12 @@ select:hover
     background: var(--interact-hover);
 }
 
-select button
+select popup
+{
+    border: 0;
+}
+
+select button 
 {
     position: absolute;
     top: 11px;
@@ -177,6 +182,17 @@ select button
     foreground-image: none;
     background: url("./img/dropdownArrow.png");
     background-size: 10px 5px;
+}
+
+select option 
+{
+    color: var(--text-interact);
+    background: var(--interact-idle);
+}
+
+select option:hover 
+{
+    background: var(--interact-hover);
 }
 
 #selectPlatform 
