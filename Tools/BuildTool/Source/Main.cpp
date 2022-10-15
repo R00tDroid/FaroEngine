@@ -156,27 +156,6 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    if (parameters.Contains("listconfigs"))
-    {
-        std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
-        for (IToolchain* toolchain : toolchains)
-        {
-            for (BuildPlatform* platform : toolchain->GetPlatforms())
-            {
-                Utility::Print(platform->platformName + ";");
-            }
-        }
-        Utility::PrintLine("");
-
-        for (int buildType = 0; buildType < BuildType::ENUMSIZE; buildType++)
-        {
-            BuildType type = (BuildType)buildType;
-            Utility::Print(std::string(BuildTypeNames[type]) + ";");
-        }
-
-        return 0;
-    }
-
     CommandInfo commandInfo;
 
     if (!ParseParameters(parameters, tasks, commandInfo))
