@@ -152,12 +152,26 @@ body
 
 .header select
 {
-    width: 45%;
+    position: absolute;
+    top: 45px;
+    height: 26px;
+    width: 180px;
 }
 
-.header button
+#selectPlatform 
+{
+    left: 6px;
+}
+
+#selectConfig 
+{
+    right: 6px;
+}
+
+.header button 
 {
     width: 25%;
+    height: 26px;
 }
 
 
