@@ -114,6 +114,7 @@ body
 .header
 {
     margin: 0;
+    height: 109px;
     position: relative;
 }
 
@@ -211,3 +212,26 @@ button:hover
 {
     background: var(--interact-hover);
 }
+
+#runGenerate, #runClean, #runBuild 
+{
+    position: absolute;
+    bottom: 6px;
+}
+
+#runGenerate 
+{
+    left: 6px;
+}
+
+#runClean 
+{
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+#runBuild 
+{
+    right: 6px;
+}
+
