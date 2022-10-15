@@ -156,7 +156,7 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    if (parameters.HasArguments("listConfigs"))
+    if (parameters.Contains("listconfigs"))
     {
         std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
         for (IToolchain* toolchain : toolchains)
