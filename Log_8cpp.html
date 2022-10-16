@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.5635480 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.b08e389 (main)</span>
    </div>
   </td>
  </tr>
@@ -89,8 +89,10 @@ Namespaces</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a86c86c162f7e2713a4ab887cd9d545de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a86c86c162f7e2713a4ab887cd9d545de">Faro::SetLogSink</a> (std::function&lt; void(LogTag, ELogCategory, String)&gt; inLogSink)</td></tr>
-<tr class="separator:a86c86c162f7e2713a4ab887cd9d545de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60b28e5fddd991f757660094d5137583"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a60b28e5fddd991f757660094d5137583">Faro::AddLogSink</a> (LogSink logSink)</td></tr>
+<tr class="separator:a60b28e5fddd991f757660094d5137583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20817b7af9d68e5a4b1cc0e93e7f1a1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a20817b7af9d68e5a4b1cc0e93e7f1a1a">Faro::LockLogSinks</a> ()</td></tr>
+<tr class="separator:a20817b7af9d68e5a4b1cc0e93e7f1a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ab18fbbcc81e4caa036d09ab8a45e44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a6ab18fbbcc81e4caa036d09ab8a45e44">Faro::Log</a> (LogTag tag, ELogCategory category, String format,...)</td></tr>
 <tr class="separator:a6ab18fbbcc81e4caa036d09ab8a45e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -98,8 +100,10 @@ Functions</h2></td></tr>
 Variables</h2></td></tr>
 <tr class="memitem:a451d12982605d71fdb55eea7dc9651ad"><td class="memItemLeft" align="right" valign="top">Array&lt; LogMessage &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a451d12982605d71fdb55eea7dc9651ad">Faro::pendingLogMessages</a></td></tr>
 <tr class="separator:a451d12982605d71fdb55eea7dc9651ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3670553b43a689553d52beb7c611a13e"><td class="memItemLeft" align="right" valign="top">std::function&lt; void(LogTag, ELogCategory, String)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a3670553b43a689553d52beb7c611a13e">Faro::logSink</a> = nullptr</td></tr>
-<tr class="separator:a3670553b43a689553d52beb7c611a13e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1847a873dd3ba165afd335873f5903f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a1847a873dd3ba165afd335873f5903f5">Faro::acceptingLogSinks</a> = true</td></tr>
+<tr class="separator:a1847a873dd3ba165afd335873f5903f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a873618ccbec19685d08a9a0b9f422834"><td class="memItemLeft" align="right" valign="top">Array&lt; LogSink &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a873618ccbec19685d08a9a0b9f422834">Faro::logSinks</a></td></tr>
+<tr class="separator:a873618ccbec19685d08a9a0b9f422834"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

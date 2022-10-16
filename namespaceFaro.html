@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.5635480 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.b08e389 (main)</span>
    </div>
   </td>
  </tr>
@@ -175,6 +175,8 @@ Classes</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:adbadbd48c5fa8621c4ddd6e35e1a41e5"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classFaro_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a></td></tr>
 <tr class="separator:adbadbd48c5fa8621c4ddd6e35e1a41e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a03b407277a6f0ffd42668ee54f5d2b9f"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="namespaceFaro.html#a4cdc2818643bf458fb483be46ca6491a">Function</a>&lt; void(<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>, <a class="el" href="classFaro_1_1String.html">String</a>)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a03b407277a6f0ffd42668ee54f5d2b9f">LogSink</a></td></tr>
+<tr class="separator:a03b407277a6f0ffd42668ee54f5d2b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a10742bd7fd8df5f5e9b33298674ba31e"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structFaro_1_1IColor.html">IColor</a>&lt; float, 1 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a10742bd7fd8df5f5e9b33298674ba31e">FloatColor</a></td></tr>
 <tr class="separator:a10742bd7fd8df5f5e9b33298674ba31e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e410c13c116e2a243b95d26640aedf4"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="structFaro_1_1IColor.html">IColor</a>&lt; <a class="el" href="namespaceFaro.html#ad2c0f3261ab209e8901c67f099fe7c81">uint8</a>, 255 &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a6e410c13c116e2a243b95d26640aedf4">UInt8Color</a></td></tr>
@@ -275,8 +277,10 @@ Functions</h2></td></tr>
 <tr class="separator:a5d8667c7d65c2f2e460efe0e5fe073b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e7f5c34826af34ca25dbdc346ee308b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a9e7f5c34826af34ca25dbdc346ee308b">FormatString</a> (<a class="el" href="classFaro_1_1String.html">String</a> format,...)</td></tr>
 <tr class="separator:a9e7f5c34826af34ca25dbdc346ee308b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86c86c162f7e2713a4ab887cd9d545de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a86c86c162f7e2713a4ab887cd9d545de">SetLogSink</a> (std::function&lt; void(<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>, <a class="el" href="classFaro_1_1String.html">String</a>)&gt; inLogSink)</td></tr>
-<tr class="separator:a86c86c162f7e2713a4ab887cd9d545de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60b28e5fddd991f757660094d5137583"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a60b28e5fddd991f757660094d5137583">AddLogSink</a> (<a class="el" href="namespaceFaro.html#a03b407277a6f0ffd42668ee54f5d2b9f">LogSink</a> logSink)</td></tr>
+<tr class="separator:a60b28e5fddd991f757660094d5137583"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20817b7af9d68e5a4b1cc0e93e7f1a1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a20817b7af9d68e5a4b1cc0e93e7f1a1a">LockLogSinks</a> ()</td></tr>
+<tr class="separator:a20817b7af9d68e5a4b1cc0e93e7f1a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ab18fbbcc81e4caa036d09ab8a45e44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a6ab18fbbcc81e4caa036d09ab8a45e44">Log</a> (<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a> tag, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a> category, <a class="el" href="classFaro_1_1String.html">String</a> format,...)</td></tr>
 <tr class="separator:a6ab18fbbcc81e4caa036d09ab8a45e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6ccfe601da6bf259918ce41a78b59d85"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a6ccfe601da6bf259918ce41a78b59d85">Pi</a> ()</td></tr>
@@ -349,8 +353,12 @@ Functions</h2></td></tr>
 <tr class="separator:a863a6168bb781a2faa6a5e32adc07381"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a024daf5c4e1562b0bc6aa4da3a511db1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a024daf5c4e1562b0bc6aa4da3a511db1">RunOnThread</a> (<a class="el" href="classFaro_1_1String.html">String</a> threadId, <a class="el" href="namespaceFaro.html#a114edab755c16728bf1777703800de27">ThreadTask</a> task)</td></tr>
 <tr class="separator:a024daf5c4e1562b0bc6aa4da3a511db1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac56dd31aace4f8ebe42eb03e6190491b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#ac56dd31aace4f8ebe42eb03e6190491b">LogWindows</a> (<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a> tag, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a> category, <a class="el" href="classFaro_1_1String.html">String</a> message)</td></tr>
-<tr class="separator:ac56dd31aace4f8ebe42eb03e6190491b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf36b3e6c3d39bd14a8fe2d258a3f29d"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#adf36b3e6c3d39bd14a8fe2d258a3f29d">FormatLogString</a> (<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a> &amp;tag, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a> &amp;category, <a class="el" href="classFaro_1_1String.html">String</a> &amp;message)</td></tr>
+<tr class="separator:adf36b3e6c3d39bd14a8fe2d258a3f29d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac15b1a982ebe4750eee50715d0d635c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#ac15b1a982ebe4750eee50715d0d635c9">LogCout</a> (<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a> tag, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a> category, <a class="el" href="classFaro_1_1String.html">String</a> message)</td></tr>
+<tr class="separator:ac15b1a982ebe4750eee50715d0d635c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dfd142fdb50a5c42eed8748e9a4c0ba"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a6dfd142fdb50a5c42eed8748e9a4c0ba">LogDebugOutput</a> (<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a> tag, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a> category, <a class="el" href="classFaro_1_1String.html">String</a> message)</td></tr>
+<tr class="separator:a6dfd142fdb50a5c42eed8748e9a4c0ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affc2f7a3477d95eca01fcd1305c809f9"><td class="memItemLeft" align="right" valign="top">BOOL&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#affc2f7a3477d95eca01fcd1305c809f9">QueryMonitors</a> (HMONITOR monitorHandle, HDC deviceContext, LPRECT rect, LPARAM userData)</td></tr>
 <tr class="separator:affc2f7a3477d95eca01fcd1305c809f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18423b484a6c1be8b0b2495988208d24"><td class="memItemLeft" align="right" valign="top">LRESULT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a18423b484a6c1be8b0b2495988208d24">MessageProc</a> (HWND handle, UINT message, WPARAM wParam, LPARAM lParam)</td></tr>
@@ -362,8 +370,10 @@ Variables</h2></td></tr>
 <tr class="separator:ae926c8ff74cd5dd3bc194c46f27945fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a451d12982605d71fdb55eea7dc9651ad"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="structFaro_1_1LogMessage.html">LogMessage</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a451d12982605d71fdb55eea7dc9651ad">pendingLogMessages</a></td></tr>
 <tr class="separator:a451d12982605d71fdb55eea7dc9651ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3670553b43a689553d52beb7c611a13e"><td class="memItemLeft" align="right" valign="top">std::function&lt; void(<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>, <a class="el" href="classFaro_1_1String.html">String</a>)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a3670553b43a689553d52beb7c611a13e">logSink</a> = nullptr</td></tr>
-<tr class="separator:a3670553b43a689553d52beb7c611a13e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1847a873dd3ba165afd335873f5903f5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a1847a873dd3ba165afd335873f5903f5">acceptingLogSinks</a> = true</td></tr>
+<tr class="separator:a1847a873dd3ba165afd335873f5903f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a873618ccbec19685d08a9a0b9f422834"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="namespaceFaro.html#a03b407277a6f0ffd42668ee54f5d2b9f">LogSink</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a873618ccbec19685d08a9a0b9f422834">logSinks</a></td></tr>
+<tr class="separator:a873618ccbec19685d08a9a0b9f422834"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afc83d7c9014076e732ec9dfc525918dd"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1RandomStream.html">RandomStream</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#afc83d7c9014076e732ec9dfc525918dd">global_rng_stream_</a></td></tr>
 <tr class="separator:afc83d7c9014076e732ec9dfc525918dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a12c447c61e2332712c32c6e63cc2c254"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1GraphicsInterface.html">GraphicsInterface</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a12c447c61e2332712c32c6e63cc2c254">GGraphics</a> = nullptr</td></tr>
@@ -576,6 +586,20 @@ template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">typedef <a class="el" href="structFaro_1_1IRect.html">IRect</a>&lt;<a class="el" href="namespaceFaro.html#a29f0340d8ff577f379f2379f917a526c">int32</a>&gt; <a class="el" href="namespaceFaro.html#aaa44219a4db9ebb965456ff675ff4971">Faro::IntRect</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a03b407277a6f0ffd42668ee54f5d2b9f" name="a03b407277a6f0ffd42668ee54f5d2b9f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a03b407277a6f0ffd42668ee54f5d2b9f">&#9670;&nbsp;</a></span>LogSink</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">typedef <a class="el" href="namespaceFaro.html#a4cdc2818643bf458fb483be46ca6491a">Function</a>&lt;void(<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>, <a class="el" href="classFaro_1_1String.html">String</a>)&gt; <a class="el" href="namespaceFaro.html#a03b407277a6f0ffd42668ee54f5d2b9f">Faro::LogSink</a></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -843,6 +867,24 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="a60b28e5fddd991f757660094d5137583" name="a60b28e5fddd991f757660094d5137583"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60b28e5fddd991f757660094d5137583">&#9670;&nbsp;</a></span>AddLogSink()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::AddLogSink </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a03b407277a6f0ffd42668ee54f5d2b9f">LogSink</a>&#160;</td>
+          <td class="paramname"><em>logSink</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ae9a1c0781ed62d86b9a351d69edcddbd" name="ae9a1c0781ed62d86b9a351d69edcddbd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ae9a1c0781ed62d86b9a351d69edcddbd">&#9670;&nbsp;</a></span>ASin()</h2>
 
@@ -1053,6 +1095,40 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
+<a id="adf36b3e6c3d39bd14a8fe2d258a3f29d" name="adf36b3e6c3d39bd14a8fe2d258a3f29d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf36b3e6c3d39bd14a8fe2d258a3f29d">&#9670;&nbsp;</a></span>FormatLogString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1String.html">String</a> Faro::FormatLogString </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a> &amp;&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a> &amp;&#160;</td>
+          <td class="paramname"><em>category</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1String.html">String</a> &amp;&#160;</td>
+          <td class="paramname"><em>message</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a9e7f5c34826af34ca25dbdc346ee308b" name="a9e7f5c34826af34ca25dbdc346ee308b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a9e7f5c34826af34ca25dbdc346ee308b">&#9670;&nbsp;</a></span>FormatString()</h2>
 
@@ -1212,6 +1288,23 @@ template&lt;class T , class AlphaType &gt; </div>
 
 </div>
 </div>
+<a id="a20817b7af9d68e5a4b1cc0e93e7f1a1a" name="a20817b7af9d68e5a4b1cc0e93e7f1a1a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a20817b7af9d68e5a4b1cc0e93e7f1a1a">&#9670;&nbsp;</a></span>LockLogSinks()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::LockLogSinks </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a6ab18fbbcc81e4caa036d09ab8a45e44" name="a6ab18fbbcc81e4caa036d09ab8a45e44"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a6ab18fbbcc81e4caa036d09ab8a45e44">&#9670;&nbsp;</a></span>Log()</h2>
 
@@ -1252,14 +1345,48 @@ template&lt;class T , class AlphaType &gt; </div>
 
 </div>
 </div>
-<a id="ac56dd31aace4f8ebe42eb03e6190491b" name="ac56dd31aace4f8ebe42eb03e6190491b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac56dd31aace4f8ebe42eb03e6190491b">&#9670;&nbsp;</a></span>LogWindows()</h2>
+<a id="ac15b1a982ebe4750eee50715d0d635c9" name="ac15b1a982ebe4750eee50715d0d635c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac15b1a982ebe4750eee50715d0d635c9">&#9670;&nbsp;</a></span>LogCout()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void Faro::LogWindows </td>
+          <td class="memname">void Faro::LogCout </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>&#160;</td>
+          <td class="paramname"><em>tag</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>&#160;</td>
+          <td class="paramname"><em>category</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td>
+          <td class="paramname"><em>message</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a6dfd142fdb50a5c42eed8748e9a4c0ba" name="a6dfd142fdb50a5c42eed8748e9a4c0ba"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6dfd142fdb50a5c42eed8748e9a4c0ba">&#9670;&nbsp;</a></span>LogDebugOutput()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::LogDebugOutput </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>&#160;</td>
           <td class="paramname"><em>tag</em>, </td>
@@ -1637,24 +1764,6 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a86c86c162f7e2713a4ab887cd9d545de" name="a86c86c162f7e2713a4ab887cd9d545de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a86c86c162f7e2713a4ab887cd9d545de">&#9670;&nbsp;</a></span>SetLogSink()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Faro::SetLogSink </td>
-          <td>(</td>
-          <td class="paramtype">std::function&lt; void(<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>, <a class="el" href="classFaro_1_1String.html">String</a>)&gt;&#160;</td>
-          <td class="paramname"><em>inLogSink</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a45765c03aad848332bf8f9dfd230760f" name="a45765c03aad848332bf8f9dfd230760f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a45765c03aad848332bf8f9dfd230760f">&#9670;&nbsp;</a></span>SetPIPrecision()</h2>
 
@@ -1808,6 +1917,20 @@ template&lt;class T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
+<a id="a1847a873dd3ba165afd335873f5903f5" name="a1847a873dd3ba165afd335873f5903f5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1847a873dd3ba165afd335873f5903f5">&#9670;&nbsp;</a></span>acceptingLogSinks</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Faro::acceptingLogSinks = true</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="ad9df44b6248c2bc373fb4b6556b43908" name="ad9df44b6248c2bc373fb4b6556b43908"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad9df44b6248c2bc373fb4b6556b43908">&#9670;&nbsp;</a></span>GApplication</h2>
 
@@ -1908,14 +2031,14 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a3670553b43a689553d52beb7c611a13e" name="a3670553b43a689553d52beb7c611a13e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3670553b43a689553d52beb7c611a13e">&#9670;&nbsp;</a></span>logSink</h2>
+<a id="a873618ccbec19685d08a9a0b9f422834" name="a873618ccbec19685d08a9a0b9f422834"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a873618ccbec19685d08a9a0b9f422834">&#9670;&nbsp;</a></span>logSinks</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::function&lt;void(<a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">LogTag</a>, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">ELogCategory</a>, <a class="el" href="classFaro_1_1String.html">String</a>)&gt; Faro::logSink = nullptr</td>
+          <td class="memname"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt;<a class="el" href="namespaceFaro.html#a03b407277a6f0ffd42668ee54f5d2b9f">LogSink</a>&gt; Faro::logSinks</td>
         </tr>
       </table>
 </div><div class="memdoc">
