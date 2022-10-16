@@ -20,5 +20,6 @@ namespace Faro
 
     extern void Log(LogTag tag, ELogCategory category, String format, ...);
 
-    extern void SetLogSink(std::function<void(LogTag, ELogCategory, String)> logSink);
+    typedef Function<void(LogTag, ELogCategory, String)> LogSink;
+    extern void AddLogSink(LogSink logSink);
 }

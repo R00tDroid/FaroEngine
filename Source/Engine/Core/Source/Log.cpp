@@ -11,10 +11,11 @@ namespace Faro
     };
     Array<LogMessage> pendingLogMessages;
 
-    std::function<void(LogTag, ELogCategory, String)> logSink = nullptr;
-    void SetLogSink(std::function<void(LogTag, ELogCategory, String)> inLogSink)
+    Array<LogSink> logSinks;
+    void AddLogSink(LogSink logSink)
     {
-        logSink = inLogSink;
+        logSinks.Add(logSink);
+
         for (LogMessage& message : pendingLogMessages)
         {
             logSink(message.tag, message.category, message.message);
@@ -29,13 +30,15 @@ namespace Faro
         String message = FormatStringVA(format, args);
         va_end(args);
 
-        if (logSink == nullptr)
+        if (logSinks.Empty())
         {
             pendingLogMessages.Add({ tag, category, message });
         }
         else
         {
-            logSink(tag, category, message);
+            for (LogSink& logSink : logSinks) {
+                logSink(tag, category, message);
+            }
         }
         if (category == LC_Fatal)
         {
