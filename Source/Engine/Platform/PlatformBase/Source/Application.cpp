@@ -26,6 +26,8 @@ namespace Faro
 
         if (!GModuleManager->Init()) return false;
 
+        LockLogSinks();
+
         Log(AppLog, LC_Debug, "Entering main loop");
 
         return true;
