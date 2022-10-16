@@ -10,19 +10,28 @@ namespace Faro
         String message;
     };
     Array<LogMessage> pendingLogMessages;
+    bool acceptingLogSinks = true;
 
     Array<LogSink> logSinks;
     void AddLogSink(LogSink logSink)
     {
-        logSinks.Add(logSink);
-
-        for (LogMessage& message : pendingLogMessages)
+        if (acceptingLogSinks) 
         {
-            logSink(message.tag, message.category, message.message);
+            logSinks.Add(logSink);
+
+            for (LogMessage& message : pendingLogMessages)
+            {
+                logSink(message.tag, message.category, message.message);
+            }
         }
+    }
+
+    void LockLogSinks()
+    {
+        acceptingLogSinks = false;
         pendingLogMessages.Clear();
     }
-    
+
     void Log(LogTag tag, ELogCategory category, String format, ...)
     {
         va_list args;
@@ -30,16 +39,16 @@ namespace Faro
         String message = FormatStringVA(format, args);
         va_end(args);
 
-        if (logSinks.Empty())
+        if (acceptingLogSinks)
         {
             pendingLogMessages.Add({ tag, category, message });
         }
-        else
+
+        for (LogSink& logSink : logSinks) 
         {
-            for (LogSink& logSink : logSinks) {
-                logSink(tag, category, message);
-            }
+            logSink(tag, category, message);
         }
+ 
         if (category == LC_Fatal)
         {
             std::abort();

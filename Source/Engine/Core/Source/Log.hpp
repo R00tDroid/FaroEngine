@@ -1,5 +1,4 @@
 #pragma once
-#include <functional>
 #include <Containers/String.hpp>
 
 namespace Faro
@@ -22,4 +21,5 @@ namespace Faro
 
     typedef Function<void(LogTag, ELogCategory, String)> LogSink;
     extern void AddLogSink(LogSink logSink);
+    extern void LockLogSinks();
 }
