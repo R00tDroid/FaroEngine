@@ -7,7 +7,7 @@
 
 namespace Faro
 {
-    String FormatLogString(const LogTag& tag, ELogCategory& category, const String& message)
+    String FormatLogString(const LogTag& tag, LogCategory& category, const String& message)
     {
         String categoryLabel = "";
 
@@ -24,13 +24,13 @@ namespace Faro
         return FormatString("[%-15s](%s) %s", tag.name.Data(), categoryLabel.Data(), message.Data());
     }
 
-    void LogCout(const LogTag& tag, ELogCategory category, const String& message)
+    void LogCout(const LogTag& tag, LogCategory category, const String& message)
     {
         String string = FormatLogString(tag, category, message);
         std::cout << string.Data() << std::endl;
     }
 
-    void LogDebugOutput(const LogTag& tag, ELogCategory category, const String& message)
+    void LogDebugOutput(const LogTag& tag, LogCategory category, const String& message)
     {
         String string = FormatLogString(tag, category, message);
         OutputDebugStringA((string + "\n").Data());
