@@ -1,12 +1,9 @@
 #pragma once
 #include <Containers/String.hpp>
+#include <Containers/Array.hpp>
 
 namespace Faro
 {
-    typedef String LogTag;
-#define LOG_DEFINITION(Tag) extern LogTag Tag;
-#define LOG_DECLARATION(Tag, Header) LogTag Tag = #Header;
-
     enum ELogCategory
     {
         LC_Trace,
@@ -17,9 +14,30 @@ namespace Faro
         LC_Fatal
     };
 
-    extern void Log(LogTag tag, ELogCategory category, String format, ...);
+    struct LogTag
+    {
+        LogTag(String name);
+        void Log(ELogCategory category, String format, ...);
 
-    typedef Function<void(LogTag, ELogCategory, String)> LogSink;
-    extern void AddLogSink(LogSink logSink);
-    extern void LockLogSinks();
+        String name;
+    };
+
+#define LOG_DEFINITION(Tag) extern LogTag Tag;
+#define LOG_DECLARATION(Tag, Header) LogTag Tag(#Header);
+
+    typedef Function<void(const LogTag&, ELogCategory, const String&)> LogSink;
+
+    class Logger
+    {
+    public:
+        static void LogVA(const LogTag& tag, ELogCategory category, String format, va_list arguments);
+
+        static void Log(const LogTag& tag, ELogCategory category, String format, ...);
+
+        static void AddSink(LogSink logSink);
+        static void LockSinks();
+
+    private:
+        static Array<LogSink> logSinks;
+    };
 }
