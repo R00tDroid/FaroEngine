@@ -24,7 +24,7 @@ namespace Faro
             return pendingCreation->ProcessMessage(message, wParam, lParam);
         }
 
-        Log(PlatformWindowsLog, LC_Error, "Window message without window handler: %i", message);
+        Logger::Log(PlatformWindowsLog, LC_Error, "Window message without window handler: %i", message);
         return DefWindowProcA(handle, message, wParam, lParam);
     }
 
@@ -46,7 +46,7 @@ namespace Faro
             }
             case WM_DESTROY:
             {
-                Log(PlatformWindowsLog, LC_Trace, "Window closed");
+                Logger::Log(PlatformWindowsLog, LC_Trace, "Window closed");
 
                 RequestStop();
 
@@ -100,7 +100,7 @@ namespace Faro
 
     void WindowThread::ThreadInit()
     {
-        Log(PlatformWindowsLog, LC_Trace, "Creating window");
+        Logger::Log(PlatformWindowsLog, LC_Trace, "Creating window");
 
         HINSTANCE processHandle = GetModuleHandleA(nullptr);
 
@@ -126,7 +126,7 @@ namespace Faro
 
         if (windowHandle == nullptr)
         {
-            Log(PlatformWindowsLog, LC_Error, "Failed to create window");
+            Logger::Log(PlatformWindowsLog, LC_Error, "Failed to create window");
         }
 
         SetWindowLongPtrA(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
@@ -134,7 +134,7 @@ namespace Faro
         pendingCreation = nullptr;
         pendingCreationLock.Unlock();
 
-        Log(PlatformWindowsLog, LC_Trace, "Created window: %i", windowHandle);
+        Logger::Log(PlatformWindowsLog, LC_Trace, "Created window: %i", windowHandle);
     }
 
     void WindowThread::ThreadUpdate()
@@ -154,7 +154,7 @@ namespace Faro
 
     void WindowThread::ThreadDestroy()
     {
-        Log(PlatformWindowsLog, LC_Trace, "Destroying window: %i", windowHandle);
+        Logger::Log(PlatformWindowsLog, LC_Trace, "Destroying window: %i", windowHandle);
 
         if (windowHandle != 0) 
         {

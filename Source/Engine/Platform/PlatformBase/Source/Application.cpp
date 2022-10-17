@@ -21,14 +21,14 @@ namespace Faro
 
     bool Application::Init()
     {
-        Log(AppLog, LC_Info, "Faro Engine %s", GEngineVersion.GetFullVersion().Data());
-        Log(AppLog, LC_Debug, "Initializing");
+        Logger::Log(AppLog, LC_Info, "Faro Engine %s", GEngineVersion.GetFullVersion().Data());
+        Logger::Log(AppLog, LC_Debug, "Initializing");
 
         if (!GModuleManager->Init()) return false;
 
-        LockLogSinks();
+        Logger::LockSinks();
 
-        Log(AppLog, LC_Debug, "Entering main loop");
+        Logger::Log(AppLog, LC_Debug, "Entering main loop");
 
         return true;
     }
@@ -42,7 +42,7 @@ namespace Faro
 
     bool Application::Destroy()
     {
-        Log(AppLog, LC_Debug, "Starting destruction");
+        Logger::Log(AppLog, LC_Debug, "Starting destruction");
 
         if (!GModuleManager->Destroy()) return false;
 

@@ -27,10 +27,10 @@ namespace Faro
 
         if (!SortModules()) return false;
 
-        Log(ModuleManagerLog, LC_Debug, "Loading modules");
+        Logger::Log(ModuleManagerLog, LC_Debug, "Loading modules");
         for (IModule* module : modules)
         {
-            Log(ModuleManagerLog, LC_Debug, "Loading module: %s", module->GetName().Data());
+            Logger::Log(ModuleManagerLog, LC_Debug, "Loading module: %s", module->GetName().Data());
             module->Load();
         }
     
@@ -44,7 +44,7 @@ namespace Faro
 
     bool ModuleManager::Destroy()
     {
-        Log(ModuleManagerLog, LC_Debug, "Unloading modules");
+        Logger::Log(ModuleManagerLog, LC_Debug, "Unloading modules");
         for (IModule* module : modules)
         {
             module->Unload();
@@ -89,7 +89,7 @@ namespace Faro
             {
                 if (!moduleNames.Contains(dependencyName))
                 {
-                    Log(ModuleManagerLog, LC_Error, "Missing module runtime dependency: %s > %s", it.first->GetName().Data(), dependencyName.Data());
+                    Logger::Log(ModuleManagerLog, LC_Error, "Missing module runtime dependency: %s > %s", it.first->GetName().Data(), dependencyName.Data());
                     return false;
                 }
 
