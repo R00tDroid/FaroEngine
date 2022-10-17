@@ -5,7 +5,7 @@
 namespace Faro
 {
     /// @brief Logging category
-    enum ELogCategory
+    enum LogCategory
     {
         LC_Trace, ///< Tracing category. Provides in-depth insight of a sequence of events. Not visible to the end user.
         LC_Debug, ///< Debugging category. Shows debug info. Not visible to the end user.
@@ -18,7 +18,7 @@ namespace Faro
     struct LogTag
     {
         LogTag(String name);
-        void Log(ELogCategory category, String format, ...);
+        void Log(LogCategory category, String format, ...);
 
         String name;
     };
@@ -27,7 +27,7 @@ namespace Faro
 #define LOG_DECLARATION(Tag, Header) LogTag Tag(#Header);
 
     /// @brief Logging callback that is executed by Logger.
-    typedef Function<void(const LogTag&, ELogCategory, const String&)> LogSink;
+    typedef Function<void(const LogTag&, LogCategory, const String&)> LogSink;
 
     /// @brief Class responsible for all logging related functionality.
     class Logger
@@ -40,7 +40,7 @@ namespace Faro
          * @param format Format string
          * @param arguments Variadic argument list to be used for formatting
          */
-        static void LogVA(const LogTag& tag, ELogCategory category, String format, va_list arguments);
+        static void LogVA(const LogTag& tag, LogCategory category, String format, va_list arguments);
 
         /**
          * @brief Log a messages with the provided format string and arguments.
@@ -49,7 +49,7 @@ namespace Faro
          * @param format Format string
          * @param ... List of argument to be used for formatting
          */
-        static void Log(const LogTag& tag, ELogCategory category, String format, ...);
+        static void Log(const LogTag& tag, LogCategory category, String format, ...);
 
         /**
          * @brief Register a new sink. This will be executed when a new message is logged.

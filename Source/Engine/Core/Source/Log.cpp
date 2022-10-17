@@ -5,7 +5,7 @@ namespace Faro
     struct LogMessage
     {
         const LogTag& tag;
-        ELogCategory category;
+        LogCategory category;
         String message;
     };
     Array<LogMessage> pendingLogMessages;
@@ -34,7 +34,7 @@ namespace Faro
 
     LogTag::LogTag(String inName) : name(inName) {}
 
-    void LogTag::Log(ELogCategory category, String format, ...)
+    void LogTag::Log(LogCategory category, String format, ...)
     {
         va_list args;
         va_start(args, format);
@@ -42,7 +42,7 @@ namespace Faro
         va_end(args);
     }
 
-    void Logger::LogVA(const LogTag& tag, ELogCategory category, String format, va_list arguments)
+    void Logger::LogVA(const LogTag& tag, LogCategory category, String format, va_list arguments)
     {
         String message = FormatStringVA(format, arguments);
 
@@ -62,7 +62,7 @@ namespace Faro
         }
     }
 
-    void Logger::Log(const LogTag& tag, ELogCategory category, String format, ...)
+    void Logger::Log(const LogTag& tag, LogCategory category, String format, ...)
     {
         va_list args;
         va_start(args, format);
