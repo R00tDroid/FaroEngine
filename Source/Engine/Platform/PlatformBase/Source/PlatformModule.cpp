@@ -8,18 +8,18 @@ namespace Faro
 
     void PlatformModule::Load()
     {
-        Log(PlatformLog, LC_Debug, "Loading GPlatform");
+        Logger::Log(PlatformLog, LC_Debug, "Loading GPlatform");
 
         Array<Platform*> PlatformTypes = GetRegisteredPlatforms();
         if (!PlatformTypes.Empty())
         {
             GPlatform = PlatformTypes[0];
-            Log(PlatformLog, LC_Info, "Platform: %s", GPlatform->GetName().Data());
+            Logger::Log(PlatformLog, LC_Info, "Platform: %s", GPlatform->GetName().Data());
             GPlatform->Init();
         }
         else
         {
-            Log(PlatformLog, LC_Fatal, "Failed to find a suitable platform implementation");
+            Logger::Log(PlatformLog, LC_Fatal, "Failed to find a suitable platform implementation");
         }
     }
 
