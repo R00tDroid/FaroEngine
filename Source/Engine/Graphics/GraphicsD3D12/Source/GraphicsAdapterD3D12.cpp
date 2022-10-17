@@ -9,7 +9,7 @@ namespace Faro
     {
         desc = inDesc;
 
-        Log(GraphicsLogD3D12, LC_Info, "Creating adapter: %s", desc.name.Data());
+        Logger::Log(GraphicsLogD3D12, LC_Info, "Creating adapter: %s", desc.name.Data());
 
         dxgiAdapter = static_cast<IDXGIAdapter1*>(desc.payload);
 
@@ -25,7 +25,7 @@ namespace Faro
             infoQueue->Release();
         }
 
-        Log(GraphicsLogD3D12, LC_Trace, "Create command queue");
+        Logger::Log(GraphicsLogD3D12, LC_Trace, "Create command queue");
         D3D12_COMMAND_QUEUE_DESC queueDesc = {};
         queueDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
         queueDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
@@ -35,7 +35,7 @@ namespace Faro
 
     void GraphicsAdapterD3D12::Destroy()
     {
-        Log(GraphicsLogD3D12, LC_Info, "Destroy adapter: %s", desc.name.Data());
+        Logger::Log(GraphicsLogD3D12, LC_Info, "Destroy adapter: %s", desc.name.Data());
 
         commandQueue->Release();
         device->Release();

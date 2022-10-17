@@ -1,19 +1,20 @@
 #include "Log.hpp"
-#include <Containers/Array.hpp>
 
 namespace Faro
 {
+    /// @internal
     struct LogMessage
     {
-        LogTag tag;
-        ELogCategory category;
+        const LogTag& tag;
+        LogCategory category;
         String message;
     };
     Array<LogMessage> pendingLogMessages;
     bool acceptingLogSinks = true;
 
-    Array<LogSink> logSinks;
-    void AddLogSink(LogSink logSink)
+    Array<LogSink> Logger::logSinks;
+
+    void Logger::AddSink(LogSink logSink)
     {
         if (acceptingLogSinks) 
         {
@@ -26,32 +27,47 @@ namespace Faro
         }
     }
 
-    void LockLogSinks()
+    void Logger::LockSinks()
     {
         acceptingLogSinks = false;
         pendingLogMessages.Clear();
     }
 
-    void Log(LogTag tag, ELogCategory category, String format, ...)
+    LogTag::LogTag(String inName) : name(inName) {}
+
+    void LogTag::Log(LogCategory category, String format, ...)
     {
         va_list args;
         va_start(args, format);
-        String message = FormatStringVA(format, args);
+        Logger::LogVA(*this, category, format, args);
         va_end(args);
+    }
+
+    void Logger::LogVA(const LogTag& tag, LogCategory category, String format, va_list arguments)
+    {
+        String message = FormatStringVA(format, arguments);
 
         if (acceptingLogSinks)
         {
             pendingLogMessages.Add({ tag, category, message });
         }
 
-        for (LogSink& logSink : logSinks) 
+        for (LogSink& logSink : logSinks)
         {
             logSink(tag, category, message);
         }
- 
+
         if (category == LC_Fatal)
         {
             std::abort();
         }
+    }
+
+    void Logger::Log(const LogTag& tag, LogCategory category, String format, ...)
+    {
+        va_list args;
+        va_start(args, format);
+        LogVA(tag, category, format, args);
+        va_end(args);
     }
 }
