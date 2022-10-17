@@ -15,11 +15,20 @@ namespace Faro
         LC_Fatal ///< Fatal category. Reports critical issues. This will also stop execution of the application.
     };
 
+    /// @brief Defines a logging tag. To be defined and declared with LOG_DEFINITION and LOG_DECLARATION.
     struct LogTag
     {
         LogTag(String name);
+
+        /**
+         * @brief Log a message with this tag
+         * @param category Log category
+         * @param format Format string
+         * @param ... List of argument to be used for formatting
+         */
         void Log(LogCategory category, String format, ...);
 
+        /// @brief Name of this log tag
         String name;
     };
 
