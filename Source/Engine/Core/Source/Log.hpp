@@ -26,7 +26,7 @@ namespace Faro
 #define LOG_DEFINITION(Tag) extern LogTag Tag;
 #define LOG_DECLARATION(Tag, Header) LogTag Tag(#Header);
 
-    /// @brief Logging callback that is executed by #Logger.
+    /// @brief Logging callback that is executed by Logger.
     typedef Function<void(const LogTag&, ELogCategory, const String&)> LogSink;
 
     /// @brief Class responsible for all logging related functionality.
