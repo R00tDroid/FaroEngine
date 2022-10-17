@@ -26,16 +26,39 @@ namespace Faro
 #define LOG_DEFINITION(Tag) extern LogTag Tag;
 #define LOG_DECLARATION(Tag, Header) LogTag Tag(#Header);
 
+    /// @brief Logging callback that is executed by #Logger.
     typedef Function<void(const LogTag&, ELogCategory, const String&)> LogSink;
 
+    /// @brief Class responsible for all logging related functionality.
     class Logger
     {
     public:
+        /**
+         * @brief Log a messages with the provided format string and variadic argument list.
+         * @param tag Log tag
+         * @param category Log category
+         * @param format Format string
+         * @param arguments Variadic argument list to be used for formatting
+         */
         static void LogVA(const LogTag& tag, ELogCategory category, String format, va_list arguments);
 
+        /**
+         * @brief Log a messages with the provided format string and arguments.
+         * @param tag Log tag
+         * @param category Log category
+         * @param format Format string
+         * @param ... List of argument to be used for formatting
+         */
         static void Log(const LogTag& tag, ELogCategory category, String format, ...);
 
+        /**
+         * @brief Register a new sink. This will be executed when a new message is logged.
+         * @param logSink Log sink callback function
+         * @warning This can only be done during module initialization
+         */
         static void AddSink(LogSink logSink);
+
+        /// @brief Lock the registration of new log sinks.
         static void LockSinks();
 
     private:
