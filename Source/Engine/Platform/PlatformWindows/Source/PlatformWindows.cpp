@@ -7,7 +7,7 @@
 
 namespace Faro
 {
-    void LogWindows(LogTag tag, ELogCategory category, String message)
+    String FormatLogString(const LogTag& tag, LogCategory& category, const String& message)
     {
         String categoryLabel = "";
 
@@ -21,14 +21,25 @@ namespace Faro
             case LC_Fatal: { categoryLabel = "F"; break; }
         }
 
-        String result = FormatString("[%-15s](%s) %s", tag.Data(), categoryLabel.Data(), message.Data());
-        std::cout << result.Data() << std::endl;
-        OutputDebugStringA((result + "\n").Data());
+        return FormatString("[%-15s](%s) %s", tag.name.Data(), categoryLabel.Data(), message.Data());
+    }
+
+    void LogCout(const LogTag& tag, LogCategory category, const String& message)
+    {
+        String string = FormatLogString(tag, category, message);
+        std::cout << string.Data() << std::endl;
+    }
+
+    void LogDebugOutput(const LogTag& tag, LogCategory category, const String& message)
+    {
+        String string = FormatLogString(tag, category, message);
+        OutputDebugStringA((string + "\n").Data());
     }
 
     void PlatformWindows::Init()
     {
-        SetLogSink(LogWindows);
+        Logger::AddSink(LogCout);
+        Logger::AddSink(LogDebugOutput);
     }
 
     void PlatformWindows::Destroy()
