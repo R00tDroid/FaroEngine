@@ -4,14 +4,15 @@
 
 namespace Faro
 {
+    /// @brief Logging category
     enum ELogCategory
     {
-        LC_Trace,
-        LC_Debug,
-        LC_Info,
-        LC_Warning,
-        LC_Error,
-        LC_Fatal
+        LC_Trace, ///< Tracing category. Provides in-depth insight of a sequence of events. Not visible to the end user.
+        LC_Debug, ///< Debugging category. Shows debug info. Not visible to the end user.
+        LC_Info, ///< Info category. Communicates generic informative messages.
+        LC_Warning, ///< Warning category. Reports potential issues.
+        LC_Error,  ///< Error category. Reports issues.
+        LC_Fatal ///< Fatal category. Reports critical issues. This will also stop execution of the application.
     };
 
     struct LogTag
