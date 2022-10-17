@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['elogcategory_0',['ELogCategory',['../namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b',1,'Faro']]]
+  ['logcategory_0',['LogCategory',['../namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5',1,'Faro']]]
 ];

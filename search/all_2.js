@@ -1,7 +1,7 @@
 var searchData=
 [
   ['cast_0',['Cast',['../classFaro_1_1Array.html#ac84b7a35459b17824895e090bfd95e06',1,'Faro::Array']]],
-  ['category_1',['category',['../structFaro_1_1LogMessage.html#a9e453bdbddd4df34db685efe6ebd0784',1,'Faro::LogMessage']]],
+  ['category_1',['category',['../structFaro_1_1LogMessage.html#afff7bff420204ff9ad513b11c1a4ade8',1,'Faro::LogMessage']]],
   ['cbegin_2',['cbegin',['../classFaro_1_1Map.html#aedcdef1093a5266493a58a127f66e521',1,'Faro::Map']]],
   ['cend_3',['cend',['../classFaro_1_1Map.html#a4f28c01238b46f82c656a8c0f9a9ff26',1,'Faro::Map']]],
   ['center_4',['Center',['../structFaro_1_1IRect.html#a561babf165d63f90b1e8173c48f0a3ce',1,'Faro::IRect']]],

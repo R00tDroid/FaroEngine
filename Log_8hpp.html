@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.b08e389 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.a39f76d (main)</span>
    </div>
   </td>
  </tr>
@@ -67,18 +67,28 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a> &#124;
 <a href="#typedef-members">Typedefs</a> &#124;
-<a href="#enum-members">Enumerations</a> &#124;
-<a href="#func-members">Functions</a>  </div>
+<a href="#enum-members">Enumerations</a>  </div>
   <div class="headertitle"><div class="title">Log.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;<a class="el" href="String_8hpp_source.html">Containers/String.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="Array_8hpp_source.html">Containers/Array.hpp</a>&gt;</code><br />
 </div>
 <p><a href="Log_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1LogTag.html">Faro::LogTag</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Defines a logging tag. To be defined and declared with LOG_DEFINITION and LOG_DECLARATION.  <a href="structFaro_1_1LogTag.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Logger.html">Faro::Logger</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Class responsible for all logging related functionality.  <a href="classFaro_1_1Logger.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
 Namespaces</h2></td></tr>
 <tr class="memitem:namespaceFaro"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html">Faro</a></td></tr>
@@ -88,38 +98,29 @@ Namespaces</h2></td></tr>
 Macros</h2></td></tr>
 <tr class="memitem:acf5ee802b13a496f0fcae380b3f3dc2b"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Log_8hpp.html#acf5ee802b13a496f0fcae380b3f3dc2b">LOG_DEFINITION</a>(Tag)&#160;&#160;&#160;extern LogTag Tag;</td></tr>
 <tr class="separator:acf5ee802b13a496f0fcae380b3f3dc2b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30525f312abf3bb8b7403ec2cf64b3e5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Log_8hpp.html#a30525f312abf3bb8b7403ec2cf64b3e5">LOG_DECLARATION</a>(Tag,  Header)&#160;&#160;&#160;LogTag Tag = #Header;</td></tr>
+<tr class="memitem:a30525f312abf3bb8b7403ec2cf64b3e5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Log_8hpp.html#a30525f312abf3bb8b7403ec2cf64b3e5">LOG_DECLARATION</a>(Tag,  Header)&#160;&#160;&#160;LogTag Tag(#Header);</td></tr>
 <tr class="separator:a30525f312abf3bb8b7403ec2cf64b3e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
 Typedefs</h2></td></tr>
-<tr class="memitem:adbadbd48c5fa8621c4ddd6e35e1a41e5"><td class="memItemLeft" align="right" valign="top">typedef String&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#adbadbd48c5fa8621c4ddd6e35e1a41e5">Faro::LogTag</a></td></tr>
-<tr class="separator:adbadbd48c5fa8621c4ddd6e35e1a41e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03b407277a6f0ffd42668ee54f5d2b9f"><td class="memItemLeft" align="right" valign="top">typedef Function&lt; void(LogTag, ELogCategory, String)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a03b407277a6f0ffd42668ee54f5d2b9f">Faro::LogSink</a></td></tr>
-<tr class="separator:a03b407277a6f0ffd42668ee54f5d2b9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f1cbf507ed002e2748e282dab455461"><td class="memItemLeft" align="right" valign="top">typedef Function&lt; void(const LogTag &amp;, LogCategory, const String &amp;)&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a8f1cbf507ed002e2748e282dab455461">Faro::LogSink</a></td></tr>
+<tr class="memdesc:a8f1cbf507ed002e2748e282dab455461"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging callback that is executed by <a class="el" href="classFaro_1_1Logger.html" title="Class responsible for all logging related functionality.">Logger</a>.  <a href="namespaceFaro.html#a8f1cbf507ed002e2748e282dab455461">More...</a><br /></td></tr>
+<tr class="separator:a8f1cbf507ed002e2748e282dab455461"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
-<tr class="memitem:a8955838e5e64cbdce8086c5839ebe35b"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35b">Faro::ELogCategory</a> { <br />
-&#160;&#160;<a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35baad33e372063d14b4258c8772c1a959c6">Faro::LC_Trace</a>
-, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35ba497e77859c2408e11f037b1a1763779f">Faro::LC_Debug</a>
-, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35ba6ed31d364fac6665261a1dd971c7e7a4">Faro::LC_Info</a>
-, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35ba3cc81afc466cdeb3871bfaf4c792d2cb">Faro::LC_Warning</a>
+<tr class="memitem:a75397b2f115c21c177d1e8a24beed3a5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5">Faro::LogCategory</a> { <br />
+&#160;&#160;<a class="el" href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5aad33e372063d14b4258c8772c1a959c6">Faro::LC_Trace</a>
+, <a class="el" href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5a497e77859c2408e11f037b1a1763779f">Faro::LC_Debug</a>
+, <a class="el" href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5a6ed31d364fac6665261a1dd971c7e7a4">Faro::LC_Info</a>
+, <a class="el" href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5a3cc81afc466cdeb3871bfaf4c792d2cb">Faro::LC_Warning</a>
 , <br />
-&#160;&#160;<a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35bace1b11594792a0579e346905002d0ba3">Faro::LC_Error</a>
-, <a class="el" href="namespaceFaro.html#a8955838e5e64cbdce8086c5839ebe35baaf0a74f01afe09f0c73437f17f5878bc">Faro::LC_Fatal</a>
+&#160;&#160;<a class="el" href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5ace1b11594792a0579e346905002d0ba3">Faro::LC_Error</a>
+, <a class="el" href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5aaf0a74f01afe09f0c73437f17f5878bc">Faro::LC_Fatal</a>
 <br />
  }</td></tr>
-<tr class="separator:a8955838e5e64cbdce8086c5839ebe35b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
-Functions</h2></td></tr>
-<tr class="memitem:a6ab18fbbcc81e4caa036d09ab8a45e44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a6ab18fbbcc81e4caa036d09ab8a45e44">Faro::Log</a> (LogTag tag, ELogCategory category, String format,...)</td></tr>
-<tr class="separator:a6ab18fbbcc81e4caa036d09ab8a45e44"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60b28e5fddd991f757660094d5137583"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a60b28e5fddd991f757660094d5137583">Faro::AddLogSink</a> (LogSink logSink)</td></tr>
-<tr class="separator:a60b28e5fddd991f757660094d5137583"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20817b7af9d68e5a4b1cc0e93e7f1a1a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a20817b7af9d68e5a4b1cc0e93e7f1a1a">Faro::LockLogSinks</a> ()</td></tr>
-<tr class="separator:a20817b7af9d68e5a4b1cc0e93e7f1a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memdesc:a75397b2f115c21c177d1e8a24beed3a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging category.  <a href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5">More...</a><br /></td></tr>
+<tr class="separator:a75397b2f115c21c177d1e8a24beed3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
 <a id="a30525f312abf3bb8b7403ec2cf64b3e5" name="a30525f312abf3bb8b7403ec2cf64b3e5"></a>
@@ -143,7 +144,7 @@ Functions</h2></td></tr>
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td>&#160;&#160;&#160;LogTag Tag = #Header;</td>
+          <td></td><td>&#160;&#160;&#160;LogTag Tag(#Header);</td>
         </tr>
       </table>
 </div><div class="memdoc">
