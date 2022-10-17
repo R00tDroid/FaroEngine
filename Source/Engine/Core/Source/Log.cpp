@@ -2,6 +2,7 @@
 
 namespace Faro
 {
+    /// @internal
     struct LogMessage
     {
         const LogTag& tag;
