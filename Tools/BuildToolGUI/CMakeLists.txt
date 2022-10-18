@@ -15,6 +15,8 @@ file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
 )
 
+file(COPY ${CMAKE_CURRENT_LIST_DIR}/../../Assets/Logo/Logo_32.png DESTINATION ${CMAKE_CURRENT_LIST_DIR}/Resources/img)
+
 file(GLOB_RECURSE ResourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Resources/*.*
 )
