@@ -51,7 +51,18 @@ body
     height: 36px;
 }
 
-.titlebar button
+.titlebar > img 
+{
+    position: absolute;
+
+    top: 5px;
+    left: 5px;
+
+    width: 26px;
+    height: 26px;
+}
+
+.titlebar button 
 {
     background: var(--interact-idle);
     float: right;
@@ -102,7 +113,7 @@ body
 
     position: absolute;
     top: 50%;
-    left: 10px;
+    left: 40px;
     transform: translate(0, -50%);
 }
 
