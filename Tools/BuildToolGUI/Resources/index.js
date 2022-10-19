@@ -67,11 +67,11 @@ Window.this.on('setProjectPath', (event) => {
     document.getElementById("projectPath").innerHTML = event.data;
 });
 
-Window.this.on('enableUI', (event) => {
-    var enable = event.data === 'true';
-    document.getElementById("runGenerate").disabled = !enable;
-    document.getElementById("runClean").disabled = !enable;
-    document.getElementById("runBuild").disabled = !enable;
+Window.this.on('lockConsole', (event) => {
+    var locked = event.data === 'true';
+    document.getElementById("runGenerate").disabled = locked;
+    document.getElementById("runClean").disabled = locked;
+    document.getElementById("runBuild").disabled = locked;
 });
 
 var dragMouseX, dragMouseY; 

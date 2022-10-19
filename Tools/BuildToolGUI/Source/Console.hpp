@@ -16,7 +16,7 @@ private:
     static void Append(std::wstring string);
     static void AppendLine(std::wstring string);
 
-    static void EnableUI(bool enable);
+    static void LockConsole(bool lock);
 
     static std::filesystem::path buildTool;
 };
