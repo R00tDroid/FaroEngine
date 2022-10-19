@@ -26,7 +26,7 @@ void Console::ExecuteCommand(std::wstring command, std::wstring platform, std::w
         return;
     }
 
-    InvokeCommand(L"\"" + buildTool.wstring() + L"\" " + command + L" -project " + project + L" -platform " + platform + L" -" + config);
+    InvokeCommand(L"\"" + buildTool.wstring() + L"\" " + command + L" -project \"" + project + L"\" -platform " + platform + L" -" + config);
 }
 
 std::string Convert(std::wstring string)
