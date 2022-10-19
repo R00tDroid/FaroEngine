@@ -15,6 +15,11 @@ function SetWindowState(state)
     Window.this.AppWindow.SetWindowState(state);
 }
 
+function OpenProjectFile(currentPath)
+{
+    Window.this.AppWindow.OpenProjectFile(currentPath);
+}
+
 function UpdateConsoleHeight()
 {
     var pageHeight = document.getElementsByClassName("page")[0].offsetHeight;
@@ -43,6 +48,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById("closeButton").onclick = function () {
         SetWindowState("close");
+    };
+
+    document.getElementById("openFileButton").onclick = function () {
+        var projectPath = document.getElementById("projectPath").value;
+        OpenProjectFile(projectPath);
     };
 
     window.addEventListener('resize', UpdateConsoleHeight);
