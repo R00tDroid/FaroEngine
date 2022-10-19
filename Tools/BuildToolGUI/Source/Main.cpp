@@ -40,10 +40,7 @@ int uimain(std::function<int()> run)
         projectPath = std::filesystem::absolute(projectPath);
         projectPath = std::filesystem::weakly_canonical(projectPath);
 
-        BEHAVIOR_EVENT_PARAMS params = { 0 };
-        params.name = WSTR("setProjectPath");
-        params.data = projectPath.string();
-        AppWindow::broadcast_event(params);
+        window->SetProjectPath(projectPath.wstring());
     }
 
     Console::Init();

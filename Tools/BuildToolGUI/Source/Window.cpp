@@ -26,6 +26,11 @@ void AppWindow::SetWindowState(sciter::string state)
     }  
 }
 
+void AppWindow::OpenProjectFile(sciter::string currentFile)
+{
+
+}
+
 void AppWindow::GetWindowSize(int& x, int& y)
 {
     RECT rect;
@@ -37,4 +42,12 @@ void AppWindow::GetWindowSize(int& x, int& y)
 void AppWindow::SetWindowPosition(int x, int y)
 {
     SetWindowPos(get_hwnd(), HWND_TOP, x, y, 0, 0, SWP_NOSIZE);
+}
+
+void AppWindow::SetProjectPath(std::wstring path)
+{
+    BEHAVIOR_EVENT_PARAMS params = { 0 };
+    params.name = WSTR("setProjectPath");
+    params.data = path;
+    AppWindow::broadcast_event(params);
 }

@@ -10,7 +10,8 @@ public:
     SOM_FUNCS(
         SOM_FUNC(InvokeCommand),
         SOM_FUNC(MoveWindow),
-        SOM_FUNC(SetWindowState)
+        SOM_FUNC(SetWindowState),
+        SOM_FUNC(OpenProjectFile)
     )
     SOM_PASSPORT_END
 
@@ -20,7 +21,11 @@ public:
 
     void SetWindowState(sciter::string state);
 
+    void OpenProjectFile(sciter::string currentFile);
+
     void GetWindowSize(int& x, int& y);
 
     void SetWindowPosition(int x, int y);
+
+    void SetProjectPath(std::wstring path);
 };
