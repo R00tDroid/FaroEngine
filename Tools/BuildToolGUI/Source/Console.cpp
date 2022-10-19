@@ -8,10 +8,10 @@ std::filesystem::path Console::buildTool;
 
 void Console::Init()
 {
-    wchar_t szPath[MAX_PATH];
-    GetModuleFileNameW(nullptr, szPath, MAX_PATH);
+    wchar_t binaryPath[MAX_PATH];
+    GetModuleFileNameW(nullptr, binaryPath, MAX_PATH);
 
-    std::filesystem::path exePath = szPath;
+    std::filesystem::path exePath = binaryPath;
     buildTool = exePath.parent_path() / "FaroBuildTool.exe";
 }
 
