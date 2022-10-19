@@ -18,7 +18,7 @@ namespace Utility
 {
     inline void Print(std::string log)
     {
-        std::cout << log.c_str();
+        std::cout << log.c_str() << std::flush;
         #ifdef WIN32
         OutputDebugStringA(log.c_str());
         #endif

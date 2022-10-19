@@ -1,0 +1,23 @@
+#include "ApplicationResources.h"
+
+IDI_ICON1 ICON "../../../Assets/Logo/Logo.ico"
+
+1 VERSIONINFO
+FILEVERSION     @FaroEngineVersionShortComma@
+PRODUCTVERSION  @FaroEngineVersionShortComma@
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "080904E4"
+    BEGIN
+      VALUE "CompanyName", "R00tDroid"
+      VALUE "ProductName", "Faro Build Tool GUI"
+      VALUE "ProductVersion", "@FaroEngineVersionLong@"
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    VALUE "Translation", 0x809, 1252
+  END
+END

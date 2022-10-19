@@ -3,6 +3,8 @@ project(FaroTools)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../CMake/ProjectVersion.cmake)
 
+string(REPLACE "." "," FaroEngineVersionShortComma ${FaroEngineVersionShort})
+
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_LIST_DIR}/../Bin")
 
 foreach(ConfigName ${CMAKE_CONFIGURATION_TYPES})
@@ -13,5 +15,9 @@ foreach(ConfigName ${CMAKE_CONFIGURATION_TYPES})
 endforeach()
 
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/BuildTool")
+
+if(MSVC)
+    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/BuildToolGUI")
+endif()
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.cpp.in ${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.generated.cpp @ONLY)

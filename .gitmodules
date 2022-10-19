@@ -7,3 +7,6 @@
 [submodule "Tools/BuildTool/Dependencies/tinyxml2"]
 	path = Tools/BuildTool/Dependencies/tinyxml2
 	url = https://github.com/leethomason/tinyxml2.git
+[submodule "Tools/BuildToolGUI/Dependencies/sciter"]
+	path = Tools/BuildToolGUI/Dependencies/sciter
+	url = https://gitlab.com/sciter-engine/sciter-js-sdk.git
