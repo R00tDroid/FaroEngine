@@ -1,6 +1,8 @@
 function InvokeCommand(command, project)
 {
-    Window.this.AppWindow.InvokeCommand(command, "Windows x64", "Debug", project);
+    var platform = document.getElementById("selectPlatform");
+    var config = document.getElementById("selectConfig");
+    Window.this.AppWindow.InvokeCommand(command, platform.value, config.value, project);
 }
 
 function MoveWindow(dx, dy)
