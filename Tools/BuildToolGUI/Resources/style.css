@@ -6,10 +6,12 @@
     --background-titlebar: #102027;
     --interact-idle: #00ADB5;
     --interact-hover: #00949c;
+    --interact-disabled: #016b70;
     --text-title: #ffffff;
     --text-interact: #ffffff;
     --text-console: #ffffff;
-  }
+    --text-disabled: #989b9c;
+}
 
 html 
 {
@@ -296,3 +298,8 @@ select option:hover
     right: 6px;
 }
 
+button:disabled, button:disabled:hover
+{
+    background: var(--interact-disabled);
+    color: var(--text-disabled)
+}

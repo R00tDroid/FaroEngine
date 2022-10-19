@@ -17,6 +17,7 @@ void Console::Init()
 
 void Console::ExecuteCommand(std::wstring command, std::wstring platform, std::wstring config, std::wstring project)
 {
+    EnableUI(false);
     Clear();
 
     if (!std::filesystem::exists(buildTool))
@@ -77,6 +78,7 @@ void Console::InvokeCommand(std::wstring command)
             CloseHandle(processInfo.hThread);
 
             AppendLine(L"Failed to invoke command");
+            EnableUI(true);
             invokeLock.unlock();
             return;
         }
@@ -102,6 +104,7 @@ void Console::InvokeCommand(std::wstring command)
 
         AppendLine(L"Result: " + std::to_wstring((int)exitCode));
 
+        EnableUI(true);
         invokeLock.unlock();
     });
 
@@ -136,4 +139,12 @@ void Console::Append(std::wstring string)
 void Console::AppendLine(std::wstring string)
 {
     Append(string + L"\n");
+}
+
+void Console::EnableUI(bool enable)
+{
+    BEHAVIOR_EVENT_PARAMS params = { 0 };
+    params.name = WSTR("enableUI");
+    params.data = enable ? L"true" : L"false";
+    AppWindow::broadcast_event(params);
 }

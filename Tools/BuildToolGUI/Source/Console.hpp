@@ -16,5 +16,7 @@ private:
     static void Append(std::wstring string);
     static void AppendLine(std::wstring string);
 
+    static void EnableUI(bool enable);
+
     static std::filesystem::path buildTool;
 };
