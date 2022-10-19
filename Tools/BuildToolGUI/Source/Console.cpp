@@ -102,7 +102,14 @@ void Console::InvokeCommand(std::wstring command)
         CloseHandle(processInfo.hProcess);
         CloseHandle(processInfo.hThread);
 
-        AppendLine(L"Result: " + std::to_wstring((int)exitCode));
+        if (exitCode == 0)
+        {
+            AppendLine(L"Task completed successfully");
+        }
+        else
+        {
+            AppendLine(L"Task failed with status code: " + std::to_wstring((int)exitCode));
+        }
 
         LockConsole(false);
         invokeLock.unlock();
