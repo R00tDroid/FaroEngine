@@ -1,9 +1,9 @@
 #include "Window.hpp"
 #include "Console.hpp"
 
-void AppWindow::InvokeCommand(sciter::string command, sciter::string project)
+void AppWindow::InvokeCommand(sciter::string command, sciter::string platform, sciter::string config, sciter::string project)
 {
-    Console::ExecuteCommand(command, project);
+    Console::ExecuteCommand(command, platform, config, project);
 }
 
 void AppWindow::MoveWindow(sciter::string dx, sciter::string dy)

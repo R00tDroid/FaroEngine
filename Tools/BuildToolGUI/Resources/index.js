@@ -1,6 +1,6 @@
 function InvokeCommand(command, project)
 {
-    Window.this.AppWindow.InvokeCommand(command, project);
+    Window.this.AppWindow.InvokeCommand(command, "Windows x64", "Debug", project);
 }
 
 function MoveWindow(dx, dy)

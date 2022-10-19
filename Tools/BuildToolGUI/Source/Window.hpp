@@ -14,7 +14,7 @@ public:
     )
     SOM_PASSPORT_END
 
-    void InvokeCommand(sciter::string command, sciter::string project);
+    void InvokeCommand(sciter::string command, sciter::string platform, sciter::string config, sciter::string project);
 
     void MoveWindow(sciter::string dx, sciter::string dy);
 
