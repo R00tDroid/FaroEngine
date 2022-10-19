@@ -9,7 +9,6 @@ endif()
 
 message("Engine version: ${FaroEngineVersionFull}")
 
-configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/Version.hpp.in ${CMAKE_CURRENT_LIST_DIR}/Source/Version.generated.hpp @ONLY)
 configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/ApplicationResources.rc.in ${CMAKE_CURRENT_LIST_DIR}/Source/ApplicationResources.generated.rc @ONLY)
 
 file(GLOB_RECURSE SourceFiles
