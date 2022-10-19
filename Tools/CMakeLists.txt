@@ -3,6 +3,8 @@ project(FaroTools)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../CMake/ProjectVersion.cmake)
 
+string(REPLACE "." "," FaroEngineVersionShortComma ${FaroEngineVersionShort})
+
 set(EXECUTABLE_OUTPUT_PATH "${CMAKE_CURRENT_LIST_DIR}/../Bin")
 
 foreach(ConfigName ${CMAKE_CONFIGURATION_TYPES})
