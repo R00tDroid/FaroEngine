@@ -24,6 +24,6 @@ namespace Faro
 
         virtual GraphicsCommandList* CreateCommandList() = 0;
 
-        virtual GraphicsBuffer* CreateBuffer(GraphicsBufferDesc desc) = 0;
+        virtual GraphicsBuffer* CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc) = 0;
     };
 }
