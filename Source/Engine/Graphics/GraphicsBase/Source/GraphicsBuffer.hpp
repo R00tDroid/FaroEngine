@@ -40,6 +40,19 @@ namespace Faro
         struct GeometryBufferDesc
         {
         } geometryBuffer;
+
+        static GraphicsBufferDesc Texture2D(Int2D resolution, bool shaderResource = false, bool updateable = false, bool renderTarget = false)
+        {
+            GraphicsBufferDesc desc;
+            desc.resourceType = RT_Texture;
+            desc.dataSize = resolution.x * resolution.y * 4;
+            desc.stride = resolution.x * 4;
+            desc.texture.resolution = resolution;
+            desc.texture.shaderResource = shaderResource;
+            desc.texture.updateable = updateable;
+            desc.texture.renderTarget = shaderResource;
+            return desc;
+        }
     };
 
     class GraphicsBuffer : public IGraphicsAdapterChild
