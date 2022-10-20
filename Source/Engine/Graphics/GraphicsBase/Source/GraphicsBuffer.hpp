@@ -8,8 +8,7 @@ namespace Faro
     enum HeapType
     {
         HT_Upload,
-        HT_Remote,
-        HT_UploadToRemote
+        HT_Remote
     };
 
     enum HeapResourceType
@@ -44,7 +43,7 @@ namespace Faro
         } geometryBuffer;
     };
 
-    class GraphicsHeap : public IGraphicsAdapterChild
+    class GraphicsBuffer : public IGraphicsAdapterChild
     {
     public:
         const GraphicsHeapDesc& GetDesc();
@@ -53,17 +52,5 @@ namespace Faro
 
     private:
         GraphicsHeapDesc desc;
-    };
-
-    class GraphicsUploadHeap : public GraphicsHeap
-    {
-    };
-
-    class GraphicsRemoteHeap : public GraphicsHeap
-    {
-    };
-
-    class GraphicsUploadToRemoteHeap : public GraphicsHeap
-    {
     };
 }
