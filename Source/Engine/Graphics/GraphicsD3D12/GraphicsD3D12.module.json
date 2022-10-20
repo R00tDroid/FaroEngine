@@ -3,7 +3,7 @@
         "Source"
     ],
     "PrivateIncludeDirectories": [
-        "Thirdparty/DirectX-Headers"
+        "Thirdparty/DirectX-Headers/include"
     ],
     "Dependencies": [
         "GraphicsBase"
