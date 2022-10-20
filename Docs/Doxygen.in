@@ -17,6 +17,8 @@ STRIP_CODE_COMMENTS = NO
 
 USE_MDFILE_AS_MAINPAGE = Index.md
 
+EXCLUDE_PATTERNS = */Thirdparty/*
+
 INPUT += ../Source/Engine
 INPUT += Index.md
 INPUT += Style.md
