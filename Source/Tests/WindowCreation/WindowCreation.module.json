@@ -5,7 +5,8 @@
     "PrivateIncludeDirectories": [
     ],
     "Dependencies": [
-        "PlatformWindows"
+      "PlatformWindows",
+      "GraphicsD3D12"
     ],
     "SourceFilters": [
         "Source/**/*.cpp",
