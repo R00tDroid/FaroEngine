@@ -1,8 +1,7 @@
 #include "GraphicsBufferD3D12.hpp"
 #include "GraphicsAdapterD3D12.hpp"
 #include <directx/d3dx12.h>
-
-#include "Memory/MemoryManager.hpp"
+#include <Memory/MemoryManager.hpp>
 
 namespace Faro
 {

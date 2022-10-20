@@ -1,7 +1,6 @@
 #pragma once
 #include <GraphicsAdapter.hpp>
 #include <d3d12.h>
-#include <dxgi.h>
 
 namespace Faro
 {
