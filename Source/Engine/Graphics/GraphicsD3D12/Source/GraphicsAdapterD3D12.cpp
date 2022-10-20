@@ -3,6 +3,8 @@
 #include "GraphicsCommandListD3D12.hpp"
 #include <Memory/MemoryManager.hpp>
 
+#include "GraphicsBufferD3D12.hpp"
+
 namespace Faro
 {
     void GraphicsAdapterD3D12::Init(GraphicsAdapterDesc& inDesc)
@@ -58,10 +60,21 @@ namespace Faro
         return commandList;
     }
 
-    GraphicsHeap* GraphicsAdapterD3D12::CreateHeap(GraphicsCommandList* commandList, GraphicsHeapDesc desc)
+    GraphicsBuffer* GraphicsAdapterD3D12::CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc)
     {
-        GraphicsCommandListD3D12* commandList = MemoryManager::New<GraphicsCommandListD3D12>();
-        commandList->Init(this);
-        return commandList;
+        GraphicsBuffer* buffer = nullptr;
+
+        switch (type)
+        {
+            case BT_Upload: { buffer = MemoryManager::New<GraphicsBufferUploadD3D12>(); }
+            case BT_Remote: { buffer = MemoryManager::New<GraphicsBufferRemoteD3D12>(); }
+        }
+
+        if (buffer != nullptr)
+        {
+            buffer->Init(this, desc);
+        }
+
+        return buffer;
     }
 }

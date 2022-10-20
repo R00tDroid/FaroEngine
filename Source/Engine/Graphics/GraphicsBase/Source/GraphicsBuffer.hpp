@@ -7,16 +7,16 @@ namespace Faro
 {
     enum GraphicsBufferType
     {
-        HT_Upload,
-        HT_Remote
+        BT_Upload,
+        BT_Remote
     };
 
     enum GraphicsResourceType
     {
-        HRT_Texture,
-        HRT_ConstantBuffer,
-        HRT_VertexBuffer,
-        HRT_IndexBuffer
+        RT_Texture,
+        RT_ConstantBuffer,
+        RT_VertexBuffer,
+        RT_IndexBuffer
     };
 
     struct GraphicsBufferDesc 
@@ -47,7 +47,7 @@ namespace Faro
     public:
         const GraphicsBufferDesc& GetDesc();
 
-        void Init(GraphicsAdapter* adapter, GraphicsCommandList* commandList, GraphicsBufferDesc desc);        
+        void Init(GraphicsAdapter* adapter, GraphicsBufferDesc desc);        
 
     private:
         GraphicsBufferDesc desc;
