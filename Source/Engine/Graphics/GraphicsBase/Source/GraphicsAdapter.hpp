@@ -1,6 +1,6 @@
 #pragma once
 #include <Containers/String.hpp>
-#include <GraphicsHeap.hpp>
+#include <GraphicsBuffer.hpp>
 
 namespace Faro
 {
@@ -24,6 +24,6 @@ namespace Faro
 
         virtual GraphicsCommandList* CreateCommandList() = 0;
 
-        virtual GraphicsHeap* CreateHeap(GraphicsCommandList* commandList, GraphicsHeapDesc desc) = 0;
+        virtual GraphicsBuffer* CreateBuffer(GraphicsBufferDesc desc) = 0;
     };
 }

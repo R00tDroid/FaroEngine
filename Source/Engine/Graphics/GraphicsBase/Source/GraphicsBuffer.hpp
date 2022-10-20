@@ -5,13 +5,13 @@
 
 namespace Faro
 {
-    enum HeapType
+    enum GraphicsBufferType
     {
         HT_Upload,
         HT_Remote
     };
 
-    enum HeapResourceType
+    enum GraphicsResourceType
     {
         HRT_Texture,
         HRT_ConstantBuffer,
@@ -19,10 +19,9 @@ namespace Faro
         HRT_IndexBuffer
     };
 
-    struct GraphicsHeapDesc 
+    struct GraphicsBufferDesc 
     {
-        HeapType type;
-        HeapResourceType resourceType;
+        GraphicsResourceType resourceType;
         uint32 dataSize = 0;
         uint32 stride = 0;
 
@@ -46,11 +45,11 @@ namespace Faro
     class GraphicsBuffer : public IGraphicsAdapterChild
     {
     public:
-        const GraphicsHeapDesc& GetDesc();
+        const GraphicsBufferDesc& GetDesc();
 
-        void Init(GraphicsAdapter* adapter, GraphicsCommandList* commandList, GraphicsHeapDesc desc);        
+        void Init(GraphicsAdapter* adapter, GraphicsCommandList* commandList, GraphicsBufferDesc desc);        
 
     private:
-        GraphicsHeapDesc desc;
+        GraphicsBufferDesc desc;
     };
 }

@@ -2,12 +2,12 @@
 
 namespace Faro
 {
-    const GraphicsHeapDesc& GraphicsBuffer::GetDesc()
+    const GraphicsBufferDesc& GraphicsBuffer::GetDesc()
     {
         return desc;
     }
 
-    void GraphicsBuffer::Init(GraphicsAdapter* adapter, GraphicsCommandList*, GraphicsHeapDesc inDesc)
+    void GraphicsBuffer::Init(GraphicsAdapter* adapter, GraphicsCommandList*, GraphicsBufferDesc inDesc)
     {
         desc = inDesc;
         IGraphicsAdapterChild::Init(adapter);
