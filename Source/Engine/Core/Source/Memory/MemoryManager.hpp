@@ -44,7 +44,8 @@ namespace Faro
             Set<T>(address, 0, amount);
         }
 
-        static void SafeDelete(IObject*& objectPtr)
+        template<class T>
+        static void SafeDelete(T*& objectPtr)
         {
             if (objectPtr != nullptr)
             {
