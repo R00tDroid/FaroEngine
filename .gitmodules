@@ -10,3 +10,6 @@
 [submodule "Tools/BuildToolGUI/Dependencies/sciter"]
 	path = Tools/BuildToolGUI/Dependencies/sciter
 	url = https://gitlab.com/sciter-engine/sciter-js-sdk.git
+[submodule "Source/Engine/Graphics/GraphicsD3D12/Thirdparty/DirectX-Headers"]
+	path = Source/Engine/Graphics/GraphicsD3D12/Thirdparty/DirectX-Headers
+	url = https://github.com/microsoft/DirectX-Headers.git
