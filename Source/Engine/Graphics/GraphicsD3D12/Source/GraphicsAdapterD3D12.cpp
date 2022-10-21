@@ -1,9 +1,9 @@
 #include "GraphicsAdapterD3D12.hpp"
-#include "GraphicsLogD3D12.hpp"
-#include "GraphicsCommandListD3D12.hpp"
 #include <Memory/MemoryManager.hpp>
-
-#include "GraphicsBufferD3D12.hpp"
+#include <GraphicsLogD3D12.hpp>
+#include <GraphicsCommandListD3D12.hpp>
+#include <GraphicsBufferD3D12.hpp>
+#include <GraphicsFenceD3D12.hpp>
 
 namespace Faro
 {
@@ -76,5 +76,12 @@ namespace Faro
         }
 
         return buffer;
+    }
+
+    GraphicsFence* GraphicsAdapterD3D12::CreateFence()
+    {
+        GraphicsFenceD3D12* fence = MemoryManager::New<GraphicsFenceD3D12>();
+        fence->Init(this);
+        return fence;
     }
 }
