@@ -24,6 +24,9 @@ namespace Faro
 
         GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&gpuResource));
         gpuResource->SetName(L"GraphicsBufferUploadD3D12");
+
+        CD3DX12_RANGE readRange(0, 0);
+        gpuResource->Map(0, &readRange, reinterpret_cast<void**>(&cpuAddress));
     }
 
     void GraphicsBufferUploadD3D12::Upload(uint8* data)
