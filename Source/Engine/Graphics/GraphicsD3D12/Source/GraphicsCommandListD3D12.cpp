@@ -43,6 +43,8 @@ namespace Faro
 
     void GraphicsCommandListD3D12::SetResourceState(GraphicsBuffer* bufferPtr, GraphicsResourceState state)
     {
+        if (bufferPtr->GetResourceState() == state) return;
+
         IGraphicsBufferD3D12* buffer = static_cast<IGraphicsBufferD3D12*>(bufferPtr);
         buffer->TransitionResource(commandList, state);
     }
