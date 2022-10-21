@@ -53,5 +53,11 @@ namespace Faro
                 objectPtr = nullptr;
             }
         }
+
+        template<class T>
+        static void Copy(T* source, T* destination, uint32 elementCount = 1)
+        {
+            memcpy((void*)destination, (void*)source, sizeof(T) * elementCount);
+        }
     };
 }
