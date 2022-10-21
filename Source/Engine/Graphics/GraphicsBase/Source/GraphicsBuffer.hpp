@@ -60,7 +60,9 @@ namespace Faro
     public:
         const GraphicsBufferDesc& GetDesc();
 
-        void Init(GraphicsAdapter* adapter, GraphicsBufferDesc desc);        
+        void Init(GraphicsAdapter* adapter, GraphicsBufferDesc desc);     
+        
+        virtual void Upload(uint8* data) = 0;
 
     private:
         GraphicsBufferDesc desc;

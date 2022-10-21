@@ -18,12 +18,16 @@ namespace Faro
     {
     public:
         void Init() override;
+
+        void Upload(uint8* data) override;
     };
 
     class GraphicsBufferRemoteD3D12 : public IGraphicsBufferD3D12
     {
     public:
         void Init() override;
+
+        void Upload(uint8*) override {}
 
     private:
         D3D12_RESOURCE_DESC GetNativeDesc();

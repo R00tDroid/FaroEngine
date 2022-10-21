@@ -26,6 +26,11 @@ namespace Faro
         gpuResource->SetName(L"GraphicsBufferUploadD3D12");
     }
 
+    void GraphicsBufferUploadD3D12::Upload(uint8* data)
+    {
+        MemoryManager::Copy<uint8>(data, cpuAddress, GetDesc().dataSize);
+    }
+
     void GraphicsBufferRemoteD3D12::Init()
     {
         IGraphicsAdapterChild::Init();
