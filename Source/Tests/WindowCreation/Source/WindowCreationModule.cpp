@@ -18,6 +18,8 @@ namespace Faro
         Array<GraphicsAdapterDesc> adapters = GGraphics->GetAdapters();
         GraphicsAdapter* adapter = GGraphics->CreateAdapter(adapters[0]);
 
+        GraphicsFence* fence = adapter->CreateFence();
+
         LogWindowCreationTest.Log(LC_Info, "Creating commandlist...");
         GraphicsCommandList* commandList = adapter->CreateCommandList();
         commandList->Reset();
@@ -30,12 +32,20 @@ namespace Faro
         commandList->SetResourceState(uploadBuffer, RS_Read);
         commandList->SetResourceState(remoteBuffer, RS_CopyDestination);
 
+        LogWindowCreationTest.Log(LC_Info, "Execute commandlsit");
         commandList->Execute();
+
+        LogWindowCreationTest.Log(LC_Info, "Trigger fence");
+        fence->Trigger();
+
+        LogWindowCreationTest.Log(LC_Info, "Wait for fence...");
+        fence->WaitForFinish();
 
         LogWindowCreationTest.Log(LC_Info, "Releasing graphics objects");
         MemoryManager::SafeDelete(remoteBuffer);
         MemoryManager::SafeDelete(uploadBuffer);
         MemoryManager::SafeDelete(commandList);
+        MemoryManager::SafeDelete(fence);
         MemoryManager::SafeDelete(adapter);
 
         LogWindowCreationTest.Log(LC_Info, "Load finished");
