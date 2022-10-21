@@ -1,8 +1,8 @@
 #include "WindowCreationModule.hpp"
 #include <Log.hpp>
 #include <GraphicsInterface.hpp>
-
-#include "Memory/MemoryManager.hpp"
+#include <Memory/MemoryManager.hpp>
+#include <GraphicsCommandList.hpp>
 
 namespace Faro
 {
@@ -20,11 +20,17 @@ namespace Faro
 
         LogWindowCreationTest.Log(LC_Info, "Creating commandlist...");
         GraphicsCommandList* commandList = adapter->CreateCommandList();
+        commandList->Reset();
 
         LogWindowCreationTest.Log(LC_Info, "Creating buffers...");
         GraphicsBufferDesc bufferDesc = GraphicsBufferDesc::Texture2D({ 400, 300 }, true, false, false);
         GraphicsBuffer* uploadBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Upload, bufferDesc);
         GraphicsBuffer* remoteBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Remote, bufferDesc);
+
+        commandList->SetResourceState(uploadBuffer, RS_Read);
+        commandList->SetResourceState(remoteBuffer, RS_CopyDestination);
+
+        commandList->Execute();
 
         LogWindowCreationTest.Log(LC_Info, "Releasing graphics objects");
         MemoryManager::SafeDelete(remoteBuffer);
