@@ -8,6 +8,7 @@ namespace Faro
     enum GraphicsResourceState
     {
         RS_Unknown,
+        RS_Read,
         RS_CopySource,
         RS_CopyDestination,
         RS_RenderTarget,
