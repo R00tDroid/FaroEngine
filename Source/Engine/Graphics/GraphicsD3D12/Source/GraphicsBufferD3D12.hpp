@@ -9,6 +9,10 @@ namespace Faro
     public:
         void Destroy() override;
 
+        void TransitionResource(ID3D12GraphicsCommandList* commandList, GraphicsResourceState state);
+
+        ID3D12Resource* GetResource();
+
     protected:
         uint8* cpuAddress = nullptr;
         ID3D12Resource* gpuResource = nullptr;

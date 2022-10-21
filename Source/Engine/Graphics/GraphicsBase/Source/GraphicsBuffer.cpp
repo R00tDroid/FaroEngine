@@ -12,4 +12,14 @@ namespace Faro
         desc = inDesc;
         IGraphicsAdapterChild::Init(adapter);
     }
+
+    GraphicsResourceState GraphicsBuffer::GetResourceState()
+    {
+        return state;
+    }
+
+    void GraphicsBuffer::SetResourceState(GraphicsResourceState inState)
+    {
+        state = inState;
+    }
 }

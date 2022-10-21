@@ -5,6 +5,20 @@
 
 namespace Faro
 {
+    D3D12_RESOURCE_STATES Convert(GraphicsResourceState state)
+    {
+        switch (state)
+        {
+            case RS_Unknown: return D3D12_RESOURCE_STATE_COMMON;
+            case RS_CopySource: return D3D12_RESOURCE_STATE_COPY_SOURCE;
+            case RS_CopyDestination: return D3D12_RESOURCE_STATE_COPY_DEST;
+            case RS_RenderTarget: return D3D12_RESOURCE_STATE_RENDER_TARGET;
+            case RS_ShaderResource: return D3D12_RESOURCE_STATE_UNORDERED_ACCESS;
+            case RS_Present: return D3D12_RESOURCE_STATE_PRESENT;
+        }
+        return D3D12_RESOURCE_STATE_COMMON;
+    }
+
     void IGraphicsBufferD3D12::Destroy()
     {
         gpuResource->Release();
@@ -15,6 +29,19 @@ namespace Faro
         GraphicsBuffer::Destroy();
     }
 
+    void IGraphicsBufferD3D12::TransitionResource(ID3D12GraphicsCommandList* commandList, GraphicsResourceState state)
+    {
+        CD3DX12_RESOURCE_BARRIER resourceBarrier = CD3DX12_RESOURCE_BARRIER::Transition(gpuResource, Convert(GetResourceState()), Convert(state));
+        commandList->ResourceBarrier(1, &resourceBarrier);
+
+        SetResourceState(state);
+    }
+
+    ID3D12Resource* IGraphicsBufferD3D12::GetResource()
+    {
+        return gpuResource;
+    }
+
     void GraphicsBufferUploadD3D12::Init()
     {
         IGraphicsAdapterChild::Init();
@@ -22,11 +49,13 @@ namespace Faro
         D3D12_HEAP_PROPERTIES heapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
         D3D12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(GetDesc().dataSize);
 
-        GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr, IID_PPV_ARGS(&gpuResource));
+        GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_COMMON, nullptr, IID_PPV_ARGS(&gpuResource));
         gpuResource->SetName(L"GraphicsBufferUploadD3D12");
 
         CD3DX12_RANGE readRange(0, 0);
         gpuResource->Map(0, &readRange, reinterpret_cast<void**>(&cpuAddress));
+
+        SetResourceState(RS_Unknown);
     }
 
     void GraphicsBufferUploadD3D12::Upload(uint8* data)
@@ -43,6 +72,8 @@ namespace Faro
 
         GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_COMMON, nullptr, IID_PPV_ARGS(&gpuResource));
         gpuResource->SetName(L"GraphicsBufferRemoteD3D12");
+
+        SetResourceState(RS_Unknown);
     }
 
     D3D12_RESOURCE_DESC GraphicsBufferRemoteD3D12::GetNativeDesc()

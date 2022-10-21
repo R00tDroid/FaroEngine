@@ -1,5 +1,6 @@
 #pragma once
-#include "GraphicsAdapterChild.hpp"
+#include <GraphicsAdapterChild.hpp>
+#include <GraphicsBuffer.hpp>
 
 namespace Faro
 {
@@ -8,5 +9,7 @@ namespace Faro
     public:
         virtual void Reset() = 0;
         virtual void Execute() = 0;
+
+        virtual void SetResourceState(GraphicsBuffer* buffer, GraphicsResourceState state) = 0;
     };
 }

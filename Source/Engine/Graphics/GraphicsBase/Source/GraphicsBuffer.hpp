@@ -1,10 +1,20 @@
 #pragma once
 #include <Primitives.hpp>
 #include <Math/Vector2.hpp>
-#include <GraphicsCommandList.hpp>
+#include <GraphicsAdapterChild.hpp>
 
 namespace Faro
 {
+    enum GraphicsResourceState
+    {
+        RS_Unknown,
+        RS_CopySource,
+        RS_CopyDestination,
+        RS_RenderTarget,
+        RS_ShaderResource,
+        RS_Present
+    };
+
     enum GraphicsBufferType
     {
         BT_Upload,
@@ -64,7 +74,13 @@ namespace Faro
         
         virtual void Upload(uint8* data) = 0;
 
+        GraphicsResourceState GetResourceState();
+
+    protected:
+        void SetResourceState(GraphicsResourceState state);
+
     private:
         GraphicsBufferDesc desc;
+        GraphicsResourceState state;
     };
 }

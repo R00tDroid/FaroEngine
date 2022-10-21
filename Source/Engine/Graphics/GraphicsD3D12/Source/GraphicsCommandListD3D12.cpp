@@ -1,5 +1,9 @@
 #include "GraphicsCommandListD3D12.hpp"
+
+#include <directx/d3dx12.h>
+
 #include "GraphicsAdapterD3D12.hpp"
+#include "GraphicsBufferD3D12.hpp"
 
 namespace Faro
 {
@@ -35,5 +39,11 @@ namespace Faro
 
         ID3D12CommandList* CommandLists[] = { commandList };
         GetTypedAdapter<GraphicsAdapterD3D12>()->GetCommandQueue()->ExecuteCommandLists(_countof(CommandLists), CommandLists);
+    }
+
+    void GraphicsCommandListD3D12::SetResourceState(GraphicsBuffer* bufferPtr, GraphicsResourceState state)
+    {
+        IGraphicsBufferD3D12* buffer = static_cast<IGraphicsBufferD3D12*>(bufferPtr);
+        buffer->TransitionResource(commandList, state);
     }
 }
