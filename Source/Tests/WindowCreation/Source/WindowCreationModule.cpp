@@ -32,6 +32,8 @@ namespace Faro
         commandList->SetResourceState(uploadBuffer, RS_Read);
         commandList->SetResourceState(remoteBuffer, RS_CopyDestination);
 
+        commandList->CopyBuffer(uploadBuffer, remoteBuffer);
+
         LogWindowCreationTest.Log(LC_Info, "Execute commandlsit");
         commandList->Execute();
 
