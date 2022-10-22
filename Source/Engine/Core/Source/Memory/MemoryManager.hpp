@@ -44,13 +44,20 @@ namespace Faro
             Set<T>(address, 0, amount);
         }
 
-        static void SafeDelete(IObject*& objectPtr)
+        template<class T>
+        static void SafeDelete(T*& objectPtr)
         {
             if (objectPtr != nullptr)
             {
                 objectPtr->Destroy();
                 objectPtr = nullptr;
             }
+        }
+
+        template<class T>
+        static void Copy(T* source, T* destination, uint32 elementCount = 1)
+        {
+            memcpy((void*)destination, (void*)source, sizeof(T) * elementCount);
         }
     };
 }
