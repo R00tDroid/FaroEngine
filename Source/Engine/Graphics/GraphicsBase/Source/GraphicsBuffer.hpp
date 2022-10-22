@@ -5,28 +5,31 @@
 
 namespace Faro
 {
+    /// @brief Describes the state of a graphics buffer
     enum GraphicsResourceState
     {
-        RS_Unknown,
-        RS_CopySource,
-        RS_CopyDestination,
-        RS_RenderTarget,
-        RS_ShaderResource,
-        RS_Present
+        RS_Unknown, ///< Unknown state. The buffer must be transitioned into another state before usage.
+        RS_CopySource, ///< Source buffer for a copy operation.
+        RS_CopyDestination, ///< Destination buffer for a copy operation.
+        RS_RenderTarget, ///< Allows the buffer to be used as a rendertarget.
+        RS_ShaderResource, ///< Allows the buffer to be used as a shader resource.
+        RS_Present ///< Marks a rendertarget buffer read for presentation by its swapchain.
     };
 
+    /// @brief Determines the type of a graphics buffer
     enum GraphicsBufferType
     {
-        BT_Upload,
-        BT_Remote
+        BT_Upload, ///< Uploads data from the CPU to the graphics adapter.
+        BT_Remote ///< Stores memory on the graphics adapter.
     };
 
+    /// @brief Describes the resource type of a graphics buffer.
     enum GraphicsResourceType
     {
-        RT_Texture,
-        RT_ConstantBuffer,
-        RT_VertexBuffer,
-        RT_IndexBuffer
+        RT_Texture, //< The data should be treated as a texture.
+        RT_ConstantBuffer, //< The data should be treated as a a constant buffer.
+        RT_VertexBuffer, //< The data should be treated as mesh vertices.
+        RT_IndexBuffer //< The data should be treated as mesh indices.
     };
 
     struct GraphicsBufferDesc 
@@ -39,7 +42,7 @@ namespace Faro
         {
             Int2D resolution = { 0, 0 };
             bool renderTarget = false;
-            bool updateable = false;
+            bool updatable = false;
             bool shaderResource = false;
         } texture;
 
@@ -51,7 +54,7 @@ namespace Faro
         {
         } geometryBuffer;
 
-        static GraphicsBufferDesc Texture2D(Int2D resolution, bool shaderResource = false, bool updateable = false, bool renderTarget = false)
+        static GraphicsBufferDesc Texture2D(Int2D resolution, bool shaderResource = false, bool updatable = false, bool renderTarget = false)
         {
             GraphicsBufferDesc desc;
             desc.resourceType = RT_Texture;
@@ -59,7 +62,7 @@ namespace Faro
             desc.stride = resolution.x * 4;
             desc.texture.resolution = resolution;
             desc.texture.shaderResource = shaderResource;
-            desc.texture.updateable = updateable;
+            desc.texture.updatable = updatable;
             desc.texture.renderTarget = shaderResource;
             return desc;
         }
