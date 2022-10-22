@@ -29,7 +29,7 @@ namespace Faro
         GraphicsBuffer* uploadBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Upload, bufferDesc);
         GraphicsBuffer* remoteBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Remote, bufferDesc);
 
-        commandList->SetResourceState(uploadBuffer, RS_Read);
+        commandList->SetResourceState(uploadBuffer, RS_CopySource);
         commandList->SetResourceState(remoteBuffer, RS_CopyDestination);
 
         commandList->CopyBuffer(uploadBuffer, remoteBuffer);
