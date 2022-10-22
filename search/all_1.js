@@ -10,5 +10,7 @@ var searchData=
   ['broadcast_7',['Broadcast',['../classFaro_1_1Broadcast.html',1,'Faro']]],
   ['broadcast_2ehpp_8',['Broadcast.hpp',['../Broadcast_8hpp.html',1,'']]],
   ['broadcast_3c_20bool_20_26_20_3e_9',['Broadcast&lt; bool &amp; &gt;',['../classFaro_1_1Broadcast.html',1,'Faro']]],
-  ['broadcast_3c_20faro_3a_3awindowstate_20_3e_10',['Broadcast&lt; Faro::WindowState &gt;',['../classFaro_1_1Broadcast.html',1,'Faro']]]
+  ['broadcast_3c_20faro_3a_3awindowstate_20_3e_10',['Broadcast&lt; Faro::WindowState &gt;',['../classFaro_1_1Broadcast.html',1,'Faro']]],
+  ['bt_5fremote_11',['BT_Remote',['../namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770fa12b61cd5e903b7f8b08573682169837a',1,'Faro']]],
+  ['bt_5fupload_12',['BT_Upload',['../namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770fa1f79b312f444f344ac1e5e2eb5812d12',1,'Faro']]]
 ];

@@ -10,7 +10,9 @@ var searchData=
   ['unlock_7',['Unlock',['../classFaro_1_1ThreadSafe.html#abf4eebd276f240fe7f63017a1cadbae5',1,'Faro::ThreadSafe::Unlock()'],['../classFaro_1_1Mutex.html#a5dd30ecaf255a69fc13b39b6ad4c825e',1,'Faro::Mutex::Unlock()']]],
   ['unregisterthread_8',['UnregisterThread',['../classFaro_1_1IThreadInterface.html#ab06d6d68d594b51fdfbe93eeec771dac',1,'Faro::IThreadInterface']]],
   ['up_9',['Up',['../structFaro_1_1Vector3.html#a14b93968d2940e2a4c64ae84dae01598',1,'Faro::Vector3']]],
-  ['update_10',['Update',['../classFaro_1_1Application.html#a30257945c189d05ab955818201eaf5ba',1,'Faro::Application::Update()'],['../classFaro_1_1ModuleManager.html#a7b5ad7f6468a684f35cb794e8aa3ef99',1,'Faro::ModuleManager::Update()']]],
-  ['upper_11',['Upper',['../classFaro_1_1String.html#a4f1993158ac7d66c28d194ef1d09bf2d',1,'Faro::String']]],
-  ['upstream_12',['upstream',['../structFaro_1_1ModuleDependencies.html#aed9f2bb8a20fd331252c316675651796',1,'Faro::ModuleDependencies']]]
+  ['updatable_10',['updatable',['../structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html#a5e0de4d508d15f8dbad161e0d6f47242',1,'Faro::GraphicsBufferDesc::TextureDesc']]],
+  ['update_11',['Update',['../classFaro_1_1Application.html#a30257945c189d05ab955818201eaf5ba',1,'Faro::Application::Update()'],['../classFaro_1_1ModuleManager.html#a7b5ad7f6468a684f35cb794e8aa3ef99',1,'Faro::ModuleManager::Update()']]],
+  ['upload_12',['Upload',['../classFaro_1_1GraphicsBuffer.html#a226e1df2dffe35799901535fd4fa262e',1,'Faro::GraphicsBuffer::Upload()'],['../classFaro_1_1GraphicsBufferUploadD3D12.html#a701eb015d02dc0c0e4063d0016bedba0',1,'Faro::GraphicsBufferUploadD3D12::Upload()'],['../classFaro_1_1GraphicsBufferRemoteD3D12.html#aa6cb0529e55eb80d0d9fea9b006e797e',1,'Faro::GraphicsBufferRemoteD3D12::Upload()']]],
+  ['upper_13',['Upper',['../classFaro_1_1String.html#a4f1993158ac7d66c28d194ef1d09bf2d',1,'Faro::String']]],
+  ['upstream_14',['upstream',['../structFaro_1_1ModuleDependencies.html#aed9f2bb8a20fd331252c316675651796',1,'Faro::ModuleDependencies']]]
 ];

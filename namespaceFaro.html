@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.37e371c (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.bddf44e (main)</span>
    </div>
   </td>
  </tr>
@@ -88,9 +88,24 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsAdapterDesc.html">GraphicsAdapterDesc</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A buffer storing graphics related data. Created by <a class="el" href="classFaro_1_1GraphicsAdapter.html#a60ef6847d9afb3e816dde5b682ae543f">GraphicsAdapter::CreateBuffer</a>.  <a href="classFaro_1_1GraphicsBuffer.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description of a graphics buffer.  <a href="structFaro_1_1GraphicsBufferDesc.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsBufferRemoteD3D12.html">GraphicsBufferRemoteD3D12</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsBufferUploadD3D12.html">GraphicsBufferUploadD3D12</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsCommandList.html">GraphicsCommandList</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html">GraphicsCommandListD3D12</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsFence.html">GraphicsFence</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marker to be placed on an adapter command queue. Allows for synchronization between CPU and graphics adapter.  <a href="classFaro_1_1GraphicsFence.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsFenceD3D12.html">GraphicsFenceD3D12</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsInterface.html">GraphicsInterface</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -101,6 +116,8 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1IColor.html">IColor</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsAdapterChild.html">IGraphicsAdapterChild</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsBufferD3D12.html">IGraphicsBufferD3D12</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IModule.html">IModule</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -252,6 +269,30 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a75397b2f115c21c177d1e8a24beed3a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Logging category.  <a href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5">More...</a><br /></td></tr>
 <tr class="separator:a75397b2f115c21c177d1e8a24beed3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a522c5fdebbf0027741199b5159a30e81"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81">GraphicsResourceState</a> { <br />
+&#160;&#160;<a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81a3d2b67daacc2821d3d19edde8bf6c742">RS_Unknown</a>
+, <a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81a83ff782f8e6901d55f7e7327c0f9629b">RS_CopySource</a>
+, <a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81a8f830b78b809fb05cf47e1ada7d7c0f4">RS_CopyDestination</a>
+, <a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81ab58ab8ed2b75dee9aeeaa049dc011074">RS_RenderTarget</a>
+, <br />
+&#160;&#160;<a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81a3ead7907c5c9e6b392dd3b4b2895eb0f">RS_ShaderResource</a>
+, <a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81a597f8ea52d9965f1b2863c3ac8ab2865">RS_Present</a>
+<br />
+ }</td></tr>
+<tr class="memdesc:a522c5fdebbf0027741199b5159a30e81"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes the state of a graphics buffer.  <a href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81">More...</a><br /></td></tr>
+<tr class="separator:a522c5fdebbf0027741199b5159a30e81"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fe2c45acb84f75c2d61733b4001770f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a> { <a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770fa1f79b312f444f344ac1e5e2eb5812d12">BT_Upload</a>
+, <a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770fa12b61cd5e903b7f8b08573682169837a">BT_Remote</a>
+ }</td></tr>
+<tr class="memdesc:a5fe2c45acb84f75c2d61733b4001770f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the type of a graphics buffer.  <a href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">More...</a><br /></td></tr>
+<tr class="separator:a5fe2c45acb84f75c2d61733b4001770f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7f0527f3caa41fc0ca5d4e1bc73ade43"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43">GraphicsResourceType</a> { <a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43ab926ded0cde71de4b476f08bd32ad512">RT_Texture</a>
+, <a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43a77410a6f2dc60e95dc48c2abb1ed2ed3">RT_ConstantBuffer</a>
+, <a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43a7acd3864ba3fc76f8bf0b8baf180de5b">RT_VertexBuffer</a>
+, <a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43a25dc43411e4780dbfa25372f14eb880e">RT_IndexBuffer</a>
+ }</td></tr>
+<tr class="memdesc:a7f0527f3caa41fc0ca5d4e1bc73ade43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes the resource type of a graphics buffer.  <a href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43">More...</a><br /></td></tr>
+<tr class="separator:a7f0527f3caa41fc0ca5d4e1bc73ade43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2e1139caa7c8e4c032fdc9d705aabdf"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdf">WindowMode</a> { <br />
 &#160;&#160;<a class="el" href="namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa920b2effda2a17a6d3463453ebda4153">WM_Hidden</a>
 , <a class="el" href="namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa6a0267786a47f5dd0d1c6b55a3816fce">WM_Minimized</a>
@@ -344,6 +385,8 @@ Functions</h2></td></tr>
 <tr class="separator:a63d0f3d5693a4d4f79b11d5c187b591c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a738b09f6418d0523fddbbaf6c906216c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1GraphicsInterface.html">GraphicsInterface</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a738b09f6418d0523fddbbaf6c906216c">GetGraphicsInterfaces</a> ()</td></tr>
 <tr class="separator:a738b09f6418d0523fddbbaf6c906216c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4447b4f8df0c9ecd6f194a5de19a3787"><td class="memItemLeft" align="right" valign="top">D3D12_RESOURCE_STATES&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a4447b4f8df0c9ecd6f194a5de19a3787">Convert</a> (<a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81">GraphicsResourceState</a> state)</td></tr>
+<tr class="separator:a4447b4f8df0c9ecd6f194a5de19a3787"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aac6d14a8222d2153dd03feb79c637fb2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#aac6d14a8222d2153dd03feb79c637fb2">ResolveModuleDependencies</a> (<a class="el" href="structFaro_1_1ModuleDependencies.html">ModuleDependencies</a> *moduleInfo)</td></tr>
 <tr class="separator:aac6d14a8222d2153dd03feb79c637fb2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1726315c1482fd5bd59b0b56f1833cc7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1Platform.html">Platform</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a1726315c1482fd5bd59b0b56f1833cc7">GetRegisteredPlatforms</a> ()</td></tr>
@@ -749,6 +792,80 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a5fe2c45acb84f75c2d61733b4001770f" name="a5fe2c45acb84f75c2d61733b4001770f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fe2c45acb84f75c2d61733b4001770f">&#9670;&nbsp;</a></span>GraphicsBufferType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">Faro::GraphicsBufferType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Determines the type of a graphics buffer. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a5fe2c45acb84f75c2d61733b4001770fa1f79b312f444f344ac1e5e2eb5812d12" name="a5fe2c45acb84f75c2d61733b4001770fa1f79b312f444f344ac1e5e2eb5812d12"></a>BT_Upload&#160;</td><td class="fielddoc"><p >Uploads data from the CPU to the graphics adapter. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a5fe2c45acb84f75c2d61733b4001770fa12b61cd5e903b7f8b08573682169837a" name="a5fe2c45acb84f75c2d61733b4001770fa12b61cd5e903b7f8b08573682169837a"></a>BT_Remote&#160;</td><td class="fielddoc"><p >Stores memory on the graphics adapter. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a522c5fdebbf0027741199b5159a30e81" name="a522c5fdebbf0027741199b5159a30e81"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a522c5fdebbf0027741199b5159a30e81">&#9670;&nbsp;</a></span>GraphicsResourceState</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81">Faro::GraphicsResourceState</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Describes the state of a graphics buffer. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a522c5fdebbf0027741199b5159a30e81a3d2b67daacc2821d3d19edde8bf6c742" name="a522c5fdebbf0027741199b5159a30e81a3d2b67daacc2821d3d19edde8bf6c742"></a>RS_Unknown&#160;</td><td class="fielddoc"><p >Unknown state. The buffer must be transitioned into another state before usage. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a522c5fdebbf0027741199b5159a30e81a83ff782f8e6901d55f7e7327c0f9629b" name="a522c5fdebbf0027741199b5159a30e81a83ff782f8e6901d55f7e7327c0f9629b"></a>RS_CopySource&#160;</td><td class="fielddoc"><p >Source buffer for a copy operation. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a522c5fdebbf0027741199b5159a30e81a8f830b78b809fb05cf47e1ada7d7c0f4" name="a522c5fdebbf0027741199b5159a30e81a8f830b78b809fb05cf47e1ada7d7c0f4"></a>RS_CopyDestination&#160;</td><td class="fielddoc"><p >Destination buffer for a copy operation. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a522c5fdebbf0027741199b5159a30e81ab58ab8ed2b75dee9aeeaa049dc011074" name="a522c5fdebbf0027741199b5159a30e81ab58ab8ed2b75dee9aeeaa049dc011074"></a>RS_RenderTarget&#160;</td><td class="fielddoc"><p >Allows the buffer to be used as a rendertarget. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a522c5fdebbf0027741199b5159a30e81a3ead7907c5c9e6b392dd3b4b2895eb0f" name="a522c5fdebbf0027741199b5159a30e81a3ead7907c5c9e6b392dd3b4b2895eb0f"></a>RS_ShaderResource&#160;</td><td class="fielddoc"><p >Allows the buffer to be used as a shader resource. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a522c5fdebbf0027741199b5159a30e81a597f8ea52d9965f1b2863c3ac8ab2865" name="a522c5fdebbf0027741199b5159a30e81a597f8ea52d9965f1b2863c3ac8ab2865"></a>RS_Present&#160;</td><td class="fielddoc"><p >Marks a rendertarget buffer read for presentation by its swapchain. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="a7f0527f3caa41fc0ca5d4e1bc73ade43" name="a7f0527f3caa41fc0ca5d4e1bc73ade43"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7f0527f3caa41fc0ca5d4e1bc73ade43">&#9670;&nbsp;</a></span>GraphicsResourceType</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43">Faro::GraphicsResourceType</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Describes the resource type of a graphics buffer. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a7f0527f3caa41fc0ca5d4e1bc73ade43ab926ded0cde71de4b476f08bd32ad512" name="a7f0527f3caa41fc0ca5d4e1bc73ade43ab926ded0cde71de4b476f08bd32ad512"></a>RT_Texture&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7f0527f3caa41fc0ca5d4e1bc73ade43a77410a6f2dc60e95dc48c2abb1ed2ed3" name="a7f0527f3caa41fc0ca5d4e1bc73ade43a77410a6f2dc60e95dc48c2abb1ed2ed3"></a>RT_ConstantBuffer&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7f0527f3caa41fc0ca5d4e1bc73ade43a7acd3864ba3fc76f8bf0b8baf180de5b" name="a7f0527f3caa41fc0ca5d4e1bc73ade43a7acd3864ba3fc76f8bf0b8baf180de5b"></a>RT_VertexBuffer&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a7f0527f3caa41fc0ca5d4e1bc73ade43a25dc43411e4780dbfa25372f14eb880e" name="a7f0527f3caa41fc0ca5d4e1bc73ade43a25dc43411e4780dbfa25372f14eb880e"></a>RT_IndexBuffer&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <a id="a75397b2f115c21c177d1e8a24beed3a5" name="a75397b2f115c21c177d1e8a24beed3a5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a75397b2f115c21c177d1e8a24beed3a5">&#9670;&nbsp;</a></span>LogCategory</h2>
 
@@ -934,6 +1051,24 @@ template&lt;class T &gt; </div>
           <td>(</td>
           <td class="paramtype">T&#160;</td>
           <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4447b4f8df0c9ecd6f194a5de19a3787" name="a4447b4f8df0c9ecd6f194a5de19a3787"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4447b4f8df0c9ecd6f194a5de19a3787">&#9670;&nbsp;</a></span>Convert()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">D3D12_RESOURCE_STATES Faro::Convert </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81">GraphicsResourceState</a>&#160;</td>
+          <td class="paramname"><em>state</em></td><td>)</td>
           <td></td>
         </tr>
       </table>

@@ -1,8 +1,9 @@
 var searchData=
 [
-  ['vector2_0',['Vector2',['../structFaro_1_1Vector2.html',1,'Faro']]],
-  ['vector2_3c_20int32_20_3e_1',['Vector2&lt; int32 &gt;',['../structFaro_1_1Vector2.html',1,'Faro']]],
-  ['vector3_2',['Vector3',['../structFaro_1_1Vector3.html',1,'Faro']]],
-  ['vector4_3',['Vector4',['../structFaro_1_1Vector4.html',1,'Faro']]],
-  ['version_4',['Version',['../structFaro_1_1Version.html',1,'Faro']]]
+  ['texturedesc_0',['TextureDesc',['../structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html',1,'Faro::GraphicsBufferDesc']]],
+  ['threadsafe_1',['ThreadSafe',['../classFaro_1_1ThreadSafe.html',1,'Faro']]],
+  ['threadsafe_3c_20bool_20_3e_2',['ThreadSafe&lt; bool &gt;',['../classFaro_1_1ThreadSafe.html',1,'Faro']]],
+  ['threadsafe_3c_20faro_3a_3aarray_3c_20threadtask_20_3e_20_3e_3',['ThreadSafe&lt; Faro::Array&lt; ThreadTask &gt; &gt;',['../classFaro_1_1ThreadSafe.html',1,'Faro']]],
+  ['threadsafe_3c_20faro_3a_3awindowstate_20_3e_4',['ThreadSafe&lt; Faro::WindowState &gt;',['../classFaro_1_1ThreadSafe.html',1,'Faro']]],
+  ['timepoint_5',['TimePoint',['../classFaro_1_1TimePoint.html',1,'Faro']]]
 ];

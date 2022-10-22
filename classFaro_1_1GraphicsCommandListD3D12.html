@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.37e371c (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.bddf44e (main)</span>
    </div>
   </td>
  </tr>
@@ -97,6 +97,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a66791ce7785899b2e396b0464152f71b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a68f1a5fcd85ad6d6af164591cb354fec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#a68f1a5fcd85ad6d6af164591cb354fec">Execute</a> () override</td></tr>
 <tr class="separator:a68f1a5fcd85ad6d6af164591cb354fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7c962c3f46b0d9d3385fbe2956b326a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#ae7c962c3f46b0d9d3385fbe2956b326a">SetResourceState</a> (<a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *buffer, <a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81">GraphicsResourceState</a> state) override</td></tr>
+<tr class="separator:ae7c962c3f46b0d9d3385fbe2956b326a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8e599bf36a5d3445acec15baedc0850"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#af8e599bf36a5d3445acec15baedc0850">CopyBuffer</a> (<a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *source, <a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *destination) override</td></tr>
+<tr class="separator:af8e599bf36a5d3445acec15baedc0850"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c73ba86c25f27f80383d0e7a44d55c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#a1c73ba86c25f27f80383d0e7a44d55c1">GetAdapter</a> ()</td></tr>
 <tr class="separator:a1c73ba86c25f27f80383d0e7a44d55c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaeb69c3cdb6a6b6d620928c11ebae4d1"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
@@ -109,6 +113,44 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:a3ce0df28383cb7dc73ff6425b019f99e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="af8e599bf36a5d3445acec15baedc0850" name="af8e599bf36a5d3445acec15baedc0850"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8e599bf36a5d3445acec15baedc0850">&#9670;&nbsp;</a></span>CopyBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::GraphicsCommandListD3D12::CopyBuffer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *&#160;</td>
+          <td class="paramname"><em>destination</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classFaro_1_1GraphicsCommandList.html#a9aae1f168bf23ff68efe515f06c1fdcc">Faro::GraphicsCommandList</a>.</p>
+
+</div>
+</div>
 <a id="aef8607cd3c1f3476f3d3c6e873d56d06" name="aef8607cd3c1f3476f3d3c6e873d56d06"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aef8607cd3c1f3476f3d3c6e873d56d06">&#9670;&nbsp;</a></span>Destroy()</h2>
 
@@ -240,6 +282,8 @@ template&lt;class T &gt; </div>
 
 <p>Reimplemented from <a class="el" href="classFaro_1_1IObject.html#a058a901f8ad2e5767a2b778dfadecea5">Faro::IObject</a>.</p>
 
+<p>Reimplemented in <a class="el" href="classFaro_1_1GraphicsBufferUploadD3D12.html#a37c7b03cba7ef20939fb8e1f26792e38">Faro::GraphicsBufferUploadD3D12</a>, and <a class="el" href="classFaro_1_1GraphicsBufferRemoteD3D12.html#aa643f336708b430f75019b4f683338bb">Faro::GraphicsBufferRemoteD3D12</a>.</p>
+
 </div>
 </div>
 <a id="a9eb652a7d3094a494eb4e5cff45dc82c" name="a9eb652a7d3094a494eb4e5cff45dc82c"></a>
@@ -294,6 +338,44 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Implements <a class="el" href="classFaro_1_1GraphicsCommandList.html#adee7e181b4f3e5865f57d923370dff1a">Faro::GraphicsCommandList</a>.</p>
+
+</div>
+</div>
+<a id="ae7c962c3f46b0d9d3385fbe2956b326a" name="ae7c962c3f46b0d9d3385fbe2956b326a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7c962c3f46b0d9d3385fbe2956b326a">&#9670;&nbsp;</a></span>SetResourceState()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::GraphicsCommandListD3D12::SetResourceState </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *&#160;</td>
+          <td class="paramname"><em>buffer</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81">GraphicsResourceState</a>&#160;</td>
+          <td class="paramname"><em>state</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classFaro_1_1GraphicsCommandList.html#a2bf981a040ed260a340251e0bf07cf19">Faro::GraphicsCommandList</a>.</p>
 
 </div>
 </div>

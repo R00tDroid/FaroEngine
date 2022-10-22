@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['windowmode_0',['WindowMode',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdf',1,'Faro']]]
+  ['pathtype_0',['PathType',['../namespaceFaro.html#acf284d5454602e0adc26108820a23d71',1,'Faro']]]
 ];

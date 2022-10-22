@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.37e371c (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.bddf44e (main)</span>
    </div>
   </td>
  </tr>
@@ -92,8 +92,50 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad9a130fa61e10db34e17700af58b2e04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fb577e6c5b553ab42a6ffeff5e050cb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsCommandList.html">GraphicsCommandList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a3fb577e6c5b553ab42a6ffeff5e050cb">CreateCommandList</a> ()=0</td></tr>
 <tr class="separator:a3fb577e6c5b553ab42a6ffeff5e050cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60ef6847d9afb3e816dde5b682ae543f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a60ef6847d9afb3e816dde5b682ae543f">CreateBuffer</a> (<a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a> type, <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a> desc)=0</td></tr>
+<tr class="separator:a60ef6847d9afb3e816dde5b682ae543f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08799be5ae3845fde6cd5922339933f6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsFence.html">GraphicsFence</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a08799be5ae3845fde6cd5922339933f6">CreateFence</a> ()=0</td></tr>
+<tr class="separator:a08799be5ae3845fde6cd5922339933f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a60ef6847d9afb3e816dde5b682ae543f" name="a60ef6847d9afb3e816dde5b682ae543f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a60ef6847d9afb3e816dde5b682ae543f">&#9670;&nbsp;</a></span>CreateBuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> * Faro::GraphicsAdapter::CreateBuffer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a>&#160;</td>
+          <td class="paramname"><em>desc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterD3D12.html#a030d3b0e0f7f5940a9e641392dfb333c">Faro::GraphicsAdapterD3D12</a>.</p>
+
+</div>
+</div>
 <a id="a3fb577e6c5b553ab42a6ffeff5e050cb" name="a3fb577e6c5b553ab42a6ffeff5e050cb"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3fb577e6c5b553ab42a6ffeff5e050cb">&#9670;&nbsp;</a></span>CreateCommandList()</h2>
 
@@ -118,6 +160,33 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterD3D12.html#aed47e704013e2824953c5e61bb718dea">Faro::GraphicsAdapterD3D12</a>.</p>
+
+</div>
+</div>
+<a id="a08799be5ae3845fde6cd5922339933f6" name="a08799be5ae3845fde6cd5922339933f6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a08799be5ae3845fde6cd5922339933f6">&#9670;&nbsp;</a></span>CreateFence()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classFaro_1_1GraphicsFence.html">GraphicsFence</a> * Faro::GraphicsAdapter::CreateFence </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterD3D12.html#a55eb4033fa7a5eff146a1c68aae754d5">Faro::GraphicsAdapterD3D12</a>.</p>
 
 </div>
 </div>
