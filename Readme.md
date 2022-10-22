@@ -1,8 +1,14 @@
+# Faro Engine
+
+![Logo](./Assets/Logo/Logo_128.png)
+
+A modular platform agnostic engine designed for low-overhead graphics.
+
+---
+
 [![FaroEngine Package Engine](https://github.com/R00tDroid/FaroEngine/actions/workflows/build.yml/badge.svg)](https://github.com/R00tDroid/FaroEngine/actions/workflows/build.yml)
 [![pages-build-deployment](https://github.com/R00tDroid/FaroEngine/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/R00tDroid/FaroEngine/actions/workflows/pages/pages-build-deployment)
 [![CodeFactor](https://www.codefactor.io/repository/github/r00tdroid/faroengine/badge)](https://www.codefactor.io/repository/github/r00tdroid/faroengine)
-
-# Faro Engine
 
 [Online documentation](https://r00tdroid.github.io/FaroEngine)
 
