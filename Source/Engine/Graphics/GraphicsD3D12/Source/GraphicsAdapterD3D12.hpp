@@ -17,6 +17,10 @@ namespace Faro
 
         GraphicsCommandList* CreateCommandList() override;
 
+        GraphicsBuffer* CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc) override;
+
+        GraphicsFence* CreateFence() override;
+
     private:
         GraphicsAdapterDesc desc;
 

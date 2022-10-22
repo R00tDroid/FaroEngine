@@ -13,6 +13,10 @@ namespace Faro
         void Reset() override;
         void Execute() override;
 
+        void SetResourceState(GraphicsBuffer* buffer, GraphicsResourceState state) override;
+
+        void CopyBuffer(GraphicsBuffer* source, GraphicsBuffer* destination) override;
+
     private:
         ID3D12CommandAllocator* allocator = nullptr;
         ID3D12GraphicsCommandList* commandList = nullptr;
