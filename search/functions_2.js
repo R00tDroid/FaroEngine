@@ -25,7 +25,8 @@ var searchData=
   ['createrotatey_22',['CreateRotateY',['../structFaro_1_1Matrix44.html#a93be9431063fee23ff9fbc53fa7441ba',1,'Faro::Matrix44']]],
   ['createrotatez_23',['CreateRotateZ',['../structFaro_1_1Matrix44.html#a4f0a156e080c3631cbcc51447f490c1b',1,'Faro::Matrix44']]],
   ['createscale_24',['CreateScale',['../structFaro_1_1Matrix44.html#a1c0480314d456b06e817ff2758c70888',1,'Faro::Matrix44']]],
-  ['createtranslation_25',['CreateTranslation',['../structFaro_1_1Matrix44.html#a8f6985d335bf2464902d1a5c9c8e8e36',1,'Faro::Matrix44']]],
-  ['createwindow_26',['CreateWindow',['../classFaro_1_1Platform.html#a18e20b880558cd0a8469db654808406f',1,'Faro::Platform::CreateWindow()'],['../classFaro_1_1PlatformWindows.html#a5e15e9fc6c74835a8054224665a6ceba',1,'Faro::PlatformWindows::CreateWindow()']]],
-  ['cross_27',['Cross',['../structFaro_1_1Vector2.html#ae07ef21197f344d8f719cad9c66f8d7d',1,'Faro::Vector2::Cross(const Vector2&lt; T &gt; &amp;vector) const'],['../structFaro_1_1Vector2.html#ab35059896d62d71e13e6542c3918d731',1,'Faro::Vector2::Cross(const Vector2&lt; T &gt; &amp;a, const Vector2&lt; T &gt; &amp;b)'],['../structFaro_1_1Vector3.html#aa546f0a80ed36a3a376815cab90dd12c',1,'Faro::Vector3::Cross()']]]
+  ['createswapchain_25',['CreateSwapchain',['../classFaro_1_1GraphicsAdapter.html#a9ba98f2e514934f6a22a99792c6c6306',1,'Faro::GraphicsAdapter::CreateSwapchain()'],['../classFaro_1_1GraphicsAdapterD3D12.html#a574071d23b5e231ee52387ba76fd510d',1,'Faro::GraphicsAdapterD3D12::CreateSwapchain()']]],
+  ['createtranslation_26',['CreateTranslation',['../structFaro_1_1Matrix44.html#a8f6985d335bf2464902d1a5c9c8e8e36',1,'Faro::Matrix44']]],
+  ['createwindow_27',['CreateWindow',['../classFaro_1_1Platform.html#a18e20b880558cd0a8469db654808406f',1,'Faro::Platform::CreateWindow()'],['../classFaro_1_1PlatformWindows.html#a5e15e9fc6c74835a8054224665a6ceba',1,'Faro::PlatformWindows::CreateWindow()']]],
+  ['cross_28',['Cross',['../structFaro_1_1Vector2.html#ae07ef21197f344d8f719cad9c66f8d7d',1,'Faro::Vector2::Cross(const Vector2&lt; T &gt; &amp;vector) const'],['../structFaro_1_1Vector2.html#ab35059896d62d71e13e6542c3918d731',1,'Faro::Vector2::Cross(const Vector2&lt; T &gt; &amp;a, const Vector2&lt; T &gt; &amp;b)'],['../structFaro_1_1Vector3.html#aa546f0a80ed36a3a376815cab90dd12c',1,'Faro::Vector3::Cross()']]]
 ];

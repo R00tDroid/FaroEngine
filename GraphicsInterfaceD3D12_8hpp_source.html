@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.82da4c3 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.6bb9fe1 (main)</span>
    </div>
   </td>
  </tr>
@@ -87,21 +87,24 @@ $(function() {
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <a class="code hl_class" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a>* <a class="code hl_function" href="classFaro_1_1GraphicsInterfaceD3D12.html#ac7c45b79bcaed6c2c5bcfb265616dfa1">CreateAdapter</a>(<a class="code hl_struct" href="structFaro_1_1GraphicsAdapterDesc.html">GraphicsAdapterDesc</a> description) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keywordtype">void</span> DetectAdapters();</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        IDXGIFactory4* dxgiFactory = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;GraphicsAdapterDesc&gt;</a> adapterDescs;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>    };</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    <a class="code hl_define" href="GraphicsInterface_8hpp.html#a08114387d04b4584d69c432af30ee699">REGISTER_GRAPHICS</a>(GraphicsInterfaceD3D12)</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        IDXGIFactory4* <a class="code hl_function" href="classFaro_1_1GraphicsInterfaceD3D12.html#a676c51126dd722f5dd98e3f1b76565ca">GetFactory</a>();</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordtype">void</span> DetectAdapters();</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        </div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        IDXGIFactory4* dxgiFactory = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;GraphicsAdapterDesc&gt;</a> adapterDescs;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>    };</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    <a class="code hl_define" href="GraphicsInterface_8hpp.html#a08114387d04b4584d69c432af30ee699">REGISTER_GRAPHICS</a>(GraphicsInterfaceD3D12)</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>}</div>
 <div class="ttc" id="aGraphicsInterface_8hpp_html"><div class="ttname"><a href="GraphicsInterface_8hpp.html">GraphicsInterface.hpp</a></div></div>
 <div class="ttc" id="aGraphicsInterface_8hpp_html_a08114387d04b4584d69c432af30ee699"><div class="ttname"><a href="GraphicsInterface_8hpp.html#a08114387d04b4584d69c432af30ee699">REGISTER_GRAPHICS</a></div><div class="ttdeci">#define REGISTER_GRAPHICS(TYPE)</div><div class="ttdef"><b>Definition:</b> GraphicsInterface.hpp:26</div></div>
 <div class="ttc" id="aclassFaro_1_1Array_html"><div class="ttname"><a href="classFaro_1_1Array.html">Faro::Array</a></div><div class="ttdef"><b>Definition:</b> Array.hpp:11</div></div>
-<div class="ttc" id="aclassFaro_1_1GraphicsAdapter_html"><div class="ttname"><a href="classFaro_1_1GraphicsAdapter.html">Faro::GraphicsAdapter</a></div><div class="ttdef"><b>Definition:</b> GraphicsAdapter.hpp:21</div></div>
+<div class="ttc" id="aclassFaro_1_1GraphicsAdapter_html"><div class="ttname"><a href="classFaro_1_1GraphicsAdapter.html">Faro::GraphicsAdapter</a></div><div class="ttdef"><b>Definition:</b> GraphicsAdapter.hpp:22</div></div>
 <div class="ttc" id="aclassFaro_1_1GraphicsInterfaceD3D12_html"><div class="ttname"><a href="classFaro_1_1GraphicsInterfaceD3D12.html">Faro::GraphicsInterfaceD3D12</a></div><div class="ttdef"><b>Definition:</b> GraphicsInterfaceD3D12.hpp:8</div></div>
+<div class="ttc" id="aclassFaro_1_1GraphicsInterfaceD3D12_html_a676c51126dd722f5dd98e3f1b76565ca"><div class="ttname"><a href="classFaro_1_1GraphicsInterfaceD3D12.html#a676c51126dd722f5dd98e3f1b76565ca">Faro::GraphicsInterfaceD3D12::GetFactory</a></div><div class="ttdeci">IDXGIFactory4 * GetFactory()</div><div class="ttdef"><b>Definition:</b> GraphicsInterfaceD3D12.cpp:56</div></div>
 <div class="ttc" id="aclassFaro_1_1GraphicsInterfaceD3D12_html_abbe7d4feac705905cf132e7f58f455df"><div class="ttname"><a href="classFaro_1_1GraphicsInterfaceD3D12.html#abbe7d4feac705905cf132e7f58f455df">Faro::GraphicsInterfaceD3D12::Destroy</a></div><div class="ttdeci">void Destroy() override</div><div class="ttdef"><b>Definition:</b> GraphicsInterfaceD3D12.cpp:34</div></div>
 <div class="ttc" id="aclassFaro_1_1GraphicsInterfaceD3D12_html_ac7c45b79bcaed6c2c5bcfb265616dfa1"><div class="ttname"><a href="classFaro_1_1GraphicsInterfaceD3D12.html#ac7c45b79bcaed6c2c5bcfb265616dfa1">Faro::GraphicsInterfaceD3D12::CreateAdapter</a></div><div class="ttdeci">GraphicsAdapter * CreateAdapter(GraphicsAdapterDesc description) override</div><div class="ttdef"><b>Definition:</b> GraphicsInterfaceD3D12.cpp:49</div></div>
 <div class="ttc" id="aclassFaro_1_1GraphicsInterfaceD3D12_html_ad292b84cdc3a8d7ee23fdaec166748b6"><div class="ttname"><a href="classFaro_1_1GraphicsInterfaceD3D12.html#ad292b84cdc3a8d7ee23fdaec166748b6">Faro::GraphicsInterfaceD3D12::Init</a></div><div class="ttdeci">bool Init() override</div><div class="ttdef"><b>Definition:</b> GraphicsInterfaceD3D12.cpp:11</div></div>
@@ -110,7 +113,7 @@ $(function() {
 <div class="ttc" id="aclassFaro_1_1GraphicsInterface_html"><div class="ttname"><a href="classFaro_1_1GraphicsInterface.html">Faro::GraphicsInterface</a></div><div class="ttdef"><b>Definition:</b> GraphicsInterface.hpp:9</div></div>
 <div class="ttc" id="aclassFaro_1_1String_html"><div class="ttname"><a href="classFaro_1_1String.html">Faro::String</a></div><div class="ttdef"><b>Definition:</b> String.hpp:12</div></div>
 <div class="ttc" id="anamespaceFaro_html"><div class="ttname"><a href="namespaceFaro.html">Faro</a></div><div class="ttdef"><b>Definition:</b> Array.hpp:8</div></div>
-<div class="ttc" id="astructFaro_1_1GraphicsAdapterDesc_html"><div class="ttname"><a href="structFaro_1_1GraphicsAdapterDesc.html">Faro::GraphicsAdapterDesc</a></div><div class="ttdef"><b>Definition:</b> GraphicsAdapter.hpp:9</div></div>
+<div class="ttc" id="astructFaro_1_1GraphicsAdapterDesc_html"><div class="ttname"><a href="structFaro_1_1GraphicsAdapterDesc.html">Faro::GraphicsAdapterDesc</a></div><div class="ttdef"><b>Definition:</b> GraphicsAdapter.hpp:10</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

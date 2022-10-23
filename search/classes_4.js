@@ -14,5 +14,7 @@ var searchData=
   ['graphicsfenced3d12_11',['GraphicsFenceD3D12',['../classFaro_1_1GraphicsFenceD3D12.html',1,'Faro']]],
   ['graphicsinterface_12',['GraphicsInterface',['../classFaro_1_1GraphicsInterface.html',1,'Faro']]],
   ['graphicsinterfaced3d12_13',['GraphicsInterfaceD3D12',['../classFaro_1_1GraphicsInterfaceD3D12.html',1,'Faro']]],
-  ['graphicsmodule_14',['GraphicsModule',['../classFaro_1_1GraphicsModule.html',1,'Faro']]]
+  ['graphicsmodule_14',['GraphicsModule',['../classFaro_1_1GraphicsModule.html',1,'Faro']]],
+  ['graphicsswapchain_15',['GraphicsSwapchain',['../classFaro_1_1GraphicsSwapchain.html',1,'Faro']]],
+  ['graphicsswapchaind3d12_16',['GraphicsSwapchainD3D12',['../classFaro_1_1GraphicsSwapchainD3D12.html',1,'Faro']]]
 ];

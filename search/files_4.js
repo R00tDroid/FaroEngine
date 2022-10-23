@@ -27,5 +27,9 @@ var searchData=
   ['graphicslogd3d12_2ecpp_24',['GraphicsLogD3D12.cpp',['../GraphicsLogD3D12_8cpp.html',1,'']]],
   ['graphicslogd3d12_2ehpp_25',['GraphicsLogD3D12.hpp',['../GraphicsLogD3D12_8hpp.html',1,'']]],
   ['graphicsmodule_2ecpp_26',['GraphicsModule.cpp',['../GraphicsModule_8cpp.html',1,'']]],
-  ['graphicsmodule_2ehpp_27',['GraphicsModule.hpp',['../GraphicsModule_8hpp.html',1,'']]]
+  ['graphicsmodule_2ehpp_27',['GraphicsModule.hpp',['../GraphicsModule_8hpp.html',1,'']]],
+  ['graphicsswapchain_2ecpp_28',['GraphicsSwapchain.cpp',['../GraphicsSwapchain_8cpp.html',1,'']]],
+  ['graphicsswapchain_2ehpp_29',['GraphicsSwapchain.hpp',['../GraphicsSwapchain_8hpp.html',1,'']]],
+  ['graphicsswapchaind3d12_2ecpp_30',['GraphicsSwapchainD3D12.cpp',['../GraphicsSwapchainD3D12_8cpp.html',1,'']]],
+  ['graphicsswapchaind3d12_2ehpp_31',['GraphicsSwapchainD3D12.hpp',['../GraphicsSwapchainD3D12_8hpp.html',1,'']]]
 ];
