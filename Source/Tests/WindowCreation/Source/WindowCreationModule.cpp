@@ -20,6 +20,8 @@ namespace Faro
 
         GraphicsFence* fence = adapter->CreateFence();
 
+        GraphicsSwapchain* swapchain = adapter->CreateSwapchain(window);
+
         LogWindowCreationTest.Log(LC_Info, "Creating commandlist...");
         GraphicsCommandList* commandList = adapter->CreateCommandList();
         commandList->Reset();
@@ -47,6 +49,7 @@ namespace Faro
         MemoryManager::SafeDelete(remoteBuffer);
         MemoryManager::SafeDelete(uploadBuffer);
         MemoryManager::SafeDelete(commandList);
+        MemoryManager::SafeDelete(swapchain);
         MemoryManager::SafeDelete(fence);
         MemoryManager::SafeDelete(adapter);
 
