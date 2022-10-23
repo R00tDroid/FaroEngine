@@ -186,7 +186,7 @@ private:
 
         std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
 
-        tinyxml2::XMLDocument doc;
+        tinyxml2::XMLDocument doc(false);
         {
             tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
             projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
@@ -392,7 +392,7 @@ private:
 
         std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
 
-        tinyxml2::XMLDocument doc;
+        tinyxml2::XMLDocument doc(false);
         {
             tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
             projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
@@ -456,7 +456,7 @@ private:
         std::filesystem::path filePath = projectInfo.projectPath;
         filePath.replace_extension(".vcxproj.filters");
 
-        tinyxml2::XMLDocument doc;
+        tinyxml2::XMLDocument doc(false);
 
         tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
         projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
