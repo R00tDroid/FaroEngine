@@ -21,6 +21,8 @@ namespace Faro
 
         GraphicsFence* CreateFence() override;
 
+        GraphicsSwapchain* CreateSwapchain(Window* window) override;
+
     private:
         GraphicsAdapterDesc desc;
 

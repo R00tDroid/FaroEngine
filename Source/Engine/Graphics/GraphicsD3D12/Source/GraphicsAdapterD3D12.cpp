@@ -4,6 +4,7 @@
 #include <GraphicsCommandListD3D12.hpp>
 #include <GraphicsBufferD3D12.hpp>
 #include <GraphicsFenceD3D12.hpp>
+#include <GraphicsSwapchainD3D12.hpp>
 
 namespace Faro
 {
@@ -83,5 +84,12 @@ namespace Faro
         GraphicsFenceD3D12* fence = MemoryManager::New<GraphicsFenceD3D12>();
         fence->Init(this);
         return fence;
+    }
+
+    GraphicsSwapchain* GraphicsAdapterD3D12::CreateSwapchain(Window* window)
+    {
+        GraphicsSwapchainD3D12* swapchain = MemoryManager::New<GraphicsSwapchainD3D12>();
+        swapchain->Init(this, window);
+        return swapchain;
     }
 }
