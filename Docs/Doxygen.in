@@ -10,6 +10,7 @@ INLINE_INHERITED_MEMB = YES
 
 PROJECT_NAME = "Faro Engine"
 PROJECT_NUMBER = "@FaroEngineVersionFull@"
+PROJECT_LOGO = ../Assets/Logo/Logo_55.png
 
 GENERATE_HTML = YES
 GENERATE_LATEX = NO
