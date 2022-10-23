@@ -6,7 +6,8 @@
         "Thirdparty/DirectX-Headers/include"
     ],
     "Dependencies": [
-        "GraphicsBase"
+        "GraphicsBase",
+        "PlatformWindows"
     ],
     "SourceFilters": [
         "Source/**/*.cpp",

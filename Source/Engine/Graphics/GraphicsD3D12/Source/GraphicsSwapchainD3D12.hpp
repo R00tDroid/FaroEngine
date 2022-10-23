@@ -1,10 +1,16 @@
 #pragma once
-#include <GraphicsAdapter.hpp>
-#include <d3d12.h>
+#include <GraphicsSwapchain.hpp>
+#include <dxgi1_5.h>
 
 namespace Faro
 {
-    class GraphicsSwapchain : public GraphicsBuffer
+    class GraphicsSwapchainD3D12 : public GraphicsSwapchain
     {
+    public:
+        void Init(GraphicsAdapter* adapter, Window* window) override;
+        void Destroy() override;
+
+    private:
+        IDXGISwapChain4* swapchain = nullptr;
     };
 }
