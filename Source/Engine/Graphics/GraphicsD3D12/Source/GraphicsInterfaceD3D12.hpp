@@ -16,6 +16,8 @@ namespace Faro
 
         GraphicsAdapter* CreateAdapter(GraphicsAdapterDesc description) override;
 
+        IDXGIFactory4* GetFactory();
+
     private:
         void DetectAdapters();
         
