@@ -5,7 +5,8 @@
     "PrivateIncludeDirectories": [
     ],
     "Dependencies": [
-        "Core"
+        "Core",
+        "PlatformBase"
     ],
     "SourceFilters": [
         "Source/**/*.cpp",

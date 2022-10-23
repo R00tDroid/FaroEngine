@@ -20,7 +20,7 @@ namespace Faro
 
         if (pendingCreation != nullptr)
         {
-            pendingCreation->windowHandle = handle;
+            pendingCreation->windowHandle.Set(handle);
             return pendingCreation->ProcessMessage(message, wParam, lParam);
         }
 
@@ -39,7 +39,7 @@ namespace Faro
 
                 if (closeWindow)
                 {
-                    DestroyWindow(windowHandle);
+                    DestroyWindow(windowHandle.GetCopy());
                 }
 
                 return 0;
@@ -63,10 +63,10 @@ namespace Faro
             case WM_MOVE:
             {
                 RECT windowRect;
-                GetWindowRect(windowHandle , &windowRect);
+                GetWindowRect(windowHandle.GetCopy(), &windowRect);
 
                 RECT clientRect;
-                GetClientRect(windowHandle, &clientRect);
+                GetClientRect(windowHandle.GetCopy(), &clientRect);
 
                 windowState.Lock();
                 windowState->outerRect = { {windowRect.left, windowRect.top }, { windowRect.right - windowRect.left, windowRect.bottom - windowRect.top } };
@@ -82,14 +82,14 @@ namespace Faro
             }
         }
 
-        return DefWindowProcA(windowHandle, message, wParam, lParam);
+        return DefWindowProcA(windowHandle.GetCopy(), message, wParam, lParam);
     }
 
     void WindowThread::SetTitle(String title)
     {
-        if (windowHandle != 0)
+        if (windowHandle.GetCopy() != 0)
         {
-            SetWindowTextA(windowHandle, title.Data());
+            SetWindowTextA(windowHandle.GetCopy(), title.Data());
         }
     }
 
@@ -122,27 +122,27 @@ namespace Faro
         pendingCreationLock.Lock();
         pendingCreation = this;
 
-        windowHandle = CreateWindowExA(0, WindowClass, nullptr, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 400, 300, nullptr, nullptr, processHandle, nullptr);
+        windowHandle.Set(CreateWindowExA(0, WindowClass, nullptr, WS_OVERLAPPEDWINDOW | WS_VISIBLE, CW_USEDEFAULT, CW_USEDEFAULT, 400, 300, nullptr, nullptr, processHandle, nullptr));
 
-        if (windowHandle == nullptr)
+        if (windowHandle.GetCopy() == nullptr)
         {
             Logger::Log(PlatformWindowsLog, LC_Error, "Failed to create window");
         }
 
-        SetWindowLongPtrA(windowHandle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+        SetWindowLongPtrA(windowHandle.GetCopy(), GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
 
         pendingCreation = nullptr;
         pendingCreationLock.Unlock();
 
-        Logger::Log(PlatformWindowsLog, LC_Trace, "Created window: %i", windowHandle);
+        Logger::Log(PlatformWindowsLog, LC_Trace, "Created window: %i", windowHandle.GetCopy());
     }
 
     void WindowThread::ThreadUpdate()
     {
-        if (windowHandle != 0) 
+        if (windowHandle.GetCopy() != 0)
         {
             MSG message;
-            while (PeekMessageA(&message, windowHandle, 0, 0, true))
+            while (PeekMessageA(&message, windowHandle.GetCopy(), 0, 0, true))
             {
                 TranslateMessage(&message);
                 DispatchMessageA(&message);
@@ -154,12 +154,12 @@ namespace Faro
 
     void WindowThread::ThreadDestroy()
     {
-        Logger::Log(PlatformWindowsLog, LC_Trace, "Destroying window: %i", windowHandle);
+        Logger::Log(PlatformWindowsLog, LC_Trace, "Destroying window: %i", windowHandle.GetCopy());
 
-        if (windowHandle != 0) 
+        if (windowHandle.GetCopy() != 0) 
         {
-            DestroyWindow(windowHandle);
-            windowHandle = 0;
+            DestroyWindow(windowHandle.GetCopy());
+            windowHandle.Set(0);
         }
     }
 
@@ -203,5 +203,10 @@ namespace Faro
     {
         windowState = windowThread.windowState.GetCopy();
         //TODO dispatch broadcast
+    }
+
+    HWND WindowWindows::GetHandle()
+    {
+        return windowThread.windowHandle.GetCopy();
     }
 }

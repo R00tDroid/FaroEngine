@@ -2,6 +2,7 @@
 #include <Containers/String.hpp>
 #include <GraphicsBuffer.hpp>
 #include <GraphicsFence.hpp>
+#include <GraphicsSwapchain.hpp>
 
 namespace Faro
 {
@@ -28,5 +29,7 @@ namespace Faro
         virtual GraphicsBuffer* CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc) = 0;
 
         virtual GraphicsFence* CreateFence() = 0;
+
+        virtual GraphicsSwapchain* CreateSwapchain(Window* window) = 0;
     };
 }

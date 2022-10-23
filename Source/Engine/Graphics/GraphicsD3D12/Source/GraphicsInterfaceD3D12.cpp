@@ -53,6 +53,11 @@ namespace Faro
         return adapter;
     }
 
+    IDXGIFactory4* GraphicsInterfaceD3D12::GetFactory()
+    {
+        return dxgiFactory;
+    }
+
     void GraphicsInterfaceD3D12::DetectAdapters()
     {
         Logger::Log(GraphicsLogD3D12, LC_Debug, "Looking for graphics adapter...");
