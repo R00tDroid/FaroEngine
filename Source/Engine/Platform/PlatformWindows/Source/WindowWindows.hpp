@@ -15,7 +15,7 @@ namespace Faro
         void SetTitle(String title);
         void SetState(WindowState state);
 
-        HWND windowHandle = nullptr;
+        ThreadSafe<HWND> windowHandle = nullptr;
 
         WindowWindows* window = nullptr;
 
@@ -39,6 +39,8 @@ namespace Faro
         WindowState GetWindowState() override;
 
         void NotifyStateChange();
+
+        HWND GetHandle();
 
     private:
         WindowThread windowThread;
