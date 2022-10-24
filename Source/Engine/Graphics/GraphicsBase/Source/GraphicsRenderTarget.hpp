@@ -9,6 +9,7 @@ namespace Faro
     class GraphicsRenderTarget : public IGraphicsAdapterChild
     {
     public:
+        void Destroy() override;
 
         virtual void CreateFromSwapchain(GraphicsSwapchain* swapchain) = 0;
         virtual void Create(Int2D resolution) = 0;
