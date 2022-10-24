@@ -3,6 +3,7 @@
 #include <GraphicsBuffer.hpp>
 #include <GraphicsFence.hpp>
 #include <GraphicsSwapchain.hpp>
+#include <GraphicsCommandlist.hpp>
 
 namespace Faro
 {
@@ -15,8 +16,6 @@ namespace Faro
 
         void* payload = nullptr;
     };
-
-    class GraphicsCommandList;
 
     class GraphicsAdapter
     {
