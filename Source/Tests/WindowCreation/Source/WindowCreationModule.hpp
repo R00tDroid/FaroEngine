@@ -1,6 +1,7 @@
 #pragma once
 #include <Module.hpp>
 #include <Platform.hpp>
+#include <GraphicsAdapter.hpp>
 
 namespace Faro
 {
@@ -14,6 +15,13 @@ namespace Faro
 
     private:
         Window* window = nullptr;
+
+        GraphicsAdapter* adapter = nullptr;
+        GraphicsFence* fence = nullptr;
+        GraphicsSwapchain* swapchain = nullptr;
+        GraphicsCommandList* commandList = nullptr;
+        GraphicsBuffer* uploadBuffer = nullptr;
+        GraphicsBuffer* remoteBuffer = nullptr;
     };
 
     REGISTER_MODULE(WindowCreationModule)
