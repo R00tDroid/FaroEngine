@@ -2,6 +2,7 @@
 #include <GraphicsAdapterChild.hpp>
 #include <Math/Vector2.hpp>
 #include <Math/Color.hpp>
+#include <GraphicsSwapchain.hpp>
 
 namespace Faro
 {
@@ -9,7 +10,7 @@ namespace Faro
     {
     public:
 
-        virtual void CreateFromSwapchain() = 0;
+        virtual void CreateFromSwapchain(GraphicsSwapchain* swapchain) = 0;
         virtual void Create(Int2D resolution) = 0;
         virtual void ReleaseResources() = 0;
 
