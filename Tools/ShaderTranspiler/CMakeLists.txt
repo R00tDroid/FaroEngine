@@ -32,6 +32,7 @@ endif()
 
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/Source
+    ${CMAKE_CURRENT_LIST_DIR}/../Shared
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
