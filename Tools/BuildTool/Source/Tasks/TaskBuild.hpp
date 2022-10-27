@@ -2,7 +2,7 @@
 #include <string>
 
 #include "ITask.hpp"
-#include "../Utility.hpp"
+#include <Utility.hpp>
 
 
 class TaskBuild : public ITask
