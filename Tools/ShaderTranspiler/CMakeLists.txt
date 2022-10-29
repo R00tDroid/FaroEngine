@@ -13,7 +13,7 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/Version.hpp.in ${CMAKE_CURRENT_L
 
 file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
-    ${CMAKE_CURRENT_LIST_DIR}/Shared/*.*
+    ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo/*.*
 )
 
 add_executable(
@@ -33,7 +33,8 @@ endif()
 
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/Source
-    ${CMAKE_CURRENT_LIST_DIR}/../Shared
+    ${CMAKE_CURRENT_LIST_DIR}/../Shared/Utils
+    ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)

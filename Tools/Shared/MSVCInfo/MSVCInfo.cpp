@@ -1,6 +1,5 @@
-#include "ToolchainInfo.hpp"
+#include "MSVCInfo.hpp"
 
-#include <algorithm>
 #include <string>
 #include <vector>
 #include <filesystem>
@@ -11,97 +10,6 @@
 #include <comdef.h>
 #include "Setup.Configuration.h"
 #endif
-
-std::vector<WindowsKit> WindowsKits;
-void FindWindowsKits()
-{
-    #ifdef WIN32
-    if (WindowsKits.empty())
-    {
-        // Find root of windows kit installations
-        HKEY Key;
-        if (FAILED(RegOpenKeyExA(HKEY_LOCAL_MACHINE, R"(SOFTWARE\Microsoft\Windows Kits\Installed Roots)", 0, KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS | KEY_WOW64_64KEY, &Key)))
-        {
-            return;
-        }
-
-        // Enumerate installed versions
-        char ValueData[MAX_PATH];
-        DWORD ValueSize = MAX_PATH;
-        if (SUCCEEDED(RegQueryValueExA(Key, "KitsRoot10", nullptr, nullptr, (LPBYTE)&ValueData, &ValueSize)))
-        {
-            std::string Kit10Root(ValueData, ValueSize - 1);
-
-            int SubKeyIndex = 0;
-
-            while (true)
-            {
-                char KeyName[MAX_PATH];
-                DWORD KeyNameSize = MAX_PATH;
-                if (RegEnumKeyExA(Key, SubKeyIndex, KeyName, &KeyNameSize, nullptr, nullptr, nullptr, nullptr) != ERROR_SUCCESS) break;
-                SubKeyIndex++;
-
-                std::string Version(KeyName, KeyNameSize);
-                std::string BinPath = Kit10Root + "Bin\\" + Version;
-                std::string LibPath = Kit10Root + "Lib\\" + Version;
-
-                if (!std::filesystem::exists(BinPath) || !std::filesystem::exists(LibPath)) continue;
-
-                WindowsKits.push_back({ Kit10Root, Version });
-            }
-        }
-
-        RegCloseKey(Key);
-
-        // Sort newest to oldest
-        if (!WindowsKits.empty())
-        {
-            std::sort(WindowsKits.begin(), WindowsKits.end(), [](const WindowsKit& A, const WindowsKit& B)
-                {
-                    return B.Version < A.Version;
-                });
-        }
-    }
-    #endif
-}
-
-const std::vector<WindowsKit>& GetWindowsKits()
-{
-    FindWindowsKits();
-    return WindowsKits;
-}
-
-int CountWindowsKits()
-{
-    FindWindowsKits();
-
-    return (int)WindowsKits.size();
-}
-
-char* GetWindowsKitRoot(int Index)
-{
-    FindWindowsKits();
-
-    if (Index >= 0 && Index < (int)WindowsKits.size())
-    {
-        return const_cast<char*>(WindowsKits[Index].Root.c_str());
-    }
-
-    return nullptr;
-}
-
-char* GetWindowsKitVersion(int Index)
-{
-    FindWindowsKits();
-
-    if (Index >= 0 && Index < (int)WindowsKits.size())
-    {
-        return const_cast<char*>(WindowsKits[Index].Version.c_str());
-    }
-
-    return nullptr;
-}
-
 
 #ifdef WIN32
 _COM_SMARTPTR_TYPEDEF(ISetupConfiguration, __uuidof(ISetupConfiguration));
@@ -197,22 +105,4 @@ const std::vector<MSVCVersion>& GetMSVCInstallations()
 {
     FindMSVCInstallations();
     return MSVCInstallations;
-}
-
-int CountMSVC()
-{
-    FindMSVCInstallations();
-    return (int)MSVCInstallations.size();
-}
-
-char* GetMSVCRoot(int Index)
-{
-    FindMSVCInstallations();
-
-    if (Index >= 0 && Index < (int)MSVCInstallations.size())
-    {
-        return const_cast<char*>(MSVCInstallations[Index].Root.c_str());
-    }
-
-    return nullptr;
 }
