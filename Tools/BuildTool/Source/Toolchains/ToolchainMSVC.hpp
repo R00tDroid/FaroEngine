@@ -1,6 +1,6 @@
 #include "IToolchain.hpp"
 #include "../ModuleManifest.hpp"
-#include "../ToolchainInfo/ToolchainInfo.hpp"
+#include "ToolchainInfo/ToolchainInfo.hpp"
 
 enum EMSVCArchitecture 
 {
