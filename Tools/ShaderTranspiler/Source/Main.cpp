@@ -1,5 +1,6 @@
 #include <Utility.hpp>
 #include <Parameters.hpp>
+#include "Command.hpp"
 #include "Version.generated.hpp"
 #include "WindowsKitInfo.hpp"
 
@@ -65,6 +66,29 @@ int main(int argc, char** argv)
     {
         Utility::PrintLine("Unable to find dxc.exe");
         return -1;
+    }
+
+    if (!shaderFiles.empty())
+    {
+        for (std::filesystem::path& shaderFile : shaderFiles)
+        {
+            std::string command = "\"" + dxcExe.string() + "\" \"" + shaderFile.string() + "\"";
+            std::string log;
+            int result = ExecuteCommand(command, log);
+
+            if (!log.empty())
+            {
+                Utility::Print(log);
+            }
+
+            if (result != 0)
+            {
+                Utility::PrintLine("Failed to compile shader");
+                return -1;
+            }
+        }
+
+        return 0;
     }
 
     Utility::PrintLine("No tasks specified");
