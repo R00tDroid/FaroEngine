@@ -15,6 +15,7 @@ file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo/*.*
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/MSVCInfo/*.*
+    ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command/*.*
 )
 
 add_executable(
@@ -38,6 +39,7 @@ include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Utils
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/MSVCInfo
+    ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)

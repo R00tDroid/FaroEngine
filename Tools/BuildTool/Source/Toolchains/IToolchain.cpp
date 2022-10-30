@@ -2,6 +2,7 @@
 #include "../ModuleManifest.hpp"
 #include "../ProjectManifest.hpp"
 #include <array>
+#include "Command.hpp"
 #include "ToolchainMSVC.hpp"
 
 #ifdef WIN32
@@ -14,18 +15,7 @@
 
 int IToolchain::ExecuteCommand(std::string command, std::string& output)
 {
-    std::array<char, 16> logBuffer {};
-    FILE* processPipe = popen_impl((command + " 2>&1").c_str(), "r");
-    if (!processPipe)
-    {
-        return -1;
-    }
-    while (fgets(logBuffer.data(), int(logBuffer.size()), processPipe) != nullptr)
-    {
-        output += logBuffer.data();
-    }
-
-    return pclose_impl(processPipe);
+    return Utility::ExecuteCommand(command, output);
 }
 
 int IToolchain::ExecuteCommand(std::string command)
