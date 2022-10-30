@@ -1,17 +1,8 @@
 #include "IToolchain.hpp"
 #include "../ModuleManifest.hpp"
 #include "../ProjectManifest.hpp"
-#include <array>
 #include "Command.hpp"
 #include "ToolchainMSVC.hpp"
-
-#ifdef WIN32
-#define popen_impl _popen
-#define pclose_impl _pclose
-#else
-#define popen_impl popen
-#define pclose_impl pclose
-#endif
 
 int IToolchain::ExecuteCommand(std::string command, std::string& output)
 {
