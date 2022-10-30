@@ -38,3 +38,6 @@ include_directories(
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
+
+set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "-shader \"${CMAKE_CURRENT_LIST_DIR}\\TestResources\\Shader.hlsl\"") 
+
