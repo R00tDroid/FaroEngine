@@ -9,7 +9,7 @@
 #define pclose_impl pclose
 #endif
 
-int ExecuteCommand(std::string command, std::string& consoleOutput)
+int Utility::ExecuteCommand(std::string command, std::string& consoleOutput)
 {
     std::array<char, 16> logBuffer{};
     FILE* processPipe = popen_impl((command + " 2>&1").c_str(), "r");

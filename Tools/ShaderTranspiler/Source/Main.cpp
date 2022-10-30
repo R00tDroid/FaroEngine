@@ -74,7 +74,7 @@ int main(int argc, char** argv)
         {
             std::string command = "\"" + dxcExe.string() + "\" \"" + shaderFile.string() + "\"";
             std::string log;
-            int result = ExecuteCommand(command, log);
+            int result = Utility::ExecuteCommand(command, log);
 
             if (!log.empty())
             {
