@@ -6,6 +6,8 @@
 void PrintHelp()
 {
     Utility::PrintLine("Faro Engine shader transpiler " + std::string(EngineVersion));
+    Utility::Print("-shader <shader paths> Path to one or more shader file to compile\n");
+    Utility::Print("-include <directory paths> Path to one or more directories for include scanning\n");
 }
 
 int main(int argc, char** argv)
