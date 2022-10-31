@@ -68,11 +68,13 @@ int main(int argc, char** argv)
         return -1;
     }
 
+    std::filesystem::path dxcDrive = dxcExe.string().substr(0, 1);
+
     if (!shaderFiles.empty())
     {
         for (std::filesystem::path& shaderFile : shaderFiles)
         {
-            std::string command = "\"" + dxcExe.string() + "\" \"" + shaderFile.string() + "\"";
+            std::string command = dxcDrive.string() + ": & \"" + dxcExe.string() + "\" -E VSMain -T vs_6_2 \"" + shaderFile.string() + "\"";
             std::string log;
             int result = Utility::ExecuteCommand(command, log);
 
