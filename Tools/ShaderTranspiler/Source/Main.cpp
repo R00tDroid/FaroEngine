@@ -74,7 +74,9 @@ int main(int argc, char** argv)
     {
         for (std::filesystem::path& shaderFile : shaderFiles)
         {
-            std::string command = dxcDrive.string() + ": & \"" + dxcExe.string() + "\" -E VSMain -T vs_6_2 -Qstrip_debug -Qstrip_reflect \"" + shaderFile.string() + "\"";
+            std::filesystem::path outputPath = shaderFile;
+            outputPath.replace_extension("vs.dxbc");
+            std::string command = dxcDrive.string() + ": & \"" + dxcExe.string() + "\" -E VSMain -T vs_6_2 -Qstrip_debug -Qstrip_reflect -Fo \"" + outputPath.string() + "\" \"" + shaderFile.string() + "\"";
             std::string log;
             int result = Utility::ExecuteCommand(command, log);
 
