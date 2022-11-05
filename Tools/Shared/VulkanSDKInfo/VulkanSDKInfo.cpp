@@ -1,4 +1,6 @@
 #include "VulkanSDKInfo.hpp"
+
+#include <algorithm>
 #include <stdlib.h>
 
 bool ReadEnvVariable(std::string variableName, std::string& value)
@@ -16,6 +18,7 @@ bool ReadEnvVariable(std::string variableName, std::string& value)
         return false;
     }
 
+    // Remove null-terminator at end of string
     if (value.back() == '\0')
     {
         value.pop_back();
@@ -37,6 +40,20 @@ void FindVulkanSDKs()
     {
         VulkanSDKs.push_back({ path, "" });
     }
+
+    // Remove duplicates
+    std::sort(VulkanSDKs.begin(), VulkanSDKs.end());
+    VulkanSDKs.erase(unique(VulkanSDKs.begin(), VulkanSDKs.end()), VulkanSDKs.end());
+}
+
+bool operator<(const VulkanSDK& a, const VulkanSDK& b)
+{
+    return std::tie(a.Root, a.Version) < std::tie(b.Root, b.Version);
+}
+
+bool operator==(const VulkanSDK& a, const VulkanSDK& b)
+{
+    return std::tie(a.Root, a.Version) == std::tie(b.Root, b.Version);
 }
 
 const std::vector<VulkanSDK>& GetVulkanSDKs()
