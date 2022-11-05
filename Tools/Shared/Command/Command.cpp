@@ -87,9 +87,7 @@ void Utility::ExecuteCommandAsync(std::string command, std::function<void()> onB
 
 std::string Utility::Convert(std::wstring string)
 {
-    std::string result;
-    result.resize(string.length());
-
+#ifdef WIN32
     size_t stringLength;
     if (0 != wcstombs_s(&stringLength, nullptr, 0, string.c_str(), string.length()))
     {
@@ -100,14 +98,17 @@ std::string Utility::Convert(std::wstring string)
     {
         return {};
     }
+#else
+    size_t stringLength = wcstombs(nullptr, string.c_str(), string.length());
+    std::string str(stringLength, 0);
+    wcstombs(str.data(), string.c_str(), string.length());
+#endif
     return str;
 }
 
 std::wstring Utility::Convert(std::string string)
 {
-    std::string result;
-    result.resize(string.length());
-
+#ifdef WIN32
     size_t stringLength;
     if (0 != mbstowcs_s(&stringLength, nullptr, 0, string.c_str(), string.length()))
     {
@@ -118,5 +119,10 @@ std::wstring Utility::Convert(std::string string)
     {
         return {};
     }
+#else
+    size_t stringLength = mbstowcs(nullptr, string.c_str(), string.length());
+    std::wstring wstr(stringLength, 0);
+    mbstowcs(wstr.data(), string.c_str(), string.length());
+#endif
     return wstr;
 }
