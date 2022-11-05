@@ -33,6 +33,8 @@ void Utility::ExecuteCommandAsync(std::string command, std::function<void()> onB
     {
         onBegin();
 
+
+#ifdef WIN32
         HANDLE stdOutWrite = nullptr;
         HANDLE stdOutRead = nullptr;
 
@@ -73,11 +75,15 @@ void Utility::ExecuteCommandAsync(std::string command, std::function<void()> onB
         }
 
         WaitForSingleObject(processInfo.hProcess, INFINITE);
-        DWORD exitCode;
+        DWORD exitCode = 0;
         GetExitCodeProcess(processInfo.hProcess, &exitCode);
 
         CloseHandle(processInfo.hProcess);
         CloseHandle(processInfo.hThread);
+#else
+        int exitCode = 0;
+        onLog("Async execution not supported for: " + command);
+#endif
 
         onExit(true, (int)exitCode);
     });
