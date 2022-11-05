@@ -29,12 +29,11 @@ int Utility::ExecuteCommand(std::string command, std::string& consoleOutput)
 
 void Utility::ExecuteCommandAsync(std::string command, std::function<void()> onBegin, std::function<void(std::string logString)> onLog, std::function<void(bool commandSuccess, int commandResult)> onExit)
 {
+#ifdef WIN32
     std::thread thread([command, onBegin, onLog, onExit]()
     {
         onBegin();
 
-
-#ifdef WIN32
         HANDLE stdOutWrite = nullptr;
         HANDLE stdOutRead = nullptr;
 
@@ -80,15 +79,16 @@ void Utility::ExecuteCommandAsync(std::string command, std::function<void()> onB
 
         CloseHandle(processInfo.hProcess);
         CloseHandle(processInfo.hThread);
-#else
-        int exitCode = 0;
-        onLog("Async execution not supported for: " + command);
-#endif
 
         onExit(true, (int)exitCode);
     });
 
     thread.detach();
+#else
+    onBegin();
+    onLog("Async execution not supported for: " + command);
+    onExit(false, -1);
+#endif
 }
 
 std::string Utility::Convert(std::wstring string)
