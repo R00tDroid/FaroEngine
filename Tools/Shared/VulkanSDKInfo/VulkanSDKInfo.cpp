@@ -35,12 +35,12 @@ void FindVulkanSDKs()
     std::string path;
     if (ReadEnvVariable("VK_SDK_PATH", path))
     {
-        VulkanSDKs.push_back({ path, ""});
+        VulkanSDKs.push_back({ path });
     }
 
     if (ReadEnvVariable("VULKAN_SDK", path))
     {
-        VulkanSDKs.push_back({ path, "" });
+        VulkanSDKs.push_back({ path });
     }
 
     // Remove duplicates
@@ -50,12 +50,12 @@ void FindVulkanSDKs()
 
 bool operator<(const VulkanSDK& a, const VulkanSDK& b)
 {
-    return std::tie(a.Root, a.Version) < std::tie(b.Root, b.Version);
+    return std::tie(a.Root) < std::tie(b.Root);
 }
 
 bool operator==(const VulkanSDK& a, const VulkanSDK& b)
 {
-    return std::tie(a.Root, a.Version) == std::tie(b.Root, b.Version);
+    return std::tie(a.Root) == std::tie(b.Root);
 }
 
 const std::vector<VulkanSDK>& GetVulkanSDKs()

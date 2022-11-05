@@ -5,7 +5,6 @@
 struct VulkanSDK
 {
     std::string Root;
-    std::string Version;
 };
 
 extern bool operator<(const VulkanSDK& a, const VulkanSDK& b);
