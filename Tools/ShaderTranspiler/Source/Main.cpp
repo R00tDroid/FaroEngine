@@ -12,39 +12,16 @@ void PrintHelp()
 }
 
 std::filesystem::path dxcExe;
+std::vector<std::filesystem::path> shaderFiles;
 
-bool CompileShader(std::filesystem::path& file, std::filesystem::path output, std::string parameters)
+bool ParseParameters(ParameterList& parameters)
 {
-    std::filesystem::path dxcDrive = dxcExe.root_name();
-    std::string command = dxcDrive.string() + " & \"" + dxcExe.string() + "\" -Qstrip_debug -Fo \"" + output.string() + "\" " + parameters + " \"" + file.string() + "\"";
-    std::string log;
-    int result = Utility::ExecuteCommand(command, log);
-
-    if (!log.empty())
-    {
-        Utility::Print(log);
-    }
-
-    return result == 0;
-}
-
-int main(int argc, char** argv)
-{
-    ParameterList parameters(argc, argv);
-
-    if (parameters.Contains("help"))
-    {
-        PrintHelp();
-        return 0;
-    }
-
-    std::vector<std::filesystem::path> shaderFiles;
     if (parameters.Contains("shader"))
     {
         if (parameters.CountArguments("shader") == 0)
         {
             Utility::PrintLine("-shader requires at least one path");
-            return -1;
+            return false;
         }
 
         bool anyFailed = false;
@@ -64,9 +41,13 @@ int main(int argc, char** argv)
             shaderFiles.push_back(shaderPath);
         }
 
-        if (anyFailed) return -1;
+        if (anyFailed) return false;
     }
+    return true;
+}
 
+bool LoadEnvironment()
+{
     const std::vector<VulkanSDK>& vulkanSDKs = GetVulkanSDKs();
     for (const VulkanSDK& vulkanSDK : vulkanSDKs)
     {
@@ -81,34 +62,71 @@ int main(int argc, char** argv)
     if (dxcExe.empty())
     {
         Utility::PrintLine("Unable to find dxc.exe");
-        return -1;
+        return false;
     }
+
+    return true;
+}
+
+bool CompileShader(std::filesystem::path& file, std::filesystem::path output, std::string parameters)
+{
+    std::filesystem::path dxcDrive = dxcExe.root_name();
+    std::string command = dxcDrive.string() + " & \"" + dxcExe.string() + "\" -Qstrip_debug -Fo \"" + output.string() + "\" " + parameters + " \"" + file.string() + "\"";
+    std::string log;
+    int result = Utility::ExecuteCommand(command, log);
+
+    if (!log.empty())
+    {
+        Utility::Print(log);
+    }
+
+    return result == 0;
+}
+
+bool CompileShaders()
+{
+    for (std::filesystem::path& shaderFile : shaderFiles)
+    {
+        std::string outputPath = (shaderFile.parent_path() / shaderFile.stem()).string();
+
+        if (
+            !CompileShader(shaderFile, outputPath + ".vs.dxbc", "-T vs_6_2 -E VSMain -Qstrip_reflect") ||
+            !CompileShader(shaderFile, outputPath + ".ps.dxbc", "-T ps_6_2 -E PSMain -Qstrip_reflect")
+            )
+        {
+            Utility::PrintLine("Failed to compile shader");
+            return false;
+        }
+
+        if (
+            !CompileShader(shaderFile, outputPath + ".vs.spv", "-T vs_6_2 -E VSMain -spirv") ||
+            !CompileShader(shaderFile, outputPath + ".ps.spv", "-T ps_6_2 -E PSMain -spirv")
+            )
+        {
+            Utility::PrintLine("Failed to compile shader");
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int main(int argc, char** argv)
+{
+    ParameterList parameters(argc, argv);
+
+    if (parameters.Contains("help"))
+    {
+        PrintHelp();
+        return 0;
+    }
+
+    if (!ParseParameters(parameters)) return -1;
 
     if (!shaderFiles.empty())
     {
-        for (std::filesystem::path& shaderFile : shaderFiles)
-        {
-            std::string outputPath = (shaderFile.parent_path() / shaderFile.stem()).string();
-
-            if (
-                !CompileShader(shaderFile, outputPath + ".vs.dxbc", "-T vs_6_2 -E VSMain -Qstrip_reflect") ||
-                !CompileShader(shaderFile, outputPath + ".ps.dxbc", "-T ps_6_2 -E PSMain -Qstrip_reflect")
-                )
-            {
-                Utility::PrintLine("Failed to compile shader");
-                return -1;
-            }
-
-            if (
-                !CompileShader(shaderFile, outputPath + ".vs.spv", "-T vs_6_2 -E VSMain -spirv") ||
-                !CompileShader(shaderFile, outputPath + ".ps.spv", "-T ps_6_2 -E PSMain -spirv")
-                )
-            {
-                Utility::PrintLine("Failed to compile shader");
-                return -1;
-            }
-        }
-
+        if (!LoadEnvironment()) return -1;
+        if (!CompileShaders()) return -1;
         return 0;
     }
 
