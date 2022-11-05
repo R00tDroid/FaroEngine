@@ -2,7 +2,7 @@
 #include <Parameters.hpp>
 #include "Command.hpp"
 #include "Version.generated.hpp"
-#include "WindowsKitInfo.hpp"
+#include "VulkanSDKInfo.hpp"
 
 void PrintHelp()
 {
@@ -16,7 +16,7 @@ std::filesystem::path dxcExe;
 bool CompileShader(std::filesystem::path& file, std::filesystem::path output, std::string parameters)
 {
     std::filesystem::path dxcDrive = dxcExe.root_name();
-    std::string command = dxcDrive.string() + " & \"" + dxcExe.string() + "\" -Qstrip_debug -Qstrip_reflect -Fo \"" + output.string() + "\" " + parameters + " \"" + file.string() + "\"";
+    std::string command = dxcDrive.string() + " & \"" + dxcExe.string() + "\" -Qstrip_debug -Fo \"" + output.string() + "\" " + parameters + " \"" + file.string() + "\"";
     std::string log;
     int result = Utility::ExecuteCommand(command, log);
 
@@ -67,10 +67,10 @@ int main(int argc, char** argv)
         if (anyFailed) return -1;
     }
 
-    const std::vector<WindowsKit>& windowsKits = GetWindowsKits();
-    for (const WindowsKit& windowsKit : windowsKits)
+    const std::vector<VulkanSDK>& vulkanSDKs = GetVulkanSDKs();
+    for (const VulkanSDK& vulkanSDK : vulkanSDKs)
     {
-        std::filesystem::path path = std::filesystem::path(windowsKit.Root) / "bin" / windowsKit.Version / "x64" / "dxc.exe";
+        std::filesystem::path path = std::filesystem::path(vulkanSDK.Root) / "bin" / "dxc.exe";
         if (std::filesystem::exists(path))
         {
             dxcExe = path;
@@ -91,8 +91,8 @@ int main(int argc, char** argv)
             std::string outputPath = (shaderFile.parent_path() / shaderFile.stem()).string();
 
             if (
-                !CompileShader(shaderFile, outputPath + ".vs.dxbc", "-T vs_6_2 -E VSMain") ||
-                !CompileShader(shaderFile, outputPath + ".ps.dxbc", "-T ps_6_2 -E PSMain")
+                !CompileShader(shaderFile, outputPath + ".vs.dxbc", "-T vs_6_2 -E VSMain -Qstrip_reflect") ||
+                !CompileShader(shaderFile, outputPath + ".ps.dxbc", "-T ps_6_2 -E PSMain -Qstrip_reflect")
                 )
             {
                 Utility::PrintLine("Failed to compile shader");
