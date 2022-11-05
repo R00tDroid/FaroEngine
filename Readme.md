@@ -10,11 +10,6 @@ A modular platform agnostic engine designed for low-overhead graphics.
 [![pages-build-deployment](https://github.com/R00tDroid/FaroEngine/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/R00tDroid/FaroEngine/actions/workflows/pages/pages-build-deployment)
 [![CodeFactor](https://www.codefactor.io/repository/github/r00tdroid/faroengine/badge)](https://www.codefactor.io/repository/github/r00tdroid/faroengine)
 
-
-![Lines](https://tokei.rs/b1/github/R00tDroid/FaroEngine?category=lines)
-![Codelines](https://tokei.rs/b1/github/R00tDroid/FaroEngine?category=code)
-![Files](https://tokei.rs/b1/github/R00tDroid/FaroEngine?category=files)
-
 [Online documentation](https://r00tdroid.github.io/FaroEngine)
 
 ## Prerequisites
