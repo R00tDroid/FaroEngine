@@ -87,16 +87,36 @@ void Utility::ExecuteCommandAsync(std::string command, std::function<void()> onB
 
 std::string Utility::Convert(std::wstring string)
 {
-    int stringLength = WideCharToMultiByte(CP_ACP, 0, string.c_str(), (int)string.length(), nullptr, 0, nullptr, nullptr);
+    std::string result;
+    result.resize(string.length());
+
+    size_t stringLength;
+    if (0 != wcstombs_s(&stringLength, nullptr, 0, string.c_str(), string.length()))
+    {
+        return {};
+    }
     std::string str(stringLength, 0);
-    WideCharToMultiByte(CP_ACP, 0, string.c_str(), -1, &str[0], stringLength, nullptr, nullptr);
+    if (0 != wcstombs_s(&stringLength, str.data(), stringLength, string.c_str(), string.length()))
+    {
+        return {};
+    }
     return str;
 }
 
 std::wstring Utility::Convert(std::string string)
 {
-    int stringLength = MultiByteToWideChar(CP_ACP, 0, string.c_str(), (int)string.length(), nullptr, 0);
+    std::string result;
+    result.resize(string.length());
+
+    size_t stringLength;
+    if (0 != mbstowcs_s(&stringLength, nullptr, 0, string.c_str(), string.length()))
+    {
+        return {};
+    }
     std::wstring wstr(stringLength, 0);
-    MultiByteToWideChar(CP_ACP, 0, string.c_str(), (int)string.length(), &wstr[0], stringLength);
+    if (0 != mbstowcs_s(&stringLength, wstr.data(), stringLength, string.c_str(), string.length()))
+    {
+        return {};
+    }
     return wstr;
 }
