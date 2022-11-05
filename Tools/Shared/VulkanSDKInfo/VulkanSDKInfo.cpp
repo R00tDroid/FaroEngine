@@ -16,6 +16,11 @@ bool ReadEnvVariable(std::string variableName, std::string& value)
         return false;
     }
 
+    if (value.back() == '\0')
+    {
+        value.pop_back();
+    }
+
     return true;
 }
 
@@ -25,9 +30,13 @@ void FindVulkanSDKs()
     std::string path;
     if (ReadEnvVariable("VK_SDK_PATH", path))
     {
-        VulkanSDKs.push_back({ path, "" });
+        VulkanSDKs.push_back({ path, ""});
     }
 
+    if (ReadEnvVariable("VULKAN_SDK", path))
+    {
+        VulkanSDKs.push_back({ path, "" });
+    }
 }
 
 const std::vector<VulkanSDK>& GetVulkanSDKs()
