@@ -11,6 +11,23 @@ void PrintHelp()
     Utility::Print("-include <directory paths> Path to one or more directories for include scanning\n");
 }
 
+std::filesystem::path dxcExe;
+
+bool CompileShader(std::filesystem::path& file, std::filesystem::path output, std::string parameters)
+{
+    std::filesystem::path dxcDrive = dxcExe.root_name();
+    std::string command = dxcDrive.string() + " & \"" + dxcExe.string() + "\" -Qstrip_debug -Qstrip_reflect -Fo \"" + output.string() + "\" " + parameters + " \"" + file.string() + "\"";
+    std::string log;
+    int result = Utility::ExecuteCommand(command, log);
+
+    if (!log.empty())
+    {
+        Utility::Print(log);
+    }
+
+    return result == 0;
+}
+
 int main(int argc, char** argv)
 {
     ParameterList parameters(argc, argv);
@@ -50,7 +67,6 @@ int main(int argc, char** argv)
         if (anyFailed) return -1;
     }
 
-    std::filesystem::path dxcExe;
     const std::vector<WindowsKit>& windowsKits = GetWindowsKits();
     for (const WindowsKit& windowsKit : windowsKits)
     {
@@ -68,24 +84,16 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    std::filesystem::path dxcDrive = dxcExe.string().substr(0, 1);
-
     if (!shaderFiles.empty())
     {
         for (std::filesystem::path& shaderFile : shaderFiles)
         {
-            std::filesystem::path outputPath = shaderFile;
-            outputPath.replace_extension("vs.dxbc");
-            std::string command = dxcDrive.string() + ": & \"" + dxcExe.string() + "\" -E VSMain -T vs_6_2 -Qstrip_debug -Qstrip_reflect -Fo \"" + outputPath.string() + "\" \"" + shaderFile.string() + "\"";
-            std::string log;
-            int result = Utility::ExecuteCommand(command, log);
+            std::string outputPath = (shaderFile.parent_path() / shaderFile.stem()).string();
 
-            if (!log.empty())
-            {
-                Utility::Print(log);
-            }
-
-            if (result != 0)
+            if (
+                !CompileShader(shaderFile, outputPath + ".vs.dxbc", "-T vs_6_2 -E VSMain") ||
+                !CompileShader(shaderFile, outputPath + ".ps.dxbc", "-T ps_6_2 -E PSMain")
+                )
             {
                 Utility::PrintLine("Failed to compile shader");
                 return -1;
