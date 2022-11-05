@@ -98,6 +98,15 @@ int main(int argc, char** argv)
                 Utility::PrintLine("Failed to compile shader");
                 return -1;
             }
+
+            if (
+                !CompileShader(shaderFile, outputPath + ".vs.spv", "-T vs_6_2 -E VSMain -spirv") ||
+                !CompileShader(shaderFile, outputPath + ".ps.spv", "-T ps_6_2 -E PSMain -spirv")
+                )
+            {
+                Utility::PrintLine("Failed to compile shader");
+                return -1;
+            }
         }
 
         return 0;
