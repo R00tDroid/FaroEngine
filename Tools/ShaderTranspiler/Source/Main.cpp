@@ -1,8 +1,10 @@
 #include <Utility.hpp>
 #include <Parameters.hpp>
 #include "Command.hpp"
+#include "Shader.h"
 #include "Version.generated.hpp"
 #include "VulkanSDKInfo.hpp"
+#include <dxcapi.h>
 
 void PrintHelp()
 {
@@ -68,30 +70,86 @@ bool LoadEnvironment()
     return true;
 }
 
-bool CompileShader(std::filesystem::path& file, std::filesystem::path output, std::string parameters)
+bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string parameters)
 {
-    std::filesystem::path dxcDrive = dxcExe.root_name();
-    std::string command = dxcDrive.string() + " & \"" + dxcExe.string() + "\" -Qstrip_debug -Fo \"" + output.string() + "\" " + parameters + " \"" + file.string() + "\"";
-    std::string log;
-    int result = Utility::ExecuteCommand(command, log);
+    output.data = nullptr;
+    output.dataSize = 0;
 
-    if (!log.empty())
+    std::ifstream shaderFile(file, std::ios::binary | std::ios::ate);
+    std::streamsize size = shaderFile.tellg();
+    shaderFile.seekg(0, std::ios::beg);
+    std::vector<char> sourceData(size);
+    shaderFile.read(sourceData.data(), size);
+    shaderFile.close();
+
+    IDxcUtils* dxUtils;
+    DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxUtils));
+    IDxcBlobEncoding* sourceBlob;
+    dxUtils->CreateBlob(sourceData.data(), (UINT32)sourceData.size(), CP_UTF8, &sourceBlob);
+
+    DxcBuffer sourceBuffer;
+    sourceBuffer.Ptr = sourceBlob->GetBufferPointer();
+    sourceBuffer.Size = sourceBlob->GetBufferSize();
+    sourceBuffer.Encoding = 0;
+
+    std::vector<LPWSTR> arguments;
+    arguments.push_back(L"-E");
+    arguments.push_back(L"VSMain");
+
+    arguments.push_back(L"-T");
+    arguments.push_back(L"vs_6_2");
+
+    arguments.push_back(L"-Qstrip_debug");
+    arguments.push_back(L"-Qstrip_reflect");
+
+    arguments.push_back(DXC_ARG_WARNINGS_ARE_ERRORS);
+    arguments.push_back(DXC_ARG_DEBUG);
+    arguments.push_back(DXC_ARG_PACK_MATRIX_ROW_MAJOR);
+
+    IDxcCompiler3* dxCompiler;
+    DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxCompiler));
+
+    IDxcResult* compilerResult;
+    if (FAILED(dxCompiler->Compile(&sourceBuffer, const_cast<LPCWSTR*>(arguments.data()), (UINT32)arguments.size(), nullptr, IID_PPV_ARGS(&compilerResult))))
     {
-        Utility::Print(log);
+        return false;
     }
 
-    return result == 0;
+    IDxcBlobUtf8* errorBuffer = nullptr;
+    if (SUCCEEDED(compilerResult->GetOutput(DXC_OUT_ERRORS, IID_PPV_ARGS(&errorBuffer), nullptr))) 
+    {
+        if (errorBuffer != nullptr && errorBuffer->GetStringLength() > 0)
+        {
+            Utility::Print(static_cast<char*>(errorBuffer->GetBufferPointer()));
+        }
+    }
+
+    IDxcBlobUtf8* binaryBlob = nullptr;
+    if (SUCCEEDED(compilerResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&binaryBlob), nullptr)) && binaryBlob != nullptr)
+    {
+        output.dataSize = (unsigned int)binaryBlob->GetBufferSize();
+        output.data = static_cast<unsigned char*>(malloc(output.dataSize));
+        std::memcpy(output.data, binaryBlob->GetBufferPointer(), output.dataSize);
+
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 bool CompileShaders()
 {
     for (std::filesystem::path& shaderFile : shaderFiles)
     {
+        Shader shader;
+
         std::string outputPath = (shaderFile.parent_path() / shaderFile.stem()).string();
 
         if (
-            !CompileShader(shaderFile, outputPath + ".vs.dxbc", "-T vs_6_2 -E VSMain -Qstrip_reflect") ||
-            !CompileShader(shaderFile, outputPath + ".ps.dxbc", "-T ps_6_2 -E PSMain -Qstrip_reflect")
+            !CompileShader(shaderFile, shader.dxil.vertex, "-T vs_6_2 -E VSMain -Qstrip_reflect") ||
+            !CompileShader(shaderFile, shader.dxil.pixel, "-T ps_6_2 -E PSMain -Qstrip_reflect")
             )
         {
             Utility::PrintLine("Failed to compile shader");
@@ -99,8 +157,8 @@ bool CompileShaders()
         }
 
         if (
-            !CompileShader(shaderFile, outputPath + ".vs.spv", "-T vs_6_2 -E VSMain -spirv") ||
-            !CompileShader(shaderFile, outputPath + ".ps.spv", "-T ps_6_2 -E PSMain -spirv")
+            !CompileShader(shaderFile, shader.spirV.vertex, "-T vs_6_2 -E VSMain -spirv") ||
+            !CompileShader(shaderFile, shader.spirV.pixel, "-T ps_6_2 -E PSMain -spirv")
             )
         {
             Utility::PrintLine("Failed to compile shader");
