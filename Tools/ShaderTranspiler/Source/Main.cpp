@@ -4,7 +4,11 @@
 #include "Shader.h"
 #include "Version.generated.hpp"
 #include "VulkanSDKInfo.hpp"
+
+#ifdef _WIN32
 #include <dxcapi.h>
+#pragma comment(lib, "dxcompiler.lib")
+#endif
 
 void PrintHelp()
 {
@@ -75,6 +79,7 @@ bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string
     output.data = nullptr;
     output.dataSize = 0;
 
+#ifdef _WIN32
     std::ifstream shaderFile(file, std::ios::binary | std::ios::ate);
     std::streamsize size = shaderFile.tellg();
     shaderFile.seekg(0, std::ios::beg);
@@ -137,6 +142,9 @@ bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string
     {
         return false;
     }
+#else
+    return false;
+#endif
 }
 
 bool CompileShaders()

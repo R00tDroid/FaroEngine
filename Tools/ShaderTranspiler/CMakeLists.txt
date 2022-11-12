@@ -33,10 +33,6 @@ else()
     )
 endif()
 
-target_link_libraries(${PROJECT_NAME}
-    dxcompiler.lib
-)
-
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/Source
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Utils
