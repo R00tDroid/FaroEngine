@@ -143,6 +143,7 @@ bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string
         return false;
     }
 #else
+    Utility::PrintLine("Compilation not support for: " + file.string() + "(" + parameters + ")");
     return false;
 #endif
 }
