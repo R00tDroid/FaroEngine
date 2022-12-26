@@ -10,6 +10,8 @@ namespace Faro
         void Init(GraphicsAdapter* adapter, Window* window) override;
         void Destroy() override;
 
+        IDXGISwapChain4* GetNativeSwapchain();
+
     private:
         IDXGISwapChain4* swapchain = nullptr;
     };

@@ -22,14 +22,17 @@ namespace Faro
     void GraphicsSwapchain::Init(GraphicsAdapter* adapter, Window* window)
     {
         IGraphicsAdapterChild::Init(adapter);
-
-        GraphicsBufferDesc backbufferDesc = GraphicsBufferDesc::SwapchainImage(this, 0);
-        backbuffer = GetAdapter()->CreateBufferContainer<GraphicsSwapchainImageContainer>(BT_Remote, backbufferDesc);
     }
 
     void GraphicsSwapchain::Destroy()
     {
         MemoryManager::SafeDelete(backbuffer);
         IGraphicsAdapterChild::Destroy();
+    }
+
+    void GraphicsSwapchain::CreateBackbuffer()
+    {
+        GraphicsBufferDesc backbufferDesc = GraphicsBufferDesc::SwapchainImage(this, 0);
+        backbuffer = GetAdapter()->CreateBufferContainer<GraphicsSwapchainImageContainer>(BT_Remote, backbufferDesc);
     }
 }

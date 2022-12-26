@@ -1,7 +1,8 @@
 #include "GraphicsBufferD3D12.hpp"
-#include "GraphicsAdapterD3D12.hpp"
+#include <GraphicsAdapterD3D12.hpp>
 #include <directx/d3dx12.h>
 #include <Memory/MemoryManager.hpp>
+#include <GraphicsSwapchainD3D12.hpp>
 
 namespace Faro
 {
@@ -67,13 +68,24 @@ namespace Faro
     {
         IGraphicsAdapterChild::Init();
 
-        D3D12_HEAP_PROPERTIES heapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
-        D3D12_RESOURCE_DESC resourceDesc = GetNativeDesc();
+        if (GetDesc().texture.renderTarget && GetDesc().renderTarget.swapchain != nullptr)
+        {
+            GraphicsSwapchainD3D12* swapchain = static_cast<GraphicsSwapchainD3D12*>(GetDesc().renderTarget.swapchain);
+            swapchain->GetNativeSwapchain()->GetBuffer(GetDesc().renderTarget.swapchainImageIndex, IID_PPV_ARGS(&gpuResource));
+            gpuResource->SetName(L"GraphicsBufferRemoteD3D12::SwapchainImage");
+            //TODO set dimensions to desc
+            SetResourceState(RS_Unknown);
+        }
+        else 
+        {
+            D3D12_HEAP_PROPERTIES heapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+            D3D12_RESOURCE_DESC resourceDesc = GetNativeDesc();
 
-        GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_COMMON, nullptr, IID_PPV_ARGS(&gpuResource));
-        gpuResource->SetName(L"GraphicsBufferRemoteD3D12");
+            GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateCommittedResource(&heapProperties, D3D12_HEAP_FLAG_NONE, &resourceDesc, D3D12_RESOURCE_STATE_COMMON, nullptr, IID_PPV_ARGS(&gpuResource));
+            gpuResource->SetName(L"GraphicsBufferRemoteD3D12");
 
-        SetResourceState(RS_Unknown);
+            SetResourceState(RS_Unknown);
+        }
     }
 
     D3D12_RESOURCE_DESC GraphicsBufferRemoteD3D12::GetNativeDesc()
