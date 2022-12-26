@@ -37,6 +37,7 @@ namespace Faro
 
         commandList->SetResourceState(swapchain->backbuffer->Get(), RS_RenderTarget);
         commandList->ClearRenderTarget(swapchain->backbuffer->Get(), FloatColor::Green);
+        commandList->SetResourceState(swapchain->backbuffer->Get(), RS_Present);
 
         LogWindowCreationTest.Log(LC_Info, "Execute commandlsit");
         commandList->Execute();
@@ -46,6 +47,8 @@ namespace Faro
 
         LogWindowCreationTest.Log(LC_Info, "Wait for fence...");
         fence->WaitForFinish();
+
+        swapchain->Present();
 
         LogWindowCreationTest.Log(LC_Info, "Load finished");
     }
