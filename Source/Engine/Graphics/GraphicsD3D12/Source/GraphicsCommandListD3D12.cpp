@@ -56,4 +56,10 @@ namespace Faro
 
         commandList->CopyResource(destination->GetResource(), source->GetResource());
     }
+
+    void GraphicsCommandListD3D12::ClearRenderTarget(GraphicsBuffer* inRenderTarget, FloatColor color)
+    {
+        IGraphicsBufferD3D12* renderTarget = static_cast<IGraphicsBufferD3D12*>(inRenderTarget);
+        commandList->ClearRenderTargetView(renderTarget->GetDescriptor(), color.d, 0, nullptr);
+    }
 }
