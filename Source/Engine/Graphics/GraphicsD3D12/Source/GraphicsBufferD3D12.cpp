@@ -22,6 +22,12 @@ namespace Faro
 
     void IGraphicsBufferD3D12::Destroy()
     {
+        if (descriptorHeap != nullptr) 
+        {
+            descriptorHeap->Release();
+            descriptorHeap = nullptr;
+        }
+
         gpuResource->Release();
         gpuResource = nullptr;
 
