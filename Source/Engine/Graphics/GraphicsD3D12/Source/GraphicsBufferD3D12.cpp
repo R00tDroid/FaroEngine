@@ -43,6 +43,15 @@ namespace Faro
         return gpuResource;
     }
 
+    D3D12_CPU_DESCRIPTOR_HANDLE IGraphicsBufferD3D12::GetDescriptor()
+    {
+        if (descriptorHeap != nullptr)
+        {
+            return CD3DX12_CPU_DESCRIPTOR_HANDLE(descriptorHeap->GetCPUDescriptorHandleForHeapStart(), 1, descriptorHeapSize);
+        }
+        return {};
+    }
+
     void GraphicsBufferUploadD3D12::Init()
     {
         IGraphicsAdapterChild::Init();
@@ -75,6 +84,19 @@ namespace Faro
             gpuResource->SetName(L"GraphicsBufferRemoteD3D12::SwapchainImage");
             //TODO set dimensions to desc
             SetResourceState(RS_Unknown);
+
+            D3D12_DESCRIPTOR_HEAP_DESC descriptorHeapDesc = {};
+            descriptorHeapDesc.NumDescriptors = 2;
+            descriptorHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+            descriptorHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+
+            ID3D12Device* device = GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice();
+            device->CreateDescriptorHeap(&descriptorHeapDesc, IID_PPV_ARGS(&descriptorHeap));
+            descriptorHeapSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+            CD3DX12_CPU_DESCRIPTOR_HANDLE descriptorHandle(descriptorHeap->GetCPUDescriptorHandleForHeapStart());
+            descriptorHandle.Offset(1, descriptorHeapSize);
+            device->CreateRenderTargetView(gpuResource, nullptr, descriptorHandle);
         }
         else 
         {
