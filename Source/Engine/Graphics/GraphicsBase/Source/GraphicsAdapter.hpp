@@ -4,6 +4,8 @@
 #include <GraphicsFence.hpp>
 #include <GraphicsSwapchain.hpp>
 #include <GraphicsCommandlist.hpp>
+#include <GraphicsBufferContainer.hpp>
+#include <Memory/MemoryManager.hpp>
 
 namespace Faro
 {
@@ -26,6 +28,19 @@ namespace Faro
         virtual GraphicsCommandList* CreateCommandList() = 0;
 
         virtual GraphicsBuffer* CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc) = 0;
+
+        template<class T>
+        T* CreateBufferContainer(GraphicsBufferType type, GraphicsBufferDesc desc)
+        {
+            T* bufferContainer = MemoryManager::New<T>();
+            bufferContainer->Init(this, type, desc);
+            return bufferContainer;
+        }
+
+        GraphicsBufferContainer* CreateBufferContainer(GraphicsBufferType type, GraphicsBufferDesc desc)
+        {
+            return CreateBufferContainer<GraphicsBufferContainer>(type, desc);
+        }
 
         virtual GraphicsFence* CreateFence() = 0;
 
