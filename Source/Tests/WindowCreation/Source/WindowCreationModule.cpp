@@ -35,6 +35,7 @@ namespace Faro
 
         commandList->CopyBuffer(uploadBuffer, remoteBuffer);
 
+        commandList->SetResourceState(swapchain->backbuffer->Get(), RS_RenderTarget);
         commandList->ClearRenderTarget(swapchain->backbuffer->Get(), FloatColor::Green);
 
         LogWindowCreationTest.Log(LC_Info, "Execute commandlsit");
