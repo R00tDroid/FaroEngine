@@ -7,7 +7,7 @@ namespace Faro
     {
     public:
         virtual void Init(GraphicsAdapter* adapter, GraphicsBufferType type, GraphicsBufferDesc desc);
-        virtual void Destroy() override;
+        void Destroy() override;
 
         GraphicsBuffer* Get();
 
