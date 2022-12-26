@@ -17,6 +17,8 @@ namespace Faro
         virtual void Init(GraphicsAdapter* adapter, Window* window);
         void Destroy() override;
 
+        virtual void Present() = 0;
+
         GraphicsSwapchainImageContainer* backbuffer = nullptr;
 
     protected:

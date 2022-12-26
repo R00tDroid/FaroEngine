@@ -41,4 +41,10 @@ namespace Faro
     {
         return swapchain;
     }
+
+    void GraphicsSwapchainD3D12::Present()
+    {
+        DXGI_PRESENT_PARAMETERS presentParams = { };
+        swapchain->Present1(0, 0, &presentParams);
+    }
 }

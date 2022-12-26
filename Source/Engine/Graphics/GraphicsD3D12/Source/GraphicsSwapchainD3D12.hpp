@@ -12,6 +12,8 @@ namespace Faro
 
         IDXGISwapChain4* GetNativeSwapchain();
 
+        void Present() override;
+
     private:
         IDXGISwapChain4* swapchain = nullptr;
     };
