@@ -4,12 +4,27 @@
 
 namespace Faro
 {
+    void GraphicsSwapchainImageContainer::Init(GraphicsAdapter* adapter, GraphicsBufferType inType, GraphicsBufferDesc inDesc)
+    {
+        IGraphicsAdapterChild::Init(adapter);
+        type = inType;
+        desc = inDesc;
+
+        GraphicsBufferDesc desc1 = desc;
+        desc1.renderTarget.swapchainImageIndex = 0;
+        resources[0] = GetAdapter()->CreateBuffer(type, desc1);
+
+        GraphicsBufferDesc desc2 = desc;
+        desc2.renderTarget.swapchainImageIndex = 1;
+        resources[1] = GetAdapter()->CreateBuffer(type, desc2);
+    }
+
     void GraphicsSwapchain::Init(GraphicsAdapter* adapter, Window* window)
     {
         IGraphicsAdapterChild::Init(adapter);
 
-        GraphicsBufferDesc backbufferDesc = GraphicsBufferDesc::SwapchainImage(this, 0); //TODO get both images
-        GetAdapter()->CreateBufferContainer(BT_Remote, backbufferDesc);
+        GraphicsBufferDesc backbufferDesc = GraphicsBufferDesc::SwapchainImage(this, 0);
+        backbuffer = GetAdapter()->CreateBufferContainer<GraphicsSwapchainImageContainer>(BT_Remote, backbufferDesc);
     }
 
     void GraphicsSwapchain::Destroy()
