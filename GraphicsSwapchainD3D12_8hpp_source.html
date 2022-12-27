@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.13d9d01 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.d60132a (main)</span>
    </div>
   </td>
  </tr>
@@ -82,15 +82,21 @@ $(function() {
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1IGraphicsAdapterChild.html#a3ce0df28383cb7dc73ff6425b019f99e">Init</a>(<a class="code hl_class" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a>* adapter, <a class="code hl_class" href="classFaro_1_1Window.html">Window</a>* window) <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1GraphicsSwapchainD3D12.html#add822744403bdabecaa85b1a0433584f">Destroy</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        IDXGISwapChain4* swapchain = <span class="keyword">nullptr</span>;</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>    };</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>}</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        IDXGISwapChain4* <a class="code hl_function" href="classFaro_1_1GraphicsSwapchainD3D12.html#a803546e0a54f2c547b8acdd244c9543c">GetNativeSwapchain</a>();</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1GraphicsSwapchainD3D12.html#a6da46a8223304d0d4a737a29f9751201">Present</a>() <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        IDXGISwapChain4* swapchain = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    };</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
 <div class="ttc" id="aGraphicsSwapchain_8hpp_html"><div class="ttname"><a href="GraphicsSwapchain_8hpp.html">GraphicsSwapchain.hpp</a></div></div>
-<div class="ttc" id="aclassFaro_1_1GraphicsAdapter_html"><div class="ttname"><a href="classFaro_1_1GraphicsAdapter.html">Faro::GraphicsAdapter</a></div><div class="ttdef"><b>Definition:</b> GraphicsAdapter.hpp:22</div></div>
+<div class="ttc" id="aclassFaro_1_1GraphicsAdapter_html"><div class="ttname"><a href="classFaro_1_1GraphicsAdapter.html">Faro::GraphicsAdapter</a></div><div class="ttdef"><b>Definition:</b> GraphicsAdapter.hpp:23</div></div>
 <div class="ttc" id="aclassFaro_1_1GraphicsSwapchainD3D12_html"><div class="ttname"><a href="classFaro_1_1GraphicsSwapchainD3D12.html">Faro::GraphicsSwapchainD3D12</a></div><div class="ttdef"><b>Definition:</b> GraphicsSwapchainD3D12.hpp:8</div></div>
-<div class="ttc" id="aclassFaro_1_1GraphicsSwapchainD3D12_html_add822744403bdabecaa85b1a0433584f"><div class="ttname"><a href="classFaro_1_1GraphicsSwapchainD3D12.html#add822744403bdabecaa85b1a0433584f">Faro::GraphicsSwapchainD3D12::Destroy</a></div><div class="ttdeci">void Destroy() override</div><div class="ttdef"><b>Definition:</b> GraphicsSwapchainD3D12.cpp:30</div></div>
-<div class="ttc" id="aclassFaro_1_1GraphicsSwapchain_html"><div class="ttname"><a href="classFaro_1_1GraphicsSwapchain.html">Faro::GraphicsSwapchain</a></div><div class="ttdef"><b>Definition:</b> GraphicsSwapchain.hpp:8</div></div>
+<div class="ttc" id="aclassFaro_1_1GraphicsSwapchainD3D12_html_a6da46a8223304d0d4a737a29f9751201"><div class="ttname"><a href="classFaro_1_1GraphicsSwapchainD3D12.html#a6da46a8223304d0d4a737a29f9751201">Faro::GraphicsSwapchainD3D12::Present</a></div><div class="ttdeci">void Present() override</div><div class="ttdef"><b>Definition:</b> GraphicsSwapchainD3D12.cpp:45</div></div>
+<div class="ttc" id="aclassFaro_1_1GraphicsSwapchainD3D12_html_a803546e0a54f2c547b8acdd244c9543c"><div class="ttname"><a href="classFaro_1_1GraphicsSwapchainD3D12.html#a803546e0a54f2c547b8acdd244c9543c">Faro::GraphicsSwapchainD3D12::GetNativeSwapchain</a></div><div class="ttdeci">IDXGISwapChain4 * GetNativeSwapchain()</div><div class="ttdef"><b>Definition:</b> GraphicsSwapchainD3D12.cpp:40</div></div>
+<div class="ttc" id="aclassFaro_1_1GraphicsSwapchainD3D12_html_add822744403bdabecaa85b1a0433584f"><div class="ttname"><a href="classFaro_1_1GraphicsSwapchainD3D12.html#add822744403bdabecaa85b1a0433584f">Faro::GraphicsSwapchainD3D12::Destroy</a></div><div class="ttdeci">void Destroy() override</div><div class="ttdef"><b>Definition:</b> GraphicsSwapchainD3D12.cpp:32</div></div>
+<div class="ttc" id="aclassFaro_1_1GraphicsSwapchain_html"><div class="ttname"><a href="classFaro_1_1GraphicsSwapchain.html">Faro::GraphicsSwapchain</a></div><div class="ttdef"><b>Definition:</b> GraphicsSwapchain.hpp:15</div></div>
 <div class="ttc" id="aclassFaro_1_1IGraphicsAdapterChild_html_a3ce0df28383cb7dc73ff6425b019f99e"><div class="ttname"><a href="classFaro_1_1IGraphicsAdapterChild.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::IGraphicsAdapterChild::Init</a></div><div class="ttdeci">void Init() override</div><div class="ttdef"><b>Definition:</b> GraphicsAdapterChild.cpp:16</div></div>
 <div class="ttc" id="aclassFaro_1_1Window_html"><div class="ttname"><a href="classFaro_1_1Window.html">Faro::Window</a></div><div class="ttdef"><b>Definition:</b> Window.hpp:29</div></div>
 <div class="ttc" id="anamespaceFaro_html"><div class="ttname"><a href="namespaceFaro.html">Faro</a></div><div class="ttdef"><b>Definition:</b> Array.hpp:8</div></div>

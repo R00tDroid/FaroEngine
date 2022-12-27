@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.13d9d01 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.d60132a (main)</span>
    </div>
   </td>
  </tr>
@@ -74,23 +74,13 @@ $(function() {
   <div class="headertitle"><div class="title">GraphicsBuffer.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &lt;<a class="el" href="Primitives_8hpp_source.html">Primitives.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="Vector2_8hpp_source.html">Math/Vector2.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="GraphicsAdapterChild_8hpp_source.html">GraphicsAdapterChild.hpp</a>&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="GraphicsAdapterChild_8hpp_source.html">GraphicsAdapterChild.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="GraphicsBufferDesc_8hpp_source.html">GraphicsBufferDesc.hpp</a>&gt;</code><br />
 </div>
 <p><a href="GraphicsBuffer_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html">Faro::GraphicsBufferDesc</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Description of a graphics buffer.  <a href="structFaro_1_1GraphicsBufferDesc.html#details">More...</a><br /></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html">Faro::GraphicsBufferDesc::TextureDesc</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1ConstantBufferDesc.html">Faro::GraphicsBufferDesc::ConstantBufferDesc</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1GeometryBufferDesc.html">Faro::GraphicsBufferDesc::GeometryBufferDesc</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsBuffer.html">Faro::GraphicsBuffer</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">A buffer storing graphics related data. Created by <a class="el" href="classFaro_1_1GraphicsAdapter.html#a60ef6847d9afb3e816dde5b682ae543f">GraphicsAdapter::CreateBuffer</a>.  <a href="classFaro_1_1GraphicsBuffer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -119,13 +109,6 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a5fe2c45acb84f75c2d61733b4001770f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determines the type of a graphics buffer.  <a href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">More...</a><br /></td></tr>
 <tr class="separator:a5fe2c45acb84f75c2d61733b4001770f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f0527f3caa41fc0ca5d4e1bc73ade43"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43">Faro::GraphicsResourceType</a> { <a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43ab926ded0cde71de4b476f08bd32ad512">Faro::RT_Texture</a>
-, <a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43a77410a6f2dc60e95dc48c2abb1ed2ed3">Faro::RT_ConstantBuffer</a>
-, <a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43a7acd3864ba3fc76f8bf0b8baf180de5b">Faro::RT_VertexBuffer</a>
-, <a class="el" href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43a25dc43411e4780dbfa25372f14eb880e">Faro::RT_IndexBuffer</a>
- }</td></tr>
-<tr class="memdesc:a7f0527f3caa41fc0ca5d4e1bc73ade43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes the resource type of a graphics buffer.  <a href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43">More...</a><br /></td></tr>
-<tr class="separator:a7f0527f3caa41fc0ca5d4e1bc73ade43"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -26,6 +26,7 @@ var searchData=
   ['platformwindowslog_2ecpp_23',['PlatformWindowsLog.cpp',['../PlatformWindowsLog_8cpp.html',1,'']]],
   ['platformwindowslog_2ehpp_24',['PlatformWindowsLog.hpp',['../PlatformWindowsLog_8hpp.html',1,'']]],
   ['points_25',['points',['../structFaro_1_1IRect.html#a3689d36075acf7d69c18f0c0af48fa20',1,'Faro::IRect']]],
-  ['primitives_2ehpp_26',['Primitives.hpp',['../Primitives_8hpp.html',1,'']]],
-  ['processmessage_27',['ProcessMessage',['../classFaro_1_1WindowThread.html#a9bd26ec6612ac8caa78e31c436e74e71',1,'Faro::WindowThread']]]
+  ['present_26',['Present',['../classFaro_1_1GraphicsSwapchain.html#a1749e14f137fa0e71e778ec7c532fa45',1,'Faro::GraphicsSwapchain::Present()'],['../classFaro_1_1GraphicsSwapchainD3D12.html#a6da46a8223304d0d4a737a29f9751201',1,'Faro::GraphicsSwapchainD3D12::Present()']]],
+  ['primitives_2ehpp_27',['Primitives.hpp',['../Primitives_8hpp.html',1,'']]],
+  ['processmessage_28',['ProcessMessage',['../classFaro_1_1WindowThread.html#a9bd26ec6612ac8caa78e31c436e74e71',1,'Faro::WindowThread']]]
 ];

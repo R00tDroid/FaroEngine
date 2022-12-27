@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.13d9d01 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.d60132a (main)</span>
    </div>
   </td>
  </tr>
@@ -95,6 +95,11 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3fb577e6c5b553ab42a6ffeff5e050cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60ef6847d9afb3e816dde5b682ae543f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a60ef6847d9afb3e816dde5b682ae543f">CreateBuffer</a> (<a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a> type, <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a> desc)=0</td></tr>
 <tr class="separator:a60ef6847d9afb3e816dde5b682ae543f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6a978780208ac0957cba8fcb88a10a45"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a6a978780208ac0957cba8fcb88a10a45"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a6a978780208ac0957cba8fcb88a10a45">CreateBufferContainer</a> (<a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a> type, <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a> desc)</td></tr>
+<tr class="separator:a6a978780208ac0957cba8fcb88a10a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e89262ddd6a22506d7c8de3658bc063"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1GraphicsBufferContainer.html">GraphicsBufferContainer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a1e89262ddd6a22506d7c8de3658bc063">CreateBufferContainer</a> (<a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a> type, <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a> desc)</td></tr>
+<tr class="separator:a1e89262ddd6a22506d7c8de3658bc063"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08799be5ae3845fde6cd5922339933f6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsFence.html">GraphicsFence</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a08799be5ae3845fde6cd5922339933f6">CreateFence</a> ()=0</td></tr>
 <tr class="separator:a08799be5ae3845fde6cd5922339933f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ba98f2e514934f6a22a99792c6c6306"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsSwapchain.html">GraphicsSwapchain</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a9ba98f2e514934f6a22a99792c6c6306">CreateSwapchain</a> (<a class="el" href="classFaro_1_1Window.html">Window</a> *window)=0</td></tr>
@@ -136,6 +141,80 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterD3D12.html#a030d3b0e0f7f5940a9e641392dfb333c">Faro::GraphicsAdapterD3D12</a>.</p>
+
+</div>
+</div>
+<a id="a6a978780208ac0957cba8fcb88a10a45" name="a6a978780208ac0957cba8fcb88a10a45"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6a978780208ac0957cba8fcb88a10a45">&#9670;&nbsp;</a></span>CreateBufferContainer() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;class T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">T * Faro::GraphicsAdapter::CreateBufferContainer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a>&#160;</td>
+          <td class="paramname"><em>desc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1e89262ddd6a22506d7c8de3658bc063" name="a1e89262ddd6a22506d7c8de3658bc063"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e89262ddd6a22506d7c8de3658bc063">&#9670;&nbsp;</a></span>CreateBufferContainer() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1GraphicsBufferContainer.html">GraphicsBufferContainer</a> * Faro::GraphicsAdapter::CreateBufferContainer </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a>&#160;</td>
+          <td class="paramname"><em>type</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a>&#160;</td>
+          <td class="paramname"><em>desc</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.13d9d01 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.d60132a (main)</span>
    </div>
   </td>
  </tr>
@@ -79,7 +79,7 @@ $(function() {
 <p>Description of a graphics buffer.  
  <a href="structFaro_1_1GraphicsBufferDesc.html#details">More...</a></p>
 
-<p><code>#include &lt;<a class="el" href="GraphicsBuffer_8hpp_source.html">GraphicsBuffer.hpp</a>&gt;</code></p>
+<p><code>#include &lt;<a class="el" href="GraphicsBufferDesc_8hpp_source.html">GraphicsBufferDesc.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
@@ -87,13 +87,19 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1GeometryBufferDesc.html">GeometryBufferDesc</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1RenderTargetDesc.html">RenderTargetDesc</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html">TextureDesc</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:a1e2f14c150b4254595f1295c177ed795"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html#a1e2f14c150b4254595f1295c177ed795">Texture2D</a> (<a class="el" href="namespaceFaro.html#a806c528578ae2db75b5c716bf4bb6030">Int2D</a> resolution, bool shaderResource=false, bool updatable=false, bool renderTarget=false)</td></tr>
-<tr class="separator:a1e2f14c150b4254595f1295c177ed795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b46e0ced0eea098d728fc8a1f90205e"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html#a7b46e0ced0eea098d728fc8a1f90205e">Texture2D</a> (<a class="el" href="namespaceFaro.html#a806c528578ae2db75b5c716bf4bb6030">Int2D</a> resolution, bool shaderResource=false, bool updatable=false)</td></tr>
+<tr class="separator:a7b46e0ced0eea098d728fc8a1f90205e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92d12927b21882016425a54eacad021c"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html#a92d12927b21882016425a54eacad021c">RenderTarget</a> (<a class="el" href="namespaceFaro.html#a806c528578ae2db75b5c716bf4bb6030">Int2D</a> resolution, bool shaderResource=false)</td></tr>
+<tr class="separator:a92d12927b21882016425a54eacad021c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9226b764bac6b5b76fddfad8157bf2c2"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html#a9226b764bac6b5b76fddfad8157bf2c2">SwapchainImage</a> (<a class="el" href="classFaro_1_1GraphicsSwapchain.html">GraphicsSwapchain</a> *swapchain, <a class="el" href="namespaceFaro.html#ad2c0f3261ab209e8901c67f099fe7c81">uint8</a> imageIndex)</td></tr>
+<tr class="separator:a9226b764bac6b5b76fddfad8157bf2c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -105,6 +111,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a723f159235f4d65f3516ed844f202024"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aba96a7ef557432c188bb0b3686e3d7e5"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html">Faro::GraphicsBufferDesc::TextureDesc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html#aba96a7ef557432c188bb0b3686e3d7e5">texture</a></td></tr>
 <tr class="separator:aba96a7ef557432c188bb0b3686e3d7e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ed2f7e29b77ebb04086cd2045a03056"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1RenderTargetDesc.html">Faro::GraphicsBufferDesc::RenderTargetDesc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html#a3ed2f7e29b77ebb04086cd2045a03056">renderTarget</a></td></tr>
+<tr class="separator:a3ed2f7e29b77ebb04086cd2045a03056"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a31c5d75161a86e2b91f93e97fa7694"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1ConstantBufferDesc.html">Faro::GraphicsBufferDesc::ConstantBufferDesc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html#a1a31c5d75161a86e2b91f93e97fa7694">constantBuffer</a></td></tr>
 <tr class="separator:a1a31c5d75161a86e2b91f93e97fa7694"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7bfb7763ad4a9ffdd192bda90c6f8cb"><td class="memItemLeft" align="right" valign="top">struct <a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1GeometryBufferDesc.html">Faro::GraphicsBufferDesc::GeometryBufferDesc</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html#ae7bfb7763ad4a9ffdd192bda90c6f8cb">geometryBuffer</a></td></tr>
@@ -113,8 +121,80 @@ Public Attributes</h2></td></tr>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Description of a graphics buffer. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a1e2f14c150b4254595f1295c177ed795" name="a1e2f14c150b4254595f1295c177ed795"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e2f14c150b4254595f1295c177ed795">&#9670;&nbsp;</a></span>Texture2D()</h2>
+<a id="a92d12927b21882016425a54eacad021c" name="a92d12927b21882016425a54eacad021c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a92d12927b21882016425a54eacad021c">&#9670;&nbsp;</a></span>RenderTarget()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a> Faro::GraphicsBufferDesc::RenderTarget </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#a806c528578ae2db75b5c716bf4bb6030">Int2D</a>&#160;</td>
+          <td class="paramname"><em>resolution</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>shaderResource</em> = <code>false</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a9226b764bac6b5b76fddfad8157bf2c2" name="a9226b764bac6b5b76fddfad8157bf2c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9226b764bac6b5b76fddfad8157bf2c2">&#9670;&nbsp;</a></span>SwapchainImage()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a> Faro::GraphicsBufferDesc::SwapchainImage </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1GraphicsSwapchain.html">GraphicsSwapchain</a> *&#160;</td>
+          <td class="paramname"><em>swapchain</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#ad2c0f3261ab209e8901c67f099fe7c81">uint8</a>&#160;</td>
+          <td class="paramname"><em>imageIndex</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a7b46e0ced0eea098d728fc8a1f90205e" name="a7b46e0ced0eea098d728fc8a1f90205e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b46e0ced0eea098d728fc8a1f90205e">&#9670;&nbsp;</a></span>Texture2D()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -138,13 +218,7 @@ Public Attributes</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>updatable</em> = <code>false</code>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>renderTarget</em> = <code>false</code>&#160;</td>
+          <td class="paramname"><em>updatable</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -204,6 +278,20 @@ Public Attributes</h2></td></tr>
 
 </div>
 </div>
+<a id="a3ed2f7e29b77ebb04086cd2045a03056" name="a3ed2f7e29b77ebb04086cd2045a03056"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3ed2f7e29b77ebb04086cd2045a03056">&#9670;&nbsp;</a></span>renderTarget</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">struct <a class="el" href="structFaro_1_1GraphicsBufferDesc_1_1RenderTargetDesc.html">Faro::GraphicsBufferDesc::RenderTargetDesc</a> Faro::GraphicsBufferDesc::renderTarget</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a3080b9ac7c3d6b153152a6c8d37d04f9" name="a3080b9ac7c3d6b153152a6c8d37d04f9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3080b9ac7c3d6b153152a6c8d37d04f9">&#9670;&nbsp;</a></span>resourceType</h2>
 
@@ -247,7 +335,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <hr/>The documentation for this struct was generated from the following file:<ul>
-<li>/github/workspace/Source/Engine/Graphics/GraphicsBase/Source/<a class="el" href="GraphicsBuffer_8hpp_source.html">GraphicsBuffer.hpp</a></li>
+<li>/github/workspace/Source/Engine/Graphics/GraphicsBase/Source/<a class="el" href="GraphicsBufferDesc_8hpp_source.html">GraphicsBufferDesc.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

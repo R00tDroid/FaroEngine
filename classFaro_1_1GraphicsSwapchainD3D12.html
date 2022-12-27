@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.13d9d01 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.d60132a (main)</span>
    </div>
   </td>
  </tr>
@@ -69,6 +69,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="classFaro_1_1GraphicsSwapchainD3D12-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Faro::GraphicsSwapchainD3D12 Class Reference</div></div>
@@ -94,6 +95,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a572db588bdfcd2aea06e3dec9537484e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add822744403bdabecaa85b1a0433584f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsSwapchainD3D12.html#add822744403bdabecaa85b1a0433584f">Destroy</a> () override</td></tr>
 <tr class="separator:add822744403bdabecaa85b1a0433584f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a803546e0a54f2c547b8acdd244c9543c"><td class="memItemLeft" align="right" valign="top">IDXGISwapChain4 *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsSwapchainD3D12.html#a803546e0a54f2c547b8acdd244c9543c">GetNativeSwapchain</a> ()</td></tr>
+<tr class="separator:a803546e0a54f2c547b8acdd244c9543c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6da46a8223304d0d4a737a29f9751201"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsSwapchainD3D12.html#a6da46a8223304d0d4a737a29f9751201">Present</a> () override</td></tr>
+<tr class="separator:a6da46a8223304d0d4a737a29f9751201"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af73af7d9d8d9e994743c90ddace80782"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#af73af7d9d8d9e994743c90ddace80782">Init</a> (<a class="el" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a> *adapter)</td></tr>
 <tr class="separator:af73af7d9d8d9e994743c90ddace80782"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c73ba86c25f27f80383d0e7a44d55c1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#a1c73ba86c25f27f80383d0e7a44d55c1">GetAdapter</a> ()</td></tr>
@@ -102,12 +107,44 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aaeb69c3cdb6a6b6d620928c11ebae4d1"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#aaeb69c3cdb6a6b6d620928c11ebae4d1">GetTypedAdapter</a> ()</td></tr>
 <tr class="separator:aaeb69c3cdb6a6b6d620928c11ebae4d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
+Public Attributes</h2></td></tr>
+<tr class="memitem:a99ac7037be6043b2f03c456a182d3739"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1GraphicsSwapchainImageContainer.html">GraphicsSwapchainImageContainer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsSwapchain.html#a99ac7037be6043b2f03c456a182d3739">backbuffer</a> = nullptr</td></tr>
+<tr class="separator:a99ac7037be6043b2f03c456a182d3739"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:a3ce0df28383cb7dc73ff6425b019f99e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#a3ce0df28383cb7dc73ff6425b019f99e">Init</a> () override</td></tr>
 <tr class="separator:a3ce0df28383cb7dc73ff6425b019f99e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad534791f7206530ab244652d8c8351e5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsSwapchain.html#ad534791f7206530ab244652d8c8351e5">CreateBackbuffer</a> ()</td></tr>
+<tr class="separator:ad534791f7206530ab244652d8c8351e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad534791f7206530ab244652d8c8351e5" name="ad534791f7206530ab244652d8c8351e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad534791f7206530ab244652d8c8351e5">&#9670;&nbsp;</a></span>CreateBackbuffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::GraphicsSwapchain::CreateBackbuffer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="add822744403bdabecaa85b1a0433584f" name="add822744403bdabecaa85b1a0433584f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#add822744403bdabecaa85b1a0433584f">&#9670;&nbsp;</a></span>Destroy()</h2>
 
@@ -131,7 +168,7 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented from <a class="el" href="classFaro_1_1IObject.html#a9857533599d648736a644773bfd80268">Faro::IObject</a>.</p>
+<p>Reimplemented from <a class="el" href="classFaro_1_1GraphicsSwapchain.html#a3875e33db11acde3d12943a0584b551c">Faro::GraphicsSwapchain</a>.</p>
 
 </div>
 </div>
@@ -156,6 +193,23 @@ Protected Member Functions</h2></td></tr>
 <span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a803546e0a54f2c547b8acdd244c9543c" name="a803546e0a54f2c547b8acdd244c9543c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a803546e0a54f2c547b8acdd244c9543c">&#9670;&nbsp;</a></span>GetNativeSwapchain()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">IDXGISwapChain4 * Faro::GraphicsSwapchainD3D12::GetNativeSwapchain </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -279,6 +333,56 @@ template&lt;class T &gt; </div>
 </div><div class="memdoc">
 
 <p>Reimplemented from <a class="el" href="classFaro_1_1GraphicsSwapchain.html#adc6e8dc5e3dca287b52781f7da49eca4">Faro::GraphicsSwapchain</a>.</p>
+
+</div>
+</div>
+<a id="a6da46a8223304d0d4a737a29f9751201" name="a6da46a8223304d0d4a737a29f9751201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6da46a8223304d0d4a737a29f9751201">&#9670;&nbsp;</a></span>Present()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::GraphicsSwapchainD3D12::Present </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implements <a class="el" href="classFaro_1_1GraphicsSwapchain.html#a1749e14f137fa0e71e778ec7c532fa45">Faro::GraphicsSwapchain</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a99ac7037be6043b2f03c456a182d3739" name="a99ac7037be6043b2f03c456a182d3739"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99ac7037be6043b2f03c456a182d3739">&#9670;&nbsp;</a></span>backbuffer</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1GraphicsSwapchainImageContainer.html">GraphicsSwapchainImageContainer</a>* Faro::GraphicsSwapchain::backbuffer = nullptr</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>

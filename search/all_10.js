@@ -25,5 +25,8 @@ var searchData=
   ['string_22',['String',['../classFaro_1_1String.html',1,'Faro::String'],['../classFaro_1_1String.html#a61e79e9e203dba88254510a439707da6',1,'Faro::String::String()'],['../classFaro_1_1String.html#af715ef725160f7aba7b082ade3d7eed2',1,'Faro::String::String(String &amp;str)'],['../classFaro_1_1String.html#a933dc69c9961c1fc910aced2ef633120',1,'Faro::String::String(const String &amp;str)'],['../classFaro_1_1String.html#ad64ac120ce5c7d63ff9f1fc6140363cf',1,'Faro::String::String(std::string str)'],['../classFaro_1_1String.html#a4d77819aa5c2ebe0541ec415569bbd75',1,'Faro::String::String(char *str)'],['../classFaro_1_1String.html#ad645c500e030e09a9652da6ec7013528',1,'Faro::String::String(const char *str)']]],
   ['string_2ehpp_23',['String.hpp',['../String_8hpp.html',1,'']]],
   ['style_2emd_24',['Style.md',['../Style_8md.html',1,'']]],
-  ['sub_25',['Sub',['../classFaro_1_1String.html#aa59b9b707b80b0fff16a971083878ecc',1,'Faro::String::Sub(uint32 Length)'],['../classFaro_1_1String.html#a5c12e1176f16ea57368186a6bea4963a',1,'Faro::String::Sub(uint32 Start, uint32 Length)']]]
+  ['sub_25',['Sub',['../classFaro_1_1String.html#aa59b9b707b80b0fff16a971083878ecc',1,'Faro::String::Sub(uint32 Length)'],['../classFaro_1_1String.html#a5c12e1176f16ea57368186a6bea4963a',1,'Faro::String::Sub(uint32 Start, uint32 Length)']]],
+  ['swapchain_26',['swapchain',['../structFaro_1_1GraphicsBufferDesc_1_1RenderTargetDesc.html#a576e667d3f6e9489365914078e2a981e',1,'Faro::GraphicsBufferDesc::RenderTargetDesc']]],
+  ['swapchainimage_27',['SwapchainImage',['../structFaro_1_1GraphicsBufferDesc.html#a9226b764bac6b5b76fddfad8157bf2c2',1,'Faro::GraphicsBufferDesc']]],
+  ['swapchainimageindex_28',['swapchainImageIndex',['../structFaro_1_1GraphicsBufferDesc_1_1RenderTargetDesc.html#ab29e287c1fd8799eac1d81764275af45',1,'Faro::GraphicsBufferDesc::RenderTargetDesc']]]
 ];
