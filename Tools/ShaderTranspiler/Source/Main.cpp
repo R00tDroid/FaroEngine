@@ -97,6 +97,7 @@ bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string
     sourceBuffer.Size = sourceBlob->GetBufferSize();
     sourceBuffer.Encoding = 0;
 
+    //TODO parse parameters and entrypoint
     std::vector<LPWSTR> arguments;
     arguments.push_back(L"-E");
     arguments.push_back(L"VSMain");
@@ -165,6 +166,7 @@ bool CompileShaders()
             return false;
         }
 
+        //TODO compile SpirV shaders
         if (
             !CompileShader(shaderFile, shader.spirV.vertex, "-T vs_6_2 -E VSMain -spirv") ||
             !CompileShader(shaderFile, shader.spirV.pixel, "-T ps_6_2 -E PSMain -spirv")
