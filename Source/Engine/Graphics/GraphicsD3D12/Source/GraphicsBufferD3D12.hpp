@@ -12,10 +12,14 @@ namespace Faro
         void TransitionResource(ID3D12GraphicsCommandList* commandList, GraphicsResourceState state);
 
         ID3D12Resource* GetResource();
+        D3D12_CPU_DESCRIPTOR_HANDLE GetDescriptor();
 
     protected:
         uint8* cpuAddress = nullptr;
         ID3D12Resource* gpuResource = nullptr;
+
+        ID3D12DescriptorHeap* descriptorHeap = nullptr;
+        uint32 descriptorHeapSize = 0;
     };
 
     class GraphicsBufferUploadD3D12 : public IGraphicsBufferD3D12

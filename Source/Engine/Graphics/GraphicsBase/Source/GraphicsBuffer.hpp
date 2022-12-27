@@ -1,7 +1,6 @@
 #pragma once
-#include <Primitives.hpp>
-#include <Math/Vector2.hpp>
 #include <GraphicsAdapterChild.hpp>
+#include <GraphicsBufferDesc.hpp>
 
 namespace Faro
 {
@@ -21,52 +20,6 @@ namespace Faro
     {
         BT_Upload, ///< Uploads data from the CPU to the graphics adapter.
         BT_Remote ///< Stores memory on the graphics adapter.
-    };
-
-    /// @brief Describes the resource type of a graphics buffer.
-    enum GraphicsResourceType
-    {
-        RT_Texture, //< The data should be treated as a texture.
-        RT_ConstantBuffer, //< The data should be treated as a a constant buffer.
-        RT_VertexBuffer, //< The data should be treated as mesh vertices.
-        RT_IndexBuffer //< The data should be treated as mesh indices.
-    };
-
-    /// @brief Description of a graphics buffer
-    struct GraphicsBufferDesc 
-    {
-        GraphicsResourceType resourceType;
-        uint32 dataSize = 0;
-        uint32 stride = 0;
-
-        struct TextureDesc
-        {
-            Int2D resolution = { 0, 0 };
-            bool renderTarget = false;
-            bool updatable = false;
-            bool shaderResource = false;
-        } texture;
-
-        struct ConstantBufferDesc
-        {
-        } constantBuffer;
-
-        struct GeometryBufferDesc
-        {
-        } geometryBuffer;
-
-        static GraphicsBufferDesc Texture2D(Int2D resolution, bool shaderResource = false, bool updatable = false, bool renderTarget = false)
-        {
-            GraphicsBufferDesc desc;
-            desc.resourceType = RT_Texture;
-            desc.dataSize = resolution.x * resolution.y * 4;
-            desc.stride = resolution.x * 4;
-            desc.texture.resolution = resolution;
-            desc.texture.shaderResource = shaderResource;
-            desc.texture.updatable = updatable;
-            desc.texture.renderTarget = shaderResource;
-            return desc;
-        }
     };
 
     /// @brief A buffer storing graphics related data. Created by GraphicsAdapter::CreateBuffer.

@@ -25,6 +25,8 @@ namespace Faro
 
         IDXGIFactory2* factory = static_cast<GraphicsInterfaceD3D12*>(GGraphics)->GetFactory();
         factory->CreateSwapChainForHwnd(GetTypedAdapter<GraphicsAdapterD3D12>()->GetCommandQueue(), static_cast<WindowWindows*>(window)->GetHandle() , &desc, NULL, NULL, (IDXGISwapChain1**)&swapchain);
+
+        CreateBackbuffer();
     }
 
     void GraphicsSwapchainD3D12::Destroy()
@@ -33,5 +35,16 @@ namespace Faro
         swapchain = nullptr;
 
         GraphicsSwapchain::Destroy();
+    }
+
+    IDXGISwapChain4* GraphicsSwapchainD3D12::GetNativeSwapchain()
+    {
+        return swapchain;
+    }
+
+    void GraphicsSwapchainD3D12::Present()
+    {
+        DXGI_PRESENT_PARAMETERS presentParams = { };
+        swapchain->Present1(0, 0, &presentParams);
     }
 }

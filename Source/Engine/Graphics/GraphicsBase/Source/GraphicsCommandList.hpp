@@ -1,6 +1,7 @@
 #pragma once
 #include <GraphicsAdapterChild.hpp>
 #include <GraphicsBuffer.hpp>
+#include <Math/Color.hpp>
 
 namespace Faro
 {
@@ -13,5 +14,7 @@ namespace Faro
         virtual void SetResourceState(GraphicsBuffer* buffer, GraphicsResourceState state) = 0;
 
         virtual void CopyBuffer(GraphicsBuffer* source, GraphicsBuffer* destination) = 0;
+
+        virtual void ClearRenderTarget(GraphicsBuffer* renderTarget, FloatColor color) = 0;
     };
 }

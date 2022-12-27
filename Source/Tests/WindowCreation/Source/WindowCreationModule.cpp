@@ -1,8 +1,7 @@
 #include "WindowCreationModule.hpp"
 #include <Log.hpp>
-#include <GraphicsInterface.hpp>
 #include <Memory/MemoryManager.hpp>
-#include <GraphicsCommandList.hpp>
+#include <GraphicsInterface.hpp>
 
 namespace Faro
 {
@@ -16,25 +15,29 @@ namespace Faro
 
         LogWindowCreationTest.Log(LC_Info, "Creating adapter...");
         Array<GraphicsAdapterDesc> adapters = GGraphics->GetAdapters();
-        GraphicsAdapter* adapter = GGraphics->CreateAdapter(adapters[0]);
+        adapter = GGraphics->CreateAdapter(adapters[0]);
 
-        GraphicsFence* fence = adapter->CreateFence();
+        fence = adapter->CreateFence();
 
-        GraphicsSwapchain* swapchain = adapter->CreateSwapchain(window);
+        swapchain = adapter->CreateSwapchain(window);
 
         LogWindowCreationTest.Log(LC_Info, "Creating commandlist...");
-        GraphicsCommandList* commandList = adapter->CreateCommandList();
+        commandList = adapter->CreateCommandList();
         commandList->Reset();
 
         LogWindowCreationTest.Log(LC_Info, "Creating buffers...");
-        GraphicsBufferDesc bufferDesc = GraphicsBufferDesc::Texture2D({ 400, 300 }, true, false, false);
-        GraphicsBuffer* uploadBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Upload, bufferDesc);
-        GraphicsBuffer* remoteBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Remote, bufferDesc);
+        GraphicsBufferDesc bufferDesc = GraphicsBufferDesc::Texture2D({ 400, 300 }, true);
+        uploadBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Upload, bufferDesc);
+        remoteBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Remote, bufferDesc);
 
         commandList->SetResourceState(uploadBuffer, RS_CopySource);
         commandList->SetResourceState(remoteBuffer, RS_CopyDestination);
 
         commandList->CopyBuffer(uploadBuffer, remoteBuffer);
+
+        commandList->SetResourceState(swapchain->backbuffer->Get(), RS_RenderTarget);
+        commandList->ClearRenderTarget(swapchain->backbuffer->Get(), FloatColor::Green);
+        commandList->SetResourceState(swapchain->backbuffer->Get(), RS_Present);
 
         LogWindowCreationTest.Log(LC_Info, "Execute commandlsit");
         commandList->Execute();
@@ -45,6 +48,13 @@ namespace Faro
         LogWindowCreationTest.Log(LC_Info, "Wait for fence...");
         fence->WaitForFinish();
 
+        swapchain->Present();
+
+        LogWindowCreationTest.Log(LC_Info, "Load finished");
+    }
+
+    void WindowCreationModule::Unload()
+    {
         LogWindowCreationTest.Log(LC_Info, "Releasing graphics objects");
         MemoryManager::SafeDelete(remoteBuffer);
         MemoryManager::SafeDelete(uploadBuffer);
@@ -53,12 +63,7 @@ namespace Faro
         MemoryManager::SafeDelete(fence);
         MemoryManager::SafeDelete(adapter);
 
-        LogWindowCreationTest.Log(LC_Info, "Load finished");
-    }
-
-    void WindowCreationModule::Unload()
-    {
-        window->Destroy();
+        MemoryManager::SafeDelete(window);
     }
 
     String WindowCreationModule::GetName()
