@@ -97,26 +97,22 @@ bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string
     sourceBuffer.Size = sourceBlob->GetBufferSize();
     sourceBuffer.Encoding = 0;
 
-    //TODO parse parameters and entrypoint
-    std::vector<LPWSTR> arguments;
-    arguments.push_back(L"-E");
-    arguments.push_back(L"VSMain");
+    //TODO parse parameters
+    std::vector<LPWSTR> additionalArguments;
+    additionalArguments.push_back(L"-Qstrip_debug");
+    additionalArguments.push_back(L"-Qstrip_reflect");
+    additionalArguments.push_back(DXC_ARG_WARNINGS_ARE_ERRORS);
+    additionalArguments.push_back(DXC_ARG_DEBUG);
+    additionalArguments.push_back(DXC_ARG_PACK_MATRIX_ROW_MAJOR);
 
-    arguments.push_back(L"-T");
-    arguments.push_back(L"vs_6_2");
-
-    arguments.push_back(L"-Qstrip_debug");
-    arguments.push_back(L"-Qstrip_reflect");
-
-    arguments.push_back(DXC_ARG_WARNINGS_ARE_ERRORS);
-    arguments.push_back(DXC_ARG_DEBUG);
-    arguments.push_back(DXC_ARG_PACK_MATRIX_ROW_MAJOR);
-
-    IDxcCompiler3* dxCompiler;
+    IDxcCompiler3* dxCompiler = nullptr;
     DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxCompiler));
 
+    IDxcCompilerArgs* dxArgs = nullptr;
+    dxUtils->BuildArguments(Utility::Convert(file.string()).c_str(), L"VSMain", L"vs_6_2", const_cast<LPCWSTR*>(additionalArguments.data()), static_cast<UINT32>(additionalArguments.size()), nullptr, 0, &dxArgs);
+
     IDxcResult* compilerResult;
-    if (FAILED(dxCompiler->Compile(&sourceBuffer, const_cast<LPCWSTR*>(arguments.data()), (UINT32)arguments.size(), nullptr, IID_PPV_ARGS(&compilerResult))))
+    if (FAILED(dxCompiler->Compile(&sourceBuffer, dxArgs->GetArguments(), dxArgs->GetCount(), nullptr, IID_PPV_ARGS(&compilerResult))))
     {
         return false;
     }
