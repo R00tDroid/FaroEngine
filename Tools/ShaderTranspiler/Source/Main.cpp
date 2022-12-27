@@ -155,6 +155,8 @@ bool CompileShaders()
     {
         Shader shader;
 
+        Utility::PrintLine(shaderFile.filename().string());
+
         std::string outputPath = (shaderFile.parent_path() / shaderFile.stem()).string();
 
         if (
