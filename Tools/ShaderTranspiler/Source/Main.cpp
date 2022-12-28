@@ -188,7 +188,7 @@ bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string
         }
     }
 
-    IDxcBlobUtf8* binaryBlob = nullptr;
+    IDxcBlob* binaryBlob = nullptr;
     if (SUCCEEDED(compilerResult->GetOutput(DXC_OUT_OBJECT, IID_PPV_ARGS(&binaryBlob), nullptr)) && binaryBlob != nullptr)
     {
         output.dataSize = (unsigned int)binaryBlob->GetBufferSize();
