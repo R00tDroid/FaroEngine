@@ -74,6 +74,63 @@ bool LoadEnvironment()
     return true;
 }
 
+class IncludeHandler : public IDxcIncludeHandler
+{
+public:
+    IncludeHandler(IDxcUtils* dxcUtils) : dxcUtils(dxcUtils)
+    {
+        dxcUtils->CreateDefaultIncludeHandler(&defaultHandler);
+    }
+    ~IncludeHandler()
+    {
+        defaultHandler->Release();
+        defaultHandler = nullptr;
+    }
+
+    HRESULT QueryInterface(const IID& riid, void** ppvObject) override
+    {
+        return defaultHandler->QueryInterface(riid, ppvObject);
+    }
+    ULONG AddRef() override { return 0; }
+    ULONG Release() override { return 0; }
+    HRESULT LoadSource(LPCWSTR pFilename, IDxcBlob** ppIncludeSource) override
+    {
+        std::string fileName = Utility::Convert(std::wstring(pFilename));
+
+        for(std::filesystem::path& directory : includeDirectories)
+        {
+            std::filesystem::path filePath = directory / fileName;
+            if (std::filesystem::exists(filePath))
+            {
+                std::ifstream includeFile(filePath, std::ios::binary | std::ios::ate);
+                std::streamsize size = includeFile.tellg();
+                includeFile.seekg(0, std::ios::beg);
+                std::vector<char> fileData(size);
+                includeFile.read(fileData.data(), size);
+                includeFile.close();
+
+                IDxcBlobEncoding* blob;
+                dxcUtils->CreateBlob(fileData.data(), (UINT32)fileData.size(), CP_UTF8, &blob);
+                *ppIncludeSource = blob;
+
+                return S_OK;
+            }
+        }
+
+        return S_FALSE;
+    }
+
+    void AddSearchDirectory(std::filesystem::path directory)
+    {
+        includeDirectories.push_back(directory);
+    }
+
+private:
+    IDxcUtils* dxcUtils = nullptr;
+    IDxcIncludeHandler* defaultHandler = nullptr;
+    std::vector<std::filesystem::path> includeDirectories;
+};
+
 bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string parameters)
 {
     output.data = nullptr;
@@ -111,8 +168,12 @@ bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string
     IDxcCompilerArgs* dxArgs = nullptr;
     dxUtils->BuildArguments(Utility::Convert(file.string()).c_str(), L"VSMain", L"vs_6_2", const_cast<LPCWSTR*>(additionalArguments.data()), static_cast<UINT32>(additionalArguments.size()), nullptr, 0, &dxArgs);
 
+    IncludeHandler includeHandler(dxUtils);
+    includeHandler.AddSearchDirectory(file.parent_path());
+    //TODO pass more include directories from other modules
+
     IDxcResult* compilerResult;
-    if (FAILED(dxCompiler->Compile(&sourceBuffer, dxArgs->GetArguments(), dxArgs->GetCount(), nullptr, IID_PPV_ARGS(&compilerResult))))
+    if (FAILED(dxCompiler->Compile(&sourceBuffer, dxArgs->GetArguments(), dxArgs->GetCount(), &includeHandler, IID_PPV_ARGS(&compilerResult))))
     {
         return false;
     }
