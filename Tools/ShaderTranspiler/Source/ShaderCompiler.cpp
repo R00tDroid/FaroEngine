@@ -3,19 +3,24 @@
 
 ShaderCompiler::ShaderCompiler()
 {
+#ifdef _WIN32
     DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils));
     dxcUtils->CreateDefaultIncludeHandler(&defaultHandler);
+#endif
 }
 
 ShaderCompiler::~ShaderCompiler()
 {
+#ifdef _WIN32
     defaultHandler->Release();
     defaultHandler = nullptr;
 
     dxcUtils->Release();
     dxcUtils = nullptr;
+#endif
 }
 
+#ifdef _WIN32
 HRESULT ShaderCompiler::QueryInterface(const IID& riid, void** ppvObject)
 {
     return defaultHandler->QueryInterface(riid, ppvObject);
@@ -39,6 +44,21 @@ HRESULT ShaderCompiler::LoadSource(LPCWSTR pFilename, IDxcBlob** ppIncludeSource
 
     return S_FALSE;
 }
+
+IDxcBlobEncoding* ShaderCompiler::LoadFileToBlob(std::filesystem::path& filePath)
+{
+    std::ifstream fileStream(filePath, std::ios::binary | std::ios::ate);
+    std::streamsize size = fileStream.tellg();
+    fileStream.seekg(0, std::ios::beg);
+    std::vector<char> data(size);
+    fileStream.read(data.data(), size);
+    fileStream.close();
+
+    IDxcBlobEncoding* blob;
+    dxcUtils->CreateBlob(data.data(), (UINT32)data.size(), CP_UTF8, &blob);
+    return blob;
+}
+#endif
 
 void ShaderCompiler::SetSearchDirectory(std::vector<std::filesystem::path>& directories)
 {
@@ -133,21 +153,9 @@ bool ShaderCompiler::CompileShader(std::filesystem::path& file, ShaderStage& out
         return false;
     }
 #else
-    Utility::PrintLine("Compilation not support for: " + file.string() + "(" + parameters + ")");
+    Utility::PrintLine("Compilation not support for: " + file.string() + " (" + std::to_string(compilerFlavor) + " " + std::to_string(shaderType) + " " + std::to_string(debug) + ")");
     return false;
 #endif
 }
 
-IDxcBlobEncoding* ShaderCompiler::LoadFileToBlob(std::filesystem::path& filePath)
-{
-    std::ifstream fileStream(filePath, std::ios::binary | std::ios::ate);
-    std::streamsize size = fileStream.tellg();
-    fileStream.seekg(0, std::ios::beg);
-    std::vector<char> data(size);
-    fileStream.read(data.data(), size);
-    fileStream.close();
 
-    IDxcBlobEncoding* blob;
-    dxcUtils->CreateBlob(data.data(), (UINT32)data.size(), CP_UTF8, &blob);
-    return blob;
-}
