@@ -175,6 +175,7 @@ bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string
     IDxcResult* compilerResult;
     if (FAILED(dxCompiler->Compile(&sourceBuffer, dxArgs->GetArguments(), dxArgs->GetCount(), &includeHandler, IID_PPV_ARGS(&compilerResult))))
     {
+        Utility::PrintLineD("Compilation failed");
         return false;
     }
 
@@ -198,6 +199,7 @@ bool CompileShader(std::filesystem::path& file, ShaderStage& output, std::string
     }
     else
     {
+        Utility::PrintLineD("Failed to get compilation output");
         return false;
     }
 #else
