@@ -51,6 +51,4 @@ private:
 
     // searchDirectories + parent folder of currently compiled shader file
     std::vector<std::filesystem::path> includeDirectories;
-
-
 };
