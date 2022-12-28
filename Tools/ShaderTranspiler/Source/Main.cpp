@@ -1,7 +1,7 @@
 #include <Utility.hpp>
 #include <Parameters.hpp>
 #include "Command.hpp"
-#include "Shader.h"
+#include "Shader.hpp"
 #include "Version.generated.hpp"
 #include "VulkanSDKInfo.hpp"
 
