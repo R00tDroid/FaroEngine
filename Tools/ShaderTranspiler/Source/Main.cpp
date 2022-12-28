@@ -78,6 +78,7 @@ bool LoadEnvironment()
 bool CompileShaders()
 {
     ShaderCompiler compiler;
+    //TODO pass include paths
 
     for (std::filesystem::path& shaderFile : shaderFiles)
     {
