@@ -22,7 +22,7 @@ public:
         SS_Pixel
     };
 
-    ShaderCompiler(IDxcUtils* dxcUtils);
+    ShaderCompiler();
     virtual ~ShaderCompiler();
 
     HRESULT QueryInterface(const IID& riid, void** ppvObject) override;

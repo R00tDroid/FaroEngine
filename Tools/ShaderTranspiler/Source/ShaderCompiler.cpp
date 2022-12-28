@@ -1,8 +1,9 @@
 #include "ShaderCompiler.hpp"
 #include <Command.hpp>
 
-ShaderCompiler::ShaderCompiler(IDxcUtils* dxcUtils): dxcUtils(dxcUtils)
+ShaderCompiler::ShaderCompiler()
 {
+    DxcCreateInstance(CLSID_DxcUtils, IID_PPV_ARGS(&dxcUtils));
     dxcUtils->CreateDefaultIncludeHandler(&defaultHandler);
 }
 
@@ -10,6 +11,9 @@ ShaderCompiler::~ShaderCompiler()
 {
     defaultHandler->Release();
     defaultHandler = nullptr;
+
+    dxcUtils->Release();
+    dxcUtils = nullptr;
 }
 
 HRESULT ShaderCompiler::QueryInterface(const IID& riid, void** ppvObject)
@@ -50,11 +54,14 @@ bool ShaderCompiler::CompileShader(std::filesystem::path& file, ShaderStage& out
     //TODO parse parameters
     std::vector<LPWSTR> additionalArguments;
     additionalArguments.push_back(L"-Qstrip_debug");
-    additionalArguments.push_back(L"-Qstrip_reflect");
     additionalArguments.push_back(DXC_ARG_WARNINGS_ARE_ERRORS);
     additionalArguments.push_back(DXC_ARG_PACK_MATRIX_ROW_MAJOR);
 
-    if (compilerFlavor == CF_SpirV)
+    if (compilerFlavor == CF_DXIL)
+    {
+        additionalArguments.push_back(L"-Qstrip_reflect");
+    }
+    else if (compilerFlavor == CF_SpirV)
     {
         additionalArguments.push_back(L"-spirv");
     }
