@@ -19,7 +19,7 @@ struct Shader
     ShaderBinary spirV;
 };
 
-#define ShaderPackageVersion unsigned short(0x0000)
+#define ShaderPackageVersion 0x0000
 
 #define ShaderBinaryType_DXIL 0x01
 #define ShaderBinaryType_SPRIV 0x02
