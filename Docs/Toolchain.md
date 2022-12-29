@@ -19,6 +19,6 @@ The build tool is responsible for generating and building your code. It is contr
 The shader transpiler is responsible for compiling and transpiling HLSL shaders. It is controlled through the commandline.
 
 ### Parameters
-* Project path (`-shader [PathToShader]`): Specifies a shader file to queue for processing.
-* Build configuration (`-include [PathToDirectory]`): Specifies a directory for include searches.
+* Project path (`-shader [PathToShader]`): Specifies one or more shader files to queue for processing.
+* Build configuration (`-include [PathToDirectory]`): Specifies one or more directories for include searches.
 

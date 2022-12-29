@@ -19,6 +19,7 @@ void PrintHelp()
 }
 
 std::vector<std::filesystem::path> shaderFiles;
+std::vector<std::filesystem::path> includeDirectories;
 
 bool ParseParameters(ParameterList& parameters)
 {
@@ -49,6 +50,28 @@ bool ParseParameters(ParameterList& parameters)
 
         if (anyFailed) return false;
     }
+
+    if (parameters.Contains("include"))
+    {
+        if (parameters.CountArguments("include") == 0)
+        {
+            Utility::PrintLine("-include requires at least one path");
+            return false;
+        }
+
+        bool anyFailed = false;
+        for (std::string pathString : parameters.GetArguments("include"))
+        {
+            std::filesystem::path path = std::filesystem::absolute(pathString);
+            path = weakly_canonical(path);
+            path.make_preferred();
+
+            includeDirectories.push_back(path);
+        }
+
+        if (anyFailed) return false;
+    }
+
     return true;
 }
 
