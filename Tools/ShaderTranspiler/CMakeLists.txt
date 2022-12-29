@@ -13,8 +13,6 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/Version.hpp.in ${CMAKE_CURRENT_L
 
 file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
-    ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo/*.*
-    ${CMAKE_CURRENT_LIST_DIR}/../Shared/VulkanSDKInfo/*.*
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command/*.*
 )
 
@@ -36,8 +34,6 @@ endif()
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/Source
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Utils
-    ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo
-    ${CMAKE_CURRENT_LIST_DIR}/../Shared/VulkanSDKInfo
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command
 )
 

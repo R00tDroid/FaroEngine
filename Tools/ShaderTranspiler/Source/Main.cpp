@@ -4,7 +4,6 @@
 #include "Shader.hpp"
 #include "ShaderCompiler.hpp"
 #include "Version.generated.hpp"
-#include "VulkanSDKInfo.hpp"
 
 #ifdef _WIN32
 #include <dxcapi.h>
