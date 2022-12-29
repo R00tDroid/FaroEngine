@@ -1,7 +1,6 @@
 #pragma once
 #include <Utility.hpp>
 #include <Shader.hpp>
-#include "VulkanSDKInfo.hpp"
 
 #ifdef _WIN32
 #include <dxcapi.h>
