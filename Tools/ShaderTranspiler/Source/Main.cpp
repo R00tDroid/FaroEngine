@@ -89,7 +89,7 @@ bool PackageShader(std::filesystem::path& sourcePath, Shader& shader)
 bool CompileShaders()
 {
     ShaderCompiler compiler;
-    //TODO pass include paths
+    compiler.SetSearchDirectory(includeDirectories);
 
     for (std::filesystem::path& shaderFile : shaderFiles)
     {
