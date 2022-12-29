@@ -51,6 +51,20 @@ bool ParseParameters(ParameterList& parameters)
     return true;
 }
 
+bool PackageShader(std::filesystem::path& sourcePath, Shader&)
+{
+    std::filesystem::path packagePath = sourcePath;
+    packagePath.replace_extension(".g.shader");
+
+    std::ofstream stream(packagePath, std::ios::binary);
+    stream << char(0x46) << char(0x53);
+    unsigned short version = ShaderPackageVersion;
+    stream.write(reinterpret_cast<char*>(&version), sizeof(unsigned short));
+    stream.close();
+
+    return true;
+}
+
 bool CompileShaders()
 {
     ShaderCompiler compiler;
@@ -79,6 +93,12 @@ bool CompileShaders()
             )
         {
             Utility::PrintLine("Failed to compile shader");
+            return false;
+        }
+
+        if (!PackageShader(shaderFile, shader))
+        {
+            Utility::PrintLine("Failed to package shader");
             return false;
         }
     }
