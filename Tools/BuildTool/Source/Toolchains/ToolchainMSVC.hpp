@@ -1,6 +1,7 @@
 #include "IToolchain.hpp"
+#include "MSVCInfo.hpp"
+#include "WindowsKitInfo.hpp"
 #include "../ModuleManifest.hpp"
-#include "../ToolchainInfo/ToolchainInfo.hpp"
 
 enum EMSVCArchitecture 
 {

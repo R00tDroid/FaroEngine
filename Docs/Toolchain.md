@@ -14,3 +14,11 @@ The build tool is responsible for generating and building your code. It is contr
     * Development: Debuggable code with optimization
     * Release: Optimized code without debug information
 * Platform (`-platform [PlatformName] [Architecture]`): Specifies the target platform.
+
+## Shader transpiler CLI
+The shader transpiler is responsible for compiling and transpiling HLSL shaders. It is controlled through the commandline.
+
+### Parameters
+* Project path (`-shader [PathToShader]`): Specifies one or more shader files to queue for processing.
+* Build configuration (`-include [PathToDirectory]`): Specifies one or more directories for include searches.
+

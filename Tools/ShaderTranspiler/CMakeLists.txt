@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.15)
-project(FaroBuildTool LANGUAGES CXX)
+project(FaroShaderTranspiler LANGUAGES CXX)
 
 if (MSVC)
     add_compile_options(/W4 /WX)
@@ -13,15 +13,12 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/Version.hpp.in ${CMAKE_CURRENT_L
 
 file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
-    ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo/*.*
-    ${CMAKE_CURRENT_LIST_DIR}/../Shared/MSVCInfo/*.*
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command/*.*
 )
 
 add_executable(
     ${PROJECT_NAME}
     ${SourceFiles}
-    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/tinyxml2/tinyxml2.cpp
 )
 
 if(MSVC)
@@ -37,17 +34,10 @@ endif()
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/Source
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Utils
-    ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo
-    ${CMAKE_CURRENT_LIST_DIR}/../Shared/MSVCInfo
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "-project \"${CMAKE_CURRENT_LIST_DIR}\\..\\..\\Source\\FaroEngine.faroproject.json\" -platform windows x64 -debug -generate -build") 
+set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "-shader \"${CMAKE_CURRENT_LIST_DIR}\\TestResources\\Shader.hlsl\"") 
 
-target_include_directories(${PROJECT_NAME} PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/picojson
-    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/glob/single_include
-    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/tinyxml2
-)

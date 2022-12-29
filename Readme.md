@@ -12,6 +12,11 @@ A modular platform agnostic engine designed for low-overhead graphics.
 
 [Online documentation](https://r00tdroid.github.io/FaroEngine)
 
+## Prerequisites
+* [Microsoft Visual Studio 2017+](https://visualstudio.microsoft.com)
+* [Windows Kit 10.0.14393.0+](https://developer.microsoft.com/en-us/windows/downloads/windows-sdk)
+* [Vulkan SDK 1.2.162.0+](https://vulkan.lunarg.com)
+
 ## How to build
 
 ### Build the toolchain

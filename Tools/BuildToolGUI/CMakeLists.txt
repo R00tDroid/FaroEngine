@@ -13,6 +13,7 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/ApplicationResources.rc.in ${CMA
 
 file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
+    ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command/*.*
 )
 
 file(COPY ${CMAKE_CURRENT_LIST_DIR}/../../Assets/Logo/Logo_32.png DESTINATION ${CMAKE_CURRENT_LIST_DIR}/Resources/img)
@@ -29,6 +30,7 @@ add_executable(${PROJECT_NAME} WIN32
 target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/Source
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/sciter/include
+    ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)

@@ -2,8 +2,8 @@
 #include <filesystem>
 #include <tinyxml2.h>
 #include "ITask.hpp"
+#include "MSVCInfo.hpp"
 #include "Toolchains/IToolchain.hpp"
-#include "ToolchainInfo/ToolchainInfo.hpp"
 
 class TaskGenerate : public ITask
 {
