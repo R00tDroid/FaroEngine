@@ -9,6 +9,7 @@ struct ShaderStage
 struct ShaderBinary
 {
     ShaderStage vertex;
+    ShaderStage geometry;
     ShaderStage pixel;
 };
 
@@ -23,9 +24,9 @@ struct Shader
 #define ShaderBinaryType_DXIL 0x01
 #define ShaderBinaryType_SPRIV 0x02
 
-#define ShaderStageType_Vertex 0x01
-#define ShaderStageType_Geometry 0x02
-#define ShaderStageType_Pixel 0x03
+#define ShaderStageType_Vertex 0x11
+#define ShaderStageType_Geometry 0x12
+#define ShaderStageType_Pixel 0x13
 
 /* --Packaging layout--
  *
