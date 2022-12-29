@@ -8,7 +8,11 @@ namespace Faro
     class IGraphicsAdapterChild : public IObject
     {
     public:
-        virtual void Init(GraphicsAdapter* adapter);
+        /**
+         * @brief Initialize this as a child object for an adapter. Also invokes IObject::Init, derived classes should use that for initialization.
+         * @param adapter Graphics adapter to initialize this child on.
+         */
+        void Init(GraphicsAdapter* adapter);
 
         GraphicsAdapter* GetAdapter();
 
@@ -18,10 +22,9 @@ namespace Faro
             return (T*)GetAdapter();
         }
 
+        GraphicsAdapter* adapter = nullptr;
+
     protected:
         void Init() override;
-
-    private:
-        GraphicsAdapter* adapter = nullptr;
     };
 }

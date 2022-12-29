@@ -7,9 +7,9 @@
 
 namespace Faro
 {
-    void GraphicsCommandListD3D12::Init(GraphicsAdapter* adapter)
+    void GraphicsCommandListD3D12::Init()
     {
-        GraphicsCommandList::Init(adapter);
+        GraphicsCommandList::Init();
 
         GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&allocator));
 

@@ -3,9 +3,9 @@
 
 namespace Faro
 {
-    void GraphicsFenceD3D12::Init(GraphicsAdapter* adapter)
+    void GraphicsFenceD3D12::Init()
     {
-        GraphicsFence::Init(adapter);
+        GraphicsFence::Init();
 
         GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateFence(triggerValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&fence));
 
