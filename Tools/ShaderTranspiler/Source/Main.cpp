@@ -18,7 +18,6 @@ void PrintHelp()
     Utility::Print("-include <directory paths> Path to one or more directories for include scanning\n");
 }
 
-std::filesystem::path dxcExe;
 std::vector<std::filesystem::path> shaderFiles;
 
 bool ParseParameters(ParameterList& parameters)
@@ -53,28 +52,6 @@ bool ParseParameters(ParameterList& parameters)
     return true;
 }
 
-bool LoadEnvironment()
-{
-    const std::vector<VulkanSDK>& vulkanSDKs = GetVulkanSDKs();
-    for (const VulkanSDK& vulkanSDK : vulkanSDKs)
-    {
-        std::filesystem::path path = std::filesystem::path(vulkanSDK.Root) / "bin" / "dxc.exe";
-        if (std::filesystem::exists(path))
-        {
-            dxcExe = path;
-            break;
-        }
-    }
-
-    if (dxcExe.empty())
-    {
-        Utility::PrintLine("Unable to find dxc.exe");
-        return false;
-    }
-
-    return true;
-}
-
 bool CompileShaders()
 {
     ShaderCompiler compiler;
@@ -97,7 +74,6 @@ bool CompileShaders()
             return false;
         }
 
-        //TODO compile SpirV shaders
         if (
             !compiler.CompileShader(shaderFile, shader.spirV.vertex, ShaderCompiler::CF_SpirV, ShaderCompiler::SS_Vertex) ||
             !compiler.CompileShader(shaderFile, shader.spirV.pixel, ShaderCompiler::CF_SpirV, ShaderCompiler::SS_Pixel)
@@ -125,7 +101,6 @@ int main(int argc, char** argv)
 
     if (!shaderFiles.empty())
     {
-        if (!LoadEnvironment()) return -1;
         if (!CompileShaders()) return -1;
         return 0;
     }
