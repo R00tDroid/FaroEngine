@@ -18,3 +18,4 @@ _deps
 *.sln
 /Docs/Doxygen
 /Source/Engine/Core/Source/EngineVersion.generated.cpp
+*.g.*
