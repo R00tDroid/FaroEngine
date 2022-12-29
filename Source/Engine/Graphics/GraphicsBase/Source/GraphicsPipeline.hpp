@@ -1,4 +1,5 @@
 #pragma once
+#include <GraphicsAdapterChild.hpp>
 
 namespace Faro
 {
@@ -6,9 +7,13 @@ namespace Faro
     {
     };
 
-    class GraphicsPipeline
+    class GraphicsPipeline : public IGraphicsAdapterChild
     {
     public:
+        using IGraphicsAdapterChild::Init;
+        void Init(GraphicsAdapter* adapter, GraphicsPipelineDesc desc);
 
+    protected:
+        GraphicsPipelineDesc desc;
     };
 }
