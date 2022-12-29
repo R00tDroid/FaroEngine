@@ -1,5 +1,6 @@
 #pragma once
 #include <GraphicsPipeline.hpp>
+#include <d3d12.h>
 
 namespace Faro
 {
@@ -10,5 +11,8 @@ namespace Faro
 
         void Init() override;
         void Destroy() override;
+
+    private:
+        ID3D12RootSignature* rootSignature = nullptr;
     };
 }
