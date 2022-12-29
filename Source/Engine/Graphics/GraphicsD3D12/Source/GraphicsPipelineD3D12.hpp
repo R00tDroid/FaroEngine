@@ -13,6 +13,7 @@ namespace Faro
         void Destroy() override;
 
     private:
+        ID3D12PipelineState* pipelineState = nullptr;
         ID3D12RootSignature* rootSignature = nullptr;
     };
 }

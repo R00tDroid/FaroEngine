@@ -2,6 +2,7 @@
 #include <directx/d3dx12.h>
 #include <GraphicsLogD3D12.hpp>
 #include <Containers/String.hpp>
+#include <GraphicsAdapterD3D12.hpp>
 
 namespace Faro
 {
@@ -20,10 +21,18 @@ namespace Faro
             String message(static_cast<char*>(errorBlob->GetBufferPointer()), uint32(errorBlob->GetBufferSize()));
             GraphicsLogD3D12.Log(LC_Error, "Failed to serialize root signature: %s", message.Data());
         }
+
+        if (FAILED(GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateGraphicsPipelineState(nullptr, IID_PPV_ARGS(&pipelineState))))
+        {
+            GraphicsLogD3D12.Log(LC_Error, "Failed to create pipeline state");
+        }
     }
 
     void GraphicsPipelineD3D12::Destroy()
     {
+        rootSignature->Release();
+        pipelineState->Release();
+
         GraphicsPipeline::Destroy();
     }
 }
