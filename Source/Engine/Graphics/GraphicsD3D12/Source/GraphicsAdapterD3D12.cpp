@@ -5,6 +5,7 @@
 #include <GraphicsBufferD3D12.hpp>
 #include <GraphicsFenceD3D12.hpp>
 #include <GraphicsSwapchainD3D12.hpp>
+#include <GraphicsPipelineD3D12.hpp>
 
 namespace Faro
 {
@@ -91,5 +92,12 @@ namespace Faro
         GraphicsSwapchainD3D12* swapchain = MemoryManager::New<GraphicsSwapchainD3D12>();
         swapchain->Init(this, window);
         return swapchain;
+    }
+
+    GraphicsPipeline* GraphicsAdapterD3D12::CreatePipeline(GraphicsPipelineDesc desc)
+    {
+        GraphicsPipelineD3D12* pipeline = MemoryManager::New<GraphicsPipelineD3D12>();
+        pipeline->Init(this, desc);
+        return pipeline;
     }
 }
