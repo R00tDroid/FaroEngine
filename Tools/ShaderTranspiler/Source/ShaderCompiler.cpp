@@ -71,7 +71,6 @@ bool ShaderCompiler::CompileShader(std::filesystem::path& file, ShaderStage& out
     output.dataSize = 0;
 
 #ifdef _WIN32
-    //TODO parse parameters
     std::vector<LPWSTR> additionalArguments;
     additionalArguments.push_back(L"-Qstrip_debug");
     additionalArguments.push_back(DXC_ARG_WARNINGS_ARE_ERRORS);
