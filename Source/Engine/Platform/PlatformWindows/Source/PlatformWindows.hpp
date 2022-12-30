@@ -15,7 +15,7 @@ namespace Faro
 
         Array<Monitor> GetMonitors() override;
 
-        FileStream* OpenFile(Path file) override;
+        FileStream* OpenFile(Path file, EFileMode mode) override;
     };
 
     REGISTER_PLATFORM(PlatformWindows)

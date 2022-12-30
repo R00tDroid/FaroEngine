@@ -43,16 +43,26 @@ namespace Faro
         return stream != nullptr;
     }
 
-    void FileStreamWindows::Init(Path inFile)
+    void FileStreamWindows::Init(Path inFile, EFileMode inMode)
     {
         file = inFile;
+        mode = inMode;
         Init();
     }
 
     void FileStreamWindows::Init()
     {
         FileStream::Init();
-        fopen_s(&stream, file.Get().Data(), "rb"); //TODO Switch open modes
+
+        String fileMode = "";
+        switch (mode)
+        {
+            case FO_Overwrite: { fileMode = "wb"; break; }
+            case FO_Append: { fileMode = "ab"; break; }
+            case FO_Read: { fileMode = "rb"; break; }
+        }
+
+        fopen_s(&stream, file.Get().Data(), fileMode.Data());
 
         if (IsOpen())
         {

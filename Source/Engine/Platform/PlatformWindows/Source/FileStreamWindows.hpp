@@ -15,13 +15,15 @@ namespace Faro
 
         bool IsOpen() override;
 
-        void Init(Path file);
+        void Init(Path file, EFileMode mode);
         void Init() override;
 
     protected:
         void Destroy() override;
 
         Path file = "";
+        EFileMode mode;
+
         FILE* stream = nullptr;
         uint32 size = 0;
     };

@@ -20,7 +20,7 @@ namespace Faro
 
         Monitor GetPrimaryMonitor();
 
-        virtual FileStream* OpenFile(Path file) = 0;
+        virtual FileStream* OpenFile(Path file, EFileMode mode) = 0;
     };
 
     extern Platform* GPlatform;

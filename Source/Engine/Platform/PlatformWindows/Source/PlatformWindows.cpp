@@ -82,10 +82,10 @@ namespace Faro
         return monitors;
     }
 
-    FileStream* PlatformWindows::OpenFile(Path file)
+    FileStream* PlatformWindows::OpenFile(Path file, EFileMode mode)
     {
         FileStreamWindows* stream = MemoryManager::New<FileStreamWindows>();
-        stream->Init(file);
+        stream->Init(file, mode);
         return stream;
     }
 }
