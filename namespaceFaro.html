@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.b8999a3 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.8037e73 (main)</span>
    </div>
   </td>
  </tr>
@@ -81,7 +81,14 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Broadcast.html">Broadcast</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1DataStream.html">DataStream</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interface that reads and writes data to and from a stream.  <a href="classFaro_1_1DataStream.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Duration.html">Duration</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1FileStream.html">FileStream</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1FileStreamWindows.html">FileStreamWindows</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -266,6 +273,12 @@ Enumerations</h2></td></tr>
 , <a class="el" href="namespaceFaro.html#acf284d5454602e0adc26108820a23d71a6c7b9da6e44ddc0df67f261ba238bcea">Directory</a>
  }</td></tr>
 <tr class="separator:acf284d5454602e0adc26108820a23d71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac69e741fa3c8b861277fd073e1b8fea7"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#ac69e741fa3c8b861277fd073e1b8fea7">EStreamSeekOrigin</a> { <a class="el" href="namespaceFaro.html#ac69e741fa3c8b861277fd073e1b8fea7a4117bddf65fd43feb59e809f95bf34f4">SSO_Start</a>
+, <a class="el" href="namespaceFaro.html#ac69e741fa3c8b861277fd073e1b8fea7a416e1751aa624f7f7e2915920cd0370c">SSO_End</a>
+, <a class="el" href="namespaceFaro.html#ac69e741fa3c8b861277fd073e1b8fea7a5de74db6f6fec071e2127adb27cb05bb">SSO_Current</a>
+ }</td></tr>
+<tr class="memdesc:ac69e741fa3c8b861277fd073e1b8fea7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Origin point of a seek operation.  <a href="namespaceFaro.html#ac69e741fa3c8b861277fd073e1b8fea7">More...</a><br /></td></tr>
+<tr class="separator:ac69e741fa3c8b861277fd073e1b8fea7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a75397b2f115c21c177d1e8a24beed3a5"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5">LogCategory</a> { <br />
 &#160;&#160;<a class="el" href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5aad33e372063d14b4258c8772c1a959c6">LC_Trace</a>
 , <a class="el" href="namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5a497e77859c2408e11f037b1a1763779f">LC_Debug</a>
@@ -302,6 +315,12 @@ Enumerations</h2></td></tr>
  }</td></tr>
 <tr class="memdesc:a7f0527f3caa41fc0ca5d4e1bc73ade43"><td class="mdescLeft">&#160;</td><td class="mdescRight">Describes the resource type of a graphics buffer.  <a href="namespaceFaro.html#a7f0527f3caa41fc0ca5d4e1bc73ade43">More...</a><br /></td></tr>
 <tr class="separator:a7f0527f3caa41fc0ca5d4e1bc73ade43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6058be18eb03ff33adc21ebaa4d6ba6f"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6f">EFileMode</a> { <a class="el" href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6fa9103cc00a901ebb72f526d9ec5d2f865">FO_Overwrite</a>
+, <a class="el" href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6fad184cf443d70162c904c5da15c5f4a65">FO_Append</a>
+, <a class="el" href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6fa3de14e671fa0328e088c77fb7be31ce1">FO_Read</a>
+ }</td></tr>
+<tr class="memdesc:a6058be18eb03ff33adc21ebaa4d6ba6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mode in which to open a file.  <a href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6f">More...</a><br /></td></tr>
+<tr class="separator:a6058be18eb03ff33adc21ebaa4d6ba6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2e1139caa7c8e4c032fdc9d705aabdf"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdf">WindowMode</a> { <br />
 &#160;&#160;<a class="el" href="namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa920b2effda2a17a6d3463453ebda4153">WM_Hidden</a>
 , <a class="el" href="namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa6a0267786a47f5dd0d1c6b55a3816fce">WM_Minimized</a>
@@ -801,6 +820,54 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Enumeration Type Documentation</h2>
+<a id="a6058be18eb03ff33adc21ebaa4d6ba6f" name="a6058be18eb03ff33adc21ebaa4d6ba6f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6058be18eb03ff33adc21ebaa4d6ba6f">&#9670;&nbsp;</a></span>EFileMode</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6f">Faro::EFileMode</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Mode in which to open a file. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a6058be18eb03ff33adc21ebaa4d6ba6fa9103cc00a901ebb72f526d9ec5d2f865" name="a6058be18eb03ff33adc21ebaa4d6ba6fa9103cc00a901ebb72f526d9ec5d2f865"></a>FO_Overwrite&#160;</td><td class="fielddoc"><p >Open a file for writing. Will overwrite any existing data. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6058be18eb03ff33adc21ebaa4d6ba6fad184cf443d70162c904c5da15c5f4a65" name="a6058be18eb03ff33adc21ebaa4d6ba6fad184cf443d70162c904c5da15c5f4a65"></a>FO_Append&#160;</td><td class="fielddoc"><p >Open a file for writing. Will append to any existing data. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="a6058be18eb03ff33adc21ebaa4d6ba6fa3de14e671fa0328e088c77fb7be31ce1" name="a6058be18eb03ff33adc21ebaa4d6ba6fa3de14e671fa0328e088c77fb7be31ce1"></a>FO_Read&#160;</td><td class="fielddoc"><p >Open a file for reading. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
+<a id="ac69e741fa3c8b861277fd073e1b8fea7" name="ac69e741fa3c8b861277fd073e1b8fea7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac69e741fa3c8b861277fd073e1b8fea7">&#9670;&nbsp;</a></span>EStreamSeekOrigin</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum <a class="el" href="namespaceFaro.html#ac69e741fa3c8b861277fd073e1b8fea7">Faro::EStreamSeekOrigin</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Origin point of a seek operation. </p>
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="ac69e741fa3c8b861277fd073e1b8fea7a4117bddf65fd43feb59e809f95bf34f4" name="ac69e741fa3c8b861277fd073e1b8fea7a4117bddf65fd43feb59e809f95bf34f4"></a>SSO_Start&#160;</td><td class="fielddoc"><p >Seek relative to the beginning of a stream. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac69e741fa3c8b861277fd073e1b8fea7a416e1751aa624f7f7e2915920cd0370c" name="ac69e741fa3c8b861277fd073e1b8fea7a416e1751aa624f7f7e2915920cd0370c"></a>SSO_End&#160;</td><td class="fielddoc"><p >Seek relative to the end of a stream. </p>
+</td></tr>
+<tr><td class="fieldname"><a id="ac69e741fa3c8b861277fd073e1b8fea7a5de74db6f6fec071e2127adb27cb05bb" name="ac69e741fa3c8b861277fd073e1b8fea7a5de74db6f6fec071e2127adb27cb05bb"></a>SSO_Current&#160;</td><td class="fielddoc"><p >Seek relative to the current position. </p>
+</td></tr>
+</table>
+
+</div>
+</div>
 <a id="a5fe2c45acb84f75c2d61733b4001770f" name="a5fe2c45acb84f75c2d61733b4001770f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5fe2c45acb84f75c2d61733b4001770f">&#9670;&nbsp;</a></span>GraphicsBufferType</h2>
 

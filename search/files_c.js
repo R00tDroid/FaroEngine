@@ -1,10 +1,6 @@
 var searchData=
 [
-  ['thread_2ecpp_0',['Thread.cpp',['../Thread_8cpp.html',1,'']]],
-  ['thread_2ehpp_1',['Thread.hpp',['../Thread_8hpp.html',1,'']]],
-  ['threadsafety_2ecpp_2',['ThreadSafety.cpp',['../ThreadSafety_8cpp.html',1,'']]],
-  ['threadsafety_2ehpp_3',['ThreadSafety.hpp',['../ThreadSafety_8hpp.html',1,'']]],
-  ['time_2ecpp_4',['Time.cpp',['../Time_8cpp.html',1,'']]],
-  ['time_2ehpp_5',['Time.hpp',['../Time_8hpp.html',1,'']]],
-  ['toolchain_2emd_6',['Toolchain.md',['../Toolchain_8md.html',1,'']]]
+  ['stream_2ehpp_0',['Stream.hpp',['../Stream_8hpp.html',1,'']]],
+  ['string_2ehpp_1',['String.hpp',['../String_8hpp.html',1,'']]],
+  ['style_2emd_2',['Style.md',['../Style_8md.html',1,'']]]
 ];

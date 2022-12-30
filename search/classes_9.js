@@ -1,6 +1,7 @@
 var searchData=
 [
-  ['randomgenerator_0',['RandomGenerator',['../structFaro_1_1RandomGenerator.html',1,'Faro']]],
-  ['randomstream_1',['RandomStream',['../classFaro_1_1RandomStream.html',1,'Faro']]],
-  ['rendertargetdesc_2',['RenderTargetDesc',['../structFaro_1_1GraphicsBufferDesc_1_1RenderTargetDesc.html',1,'Faro::GraphicsBufferDesc']]]
+  ['path_0',['Path',['../classFaro_1_1Path.html',1,'Faro']]],
+  ['platform_1',['Platform',['../classFaro_1_1Platform.html',1,'Faro']]],
+  ['platformmodule_2',['PlatformModule',['../classFaro_1_1PlatformModule.html',1,'Faro']]],
+  ['platformwindows_3',['PlatformWindows',['../classFaro_1_1PlatformWindows.html',1,'Faro']]]
 ];

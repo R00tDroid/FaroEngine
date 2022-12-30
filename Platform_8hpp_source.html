@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.b8999a3 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.8037e73 (main)</span>
    </div>
   </td>
  </tr>
@@ -74,38 +74,47 @@ $(function() {
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;<a class="code" href="ClassRegistry_8hpp.html">Util/ClassRegistry.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;<a class="code" href="Window_8hpp.html">Window.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;<a class="code" href="Monitor_8hpp.html">Monitor.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceFaro.html">Faro</a></div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span>{</div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html">    8</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classFaro_1_1Platform.html">Platform</a></div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    {</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#a5dd6bd7b0040009c2d784db98a45f93d">   11</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1Platform.html#a5dd6bd7b0040009c2d784db98a45f93d">Init</a>() = 0;</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#a5bd65deb59e1c4e3d46dae8407bea167">   12</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1Platform.html#a5bd65deb59e1c4e3d46dae8407bea167">Destroy</a>() = 0;</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#ad16af4d801024fde258635180b43688e">   13</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1String.html">String</a> <a class="code hl_function" href="classFaro_1_1Platform.html#ad16af4d801024fde258635180b43688e">GetName</a>() = 0;</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#a18e20b880558cd0a8469db654808406f">   15</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1Window.html">Window</a>* <a class="code hl_function" href="classFaro_1_1Platform.html#a18e20b880558cd0a8469db654808406f">CreateWindow</a>() = 0;</div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;<a class="code" href="FileStream_8hpp.html">FileStream.hpp</a>&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;<a class="code" href="Path_8hpp.html">Containers/Path.hpp</a>&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceFaro.html">Faro</a></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html">   10</a></span>    <span class="keyword">class </span><a class="code hl_class" href="classFaro_1_1Platform.html">Platform</a></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>    {</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#a5dd6bd7b0040009c2d784db98a45f93d">   13</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1Platform.html#a5dd6bd7b0040009c2d784db98a45f93d">Init</a>() = 0;</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#a5bd65deb59e1c4e3d46dae8407bea167">   14</a></span>        <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1Platform.html#a5bd65deb59e1c4e3d46dae8407bea167">Destroy</a>() = 0;</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#ad16af4d801024fde258635180b43688e">   15</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1String.html">String</a> <a class="code hl_function" href="classFaro_1_1Platform.html#ad16af4d801024fde258635180b43688e">GetName</a>() = 0;</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#a6add8b163ccde420556961afd4b37cea">   17</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;Monitor&gt;</a> <a class="code hl_function" href="classFaro_1_1Platform.html#a6add8b163ccde420556961afd4b37cea">GetMonitors</a>() = 0;</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#a18e20b880558cd0a8469db654808406f">   17</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1Window.html">Window</a>* <a class="code hl_function" href="classFaro_1_1Platform.html#a18e20b880558cd0a8469db654808406f">CreateWindow</a>() = 0;</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <a class="code hl_struct" href="structFaro_1_1Monitor.html">Monitor</a> <a class="code hl_function" href="classFaro_1_1Platform.html#a0719052fb71fe85f371006f5c310a032">GetPrimaryMonitor</a>();</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    };</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">extern</span> <a class="code hl_class" href="classFaro_1_1Platform.html">Platform</a>* <a class="code hl_variable" href="namespaceFaro.html#a361b946b88e5607247d549cd2b50e8f9">GPlatform</a>;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    <span class="keyword">extern</span> <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;Platform*&gt;</a> <a class="code hl_function" href="namespaceFaro.html#a1726315c1482fd5bd59b0b56f1833cc7">GetRegisteredPlatforms</a>();</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#a6add8b163ccde420556961afd4b37cea">   19</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;Monitor&gt;</a> <a class="code hl_function" href="classFaro_1_1Platform.html#a6add8b163ccde420556961afd4b37cea">GetMonitors</a>() = 0;</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <a class="code hl_struct" href="structFaro_1_1Monitor.html">Monitor</a> <a class="code hl_function" href="classFaro_1_1Platform.html#a0719052fb71fe85f371006f5c310a032">GetPrimaryMonitor</a>();</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="classFaro_1_1Platform.html#a28f0186ce1d6e4f5422cce63c22ae1d1">   23</a></span>        <span class="keyword">virtual</span> <a class="code hl_class" href="classFaro_1_1FileStream.html">FileStream</a>* <a class="code hl_function" href="classFaro_1_1Platform.html#a28f0186ce1d6e4f5422cce63c22ae1d1">OpenFile</a>(<a class="code hl_class" href="classFaro_1_1Path.html">Path</a> file, <a class="code hl_enumeration" href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6f">EFileMode</a> mode) = 0;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>    };</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <a class="code hl_define" href="ClassRegistry_8hpp.html#a09fc4481c9a48806677d5c6efb384504">DEFINE_INSTANCE_REGISTRY</a>(<a class="code hl_class" href="classFaro_1_1Platform.html">Platform</a>, <a class="code hl_class" href="classFaro_1_1Platform.html">Faro::Platform</a>)</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno"><a class="line" href="Platform_8hpp.html#ace7fd23434b87aa0a3c7c1e7c07186b3">   27</a></span><span class="preprocessor">#define REGISTER_PLATFORM(TYPE) REGISTER_INSTANCE(Platform, TYPE)</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>}</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>    <span class="keyword">extern</span> <a class="code hl_class" href="classFaro_1_1Platform.html">Platform</a>* <a class="code hl_variable" href="namespaceFaro.html#a361b946b88e5607247d549cd2b50e8f9">GPlatform</a>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    <span class="keyword">extern</span> <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;Platform*&gt;</a> <a class="code hl_function" href="namespaceFaro.html#a1726315c1482fd5bd59b0b56f1833cc7">GetRegisteredPlatforms</a>();</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <a class="code hl_define" href="ClassRegistry_8hpp.html#a09fc4481c9a48806677d5c6efb384504">DEFINE_INSTANCE_REGISTRY</a>(<a class="code hl_class" href="classFaro_1_1Platform.html">Platform</a>, <a class="code hl_class" href="classFaro_1_1Platform.html">Faro::Platform</a>)</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="Platform_8hpp.html#ace7fd23434b87aa0a3c7c1e7c07186b3">   31</a></span><span class="preprocessor">#define REGISTER_PLATFORM(TYPE) REGISTER_INSTANCE(Platform, TYPE)</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>}</div>
 <div class="ttc" id="aClassRegistry_8hpp_html"><div class="ttname"><a href="ClassRegistry_8hpp.html">ClassRegistry.hpp</a></div></div>
 <div class="ttc" id="aClassRegistry_8hpp_html_a09fc4481c9a48806677d5c6efb384504"><div class="ttname"><a href="ClassRegistry_8hpp.html#a09fc4481c9a48806677d5c6efb384504">DEFINE_INSTANCE_REGISTRY</a></div><div class="ttdeci">#define DEFINE_INSTANCE_REGISTRY(NAME, TYPE)</div><div class="ttdef"><b>Definition:</b> ClassRegistry.hpp:6</div></div>
+<div class="ttc" id="aFileStream_8hpp_html"><div class="ttname"><a href="FileStream_8hpp.html">FileStream.hpp</a></div></div>
 <div class="ttc" id="aMonitor_8hpp_html"><div class="ttname"><a href="Monitor_8hpp.html">Monitor.hpp</a></div></div>
+<div class="ttc" id="aPath_8hpp_html"><div class="ttname"><a href="Path_8hpp.html">Path.hpp</a></div></div>
 <div class="ttc" id="aWindow_8hpp_html"><div class="ttname"><a href="Window_8hpp.html">Window.hpp</a></div></div>
 <div class="ttc" id="aclassFaro_1_1Array_html"><div class="ttname"><a href="classFaro_1_1Array.html">Faro::Array</a></div><div class="ttdef"><b>Definition:</b> Array.hpp:11</div></div>
-<div class="ttc" id="aclassFaro_1_1Platform_html"><div class="ttname"><a href="classFaro_1_1Platform.html">Faro::Platform</a></div><div class="ttdef"><b>Definition:</b> Platform.hpp:9</div></div>
+<div class="ttc" id="aclassFaro_1_1FileStream_html"><div class="ttname"><a href="classFaro_1_1FileStream.html">Faro::FileStream</a></div><div class="ttdef"><b>Definition:</b> FileStream.hpp:15</div></div>
+<div class="ttc" id="aclassFaro_1_1Path_html"><div class="ttname"><a href="classFaro_1_1Path.html">Faro::Path</a></div><div class="ttdef"><b>Definition:</b> Path.hpp:14</div></div>
+<div class="ttc" id="aclassFaro_1_1Platform_html"><div class="ttname"><a href="classFaro_1_1Platform.html">Faro::Platform</a></div><div class="ttdef"><b>Definition:</b> Platform.hpp:11</div></div>
 <div class="ttc" id="aclassFaro_1_1Platform_html_a0719052fb71fe85f371006f5c310a032"><div class="ttname"><a href="classFaro_1_1Platform.html#a0719052fb71fe85f371006f5c310a032">Faro::Platform::GetPrimaryMonitor</a></div><div class="ttdeci">Monitor GetPrimaryMonitor()</div><div class="ttdef"><b>Definition:</b> Platform.cpp:9</div></div>
 <div class="ttc" id="aclassFaro_1_1Platform_html_a18e20b880558cd0a8469db654808406f"><div class="ttname"><a href="classFaro_1_1Platform.html#a18e20b880558cd0a8469db654808406f">Faro::Platform::CreateWindow</a></div><div class="ttdeci">virtual Window * CreateWindow()=0</div></div>
+<div class="ttc" id="aclassFaro_1_1Platform_html_a28f0186ce1d6e4f5422cce63c22ae1d1"><div class="ttname"><a href="classFaro_1_1Platform.html#a28f0186ce1d6e4f5422cce63c22ae1d1">Faro::Platform::OpenFile</a></div><div class="ttdeci">virtual FileStream * OpenFile(Path file, EFileMode mode)=0</div></div>
 <div class="ttc" id="aclassFaro_1_1Platform_html_a5bd65deb59e1c4e3d46dae8407bea167"><div class="ttname"><a href="classFaro_1_1Platform.html#a5bd65deb59e1c4e3d46dae8407bea167">Faro::Platform::Destroy</a></div><div class="ttdeci">virtual void Destroy()=0</div></div>
 <div class="ttc" id="aclassFaro_1_1Platform_html_a5dd6bd7b0040009c2d784db98a45f93d"><div class="ttname"><a href="classFaro_1_1Platform.html#a5dd6bd7b0040009c2d784db98a45f93d">Faro::Platform::Init</a></div><div class="ttdeci">virtual void Init()=0</div></div>
 <div class="ttc" id="aclassFaro_1_1Platform_html_a6add8b163ccde420556961afd4b37cea"><div class="ttname"><a href="classFaro_1_1Platform.html#a6add8b163ccde420556961afd4b37cea">Faro::Platform::GetMonitors</a></div><div class="ttdeci">virtual Array&lt; Monitor &gt; GetMonitors()=0</div></div>
@@ -115,6 +124,7 @@ $(function() {
 <div class="ttc" id="anamespaceFaro_html"><div class="ttname"><a href="namespaceFaro.html">Faro</a></div><div class="ttdef"><b>Definition:</b> Array.hpp:8</div></div>
 <div class="ttc" id="anamespaceFaro_html_a1726315c1482fd5bd59b0b56f1833cc7"><div class="ttname"><a href="namespaceFaro.html#a1726315c1482fd5bd59b0b56f1833cc7">Faro::GetRegisteredPlatforms</a></div><div class="ttdeci">Array&lt; Platform * &gt; GetRegisteredPlatforms()</div><div class="ttdef"><b>Definition:</b> Platform.cpp:21</div></div>
 <div class="ttc" id="anamespaceFaro_html_a361b946b88e5607247d549cd2b50e8f9"><div class="ttname"><a href="namespaceFaro.html#a361b946b88e5607247d549cd2b50e8f9">Faro::GPlatform</a></div><div class="ttdeci">Platform * GPlatform</div><div class="ttdef"><b>Definition:</b> Platform.cpp:7</div></div>
+<div class="ttc" id="anamespaceFaro_html_a6058be18eb03ff33adc21ebaa4d6ba6f"><div class="ttname"><a href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6f">Faro::EFileMode</a></div><div class="ttdeci">EFileMode</div><div class="ttdoc">Mode in which to open a file.</div><div class="ttdef"><b>Definition:</b> FileStream.hpp:8</div></div>
 <div class="ttc" id="astructFaro_1_1Monitor_html"><div class="ttname"><a href="structFaro_1_1Monitor.html">Faro::Monitor</a></div><div class="ttdef"><b>Definition:</b> Monitor.hpp:8</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

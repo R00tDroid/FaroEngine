@@ -22,5 +22,6 @@ var searchData=
   ['wm_5fhidden_19',['WM_Hidden',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa920b2effda2a17a6d3463453ebda4153',1,'Faro']]],
   ['wm_5fmaximized_20',['WM_Maximized',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa40a04ab386196d73769fb7767904a337',1,'Faro']]],
   ['wm_5fminimized_21',['WM_Minimized',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa6a0267786a47f5dd0d1c6b55a3816fce',1,'Faro']]],
-  ['wm_5fwindowed_22',['WM_Windowed',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfaac9dad74bf223552b89d5c209c189588',1,'Faro']]]
+  ['wm_5fwindowed_22',['WM_Windowed',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfaac9dad74bf223552b89d5c209c189588',1,'Faro']]],
+  ['write_23',['Write',['../classFaro_1_1DataStream.html#a01e1fdad1de4d1fecc5d388245728edb',1,'Faro::DataStream::Write(void *source, uint16 elementSize, uint32 elementCount)=0'],['../classFaro_1_1DataStream.html#af46befcfdf57a244419c8f3157c0aa10',1,'Faro::DataStream::Write(T *source, uint32 elementCount)'],['../classFaro_1_1DataStream.html#af7cdf680e70d9b3121bc21f2a9fe9137',1,'Faro::DataStream::Write(T value)'],['../classFaro_1_1FileStreamWindows.html#ad72de7604771f9688287aa28526b6f03',1,'Faro::FileStreamWindows::Write()']]]
 ];

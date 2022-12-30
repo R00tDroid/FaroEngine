@@ -30,7 +30,7 @@ var searchData=
   ['minor_27',['minor',['../structFaro_1_1Version.html#a9ecfdfe2799fdc2f2aa8d147ddf06a80',1,'Faro::Version']]],
   ['minutes_28',['Minutes',['../classFaro_1_1Duration.html#aea9c5e824f3bfdf1ec47221d5ef37bb2',1,'Faro::Duration']]],
   ['minwindows_2ehpp_29',['MinWindows.hpp',['../MinWindows_8hpp.html',1,'']]],
-  ['mode_30',['mode',['../structFaro_1_1WindowState.html#aafaa1da632a726eb14aa9832042b7fa2',1,'Faro::WindowState']]],
+  ['mode_30',['mode',['../structFaro_1_1WindowState.html#aafaa1da632a726eb14aa9832042b7fa2',1,'Faro::WindowState::mode()'],['../classFaro_1_1FileStreamWindows.html#a7d7149d89ffea7128303003a0c36f4c8',1,'Faro::FileStreamWindows::mode()']]],
   ['module_31',['module',['../structFaro_1_1ModuleDependencies.html#a9b036bb71eab3b5314eb66e57636b2a7',1,'Faro::ModuleDependencies']]],
   ['module_2ecpp_32',['Module.cpp',['../Module_8cpp.html',1,'']]],
   ['module_2ehpp_33',['Module.hpp',['../Module_8hpp.html',1,'']]],

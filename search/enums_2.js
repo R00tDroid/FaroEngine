@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['pathtype_0',['PathType',['../namespaceFaro.html#acf284d5454602e0adc26108820a23d71',1,'Faro']]]
+  ['logcategory_0',['LogCategory',['../namespaceFaro.html#a75397b2f115c21c177d1e8a24beed3a5',1,'Faro']]]
 ];

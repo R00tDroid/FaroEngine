@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.b8999a3 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.8037e73 (main)</span>
    </div>
   </td>
  </tr>
@@ -86,23 +86,29 @@ $(function() {
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        <a class="code hl_class" href="classFaro_1_1Window.html">Window</a>* <a class="code hl_function" href="classFaro_1_1PlatformWindows.html#a5e15e9fc6c74835a8054224665a6ceba">CreateWindow</a>() <span class="keyword">override</span>;</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <a class="code hl_class" href="classFaro_1_1Array.html">Array&lt;Monitor&gt;</a> <a class="code hl_function" href="classFaro_1_1PlatformWindows.html#aa436ac9e61d1c56cc8c7b22742b3aaf5">GetMonitors</a>() <span class="keyword">override</span>;</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    };</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <a class="code hl_define" href="Platform_8hpp.html#ace7fd23434b87aa0a3c7c1e7c07186b3">REGISTER_PLATFORM</a>(PlatformWindows)</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>}</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <a class="code hl_class" href="classFaro_1_1FileStream.html">FileStream</a>* <a class="code hl_function" href="classFaro_1_1PlatformWindows.html#a42b200c9b823ccb9152bc8f85b4e042e">OpenFile</a>(<a class="code hl_class" href="classFaro_1_1Path.html">Path</a> file, <a class="code hl_enumeration" href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6f">EFileMode</a> mode) <span class="keyword">override</span>;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    };</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <a class="code hl_define" href="Platform_8hpp.html#ace7fd23434b87aa0a3c7c1e7c07186b3">REGISTER_PLATFORM</a>(PlatformWindows)</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>}</div>
 <div class="ttc" id="aPlatform_8hpp_html"><div class="ttname"><a href="Platform_8hpp.html">Platform.hpp</a></div></div>
-<div class="ttc" id="aPlatform_8hpp_html_ace7fd23434b87aa0a3c7c1e7c07186b3"><div class="ttname"><a href="Platform_8hpp.html#ace7fd23434b87aa0a3c7c1e7c07186b3">REGISTER_PLATFORM</a></div><div class="ttdeci">#define REGISTER_PLATFORM(TYPE)</div><div class="ttdef"><b>Definition:</b> Platform.hpp:27</div></div>
+<div class="ttc" id="aPlatform_8hpp_html_ace7fd23434b87aa0a3c7c1e7c07186b3"><div class="ttname"><a href="Platform_8hpp.html#ace7fd23434b87aa0a3c7c1e7c07186b3">REGISTER_PLATFORM</a></div><div class="ttdeci">#define REGISTER_PLATFORM(TYPE)</div><div class="ttdef"><b>Definition:</b> Platform.hpp:31</div></div>
 <div class="ttc" id="aclassFaro_1_1Array_html"><div class="ttname"><a href="classFaro_1_1Array.html">Faro::Array</a></div><div class="ttdef"><b>Definition:</b> Array.hpp:11</div></div>
+<div class="ttc" id="aclassFaro_1_1FileStream_html"><div class="ttname"><a href="classFaro_1_1FileStream.html">Faro::FileStream</a></div><div class="ttdef"><b>Definition:</b> FileStream.hpp:15</div></div>
+<div class="ttc" id="aclassFaro_1_1Path_html"><div class="ttname"><a href="classFaro_1_1Path.html">Faro::Path</a></div><div class="ttdef"><b>Definition:</b> Path.hpp:14</div></div>
 <div class="ttc" id="aclassFaro_1_1PlatformWindows_html"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html">Faro::PlatformWindows</a></div><div class="ttdef"><b>Definition:</b> PlatformWindows.hpp:7</div></div>
-<div class="ttc" id="aclassFaro_1_1PlatformWindows_html_a17ab95b0889de471bf54ef76894bf8c6"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html#a17ab95b0889de471bf54ef76894bf8c6">Faro::PlatformWindows::Destroy</a></div><div class="ttdeci">void Destroy() override</div><div class="ttdef"><b>Definition:</b> PlatformWindows.cpp:45</div></div>
-<div class="ttc" id="aclassFaro_1_1PlatformWindows_html_a5e15e9fc6c74835a8054224665a6ceba"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html#a5e15e9fc6c74835a8054224665a6ceba">Faro::PlatformWindows::CreateWindow</a></div><div class="ttdeci">Window * CreateWindow() override</div><div class="ttdef"><b>Definition:</b> PlatformWindows.cpp:49</div></div>
-<div class="ttc" id="aclassFaro_1_1PlatformWindows_html_aa436ac9e61d1c56cc8c7b22742b3aaf5"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html#aa436ac9e61d1c56cc8c7b22742b3aaf5">Faro::PlatformWindows::GetMonitors</a></div><div class="ttdeci">Array&lt; Monitor &gt; GetMonitors() override</div><div class="ttdef"><b>Definition:</b> PlatformWindows.cpp:77</div></div>
+<div class="ttc" id="aclassFaro_1_1PlatformWindows_html_a17ab95b0889de471bf54ef76894bf8c6"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html#a17ab95b0889de471bf54ef76894bf8c6">Faro::PlatformWindows::Destroy</a></div><div class="ttdeci">void Destroy() override</div><div class="ttdef"><b>Definition:</b> PlatformWindows.cpp:46</div></div>
+<div class="ttc" id="aclassFaro_1_1PlatformWindows_html_a42b200c9b823ccb9152bc8f85b4e042e"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html#a42b200c9b823ccb9152bc8f85b4e042e">Faro::PlatformWindows::OpenFile</a></div><div class="ttdeci">FileStream * OpenFile(Path file, EFileMode mode) override</div><div class="ttdef"><b>Definition:</b> PlatformWindows.cpp:85</div></div>
+<div class="ttc" id="aclassFaro_1_1PlatformWindows_html_a5e15e9fc6c74835a8054224665a6ceba"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html#a5e15e9fc6c74835a8054224665a6ceba">Faro::PlatformWindows::CreateWindow</a></div><div class="ttdeci">Window * CreateWindow() override</div><div class="ttdef"><b>Definition:</b> PlatformWindows.cpp:50</div></div>
+<div class="ttc" id="aclassFaro_1_1PlatformWindows_html_aa436ac9e61d1c56cc8c7b22742b3aaf5"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html#aa436ac9e61d1c56cc8c7b22742b3aaf5">Faro::PlatformWindows::GetMonitors</a></div><div class="ttdeci">Array&lt; Monitor &gt; GetMonitors() override</div><div class="ttdef"><b>Definition:</b> PlatformWindows.cpp:78</div></div>
 <div class="ttc" id="aclassFaro_1_1PlatformWindows_html_abde6f89cc8bf68aa3716343195e8f8bf"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html#abde6f89cc8bf68aa3716343195e8f8bf">Faro::PlatformWindows::GetName</a></div><div class="ttdeci">String GetName() override</div><div class="ttdef"><b>Definition:</b> PlatformWindows.hpp:12</div></div>
-<div class="ttc" id="aclassFaro_1_1PlatformWindows_html_ae594c1e5cc898e69d28af2410ff199e6"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html#ae594c1e5cc898e69d28af2410ff199e6">Faro::PlatformWindows::Init</a></div><div class="ttdeci">void Init() override</div><div class="ttdef"><b>Definition:</b> PlatformWindows.cpp:39</div></div>
-<div class="ttc" id="aclassFaro_1_1Platform_html"><div class="ttname"><a href="classFaro_1_1Platform.html">Faro::Platform</a></div><div class="ttdef"><b>Definition:</b> Platform.hpp:9</div></div>
+<div class="ttc" id="aclassFaro_1_1PlatformWindows_html_ae594c1e5cc898e69d28af2410ff199e6"><div class="ttname"><a href="classFaro_1_1PlatformWindows.html#ae594c1e5cc898e69d28af2410ff199e6">Faro::PlatformWindows::Init</a></div><div class="ttdeci">void Init() override</div><div class="ttdef"><b>Definition:</b> PlatformWindows.cpp:40</div></div>
+<div class="ttc" id="aclassFaro_1_1Platform_html"><div class="ttname"><a href="classFaro_1_1Platform.html">Faro::Platform</a></div><div class="ttdef"><b>Definition:</b> Platform.hpp:11</div></div>
 <div class="ttc" id="aclassFaro_1_1String_html"><div class="ttname"><a href="classFaro_1_1String.html">Faro::String</a></div><div class="ttdef"><b>Definition:</b> String.hpp:12</div></div>
 <div class="ttc" id="aclassFaro_1_1Window_html"><div class="ttname"><a href="classFaro_1_1Window.html">Faro::Window</a></div><div class="ttdef"><b>Definition:</b> Window.hpp:29</div></div>
 <div class="ttc" id="anamespaceFaro_html"><div class="ttname"><a href="namespaceFaro.html">Faro</a></div><div class="ttdef"><b>Definition:</b> Array.hpp:8</div></div>
+<div class="ttc" id="anamespaceFaro_html_a6058be18eb03ff33adc21ebaa4d6ba6f"><div class="ttname"><a href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6f">Faro::EFileMode</a></div><div class="ttdeci">EFileMode</div><div class="ttdoc">Mode in which to open a file.</div><div class="ttdef"><b>Definition:</b> FileStream.hpp:8</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
