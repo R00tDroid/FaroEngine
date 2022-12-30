@@ -55,6 +55,10 @@ namespace Faro
         pipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
         pipelineDesc.SampleDesc.Count = 1;
 
+        pipelineDesc.VS = D3D12_SHADER_BYTECODE{ desc.vsData, desc.vsSize };
+        pipelineDesc.GS = D3D12_SHADER_BYTECODE{ desc.gsData, desc.gsSize };
+        pipelineDesc.PS = D3D12_SHADER_BYTECODE{ desc.psData, desc.psSize };
+
         if (FAILED(GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState))))
         {
             GraphicsLogD3D12.Log(LC_Error, "Failed to create pipeline state");
