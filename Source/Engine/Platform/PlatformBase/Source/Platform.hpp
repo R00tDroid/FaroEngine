@@ -2,6 +2,8 @@
 #include <Util/ClassRegistry.hpp>
 #include <Window.hpp>
 #include <Monitor.hpp>
+#include <FileStream.hpp>
+#include <Containers/Path.hpp>
 
 namespace Faro
 {
@@ -17,6 +19,8 @@ namespace Faro
         virtual Array<Monitor> GetMonitors() = 0;
 
         Monitor GetPrimaryMonitor();
+
+        virtual FileStream* OpenFile(Path file) = 0;
     };
 
     extern Platform* GPlatform;
