@@ -50,6 +50,10 @@ namespace Faro
         D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc;
         MemoryManager::Zero(&pipelineDesc);
         pipelineDesc.pRootSignature = rootSignature;
+        pipelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
+        pipelineDesc.SampleMask = UINT_MAX;
+        pipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
+        pipelineDesc.SampleDesc.Count = 1;
 
         if (FAILED(GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState))))
         {
