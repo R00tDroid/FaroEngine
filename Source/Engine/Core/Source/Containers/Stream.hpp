@@ -1,5 +1,6 @@
 #pragma once
 #include <Primitives.hpp>
+#include <Memory/Object.hpp>
 
 namespace Faro
 {
@@ -10,7 +11,7 @@ namespace Faro
         SSO_Current
     };
 
-    class DataStream
+    class DataStream : public IObject
     {
         virtual uint32 Read(void* destination, uint16 elementSize, uint32 elementCount) = 0;
         virtual uint32 Write(void* source, uint16 elementSize, uint32 elementCount) = 0;
@@ -43,5 +44,10 @@ namespace Faro
         {
             Write<T>(&value, 1);
         }
+
+        void Close() { Destroy(); }
+
+    protected:
+        void Destroy() override { IObject::Destroy(); }
     };
 }
