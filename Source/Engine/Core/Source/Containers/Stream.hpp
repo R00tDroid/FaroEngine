@@ -1,6 +1,8 @@
 #pragma once
 #include <Primitives.hpp>
 #include <Memory/Object.hpp>
+#include <Containers/Array.hpp>
+#include <Containers/String.hpp>
 
 namespace Faro
 {
@@ -77,6 +79,31 @@ namespace Faro
             T returnValue;
             Read<T>(&returnValue, 1);
             return returnValue;
+        }
+
+        /**
+         * @brief Read the data to an array of elements.
+         * @tparam T Element type to read
+         * @return Array<T> Array of elements read from the stream
+         */
+        template<typename T>
+        Array<T> ReadToArray()
+        {
+            uint32 elements = Size() / sizeof(T);
+            Array<T> data;
+            data.Resize(elements);
+            Read<T>(data.Data(), elements);
+            return data;
+        }
+
+        /**
+         * @brief Read the data to a stream
+         * @return String String read from the stream
+         */
+        String ReadToString()
+        {
+            Array<char> string = ReadToArray<char>();
+            return String(string);
         }
 
         /**

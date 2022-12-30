@@ -2,9 +2,9 @@
 
 #include <algorithm>
 #include <cstdarg>
-
 #include "../Primitives.hpp"
 #include <string>
+#include "Array.hpp"
 
 namespace Faro
 {
@@ -19,6 +19,7 @@ namespace Faro
         String(std::string str) { data = str; }
         String(char* str) { data = str; }
         String(const char* str) { data = str; }
+        String(Array<char> stringArray) { data = std::string(stringArray.Data(), stringArray.Size()); }
 
         uint32 Length() { return data.size(); }
 
