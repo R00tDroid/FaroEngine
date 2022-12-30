@@ -13,6 +13,7 @@ namespace Faro
 
     class DataStream : public IObject
     {
+    public:
         virtual uint32 Read(void* destination, uint16 elementSize, uint32 elementCount) = 0;
         virtual uint32 Write(void* source, uint16 elementSize, uint32 elementCount) = 0;
         virtual uint32 Size() = 0;
