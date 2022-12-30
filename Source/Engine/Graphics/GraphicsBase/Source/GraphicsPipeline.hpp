@@ -1,6 +1,7 @@
 #pragma once
 #include <GraphicsAdapterChild.hpp>
 #include <Primitives.hpp>
+#include <Containers/Stream.hpp>
 
 namespace Faro
 {
@@ -19,6 +20,8 @@ namespace Faro
     class GraphicsPipeline : public IGraphicsAdapterChild
     {
     public:
+        static bool LoadShader(DataStream* stream, GraphicsPipelineDesc& desc);
+
         using IGraphicsAdapterChild::Init;
         void Init(GraphicsAdapter* adapter, GraphicsPipelineDesc desc);
 
