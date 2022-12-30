@@ -54,6 +54,7 @@ namespace Faro
         pipelineDesc.SampleMask = UINT_MAX;
         pipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
         pipelineDesc.SampleDesc.Count = 1;
+        pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
         pipelineDesc.VS = D3D12_SHADER_BYTECODE{ desc.vsData, desc.vsSize };
         pipelineDesc.GS = D3D12_SHADER_BYTECODE{ desc.gsData, desc.gsSize };
