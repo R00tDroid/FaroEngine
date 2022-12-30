@@ -29,7 +29,7 @@ namespace Faro
 
         /**
          * @brief Write data to the stream.
-         * @param destination Source memory
+         * @param source Source memory
          * @param elementSize Size of a single element
          * @param elementCount Amount of elements to write
          * @return uint32 Amount of bytes written
