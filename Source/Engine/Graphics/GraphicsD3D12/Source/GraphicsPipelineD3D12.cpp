@@ -48,6 +48,7 @@ namespace Faro
     void GraphicsPipelineD3D12::CreatePipelineState()
     {
         D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc;
+        MemoryManager::Zero(&pipelineDesc);
         pipelineDesc.pRootSignature = rootSignature;
 
         if (FAILED(GetTypedAdapter<GraphicsAdapterD3D12>()->GetDevice()->CreateGraphicsPipelineState(&pipelineDesc, IID_PPV_ARGS(&pipelineState))))
