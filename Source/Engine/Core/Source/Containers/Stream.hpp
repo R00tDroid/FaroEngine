@@ -3,9 +3,20 @@
 
 namespace Faro
 {
+    enum EStreamSeekOrigin
+    {
+        SSO_Start,
+        SSO_End,
+        SSO_Current
+    };
+
     class DataStream
     {
         virtual uint32 Read(void* destination, uint16 elementSize, uint32 elementCount) = 0;
+        virtual uint32 Write(void* source, uint16 elementSize, uint32 elementCount) = 0;
+        virtual uint32 Size() = 0;
+        virtual uint32 Tell() = 0;
+        virtual uint32 Seek(EStreamSeekOrigin origin, int32 offset) = 0;
 
         template<typename T>
         uint32 Read(T* destination, uint32 elementCount)
@@ -20,8 +31,6 @@ namespace Faro
             Read<T>(&returnValue, 1);
             return returnValue;
         }
-
-        virtual uint32 Write(void* source, uint16 elementSize, uint32 elementCount) = 0;
 
         template<typename T>
         uint32 Write(T* source, uint32 elementCount)
