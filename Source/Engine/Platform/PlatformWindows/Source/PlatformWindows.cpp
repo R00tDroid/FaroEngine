@@ -4,6 +4,7 @@
 #include <MinWindows.hpp>
 #include <WindowWindows.hpp>
 #include <Memory/MemoryManager.hpp>
+#include <FileStreamWindows.hpp>
 
 namespace Faro
 {
@@ -79,5 +80,12 @@ namespace Faro
         Array<Monitor> monitors;
         EnumDisplayMonitors(nullptr, nullptr, QueryMonitors, reinterpret_cast<LPARAM>(&monitors));
         return monitors;
+    }
+
+    FileStream* PlatformWindows::OpenFile(Path file, EFileMode mode)
+    {
+        FileStreamWindows* stream = MemoryManager::New<FileStreamWindows>();
+        stream->Init(file, mode);
+        return stream;
     }
 }

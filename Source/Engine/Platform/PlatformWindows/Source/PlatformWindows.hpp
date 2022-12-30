@@ -14,6 +14,8 @@ namespace Faro
         Window* CreateWindow() override;
 
         Array<Monitor> GetMonitors() override;
+
+        FileStream* OpenFile(Path file, EFileMode mode) override;
     };
 
     REGISTER_PLATFORM(PlatformWindows)
