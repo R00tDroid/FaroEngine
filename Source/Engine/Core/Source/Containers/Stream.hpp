@@ -18,7 +18,7 @@ namespace Faro
         virtual uint32 Write(void* source, uint16 elementSize, uint32 elementCount) = 0;
         virtual uint32 Size() = 0;
         virtual uint32 Tell() = 0;
-        virtual uint32 Seek(EStreamSeekOrigin origin, int32 offset) = 0;
+        virtual void Seek(EStreamSeekOrigin origin, int32 offset) = 0;
 
         template<typename T>
         uint32 Read(T* destination, uint32 elementCount)
