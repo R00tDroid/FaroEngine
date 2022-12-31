@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.8037e73 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7e2d792 (main)</span>
    </div>
   </td>
  </tr>
@@ -85,7 +85,7 @@ Inheritance diagram for Faro::FileStreamWindows:</div>
   <map id="Faro::FileStreamWindows_map" name="Faro::FileStreamWindows_map">
 <area href="classFaro_1_1FileStream.html" alt="Faro::FileStream" shape="rect" coords="0,112,155,136"/>
 <area href="classFaro_1_1DataStream.html" title="Interface that reads and writes data to and from a stream." alt="Faro::DataStream" shape="rect" coords="0,56,155,80"/>
-<area href="classFaro_1_1IObject.html" alt="Faro::IObject" shape="rect" coords="0,0,155,24"/>
+<area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="0,0,155,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -112,6 +112,7 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a0f11bc0ca61ca8e518b1ec7b65c79dd2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1FileStreamWindows.html#a0f11bc0ca61ca8e518b1ec7b65c79dd2">Init</a> (<a class="el" href="classFaro_1_1Path.html">Path</a> <a class="el" href="classFaro_1_1FileStreamWindows.html#aee97afbdd95334d86ce57e803b89432c">file</a>, <a class="el" href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6f">EFileMode</a> <a class="el" href="classFaro_1_1FileStreamWindows.html#a7d7149d89ffea7128303003a0c36f4c8">mode</a>)</td></tr>
 <tr class="separator:a0f11bc0ca61ca8e518b1ec7b65c79dd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54936ec39364d6b5404a311d11604b09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1FileStreamWindows.html#a54936ec39364d6b5404a311d11604b09">Init</a> () override</td></tr>
+<tr class="memdesc:a54936ec39364d6b5404a311d11604b09"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the initialization logic of this object. Should be overriden by deriving classes.  <a href="classFaro_1_1FileStreamWindows.html#a54936ec39364d6b5404a311d11604b09">More...</a><br /></td></tr>
 <tr class="separator:a54936ec39364d6b5404a311d11604b09"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4d0e99d49211f777258775c311bb95c2"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:a4d0e99d49211f777258775c311bb95c2"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93">uint32</a>&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classFaro_1_1DataStream.html#a4d0e99d49211f777258775c311bb95c2">Read</a> (T *destination, <a class="el" href="namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93">uint32</a> elementCount)</td></tr>
@@ -143,6 +144,7 @@ Public Member Functions</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
 <tr class="memitem:aa769a60cbd65ab52777be2bea774e046"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1FileStreamWindows.html#aa769a60cbd65ab52777be2bea774e046">Destroy</a> () override</td></tr>
+<tr class="memdesc:aa769a60cbd65ab52777be2bea774e046"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the destruction logic of this class. This also frees its memory.  <a href="classFaro_1_1FileStreamWindows.html#aa769a60cbd65ab52777be2bea774e046">More...</a><br /></td></tr>
 <tr class="separator:aa769a60cbd65ab52777be2bea774e046"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
@@ -207,6 +209,9 @@ Protected Attributes</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Run the destruction logic of this class. This also frees its memory. </p>
+<dl class="section warning"><dt>Warning</dt><dd>When overriding, the super call must be performed <b>last</b> </dd></dl>
+
 <p>Reimplemented from <a class="el" href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">Faro::DataStream</a>.</p>
 
 </div>
@@ -233,6 +238,8 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Run the initialization logic of this object. Should be overriden by deriving classes. </p>
 
 <p>Reimplemented from <a class="el" href="classFaro_1_1IObject.html#a058a901f8ad2e5767a2b778dfadecea5">Faro::IObject</a>.</p>
 

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.8037e73 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7e2d792 (main)</span>
    </div>
   </td>
  </tr>
@@ -86,18 +86,20 @@ Inheritance diagram for Faro::GraphicsBufferUploadD3D12:</div>
 <area href="classFaro_1_1IGraphicsBufferD3D12.html" alt="Faro::IGraphicsBufferD3D12" shape="rect" coords="0,168,209,192"/>
 <area href="classFaro_1_1GraphicsBuffer.html" title="A buffer storing graphics related data. Created by GraphicsAdapter::CreateBuffer." alt="Faro::GraphicsBuffer" shape="rect" coords="0,112,209,136"/>
 <area href="classFaro_1_1IGraphicsAdapterChild.html" alt="Faro::IGraphicsAdapterChild" shape="rect" coords="0,56,209,80"/>
-<area href="classFaro_1_1IObject.html" alt="Faro::IObject" shape="rect" coords="0,0,209,24"/>
+<area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="0,0,209,24"/>
   </map>
 </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a37c7b03cba7ef20939fb8e1f26792e38"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsBufferUploadD3D12.html#a37c7b03cba7ef20939fb8e1f26792e38">Init</a> () override</td></tr>
+<tr class="memdesc:a37c7b03cba7ef20939fb8e1f26792e38"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the initialization logic of this object. Should be overriden by deriving classes.  <a href="classFaro_1_1GraphicsBufferUploadD3D12.html#a37c7b03cba7ef20939fb8e1f26792e38">More...</a><br /></td></tr>
 <tr class="separator:a37c7b03cba7ef20939fb8e1f26792e38"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a701eb015d02dc0c0e4063d0016bedba0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsBufferUploadD3D12.html#a701eb015d02dc0c0e4063d0016bedba0">Upload</a> (<a class="el" href="namespaceFaro.html#ad2c0f3261ab209e8901c67f099fe7c81">uint8</a> *data) override</td></tr>
 <tr class="memdesc:a701eb015d02dc0c0e4063d0016bedba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Prepare the given data so it can be uploaded to the graphics adapter. This buffer <b>must</b> be created as BT_Upload!  <a href="classFaro_1_1GraphicsBufferUploadD3D12.html#a701eb015d02dc0c0e4063d0016bedba0">More...</a><br /></td></tr>
 <tr class="separator:a701eb015d02dc0c0e4063d0016bedba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0458de2946cd1d1aec3769c359fc28e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsBufferD3D12.html#ac0458de2946cd1d1aec3769c359fc28e">Destroy</a> () override</td></tr>
+<tr class="memdesc:ac0458de2946cd1d1aec3769c359fc28e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the destruction logic of this class. This also frees its memory.  <a href="classFaro_1_1IGraphicsBufferD3D12.html#ac0458de2946cd1d1aec3769c359fc28e">More...</a><br /></td></tr>
 <tr class="separator:ac0458de2946cd1d1aec3769c359fc28e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad59975f77350853198a73e354960b679"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsBufferD3D12.html#ad59975f77350853198a73e354960b679">TransitionResource</a> (ID3D12GraphicsCommandList *commandList, <a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81">GraphicsResourceState</a> state)</td></tr>
 <tr class="separator:ad59975f77350853198a73e354960b679"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -110,7 +112,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a84e5b01f3cee4062d2e9b40c8181cecf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e6fdc3c6b466f818a04b39c03fe417d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsBuffer.html#a6e6fdc3c6b466f818a04b39c03fe417d">Init</a> (<a class="el" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a> *adapter, <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a> desc)</td></tr>
 <tr class="separator:a6e6fdc3c6b466f818a04b39c03fe417d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af73af7d9d8d9e994743c90ddace80782"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#af73af7d9d8d9e994743c90ddace80782">Init</a> (<a class="el" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a> *adapter)</td></tr>
+<tr class="memitem:af73af7d9d8d9e994743c90ddace80782"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#af73af7d9d8d9e994743c90ddace80782">Init</a> (<a class="el" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a> *adapter)</td></tr>
+<tr class="memdesc:af73af7d9d8d9e994743c90ddace80782"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize this as a child object for an adapter. Also invokes <a class="el" href="classFaro_1_1IObject.html#a058a901f8ad2e5767a2b778dfadecea5" title="Run the initialization logic of this object. Should be overriden by deriving classes.">IObject::Init</a>, derived classes should use that for initialization.  <a href="classFaro_1_1IGraphicsAdapterChild.html#af73af7d9d8d9e994743c90ddace80782">More...</a><br /></td></tr>
 <tr class="separator:af73af7d9d8d9e994743c90ddace80782"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2da3768804d5e89ff4c2fed2e0ead88b"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81">GraphicsResourceState</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsBuffer.html#a2da3768804d5e89ff4c2fed2e0ead88b">GetResourceState</a> ()</td></tr>
 <tr class="memdesc:a2da3768804d5e89ff4c2fed2e0ead88b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get the current resource state of this buffer.  <a href="classFaro_1_1GraphicsBuffer.html#a2da3768804d5e89ff4c2fed2e0ead88b">More...</a><br /></td></tr>
@@ -161,6 +164,9 @@ Protected Attributes</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Run the destruction logic of this class. This also frees its memory. </p>
+<dl class="section warning"><dt>Warning</dt><dd>When overriding, the super call must be performed <b>last</b> </dd></dl>
 
 <p>Reimplemented from <a class="el" href="classFaro_1_1IObject.html#a9857533599d648736a644773bfd80268">Faro::IObject</a>.</p>
 
@@ -347,6 +353,8 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Run the initialization logic of this object. Should be overriden by deriving classes. </p>
+
 <p>Reimplemented from <a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::IGraphicsAdapterChild</a>.</p>
 
 </div>
@@ -370,12 +378,18 @@ template&lt;class T &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">virtual</span><span class="mlabel">inherited</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#a9eb652a7d3094a494eb4e5cff45dc82c">Faro::GraphicsCommandListD3D12</a>, and <a class="el" href="classFaro_1_1GraphicsFenceD3D12.html#ac8b1683af003e0521519844a690b2197">Faro::GraphicsFenceD3D12</a>.</p>
+<p>Initialize this as a child object for an adapter. Also invokes <a class="el" href="classFaro_1_1IObject.html#a058a901f8ad2e5767a2b778dfadecea5" title="Run the initialization logic of this object. Should be overriden by deriving classes.">IObject::Init</a>, derived classes should use that for initialization. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">adapter</td><td>Graphics adapter to initialize this child on. </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

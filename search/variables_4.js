@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['f_0',['f',['../structFaro_1_1Matrix44.html#a32773b8e0ac4ec25daaf6373d8c4d85d',1,'Faro::Matrix44::f()'],['../structFaro_1_1Vector2.html#aaab85fda8d1fae0d860e05756cc4da62',1,'Faro::Vector2::f()'],['../structFaro_1_1Vector3.html#a32b0eba97ee13ac33b15fa71efe1a599',1,'Faro::Vector3::f()'],['../structFaro_1_1Vector4.html#aff2555057de3c89bdc6a2dcad4e92372',1,'Faro::Vector4::f()']]],
-  ['file_1',['file',['../classFaro_1_1FileStreamWindows.html#aee97afbdd95334d86ce57e803b89432c',1,'Faro::FileStreamWindows']]],
-  ['forward_2',['Forward',['../structFaro_1_1Vector3.html#a16fb15a776b9eedb1f55c70cdb84ed28',1,'Faro::Vector3']]]
+  ['elementlayout_0',['elementLayout',['../structFaro_1_1GraphicsFormat.html#ae3a3a213a7675827d24645e3097a4c59',1,'Faro::GraphicsFormat']]],
+  ['elements_1',['elements',['../structFaro_1_1GraphicsFormat.html#aee3a2f656ffcc6dac399cca78d22faa2',1,'Faro::GraphicsFormat']]],
+  ['elementtype_2',['elementType',['../structFaro_1_1GraphicsFormat.html#a0e3d3d5473c524d67ccbfc9442d07e7d',1,'Faro::GraphicsFormat']]]
 ];

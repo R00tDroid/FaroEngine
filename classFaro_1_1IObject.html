@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.8037e73 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7e2d792 (main)</span>
    </div>
   </td>
  </tr>
@@ -74,6 +74,9 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 
+<p>Base class for dynamically allocated objects.  
+ <a href="classFaro_1_1IObject.html#details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="Object_8hpp_source.html">Object.hpp</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Faro::IObject:</div>
@@ -81,24 +84,17 @@ Inheritance diagram for Faro::IObject:</div>
  <div class="center">
   <img src="classFaro_1_1IObject.png" usemap="#Faro::IObject_map" alt=""/>
   <map id="Faro::IObject_map" name="Faro::IObject_map">
-<area href="classFaro_1_1DataStream.html" title="Interface that reads and writes data to and from a stream." alt="Faro::DataStream" shape="rect" coords="0,56,246,80"/>
-<area href="classFaro_1_1IGraphicsAdapterChild.html" alt="Faro::IGraphicsAdapterChild" shape="rect" coords="768,56,1014,80"/>
-<area href="classFaro_1_1Window.html" alt="Faro::Window" shape="rect" coords="1536,56,1782,80"/>
-<area href="classFaro_1_1FileStream.html" alt="Faro::FileStream" shape="rect" coords="0,112,246,136"/>
-<area href="classFaro_1_1GraphicsBuffer.html" title="A buffer storing graphics related data. Created by GraphicsAdapter::CreateBuffer." alt="Faro::GraphicsBuffer" shape="rect" coords="256,112,502,136"/>
-<area href="classFaro_1_1GraphicsBufferContainer.html" alt="Faro::GraphicsBufferContainer" shape="rect" coords="512,112,758,136"/>
-<area href="classFaro_1_1GraphicsCommandList.html" alt="Faro::GraphicsCommandList" shape="rect" coords="768,112,1014,136"/>
-<area href="classFaro_1_1GraphicsFence.html" title="Marker to be placed on an adapter command queue. Allows for synchronization between CPU and graphics ..." alt="Faro::GraphicsFence" shape="rect" coords="1024,112,1270,136"/>
-<area href="classFaro_1_1GraphicsSwapchain.html" alt="Faro::GraphicsSwapchain" shape="rect" coords="1280,112,1526,136"/>
-<area href="classFaro_1_1WindowWindows.html" alt="Faro::WindowWindows" shape="rect" coords="1536,112,1782,136"/>
-<area href="classFaro_1_1FileStreamWindows.html" alt="Faro::FileStreamWindows" shape="rect" coords="0,168,246,192"/>
-<area href="classFaro_1_1IGraphicsBufferD3D12.html" alt="Faro::IGraphicsBufferD3D12" shape="rect" coords="256,168,502,192"/>
-<area href="classFaro_1_1GraphicsSwapchainImageContainer.html" alt="Faro::GraphicsSwapchainImageContainer" shape="rect" coords="512,168,758,192"/>
-<area href="classFaro_1_1GraphicsCommandListD3D12.html" alt="Faro::GraphicsCommandListD3D12" shape="rect" coords="768,168,1014,192"/>
-<area href="classFaro_1_1GraphicsFenceD3D12.html" alt="Faro::GraphicsFenceD3D12" shape="rect" coords="1024,168,1270,192"/>
-<area href="classFaro_1_1GraphicsSwapchainD3D12.html" alt="Faro::GraphicsSwapchainD3D12" shape="rect" coords="1280,168,1526,192"/>
-<area href="classFaro_1_1GraphicsBufferRemoteD3D12.html" alt="Faro::GraphicsBufferRemoteD3D12" shape="rect" coords="128,224,374,248"/>
-<area href="classFaro_1_1GraphicsBufferUploadD3D12.html" alt="Faro::GraphicsBufferUploadD3D12" shape="rect" coords="384,224,630,248"/>
+<area href="classFaro_1_1DataStream.html" title="Interface that reads and writes data to and from a stream." alt="Faro::DataStream" shape="rect" coords="0,56,186,80"/>
+<area href="classFaro_1_1IGraphicsAdapterChild.html" alt="Faro::IGraphicsAdapterChild" shape="rect" coords="196,56,382,80"/>
+<area href="classFaro_1_1Window.html" alt="Faro::Window" shape="rect" coords="588,56,774,80"/>
+<area href="classFaro_1_1FileStream.html" alt="Faro::FileStream" shape="rect" coords="0,112,186,136"/>
+<area href="classFaro_1_1GraphicsBuffer.html" title="A buffer storing graphics related data. Created by GraphicsAdapter::CreateBuffer." alt="Faro::GraphicsBuffer" shape="rect" coords="392,112,578,136"/>
+<area href="classFaro_1_1GraphicsBufferContainer.html" alt="Faro::GraphicsBufferContainer" shape="rect" coords="392,168,578,192"/>
+<area href="classFaro_1_1GraphicsCommandList.html" alt="Faro::GraphicsCommandList" shape="rect" coords="392,224,578,248"/>
+<area href="classFaro_1_1GraphicsFence.html" title="Marker to be placed on an adapter command queue. Allows for synchronization between CPU and graphics ..." alt="Faro::GraphicsFence" shape="rect" coords="392,280,578,304"/>
+<area href="classFaro_1_1GraphicsPipeline.html" title="Graphics pipeline state object." alt="Faro::GraphicsPipeline" shape="rect" coords="392,336,578,360"/>
+<area href="classFaro_1_1GraphicsSwapchain.html" alt="Faro::GraphicsSwapchain" shape="rect" coords="392,392,578,416"/>
+<area href="classFaro_1_1WindowWindows.html" alt="Faro::WindowWindows" shape="rect" coords="588,112,774,136"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -107,11 +103,15 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a48b9c34167c58e940fb6a3fa7243c9dd"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IObject.html#a48b9c34167c58e940fb6a3fa7243c9dd">~IObject</a> ()=default</td></tr>
 <tr class="separator:a48b9c34167c58e940fb6a3fa7243c9dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a058a901f8ad2e5767a2b778dfadecea5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IObject.html#a058a901f8ad2e5767a2b778dfadecea5">Init</a> ()</td></tr>
+<tr class="memdesc:a058a901f8ad2e5767a2b778dfadecea5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the initialization logic of this object. Should be overriden by deriving classes.  <a href="classFaro_1_1IObject.html#a058a901f8ad2e5767a2b778dfadecea5">More...</a><br /></td></tr>
 <tr class="separator:a058a901f8ad2e5767a2b778dfadecea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9857533599d648736a644773bfd80268"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IObject.html#a9857533599d648736a644773bfd80268">Destroy</a> ()</td></tr>
+<tr class="memdesc:a9857533599d648736a644773bfd80268"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the destruction logic of this class. This also frees its memory.  <a href="classFaro_1_1IObject.html#a9857533599d648736a644773bfd80268">More...</a><br /></td></tr>
 <tr class="separator:a9857533599d648736a644773bfd80268"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p >Base class for dynamically allocated objects. </p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a48b9c34167c58e940fb6a3fa7243c9dd" name="a48b9c34167c58e940fb6a3fa7243c9dd"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a48b9c34167c58e940fb6a3fa7243c9dd">&#9670;&nbsp;</a></span>~IObject()</h2>
 
@@ -161,7 +161,10 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">Faro::DataStream</a>, <a class="el" href="classFaro_1_1GraphicsBufferContainer.html#a3620774a4c2949f12b4db8d4ba9a2222">Faro::GraphicsBufferContainer</a>, <a class="el" href="classFaro_1_1GraphicsSwapchain.html#a3875e33db11acde3d12943a0584b551c">Faro::GraphicsSwapchain</a>, <a class="el" href="classFaro_1_1IGraphicsBufferD3D12.html#ac0458de2946cd1d1aec3769c359fc28e">Faro::IGraphicsBufferD3D12</a>, <a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#aef8607cd3c1f3476f3d3c6e873d56d06">Faro::GraphicsCommandListD3D12</a>, <a class="el" href="classFaro_1_1GraphicsFenceD3D12.html#add7dfeafbc742ae101c0ae49cdd6cbb3">Faro::GraphicsFenceD3D12</a>, <a class="el" href="classFaro_1_1GraphicsSwapchainD3D12.html#add822744403bdabecaa85b1a0433584f">Faro::GraphicsSwapchainD3D12</a>, <a class="el" href="classFaro_1_1FileStreamWindows.html#aa769a60cbd65ab52777be2bea774e046">Faro::FileStreamWindows</a>, and <a class="el" href="classFaro_1_1WindowWindows.html#aff9ef08b3990d6002a772a21b85d7305">Faro::WindowWindows</a>.</p>
+<p>Run the destruction logic of this class. This also frees its memory. </p>
+<dl class="section warning"><dt>Warning</dt><dd>When overriding, the super call must be performed <b>last</b> </dd></dl>
+
+<p>Reimplemented in <a class="el" href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">Faro::DataStream</a>, <a class="el" href="classFaro_1_1GraphicsBufferContainer.html#a3620774a4c2949f12b4db8d4ba9a2222">Faro::GraphicsBufferContainer</a>, <a class="el" href="classFaro_1_1GraphicsSwapchain.html#a3875e33db11acde3d12943a0584b551c">Faro::GraphicsSwapchain</a>, <a class="el" href="classFaro_1_1IGraphicsBufferD3D12.html#ac0458de2946cd1d1aec3769c359fc28e">Faro::IGraphicsBufferD3D12</a>, <a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#aef8607cd3c1f3476f3d3c6e873d56d06">Faro::GraphicsCommandListD3D12</a>, <a class="el" href="classFaro_1_1GraphicsFenceD3D12.html#add7dfeafbc742ae101c0ae49cdd6cbb3">Faro::GraphicsFenceD3D12</a>, <a class="el" href="classFaro_1_1GraphicsPipelineD3D12.html#a263ddc92807f1e45087e6752bf186bfb">Faro::GraphicsPipelineD3D12</a>, <a class="el" href="classFaro_1_1GraphicsSwapchainD3D12.html#add822744403bdabecaa85b1a0433584f">Faro::GraphicsSwapchainD3D12</a>, <a class="el" href="classFaro_1_1FileStreamWindows.html#aa769a60cbd65ab52777be2bea774e046">Faro::FileStreamWindows</a>, and <a class="el" href="classFaro_1_1WindowWindows.html#aff9ef08b3990d6002a772a21b85d7305">Faro::WindowWindows</a>.</p>
 
 </div>
 </div>
@@ -188,7 +191,9 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Reimplemented in <a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::IGraphicsAdapterChild</a>, <a class="el" href="classFaro_1_1GraphicsBufferUploadD3D12.html#a37c7b03cba7ef20939fb8e1f26792e38">Faro::GraphicsBufferUploadD3D12</a>, <a class="el" href="classFaro_1_1GraphicsBufferRemoteD3D12.html#aa643f336708b430f75019b4f683338bb">Faro::GraphicsBufferRemoteD3D12</a>, <a class="el" href="classFaro_1_1FileStreamWindows.html#a54936ec39364d6b5404a311d11604b09">Faro::FileStreamWindows</a>, and <a class="el" href="classFaro_1_1WindowWindows.html#a4c2df6e06e25f238eac1e3aad504eae2">Faro::WindowWindows</a>.</p>
+<p>Run the initialization logic of this object. Should be overriden by deriving classes. </p>
+
+<p>Reimplemented in <a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::IGraphicsAdapterChild</a>, <a class="el" href="classFaro_1_1GraphicsPipeline.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsPipeline</a>, <a class="el" href="classFaro_1_1GraphicsBufferUploadD3D12.html#a37c7b03cba7ef20939fb8e1f26792e38">Faro::GraphicsBufferUploadD3D12</a>, <a class="el" href="classFaro_1_1GraphicsBufferRemoteD3D12.html#aa643f336708b430f75019b4f683338bb">Faro::GraphicsBufferRemoteD3D12</a>, <a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsCommandListD3D12</a>, <a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#af38e0d299abe7fcce4d6fe535de170ce">Faro::GraphicsCommandListD3D12</a>, <a class="el" href="classFaro_1_1GraphicsFenceD3D12.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsFenceD3D12</a>, <a class="el" href="classFaro_1_1GraphicsFenceD3D12.html#a12aa02eb4fcc0870a3643d73b289839b">Faro::GraphicsFenceD3D12</a>, <a class="el" href="classFaro_1_1GraphicsPipelineD3D12.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsPipelineD3D12</a>, <a class="el" href="classFaro_1_1GraphicsPipelineD3D12.html#a521b74cc6ff547c9da824ab9074574e4">Faro::GraphicsPipelineD3D12</a>, <a class="el" href="classFaro_1_1FileStreamWindows.html#a54936ec39364d6b5404a311d11604b09">Faro::FileStreamWindows</a>, and <a class="el" href="classFaro_1_1WindowWindows.html#a4c2df6e06e25f238eac1e3aad504eae2">Faro::WindowWindows</a>.</p>
 
 </div>
 </div>
