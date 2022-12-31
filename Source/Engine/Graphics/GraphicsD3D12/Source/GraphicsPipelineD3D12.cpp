@@ -3,6 +3,7 @@
 #include <GraphicsLogD3D12.hpp>
 #include <Containers/String.hpp>
 #include <GraphicsAdapterD3D12.hpp>
+#include <ConversionD3D12.hpp>
 
 namespace Faro
 {
@@ -47,14 +48,40 @@ namespace Faro
 
     void GraphicsPipelineD3D12::CreatePipelineState()
     {
+        D3D12_INPUT_ELEMENT_DESC* inputLayout = nullptr;
+
+        if (!desc.inputLayout.Empty()) 
+        {
+            inputLayout = MemoryManager::Alloc<D3D12_INPUT_ELEMENT_DESC>(desc.inputLayout.Size());
+            MemoryManager::Zero<D3D12_INPUT_ELEMENT_DESC>(inputLayout, desc.inputLayout.Size());
+
+            uint32 padding = 0;
+            for (uint32 i = 0; i < desc.inputLayout.Size(); i++)
+            {
+                inputLayout[i].SemanticName = desc.inputLayout[i].name.Data();
+                inputLayout[i].SemanticIndex = desc.inputLayout[i].semanticIndex;
+                inputLayout[i].Format = Convert(desc.inputLayout[i].format);
+                inputLayout[i].AlignedByteOffset = padding;
+
+                padding += desc.inputLayout[i].format.GetStride();
+            }
+        }
+
         D3D12_GRAPHICS_PIPELINE_STATE_DESC pipelineDesc;
         MemoryManager::Zero(&pipelineDesc);
+        pipelineDesc.InputLayout = { inputLayout, desc.inputLayout.Size() };
         pipelineDesc.pRootSignature = rootSignature;
         pipelineDesc.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
         pipelineDesc.SampleMask = UINT_MAX;
         pipelineDesc.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
         pipelineDesc.SampleDesc.Count = 1;
         pipelineDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+
+        pipelineDesc.NumRenderTargets = desc.renderTargets.Size();
+        for (uint32 i = 0; i < desc.renderTargets.Size(); i++) 
+        {
+            pipelineDesc.RTVFormats[i] = Convert(desc.renderTargets[0]);
+        }
 
         pipelineDesc.VS = D3D12_SHADER_BYTECODE{ desc.vsData, desc.vsSize };
         pipelineDesc.GS = D3D12_SHADER_BYTECODE{ desc.gsData, desc.gsSize };
@@ -64,5 +91,7 @@ namespace Faro
         {
             GraphicsLogD3D12.Log(LC_Error, "Failed to create pipeline state");
         }
+
+        MemoryManager::Free(inputLayout);
     }
 }
