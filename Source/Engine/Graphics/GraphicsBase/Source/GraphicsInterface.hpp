@@ -16,6 +16,8 @@ namespace Faro
         virtual GraphicsAdapter* CreateAdapter(GraphicsAdapterDesc description) = 0;
 
         virtual String GetName() = 0;
+
+        virtual uint8 GetShaderBinaryType() = 0;
     };
 
     extern GraphicsInterface* GGraphics;

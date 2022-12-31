@@ -1,16 +1,8 @@
 #include "GraphicsPipeline.hpp"
 #include "GraphicsLog.hpp"
 #include <Memory/MemoryManager.hpp>
-
-//TODO Get shader info from same header as transpiler
-#define ShaderPackageVersion 0x0000
-
-#define ShaderBinaryType_DXIL 0x01
-#define ShaderBinaryType_SPRIV 0x02
-
-#define ShaderStageType_Vertex 0x11
-#define ShaderStageType_Geometry 0x12
-#define ShaderStageType_Pixel 0x13
+#include <GraphicsInterface.hpp>
+#include <ShaderDefinition.hpp>
 
 namespace Faro
 {
@@ -90,7 +82,7 @@ namespace Faro
 
             uint8 binaryType = stream->Read<uint8>();
 
-            ProcessShaderBinary(stream, binaryType == ShaderBinaryType_DXIL ? &desc : nullptr); //TODO select based on GGraphics requirements
+            ProcessShaderBinary(stream, binaryType == GGraphics->GetShaderBinaryType() ? &desc : nullptr);
         }
 
         return true;
