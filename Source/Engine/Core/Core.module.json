@@ -17,9 +17,9 @@
     ],
     "Mounts": [
         {
-            "Location": "Resources"
+            "Location": "Resources",
             "MountPoint": "App/Resources"
         }
-    ]
+    ],
     "ModuleType": "Library"
 }
