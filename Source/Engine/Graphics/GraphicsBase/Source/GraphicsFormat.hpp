@@ -42,6 +42,9 @@ namespace Faro
 
     struct GraphicsFormat
     {
+        GraphicsFormat(){}
+        GraphicsFormat(GraphicsFormatElements elements, GraphicsFormatElementType elementType, GraphicsFormatElementLayout elementLayout) : elements(elements), elementType(elementType), elementLayout(elementLayout) {}
+
         GraphicsFormatElements elements = FE_Unknown;
         GraphicsFormatElementType elementType = FET_Unknown;
         GraphicsFormatElementLayout elementLayout = FEL_Unknown;
@@ -59,4 +62,8 @@ namespace Faro
         static GraphicsFormat Float3;
         static GraphicsFormat Float4;
     };
+
+    extern bool operator==(const GraphicsFormat& a, const GraphicsFormat& b);
+
+    extern bool operator<(const GraphicsFormat& a, const GraphicsFormat& b);
 }

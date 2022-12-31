@@ -43,4 +43,14 @@ namespace Faro
         }
         return 0;
     }
+
+    bool operator==(const GraphicsFormat& a, const GraphicsFormat& b)
+    {
+        return a.elements == b.elements && a.elementType == b.elementType && a.elementLayout == b.elementLayout && a.linear == b.linear;
+    }
+
+    bool operator<(const GraphicsFormat& a, const GraphicsFormat& b)
+    {
+        return std::tie(a.elements, a.elementType, a.elementLayout, a.linear) < std::tie(b.elements, b.elementType, b.elementLayout, b.linear);
+    }
 }
