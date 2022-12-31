@@ -24,6 +24,8 @@ namespace Faro
             uint8 semanticIndex = 0;
         };
         Array<InputLayoutElement> inputLayout;
+
+        Array<GraphicsFormat> renderTargets;
     };
 
     class GraphicsPipeline : public IGraphicsAdapterChild
