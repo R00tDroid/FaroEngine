@@ -2,6 +2,7 @@
 #include <GraphicsAdapterChild.hpp>
 #include <Primitives.hpp>
 #include <Containers/Stream.hpp>
+#include <GraphicsFormat.hpp>
 
 namespace Faro
 {
@@ -15,6 +16,14 @@ namespace Faro
 
         uint8* psData = nullptr;
         uint16 psSize = 0;
+
+        struct InputLayoutElement
+        {
+            GraphicsFormat format;
+            String name;
+            uint8 semanticIndex = 0;
+        };
+        Array<InputLayoutElement> inputLayout;
     };
 
     class GraphicsPipeline : public IGraphicsAdapterChild
