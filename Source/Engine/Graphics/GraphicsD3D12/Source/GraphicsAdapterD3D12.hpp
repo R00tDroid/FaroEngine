@@ -23,6 +23,8 @@ namespace Faro
 
         GraphicsSwapchain* CreateSwapchain(Window* window) override;
 
+        GraphicsPipeline* CreatePipeline(GraphicsPipelineDesc desc) override;
+
     private:
         GraphicsAdapterDesc desc;
 

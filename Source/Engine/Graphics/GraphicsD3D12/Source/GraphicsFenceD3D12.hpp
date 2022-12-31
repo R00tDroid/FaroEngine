@@ -8,7 +8,9 @@ namespace Faro
     class GraphicsFenceD3D12 : public GraphicsFence
     {
     public:
-        void Init(GraphicsAdapter* adapter) override;
+        using IGraphicsAdapterChild::Init;
+
+        void Init() override;
         void Destroy() override;
 
         void Trigger() override;

@@ -8,9 +8,9 @@ Faro::Path::Path()
     path = "";
 }
 
-Faro::Path::Path(String path)
+Faro::Path::Path(String inPath)
 {
-    path = path;
+    path = inPath;
     format_();
 }
 

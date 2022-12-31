@@ -22,6 +22,7 @@ namespace Faro
         GraphicsCommandList* commandList = nullptr;
         GraphicsBuffer* uploadBuffer = nullptr;
         GraphicsBuffer* remoteBuffer = nullptr;
+        GraphicsPipeline* pipeline = nullptr;
     };
 
     REGISTER_MODULE(WindowCreationModule)

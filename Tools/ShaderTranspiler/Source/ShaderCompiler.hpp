@@ -1,6 +1,6 @@
 #pragma once
 #include <Utility.hpp>
-#include <Shader.hpp>
+#include <ShaderDefinition.hpp>
 
 #ifdef _WIN32
 #include <dxcapi.h>

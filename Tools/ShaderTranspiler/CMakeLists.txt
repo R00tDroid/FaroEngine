@@ -35,6 +35,7 @@ include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/Source
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Utils
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command
+    ${CMAKE_CURRENT_LIST_DIR}/../../Source/Engine/Graphics/GraphicsBase/Source
 )
 
 target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_17)

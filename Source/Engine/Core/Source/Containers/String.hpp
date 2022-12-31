@@ -20,6 +20,7 @@ namespace Faro
         String(char* str) { data = str; }
         String(const char* str) { data = str; }
         String(Array<char> stringArray) { data = std::string(stringArray.Data(), stringArray.Size()); }
+        String(const char* str, uint32 length) { data = std::string(str, length); }
 
         uint32 Length() { return data.size(); }
 

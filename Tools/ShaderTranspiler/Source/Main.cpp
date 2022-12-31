@@ -1,7 +1,7 @@
 #include <Utility.hpp>
 #include <Parameters.hpp>
 #include "Command.hpp"
-#include "Shader.hpp"
+#include <ShaderDefinition.hpp>
 #include "ShaderCompiler.hpp"
 #include "ShaderPacker.hpp"
 #include "Version.generated.hpp"

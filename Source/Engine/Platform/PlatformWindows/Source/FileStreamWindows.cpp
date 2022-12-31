@@ -1,4 +1,5 @@
 #include "FileStreamWindows.hpp"
+#include "PlatformWindowsLog.hpp"
 
 namespace Faro
 {
@@ -69,6 +70,10 @@ namespace Faro
             Seek(SSO_End, 0);
             size = Tell();
             Seek(SSO_Start, 0);
+        }
+        else
+        {
+            PlatformWindowsLog.Log(LC_Error, "Failed to open: %s", file.Get().Data());
         }
     }
 

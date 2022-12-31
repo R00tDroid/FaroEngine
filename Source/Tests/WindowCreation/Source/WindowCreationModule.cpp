@@ -21,6 +21,9 @@ namespace Faro
 
         swapchain = adapter->CreateSwapchain(window);
 
+        GraphicsPipelineDesc pipelineDesc;
+        pipeline = adapter->CreatePipeline(pipelineDesc);
+
         LogWindowCreationTest.Log(LC_Info, "Creating commandlist...");
         commandList = adapter->CreateCommandList();
         commandList->Reset();
@@ -56,6 +59,7 @@ namespace Faro
     void WindowCreationModule::Unload()
     {
         LogWindowCreationTest.Log(LC_Info, "Releasing graphics objects");
+        MemoryManager::SafeDelete(pipeline);
         MemoryManager::SafeDelete(remoteBuffer);
         MemoryManager::SafeDelete(uploadBuffer);
         MemoryManager::SafeDelete(commandList);

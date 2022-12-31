@@ -16,12 +16,13 @@ namespace Faro
 
         GraphicsAdapter* CreateAdapter(GraphicsAdapterDesc description) override;
 
+        uint8 GetShaderBinaryType() override;
+
         IDXGIFactory4* GetFactory();
 
     private:
         void DetectAdapters();
-        
-    private:
+
         IDXGIFactory4* dxgiFactory = nullptr;
         Array<GraphicsAdapterDesc> adapterDescs;
     };

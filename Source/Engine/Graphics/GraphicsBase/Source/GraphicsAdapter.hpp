@@ -1,11 +1,12 @@
 #pragma once
 #include <Containers/String.hpp>
+#include <Memory/MemoryManager.hpp>
 #include <GraphicsBuffer.hpp>
 #include <GraphicsFence.hpp>
 #include <GraphicsSwapchain.hpp>
 #include <GraphicsCommandlist.hpp>
 #include <GraphicsBufferContainer.hpp>
-#include <Memory/MemoryManager.hpp>
+#include <GraphicsPipeline.hpp>
 
 namespace Faro
 {
@@ -45,5 +46,7 @@ namespace Faro
         virtual GraphicsFence* CreateFence() = 0;
 
         virtual GraphicsSwapchain* CreateSwapchain(Window* window) = 0;
+
+        virtual GraphicsPipeline* CreatePipeline(GraphicsPipelineDesc desc) = 0;
     };
 }

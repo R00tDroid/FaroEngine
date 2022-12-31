@@ -7,7 +7,10 @@ namespace Faro
     class GraphicsCommandListD3D12 : public GraphicsCommandList
     {
     public:
-        void Init(GraphicsAdapter* adapter) override;
+        using IGraphicsAdapterChild::Init;
+
+        void Init() override;
+
         void Destroy() override;
 
         void Reset() override;

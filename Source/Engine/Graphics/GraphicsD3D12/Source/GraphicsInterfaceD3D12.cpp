@@ -5,6 +5,7 @@
 #include "GraphicsAdapterD3D12.hpp"
 #include "GraphicsLogD3D12.hpp"
 #include "Memory/MemoryManager.hpp"
+#include <ShaderDefinition.hpp>
 
 namespace Faro
 {
@@ -51,6 +52,11 @@ namespace Faro
         GraphicsAdapterD3D12* adapter = MemoryManager::New<GraphicsAdapterD3D12>();
         adapter->Init(description);
         return adapter;
+    }
+
+    uint8 GraphicsInterfaceD3D12::GetShaderBinaryType()
+    {
+        return ShaderBinaryType_DXIL;
     }
 
     IDXGIFactory4* GraphicsInterfaceD3D12::GetFactory()
