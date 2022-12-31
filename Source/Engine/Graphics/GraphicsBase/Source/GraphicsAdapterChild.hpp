@@ -22,9 +22,10 @@ namespace Faro
             return (T*)GetAdapter();
         }
 
-        GraphicsAdapter* adapter = nullptr;
-
     protected:
         void Init() override;
+
+    private:
+        GraphicsAdapter* adapter = nullptr;
     };
 }
