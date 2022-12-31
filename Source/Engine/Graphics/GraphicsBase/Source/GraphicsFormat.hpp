@@ -5,6 +5,7 @@ namespace Faro
 {
     enum GraphicsFormatElements
     {
+        FE_Unknown,
         FE_R,
         FE_RG,
         FE_RGB,
@@ -14,6 +15,7 @@ namespace Faro
 
     enum GraphicsFormatElementType
     {
+        FET_Unknown,
         FET_Float,
         FET_UNorm,
         FET_SNorm,
@@ -23,6 +25,7 @@ namespace Faro
 
     enum GraphicsFormatElementLayout
     {
+        FEL_Unknown,
         FEL_8,
         FEL_8_8,
         FEL_8_8_8,
@@ -39,9 +42,9 @@ namespace Faro
 
     struct GraphicsFormat
     {
-        GraphicsFormatElements elements;
-        GraphicsFormatElementType elementType;
-        GraphicsFormatElementLayout elementLayout;
+        GraphicsFormatElements elements = FE_Unknown;
+        GraphicsFormatElementType elementType = FET_Unknown;
+        GraphicsFormatElementLayout elementLayout = FEL_Unknown;
         bool linear = true;
 
         uint8 GetElementCount();
