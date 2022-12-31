@@ -3,6 +3,7 @@
 
 namespace Faro
 {
+    /// @brief Describes what elements are present in a format and what order they have in storage.
     enum GraphicsFormatElements
     {
         FE_Unknown,
@@ -13,6 +14,7 @@ namespace Faro
         FE_BGRA,
     };
 
+    /// @brief Describes the datatype of a format element.
     enum GraphicsFormatElementType
     {
         FET_Unknown,
@@ -23,6 +25,7 @@ namespace Faro
         FET_SInt
     };
 
+    /// @brief Describes the element storage distribution.
     enum GraphicsFormatElementLayout
     {
         FEL_Unknown,
@@ -40,6 +43,7 @@ namespace Faro
         FEL_32_32_32_32,
     };
 
+    /// @brief Describes a graphics format.
     struct GraphicsFormat
     {
         GraphicsFormat(){}
@@ -50,7 +54,16 @@ namespace Faro
         GraphicsFormatElementLayout elementLayout = FEL_Unknown;
         bool linear = true;
 
+        /**
+         * @brief Get the amount of elements/channels in this format.
+         * @return uint8 Amount of elements
+         */
         uint8 GetElementCount();
+
+        /**
+         * @brief Get the size of 1 format instance.
+         * @return uint8 Size of this format
+         */
         uint8 GetStride();
 
         static GraphicsFormat Byte;
