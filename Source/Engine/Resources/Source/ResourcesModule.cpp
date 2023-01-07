@@ -1,6 +1,8 @@
 #include "ResourcesModule.hpp"
 #include <Log.hpp>
 
+#include "ResourceManager.hpp"
+
 namespace Faro
 {
     LOG_DECLARATION(ResourceLog, Resources)
@@ -8,10 +10,12 @@ namespace Faro
     void ResourcesModule::Load()
     {
         Logger::Log(ResourceLog, LC_Debug, "Loading GResources");
+        GResources.Init();
     }
 
     void ResourcesModule::Unload()
     {
+        GResources.Destroy();
     }
 
     String ResourcesModule::GetName()
