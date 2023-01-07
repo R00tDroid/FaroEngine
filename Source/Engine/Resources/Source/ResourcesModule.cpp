@@ -21,6 +21,6 @@ namespace Faro
 
     Array<String> ResourcesModule::GetRuntimeDependencies()
     {
-        return { "PlatformBase" };
+        return { "Platform" };
     }
 }
