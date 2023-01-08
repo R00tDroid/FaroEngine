@@ -11,4 +11,9 @@ namespace Faro
     void ResourceManager::Destroy()
     {
     }
+
+    DataStream* ResourceManager::GetFile(Path)
+    {
+        return nullptr; //TODO Find file in packages
+    }
 }
