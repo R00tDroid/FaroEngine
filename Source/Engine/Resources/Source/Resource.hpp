@@ -2,5 +2,7 @@
 
 namespace Faro
 {
-    
+    class IResource
+    {
+    };
 }
