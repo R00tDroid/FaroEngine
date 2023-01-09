@@ -4,6 +4,7 @@
 #include <Containers/Map.hpp>
 #include "Resource.hpp"
 #include <Memory/MemoryManager.hpp>
+#include <Assert.hpp>
 
 namespace Faro
 {
@@ -18,6 +19,8 @@ namespace Faro
         template<class T>
         T* GetResource(Path path)
         {
+            DebugBuildAssert(RequireSubClass(IResource, T), "Expected subclass of IResource")
+
             if (resources.Contains(path))
             {
                 return resources[path];
