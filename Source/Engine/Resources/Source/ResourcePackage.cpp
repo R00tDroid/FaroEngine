@@ -20,6 +20,14 @@ namespace Faro
         staticPackages.Add(this);
     }
 
+    ResourceDirectoryPackage::ResourceDirectoryPackage()
+    {
+    }
+
+    ResourceDirectoryPackage::ResourceDirectoryPackage(Path inDirectory) : ResourcePackage(true), directory(inDirectory)
+    {
+    }
+
     void ResourceDirectoryPackage::LoadResources()
     {
        Array<Path> filePaths = GPlatform->FindFiles(directory, true, "*.*");

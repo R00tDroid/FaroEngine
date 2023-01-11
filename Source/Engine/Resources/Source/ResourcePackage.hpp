@@ -27,6 +27,9 @@ namespace Faro
     class ResourceDirectoryPackage : public ResourcePackage
     {
     public:
+        ResourceDirectoryPackage();
+        ResourceDirectoryPackage(Path directory);
+
         void LoadResources() override;
         void UnloadResources() override;
         Map<Path, DataStream*> GetResources() override;
