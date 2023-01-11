@@ -100,48 +100,51 @@ Faro::Path Faro::Path::operator+(String addition)
 
 void Faro::Path::format_()
 {
-    path.Replace("/", "\\");
-    path.Replace("\\\\", "\\");
-
-    if (path.Find("..") != -1)
+    if (!path.Empty())
     {
-        Array<String> sections;
-        String s = path;
-        int16 pos = 0;
-        String token;
+        path.Replace("/", "\\");
+        path.Replace("\\\\", "\\");
 
-        while ((pos = s.Find("\\")) != -1)
+        if (path.Find("..") != -1)
         {
-            sections.Add(s.Sub(0, pos));
-            s.Erase(0, pos + 1);
-        }
-        sections.Add(s);
+            Array<String> sections;
+            String s = path;
+            int16 pos = 0;
+            String token;
 
-        for (size_t i = 0; i < sections.Size(); i++)
-        {
-            if (sections[i] == ".." && i > 0)
+            while ((pos = s.Find("\\")) != -1)
             {
-                if (!sections[i - 1].Equals(".."))
+                sections.Add(s.Sub(0, pos));
+                s.Erase(0, pos + 1);
+            }
+            sections.Add(s);
+
+            for (size_t i = 0; i < sections.Size(); i++)
+            {
+                if (sections[i] == ".." && i > 0)
                 {
-                    sections.RemoveAt(i);
-                    sections.RemoveAt(i - 1);
-                    i--;
+                    if (!sections[i - 1].Equals(".."))
+                    {
+                        sections.RemoveAt(i);
+                        sections.RemoveAt(i - 1);
+                        i--;
+                    }
+                }
+            }
+
+            path = "";
+            for (size_t i = 0; i < sections.Size(); i++)
+            {
+                path += sections[i];
+
+                if (i < sections.Size() - 1)
+                {
+                    path += "\\";
                 }
             }
         }
-
-        path = "";
-        for (size_t i = 0; i < sections.Size(); i++)
-        {
-            path += sections[i];
-
-            if (i < sections.Size() - 1)
-            {
-                path += "\\";
-            }
-        }
+  
+        if (path[0] == '\\') path.Erase(0);
+        if (path[path.Length() - 1] == '\\') path.Erase(path.Length() - 1);
     }
-
-    if (path[0] == '\\') path.Erase(0);
-    if (path[path.Length() - 1] == '\\') path.Erase(path.Length() - 1);
 }
