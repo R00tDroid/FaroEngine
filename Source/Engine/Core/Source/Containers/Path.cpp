@@ -3,6 +3,11 @@
 #include "../Containers/Array.hpp"
 #include <sys/stat.h>
 
+Faro::Path::Path(const Path& inPath)
+{
+    path = inPath.path;
+}
+
 Faro::Path::Path()
 {
     path = "";

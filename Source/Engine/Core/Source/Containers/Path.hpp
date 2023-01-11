@@ -13,6 +13,7 @@ namespace Faro
     class Path
     {
     public:
+        Path(const Path& path);
         Path();
         Path(String path);
 
