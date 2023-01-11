@@ -88,4 +88,35 @@ namespace Faro
         stream->Init(file, mode);
         return stream;
     }
+
+    Array<Path> PlatformWindows::FindSubPaths(Path rootPath, bool recursive, String filter)
+    {
+        Array<Path> paths;
+
+        WIN32_FIND_DATAA searchInfo;
+        HANDLE searchOperation = FindFirstFileA((rootPath + filter).Get().Data(), &searchInfo);
+
+        while (searchOperation != INVALID_HANDLE_VALUE)
+        {
+            if (strcmp(searchInfo.cFileName, ".") != 0 && strcmp(searchInfo.cFileName, "..") != 0 && strlen(searchInfo.cFileName) > 0)
+            {
+                Path path = rootPath + searchInfo.cFileName;
+                paths.Add(path);
+
+                if (recursive && path.GetType() == PathType::Directory)
+                {
+                    Array<Path> subPaths = FindSubPaths(path, recursive, filter);
+                    paths.Add(subPaths);
+                }
+            }
+
+            if (!FindNextFileA(searchOperation, &searchInfo))
+            {
+                break;
+            }
+        }
+        FindClose(searchOperation);
+
+        return paths;
+    }
 }

@@ -21,6 +21,12 @@ namespace Faro
         Monitor GetPrimaryMonitor();
 
         virtual FileStream* OpenFile(Path file, EFileMode mode) = 0;
+
+        virtual Array<Path> FindSubPaths(Path rootPath, bool recursive, String filter) = 0;
+
+        Array<Path> FindFiles(Path rootPath, bool recursive = false, String filter = "*.*");
+
+        Array<Path> FindDirectories(Path rootPath, bool recursive = false, String filter = "*");
     };
 
     extern Platform* GPlatform;
