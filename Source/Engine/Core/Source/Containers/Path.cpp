@@ -81,6 +81,18 @@ Faro::Path Faro::Path::RemoveExtension()
         return Path(path.Sub(Index));
 }
 
+Faro::Path Faro::Path::GetRelative(Path rootPath) const
+{
+    String rootString = rootPath.path + "\\";
+
+    String relativePath = path;
+    if (relativePath.Find(rootString) == 0)
+    {
+        relativePath.Erase(0, rootString.Length());
+    }
+    return relativePath;
+}
+
 Faro::Path Faro::Path::operator+(String Extension)
 {
     return Path(path + Extension);
@@ -88,7 +100,7 @@ Faro::Path Faro::Path::operator+(String Extension)
 
 void Faro::Path::format_()
 {
-    std::replace(path.begin(), path.end(), '/', '\\');
+    path.Replace("/", "\\");
     path.Replace("\\\\", "\\");
 
     if (path.Find("..") != -1)
@@ -129,4 +141,7 @@ void Faro::Path::format_()
             }
         }
     }
+
+    if (path[0] == '\\') path.Erase(0);
+    if (path[path.Length() - 1] == '\\') path.Erase(path.Length() - 1);
 }
