@@ -1,8 +1,11 @@
 #pragma once
 #include <Module.hpp>
+#include <Log.hpp>
 
 namespace Faro
 {
+    LOG_DEFINITION(ResourceLog)
+
     class ResourcesModule : public IModule
     {
     public:

@@ -1,6 +1,4 @@
 #include "ResourcesModule.hpp"
-#include <Log.hpp>
-
 #include "ResourceManager.hpp"
 
 namespace Faro
