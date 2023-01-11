@@ -15,7 +15,12 @@ namespace Faro
 
     void ResourceDirectoryPackage::LoadResources()
     {
-        //TODO Find and open files
+       Array<Path> filePaths = GPlatform->FindFiles(directory, true, "*.*");
+       for (Path& file : filePaths)
+       {
+           DataStream* fileStream = GPlatform->OpenFile(file, FO_Read);
+           files.Add(file.GetRelative(directory), fileStream);
+       }
     }
 
     void ResourceDirectoryPackage::UnloadResources()
