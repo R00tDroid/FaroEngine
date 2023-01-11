@@ -116,7 +116,7 @@ namespace Faro
             std::sort(data.begin(), data.end(), function);
         }
 
-        T operator [](int index) const
+        const T& operator [](int index) const
         {
             return data[index];
         }
@@ -144,6 +144,8 @@ namespace Faro
         // for loop iteration
         iterator begin() { return data.begin(); }
         iterator end() { return data.end(); }
+        const_iterator begin() const { return data.cbegin(); }
+        const_iterator end() const { return data.cend(); }
         const_iterator cbegin() const { return data.cbegin(); }
         const_iterator cend() const { return data.cend(); }
 
