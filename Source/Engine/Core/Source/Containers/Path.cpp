@@ -93,9 +93,9 @@ Faro::Path Faro::Path::GetRelative(Path rootPath) const
     return relativePath;
 }
 
-Faro::Path Faro::Path::operator+(String Extension)
+Faro::Path Faro::Path::operator+(String addition)
 {
-    return Path(path + Extension);
+    return Path(path + "\\" + addition);
 }
 
 void Faro::Path::format_()
