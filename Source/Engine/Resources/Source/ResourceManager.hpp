@@ -8,6 +8,8 @@
 
 namespace Faro
 {
+    class ResourcePackage;
+
     class ResourceManager
     {
     public:
@@ -19,7 +21,7 @@ namespace Faro
         template<class T>
         T* GetResource(Path path)
         {
-            DebugBuildAssert(RequireSubClass(IResource, T), "Expected subclass of IResource")
+            DebugBuildAssert(RequireSubClass(IResource, T), "Expected subclass of IResource");
 
             if (resources.Contains(path))
             {
@@ -37,8 +39,12 @@ namespace Faro
             return nullptr;
         }
 
+        void AddPackage(ResourcePackage*);
+
     private:
+        Map<Path, DataStream*> files;
         Map<Path, IResource*> resources;
+        Array<ResourcePackage*> loadedPackages;
     };
     extern ResourceManager GResources;
 }
