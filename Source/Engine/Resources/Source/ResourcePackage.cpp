@@ -3,14 +3,21 @@
 
 namespace Faro
 {
+    Array<ResourcePackage*> ResourcePackage::staticPackages;
+
     ResourcePackage::ResourcePackage(bool autoRegister)
     {
         if (autoRegister) SelfRegister();
     }
 
+    const Array<ResourcePackage*>& ResourcePackage::GetStaticPackages()
+    {
+        return staticPackages;
+    }
+
     void ResourcePackage::SelfRegister()
     {
-        //TODO Register with resource manager
+        staticPackages.Add(this);
     }
 
     void ResourceDirectoryPackage::LoadResources()

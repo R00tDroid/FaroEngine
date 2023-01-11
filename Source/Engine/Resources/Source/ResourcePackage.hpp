@@ -15,8 +15,13 @@ namespace Faro
         virtual void UnloadResources() = 0;
         virtual Map<Path, DataStream*> GetResources() = 0;
 
+        static const Array<ResourcePackage*>& GetStaticPackages();
+
     protected:
         void SelfRegister();
+
+    private:
+        static Array<ResourcePackage*> staticPackages;
     };
 
     class ResourceDirectoryPackage : public ResourcePackage
