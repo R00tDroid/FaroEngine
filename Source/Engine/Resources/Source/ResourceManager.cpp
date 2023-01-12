@@ -27,9 +27,14 @@ namespace Faro
         files.Clear();
     }
 
-    DataStream* ResourceManager::GetFile(Path)
+    DataStream* ResourceManager::GetFile(Path path)
     {
-        return nullptr; //TODO Find file in packages
+        if (files.Contains(path))
+        {
+            Logger::Log(ResourceLog, LC_Trace, "Open resource %s", path.Get().Data());
+            return files[path]->OpenCopy();
+        }
+        return nullptr;
     }
 
     void ResourceManager::AddPackage(ResourcePackage* package)
