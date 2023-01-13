@@ -5,10 +5,13 @@
 
 namespace Faro
 {
+#define ResourceMount_Engine "Engine"
+#define ResourceMount_Game "Game"
+
     class ResourcePackage
     {
     public:
-        ResourcePackage(bool autoRegister = false);
+        ResourcePackage(String mountRoot, Path mountPath = String(), bool autoRegister = false);
         virtual ~ResourcePackage() = default;
 
         virtual void LoadResources() = 0;
@@ -17,18 +20,22 @@ namespace Faro
 
         static const Array<ResourcePackage*>& GetStaticPackages();
 
+        Path GetMountRoot();
+
     protected:
         void SelfRegister();
 
     private:
         static Array<ResourcePackage*> staticPackages;
+
+        String mountRoot;
+        Path mountPath;
     };
 
     class ResourceDirectoryPackage : public ResourcePackage
     {
     public:
-        ResourceDirectoryPackage();
-        ResourceDirectoryPackage(Path directory);
+        ResourceDirectoryPackage(String mountRoot, Path mountPath, Path directory);
 
         void LoadResources() override;
         void UnloadResources() override;

@@ -5,7 +5,7 @@ namespace Faro
 {
     Array<ResourcePackage*> ResourcePackage::staticPackages;
 
-    ResourcePackage::ResourcePackage(bool autoRegister)
+    ResourcePackage::ResourcePackage(String inMountRoot, Path inMountPath, bool autoRegister) : mountRoot(inMountRoot), mountPath(inMountPath)
     {
         if (autoRegister) SelfRegister();
     }
@@ -15,16 +15,17 @@ namespace Faro
         return staticPackages;
     }
 
+    Path ResourcePackage::GetMountRoot()
+    {
+        return mountRoot + ":" + mountPath.Get();
+    }
+
     void ResourcePackage::SelfRegister()
     {
         staticPackages.Add(this);
     }
 
-    ResourceDirectoryPackage::ResourceDirectoryPackage()
-    {
-    }
-
-    ResourceDirectoryPackage::ResourceDirectoryPackage(Path inDirectory) : ResourcePackage(true), directory(inDirectory)
+    ResourceDirectoryPackage::ResourceDirectoryPackage(String mountRoot, Path mountPath, Path inDirectory) : ResourcePackage(mountRoot, mountPath, true), directory(inDirectory)
     {
     }
 
@@ -34,7 +35,7 @@ namespace Faro
        for (Path& file : filePaths)
        {
            DataStream* fileStream = GPlatform->OpenFile(file, FO_Read);
-           files.Add(file.GetRelative(directory), fileStream);
+           files.Add( GetMountRoot() + file.GetRelative(directory).Get(), fileStream);
        }
     }
 
