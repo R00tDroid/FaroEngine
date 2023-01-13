@@ -31,7 +31,7 @@ namespace Faro
             DataStream* stream = GetFile(path);
             if (stream != nullptr)
             {
-                T* resource = MemoryManager::New<T>(stream->OpenCopy());
+                T* resource = MemoryManager::New<T>(stream);
                 resources.Add(path, static_cast<IResource*>(resource));
                 return resource;
             }
