@@ -1,8 +1,17 @@
 #include "Resource.hpp"
 #include <Assert.hpp>
 
+#include "Containers/Stream.hpp"
+
 namespace Faro
 {
+    IResource::IResource(DataStream* inStream) : stream(inStream) { }
+
+    IResource::~IResource()
+    {
+        stream->Close();
+    }
+
     void IResource::ClaimResource()
     {
         claims++;
@@ -22,5 +31,10 @@ namespace Faro
     ResourceState IResource::GetResourceState()
     {
         return state.Get();
+    }
+
+    DataStream* IResource::GetDataStream()
+    {
+        return stream;
     }
 }

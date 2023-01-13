@@ -13,9 +13,14 @@ enum ResourceState
 
 namespace Faro
 {
+    class DataStream;
+
     class IResource
     {
     public:
+        IResource(DataStream*);
+        virtual ~IResource();
+
         void ClaimResource();
         void ReleaseResource();
         bool IsResourceClaimed();
@@ -25,9 +30,11 @@ namespace Faro
     protected:
         virtual void InitResource() = 0;
         virtual void DestroyResource() = 0;
+        DataStream* GetDataStream();
 
     private:
         uint32 claims = 0;
         ThreadSafe<ResourceState> state = RS_Unknown;
+        DataStream* stream = nullptr;
     };
 }
