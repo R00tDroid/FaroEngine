@@ -1,6 +1,7 @@
 #include "Resource.hpp"
 #include <Assert.hpp>
 
+#include "ResourceManager.hpp"
 #include "Containers/Stream.hpp"
 
 namespace Faro
@@ -15,12 +16,22 @@ namespace Faro
     void IResource::ClaimResource()
     {
         claims++;
+
+        if (claims == 1)
+        {
+            GResources.OnResourceClaimChanged(this);
+        }
     }
 
     void IResource::ReleaseResource()
     {
         Debug_Assert(claims > 0, "Mismatched claim and release");
         claims--;
+
+        if (claims == 0)
+        {
+            GResources.OnResourceClaimChanged(this);
+        }
     }
 
     bool IResource::IsResourceClaimed()
@@ -33,8 +44,18 @@ namespace Faro
         return state.Get();
     }
 
+    bool IResource::IsAvailable()
+    {
+        return GetResourceState() == RS_Available;
+    }
+
     DataStream* IResource::GetDataStream()
     {
         return stream;
+    }
+
+    void IResource::NotifyNewState(ResourceState newState)
+    {
+        state.Set(newState);
     }
 }

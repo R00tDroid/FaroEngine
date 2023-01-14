@@ -35,6 +35,8 @@ namespace Faro
         }
         loadedPackages.Clear();
         files.Clear();
+
+        //TODO Unload and free resources
     }
 
     DataStream* ResourceManager::GetFile(Path path)
@@ -65,6 +67,21 @@ namespace Faro
         Logger::Log(ResourceLog, LC_Debug, "Loaded package: %i", resourceCount);
     }
 
+    void ResourceManager::OnResourceClaimChanged(IResource* resource)
+    {
+        if (resource->IsResourceClaimed())
+        {
+            Logger::Log(ResourceLog, LC_Trace, "Queue resource");
+
+            resource->NotifyNewState(RS_Queued);
+            ResourceLoaderThread::loadQueue.Lock();
+            ResourceLoaderThread::loadQueue->Add(resource);
+            ResourceLoaderThread::loadQueue.Unlock();
+        }
+
+         //TODO Unload resource
+    }
+
     void ResourceManager::ResourceLoaderThread::ThreadInit()
     {
         Logger::Log(ResourceLog, LC_Trace, "Loader thread started");
@@ -72,6 +89,18 @@ namespace Faro
 
     void ResourceManager::ResourceLoaderThread::ThreadUpdate()
     {
+        IResource* loadingResource = nullptr;
+        loadQueue.Lock();
+        if (!loadQueue->Empty())
+        {
+            loadingResource = loadQueue->First();
+            loadQueue->RemoveAt(0);
+        }
+        loadQueue.Unlock();
+
+        loadingResource->NotifyNewState(RS_Loading);
+        loadingResource->InitResource();
+        loadingResource->NotifyNewState(RS_Available);
     }
 
     void ResourceManager::ResourceLoaderThread::ThreadDestroy()

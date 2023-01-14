@@ -13,6 +13,7 @@ namespace Faro
 
     class ResourceManager
     {
+        friend class IResource;
     public:
         void Init();
         void Destroy();
@@ -41,6 +42,9 @@ namespace Faro
         }
 
         void AddPackage(ResourcePackage*);
+
+    protected:
+        void OnResourceClaimChanged(IResource* resource);
 
     private:
         Map<Path, DataStream*> files;

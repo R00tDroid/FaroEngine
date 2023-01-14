@@ -17,6 +17,7 @@ namespace Faro
 
     class IResource
     {
+        friend class ResourceManager;
     public:
         IResource(DataStream*);
         virtual ~IResource();
@@ -26,11 +27,14 @@ namespace Faro
         bool IsResourceClaimed();
 
         ResourceState GetResourceState();
+        bool IsAvailable();
 
     protected:
         virtual void InitResource() = 0;
         virtual void DestroyResource() = 0;
         DataStream* GetDataStream();
+
+        void NotifyNewState(ResourceState state);
 
     private:
         uint32 claims = 0;
