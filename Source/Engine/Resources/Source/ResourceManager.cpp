@@ -6,6 +6,8 @@ namespace Faro
 {
     ResourceManager GResources;
 
+    ThreadSafe<Array<IResource*>> ResourceManager::ResourceLoaderThread::loadQueue;
+
     void ResourceManager::Init()
     {
         Logger::Log(ResourceLog, LC_Trace, "Loading static packages");
@@ -14,6 +16,8 @@ namespace Faro
         {
             AddPackage(package);
         }
+
+        ResourceLoaderThread::loadQueue.Set({});
 
         Logger::Log(ResourceLog, LC_Trace, "Starting default loader threads");
         SetLoaderThreadCount(4);

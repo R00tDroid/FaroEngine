@@ -56,6 +56,8 @@ namespace Faro
 
         public:
             String GetThreadId() override;
+
+            static ThreadSafe<Array<IResource*>> loadQueue;
         };
         Array<ResourceLoaderThread*> loaderThreads;
 
