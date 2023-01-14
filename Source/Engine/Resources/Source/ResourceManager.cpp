@@ -14,10 +14,16 @@ namespace Faro
         {
             AddPackage(package);
         }
+
+        Logger::Log(ResourceLog, LC_Trace, "Starting default loader threads");
+        SetLoaderThreadCount(4);
     }
 
     void ResourceManager::Destroy()
     {
+        Logger::Log(ResourceLog, LC_Trace, "Stopping loader threads");
+        SetLoaderThreadCount(0);
+
         Logger::Log(ResourceLog, LC_Trace, "Unloading packages");
         for (ResourcePackage* package : loadedPackages)
         {
@@ -53,5 +59,49 @@ namespace Faro
         }
 
         Logger::Log(ResourceLog, LC_Debug, "Loaded package: %i", resourceCount);
+    }
+
+    void ResourceManager::ResourceLoaderThread::ThreadInit()
+    {
+        Logger::Log(ResourceLog, LC_Trace, "Loader thread started");
+    }
+
+    void ResourceManager::ResourceLoaderThread::ThreadUpdate()
+    {
+    }
+
+    void ResourceManager::ResourceLoaderThread::ThreadDestroy()
+    {
+        Logger::Log(ResourceLog, LC_Trace, "Loader thread stopped");
+    }
+
+    String ResourceManager::ResourceLoaderThread::GetThreadId()
+    {
+        return "ResourceLoader";
+    }
+
+    void ResourceManager::SetLoaderThreadCount(uint16 count)
+    {
+        if (count > loaderThreads.Size())
+        {
+            while (count > loaderThreads.Size())
+            {
+                ResourceLoaderThread* thread = MemoryManager::New<ResourceLoaderThread>();
+                thread->Start();
+                loaderThreads.Add(thread);
+            }
+        }
+
+        if (count < loaderThreads.Size())
+        {
+            while (count < loaderThreads.Size())
+            {
+                ResourceLoaderThread* thread = loaderThreads.First();
+                thread->RequestStop();
+                thread->WaitForStop();
+                MemoryManager::Delete(thread);
+                loaderThreads.Remove(thread);
+            }
+        }
     }
 }

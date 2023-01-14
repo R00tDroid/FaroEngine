@@ -5,6 +5,7 @@
 #include "Resource.hpp"
 #include <Memory/MemoryManager.hpp>
 #include <Assert.hpp>
+#include <Thread.hpp>
 
 namespace Faro
 {
@@ -45,6 +46,20 @@ namespace Faro
         Map<Path, DataStream*> files;
         Map<Path, IResource*> resources;
         Array<ResourcePackage*> loadedPackages;
+
+        class ResourceLoaderThread : public IThread
+        {
+        protected:
+            void ThreadInit() override;
+            void ThreadUpdate() override;
+            void ThreadDestroy() override;
+
+        public:
+            String GetThreadId() override;
+        };
+        Array<ResourceLoaderThread*> loaderThreads;
+
+        void SetLoaderThreadCount(uint16 count);
     };
     extern ResourceManager GResources;
 }
