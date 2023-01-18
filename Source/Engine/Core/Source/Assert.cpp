@@ -1,4 +1,4 @@
-#pragma once
+#ifdef FARO_DEBUG
 #include <Assert.hpp>
 #include <cstdlib>
 
@@ -41,3 +41,4 @@ namespace Faro
         }
     }
 }
+#endif

@@ -4,8 +4,11 @@ namespace Faro
 {
     #define RequireSubClass(BaseClass, SubClass) (std::is_base_of<BaseClass, SubClass>::value)
 
-    //TODO Only compile in debug or development mode
+#ifdef FARO_DEBUG
     extern void _DebugCheck(bool expression, const char* expressionString, const char* message, const char* filename, int lineNumber, bool triggerAbort);
+#else
+#define _DebugCheck(expression, expressionString, message, filename, lineNumber, triggerAbort)
+#endif
 
     #define Debug_BreakMessage(message) _DebugCheck(false, nullptr, message, __FILE__, __LINE__, true);
     #define Debug_Break() Debug_CheckMessage(false, nullptr);
