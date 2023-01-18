@@ -355,6 +355,13 @@ private:
                                 preprocessorDefines += path + ";";
                             }
 
+                            switch ((BuildType)buildTypeIndex)
+                            {
+                                case Debug: { preprocessorDefines += "FARO_DEBUG"; break; }
+                                case Development: { preprocessorDefines += "FARO_DEVELOPMENT"; break; }
+                                case Release: { preprocessorDefines += "FARO_RELEASE"; break; }
+                            }
+
                             element->SetText(preprocessorDefines.c_str());
                         }
                     }
