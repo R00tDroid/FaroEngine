@@ -3,7 +3,7 @@
 #include <cstdlib>
 
 #include <iostream>
-#if 1==1 //TODO Properly check platform
+#ifdef FARO_OS_WINDOWS
 #include <sstream>
 #include <windows.h>
 #define DebugOutputMessage(message)           \
