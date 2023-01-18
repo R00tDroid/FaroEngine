@@ -104,11 +104,25 @@ public:
             includes += " /I\"" + include.string() + "\"";
         }
 
-        //TODO switch debug and release
-        std::string defines = " /DDEBUG /D_DEBUG /D_MT /D_CRTDBG_MAP_ALLOC /MTd";
+        std::string defines;
+
+        switch (configuration)
+        {
+            case Debug:
+            case Development: { defines = " /DDEBUG /D_DEBUG /D_MT /D_CRTDBG_MAP_ALLOC /MTd /Od /Zi"; break; }
+            case Release: { defines = " /D_MT /D_CRTDBG_MAP_ALLOC /MT /O2"; break; }
+        }
+
         for (std::string& define : preprocessorDefines)
         {
-            includes += " /D" + define;
+            defines += " /D" + define;
+        }
+
+        switch (configuration)
+        {
+            case Debug: { defines += " /DFARO_DEBUG"; break; }
+            case Development: { defines += " /DFARO_DEVELOPMENT"; break; }
+            case Release: { defines += " /DFARO_RELEASE"; break; }
         }
 
         std::filesystem::path clExe = msvcTools.string() + "\\cl.exe";
@@ -117,7 +131,7 @@ public:
         Utility::EnsureDirectory(outputFile.parent_path());
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + clExe.string() + "\" /c /FC /nologo /EHsc /Z7 /Od " + defines + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + clExe.string() + "\" /c /FC /nologo /EHsc " + defines + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
         
         //Format, trim and print output message
         if (!log.empty())
@@ -178,9 +192,22 @@ public:
 
         libs += " \"user32.lib\"";
 
-        //TODO switch debug and release
-        libs += " \"libucrtd.lib\"";
-        libs += " \"libvcruntimed.lib\"";
+        switch (configuration)
+        {
+            case Debug:
+            case Development:
+            {
+                libs += " \"libucrtd.lib\"";
+                libs += " \"libvcruntimed.lib\"";
+                break;
+            }
+            case Release: 
+            {
+                libs += " \"libucrt.lib\"";
+                libs += " \"libvcruntime.lib\"";
+                break;
+            }
+        }
 
         //TODO Set correct architecture
         libDirectories += " /LIBPATH:\"" + windowsSdkLib.string() + "\\ucrt\\x64\"";
@@ -205,8 +232,15 @@ public:
         Utility::EnsureDirectory(GetExeDirectory(project));
         std::filesystem::path outputFile = GetExePath(project, target, configuration);
 
+        std::string flags = "/NOLOGO /SUBSYSTEM:CONSOLE /WX /MACHINE:X64";
+
+        if (configuration == Debug || configuration == Development)
+        {
+            flags += " /DEBUG";
+        }
+
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + linkExe.string() + "\" /NOLOGO /DEBUG /SUBSYSTEM:CONSOLE /WX /MACHINE:X64 /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + linkExe.string() + "\" " + flags + " /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
 
         //Format, trim and print output message
         if (!log.empty())
