@@ -105,24 +105,17 @@ public:
         }
 
         std::string defines;
-
-        switch (configuration)
-        {
-            case Debug:
-            case Development: { defines = " /DDEBUG /D_DEBUG /D_MT /D_CRTDBG_MAP_ALLOC /MTd /Od /Zi"; break; }
-            case Release: { defines = " /D_MT /D_CRTDBG_MAP_ALLOC /MT /O2"; break; }
-        }
-
-        for (std::string& define : preprocessorDefines)
+        for (std::string& define : GetPreprocessorDefines(target, configuration))
         {
             defines += " /D" + define;
         }
 
+        std::string compilerFlags;
         switch (configuration)
         {
-            case Debug: { defines += " /DFARO_DEBUG"; break; }
-            case Development: { defines += " /DFARO_DEVELOPMENT"; break; }
-            case Release: { defines += " /DFARO_RELEASE"; break; }
+            case Debug:
+            case Development: { compilerFlags = " /DDEBUG /D_DEBUG /D_MT /D_CRTDBG_MAP_ALLOC /MTd /Od /Zi"; break; }
+            case Release: { compilerFlags = " /D_MT /D_CRTDBG_MAP_ALLOC /MT /O2"; break; }
         }
 
         std::filesystem::path clExe = msvcTools.string() + "\\cl.exe";
@@ -131,7 +124,7 @@ public:
         Utility::EnsureDirectory(outputFile.parent_path());
 
         std::string log = "";
-        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + clExe.string() + "\" /c /FC /nologo /EHsc " + defines + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + clExe.string() + "\" /c /FC /nologo /EHsc " + defines + " " + compilerFlags + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
         
         //Format, trim and print output message
         if (!log.empty())
