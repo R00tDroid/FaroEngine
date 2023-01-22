@@ -348,7 +348,14 @@ private:
                             element->SetText(includePaths.c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
-                            element->SetText(""); //TODO set preprocessor defines
+
+                            std::string preprocessorDefines;
+                            for (std::string& path : toolchain->GetPreprocessorDefines(platform, static_cast<BuildType>(buildTypeIndex)))
+                            {
+                                preprocessorDefines += path + ";";
+                            }
+
+                            element->SetText(preprocessorDefines.c_str());
                         }
                     }
                 }

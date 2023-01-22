@@ -5,9 +5,7 @@
     "PrivateIncludeDirectories": [
     ],
     "Dependencies": [
-      "PlatformWindows",
-      "GraphicsD3D12",
-      "Resources"
+        "PlatformBase"
     ],
     "SourceFilters": [
         "Source/**/*.cpp",
@@ -15,6 +13,5 @@
         "Source/**/*.c",
         "Source/**/*.h"
     ],
-    "ModuleType": "Library",
-    "SolutionLocation": "Tests"
+    "ModuleType": "Library"
 }

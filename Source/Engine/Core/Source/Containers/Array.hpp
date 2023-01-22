@@ -10,6 +10,7 @@ namespace Faro
     class Array
     {
         typedef typename std::vector<T>::iterator iterator;
+        typedef typename std::vector<T>::const_iterator const_iterator;
 
     public:
         Array(){}
@@ -23,6 +24,8 @@ namespace Faro
         Array(Array<T>& copy) { data = copy.data; }
 
         void Add(T object) { data.push_back(object); }
+
+        void Add(Array<T>& otherArray) { for (T& value : otherArray) Add(value); }
 
         void Insert(T object, uint32 index) { data.insert(object, index); }
 
@@ -113,7 +116,7 @@ namespace Faro
             std::sort(data.begin(), data.end(), function);
         }
 
-        T operator [](int index) const
+        const T& operator [](int index) const
         {
             return data[index];
         }
@@ -141,6 +144,10 @@ namespace Faro
         // for loop iteration
         iterator begin() { return data.begin(); }
         iterator end() { return data.end(); }
+        const_iterator begin() const { return data.cbegin(); }
+        const_iterator end() const { return data.cend(); }
+        const_iterator cbegin() const { return data.cbegin(); }
+        const_iterator cend() const { return data.cend(); }
 
     private:
         std::vector<T> data;

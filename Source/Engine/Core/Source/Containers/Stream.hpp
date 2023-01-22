@@ -3,9 +3,12 @@
 #include <Memory/Object.hpp>
 #include <Containers/Array.hpp>
 #include <Containers/String.hpp>
+#include <Assert.hpp>
 
 namespace Faro
 {
+    class DataStreamCopy;
+
     /// @brief Origin point of a seek operation.
     enum EStreamSeekOrigin
     {
@@ -100,11 +103,7 @@ namespace Faro
          * @brief Read the data to a stream
          * @return String String read from the stream
          */
-        String ReadToString()
-        {
-            Array<char> string = ReadToArray<char>();
-            return String(string);
-        }
+        String ReadToString();
 
         /**
          * @brief Write data to the stream.
@@ -131,9 +130,36 @@ namespace Faro
         }
 
         /// @brief Close the stream. This also releases it from memory.
-        void Close() { Destroy(); }
+        void Close();
+
+        DataStreamCopy* OpenCopy();
 
     protected:
-        void Destroy() override { IObject::Destroy(); }
+        void Destroy() override;
+        uint32 copies = 0;
+
+        void AddCopy(DataStream* otherStream);
+
+        void RemoveCopy(DataStream* otherStream);
+    };
+
+    class DataStreamCopy : public DataStream
+    {
+    public:
+        uint32 Read(void* destination, uint16 elementSize, uint32 elementCount) override;
+        uint32 Write(void* source, uint16 elementSize, uint32 elementCount) override;
+        uint32 Size() override;
+        uint32 Tell() override;
+        void Seek(EStreamSeekOrigin origin, int32 offset) override;
+
+        void Init(DataStream* stream);
+
+    protected:
+        void Init() override;
+        void Destroy() override;
+
+    private:
+        DataStream* stream = nullptr;
+        uint32 cursor = 0;
     };
 }

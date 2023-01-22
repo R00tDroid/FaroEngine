@@ -4,6 +4,28 @@
 #include "Command.hpp"
 #include "ToolchainMSVC.hpp"
 
+std::vector<std::string> IToolchain::GetPreprocessorDefines(BuildPlatform* platform, BuildType configuration)
+{
+    std::vector<std::string> defines;
+
+    for (std::string& define : platform->preprocessorDefines)
+    {
+        defines.push_back(define);
+    }
+
+    switch (configuration)
+    {
+        case Debug: { defines.push_back("FARO_DEBUG"); break; }
+        case Development: { defines.push_back("FARO_DEVELOPMENT"); break; }
+        case Release: { defines.push_back("FARO_RELEASE"); break; }
+
+        case ENUMSIZE:;
+        default:;
+    }
+
+    return defines;
+}
+
 int IToolchain::ExecuteCommand(std::string command, std::string& output)
 {
     return Utility::ExecuteCommand(command, output);

@@ -13,6 +13,7 @@ namespace Faro
     class Path
     {
     public:
+        Path(const Path& path);
         Path();
         Path(String path);
 
@@ -28,7 +29,14 @@ namespace Faro
 
         Path RemoveExtension();
 
-        Path operator+ (String);
+        Path GetRelative(Path path) const;
+
+        Path operator+(String);
+
+        bool operator <(const Path& other) const
+        {
+            return path < other.path;
+        }
 
     private:
         String path;

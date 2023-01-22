@@ -210,7 +210,7 @@ private:
             std::string displayName = GetDisplayName(*module, file);
             Utility::PrintLine(displayName);
 
-            if (targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetPlatform->preprocessorDefines))
+            if (targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetToolchain->GetPreprocessorDefines(targetPlatform, buildType)))
             {
                 module->fileDates.MarkTreeUpdate(file);
             }

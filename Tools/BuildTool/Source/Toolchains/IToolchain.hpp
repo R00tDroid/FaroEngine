@@ -64,6 +64,8 @@ public:
 
     virtual  std::string GetExeExtension() = 0;
 
+    std::vector<std::string> GetPreprocessorDefines(BuildPlatform* platform, BuildType configuration);
+
 protected:
     static int ExecuteCommand(std::string command, std::string& output);
 
