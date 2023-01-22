@@ -2,13 +2,10 @@
 #include <Log.hpp>
 #include <Memory/MemoryManager.hpp>
 #include <GraphicsInterface.hpp>
-#include "ResourcePackage.hpp"
 
 namespace Faro
 {
     LOG_DECLARATION(LogWindowCreationTest, TestWindowcreation);
-
-    ResourceDirectoryPackage testPackage(ResourceMount_Game, String("testPackage"), String("D:\\Projects\\FaroEngine\\Source\\Engine\\Core\\Source"));
 
     void WindowCreationModule::Load()
     {
