@@ -105,7 +105,7 @@ public:
         }
 
         std::string defines;
-        for (std::string& define : GetPreprocessorDefines(target, configuration))
+        for (std::string& define : preprocessorDefines)
         {
             defines += " /D" + define;
         }
