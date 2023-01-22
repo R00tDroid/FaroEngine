@@ -116,6 +116,9 @@ public:
             case Debug:
             case Development: { compilerFlags = " /DDEBUG /D_DEBUG /D_MT /D_CRTDBG_MAP_ALLOC /MTd /Od /Zi"; break; }
             case Release: { compilerFlags = " /D_MT /D_CRTDBG_MAP_ALLOC /MT /O2"; break; }
+
+            case ENUMSIZE:;
+            default:;
         }
 
         std::filesystem::path clExe = msvcTools.string() + "\\cl.exe";
@@ -200,6 +203,9 @@ public:
                 libs += " \"libvcruntime.lib\"";
                 break;
             }
+
+            case ENUMSIZE:;
+            default:;
         }
 
         //TODO Set correct architecture

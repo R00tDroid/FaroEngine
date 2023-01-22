@@ -18,6 +18,9 @@ std::vector<std::string> IToolchain::GetPreprocessorDefines(BuildPlatform* platf
         case Debug: { defines.push_back("FARO_DEBUG"); break; }
         case Development: { defines.push_back("FARO_DEVELOPMENT"); break; }
         case Release: { defines.push_back("FARO_RELEASE"); break; }
+
+        case ENUMSIZE:;
+        default:;
     }
 
     return defines;
