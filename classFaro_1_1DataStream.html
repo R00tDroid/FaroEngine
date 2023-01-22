@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7e2d792 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.959c290 (main)</span>
    </div>
   </td>
  </tr>
@@ -70,6 +70,7 @@ $(function() {
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classFaro_1_1DataStream-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Faro::DataStream Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
@@ -85,9 +86,10 @@ Inheritance diagram for Faro::DataStream:</div>
  <div class="center">
   <img src="classFaro_1_1DataStream.png" usemap="#Faro::DataStream_map" alt=""/>
   <map id="Faro::DataStream_map" name="Faro::DataStream_map">
-<area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="0,0,155,24"/>
-<area href="classFaro_1_1FileStream.html" alt="Faro::FileStream" shape="rect" coords="0,112,155,136"/>
-<area href="classFaro_1_1FileStreamWindows.html" alt="Faro::FileStreamWindows" shape="rect" coords="0,168,155,192"/>
+<area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="82,0,237,24"/>
+<area href="classFaro_1_1DataStreamCopy.html" alt="Faro::DataStreamCopy" shape="rect" coords="0,112,155,136"/>
+<area href="classFaro_1_1FileStream.html" alt="Faro::FileStream" shape="rect" coords="165,112,320,136"/>
+<area href="classFaro_1_1FileStreamWindows.html" alt="Faro::FileStreamWindows" shape="rect" coords="165,168,320,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -134,6 +136,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a515bb621526b891c2e739fe52679ca57"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1DataStream.html#a515bb621526b891c2e739fe52679ca57">Close</a> ()</td></tr>
 <tr class="memdesc:a515bb621526b891c2e739fe52679ca57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Close the stream. This also releases it from memory.  <a href="classFaro_1_1DataStream.html#a515bb621526b891c2e739fe52679ca57">More...</a><br /></td></tr>
 <tr class="separator:a515bb621526b891c2e739fe52679ca57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a416b8cb864f5340794538bd4738fc1c3"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1DataStreamCopy.html">DataStreamCopy</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1DataStream.html#a416b8cb864f5340794538bd4738fc1c3">OpenCopy</a> ()</td></tr>
+<tr class="separator:a416b8cb864f5340794538bd4738fc1c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a058a901f8ad2e5767a2b778dfadecea5"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IObject.html#a058a901f8ad2e5767a2b778dfadecea5">Init</a> ()</td></tr>
 <tr class="memdesc:a058a901f8ad2e5767a2b778dfadecea5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the initialization logic of this object. Should be overriden by deriving classes.  <a href="classFaro_1_1IObject.html#a058a901f8ad2e5767a2b778dfadecea5">More...</a><br /></td></tr>
 <tr class="separator:a058a901f8ad2e5767a2b778dfadecea5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -143,12 +147,21 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a3f1895d151c081fee5344b15e879534c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">Destroy</a> () override</td></tr>
 <tr class="memdesc:a3f1895d151c081fee5344b15e879534c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the destruction logic of this class. This also frees its memory.  <a href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">More...</a><br /></td></tr>
 <tr class="separator:a3f1895d151c081fee5344b15e879534c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a44e80d02d3c55fd743124e839c1c5d95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1DataStream.html#a44e80d02d3c55fd743124e839c1c5d95">AddCopy</a> (<a class="el" href="classFaro_1_1DataStream.html">DataStream</a> *otherStream)</td></tr>
+<tr class="separator:a44e80d02d3c55fd743124e839c1c5d95"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae3239e4778ca40f08bae2c0852896a11"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1DataStream.html#ae3239e4778ca40f08bae2c0852896a11">RemoveCopy</a> (<a class="el" href="classFaro_1_1DataStream.html">DataStream</a> *otherStream)</td></tr>
+<tr class="separator:ae3239e4778ca40f08bae2c0852896a11"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:ae982ba3800890cef6274139d241b327f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93">uint32</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1DataStream.html#ae982ba3800890cef6274139d241b327f">copies</a> = 0</td></tr>
+<tr class="separator:ae982ba3800890cef6274139d241b327f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p >Interface that reads and writes data to and from a stream. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a515bb621526b891c2e739fe52679ca57" name="a515bb621526b891c2e739fe52679ca57"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a515bb621526b891c2e739fe52679ca57">&#9670;&nbsp;</a></span>Close()</h2>
+<a id="a44e80d02d3c55fd743124e839c1c5d95" name="a44e80d02d3c55fd743124e839c1c5d95"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a44e80d02d3c55fd743124e839c1c5d95">&#9670;&nbsp;</a></span>AddCopy()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -157,17 +170,35 @@ Protected Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
+          <td class="memname">void Faro::DataStream::AddCopy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1DataStream.html">DataStream</a> *&#160;</td>
+          <td class="paramname"><em>otherStream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a515bb621526b891c2e739fe52679ca57" name="a515bb621526b891c2e739fe52679ca57"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a515bb621526b891c2e739fe52679ca57">&#9670;&nbsp;</a></span>Close()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
           <td class="memname">void Faro::DataStream::Close </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Close the stream. This also releases it from memory. </p>
@@ -192,7 +223,7 @@ Protected Member Functions</h2></td></tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">protected</span><span class="mlabel">virtual</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -202,7 +233,7 @@ Protected Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classFaro_1_1IObject.html#a9857533599d648736a644773bfd80268">Faro::IObject</a>.</p>
 
-<p>Reimplemented in <a class="el" href="classFaro_1_1FileStreamWindows.html#aa769a60cbd65ab52777be2bea774e046">Faro::FileStreamWindows</a>.</p>
+<p>Reimplemented in <a class="el" href="classFaro_1_1DataStreamCopy.html#a6b28cfbd2c9b9d76bc89616c2d693ce2">Faro::DataStreamCopy</a>, and <a class="el" href="classFaro_1_1FileStreamWindows.html#aa769a60cbd65ab52777be2bea774e046">Faro::FileStreamWindows</a>.</p>
 
 </div>
 </div>
@@ -231,7 +262,24 @@ Protected Member Functions</h2></td></tr>
 
 <p>Run the initialization logic of this object. Should be overriden by deriving classes. </p>
 
-<p>Reimplemented in <a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::IGraphicsAdapterChild</a>, <a class="el" href="classFaro_1_1GraphicsPipeline.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsPipeline</a>, <a class="el" href="classFaro_1_1GraphicsBufferUploadD3D12.html#a37c7b03cba7ef20939fb8e1f26792e38">Faro::GraphicsBufferUploadD3D12</a>, <a class="el" href="classFaro_1_1GraphicsBufferRemoteD3D12.html#aa643f336708b430f75019b4f683338bb">Faro::GraphicsBufferRemoteD3D12</a>, <a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsCommandListD3D12</a>, <a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#af38e0d299abe7fcce4d6fe535de170ce">Faro::GraphicsCommandListD3D12</a>, <a class="el" href="classFaro_1_1GraphicsFenceD3D12.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsFenceD3D12</a>, <a class="el" href="classFaro_1_1GraphicsFenceD3D12.html#a12aa02eb4fcc0870a3643d73b289839b">Faro::GraphicsFenceD3D12</a>, <a class="el" href="classFaro_1_1GraphicsPipelineD3D12.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsPipelineD3D12</a>, <a class="el" href="classFaro_1_1GraphicsPipelineD3D12.html#a521b74cc6ff547c9da824ab9074574e4">Faro::GraphicsPipelineD3D12</a>, <a class="el" href="classFaro_1_1FileStreamWindows.html#a54936ec39364d6b5404a311d11604b09">Faro::FileStreamWindows</a>, and <a class="el" href="classFaro_1_1WindowWindows.html#a4c2df6e06e25f238eac1e3aad504eae2">Faro::WindowWindows</a>.</p>
+<p>Reimplemented in <a class="el" href="classFaro_1_1DataStreamCopy.html#ab69b6be6343845ab84831bb25769a941">Faro::DataStreamCopy</a>, <a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::IGraphicsAdapterChild</a>, <a class="el" href="classFaro_1_1GraphicsPipeline.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsPipeline</a>, <a class="el" href="classFaro_1_1GraphicsBufferUploadD3D12.html#a37c7b03cba7ef20939fb8e1f26792e38">Faro::GraphicsBufferUploadD3D12</a>, <a class="el" href="classFaro_1_1GraphicsBufferRemoteD3D12.html#aa643f336708b430f75019b4f683338bb">Faro::GraphicsBufferRemoteD3D12</a>, <a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsCommandListD3D12</a>, <a class="el" href="classFaro_1_1GraphicsCommandListD3D12.html#af38e0d299abe7fcce4d6fe535de170ce">Faro::GraphicsCommandListD3D12</a>, <a class="el" href="classFaro_1_1GraphicsFenceD3D12.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsFenceD3D12</a>, <a class="el" href="classFaro_1_1GraphicsFenceD3D12.html#a12aa02eb4fcc0870a3643d73b289839b">Faro::GraphicsFenceD3D12</a>, <a class="el" href="classFaro_1_1GraphicsPipelineD3D12.html#a3ce0df28383cb7dc73ff6425b019f99e">Faro::GraphicsPipelineD3D12</a>, <a class="el" href="classFaro_1_1GraphicsPipelineD3D12.html#a521b74cc6ff547c9da824ab9074574e4">Faro::GraphicsPipelineD3D12</a>, <a class="el" href="classFaro_1_1FileStreamWindows.html#a54936ec39364d6b5404a311d11604b09">Faro::FileStreamWindows</a>, and <a class="el" href="classFaro_1_1WindowWindows.html#a4c2df6e06e25f238eac1e3aad504eae2">Faro::WindowWindows</a>.</p>
+
+</div>
+</div>
+<a id="a416b8cb864f5340794538bd4738fc1c3" name="a416b8cb864f5340794538bd4738fc1c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a416b8cb864f5340794538bd4738fc1c3">&#9670;&nbsp;</a></span>OpenCopy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1DataStreamCopy.html">DataStreamCopy</a> * Faro::DataStream::OpenCopy </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -376,7 +424,7 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint32 Amount of bytes read </dd></dl>
 
-<p>Implemented in <a class="el" href="classFaro_1_1FileStreamWindows.html#a77018e9525626a133695c40dfece5cb6">Faro::FileStreamWindows</a>.</p>
+<p>Implemented in <a class="el" href="classFaro_1_1DataStreamCopy.html#abaf47eb414b1ba4df604d34785e63680">Faro::DataStreamCopy</a>, and <a class="el" href="classFaro_1_1FileStreamWindows.html#a77018e9525626a133695c40dfece5cb6">Faro::FileStreamWindows</a>.</p>
 
 </div>
 </div>
@@ -421,9 +469,6 @@ template&lt;typename T &gt; </div>
 
 <div class="memitem">
 <div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname"><a class="el" href="classFaro_1_1String.html">String</a> Faro::DataStream::ReadToString </td>
@@ -432,15 +477,36 @@ template&lt;typename T &gt; </div>
           <td></td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Read the data to a stream. </p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="classFaro_1_1String.html">String</a> <a class="el" href="classFaro_1_1String.html">String</a> read from the stream </dd></dl>
+
+</div>
+</div>
+<a id="ae3239e4778ca40f08bae2c0852896a11" name="ae3239e4778ca40f08bae2c0852896a11"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae3239e4778ca40f08bae2c0852896a11">&#9670;&nbsp;</a></span>RemoveCopy()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Faro::DataStream::RemoveCopy </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1DataStream.html">DataStream</a> *&#160;</td>
+          <td class="paramname"><em>otherStream</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
 
 </div>
 </div>
@@ -487,7 +553,7 @@ template&lt;typename T &gt; </div>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classFaro_1_1FileStreamWindows.html#a2a6d90e84b4a25d71b92fa6f1d83850b">Faro::FileStreamWindows</a>.</p>
+<p>Implemented in <a class="el" href="classFaro_1_1DataStreamCopy.html#a9d16db7dab626162f73ef74d3574cf1d">Faro::DataStreamCopy</a>, and <a class="el" href="classFaro_1_1FileStreamWindows.html#a2a6d90e84b4a25d71b92fa6f1d83850b">Faro::FileStreamWindows</a>.</p>
 
 </div>
 </div>
@@ -517,7 +583,7 @@ template&lt;typename T &gt; </div>
 <p>Get the byte-size of this stream. </p>
 <dl class="section return"><dt>Returns</dt><dd>uint32 Amount of bytes in this stream </dd></dl>
 
-<p>Implemented in <a class="el" href="classFaro_1_1FileStreamWindows.html#aefd76437d93bca4fbfe4be9793780104">Faro::FileStreamWindows</a>.</p>
+<p>Implemented in <a class="el" href="classFaro_1_1DataStreamCopy.html#ada07822535694b820a70b53014885feb">Faro::DataStreamCopy</a>, and <a class="el" href="classFaro_1_1FileStreamWindows.html#aefd76437d93bca4fbfe4be9793780104">Faro::FileStreamWindows</a>.</p>
 
 </div>
 </div>
@@ -547,7 +613,7 @@ template&lt;typename T &gt; </div>
 <p>Get the current position of the stream. </p>
 <dl class="section return"><dt>Returns</dt><dd>uint32 Current position </dd></dl>
 
-<p>Implemented in <a class="el" href="classFaro_1_1FileStreamWindows.html#a0018cd94420f372ae1d97c19854fbfc6">Faro::FileStreamWindows</a>.</p>
+<p>Implemented in <a class="el" href="classFaro_1_1DataStreamCopy.html#a13e695605d29237b0a8262c7849512cd">Faro::DataStreamCopy</a>, and <a class="el" href="classFaro_1_1FileStreamWindows.html#a0018cd94420f372ae1d97c19854fbfc6">Faro::FileStreamWindows</a>.</p>
 
 </div>
 </div>
@@ -698,12 +764,36 @@ template&lt;typename T &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>uint32 Amount of bytes written </dd></dl>
 
-<p>Implemented in <a class="el" href="classFaro_1_1FileStreamWindows.html#ad72de7604771f9688287aa28526b6f03">Faro::FileStreamWindows</a>.</p>
+<p>Implemented in <a class="el" href="classFaro_1_1DataStreamCopy.html#a0da7e130265e1ddc086945219c9f94d1">Faro::DataStreamCopy</a>, and <a class="el" href="classFaro_1_1FileStreamWindows.html#ad72de7604771f9688287aa28526b6f03">Faro::FileStreamWindows</a>.</p>
 
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="ae982ba3800890cef6274139d241b327f" name="ae982ba3800890cef6274139d241b327f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae982ba3800890cef6274139d241b327f">&#9670;&nbsp;</a></span>copies</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93">uint32</a> Faro::DataStream::copies = 0</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/github/workspace/Source/Engine/Core/Source/Containers/<a class="el" href="Stream_8hpp_source.html">Stream.hpp</a></li>
+<li>/github/workspace/Source/Engine/Core/Source/Containers/<a class="el" href="Stream_8cpp.html">Stream.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

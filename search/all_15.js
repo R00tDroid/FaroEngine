@@ -1,8 +1,27 @@
 var searchData=
 [
-  ['x_0',['x',['../structFaro_1_1Vector2.html#a795ac5574c63503b50bab26470f86207',1,'Faro::Vector2::x()'],['../structFaro_1_1Vector3.html#a83d720c547585c002604c4ae823eab2d',1,'Faro::Vector3::x()'],['../structFaro_1_1Vector4.html#aa8659aefad65457be994dd27c98327a5',1,'Faro::Vector4::x()']]],
-  ['x1_1',['x1',['../structFaro_1_1IRect.html#a44f7a49608ffa768f31ac350f229bfec',1,'Faro::IRect']]],
-  ['x2_2',['x2',['../structFaro_1_1IRect.html#a3c83425148e6a63eccc89513b382c4cf',1,'Faro::IRect']]],
-  ['xy_3',['xy',['../structFaro_1_1Vector3.html#a97392bf7a96f792fdfe66161fd20e3db',1,'Faro::Vector3::xy()'],['../structFaro_1_1Vector4.html#a913221754e3e791ba48799f61a91b0ff',1,'Faro::Vector4::xy()']]],
-  ['xyz_4',['xyz',['../structFaro_1_1Vector4.html#a1acd6ba14855c4858deeb5e653ef18fe',1,'Faro::Vector4']]]
+  ['w_0',['w',['../structFaro_1_1Vector4.html#a4098793e0e8030d27fc45fb6ed94b609',1,'Faro::Vector4']]],
+  ['waitforfinish_1',['WaitForFinish',['../classFaro_1_1GraphicsFence.html#a12c14ac1a407b895cffd762ecd3dd9e2',1,'Faro::GraphicsFence::WaitForFinish()'],['../classFaro_1_1GraphicsFenceD3D12.html#a04b8ad04ea062a1bf4529dbc6fce4569',1,'Faro::GraphicsFenceD3D12::WaitForFinish()']]],
+  ['waitforstop_2',['WaitForStop',['../classFaro_1_1IThread.html#af65a39ccbed31a9baa1a3012f985c2f4',1,'Faro::IThread']]],
+  ['white_3',['White',['../structFaro_1_1IColor.html#a2553857653a64d229fc4963f4735835c',1,'Faro::IColor']]],
+  ['window_4',['Window',['../classFaro_1_1Window.html',1,'Faro']]],
+  ['window_5',['window',['../classFaro_1_1WindowThread.html#a6154d354e0217faa33911c4827293d07',1,'Faro::WindowThread']]],
+  ['window_2ecpp_6',['Window.cpp',['../Window_8cpp.html',1,'']]],
+  ['window_2ehpp_7',['Window.hpp',['../Window_8hpp.html',1,'']]],
+  ['windowclass_8',['WindowClass',['../WindowWindows_8cpp.html#a33eeca1d8a55d2c30b9deae0458f2659',1,'WindowWindows.cpp']]],
+  ['windowhandle_9',['windowHandle',['../classFaro_1_1WindowThread.html#acaa7e946715212d9eb0d62290ef859d3',1,'Faro::WindowThread']]],
+  ['windowmode_10',['WindowMode',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdf',1,'Faro']]],
+  ['windowstate_11',['WindowState',['../structFaro_1_1WindowState.html',1,'Faro']]],
+  ['windowstate_12',['windowState',['../classFaro_1_1WindowThread.html#aec7ba1a4cdca23ccc1db02cd0863443e',1,'Faro::WindowThread']]],
+  ['windowthread_13',['WindowThread',['../classFaro_1_1WindowThread.html',1,'Faro']]],
+  ['windowwindows_14',['WindowWindows',['../classFaro_1_1WindowWindows.html',1,'Faro']]],
+  ['windowwindows_2ecpp_15',['WindowWindows.cpp',['../WindowWindows_8cpp.html',1,'']]],
+  ['windowwindows_2ehpp_16',['WindowWindows.hpp',['../WindowWindows_8hpp.html',1,'']]],
+  ['wm_5fenumsize_17',['WM_ENUMSIZE',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa3b64fac51dffec72f7f987a39c619328',1,'Faro']]],
+  ['wm_5ffullscreen_18',['WM_Fullscreen',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa250988f8c1649ee9f3116dc4e5b34580',1,'Faro']]],
+  ['wm_5fhidden_19',['WM_Hidden',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa920b2effda2a17a6d3463453ebda4153',1,'Faro']]],
+  ['wm_5fmaximized_20',['WM_Maximized',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa40a04ab386196d73769fb7767904a337',1,'Faro']]],
+  ['wm_5fminimized_21',['WM_Minimized',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfa6a0267786a47f5dd0d1c6b55a3816fce',1,'Faro']]],
+  ['wm_5fwindowed_22',['WM_Windowed',['../namespaceFaro.html#ae2e1139caa7c8e4c032fdc9d705aabdfaac9dad74bf223552b89d5c209c189588',1,'Faro']]],
+  ['write_23',['Write',['../classFaro_1_1DataStream.html#a01e1fdad1de4d1fecc5d388245728edb',1,'Faro::DataStream::Write(void *source, uint16 elementSize, uint32 elementCount)=0'],['../classFaro_1_1DataStream.html#af46befcfdf57a244419c8f3157c0aa10',1,'Faro::DataStream::Write(T *source, uint32 elementCount)'],['../classFaro_1_1DataStream.html#af7cdf680e70d9b3121bc21f2a9fe9137',1,'Faro::DataStream::Write(T value)'],['../classFaro_1_1DataStreamCopy.html#a0da7e130265e1ddc086945219c9f94d1',1,'Faro::DataStreamCopy::Write()'],['../classFaro_1_1FileStreamWindows.html#ad72de7604771f9688287aa28526b6f03',1,'Faro::FileStreamWindows::Write()']]]
 ];

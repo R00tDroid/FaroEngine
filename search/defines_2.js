@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['log_5fdeclaration_0',['LOG_DECLARATION',['../Log_8hpp.html#a30525f312abf3bb8b7403ec2cf64b3e5',1,'Log.hpp']]],
-  ['log_5fdefinition_1',['LOG_DEFINITION',['../Log_8hpp.html#acf5ee802b13a496f0fcae380b3f3dc2b',1,'Log.hpp']]]
+  ['implement_5finstance_5fregistry_0',['IMPLEMENT_INSTANCE_REGISTRY',['../ClassRegistry_8hpp.html#af528b9a1fb39079116a7cfb721f855c8',1,'ClassRegistry.hpp']]]
 ];

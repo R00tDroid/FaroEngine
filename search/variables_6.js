@@ -11,6 +11,7 @@ var searchData=
   ['gplatform_8',['GPlatform',['../namespaceFaro.html#a361b946b88e5607247d549cd2b50e8f9',1,'Faro']]],
   ['gpuresource_9',['gpuResource',['../classFaro_1_1IGraphicsBufferD3D12.html#ae8d958baf2c4090ebc2e76ca75211e4f',1,'Faro::IGraphicsBufferD3D12']]],
   ['green_10',['Green',['../structFaro_1_1IColor.html#a33b78128c8d7c3bab3cfc00319a4a62f',1,'Faro::IColor']]],
-  ['gsdata_11',['gsData',['../structFaro_1_1GraphicsPipelineDesc.html#aea1334da6ec69f076e5bd37e895d4886',1,'Faro::GraphicsPipelineDesc']]],
-  ['gssize_12',['gsSize',['../structFaro_1_1GraphicsPipelineDesc.html#a95e92a395c0fdf5f8a6c42f154646654',1,'Faro::GraphicsPipelineDesc']]]
+  ['gresources_11',['GResources',['../namespaceFaro.html#aab8672c491e574869b370c0f423545ab',1,'Faro']]],
+  ['gsdata_12',['gsData',['../structFaro_1_1GraphicsPipelineDesc.html#aea1334da6ec69f076e5bd37e895d4886',1,'Faro::GraphicsPipelineDesc']]],
+  ['gssize_13',['gsSize',['../structFaro_1_1GraphicsPipelineDesc.html#a95e92a395c0fdf5f8a6c42f154646654',1,'Faro::GraphicsPipelineDesc']]]
 ];

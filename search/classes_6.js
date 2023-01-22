@@ -8,6 +8,7 @@ var searchData=
   ['iobject_5',['IObject',['../classFaro_1_1IObject.html',1,'Faro']]],
   ['irect_6',['IRect',['../structFaro_1_1IRect.html',1,'Faro']]],
   ['irect_3c_20int32_20_3e_7',['IRect&lt; int32 &gt;',['../structFaro_1_1IRect.html',1,'Faro']]],
-  ['ithread_8',['IThread',['../classFaro_1_1IThread.html',1,'Faro']]],
-  ['ithreadinterface_9',['IThreadInterface',['../classFaro_1_1IThreadInterface.html',1,'Faro']]]
+  ['iresource_8',['IResource',['../classFaro_1_1IResource.html',1,'Faro']]],
+  ['ithread_9',['IThread',['../classFaro_1_1IThread.html',1,'Faro']]],
+  ['ithreadinterface_10',['IThreadInterface',['../classFaro_1_1IThreadInterface.html',1,'Faro']]]
 ];

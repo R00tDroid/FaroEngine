@@ -1,16 +1,19 @@
 var searchData=
 [
-  ['vector2_0',['Vector2',['../structFaro_1_1Vector2.html',1,'Faro::Vector2&lt; T &gt;'],['../structFaro_1_1Vector2.html#a01060eab324fcaed69883a389cbf14f1',1,'Faro::Vector2::Vector2(T x, T y)'],['../structFaro_1_1Vector2.html#a78f9a8dc9688c3a52ce87ff0dae2c446',1,'Faro::Vector2::Vector2()']]],
-  ['vector2_2ehpp_1',['Vector2.hpp',['../Vector2_8hpp.html',1,'']]],
-  ['vector2_3c_20int32_20_3e_2',['Vector2&lt; int32 &gt;',['../structFaro_1_1Vector2.html',1,'Faro']]],
-  ['vector3_3',['Vector3',['../structFaro_1_1Vector3.html',1,'Faro::Vector3&lt; T &gt;'],['../structFaro_1_1Vector3.html#a96a536550d751b7a45d030822d434530',1,'Faro::Vector3::Vector3()'],['../structFaro_1_1Vector3.html#a29ff1042d587d551811c6d4f8f348fba',1,'Faro::Vector3::Vector3(Vector2&lt; T &gt; v, T z)'],['../structFaro_1_1Vector3.html#a41b68300a8bd3e347c6d90dc760902a8',1,'Faro::Vector3::Vector3(T x, T y, T z)']]],
-  ['vector3_2ehpp_4',['Vector3.hpp',['../Vector3_8hpp.html',1,'']]],
-  ['vector4_5',['Vector4',['../structFaro_1_1Vector4.html',1,'Faro::Vector4&lt; T &gt;'],['../structFaro_1_1Vector4.html#a4f6e08d047288cb146ca4d3aad1a3891',1,'Faro::Vector4::Vector4()'],['../structFaro_1_1Vector4.html#ae87e309ae66934448d7b82571bb1ee87',1,'Faro::Vector4::Vector4(T x, T y, T z, T w)'],['../structFaro_1_1Vector4.html#a99eb8c9bc61386f4d46483baeabae844',1,'Faro::Vector4::Vector4(Vector3&lt; T &gt; v, T w)'],['../structFaro_1_1Vector4.html#a5e0e35cc5916c0298dc8071e7a90c56d',1,'Faro::Vector4::Vector4(Vector2&lt; T &gt; a, Vector2&lt; T &gt; b)']]],
-  ['vector4_2ehpp_6',['Vector4.hpp',['../Vector4_8hpp.html',1,'']]],
-  ['version_7',['Version',['../structFaro_1_1Version.html',1,'Faro::Version'],['../structFaro_1_1Version.html#a2b726201d19ee0dfe7cc1ea8cf816a43',1,'Faro::Version::Version()']]],
-  ['version_2ehpp_8',['Version.hpp',['../Version_8hpp.html',1,'']]],
-  ['vertex_9',['vertex',['../structShaderBinary.html#a83c8d54777ed90998d20a26b02b6b8e4',1,'ShaderBinary']]],
-  ['vram_10',['vram',['../structFaro_1_1GraphicsAdapterDesc.html#a88cd0e80b0ff56439e8777b3ba075381',1,'Faro::GraphicsAdapterDesc']]],
-  ['vsdata_11',['vsData',['../structFaro_1_1GraphicsPipelineDesc.html#a67ddda28429a589aff9e3adb074a5b4d',1,'Faro::GraphicsPipelineDesc']]],
-  ['vssize_12',['vsSize',['../structFaro_1_1GraphicsPipelineDesc.html#aafb86125f0df9801b54da2352d7fb107',1,'Faro::GraphicsPipelineDesc']]]
+  ['uint16_0',['uint16',['../namespaceFaro.html#a65a8fbc5055da14cc43249c8c24899c9',1,'Faro']]],
+  ['uint32_1',['uint32',['../namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93',1,'Faro']]],
+  ['uint64_2',['uint64',['../namespaceFaro.html#a475e104e13e5df0c061f358a0782f3e3',1,'Faro']]],
+  ['uint8_3',['uint8',['../namespaceFaro.html#ad2c0f3261ab209e8901c67f099fe7c81',1,'Faro']]],
+  ['uint8color_4',['UInt8Color',['../namespaceFaro.html#a6e410c13c116e2a243b95d26640aedf4',1,'Faro']]],
+  ['unknown_5',['Unknown',['../namespaceFaro.html#acf284d5454602e0adc26108820a23d71acea7e4fe234be1edb6b2e0d0be27499a',1,'Faro']]],
+  ['unload_6',['Unload',['../classFaro_1_1GraphicsModule.html#ae8d611e58b821591f082ffdc59ec9a56',1,'Faro::GraphicsModule::Unload()'],['../classFaro_1_1IModule.html#ab19df5ad302907304990cf96b24a6966',1,'Faro::IModule::Unload()'],['../classFaro_1_1PlatformModule.html#ae9c0d1aedde6d704074476ff01c2054e',1,'Faro::PlatformModule::Unload()'],['../classFaro_1_1ResourcesModule.html#a74ee23cf33a281d738e64604c54150cb',1,'Faro::ResourcesModule::Unload()']]],
+  ['unloadresources_7',['UnloadResources',['../classFaro_1_1ResourcePackage.html#aa12b009dd20f9c3eec324388c43f3276',1,'Faro::ResourcePackage::UnloadResources()'],['../classFaro_1_1ResourceDirectoryPackage.html#a97e1f3a79c6cb9c66eb87a0ec3ed5ed3',1,'Faro::ResourceDirectoryPackage::UnloadResources()']]],
+  ['unlock_8',['Unlock',['../classFaro_1_1ThreadSafe.html#abf4eebd276f240fe7f63017a1cadbae5',1,'Faro::ThreadSafe::Unlock()'],['../classFaro_1_1Mutex.html#a5dd30ecaf255a69fc13b39b6ad4c825e',1,'Faro::Mutex::Unlock()']]],
+  ['unregisterthread_9',['UnregisterThread',['../classFaro_1_1IThreadInterface.html#ab06d6d68d594b51fdfbe93eeec771dac',1,'Faro::IThreadInterface']]],
+  ['up_10',['Up',['../structFaro_1_1Vector3.html#a14b93968d2940e2a4c64ae84dae01598',1,'Faro::Vector3']]],
+  ['updatable_11',['updatable',['../structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html#a5e0de4d508d15f8dbad161e0d6f47242',1,'Faro::GraphicsBufferDesc::TextureDesc']]],
+  ['update_12',['Update',['../classFaro_1_1ModuleManager.html#a7b5ad7f6468a684f35cb794e8aa3ef99',1,'Faro::ModuleManager::Update()'],['../classFaro_1_1Application.html#a30257945c189d05ab955818201eaf5ba',1,'Faro::Application::Update()']]],
+  ['upload_13',['Upload',['../classFaro_1_1GraphicsBufferRemoteD3D12.html#aa6cb0529e55eb80d0d9fea9b006e797e',1,'Faro::GraphicsBufferRemoteD3D12::Upload()'],['../classFaro_1_1GraphicsBufferUploadD3D12.html#a701eb015d02dc0c0e4063d0016bedba0',1,'Faro::GraphicsBufferUploadD3D12::Upload()'],['../classFaro_1_1GraphicsBuffer.html#a226e1df2dffe35799901535fd4fa262e',1,'Faro::GraphicsBuffer::Upload()']]],
+  ['upper_14',['Upper',['../classFaro_1_1String.html#a4f1993158ac7d66c28d194ef1d09bf2d',1,'Faro::String']]],
+  ['upstream_15',['upstream',['../structFaro_1_1ModuleDependencies.html#aed9f2bb8a20fd331252c316675651796',1,'Faro::ModuleDependencies']]]
 ];

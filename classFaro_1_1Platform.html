@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7e2d792 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.959c290 (main)</span>
    </div>
   </td>
  </tr>
@@ -101,6 +101,12 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a0719052fb71fe85f371006f5c310a032"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28f0186ce1d6e4f5422cce63c22ae1d1"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1FileStream.html">FileStream</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Platform.html#a28f0186ce1d6e4f5422cce63c22ae1d1">OpenFile</a> (<a class="el" href="classFaro_1_1Path.html">Path</a> file, <a class="el" href="namespaceFaro.html#a6058be18eb03ff33adc21ebaa4d6ba6f">EFileMode</a> mode)=0</td></tr>
 <tr class="separator:a28f0186ce1d6e4f5422cce63c22ae1d1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a313d95629920ad5230ea60ea93a50bb3"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1Path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Platform.html#a313d95629920ad5230ea60ea93a50bb3">FindSubPaths</a> (<a class="el" href="classFaro_1_1Path.html">Path</a> rootPath, bool recursive, <a class="el" href="classFaro_1_1String.html">String</a> filter)=0</td></tr>
+<tr class="separator:a313d95629920ad5230ea60ea93a50bb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d83a08d072076ac1e0117c4bf96dc68"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1Path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Platform.html#a2d83a08d072076ac1e0117c4bf96dc68">FindFiles</a> (<a class="el" href="classFaro_1_1Path.html">Path</a> rootPath, bool recursive=false, <a class="el" href="classFaro_1_1String.html">String</a> filter=&quot;*.*&quot;)</td></tr>
+<tr class="separator:a2d83a08d072076ac1e0117c4bf96dc68"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c960af8e77e29676a0a2af62d48a148"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1Path.html">Path</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1Platform.html#a5c960af8e77e29676a0a2af62d48a148">FindDirectories</a> (<a class="el" href="classFaro_1_1Path.html">Path</a> rootPath, bool recursive=false, <a class="el" href="classFaro_1_1String.html">String</a> filter=&quot;*&quot;)</td></tr>
+<tr class="separator:a5c960af8e77e29676a0a2af62d48a148"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a18e20b880558cd0a8469db654808406f" name="a18e20b880558cd0a8469db654808406f"></a>
@@ -154,6 +160,118 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Implemented in <a class="el" href="classFaro_1_1PlatformWindows.html#a17ab95b0889de471bf54ef76894bf8c6">Faro::PlatformWindows</a>.</p>
+
+</div>
+</div>
+<a id="a5c960af8e77e29676a0a2af62d48a148" name="a5c960af8e77e29676a0a2af62d48a148"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5c960af8e77e29676a0a2af62d48a148">&#9670;&nbsp;</a></span>FindDirectories()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1Path.html">Path</a> &gt; Faro::Platform::FindDirectories </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1Path.html">Path</a>&#160;</td>
+          <td class="paramname"><em>rootPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>recursive</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td>
+          <td class="paramname"><em>filter</em> = <code>&quot;*&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a2d83a08d072076ac1e0117c4bf96dc68" name="a2d83a08d072076ac1e0117c4bf96dc68"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2d83a08d072076ac1e0117c4bf96dc68">&#9670;&nbsp;</a></span>FindFiles()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1Path.html">Path</a> &gt; Faro::Platform::FindFiles </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1Path.html">Path</a>&#160;</td>
+          <td class="paramname"><em>rootPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>recursive</em> = <code>false</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td>
+          <td class="paramname"><em>filter</em> = <code>&quot;*.*&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a313d95629920ad5230ea60ea93a50bb3" name="a313d95629920ad5230ea60ea93a50bb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a313d95629920ad5230ea60ea93a50bb3">&#9670;&nbsp;</a></span>FindSubPaths()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1Path.html">Path</a> &gt; Faro::Platform::FindSubPaths </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1Path.html">Path</a>&#160;</td>
+          <td class="paramname"><em>rootPath</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>recursive</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1String.html">String</a>&#160;</td>
+          <td class="paramname"><em>filter</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classFaro_1_1PlatformWindows.html#a4bba7deca0946fdf486cc3a34c5247a0">Faro::PlatformWindows</a>.</p>
 
 </div>
 </div>
