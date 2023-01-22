@@ -98,9 +98,12 @@ namespace Faro
         }
         loadQueue.Unlock();
 
-        loadingResource->NotifyNewState(RS_Loading);
-        loadingResource->InitResource();
-        loadingResource->NotifyNewState(RS_Available);
+        if (loadingResource != nullptr) 
+        {
+            loadingResource->NotifyNewState(RS_Loading);
+            loadingResource->InitResource();
+            loadingResource->NotifyNewState(RS_Available);
+        }
     }
 
     void ResourceManager::ResourceLoaderThread::ThreadDestroy()
