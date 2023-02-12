@@ -2,35 +2,13 @@
 
 namespace Faro
 {
-    /// @internal
-    struct LogMessage
+    IMPLEMENT_INSTANCE_REGISTRY(LogSinks, Faro::ILogSink)
+
+    Array<ILogSink*> Logger::logSinks;
+
+    Array<ILogSink*> GetRegisteredLogSinks()
     {
-        const LogTag& tag;
-        LogCategory category;
-        String message;
-    };
-    Array<LogMessage> pendingLogMessages;
-    bool acceptingLogSinks = true;
-
-    Array<LogSink> Logger::logSinks;
-
-    void Logger::AddSink(LogSink logSink)
-    {
-        if (acceptingLogSinks) 
-        {
-            logSinks.Add(logSink);
-
-            for (LogMessage& message : pendingLogMessages)
-            {
-                logSink(message.tag, message.category, message.message);
-            }
-        }
-    }
-
-    void Logger::LockSinks()
-    {
-        acceptingLogSinks = false;
-        pendingLogMessages.Clear();
+        return InstanceRegistry_LogSinks::Get().GetValues();
     }
 
     LogTag::LogTag(String inName) : name(inName) {}
@@ -43,18 +21,23 @@ namespace Faro
         va_end(args);
     }
 
+    void Logger::Init()
+    {
+        logSinks = GetRegisteredLogSinks();
+    }
+
+    void Logger::Destroy()
+    {
+        logSinks.Empty();
+    }
+
     void Logger::LogVA(const LogTag& tag, LogCategory category, String format, va_list arguments)
     {
-        String message = FormatStringVA(format, arguments);
+        LogMessage message { tag, category, FormatStringVA(format, arguments) };
 
-        if (acceptingLogSinks)
+        for (ILogSink* logSink : logSinks)
         {
-            pendingLogMessages.Add({ tag, category, message });
-        }
-
-        for (LogSink& logSink : logSinks)
-        {
-            logSink(tag, category, message);
+            logSink->Log(message);
         }
 
         if (category == LC_Fatal)

@@ -8,7 +8,7 @@
 
 namespace Faro
 {
-    String FormatLogString(const LogTag& tag, LogCategory& category, const String& message)
+    String FormatLogString(const LogTag& tag, const LogCategory& category, const String& message)
     {
         String categoryLabel = "";
 
@@ -25,22 +25,30 @@ namespace Faro
         return FormatString("[%-15s](%s) %s", tag.name.Data(), categoryLabel.Data(), message.Data());
     }
 
-    void LogCout(const LogTag& tag, LogCategory category, const String& message)
+    class LogCout : public ILogSink
     {
-        String string = FormatLogString(tag, category, message);
-        std::cout << string.Data() << std::endl;
-    }
+    public:
+        void Log(const LogMessage& message) override
+        {
+            String string = FormatLogString(message.tag, message.category, message.message);
+            std::cout << string.Data() << std::endl;
+        }
+    };
+    REGISTER_LOGSINK(LogCout)
 
-    void LogDebugOutput(const LogTag& tag, LogCategory category, const String& message)
+    class LogDebugOutput : public ILogSink
     {
-        String string = FormatLogString(tag, category, message);
-        OutputDebugStringA((string + "\n").Data());
-    }
+    public:
+        void Log(const LogMessage& message) override
+        {
+            String string = FormatLogString(message.tag, message.category, message.message);
+            OutputDebugStringA((string + "\n").Data());
+        }
+    };
+    REGISTER_LOGSINK(LogDebugOutput)
 
     void PlatformWindows::Init()
     {
-        Logger::AddSink(LogCout);
-        Logger::AddSink(LogDebugOutput);
     }
 
     void PlatformWindows::Destroy()
