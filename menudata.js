@@ -170,4 +170,11 @@ var menudata={children:[
 {text:"Variables",url:"globals_vars.html"},
 {text:"Enumerations",url:"globals_enum.html"},
 {text:"Enumerator",url:"globals_eval.html"},
-{text:"Macros",url:"globals_defs.html"}]}]}]}
+{text:"Macros",url:"globals_defs.html",children:[
+{text:"_",url:"globals_defs.html#index__5F"},
+{text:"d",url:"globals_defs.html#index_d"},
+{text:"i",url:"globals_defs.html#index_i"},
+{text:"l",url:"globals_defs.html#index_l"},
+{text:"r",url:"globals_defs.html#index_r"},
+{text:"s",url:"globals_defs.html#index_s"},
+{text:"w",url:"globals_defs.html#index_w"}]}]}]}]}

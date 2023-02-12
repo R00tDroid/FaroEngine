@@ -7,7 +7,7 @@ var searchData=
   ['findlastof_4',['FindLastOf',['../classFaro_1_1String.html#a49a6969b1b3a2e0ee9d74755538864af',1,'Faro::String']]],
   ['findsubpaths_5',['FindSubPaths',['../classFaro_1_1Platform.html#a313d95629920ad5230ea60ea93a50bb3',1,'Faro::Platform::FindSubPaths()'],['../classFaro_1_1PlatformWindows.html#a4bba7deca0946fdf486cc3a34c5247a0',1,'Faro::PlatformWindows::FindSubPaths()']]],
   ['first_6',['First',['../classFaro_1_1Array.html#a61aebdc929e07124717bae9b401d9ea9',1,'Faro::Array']]],
-  ['formatlogstring_7',['FormatLogString',['../namespaceFaro.html#ab2bb2a9042a22301810348abb97d9d60',1,'Faro']]],
+  ['formatlogstring_7',['FormatLogString',['../namespaceFaro.html#afc31238e93dd527d700f28ac4bacb9a7',1,'Faro']]],
   ['formatstring_8',['FormatString',['../namespaceFaro.html#a9e7f5c34826af34ca25dbdc346ee308b',1,'Faro']]],
   ['formatstringva_9',['FormatStringVA',['../namespaceFaro.html#a5d8667c7d65c2f2e460efe0e5fe073b6',1,'Faro']]],
   ['free_10',['Free',['../classFaro_1_1MemoryManager.html#a19e28e95b0364afb13a3f58a94c9909b',1,'Faro::MemoryManager']]],
