@@ -1,6 +1,7 @@
 #pragma once
 #include <Containers/String.hpp>
 #include <Containers/Array.hpp>
+#include <Util/ClassRegistry.hpp>
 
 namespace Faro
 {
@@ -35,13 +36,29 @@ namespace Faro
 #define LOG_DEFINITION(Tag) extern LogTag Tag;
 #define LOG_DECLARATION(Tag, Header) LogTag Tag(#Header);
 
-    /// @brief Logging callback that is executed by Logger.
-    typedef Function<void(const LogTag&, LogCategory, const String&)> LogSink;
+    /// @internal
+    struct LogMessage
+    {
+        const LogTag& tag;
+        LogCategory category;
+        String message;
+    };
+
+    class ILogSink
+    {
+    public:
+        /// @brief Logging callback that is executed by Logger.
+        virtual void Log(const LogMessage& message) = 0;
+    };
 
     /// @brief Class responsible for all logging related functionality.
     class Logger
     {
     public:
+        static void Init();
+
+        static void Destroy();
+
         /**
          * @brief Log a messages with the provided format string and variadic argument list.
          * @param tag Log tag
@@ -60,17 +77,10 @@ namespace Faro
          */
         static void Log(const LogTag& tag, LogCategory category, String format, ...);
 
-        /**
-         * @brief Register a new sink. This will be executed when a new message is logged.
-         * @param logSink Log sink callback function
-         * @warning This can only be done during module initialization
-         */
-        static void AddSink(LogSink logSink);
-
-        /// @brief Lock the registration of new log sinks.
-        static void LockSinks();
-
     private:
-        static Array<LogSink> logSinks;
+        static Array<ILogSink*> logSinks;
     };
+
+    DEFINE_INSTANCE_REGISTRY(LogSinks, Faro::ILogSink)
+    #define REGISTER_LOGSINK(SINK) REGISTER_INSTANCE(LogSinks, SINK)
 }
