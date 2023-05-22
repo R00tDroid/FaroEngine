@@ -20,3 +20,8 @@ A modular platform agnostic engine designed for low-overhead graphics.
 ## How to build
 
 [Online build instructions](https://r00tdroid.github.io/FaroEngine/md_Building)
+
+## Setting up a project
+
+[Online setup instructions](https://r00tdroid.github.io/FaroEngine/md_ProjectSetup)
+
