@@ -26,3 +26,4 @@ INPUT += Style.md
 INPUT += Modules.md
 INPUT += Toolchain.md
 INPUT += Building.md
+INPUT += ProjectSetup.md
