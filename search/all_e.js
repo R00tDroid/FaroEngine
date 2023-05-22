@@ -31,6 +31,7 @@ var searchData=
   ['processmessage_28',['ProcessMessage',['../classFaro_1_1WindowThread.html#a9bd26ec6612ac8caa78e31c436e74e71',1,'Faro::WindowThread']]],
   ['processshaderbinary_29',['ProcessShaderBinary',['../namespaceFaro.html#ab297e6d7e75d780afe3deca0cdc1a1fe',1,'Faro']]],
   ['processshaderstage_30',['ProcessShaderStage',['../namespaceFaro.html#a36636f2aa9d31d7a72429e2073911c14',1,'Faro']]],
-  ['psdata_31',['psData',['../structFaro_1_1GraphicsPipelineDesc.html#ae89f2c2c3ba2878ef762ffe0bf42811f',1,'Faro::GraphicsPipelineDesc']]],
-  ['pssize_32',['psSize',['../structFaro_1_1GraphicsPipelineDesc.html#a347f235223fbd2dc65b2a91054437cce',1,'Faro::GraphicsPipelineDesc']]]
+  ['projectsetup_2emd_31',['ProjectSetup.md',['../ProjectSetup_8md.html',1,'']]],
+  ['psdata_32',['psData',['../structFaro_1_1GraphicsPipelineDesc.html#ae89f2c2c3ba2878ef762ffe0bf42811f',1,'Faro::GraphicsPipelineDesc']]],
+  ['pssize_33',['psSize',['../structFaro_1_1GraphicsPipelineDesc.html#a347f235223fbd2dc65b2a91054437cce',1,'Faro::GraphicsPipelineDesc']]]
 ];

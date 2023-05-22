@@ -10,5 +10,6 @@ var searchData=
   ['platformwindows_2ehpp_7',['PlatformWindows.hpp',['../PlatformWindows_8hpp.html',1,'']]],
   ['platformwindowslog_2ecpp_8',['PlatformWindowsLog.cpp',['../PlatformWindowsLog_8cpp.html',1,'']]],
   ['platformwindowslog_2ehpp_9',['PlatformWindowsLog.hpp',['../PlatformWindowsLog_8hpp.html',1,'']]],
-  ['primitives_2ehpp_10',['Primitives.hpp',['../Primitives_8hpp.html',1,'']]]
+  ['primitives_2ehpp_10',['Primitives.hpp',['../Primitives_8hpp.html',1,'']]],
+  ['projectsetup_2emd_11',['ProjectSetup.md',['../ProjectSetup_8md.html',1,'']]]
 ];

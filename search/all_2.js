@@ -14,7 +14,9 @@ var searchData=
   ['broadcast_3c_20faro_3a_3awindowstate_20_3e_11',['Broadcast&lt; Faro::WindowState &gt;',['../classFaro_1_1Broadcast.html',1,'Faro']]],
   ['bt_5fremote_12',['BT_Remote',['../namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770fa12b61cd5e903b7f8b08573682169837a',1,'Faro']]],
   ['bt_5fupload_13',['BT_Upload',['../namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770fa1f79b312f444f344ac1e5e2eb5812d12',1,'Faro']]],
-  ['byte_14',['Byte',['../structFaro_1_1GraphicsFormat.html#a1a00555a6809308abbbf1f876858381a',1,'Faro::GraphicsFormat']]],
-  ['byte2_15',['Byte2',['../structFaro_1_1GraphicsFormat.html#a1fdb1593abedee50a741cc72e5eb9db5',1,'Faro::GraphicsFormat']]],
-  ['byte4_16',['Byte4',['../structFaro_1_1GraphicsFormat.html#a4d65c955993cbe9fb41d29b26ab3fd08',1,'Faro::GraphicsFormat']]]
+  ['building_14',['Building',['../md_Building.html',1,'']]],
+  ['building_2emd_15',['Building.md',['../Building_8md.html',1,'']]],
+  ['byte_16',['Byte',['../structFaro_1_1GraphicsFormat.html#a1a00555a6809308abbbf1f876858381a',1,'Faro::GraphicsFormat']]],
+  ['byte2_17',['Byte2',['../structFaro_1_1GraphicsFormat.html#a1fdb1593abedee50a741cc72e5eb9db5',1,'Faro::GraphicsFormat']]],
+  ['byte4_18',['Byte4',['../structFaro_1_1GraphicsFormat.html#a4d65c955993cbe9fb41d29b26ab3fd08',1,'Faro::GraphicsFormat']]]
 ];
