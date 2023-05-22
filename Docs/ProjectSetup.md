@@ -25,7 +25,44 @@ A typical project manifest will look like this:
 ```
 
 ## Adding modules
-uyi
+This engine is completely modular. All features are contained within their own module and can interact with others through dependencies.
+
+There are two types of modules: Library and Application.
+* Library modules define code that can be used by other modules. They are not executable on their own.
+* Application modules are linked with any library dependencies into an executable.
+
+A module manifest defines what files are to be compiled, what directories should be used for include searches and what other modules its code depends on. The manifest is structured as json data. The root element is an object that contains values to describe the module.
+
+Adding code files to a module is done through filters. The toolchain will use these filters to look for files automatically.
+
+Include directories control how the compiler searches for included headers. These can be private to a specific module, or be public to and dependant modules.
+
+The following values can be set:
+| Value | Type | Description |
+| ---: | :---: | :--- |
+| PublicIncludeDirectories | Array | List of string that indicate where directories can be found relative to the module manifest. |
+| PrivateIncludeDirectories | Array | List of string that indicate where directories can be found relative to the module manifest. |
+| Dependencies | Array | List of strings to indicate what modules this one depends on. |
+| SourceFilters | Array | List of strings to indicate where source files can be found relative to this module manifest. |
+| ModuleType | String | Linkage type of the module. Either Library or Application. |
+
+A typical module manifest looks like this:
+```
+{
+    "PublicIncludeDirectories": [
+        "Source"
+    ],
+    "Dependencies": [
+        "PlatformWindows",
+        "GraphicsD3D12"
+    ],
+    "SourceFilters": [
+        "Source/**/*.cpp",
+        "Source/**/*.hpp",
+    ],
+    "ModuleType": "Application",
+}
+```
 
 ## Generating a Visual Studio Solution
 uyi
