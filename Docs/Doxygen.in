@@ -25,3 +25,4 @@ INPUT += Index.md
 INPUT += Style.md
 INPUT += Modules.md
 INPUT += Toolchain.md
+INPUT += Building.md
