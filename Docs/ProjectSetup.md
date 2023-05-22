@@ -65,7 +65,9 @@ A typical module manifest looks like this:
 ```
 
 ## Generating a Visual Studio Solution
-uyi
+1. Navigate to the project folder and open a command prompt
+2. `FaroBuildTool -generate -project ProjectName.faroproject.json`
+3. Open the generated solution file in Visual Studio
 
 ## Building the project {#ProjectSetupBuild}
 1. Navigate to the project folder and open a command prompt
