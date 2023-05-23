@@ -13,7 +13,9 @@
         "Source/**/*.cpp",
         "Source/**/*.hpp",
         "Source/**/*.c",
-        "Source/**/*.h"
+        "Source/**/*.h",
+        "Source/**/*.hlsli",
+        "Source/**/*.hlsl"
     ],
     "ModuleType": "Library",
     "SolutionLocation": "Tests"

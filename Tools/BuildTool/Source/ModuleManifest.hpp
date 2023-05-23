@@ -9,6 +9,12 @@
 
 class ProjectManifest;
 
+struct FolderMount
+{
+    std::filesystem::path location;
+    std::filesystem::path mountPoint;
+};
+
 class ModuleManifest
 {
 public:
@@ -44,6 +50,8 @@ public:
     std::vector<std::filesystem::path> publicIncludes;
 
     std::vector<std::filesystem::path> sourceFiles;
+
+    std::vector<FolderMount> folderMounts;
 
     std::string uuid = "";
 
@@ -129,6 +137,8 @@ public:
             }
             libraryList.close();
         }
+
+        //TODO Load mounts
     }
 
     void Save()
@@ -170,6 +180,8 @@ public:
             libraryList << path.c_str() << "\n";
         }
         libraryList.close();
+
+        //TODO Save mounts
     }
 
     bool Parse()
@@ -188,7 +200,7 @@ public:
         std::string error = picojson::parse(rootValue, fileStream);
         if (!error.empty())
         {
-            Utility::Print("JSON parsing error: " + error);
+            Utility::PrintLine("JSON parsing error: " + error + " (" + manifestPath.string() + ")");
             return false;
         }
 
@@ -211,6 +223,8 @@ public:
         if (!ParseSolutionLocation(rootObject)) return false;
 
         if (!ParseLinkerLibraries(rootObject)) return false;
+
+        if (!ParseMounts(rootObject)) return false;
 
         return true;
     }
@@ -400,6 +414,60 @@ public:
                 }
 
                 linkingLibraries.push_back(libValue.get<std::string>());
+            }
+        }
+
+        return true;
+    }
+
+    bool ParseMounts(picojson::object& rootObject)
+    {
+        folderMounts = {};
+
+        if (rootObject.find("Mounts") != rootObject.end())
+        {
+            picojson::value& value = rootObject["Mounts"];
+            if (!value.is<picojson::array>())
+            {
+                Utility::PrintLine("Expected Mounts to be an array");
+                return false;
+            }
+
+            picojson::array& mountArray = value.get<picojson::array>();
+            for (picojson::value& mountValue : mountArray)
+            {
+                if (!mountValue.is<picojson::object>())
+                {
+                    Utility::PrintLine("Expected mount to be a object");
+                    return false;
+                }
+
+                picojson::object& mountObject = mountValue.get<picojson::object>();
+                if (mountObject.find("Location") == mountObject.end())
+                {
+                    Utility::PrintLine("Missing Location in mount definition");
+                    return false;
+                }
+                picojson::value& locationValue = mountObject["Location"];
+                if (!locationValue.is<std::string>())
+                {
+                    Utility::PrintLine("Expected Location to be a string");
+                    return false;
+                }
+
+                if (mountObject.find("MountPoint") == mountObject.end())
+                {
+                    Utility::PrintLine("Missing MountPoint in mount definition");
+                    return false;
+                }
+                picojson::value& pointValue = mountObject["MountPoint"];
+                if (!pointValue.is<std::string>())
+                {
+                    Utility::PrintLine("Expected MountPoint be a string");
+                    return false;
+                }
+
+                folderMounts.push_back({ std::filesystem::weakly_canonical(moduleRoot / locationValue.get<std::string>()), pointValue.get<std::string>() });
             }
         }
 
