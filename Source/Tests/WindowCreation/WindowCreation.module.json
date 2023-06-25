@@ -8,6 +8,7 @@
       "PlatformWindows",
       "PlatformWeb",
       "GraphicsD3D12",
+      "GraphicsVK",
       "Resources"
     ],
     "SourceFilters": [
