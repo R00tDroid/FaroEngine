@@ -10,7 +10,6 @@ namespace Faro
 
     void GraphicsPipelineVK::Destroy()
     {
-
         GraphicsPipeline::Destroy();
     }
 }
