@@ -2,13 +2,17 @@
     "PublicIncludeDirectories": [
         "Source"
     ],
+    "PrivateIncludeDirectories": [
+        "Thirdparty/GLAD/include"
+    ],
     "Dependencies": [
         "GraphicsBase",
         "PlatformWindows"
     ],
     "SourceFilters": [
         "Source/**/*.cpp",
-        "Source/**/*.hpp"
+        "Source/**/*.hpp",
+        "Thirdparty/GLAD/src/*.c"
     ],
     "ModuleType": "Library",
     "SolutionLocation": "Graphics"
