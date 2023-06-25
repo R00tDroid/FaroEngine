@@ -1,5 +1,6 @@
 #pragma once
 #include <GraphicsInterface.hpp>
+#include <glad/vulkan.h>
 
 namespace Faro
 {
@@ -16,6 +17,11 @@ namespace Faro
         GraphicsAdapter* CreateAdapter(GraphicsAdapterDesc description) override;
 
         uint8 GetShaderBinaryType() override;
+
+    private:
+        Array<String> GetAvailableLayers();
+
+        VkInstance instance = nullptr;
     };
 
     REGISTER_GRAPHICS(GraphicsInterfaceVK)
