@@ -1,0 +1,15 @@
+{
+    "PublicIncludeDirectories": [
+        "Source"
+    ],
+    "Dependencies": [
+        "GraphicsBase",
+        "PlatformWindows"
+    ],
+    "SourceFilters": [
+        "Source/**/*.cpp",
+        "Source/**/*.hpp"
+    ],
+    "ModuleType": "Library",
+    "SolutionLocation": "Graphics"
+}

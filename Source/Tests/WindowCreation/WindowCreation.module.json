@@ -6,7 +6,7 @@
     ],
     "Dependencies": [
       "PlatformWindows",
-      "GraphicsD3D12",
+      "GraphicsVK",
       "Resources"
     ],
     "SourceFilters": [
