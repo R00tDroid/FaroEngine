@@ -10,6 +10,7 @@
         "Engine/Platform/PlatformAndroid",
         "Engine/Graphics/GraphicsBase",
         "Engine/Graphics/GraphicsD3D12",
+        "Engine/Graphics/GraphicsVK",
         "Engine/Resources",
         "Tests/WindowCreation"
     ]
