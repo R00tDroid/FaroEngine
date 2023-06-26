@@ -84,23 +84,7 @@ namespace Faro
             desc.name = static_cast<char*>(_bstr_t(adapterDesc.Description));
             desc.vram = (uint32)adapterDesc.DedicatedVideoMemory;
             desc.payload = adapter;
-
-            if (adapterDesc.VendorId == 0x1002)
-            {
-                desc.manufacturer = "AMD";
-            }
-            else if (adapterDesc.VendorId == 0x8086)
-            {
-                desc.manufacturer = "Intel";
-            }
-            else if (adapterDesc.VendorId == 0x10DE)
-            {
-                desc.manufacturer = "NVidia";
-            }
-            else if (adapterDesc.VendorId == 0x1414)
-            {
-                desc.manufacturer = "Microsoft";
-            }
+            desc.manufacturer = VendorCodeToString(adapterDesc.VendorId);
 
             if (FAILED(D3D12CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, _uuidof(ID3D12Device), nullptr)))
             {
