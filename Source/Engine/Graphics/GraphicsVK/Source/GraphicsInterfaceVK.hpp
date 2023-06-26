@@ -21,6 +21,7 @@ namespace Faro
     private:
         Array<String> GetAvailableLayers();
 
+        Array<GraphicsAdapterDesc> adapters;
         VkInstance instance = nullptr;
     };
 
