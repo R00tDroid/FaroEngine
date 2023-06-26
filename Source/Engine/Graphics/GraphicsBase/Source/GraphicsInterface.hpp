@@ -18,6 +18,9 @@ namespace Faro
         virtual String GetName() = 0;
 
         virtual uint8 GetShaderBinaryType() = 0;
+
+    protected:
+        static String VendorCodeToString(uint32 vendorCode);
     };
 
     extern GraphicsInterface* GGraphics;
