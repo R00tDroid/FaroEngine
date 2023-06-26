@@ -20,8 +20,13 @@ namespace Faro
 
         GraphicsPipeline* CreatePipeline(GraphicsPipelineDesc desc) override;
 
+        VkDevice GetDevice();
+
+        uint32 GetGraphicsQueue();
+
     private:
         VkDevice device = nullptr;
         VkQueue queue = nullptr;
+        uint32 graphicsQueue = 0;
     };
 }
