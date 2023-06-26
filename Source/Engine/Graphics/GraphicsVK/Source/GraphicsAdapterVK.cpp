@@ -60,6 +60,9 @@ namespace Faro
         Logger::Log(GraphicsLogVK, LC_Debug, "GLAD loader: %i.%i.%i", VK_API_VERSION_MAJOR(gladVersion), VK_API_VERSION_MINOR(gladVersion), VK_API_VERSION_PATCH(gladVersion));
 
         Debug_Assert(gladVersion != 0);
+
+        vkGetDeviceQueue(device, queueCreateDesc.queueFamilyIndex, 0, &queue);
+        Debug_Assert(queue != nullptr);
     }
 
     void GraphicsAdapterVK::Destroy()
