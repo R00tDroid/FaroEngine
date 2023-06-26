@@ -23,11 +23,13 @@ namespace Faro
         Array(const Array<T>& copy) { data = copy.data; }
         Array(Array<T>& copy) { data = copy.data; }
 
-        void Add(T object) { data.push_back(object); }
+        void Add(const T& object) { data.push_back(object); }
+        void Add(T&& object) { data.push_back(object); }
 
         void Add(Array<T>& otherArray) { for (T& value : otherArray) Add(value); }
 
-        void Insert(T object, uint32 index) { data.insert(object, index); }
+        void Insert(const T& object, uint32 index) { data.insert(object, index); }
+        void Insert(T&& object, uint32 index) { data.insert(object, index); }
 
         void RemoveAt(uint32 index)
         {
