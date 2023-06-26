@@ -1,4 +1,5 @@
 #include "GraphicsAdapterVK.hpp"
+#include "GraphicsCommandListVK.hpp"
 #include "GraphicsInterface.hpp"
 #include "GraphicsInterfaceVK.hpp"
 #include "GraphicsLogVK.hpp"
@@ -30,7 +31,8 @@ namespace Faro
             if ((queueType[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) == VK_QUEUE_GRAPHICS_BIT && 
                 (queueType[i].queueFlags & VK_QUEUE_TRANSFER_BIT) == VK_QUEUE_TRANSFER_BIT)
             {
-                queueCreateDesc.queueFamilyIndex = i;
+                graphicsQueue = i;
+                queueCreateDesc.queueFamilyIndex = graphicsQueue;
                 queueCreateDesc.queueCount = 1;
                 break;
             }
@@ -53,14 +55,14 @@ namespace Faro
             Logger::Log(GraphicsLogVK, LC_Error, "Failed to create device");
             return;
         }
-
         Debug_Assert(device != nullptr);
 
+        // Load function pointers
         int32 gladVersion = gladLoaderLoadVulkan(static_cast<GraphicsInterfaceVK*>(GGraphics)->GetInstance(), physicalDevice, device);
         Logger::Log(GraphicsLogVK, LC_Debug, "GLAD loader: %i.%i", GLAD_VERSION_MAJOR(gladVersion), GLAD_VERSION_MINOR(gladVersion));
-
         Debug_Assert(gladVersion != 0);
 
+        // Query queue
         vkGetDeviceQueue(device, queueCreateDesc.queueFamilyIndex, 0, &queue);
         Debug_Assert(queue != nullptr);
     }
@@ -77,7 +79,9 @@ namespace Faro
 
     GraphicsCommandList* GraphicsAdapterVK::CreateCommandList()
     {
-        return nullptr;
+        GraphicsCommandListVK* commandList = MemoryManager::New<GraphicsCommandListVK>();
+        commandList->Init(this);
+        return commandList;
     }
 
     GraphicsBuffer* GraphicsAdapterVK::CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc)
@@ -98,5 +102,15 @@ namespace Faro
     GraphicsPipeline* GraphicsAdapterVK::CreatePipeline(GraphicsPipelineDesc desc)
     {
         return nullptr;
+    }
+
+    VkDevice GraphicsAdapterVK::GetDevice()
+    {
+        return device;
+    }
+
+    uint32 GraphicsAdapterVK::GetGraphicsQueue()
+    {
+        return graphicsQueue;
     }
 }
