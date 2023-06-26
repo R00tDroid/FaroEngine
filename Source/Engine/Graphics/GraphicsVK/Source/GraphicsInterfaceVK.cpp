@@ -9,7 +9,7 @@ namespace Faro
         int32 gladVersion = gladLoaderLoadVulkan(nullptr, nullptr, nullptr);
         Logger::Log(GraphicsLogVK, LC_Debug, "GLAD loader: %i.%i.%i", VK_API_VERSION_MAJOR(gladVersion), VK_API_VERSION_MINOR(gladVersion), VK_API_VERSION_PATCH(gladVersion));
 
-        VkApplicationInfo appInfo{};
+        VkApplicationInfo appInfo = {};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
         appInfo.pApplicationName = "";
         appInfo.applicationVersion = VK_MAKE_API_VERSION(0, 1, 0, 0);
@@ -17,7 +17,7 @@ namespace Faro
         appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
         appInfo.apiVersion = VK_API_VERSION_1_0;
 
-        VkInstanceCreateInfo instanceInfo{};
+        VkInstanceCreateInfo instanceInfo = {};
         instanceInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
         instanceInfo.pApplicationInfo = &appInfo;
 
@@ -40,6 +40,48 @@ namespace Faro
 
         vkCreateInstance(&instanceInfo, nullptr, &instance);
 
+        uint32 devices;
+        vkEnumeratePhysicalDevices(instance, &devices, nullptr);
+
+        if (devices > 0)
+        {
+            Array<VkPhysicalDevice> deviceList;
+            deviceList.Resize(uint16(devices));
+            vkEnumeratePhysicalDevices(instance, &devices, deviceList.Data());
+
+            for (VkPhysicalDevice& device : deviceList)
+            {
+                VkPhysicalDeviceProperties adapterProperties = {};
+                vkGetPhysicalDeviceProperties(device, &adapterProperties);
+
+                GraphicsAdapterDesc adapterDesc = {};
+                adapterDesc.payload = device;
+                adapterDesc.name = adapterProperties.deviceName;
+                adapterDesc.manufacturer = VendorCodeToString(adapterProperties.vendorID);
+
+                VkPhysicalDeviceMemoryProperties memoryProperties = {};
+                vkGetPhysicalDeviceMemoryProperties(device, &memoryProperties);
+                
+                for (uint32 i = 0; i < memoryProperties.memoryTypeCount; i++)
+                {
+                    VkMemoryType& type = memoryProperties.memoryTypes[i];
+
+                    if (type.propertyFlags == VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)
+                    {
+                        adapterDesc.vramDedicated = memoryProperties.memoryHeaps[type.heapIndex].size;
+                    }
+                    else if (type.propertyFlags == (VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT))
+                    {
+                        adapterDesc.vramShared = memoryProperties.memoryHeaps[type.heapIndex].size;
+                    }
+                }
+                
+                adapterDesc.vramTotal = adapterDesc.vramDedicated + adapterDesc.vramShared;
+
+                adapters.Add(adapterDesc);
+            }
+        }
+
         return true;
     }
 
@@ -54,7 +96,7 @@ namespace Faro
 
     Array<GraphicsAdapterDesc> GraphicsInterfaceVK::GetAdapters()
     {
-        return {};
+        return adapters;
     }
 
     GraphicsAdapter* GraphicsInterfaceVK::CreateAdapter(GraphicsAdapterDesc description)
