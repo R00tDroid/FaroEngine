@@ -1,5 +1,6 @@
 #include "GraphicsInterfaceVK.hpp"
 #include <ShaderDefinition.hpp>
+#include "GraphicsAdapterVK.hpp"
 #include "GraphicsLogVK.hpp"
 
 namespace Faro
@@ -101,12 +102,19 @@ namespace Faro
 
     GraphicsAdapter* GraphicsInterfaceVK::CreateAdapter(GraphicsAdapterDesc description)
     {
-        return nullptr;
+        GraphicsAdapterVK* adapter = MemoryManager::New<GraphicsAdapterVK>();
+        adapter->Init(description);
+        return adapter;
     }
 
     uint8 GraphicsInterfaceVK::GetShaderBinaryType()
     {
         return ShaderBinaryType_SPRIV;
+    }
+
+    VkInstance GraphicsInterfaceVK::GetInstance()
+    {
+        return instance;
     }
 
     Array<String> GraphicsInterfaceVK::GetAvailableLayers()

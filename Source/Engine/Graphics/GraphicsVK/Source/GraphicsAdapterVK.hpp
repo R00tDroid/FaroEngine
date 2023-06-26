@@ -1,5 +1,6 @@
 #pragma once
 #include <GraphicsAdapter.hpp>
+#include <glad/vulkan.h>
 
 namespace Faro
 {
@@ -18,5 +19,9 @@ namespace Faro
         GraphicsSwapchain* CreateSwapchain(Window* window) override;
 
         GraphicsPipeline* CreatePipeline(GraphicsPipelineDesc desc) override;
+
+    private:
+        VkDevice device = nullptr;
+        VkQueue queue = nullptr;
     };
 }
