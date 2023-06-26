@@ -18,6 +18,8 @@ namespace Faro
 
         uint8 GetShaderBinaryType() override;
 
+        VkInstance GetInstance();
+
     private:
         Array<String> GetAvailableLayers();
 
