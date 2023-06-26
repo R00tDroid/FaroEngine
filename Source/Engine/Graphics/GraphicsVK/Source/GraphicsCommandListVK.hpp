@@ -1,5 +1,6 @@
 #pragma once
 #include <GraphicsCommandList.hpp>
+#include <glad/vulkan.h>
 
 namespace Faro
 {
@@ -20,5 +21,9 @@ namespace Faro
         void CopyBuffer(GraphicsBuffer* source, GraphicsBuffer* destination) override;
 
         void ClearRenderTarget(GraphicsBuffer* renderTarget, FloatColor color) override;
+
+    private:
+        VkCommandPool commandPool = nullptr;
+        VkCommandBuffer commandBuffer = nullptr;
     };
 }
