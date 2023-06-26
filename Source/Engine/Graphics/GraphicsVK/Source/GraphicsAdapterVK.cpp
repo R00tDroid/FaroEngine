@@ -57,7 +57,7 @@ namespace Faro
         Debug_Assert(device != nullptr);
 
         int32 gladVersion = gladLoaderLoadVulkan(static_cast<GraphicsInterfaceVK*>(GGraphics)->GetInstance(), physicalDevice, device);
-        Logger::Log(GraphicsLogVK, LC_Debug, "GLAD loader: %i.%i.%i", VK_API_VERSION_MAJOR(gladVersion), VK_API_VERSION_MINOR(gladVersion), VK_API_VERSION_PATCH(gladVersion));
+        Logger::Log(GraphicsLogVK, LC_Debug, "GLAD loader: %i.%i", GLAD_VERSION_MAJOR(gladVersion), GLAD_VERSION_MINOR(gladVersion));
 
         Debug_Assert(gladVersion != 0);
 
