@@ -1,5 +1,6 @@
 #include "GraphicsAdapterVK.hpp"
 #include "GraphicsCommandListVK.hpp"
+#include "GraphicsFenceVK.hpp"
 #include "GraphicsInterface.hpp"
 #include "GraphicsInterfaceVK.hpp"
 #include "GraphicsLogVK.hpp"
@@ -91,7 +92,9 @@ namespace Faro
 
     GraphicsFence* GraphicsAdapterVK::CreateFence()
     {
-        return nullptr;
+        GraphicsFenceVK* fence = MemoryManager::New<GraphicsFenceVK>();
+        fence->Init(this);
+        return fence;
     }
 
     GraphicsSwapchain* GraphicsAdapterVK::CreateSwapchain(Window* window)
@@ -109,7 +112,12 @@ namespace Faro
         return device;
     }
 
-    uint32 GraphicsAdapterVK::GetGraphicsQueue()
+    VkQueue GraphicsAdapterVK::GetQueue()
+    {
+        return queue;
+    }
+
+    uint32 GraphicsAdapterVK::GetQueueIndex()
     {
         return graphicsQueue;
     }
