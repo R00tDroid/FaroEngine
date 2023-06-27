@@ -22,7 +22,9 @@ namespace Faro
 
         VkDevice GetDevice();
 
-        uint32 GetGraphicsQueue();
+        VkQueue GetQueue();
+
+        uint32 GetQueueIndex();
 
     private:
         VkDevice device = nullptr;

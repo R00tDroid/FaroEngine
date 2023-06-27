@@ -1,5 +1,6 @@
 #pragma once
 #include <GraphicsFence.hpp>
+#include <glad/vulkan.h>
 
 namespace Faro
 {
@@ -14,5 +15,8 @@ namespace Faro
         void Trigger() override;
         bool HasFinished() override;
         void WaitForFinish() override;
+
+    private:
+        VkFence fence = nullptr;
     };
 }

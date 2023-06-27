@@ -13,7 +13,7 @@ namespace Faro
         VkCommandPoolCreateInfo poolCreateDesc = {};
         poolCreateDesc.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
         poolCreateDesc.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
-        poolCreateDesc.queueFamilyIndex = adapter->GetGraphicsQueue();
+        poolCreateDesc.queueFamilyIndex = adapter->GetQueueIndex();
 
         if (vkCreateCommandPool(adapter->GetDevice(), &poolCreateDesc, nullptr, &commandPool) != VK_SUCCESS)
         {
