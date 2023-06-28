@@ -32,7 +32,7 @@ namespace Faro
          */
         const GraphicsBufferDesc& GetDesc();
 
-        void Init(GraphicsAdapter* adapter, GraphicsBufferDesc desc);     
+        void Init(GraphicsAdapter* adapter, GraphicsBufferDesc desc);
 
         /**
          * @brief Prepare the given data so it can be uploaded to the graphics adapter. This buffer **must** be created as BT_Upload!
