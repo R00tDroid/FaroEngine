@@ -82,7 +82,9 @@ namespace Faro
 
             GraphicsAdapterDesc desc;
             desc.name = static_cast<char*>(_bstr_t(adapterDesc.Description));
-            desc.vram = (uint32)adapterDesc.DedicatedVideoMemory;
+            desc.vramDedicated = (uint64)adapterDesc.DedicatedVideoMemory;
+            desc.vramShared = (uint64)adapterDesc.SharedSystemMemory;
+            desc.vramTotal = desc.vramDedicated + desc.vramShared;
             desc.payload = adapter;
             desc.manufacturer = VendorCodeToString(adapterDesc.VendorId);
 
@@ -93,7 +95,7 @@ namespace Faro
 
             adapterDescs.Add(desc);
 
-            Logger::Log(GraphicsLogD3D12, LC_Debug, "Detect graphics adapter: %s (%umb)", desc.name.Data(), desc.vram / 1024 / 1024);
+            Logger::Log(GraphicsLogD3D12, LC_Debug, "Detect graphics adapter: %s (%umb)", desc.name.Data(), desc.vramTotal / 1024 / 1024);
         }
     }
 }
