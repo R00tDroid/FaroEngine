@@ -1,4 +1,5 @@
 #include "GraphicsAdapterVK.hpp"
+#include "GraphicsBufferVK.hpp"
 #include "GraphicsCommandListVK.hpp"
 #include "GraphicsFenceVK.hpp"
 #include "GraphicsInterface.hpp"
@@ -87,7 +88,20 @@ namespace Faro
 
     GraphicsBuffer* GraphicsAdapterVK::CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc)
     {
-        return nullptr;
+        GraphicsBuffer* buffer = nullptr;
+
+        switch (type)
+        {
+            case BT_Upload: { buffer = MemoryManager::New<GraphicsBufferUploadVK>(); break; }
+            case BT_Remote: { buffer = MemoryManager::New<GraphicsBufferRemoteVK>(); break; }
+        }
+
+        if (buffer != nullptr)
+        {
+            buffer->Init(this, desc);
+        }
+
+        return buffer;
     }
 
     GraphicsFence* GraphicsAdapterVK::CreateFence()
