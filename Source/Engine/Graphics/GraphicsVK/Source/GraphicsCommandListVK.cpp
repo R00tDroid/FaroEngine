@@ -1,5 +1,6 @@
 #include "GraphicsCommandListVK.hpp"
 #include "GraphicsAdapterVK.hpp"
+#include "GraphicsBufferVK.hpp"
 #include "GraphicsLogVK.hpp"
 
 namespace Faro
@@ -59,6 +60,10 @@ namespace Faro
 
     void GraphicsCommandListVK::SetResourceState(GraphicsBuffer* bufferPtr, GraphicsResourceState state)
     {
+        if (bufferPtr->GetResourceState() == state) return;
+
+        GraphicsBufferVK* buffer = static_cast<GraphicsBufferVK*>(bufferPtr);
+        buffer->TransitionResource(commandBuffer, state);
     }
 
     void GraphicsCommandListVK::CopyBuffer(GraphicsBuffer* sourcePtr, GraphicsBuffer* destinationPtr)
