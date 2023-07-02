@@ -13,6 +13,8 @@ namespace Faro
 
         void Upload(uint8* data) override;
 
+        void TransitionResource(VkCommandBuffer commandBuffer, GraphicsResourceState state);
+
     protected:
         virtual uint32 GetMemoryType() = 0;
 
