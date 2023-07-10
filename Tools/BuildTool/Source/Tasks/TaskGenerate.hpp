@@ -71,7 +71,18 @@ public:
 
         std::filesystem::path GetOutputBinary(IToolchain* toolchain, BuildPlatform* platform, BuildType type) override
         {
-            return toolchain->GetExePath(*module->project, platform, type); //TODO Get from module instead of project
+            if (module->type == MT_Executable)
+            {
+                return toolchain->GetExePath(*module, platform, type);
+            }
+            else if (module->type == MT_Library)
+            {
+                return toolchain->GetLibPath(*module, platform, type);
+            }
+            else
+            {
+                return {};
+            }
         }
 
         ModuleManifest* module = nullptr;
@@ -155,7 +166,7 @@ public:
             moduleInfo->projectPath = moduleManifest->project->faroRoot / "Project" / (moduleManifest->name + ".vcxproj");
             moduleInfo->solutionPath = "Project/Modules";
             moduleInfo->buildByDefault = true;
-            moduleInfo->debuggable = true; //TODO Only enable for executable projects
+            moduleInfo->debuggable = moduleManifest->type == MT_Executable;
             if (!moduleManifest->solutionLocation.empty())
             {
                 moduleInfo->solutionPath /= moduleManifest->solutionLocation;
@@ -174,7 +185,7 @@ public:
         for (ProjectInfo* projectInfo : projectInfoList)
         {
             WriteProjectFile(*projectInfo);
-            WriteProjectUserFile(project, *projectInfo);
+            WriteProjectUserFile(*projectInfo);
 
             if (projectInfo->HasSourceFiles())
             {
@@ -409,7 +420,7 @@ private:
         doc.SaveFile(projectInfo.projectPath.string().c_str());
     }
 
-    void WriteProjectUserFile(ProjectManifest& projectManifest, ProjectInfo& projectInfo)
+    void WriteProjectUserFile(ProjectInfo& projectInfo)
     {
         if (!projectInfo.debuggable) return;
 
@@ -441,7 +452,7 @@ private:
                         propGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)'=='" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
 
                         tinyxml2::XMLElement* element = propGroup->InsertNewChildElement("LocalDebuggerCommand");
-                        element->SetText(toolchain->GetExePath(projectManifest, platform, (BuildType)buildTypeIndex).string().c_str());
+                        element->SetText(projectInfo.GetOutputBinary(toolchain, platform, (BuildType)buildTypeIndex).string().c_str());
                         element = propGroup->InsertNewChildElement("DebuggerFlavor");
                         element->SetText("WindowsLocalDebugger");
                     }

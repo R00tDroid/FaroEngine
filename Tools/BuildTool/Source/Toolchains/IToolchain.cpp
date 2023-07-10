@@ -74,11 +74,11 @@ std::filesystem::path IToolchain::GetExeDirectory(ProjectManifest& manifest)
     return manifest.faroRoot / "Bin";
 }
 
-std::filesystem::path IToolchain::GetExePath(ProjectManifest& manifest, BuildPlatform* target, BuildType configuration)
+std::filesystem::path IToolchain::GetExePath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)
 {
     std::string platformName = target->platformName + " " + BuildTypeNames[configuration];
     platformName = Utility::ToLower(platformName);
     std::replace(platformName.begin(), platformName.end(), ' ', '_');
 
-    return GetExeDirectory(manifest) / (manifest.projectName + "_" + platformName + "." + GetExeExtension());
+    return GetLibDirectory(manifest) / (manifest.name + "_" + platformName + "." + GetExeExtension());
 }

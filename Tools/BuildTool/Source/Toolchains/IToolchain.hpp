@@ -58,7 +58,7 @@ public:
 
     std::filesystem::path GetExeDirectory(ProjectManifest& manifest);
 
-    std::filesystem::path GetExePath(ProjectManifest& manifest, BuildPlatform* target, BuildType configuration);
+    std::filesystem::path GetExePath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
 
     virtual std::string GetLibExtension() = 0;
 
