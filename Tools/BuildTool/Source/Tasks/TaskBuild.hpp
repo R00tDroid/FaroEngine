@@ -60,7 +60,7 @@ public:
             Utility::PrintLine("Everything is up-to-date");
         }
 
-        if (buildAnything || !std::filesystem::exists(targetToolchain->GetExePath(project, targetPlatform, buildType))) 
+        /*if (buildAnything || !std::filesystem::exists(targetToolchain->GetExePath(project, targetPlatform, buildType))) 
         {
             PerformanceTimer linkTimer;
             Utility::PrintLine("Linking modules");
@@ -70,7 +70,7 @@ public:
                 return false;
             }
             linkTimer.Stop("Link executable");
-        }
+        }*/
 
         return true;
     }
