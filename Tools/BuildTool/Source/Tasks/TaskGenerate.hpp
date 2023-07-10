@@ -27,6 +27,8 @@ public:
         virtual std::string GetRebuildCommand() = 0;
         virtual std::string GetCleanCommand() = 0;
 
+        virtual std::filesystem::path GetOutputBinary(IToolchain*, BuildPlatform*, BuildType) { return {}; }
+
         virtual std::filesystem::path GetRootDirectory() { return {}; };
     };
 
@@ -66,6 +68,11 @@ public:
         }
         std::vector<std::filesystem::path> GetIncludePaths() override { return module->GetModuleIncludeDirectories(); }
         std::filesystem::path GetRootDirectory() override { return module->moduleRoot; }
+
+        std::filesystem::path GetOutputBinary(IToolchain* toolchain, BuildPlatform* platform, BuildType type) override
+        {
+            return toolchain->GetExePath(*module->project, platform, type); //TODO Get from module instead of project
+        }
 
         ModuleManifest* module = nullptr;
     };
@@ -122,7 +129,6 @@ public:
         commandInfo->uuid = Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / (commandInfo->name + "Id.txt"));
         commandInfo->projectPath = project.faroRoot / "Project" / (commandInfo->name + ".vcxproj");
         commandInfo->solutionPath = "Project/Actions";
-        commandInfo->debuggable = false;
         projectInfoList.push_back(commandInfo);
 
         commandInfo = new CustomCommandInfo();
@@ -149,6 +155,7 @@ public:
             moduleInfo->projectPath = moduleManifest->project->faroRoot / "Project" / (moduleManifest->name + ".vcxproj");
             moduleInfo->solutionPath = "Project/Modules";
             moduleInfo->buildByDefault = true;
+            moduleInfo->debuggable = true; //TODO Only enable for executable projects
             if (!moduleManifest->solutionLocation.empty())
             {
                 moduleInfo->solutionPath /= moduleManifest->solutionLocation;
@@ -351,8 +358,13 @@ private:
                             element->SetText((projectInfo.GetCleanCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
 
                             element = propertyGroup->InsertNewChildElement("NMakeOutput");
-                            element->SetText("");
 
+                            std::filesystem::path outputPath = projectInfo.GetOutputBinary(toolchain, platform, (BuildType)buildTypeIndex);
+                            if (!outputPath.empty())
+                            {
+                                element->SetText(outputPath.string().c_str());
+                            }
+                         
                             element = propertyGroup->InsertNewChildElement("NMakeIncludeSearchPath");
                             element->SetText(includePaths.c_str());
 
