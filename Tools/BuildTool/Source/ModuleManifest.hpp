@@ -9,6 +9,12 @@
 
 class ProjectManifest;
 
+enum ModuleType
+{
+    MT_Library,
+    MT_Executable
+};
+
 class ModuleManifest
 {
 public:
@@ -36,6 +42,8 @@ public:
     std::vector<std::string> unresolvedDependencies;
 
     std::vector<std::string> linkingLibraries;
+
+    ModuleType type = MT_Library;
 
     // List of modules this module depends on
     std::vector<ModuleManifest*> moduleDependencies;
@@ -208,6 +216,8 @@ public:
 
         if (!ParseIncludeDirectories(rootObject, "PrivateIncludeDirectories", privateIncludes)) return false;
 
+        if (!ParseModuleType(rootObject)) return false;
+
         if (!ParseSolutionLocation(rootObject)) return false;
 
         if (!ParseLinkerLibraries(rootObject)) return false;
@@ -350,6 +360,39 @@ public:
                 }
 
                 output.push_back(std::filesystem::weakly_canonical(moduleRoot / includeValue.get<std::string>()));
+            }
+        }
+
+        return true;
+    }
+
+    bool ParseModuleType(picojson::object& rootObject)
+    {
+        solutionLocation = "";
+
+        if (rootObject.find("ModuleType") != rootObject.end())
+        {
+            picojson::value& value = rootObject["ModuleType"];
+            if (!value.is<std::string>())
+            {
+                Utility::PrintLine("Expected ModuleType to be a string");
+                return false;
+            }
+
+            std::string typeString = value.get<std::string>();
+
+            if (typeString == "Executable")
+            {
+                type = MT_Executable;
+            }
+            else if (typeString == "Library")
+            {
+                type = MT_Library;
+            }
+            else
+            {
+                Utility::PrintLine("Unknown module type: " + typeString + ". Should be Executable/Library.");
+                return false;
             }
         }
 
