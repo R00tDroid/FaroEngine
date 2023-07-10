@@ -17,6 +17,8 @@ public:
         std::filesystem::path solutionPath;
         bool debuggable = false;
 
+        std::vector<std::string> dependencyUuids;
+
         virtual bool HasSourceFiles() { return false; }
         virtual std::vector<std::filesystem::path> GetSourceFiles() { return {}; }
         virtual std::vector<std::filesystem::path> GetIncludePaths() { return {}; }
@@ -112,7 +114,7 @@ public:
 
         std::vector<ProjectInfo*> projectInfoList;
         CustomCommandInfo* commandInfo = new CustomCommandInfo();
-        commandInfo->name = "Build";
+        commandInfo->name = "Package";
         commandInfo->buildByDefault = true;
         commandInfo->buildCommand = faroBuildTool.string() + " -build -project " + project.manifestPath.string();
         commandInfo->cleanCommand = faroBuildTool.string() + " -clean -project " + project.manifestPath.string();
@@ -120,7 +122,7 @@ public:
         commandInfo->uuid = Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / (commandInfo->name + "Id.txt"));
         commandInfo->projectPath = project.faroRoot / "Project" / (commandInfo->name + ".vcxproj");
         commandInfo->solutionPath = "Project/Actions";
-        commandInfo->debuggable = true;
+        commandInfo->debuggable = false;
         projectInfoList.push_back(commandInfo);
 
         commandInfo = new CustomCommandInfo();
@@ -146,10 +148,17 @@ public:
             moduleInfo->uuid = moduleManifest->uuid;
             moduleInfo->projectPath = moduleManifest->project->faroRoot / "Project" / (moduleManifest->name + ".vcxproj");
             moduleInfo->solutionPath = "Project/Modules";
+            moduleInfo->buildByDefault = true;
             if (!moduleManifest->solutionLocation.empty())
             {
                 moduleInfo->solutionPath /= moduleManifest->solutionLocation;
             }
+
+            for (ModuleManifest* dependency : moduleManifest->moduleDependencies)
+            {
+                moduleInfo->dependencyUuids.push_back(dependency->uuid);
+            }
+
             projectInfoList.push_back(moduleInfo);
 
             moduleTimer.Stop("Module: " + moduleManifest->name);
@@ -525,6 +534,15 @@ private:
         for (ProjectInfo* projectInfo : projectInfoList)
         {
             stream << "Project(\"{" + project.uuid + "}\") = \"" + projectInfo->name + "\", \"" + (projectInfo->projectPath).string() + "\", \"{" + projectInfo->uuid + "}\"\n";
+            if (!projectInfo->dependencyUuids.empty())
+            {
+                stream << "\tProjectSection(ProjectDependencies) = postProject\n";
+                for (std::string& dependency : projectInfo->dependencyUuids)
+                {
+                    stream << "\t\t{" << dependency << "} = {" << dependency << "}\n";
+                }
+                stream << "\tEndProjectSection\n";
+            }
             stream << "EndProject\n";
         }
 
