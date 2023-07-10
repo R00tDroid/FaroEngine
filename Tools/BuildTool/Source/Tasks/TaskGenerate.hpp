@@ -122,7 +122,7 @@ public:
         std::vector<ProjectInfo*> projectInfoList;
         CustomCommandInfo* commandInfo = new CustomCommandInfo();
         commandInfo->name = "Package";
-        commandInfo->buildByDefault = true;
+        commandInfo->buildByDefault = false;
         commandInfo->buildCommand = faroBuildTool.string() + " -build -project " + project.manifestPath.string();
         commandInfo->cleanCommand = faroBuildTool.string() + " -clean -project " + project.manifestPath.string();
         commandInfo->rebuildCommand = faroBuildTool.string() + " -clean -build -project " + project.manifestPath.string();
