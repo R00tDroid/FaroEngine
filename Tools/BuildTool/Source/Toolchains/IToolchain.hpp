@@ -44,7 +44,7 @@ public:
 
     virtual bool LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) = 0;
 
-    virtual bool LinkExecutable(ProjectManifest& project, BuildPlatform* target, BuildType configuration, std::vector<ModuleManifest*> modules) = 0;
+    virtual bool LinkExecutable(ModuleManifest& project, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) = 0;
 
     std::filesystem::path GetObjDirectory(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
 

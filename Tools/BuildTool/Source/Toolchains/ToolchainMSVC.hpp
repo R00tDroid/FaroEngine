@@ -180,8 +180,14 @@ public:
         return result == 0;
     }
 
-    bool LinkExecutable(ProjectManifest& project, BuildPlatform* target, BuildType configuration, std::vector<ModuleManifest*> modules) override
+    bool LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) override
     {
+        std::string objs = "";
+        for (std::filesystem::path& sourceFile : sourceFiles)
+        {
+            objs += " \"" + GetObjPath(manifest, target, configuration, sourceFile).string() + "\"";
+        }
+
         std::string libs = "";
         std::string libDirectories = "";
         std::string moduleLibs = "";
@@ -213,7 +219,7 @@ public:
         libDirectories += " /LIBPATH:\"" + windowsSdkLib.string() + "\\um\\x64\"";
         libDirectories += " /LIBPATH:\"" + msvcRoot.string() + "\\lib\\x64\"";
 
-        for (ModuleManifest* module : modules)
+        for (ModuleManifest* module : manifest.moduleDependencies)
         {
             std::filesystem::path lib = GetLibPath(*module, target, configuration);
             Utility::PrintLineD("\t" + lib.string());
@@ -228,8 +234,8 @@ public:
         std::filesystem::path linkExe = msvcTools / "link.exe";
         std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
 
-        Utility::EnsureDirectory(GetExeDirectory(project));
-        //std::filesystem::path outputFile = GetExePath(project, target, configuration);
+        std::filesystem::path outputFile = GetExePath(manifest, target, configuration);
+        Utility::EnsureDirectory(outputFile.parent_path());
 
         std::string flags = "/NOLOGO /SUBSYSTEM:CONSOLE /WX /MACHINE:X64";
 
@@ -239,7 +245,7 @@ public:
         }
 
         std::string log = "";
-        //int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + linkExe.string() + "\" " + flags + " /OUT:\"" + outputFile.string() + "\" " + libs + libDirectories + moduleLibs, log);
+        int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + linkExe.string() + "\" " + flags + " /OUT:\"" + outputFile.string() + "\" " + objs + libs + libDirectories + moduleLibs, log);
 
         //Format, trim and print output message
         if (!log.empty())
@@ -251,7 +257,7 @@ public:
                 Utility::PrintLine(log);
             }
         }
-        return true; //result == 0;
+        return result == 0;
     }
 
     std::string GetObjExtension() override

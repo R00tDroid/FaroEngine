@@ -60,18 +60,6 @@ public:
             Utility::PrintLine("Everything is up-to-date");
         }
 
-        /*if (buildAnything || !std::filesystem::exists(targetToolchain->GetExePath(project, targetPlatform, buildType))) 
-        {
-            PerformanceTimer linkTimer;
-            Utility::PrintLine("Linking modules");
-            if (!targetToolchain->LinkExecutable(project, targetPlatform, buildType, moduleOrder))
-            {
-                Utility::PrintLine("Linkage error!");
-                return false;
-            }
-            linkTimer.Stop("Link executable");
-        }*/
-
         return true;
     }
 
@@ -231,13 +219,32 @@ private:
         }
         sourceFilesTimer.Stop("Build source");
 
-        Utility::PrintLine("Generating library...");
         PerformanceTimer linkTimer;
-        if (!targetToolchain->LinkLibrary(*module, targetPlatform, buildType, sourceFiles))
+        switch (module->type)
         {
-            Utility::PrintLine("Linking error!");
-            return false;
+            case MT_Library: 
+            {
+                Utility::PrintLine("Generating library...");
+                if (!targetToolchain->LinkLibrary(*module, targetPlatform, buildType, sourceFiles))
+                {
+                    Utility::PrintLine("Linking error!");
+                    return false;
+                }
+                break;
+            }
+            case MT_Executable:
+            {
+                Utility::PrintLine("Generating executable...");
+                if (!targetToolchain->LinkExecutable(*module, targetPlatform, buildType, sourceFiles))
+                {
+                    Utility::PrintLine("Linking error!");
+                    return false;
+                }
+                break;
+            }
         }
+
+        
         linkTimer.Stop("Link module");
         buildTimer.Stop("Build");
 
