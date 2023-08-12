@@ -1,3 +1,4 @@
+#include <set>
 #include "IToolchain.hpp"
 #include "MSVCInfo.hpp"
 #include "WindowsKitInfo.hpp"
@@ -129,7 +130,7 @@ public:
         std::string log = "";
         int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + clExe.string() + "\" /c /FC /nologo /EHsc " + defines + " " + compilerFlags + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
         
-        //Format, trim and print output message
+        // Format, trim and print output message
         if (!log.empty())
         {
             log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
@@ -166,7 +167,7 @@ public:
         std::string log = "";
         int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + libExe.string() + "\" /nologo /OUT:\"" + libPath.string() + "\" " + objs, log);
 
-        //Format, trim and print output message
+        // Format, trim and print output message
         if (!log.empty())
         {
             log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
@@ -182,6 +183,7 @@ public:
 
     bool LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) override
     {
+        // Get project object files
         std::string objs = "";
         for (std::filesystem::path& sourceFile : sourceFiles)
         {
@@ -219,7 +221,26 @@ public:
         libDirectories += " /LIBPATH:\"" + windowsSdkLib.string() + "\\um\\x64\"";
         libDirectories += " /LIBPATH:\"" + msvcRoot.string() + "\\lib\\x64\"";
 
-        for (ModuleManifest* module : manifest.moduleDependencies)
+        // Get entire module dependency tree
+        std::vector<ModuleManifest*> toProcess = manifest.moduleDependencies;
+        std::set<ModuleManifest*> dependencies;
+        while (!toProcess.empty())
+        {
+            ModuleManifest* dependency = toProcess[0];
+            toProcess.erase(toProcess.begin());
+
+            if (dependencies.find(dependency) == dependencies.end())
+            {
+                dependencies.insert(dependency);
+                for (ModuleManifest* childDependency : dependency->moduleDependencies)
+                {
+                    toProcess.push_back(childDependency);
+                }
+            }
+        }
+
+        // Get dependency libraries
+        for (ModuleManifest* module : dependencies)
         {
             std::filesystem::path lib = GetLibPath(*module, target, configuration);
             Utility::PrintLineD("\t" + lib.string());
@@ -247,7 +268,7 @@ public:
         std::string log = "";
         int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + linkExe.string() + "\" " + flags + " /OUT:\"" + outputFile.string() + "\" " + objs + libs + libDirectories + moduleLibs, log);
 
-        //Format, trim and print output message
+        // Format, trim and print output message
         if (!log.empty())
         {
             log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
@@ -278,7 +299,7 @@ public:
 private:
     std::string GetEnvCommand()
     {
-        //TODO add MSVC IDE path
+        //TODO Add MSVC IDE path
         return "set \"path=C:\\Windows\\System32;\"";
     }
     std::filesystem::path objDir = "";
