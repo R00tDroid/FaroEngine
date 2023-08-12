@@ -132,8 +132,8 @@ public:
 
         std::vector<ProjectInfo*> projectInfoList;
         CustomCommandInfo* commandInfo = new CustomCommandInfo();
-        commandInfo->name = "Package";
-        commandInfo->buildByDefault = false;
+        commandInfo->name = "Build";
+        commandInfo->buildByDefault = true;
         commandInfo->buildCommand = faroBuildTool.string() + " -build -project " + project.manifestPath.string();
         commandInfo->cleanCommand = faroBuildTool.string() + " -clean -project " + project.manifestPath.string();
         commandInfo->rebuildCommand = faroBuildTool.string() + " -clean -build -project " + project.manifestPath.string();
@@ -165,7 +165,7 @@ public:
             moduleInfo->uuid = moduleManifest->uuid;
             moduleInfo->projectPath = moduleManifest->project->faroRoot / "Project" / (moduleManifest->name + ".vcxproj");
             moduleInfo->solutionPath = "Project/Modules";
-            moduleInfo->buildByDefault = true;
+            moduleInfo->buildByDefault = false;
             moduleInfo->debuggable = moduleManifest->type == MT_Executable;
             if (!moduleManifest->solutionLocation.empty())
             {
