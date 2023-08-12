@@ -163,6 +163,7 @@ public:
 
         std::filesystem::path libPath = GetLibPath(manifest, target, configuration);
         Utility::EnsureDirectory(libPath.parent_path());
+        Utility::PrintLineD(libPath.string());
 
         std::string log = "";
         int result = ExecuteCommand(msvcDrive.string() + ": & " + GetEnvCommand() + " & \"" + libExe.string() + "\" /nologo /OUT:\"" + libPath.string() + "\" " + objs, log);
@@ -257,6 +258,7 @@ public:
 
         std::filesystem::path outputFile = GetExePath(manifest, target, configuration);
         Utility::EnsureDirectory(outputFile.parent_path());
+        Utility::PrintLineD(outputFile.string());
 
         std::string flags = "/NOLOGO /SUBSYSTEM:CONSOLE /WX /MACHINE:X64";
 
