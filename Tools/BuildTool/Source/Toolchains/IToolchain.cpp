@@ -55,7 +55,7 @@ std::filesystem::path IToolchain::GetObjPath(ModuleManifest& manifest, BuildPlat
     return GetObjDirectory(manifest, target, configuration) / sourceFile.filename().replace_extension(GetObjExtension());
 }
 
-std::filesystem::path IToolchain::GetLibDirectory(ModuleManifest& manifest)
+std::filesystem::path IToolchain::GetBinDirectory(ModuleManifest& manifest)
 {
     return manifest.faroRoot / "Bin";
 }
@@ -66,12 +66,7 @@ std::filesystem::path IToolchain::GetLibPath(ModuleManifest& manifest, BuildPlat
     platformName = Utility::ToLower(platformName);
     std::replace(platformName.begin(), platformName.end(), ' ', '_');
 
-    return GetLibDirectory(manifest) / (platformName + "." + GetLibExtension());
-}
-
-std::filesystem::path IToolchain::GetExeDirectory(ProjectManifest& manifest)
-{
-    return manifest.faroRoot / "Bin";
+    return GetBinDirectory(manifest) / (platformName + "." + GetLibExtension());
 }
 
 std::filesystem::path IToolchain::GetExePath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)
@@ -80,5 +75,5 @@ std::filesystem::path IToolchain::GetExePath(ModuleManifest& manifest, BuildPlat
     platformName = Utility::ToLower(platformName);
     std::replace(platformName.begin(), platformName.end(), ' ', '_');
 
-    return GetLibDirectory(manifest) / (manifest.name + "_" + platformName + "." + GetExeExtension());
+    return GetBinDirectory(manifest) / (manifest.name + "_" + platformName + "." + GetExeExtension());
 }

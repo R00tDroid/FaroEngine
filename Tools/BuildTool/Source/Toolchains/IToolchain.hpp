@@ -52,11 +52,9 @@ public:
 
     virtual std::string GetObjExtension() = 0;
 
-    std::filesystem::path GetLibDirectory(ModuleManifest& manifest);
+    std::filesystem::path GetBinDirectory(ModuleManifest& manifest);
 
     std::filesystem::path GetLibPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
-
-    std::filesystem::path GetExeDirectory(ProjectManifest& manifest);
 
     std::filesystem::path GetExePath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
 
