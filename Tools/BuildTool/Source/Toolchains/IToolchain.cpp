@@ -26,6 +26,28 @@ std::vector<std::string> IToolchain::GetPreprocessorDefines(BuildPlatform* platf
     return defines;
 }
 
+std::set<ModuleManifest*> IToolchain::GetAllModuleDependencies(ModuleManifest& topModule)
+{
+    std::vector<ModuleManifest*> toProcess = { topModule.moduleDependencies };
+    std::set<ModuleManifest*> dependencies;
+    while (!toProcess.empty())
+    {
+        ModuleManifest* dependency = toProcess[0];
+        toProcess.erase(toProcess.begin());
+
+        if (dependencies.find(dependency) == dependencies.end())
+        {
+            dependencies.insert(dependency);
+            for (ModuleManifest* childDependency : dependency->moduleDependencies)
+            {
+                toProcess.push_back(childDependency);
+            }
+        }
+    }
+
+    return dependencies;
+}
+
 int IToolchain::ExecuteCommand(std::string command, std::string& output)
 {
     return Utility::ExecuteCommand(command, output);

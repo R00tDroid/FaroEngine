@@ -1,4 +1,4 @@
-#include <set>
+#pragma once
 #include "IToolchain.hpp"
 #include "MSVCInfo.hpp"
 #include "WindowsKitInfo.hpp"
@@ -222,26 +222,8 @@ public:
         libDirectories += " /LIBPATH:\"" + windowsSdkLib.string() + "\\um\\x64\"";
         libDirectories += " /LIBPATH:\"" + msvcRoot.string() + "\\lib\\x64\"";
 
-        // Get entire module dependency tree
-        std::vector<ModuleManifest*> toProcess = manifest.moduleDependencies;
-        std::set<ModuleManifest*> dependencies;
-        while (!toProcess.empty())
-        {
-            ModuleManifest* dependency = toProcess[0];
-            toProcess.erase(toProcess.begin());
-
-            if (dependencies.find(dependency) == dependencies.end())
-            {
-                dependencies.insert(dependency);
-                for (ModuleManifest* childDependency : dependency->moduleDependencies)
-                {
-                    toProcess.push_back(childDependency);
-                }
-            }
-        }
-
         // Get dependency libraries
-        for (ModuleManifest* module : dependencies)
+        for (ModuleManifest* module : GetAllModuleDependencies(manifest))
         {
             std::filesystem::path lib = GetLibPath(*module, target, configuration);
             Utility::PrintLineD("\t" + lib.string());
