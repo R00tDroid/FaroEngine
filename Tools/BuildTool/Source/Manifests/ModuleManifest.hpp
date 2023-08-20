@@ -2,7 +2,6 @@
 #include <filesystem>
 #include <picojson.h>
 #include <glob/glob.hpp>
-
 #include "ManifestInterface.hpp"
 #include "FileTree.hpp"
 

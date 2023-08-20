@@ -166,14 +166,22 @@ ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path)
 
 ModuleManifest* ModuleManifest::GetLoadedModule(std::filesystem::path path)
 {
-        
+    if (loadedModules.find(path) != loadedModules.end())
+    {
+        return loadedModules[path];
+    }
+    else
+    {
+        return nullptr;
+    }
 }
 
 std::vector<std::filesystem::path> ModuleManifest::GetPublicIncludeTree()
 {
     std::vector<std::filesystem::path> result = publicIncludes;
-    for (ModuleManifest* dependency : moduleDependencies)
+    for (std::filesystem::path& dependencyPath : moduleDependencies)
     {
+        ModuleManifest* dependency = GetLoadedModule(dependencyPath);
         for (std::filesystem::path& path : dependency->GetPublicIncludeTree())
         {
             result.push_back(path);
@@ -330,8 +338,7 @@ bool ModuleManifest::ParseDependencies(picojson::object& rootObject)
     return true;
 }
 
-bool ModuleManifest::ParseIncludeDirectories(picojson::object& rootObject, std::string tag,
-    std::vector<std::filesystem::path>& output)
+bool ModuleManifest::ParseIncludeDirectories(picojson::object& rootObject, std::string tag, std::vector<std::filesystem::path>& output)
 {
     output = {};
 
@@ -445,38 +452,35 @@ bool ModuleManifest::ParseLinkerLibraries(picojson::object& rootObject)
 
 void ModuleManifest::SaveCache()
 {
-    std::filesystem::path moduleInfo = faroDirectory / "\\Module";
-    Utility::EnsureDirectory(moduleInfo);
-
-    std::ofstream filesList(moduleInfo / "Source.txt");
+    std::ofstream filesList(infoDirectory / "Source.txt");
     for (std::filesystem::path& path : sourceFiles)
     {
         filesList << path.string() << "\n";
     }
     filesList.close();
 
-    std::ofstream publicIncludeList(moduleInfo / "PublicIncludes.txt");
+    std::ofstream publicIncludeList(infoDirectory / "PublicIncludes.txt");
     for (std::filesystem::path& path : publicIncludes)
     {
         publicIncludeList << path.string() << "\n";
     }
     publicIncludeList.close();
 
-    std::ofstream privateIncludeList(moduleInfo / "PrivateIncludes.txt");
+    std::ofstream privateIncludeList(infoDirectory / "PrivateIncludes.txt");
     for (std::filesystem::path& path : privateIncludes)
     {
         privateIncludeList << path.string() << "\n";
     }
     privateIncludeList.close();
 
-    std::ofstream dependencyList(moduleInfo / "Dependencies.txt");
+    std::ofstream dependencyList(infoDirectory / "Dependencies.txt");
     for (std::filesystem::path dependency : moduleDependencies)
     {
         dependencyList << dependency.string() << "\n";
     }
     dependencyList.close();
 
-    std::ofstream libraryList(moduleInfo / "Libraries.txt");
+    std::ofstream libraryList(infoDirectory / "Libraries.txt");
     for (std::string& path : linkingLibraries)
     {
         libraryList << path.c_str() << "\n";
