@@ -1,23 +1,10 @@
 #pragma once
 #include <filesystem>
-#include <Utility.hpp>
 
 class IManifest
 {
 public:
-    IManifest(const std::filesystem::path& manifestLocation) :
-        manifestPath(manifestLocation),
-        manifestDirectory(manifestPath.parent_path()),
-        faroDirectory(manifestDirectory / ".Faro"),
-        infoDirectory(faroDirectory / "Info")
-    {
-        if (std::filesystem::exists(manifestPath)) 
-        {
-            Utility::EnsureDirectory(faroDirectory);
-            Utility::EnsureDirectory(infoDirectory);
-            Utility::HideFolder(faroDirectory);
-        }
-    }
+    IManifest(const std::filesystem::path& manifestLocation);
 
     // Path to the manifest file
     std::filesystem::path manifestPath = "";
