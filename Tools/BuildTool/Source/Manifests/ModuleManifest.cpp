@@ -74,6 +74,8 @@ ModuleManifest* ModuleManifest::Parse(std::filesystem::path path)
         return nullptr;
     }
 
+    manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ModuleId.txt");
+
     manifest->SaveCache();
 
     return manifest;
