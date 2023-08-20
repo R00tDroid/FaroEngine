@@ -1,5 +1,6 @@
 #pragma once
-#include "ModuleManifest.hpp"
+#include <filesystem>
+#include <Utility.hpp>
 
 class IManifest
 {
