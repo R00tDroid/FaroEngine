@@ -53,6 +53,11 @@ ProjectManifest* ProjectManifest::Parse(std::filesystem::path path)
     }
     moduleList.close();
 
+    for (std::filesystem::path& modulePath : manifest->projectModules)
+    {
+        ModuleManifest::Parse(modulePath);
+    }
+
     return manifest;
 }
 
@@ -62,6 +67,12 @@ ProjectManifest* ProjectManifest::LoadFromCache(std::filesystem::path path)
     manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ProjectId.txt");
     //TODO Load project info
     //TODO Load module list
+
+    for (std::filesystem::path& modulePath : manifest->projectModules)
+    {
+        ModuleManifest::LoadFromCache(modulePath);
+    }
+
     return manifest;
 }
 
@@ -115,8 +126,7 @@ bool ProjectManifest::ParseModules(picojson::object& rootObject)
                     std::string path = entry.path().string().substr();
                     if (path.length() > ModuleManifest::moduleFileSuffix.length() && path.substr(path.length() - ModuleManifest::moduleFileSuffix.length()) == ModuleManifest::moduleFileSuffix)
                     {
-                        std::filesystem::path relativePath = std::filesystem::proximate(path, manifestDirectory);
-                        projectModules.push_back(relativePath);
+                        projectModules.push_back(path);
                         foundManifest = true;
                         break;
                     }
