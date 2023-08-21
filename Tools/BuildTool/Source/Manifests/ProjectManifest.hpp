@@ -8,7 +8,7 @@ public:
     inline static std::string projectFileSuffix = ".faroproject.json";
 
     std::string projectName = "";
-    std::vector<std::filesystem::path> projectModules;
+    std::vector<std::filesystem::path> modulesPaths;
     std::string uuid = "";
     
     // Parse the project manifest at the provided location. Returns nullptr if not able to parse the manifest.
