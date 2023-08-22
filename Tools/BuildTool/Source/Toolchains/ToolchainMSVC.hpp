@@ -2,7 +2,7 @@
 #include "IToolchain.hpp"
 #include "MSVCInfo.hpp"
 #include "WindowsKitInfo.hpp"
-#include "../ModuleManifest.hpp"
+#include <Manifests/ModuleManifest.hpp>
 
 enum EMSVCArchitecture 
 {

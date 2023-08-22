@@ -1,6 +1,7 @@
 #include "IToolchain.hpp"
-#include "../ModuleManifest.hpp"
-#include "../ProjectManifest.hpp"
+#include <Utility.hpp>
+#include <Manifests/ModuleManifest.hpp>
+#include <Manifests/ProjectManifest.hpp>
 #include "Command.hpp"
 #include "ToolchainMSVC.hpp"
 
@@ -28,19 +29,22 @@ std::vector<std::string> IToolchain::GetPreprocessorDefines(BuildPlatform* platf
 
 std::set<ModuleManifest*> IToolchain::GetAllModuleDependencies(ModuleManifest& topModule)
 {
-    std::vector<ModuleManifest*> toProcess = { topModule.moduleDependencies };
+    std::vector<std::filesystem::path> toProcess = { topModule.moduleDependencies };
     std::set<ModuleManifest*> dependencies;
+
     while (!toProcess.empty())
     {
-        ModuleManifest* dependency = toProcess[0];
+        std::filesystem::path dependencyPath = toProcess[0];
         toProcess.erase(toProcess.begin());
+
+        ModuleManifest* dependency = ModuleManifest::GetLoadedModule(dependencyPath);
 
         if (dependencies.find(dependency) == dependencies.end())
         {
             dependencies.insert(dependency);
-            for (ModuleManifest* childDependency : dependency->moduleDependencies)
+            for (std::filesystem::path childDependencyPath : dependency->moduleDependencies)
             {
-                toProcess.push_back(childDependency);
+                toProcess.push_back(childDependencyPath);
             }
         }
     }
@@ -69,7 +73,7 @@ std::filesystem::path IToolchain::GetObjDirectory(ModuleManifest& manifest, Buil
     std::string platformName = target->platformName + " " + BuildTypeNames[configuration];
     platformName = Utility::ToLower(platformName);
     std::replace(platformName.begin(), platformName.end(), ' ', '_');
-    return manifest.faroRoot / "Obj" / platformName;
+    return manifest.faroDirectory / "Obj" / platformName;
 }
 
 std::filesystem::path IToolchain::GetObjPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::filesystem::path sourceFile)
@@ -79,7 +83,7 @@ std::filesystem::path IToolchain::GetObjPath(ModuleManifest& manifest, BuildPlat
 
 std::filesystem::path IToolchain::GetBinDirectory(ModuleManifest& manifest)
 {
-    return manifest.faroRoot / "Bin";
+    return manifest.faroDirectory / "Bin";
 }
 
 std::filesystem::path IToolchain::GetLibPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)

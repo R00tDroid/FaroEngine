@@ -1,8 +1,10 @@
 #include "FileTree.hpp"
-#include "ModuleManifest.hpp"
+#include "Manifests/ProjectManifest.hpp"
+#include "Manifests/ModuleManifest.hpp"
 #include <fstream>
 #include <ctime>
 #include <chrono>
+#include <Utility.hpp>
 
 ModuleFileDates::ModuleFileDates(ModuleManifest* inModule) : module(inModule)
 {
@@ -112,7 +114,7 @@ void ModuleFileDates::Save()
 
 std::string ModuleFileDates::GetFileIdentifier(const std::filesystem::path& file)
 {
-    std::string path = std::filesystem::proximate(file, module->moduleRoot).string();
+    std::string path = std::filesystem::proximate(file, module->manifestDirectory).string();
     std::replace(path.begin(), path.end(), '\\', '_');
     std::replace(path.begin(), path.end(), '/', '_');
     std::replace(path.begin(), path.end(), '.', '_');
@@ -122,7 +124,7 @@ std::string ModuleFileDates::GetFileIdentifier(const std::filesystem::path& file
 
 std::filesystem::path ModuleFileDates::GetStoragePath()
 {
-    return module->faroRoot / "ChangeDB";
+    return module->faroDirectory / "ChangeDB";
 }
 
 FileTimeInfo* ModuleFileDates::FindFile(std::filesystem::path& path)
