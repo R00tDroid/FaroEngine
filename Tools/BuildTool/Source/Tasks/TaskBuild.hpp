@@ -51,7 +51,10 @@ public:
             //Utility::PrintLine("Everything is up-to-date");
 
             Utility::PrintLine("Performing build...");
-            BuildModule(module);
+            if (!BuildModule(module))
+            {
+                return false;
+            }
         }
         return true;
     }
