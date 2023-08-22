@@ -1,9 +1,7 @@
 #pragma once
 #include <string>
-
 #include "ITask.hpp"
 #include <Utility.hpp>
-
 
 class TaskBuild : public ITask
 {
@@ -22,11 +20,16 @@ public:
 
     static std::string GetDisplayName(ModuleManifest& module, std::filesystem::path& filePath)
     {
-        return filePath.lexically_proximate(module.moduleRoot).string();
+        return filePath.lexically_proximate(module.manifestDirectory).string();
     }
 
-    bool Run(ProjectManifest& project) override
+    bool Run(TaskRunInfo& runInfo) override
     {
+        if (runInfo.projectManifest == nullptr)
+        {
+            runInfo.projectManifest = ProjectManifest::LoadFromCache(runInfo.projectManifestPath);
+        }
+
         targetToolchain = nullptr;
         targetPlatform = nullptr;
 
@@ -37,29 +40,19 @@ public:
         }
 
         //TODO sort module order based on dependencies
-        std::vector<ModuleManifest*> moduleOrder = project.projectModules;
+        std::vector<std::filesystem::path> moduleOrder = runInfo.projectManifest->modulesPaths;
 
-        Utility::PrintLine("Checking for changes...");
-
-        bool buildAnything = false;
-        if (DetectAnySourceChanges(moduleOrder))
+        for (std::filesystem::path& modulePath : moduleOrder)
         {
+            ModuleManifest* module = ModuleManifest::GetLoadedModule(modulePath);
+            Utility::PrintLine("[" + module->name + "]");
+            Utility::PrintLine("Checking for changes...");
+            //TODO Check for changes
+            //Utility::PrintLine("Everything is up-to-date");
+
             Utility::PrintLine("Performing build...");
-
-            PerformanceTimer treescanTimer;
-            FileTreeGenerator::ParseTree(moduleOrder);
-            treescanTimer.Stop("Change check treescan");
-
-            for (ModuleManifest* module : moduleOrder)
-            {
-                if (!ProcessModule(module, buildAnything)) return false;
-            }
+            BuildModule(module);
         }
-        else
-        {
-            Utility::PrintLine("Everything is up-to-date");
-        }
-
         return true;
     }
 
@@ -93,44 +86,9 @@ private:
         return false;
     }
 
-    bool DetectAnySourceChanges(std::vector<ModuleManifest*>& moduleOrder)
-    {
-        bool anyChanges = false;
-
-        for (ModuleManifest* module : moduleOrder)
-        {
-            module->fileDates.ParseFiles();
-            if (!anyChanges)
-            {
-                for (std::filesystem::path& file : module->sourceFiles)
-                {
-                    std::string extension = file.extension().string();
-                    if (extension == ".c" || extension == ".cpp")
-                    {
-                        std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
-                        if (!std::filesystem::exists(objPath))
-                        {
-                            anyChanges = true;
-                            continue;
-                        }
-                    }
-
-                    if (module->fileDates.HasFileChanged(file)) //TODO Add quick-exit for non included headers
-                    {
-                        anyChanges = true;
-                    }
-                }
-            }
-        }
-
-        return anyChanges;
-    }
-
-    bool ProcessModule(ModuleManifest* module, bool& buildAnything)
+    bool BuildModule(ModuleManifest* module)
     {
         PerformanceTimer moduleTimer;
-
-        Utility::PrintLine("Module: " + module->name);
 
         std::vector<std::filesystem::path> source = module->sourceFiles;
 
@@ -169,9 +127,7 @@ private:
         }
         else
         {
-            if (!BuildModule(module, sourceFiles, filesToCompile)) return false;
-
-            buildAnything = true;
+            if (!CompileAndLink(module, sourceFiles, filesToCompile)) return false;
         }
 
         Utility::Print("\n");
@@ -180,7 +136,7 @@ private:
         return true;
     }
 
-    bool BuildModule(ModuleManifest* module, std::vector<std::filesystem::path>& sourceFiles, std::vector<std::filesystem::path>& filesToCompile)
+    bool CompileAndLink(ModuleManifest* module, std::vector<std::filesystem::path>& sourceFiles, std::vector<std::filesystem::path>& filesToCompile)
     {
         PerformanceTimer buildTimer;
 
