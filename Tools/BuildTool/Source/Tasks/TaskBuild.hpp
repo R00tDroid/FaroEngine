@@ -130,7 +130,8 @@ private:
         }
         else
         {
-            if (!CompileAndLink(module, sourceFiles, filesToCompile)) return false;
+            if (!CompileModule(module, filesToCompile)) return false;
+            if (!LinkModule(module, sourceFiles)) return false;
         }
 
         Utility::Print("\n");
@@ -139,7 +140,7 @@ private:
         return true;
     }
 
-    bool CompileAndLink(ModuleManifest* module, std::vector<std::filesystem::path>& sourceFiles, std::vector<std::filesystem::path>& filesToCompile)
+    bool CompileModule(ModuleManifest* module, std::vector<std::filesystem::path>& filesToCompile)
     {
         PerformanceTimer buildTimer;
 
@@ -178,34 +179,39 @@ private:
         }
         sourceFilesTimer.Stop("Build source");
 
+        buildTimer.Stop("Build");
+
+        return true;
+    }
+
+    bool LinkModule(ModuleManifest* module, std::vector<std::filesystem::path>& sourceFiles)
+    {
         PerformanceTimer linkTimer;
         switch (module->type)
         {
-            case MT_Library: 
+        case MT_Library:
+        {
+            Utility::PrintLine("Generating library...");
+            if (!targetToolchain->LinkLibrary(*module, targetPlatform, buildType, sourceFiles))
             {
-                Utility::PrintLine("Generating library...");
-                if (!targetToolchain->LinkLibrary(*module, targetPlatform, buildType, sourceFiles))
-                {
-                    Utility::PrintLine("Linking error!");
-                    return false;
-                }
-                break;
+                Utility::PrintLine("Linking error!");
+                return false;
             }
-            case MT_Executable:
+            break;
+        }
+        case MT_Executable:
+        {
+            Utility::PrintLine("Generating executable...");
+            if (!targetToolchain->LinkExecutable(*module, targetPlatform, buildType, sourceFiles))
             {
-                Utility::PrintLine("Generating executable...");
-                if (!targetToolchain->LinkExecutable(*module, targetPlatform, buildType, sourceFiles))
-                {
-                    Utility::PrintLine("Linking error!");
-                    return false;
-                }
-                break;
+                Utility::PrintLine("Linking error!");
+                return false;
             }
+            break;
+        }
         }
 
-        
         linkTimer.Stop("Link module");
-        buildTimer.Stop("Build");
 
         return true;
     }
