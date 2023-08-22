@@ -4,6 +4,7 @@
 #include "ITask.hpp"
 #include "MSVCInfo.hpp"
 #include "Toolchains/IToolchain.hpp"
+#include "Manifests/ModuleManifest.hpp"
 
 class TaskGenerate : public ITask
 {
@@ -67,7 +68,7 @@ public:
             return files;
         }
         std::vector<std::filesystem::path> GetIncludePaths() override { return module->GetModuleIncludeDirectories(); }
-        std::filesystem::path GetRootDirectory() override { return module->moduleRoot; }
+        std::filesystem::path GetRootDirectory() override { return module->manifestDirectory; }
 
         std::filesystem::path GetOutputBinary(IToolchain* toolchain, BuildPlatform* platform, BuildType type) override
         {
@@ -93,7 +94,7 @@ public:
         return 1;
     }
 
-    bool Run(ProjectManifest& project) override
+    bool Run(TaskRunInfo& taskInfo) override
     {
         auto msvc_versions = GetMSVCInstallations();
         if (msvc_versions.empty())
@@ -108,14 +109,21 @@ public:
 
         PerformanceTimer timer;
 
-        for (ModuleManifest* moduleManifest : project.projectModules)
+        if (taskInfo.projectManifest != nullptr)
         {
-            PerformanceTimer moduleTimer;
-            if (!moduleManifest->Parse()) return false;
-            moduleTimer.Stop("Parse manifest: " + moduleManifest->name);
+            Utility::PrintLine("Project already loaded");
+            return false;
         }
 
-        for (ModuleManifest* moduleManifest : project.projectModules)
+        taskInfo.projectManifest = ProjectManifest::Parse(taskInfo.projectManifestPath);
+
+        if (taskInfo.projectManifest == nullptr)
+        {
+            Utility::PrintLine("Failed to parse project manifest");
+            return false;
+        }
+
+        /*for (ModuleManifest* moduleManifest : project.modulesPaths)
         {
             PerformanceTimer moduleTimer;
             if (!moduleManifest->ResolveDependencies()) return false;
@@ -155,7 +163,7 @@ public:
         timer.Stop("Generate action projects");
         timer = {};
 
-        for (ModuleManifest* moduleManifest : project.projectModules)
+        for (ModuleManifest* moduleManifest : project.modulesPaths)
         {
             PerformanceTimer moduleTimer;
 
@@ -197,7 +205,7 @@ public:
 
         timer = {};
         WriteSolutionFile(project, projectInfoList);
-        timer.Stop("generate solution file");
+        timer.Stop("generate solution file");*/
 
         return true;
     }
@@ -546,9 +554,9 @@ private:
         doc.SaveFile(filePath.string().c_str());
     }
 
-    void WriteSolutionFile(ProjectManifest project, std::vector<ProjectInfo*> projectInfoList)
+    void WriteSolutionFile(ProjectManifest* project, std::vector<ProjectInfo*> projectInfoList)
     {
-        std::ofstream stream(project.projectDirectory / (project.projectName + ".sln"));
+        std::ofstream stream(project->manifestDirectory / (project->projectName + ".sln"));
 
         stream << "Microsoft Visual Studio Solution File, Format Version 12.00\n";
         stream << "# Visual Studio 16\n";
@@ -556,7 +564,7 @@ private:
 
         for (ProjectInfo* projectInfo : projectInfoList)
         {
-            stream << "Project(\"{" + project.uuid + "}\") = \"" + projectInfo->name + "\", \"" + (projectInfo->projectPath).string() + "\", \"{" + projectInfo->uuid + "}\"\n";
+            stream << "Project(\"{" + project->uuid + "}\") = \"" + projectInfo->name + "\", \"" + (projectInfo->projectPath).string() + "\", \"{" + projectInfo->uuid + "}\"\n";
             if (!projectInfo->dependencyUuids.empty())
             {
                 stream << "\tProjectSection(ProjectDependencies) = postProject\n";
@@ -581,7 +589,7 @@ private:
                 auto it = solutionDirectories.find(solutionDir);
                 if (it == solutionDirectories.end())
                 {
-                    solutionDirectories.insert(std::pair<std::filesystem::path, std::string>(solutionDir, Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / ("Dir" + solutionDir.filename().string() + "Id.txt"))));
+                    solutionDirectories.insert(std::pair<std::filesystem::path, std::string>(solutionDir, Utility::GetCachedUUID(project->manifestDirectory / "ProjectInfo" / ("Dir" + solutionDir.filename().string() + "Id.txt"))));
                 }
             }
         }
