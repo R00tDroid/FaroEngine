@@ -1,5 +1,25 @@
 #pragma once
-#include "ProjectManifest.hpp"
+#include <Manifests/ProjectManifest.hpp>
+#include <Toolchains/IToolchain.hpp>
+
+struct TaskRunInfo
+{
+    std::filesystem::path projectManifestPath = "";
+    ProjectManifest* projectManifest = nullptr;
+
+    std::string buildPlatform = "";
+    std::string buildArchitecture = "";
+    BuildType buildType = BuildType::ENUMSIZE;
+
+    ~TaskRunInfo()
+    {
+        if (projectManifest != nullptr)
+        {
+            delete projectManifest;
+            projectManifest = nullptr;
+        }
+    }
+};
 
 // Interface for a task. Tasks define a specific action that will be performed (generate solution, build project, clean project, etc).
 class ITask
@@ -11,5 +31,5 @@ public:
     virtual int GetPriority() const = 0;
 
     // Perform the task action/
-    virtual bool Run(ProjectManifest& project) = 0;
+    virtual bool Run(TaskRunInfo& runInfo) = 0;
 };
