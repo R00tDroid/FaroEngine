@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <picojson.h>
 #include <glob/glob.hpp>
+#include <set>
 #include "ManifestInterface.hpp"
 #include "FileTree.hpp"
 
@@ -54,6 +55,11 @@ public:
     std::vector<std::filesystem::path> GetModuleIncludeDirectories();
 
     static std::string GetModuleName(const std::filesystem::path& path);
+
+    // Get list of direct dependencies
+    std::set<ModuleManifest*> GetDependencies();
+    // Get a list of all dependencies in this branch of the tree
+    std::set<ModuleManifest*> GetDependencyTree();
 
 protected:
     ModuleManifest(const std::filesystem::path& path);

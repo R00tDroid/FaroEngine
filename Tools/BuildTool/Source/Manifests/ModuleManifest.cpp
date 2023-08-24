@@ -209,6 +209,34 @@ std::string ModuleManifest::GetModuleName(const std::filesystem::path& path)
     return result;
 }
 
+std::set<ModuleManifest*> ModuleManifest::GetDependencies()
+{
+    std::set<ModuleManifest*> dependencies;
+
+    for (std::filesystem::path& dependencyPath : moduleDependencies)
+    {
+        ModuleManifest* dependency = GetLoadedModule(dependencyPath);
+        dependencies.insert(dependency);
+    }
+
+    return dependencies;
+}
+
+std::set<ModuleManifest*> ModuleManifest::GetDependencyTree()
+{
+    std::set<ModuleManifest*> dependencies = GetDependencies();
+
+    for (ModuleManifest* dependency : dependencies)
+    {
+        for (ModuleManifest* childDependency : dependency->GetDependencyTree())
+        {
+            dependencies.insert(childDependency);
+        }
+    }
+
+    return dependencies;
+}
+
 ModuleManifest::ModuleManifest(const std::filesystem::path& path): IManifest(path), fileDates(this)
 {
     name = GetModuleName(manifestPath);
