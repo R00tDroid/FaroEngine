@@ -39,12 +39,33 @@ public:
             return false;
         }
 
-        //TODO sort module order based on dependencies
-        std::vector<std::filesystem::path> moduleOrder = runInfo.projectManifest->modulesPaths;
+        std::map<ModuleManifest*, ModuleOrderInfo> moduleOrderInfo;
 
-        for (std::filesystem::path& modulePath : moduleOrder)
+        for (std::filesystem::path& modulePath : runInfo.projectManifest->modulesPaths)
         {
             ModuleManifest* module = ModuleManifest::GetLoadedModule(modulePath);
+            moduleOrderInfo.insert(std::pair<ModuleManifest*, ModuleOrderInfo>(module, { module, module->GetDependencies() }));
+        }
+
+        for (auto& it : moduleOrderInfo)
+        {
+            it.second.orderIndex = GetModuleOrderIndex(it.second, moduleOrderInfo);
+        }
+
+        std::vector<ModuleOrderInfo> moduleOrder;
+        for (auto& it : moduleOrderInfo)
+        {
+            moduleOrder.push_back(it.second);
+        }
+
+        std::sort(moduleOrder.begin(), moduleOrder.end(), [](const ModuleOrderInfo& a, const ModuleOrderInfo& b)
+        {
+            return a.orderIndex < b.orderIndex;
+        });
+
+        for (ModuleOrderInfo& moduleInfo : moduleOrder)
+        {
+            ModuleManifest* module = moduleInfo.module;
             Utility::PrintLine("[" + module->name + "]");
             Utility::PrintLine("Checking for changes...");
             //TODO Check for changes
@@ -214,6 +235,24 @@ private:
         linkTimer.Stop("Link module");
 
         return true;
+    }
+
+    struct ModuleOrderInfo
+    {
+        ModuleManifest* module = nullptr;
+        std::set<ModuleManifest*> dependencies;
+        int orderIndex = 0;
+    };
+    int GetModuleOrderIndex(ModuleOrderInfo& orderInfo, std::map<ModuleManifest*, ModuleOrderInfo>& orderMap)
+    {
+        int index = 0;
+        for (ModuleManifest* dependency : orderInfo.dependencies)
+        {
+            int dependencyOrder = GetModuleOrderIndex(orderMap[dependency], orderMap);
+            index = std::max(index, dependencyOrder + 1);
+        }
+
+        return index;
     }
 
     std::string buildPlatform;
