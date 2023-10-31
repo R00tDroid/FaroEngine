@@ -63,13 +63,38 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
         ModuleManifest* module = moduleInfo.module;
         Utility::PrintLine("[" + module->name + "]");
         Utility::PrintLine("Checking for changes...");
-        //TODO Check for changes
-        //Utility::PrintLine("Everything is up-to-date");
 
-        Utility::PrintLine("Performing build...");
-        if (!BuildModule(module))
+        FileTimeDatabase& timeDatabase = module->fileDates;
+        timeDatabase.LoadDatabase();
+        timeDatabase.CheckForChanges();
+
+        bool changeDetected = timeDatabase.HasAnyFileChanged();
+
+        // Check all source files. Perhaps there's a new file that's not in the database yet!
+        if (!changeDetected)
         {
-            return false;
+            for (std::filesystem::path& file : module->sourceFiles)
+            {
+                if (timeDatabase.HasFileChanged(file))
+                {
+                    changeDetected = true;
+                    break;
+                }
+            }
+        }
+
+        // Build module if something changed
+        if (changeDetected)
+        {
+            Utility::PrintLine("Performing build...");
+            if (!BuildModule(module))
+            {
+                return false;
+            }
+        }
+        else
+        {
+            Utility::PrintLine("Everything is up-to-date");
         }
     }
     return true;
@@ -106,6 +131,8 @@ bool TaskBuild::FindToolchain()
 
 bool TaskBuild::BuildModule(ModuleManifest* module)
 {
+    FileTimeDatabase& timeDatabase = module->fileDates;
+
     PerformanceTimer moduleTimer;
 
     std::vector<std::filesystem::path> source = module->sourceFiles;
@@ -128,15 +155,17 @@ bool TaskBuild::BuildModule(ModuleManifest* module)
 
             std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
 
-            if (!std::filesystem::exists(objPath) || module->fileDates.HasTreeChanged(file))
+            if (!std::filesystem::exists(objPath) || timeDatabase.HasFileChanged(file)) //TODO Check tree instead of database directly
             {
                 filesToCompile.push_back(file);
             }
-            else
-            {
-                module->fileDates.MarkTreeUpdate(file);
-            }
         }
+    }
+
+    timeDatabase.ClearDatabase();
+    for (std::filesystem::path& file : source)
+    {
+        timeDatabase.SetFileTime(file); //TODO Add all files. Not just this module but the entire include tree!
     }
 
     if (filesToCompile.empty())
@@ -173,19 +202,15 @@ bool TaskBuild::CompileModule(ModuleManifest* module, std::vector<std::filesyste
         std::string displayName = GetDisplayName(*module, file);
         Utility::PrintLine(displayName);
 
-        if (targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetToolchain->GetPreprocessorDefines(targetPlatform, buildType)))
-        {
-            module->fileDates.MarkTreeUpdate(file);
-        }
-        else
+        if (!targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetToolchain->GetPreprocessorDefines(targetPlatform, buildType)))
         {
             anyError = true;
-            module->fileDates.MarkFileInvalid(file);
+            module->fileDates.InvalidateFileTime(file);
         }
         fileTimer.Stop("Source: " + displayName);
     }
 
-    module->fileDates.Save();
+    module->fileDates.SaveDatabase();
 
     if (anyError)
     {
