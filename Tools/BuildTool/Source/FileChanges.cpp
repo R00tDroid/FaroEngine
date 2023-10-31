@@ -13,19 +13,19 @@ void FileTimeDatabase::LoadDatabase()
     std::filesystem::path storageFile = GetStoragePath();
     if (std::filesystem::exists(storageFile))
     {
-        std::ifstream stream(storageFile);
+        std::ifstream stream(storageFile, std::ios::binary);
         if (stream.is_open())
         {
             while (true)
             {
-                //TODO Stop on file end
+                if (stream.peek() == EOF) break;
 
                 unsigned int pathLength = 0;
-                stream >> pathLength;
+                stream.read(reinterpret_cast<char*>(&pathLength), sizeof(pathLength));
 
                 char pathBuffer[MAX_PATH];
                 memset(pathBuffer, 0, MAX_PATH);
-                for (int i = 0; i < pathLength; i++)
+                for (unsigned int i = 0; i < pathLength; i++)
                 {
                     stream >> pathBuffer[i];
                 }
@@ -33,7 +33,7 @@ void FileTimeDatabase::LoadDatabase()
                 std::filesystem::path path(pathBuffer);
 
                 unsigned long long fileTime;
-                stream >> fileTime;
+                stream.read(reinterpret_cast<char*>(&fileTime), sizeof(fileTime));
                 std::filesystem::file_time_type time = std::filesystem::file_time_type(std::filesystem::file_time_type::duration(fileTime));
 
                 fileDatabase.insert(std::pair<std::filesystem::path, FileChangeInfo>(path, { path, time }));
@@ -46,23 +46,23 @@ void FileTimeDatabase::SaveDatabase()
 {
     std::filesystem::path storageFile = GetStoragePath();
 
-    std::ofstream stream(storageFile);
+    std::ofstream stream(storageFile, std::ios::binary);
     if (stream.is_open())
     {
         for (auto& it : fileDatabase) 
         {
             std::string pathString = it.first.string();
-            unsigned int pathLength = pathString.length();
-            stream << pathLength;
+            unsigned int pathLength = (unsigned int)pathString.length();
+            stream.write(reinterpret_cast<char*>(&pathLength), sizeof(pathLength));
 
-            for (int i = 0; i < pathLength; i++)
+            for (unsigned int i = 0; i < pathLength; i++)
             {
                 char c = pathString[i];
                 stream << c;
             }
 
-            unsigned long long time = it.second.fileTime.time_since_epoch().count();
-            stream << time;
+            unsigned long long fileTime = it.second.fileTime.time_since_epoch().count();
+            stream.write(reinterpret_cast<char*>(&fileTime), sizeof(fileTime));
         }
     }
 }
@@ -127,7 +127,10 @@ bool FileTimeDatabase::HasAnyFileChanged()
 {
     for (auto& it : fileDatabase)
     {
-        if (it.second.fileChanged) return true;
+        if (it.second.fileChanged)
+        {
+            return true;
+        }
     }
     return false;
 }
