@@ -3,6 +3,7 @@
 #include <picojson.h>
 #include <glob/glob.hpp>
 #include <set>
+#include "FileChanges.hpp"
 #include "ManifestInterface.hpp"
 #include "FileTree.hpp"
 
@@ -42,7 +43,7 @@ public:
 
     std::string uuid = "";
 
-    ModuleFileDates fileDates;
+    FileTimeDatabase fileDates;
 
     static ModuleManifest* Parse(std::filesystem::path path);
 
