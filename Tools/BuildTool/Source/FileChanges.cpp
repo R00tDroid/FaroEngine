@@ -8,7 +8,7 @@ FileTimeDatabase::FileTimeDatabase(ModuleManifest* inModule) : module(inModule)
 
 void FileTimeDatabase::LoadDatabase()
 {
-    fileDatabase = {};
+    ClearDatabase();
 
     std::filesystem::path storageFile = GetStoragePath();
     if (std::filesystem::exists(storageFile))
@@ -65,6 +65,11 @@ void FileTimeDatabase::SaveDatabase()
             stream << time;
         }
     }
+}
+
+void FileTimeDatabase::ClearDatabase()
+{
+    fileDatabase = {};
 }
 
 void FileTimeDatabase::CheckForChanges()

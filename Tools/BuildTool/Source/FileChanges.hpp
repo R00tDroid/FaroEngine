@@ -19,6 +19,7 @@ public:
 
     void LoadDatabase();
     void SaveDatabase();
+    void ClearDatabase();
 
     void CheckForChanges();
 
