@@ -28,6 +28,7 @@ public:
 
     bool HasFileChanged(const std::filesystem::path&);
     bool HasAnyFileChanged();
+    std::vector<std::filesystem::path> GetChangedFiles();
 
 private:
     std::filesystem::path GetStoragePath();

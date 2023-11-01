@@ -135,6 +135,19 @@ bool FileTimeDatabase::HasAnyFileChanged()
     return false;
 }
 
+std::vector<std::filesystem::path> FileTimeDatabase::GetChangedFiles()
+{
+    std::vector<std::filesystem::path> files;
+    for (auto& it : fileDatabase)
+    {
+        if (it.second.fileChanged)
+        {
+            files.push_back(it.first);
+        }
+    }
+    return files;
+}
+
 std::filesystem::path FileTimeDatabase::GetStoragePath()
 {
     return module->faroDirectory / "ChangeDB.bin";

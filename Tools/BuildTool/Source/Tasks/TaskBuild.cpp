@@ -70,6 +70,13 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
 
         bool changeDetected = timeDatabase.HasAnyFileChanged();
 
+#ifndef NDEBUG
+        for (std::filesystem::path& file : timeDatabase.GetChangedFiles())
+        {
+            Utility::PrintLineD("Changed in DB: " + file.string());
+        }
+#endif
+
         // Check all source files. Perhaps there's a new file that's not in the database yet!
         if (!changeDetected)
         {
@@ -78,7 +85,12 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
                 if (timeDatabase.HasFileChanged(file))
                 {
                     changeDetected = true;
+
+#ifndef NDEBUG
+                    Utility::PrintLineD("Changed in source: " + file.string());
+#else
                     break;
+#endif
                 }
             }
         }
@@ -178,6 +190,8 @@ bool TaskBuild::BuildModule(ModuleManifest* module)
         if (!LinkModule(module, sourceFiles)) return false;
     }
 
+    module->fileDates.SaveDatabase();
+
     Utility::Print("\n");
     moduleTimer.Stop("Module: " + module->name);
 
@@ -209,8 +223,6 @@ bool TaskBuild::CompileModule(ModuleManifest* module, std::vector<std::filesyste
         }
         fileTimer.Stop("Source: " + displayName);
     }
-
-    module->fileDates.SaveDatabase();
 
     if (anyError)
     {
