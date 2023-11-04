@@ -98,6 +98,10 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
         // Build module if something changed
         if (changeDetected)
         {
+            Utility::PrintLine("Parsing include tree...");
+            FileTree& fileTree = module->fileTree;
+            fileTree.Parse();
+
             Utility::PrintLine("Performing build...");
             if (!BuildModule(module))
             {
@@ -144,6 +148,7 @@ bool TaskBuild::FindToolchain()
 bool TaskBuild::BuildModule(ModuleManifest* module)
 {
     FileTimeDatabase& timeDatabase = module->fileDates;
+    FileTree& includeTree = module->fileTree;
 
     PerformanceTimer moduleTimer;
 
@@ -167,7 +172,20 @@ bool TaskBuild::BuildModule(ModuleManifest* module)
 
             std::filesystem::path objPath = targetToolchain->GetObjPath(*module, targetPlatform, buildType, file);
 
-            if (!std::filesystem::exists(objPath) || timeDatabase.HasFileChanged(file)) //TODO Check tree instead of database directly
+            bool changed = timeDatabase.HasFileChanged(file);
+            if (!changed)
+            {
+                for (std::filesystem::path include : includeTree.GetTree(file))
+                {
+                    if (timeDatabase.HasFileChanged(include))
+                    {
+                        changed = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!std::filesystem::exists(objPath) || changed)
             {
                 filesToCompile.push_back(file);
             }
@@ -177,7 +195,12 @@ bool TaskBuild::BuildModule(ModuleManifest* module)
     timeDatabase.ClearDatabase();
     for (std::filesystem::path& file : source)
     {
-        timeDatabase.SetFileTime(file); //TODO Add all files. Not just this module but the entire include tree!
+        timeDatabase.SetFileTime(file);
+
+        for (std::filesystem::path include : includeTree.GetTree(file))
+        {
+            timeDatabase.SetFileTime(include);
+        }
     }
 
     if (filesToCompile.empty())
