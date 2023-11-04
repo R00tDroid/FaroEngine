@@ -101,6 +101,17 @@ void FileTree::Parse()
     }
 }
 
+std::set<std::filesystem::path> FileTree::GetTree(const std::filesystem::path& file)
+{
+    auto it = includedFiles.find(file);
+    if (it != includedFiles.end())
+    {
+        return it->second;
+    }
+
+    return {};
+}
+
 bool FileTree::FindIncludes(const std::filesystem::path& file, std::set<std::string>& relativeIncludes, std::set<std::string>& absoluteIncludes)
 {
     std::ifstream stream(file);
