@@ -58,6 +58,18 @@ void FileTree::Parse()
 
             if (FindIncludes(filePath, relativeIncludes, absoluteIncludes))
             {
+                for (std::filesystem::path relativeFile : relativeIncludes)
+                {
+                    std::filesystem::path path = filePath.parent_path() / relativeFile;
+                    path = std::filesystem::weakly_canonical(path);
+
+                    auto it = filePaths.find(path);
+                    if (it != filePaths.end())
+                    {
+                        resolvedFiles.insert(path);
+                    }
+                }
+
                 for (std::filesystem::path absoluteFile : absoluteIncludes)
                 {
                     for (const std::filesystem::path& includeDirectory : includeDirectories)
