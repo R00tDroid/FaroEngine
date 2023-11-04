@@ -44,6 +44,7 @@ public:
     std::string uuid = "";
 
     FileTimeDatabase fileDates;
+    FileTree fileTree;
 
     static ModuleManifest* Parse(std::filesystem::path path);
 
@@ -51,9 +52,9 @@ public:
 
     static ModuleManifest* GetLoadedModule(std::filesystem::path path);
 
-    std::vector<std::filesystem::path> GetPublicIncludeTree();
+    std::vector<std::filesystem::path> GetPublicIncludeTree() const;
 
-    std::vector<std::filesystem::path> GetModuleIncludeDirectories();
+    std::vector<std::filesystem::path> GetModuleIncludeDirectories() const;
 
     static std::string GetModuleName(const std::filesystem::path& path);
 

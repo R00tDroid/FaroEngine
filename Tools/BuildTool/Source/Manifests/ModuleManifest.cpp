@@ -178,10 +178,10 @@ ModuleManifest* ModuleManifest::GetLoadedModule(std::filesystem::path path)
     }
 }
 
-std::vector<std::filesystem::path> ModuleManifest::GetPublicIncludeTree()
+std::vector<std::filesystem::path> ModuleManifest::GetPublicIncludeTree() const
 {
     std::vector<std::filesystem::path> result = publicIncludes;
-    for (std::filesystem::path& dependencyPath : moduleDependencies)
+    for (const std::filesystem::path& dependencyPath : moduleDependencies)
     {
         ModuleManifest* dependency = GetLoadedModule(dependencyPath);
         for (std::filesystem::path& path : dependency->GetPublicIncludeTree())
@@ -192,10 +192,10 @@ std::vector<std::filesystem::path> ModuleManifest::GetPublicIncludeTree()
     return result;
 }
 
-std::vector<std::filesystem::path> ModuleManifest::GetModuleIncludeDirectories()
+std::vector<std::filesystem::path> ModuleManifest::GetModuleIncludeDirectories() const
 {
     std::vector<std::filesystem::path> result = GetPublicIncludeTree();
-    for (std::filesystem::path& path : privateIncludes)
+    for (const std::filesystem::path& path : privateIncludes)
     {
         result.push_back(path);
     }
@@ -237,7 +237,7 @@ std::set<ModuleManifest*> ModuleManifest::GetDependencyTree()
     return dependencies;
 }
 
-ModuleManifest::ModuleManifest(const std::filesystem::path& path): IManifest(path), fileDates(this)
+ModuleManifest::ModuleManifest(const std::filesystem::path& path): IManifest(path), fileDates(this), fileTree(this)
 {
     name = GetModuleName(manifestPath);
     loadedModules.insert(std::pair<std::filesystem::path, ModuleManifest*>(manifestPath, this));
