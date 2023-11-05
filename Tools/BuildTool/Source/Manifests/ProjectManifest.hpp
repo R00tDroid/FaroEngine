@@ -21,6 +21,9 @@ protected:
     ProjectManifest(const std::filesystem::path& path);
 
 private:
+    void SaveCachedInfo();
+    void LoadCachedInfo();
+
     bool ParseProject(picojson::object& rootObject);
 
     bool ParseModules(picojson::object& rootObject);

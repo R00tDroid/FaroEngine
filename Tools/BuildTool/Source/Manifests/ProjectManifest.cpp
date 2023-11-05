@@ -1,5 +1,6 @@
 #include "ProjectManifest.hpp"
 #include <fstream>
+#include <sstream>
 #include <Utility.hpp>
 #include "ModuleManifest.hpp"
 
@@ -46,12 +47,7 @@ ProjectManifest* ProjectManifest::Parse(std::filesystem::path path)
 
     manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ProjectId.txt");
 
-    std::ofstream moduleList(manifest->infoDirectory / "Modules.txt");
-    for(std::filesystem::path& modulePath : manifest->modulesPaths)
-    {
-        moduleList << modulePath.string() << std::endl;
-    }
-    moduleList.close();
+    manifest->SaveCachedInfo();
 
     for (std::filesystem::path& modulePath : manifest->modulesPaths)
     {
@@ -66,16 +62,7 @@ ProjectManifest* ProjectManifest::LoadFromCache(std::filesystem::path path)
     ProjectManifest* manifest = new ProjectManifest(path);
     manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ProjectId.txt");
 
-    //TODO Load project info (Name)
-
-    std::ifstream moduleList(manifest->infoDirectory / "Modules.txt");
-
-    std::string moduleFilePath;
-    while (std::getline(moduleList, moduleFilePath))
-    {
-        manifest->modulesPaths.push_back(moduleFilePath);
-    }
-    moduleList.close();
+    manifest->LoadCachedInfo();
 
     for (std::filesystem::path& modulePath : manifest->modulesPaths)
     {
@@ -87,6 +74,37 @@ ProjectManifest* ProjectManifest::LoadFromCache(std::filesystem::path path)
 
 ProjectManifest::ProjectManifest(const std::filesystem::path& path): IManifest(path)
 {}
+
+void ProjectManifest::SaveCachedInfo()
+{
+    std::ofstream moduleList(infoDirectory / "Modules.txt");
+    for (std::filesystem::path& modulePath : modulesPaths)
+    {
+        moduleList << modulePath.string() << std::endl;
+    }
+    moduleList.close();
+
+    std::ofstream projectNameFile(infoDirectory / "ProjectName.txt");
+    projectNameFile << projectName;
+    projectNameFile.close();
+}
+
+void ProjectManifest::LoadCachedInfo()
+{
+    std::ifstream moduleList(infoDirectory / "Modules.txt");
+    std::string moduleFilePath;
+    while (std::getline(moduleList, moduleFilePath))
+    {
+        modulesPaths.push_back(moduleFilePath);
+    }
+    moduleList.close();
+
+    std::ifstream projectNameFile(infoDirectory / "ProjectName.txt");
+    std::stringstream projectNameStream;
+    projectNameStream << projectNameFile.rdbuf();
+    projectNameFile.close();
+    projectName = projectNameStream.str();
+}
 
 bool ProjectManifest::ParseProject(picojson::object& rootObject)
 {
