@@ -1,6 +1,7 @@
 #include "ModuleManifest.hpp"
 #include <Utility.hpp>
 #include <fstream>
+#include <sstream>
 
 ModuleManifest* ModuleManifest::Parse(std::filesystem::path path)
 {
@@ -121,6 +122,21 @@ ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path)
         manifest->linkingLibraries.push_back(line);
     }
     libraryList.close();
+
+    std::ifstream moduleType(manifest->infoDirectory / "ModuleType.txt");
+    std::stringstream moduleTypeStream;
+    moduleTypeStream << moduleType.rdbuf();
+    moduleType.close();
+    std::string moduleTypeString = moduleTypeStream.str();
+
+    if (moduleTypeString == "lib")
+    {
+        manifest->type = MT_Library;
+    }
+    else if (moduleTypeString == "app")
+    {
+        manifest->type = MT_Executable;
+    }
 
     return manifest;
 }
@@ -475,4 +491,12 @@ void ModuleManifest::SaveCache()
         libraryList << path.c_str() << "\n";
     }
     libraryList.close();
+
+    std::ofstream moduleType(infoDirectory / "ModuleType.txt");
+    switch (type)
+    {
+        case MT_Library: { moduleType << "lib"; break; }
+        case MT_Executable: { moduleType << "app"; break; }
+    }
+    moduleType.close();
 }
