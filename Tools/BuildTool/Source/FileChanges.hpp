@@ -1,6 +1,7 @@
 #pragma once
 #include <filesystem>
 #include <map>
+#include <vector>
 
 struct FileChangeInfo
 {

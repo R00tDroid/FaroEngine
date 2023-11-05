@@ -2,6 +2,8 @@
 #include <Utility.hpp>
 #include <Manifests/ModuleManifest.hpp>
 
+#define MaxPathLength 2048
+
 FileTimeDatabase::FileTimeDatabase(ModuleManifest* inModule) : module(inModule)
 {
 }
@@ -23,8 +25,10 @@ void FileTimeDatabase::LoadDatabase()
                 unsigned int pathLength = 0;
                 stream.read(reinterpret_cast<char*>(&pathLength), sizeof(pathLength));
 
-                char pathBuffer[MAX_PATH];
-                memset(pathBuffer, 0, MAX_PATH);
+                assert(pathLength <= MaxPathLength);
+
+                char pathBuffer[MaxPathLength];
+                memset(pathBuffer, 0, MaxPathLength);
                 for (unsigned int i = 0; i < pathLength; i++)
                 {
                     stream >> pathBuffer[i];
