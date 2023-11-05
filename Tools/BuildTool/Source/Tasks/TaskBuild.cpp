@@ -36,6 +36,12 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
 
     std::map<ModuleManifest*, ModuleOrderInfo> moduleOrderInfo;
 
+    if (runInfo.projectManifest->modulesPaths.empty())
+    {
+        Utility::PrintLine("Project contains no modules");
+        return false;
+    }
+
     for (std::filesystem::path& modulePath : runInfo.projectManifest->modulesPaths)
     {
         ModuleManifest* module = ModuleManifest::GetLoadedModule(modulePath);
@@ -61,6 +67,13 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
     for (ModuleOrderInfo& moduleInfo : moduleOrder)
     {
         ModuleManifest* module = moduleInfo.module;
+
+        if (module->sourceFiles.empty())
+        {
+            Utility::PrintLine("Module \"" + module->name + "\" contains no source files");
+            return false;
+        }
+
         Utility::PrintLine("[" + module->name + "]");
         Utility::PrintLine("Checking for changes...");
 
