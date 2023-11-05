@@ -65,8 +65,17 @@ ProjectManifest* ProjectManifest::LoadFromCache(std::filesystem::path path)
 {
     ProjectManifest* manifest = new ProjectManifest(path);
     manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ProjectId.txt");
-    //TODO Load project info
-    //TODO Load module list
+
+    //TODO Load project info (Name)
+
+    std::ifstream moduleList(manifest->infoDirectory / "Modules.txt");
+
+    std::string moduleFilePath;
+    while (std::getline(moduleList, moduleFilePath))
+    {
+        manifest->modulesPaths.push_back(moduleFilePath);
+    }
+    moduleList.close();
 
     for (std::filesystem::path& modulePath : manifest->modulesPaths)
     {
@@ -81,7 +90,7 @@ ProjectManifest::ProjectManifest(const std::filesystem::path& path): IManifest(p
 
 bool ProjectManifest::ParseProject(picojson::object& rootObject)
 {
-    if (rootObject.find("Name") != rootObject.end())
+    if (rootObject.find("Name") != rootObject.end()) //TODO Save and load project name
     {
         picojson::value& value = rootObject["Name"];
         if (!value.is<std::string>())
