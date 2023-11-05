@@ -84,86 +84,45 @@ ModuleManifest* ModuleManifest::Parse(std::filesystem::path path)
 ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path)
 {
     ModuleManifest* manifest = new ModuleManifest(path);
-    //TODO Load from cache
+
+    std::string line;
+
+    std::ifstream filesList(manifest->infoDirectory / "Source.txt");
+    while (std::getline(filesList, line))
+    {
+        manifest->sourceFiles.push_back(line);
+    }
+    filesList.close();
+
+    std::ifstream publicIncludeList(manifest->infoDirectory / "PublicIncludes.txt");
+    while (std::getline(publicIncludeList, line))
+    {
+        manifest->publicIncludes.push_back(line);
+    }
+    publicIncludeList.close();
+
+    std::ifstream privateIncludeList(manifest->infoDirectory / "PrivateIncludes.txt");
+    while (std::getline(privateIncludeList, line))
+    {
+        manifest->privateIncludes.push_back(line);
+    }
+    privateIncludeList.close();
+
+    std::ifstream dependencyList(manifest->infoDirectory / "Dependencies.txt");
+    while (std::getline(dependencyList, line))
+    {
+        manifest->moduleDependencies.push_back(line);
+    }
+    dependencyList.close();
+
+    std::ifstream libraryList(manifest->infoDirectory / "Libraries.txt");
+    while (std::getline(libraryList, line))
+    {
+        manifest->linkingLibraries.push_back(line);
+    }
+    libraryList.close();
+
     return manifest;
-        
-    /*
-        moduleRoot = manifestPath.parent_path();
-        name = manifestPath.filename().string();
-        name.erase(name.length() - moduleFileSuffix.length());
-
-        knownModules.insert(std::pair<std::string, std::filesystem::path>(Utility::ToLower(name), manifestPath));
-        loadedModules.insert(std::pair<std::filesystem::path, ModuleManifest*>(manifestPath, this));
-
-        faroRoot = moduleRoot / ".Faro";
-        Utility::EnsureDirectory(faroRoot);
-        Utility::HideFolder(faroRoot);
-
-        std::filesystem::path moduleInfo = moduleRoot / ".Faro\\Module";
-
-        uuid = Utility::GetCachedUUID(moduleInfo / "ModuleId.txt");
-
-        if (uuid.empty())
-        {
-            uuid = Utility::GenerateUUID();
-            Utility::PrintLineD("Generated new module uuid: " + uuid);
-        }
-
-        std::ifstream filesList(moduleInfo / "Source.txt");
-        if (filesList.is_open())
-        {
-            sourceFiles = {};
-            for (std::string line; std::getline(filesList, line);)
-            {
-                sourceFiles.push_back(line);
-            }
-            filesList.close();
-        }
-
-        std::ifstream publicIncludeList(moduleInfo / "PublicIncludes.txt");
-        if (publicIncludeList.is_open())
-        {
-            publicIncludes = {};
-            for (std::string line; std::getline(publicIncludeList, line);)
-            {
-                publicIncludes.push_back(line);
-            }
-            publicIncludeList.close();
-        }
-
-        std::ifstream privateIncludeList(moduleInfo / "PrivateIncludes.txt");
-        if (privateIncludeList.is_open())
-        {
-            privateIncludes = {};
-            for (std::string line; std::getline(privateIncludeList, line);)
-            {
-                privateIncludes.push_back(line);
-            }
-            privateIncludeList.close();
-        }
-
-        std::ifstream dependencyList(moduleInfo / "Dependencies.txt");
-        if (dependencyList.is_open())
-        {
-            moduleDependencies = {};
-            for (std::string line; std::getline(dependencyList, line);)
-            {
-                LoadModuleDependency(line);
-            }
-            dependencyList.close();
-        }
-
-        std::ifstream libraryList(moduleInfo / "Libraries.txt");
-        if (libraryList.is_open())
-        {
-            linkingLibraries = {};
-            for (std::string line; std::getline(libraryList, line);)
-            {
-                linkingLibraries.push_back(line);
-            }
-            libraryList.close();
-        }
-         */
 }
 
 ModuleManifest* ModuleManifest::GetLoadedModule(std::filesystem::path path)
