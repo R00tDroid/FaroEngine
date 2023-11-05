@@ -15,7 +15,16 @@ public:
     bool Run(TaskRunInfo& runInfo) override;
 
 private:
+    struct ModuleOrderInfo
+    {
+        ModuleManifest* module = nullptr;
+        std::set<ModuleManifest*> dependencies;
+        int orderIndex = 0;
+    };
+
     bool FindToolchain();
+
+    bool CheckModule(ModuleOrderInfo& moduleInfo);
 
     bool BuildModule(ModuleManifest* module);
 
@@ -23,12 +32,8 @@ private:
 
     bool LinkModule(ModuleManifest* module, std::vector<std::filesystem::path>& sourceFiles);
 
-    struct ModuleOrderInfo
-    {
-        ModuleManifest* module = nullptr;
-        std::set<ModuleManifest*> dependencies;
-        int orderIndex = 0;
-    };
+    std::vector<std::filesystem::path> FindFilesToCompile(ModuleManifest* module, std::vector<std::filesystem::path>& outSourceFiles);
+
     int GetModuleOrderIndex(ModuleOrderInfo& orderInfo, std::map<ModuleManifest*, ModuleOrderInfo>& orderMap);
 
     std::string buildPlatform;
