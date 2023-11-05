@@ -29,7 +29,7 @@ public:
 
         virtual std::filesystem::path GetOutputBinary(IToolchain*, BuildPlatform*, BuildType);
 
-        virtual std::filesystem::path GetRootDirectory();;
+        virtual std::filesystem::path GetRootDirectory();
     };
 
     struct CustomCommandInfo : ProjectInfo
