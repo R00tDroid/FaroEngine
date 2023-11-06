@@ -8,8 +8,15 @@ FileTimeDatabase::FileTimeDatabase(ModuleManifest* inModule) : module(inModule)
 {
 }
 
+void FileTimeDatabase::SetBuildType(BuildType inBuildType)
+{
+    buildType = inBuildType;
+}
+
 void FileTimeDatabase::LoadDatabase()
 {
+    assert(buildType != ENUMSIZE);
+
     ClearDatabase();
 
     std::filesystem::path storageFile = GetStoragePath();
@@ -154,5 +161,14 @@ std::vector<std::filesystem::path> FileTimeDatabase::GetChangedFiles()
 
 std::filesystem::path FileTimeDatabase::GetStoragePath()
 {
-    return module->faroDirectory / "ChangeDB.bin";
+    std::string buildTypeName;
+
+    switch (buildType)
+    {
+        case Debug: { buildTypeName = "Debug"; break; }
+        case Development: { buildTypeName = "Development"; break; }
+        case Release: { buildTypeName = "Release"; break; }
+    }
+
+    return module->faroDirectory / ("ChangeDB_" + buildTypeName + ".bin");
 }

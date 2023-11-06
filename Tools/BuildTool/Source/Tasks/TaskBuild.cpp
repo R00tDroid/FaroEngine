@@ -72,6 +72,8 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
             if (it == runInfo.moduleList.end()) continue;
         }
 
+        moduleInfo.module->fileDates.SetBuildType(runInfo.buildType);
+
         if (!CheckModule(moduleInfo)) return false;
     }
     return true;

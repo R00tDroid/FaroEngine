@@ -3,6 +3,8 @@
 #include <map>
 #include <vector>
 
+#include "Toolchains/IToolchain.hpp"
+
 struct FileChangeInfo
 {
     std::filesystem::path filePath;
@@ -17,6 +19,8 @@ class FileTimeDatabase
 {
 public:
     FileTimeDatabase(ModuleManifest*);
+
+    void SetBuildType(BuildType buildType);
 
     void LoadDatabase();
     void SaveDatabase();
@@ -37,4 +41,6 @@ private:
     ModuleManifest* module = nullptr;
 
     std::map<std::filesystem::path, FileChangeInfo> fileDatabase;
+
+    BuildType buildType = ENUMSIZE;
 };
