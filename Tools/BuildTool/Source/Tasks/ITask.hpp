@@ -11,6 +11,8 @@ struct TaskRunInfo
     std::string buildArchitecture = "";
     BuildType buildType = BuildType::ENUMSIZE;
 
+    std::vector<std::string> moduleList = {};
+
     ~TaskRunInfo()
     {
         if (projectManifest != nullptr)

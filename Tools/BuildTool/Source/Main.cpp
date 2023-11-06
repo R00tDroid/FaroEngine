@@ -74,6 +74,16 @@ bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, Task
         Utility::PrintLineD("Build type argument: release");
     }
 
+    if (parameters.HasArguments("module"))
+    {
+        for (int i = 0; i < parameters.CountArguments("module"); i++)
+        {
+            runInfo.moduleList.push_back(parameters.GetArguments("module")[i]);
+        }
+
+        Utility::PrintLineD("Module argument: " + std::to_string(runInfo.moduleList.size()));
+    }
+
     if (parameters.Contains("generate"))
     {
         Utility::PrintLineD("Generate argument");
