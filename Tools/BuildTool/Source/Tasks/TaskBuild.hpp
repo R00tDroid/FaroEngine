@@ -14,6 +14,8 @@ public:
 
     bool Run(TaskRunInfo& runInfo) override;
 
+    std::string GetTaskName() override { return "Build"; }
+
 private:
     struct ModuleOrderInfo
     {
@@ -36,6 +38,7 @@ private:
 
     int GetModuleOrderIndex(ModuleOrderInfo& orderInfo, std::map<ModuleManifest*, ModuleOrderInfo>& orderMap);
 
+private:
     std::string buildPlatform;
     std::string buildArchitecture;
     BuildType buildType;

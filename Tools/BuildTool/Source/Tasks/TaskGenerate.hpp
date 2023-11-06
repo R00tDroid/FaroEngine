@@ -64,6 +64,8 @@ public:
 
     bool Run(TaskRunInfo& taskInfo) override;
 
+    std::string GetTaskName() override { return "Generate"; }
+
 private:
     std::string VSPlatformVersion = "";
 

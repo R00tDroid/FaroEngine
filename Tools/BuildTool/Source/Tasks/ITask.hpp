@@ -32,4 +32,6 @@ public:
 
     // Perform the task action/
     virtual bool Run(TaskRunInfo& runInfo) = 0;
+
+    virtual std::string GetTaskName() = 0;
 };
