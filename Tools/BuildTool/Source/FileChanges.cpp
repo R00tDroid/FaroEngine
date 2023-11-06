@@ -168,6 +168,11 @@ std::filesystem::path FileTimeDatabase::GetStoragePath()
         case Debug: { buildTypeName = "Debug"; break; }
         case Development: { buildTypeName = "Development"; break; }
         case Release: { buildTypeName = "Release"; break; }
+        case ENUMSIZE:
+        default:
+        {
+            Utility::PrintLineD("Invalid build type");
+        }
     }
 
     return module->faroDirectory / ("ChangeDB_" + buildTypeName + ".bin");
