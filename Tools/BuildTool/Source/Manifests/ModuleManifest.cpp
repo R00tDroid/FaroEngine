@@ -3,9 +3,10 @@
 #include <fstream>
 #include <sstream>
 
-ModuleManifest* ModuleManifest::Parse(std::filesystem::path path)
+ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifest* project)
 {
     ModuleManifest* manifest = new ModuleManifest(path);
+    manifest->project = project;
 
     std::ifstream fileStream(manifest->manifestPath);
     if (!fileStream.is_open())
@@ -82,9 +83,10 @@ ModuleManifest* ModuleManifest::Parse(std::filesystem::path path)
     return manifest;
 }
 
-ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path)
+ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path, ProjectManifest* project)
 {
     ModuleManifest* manifest = new ModuleManifest(path);
+    manifest->project = project;
 
     std::string line;
 

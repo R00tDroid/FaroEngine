@@ -51,7 +51,7 @@ ProjectManifest* ProjectManifest::Parse(std::filesystem::path path)
 
     for (std::filesystem::path& modulePath : manifest->modulesPaths)
     {
-        ModuleManifest::Parse(modulePath);
+        ModuleManifest::Parse(modulePath, manifest);
     }
 
     return manifest;
@@ -66,7 +66,7 @@ ProjectManifest* ProjectManifest::LoadFromCache(std::filesystem::path path)
 
     for (std::filesystem::path& modulePath : manifest->modulesPaths)
     {
-        ModuleManifest::LoadFromCache(modulePath);
+        ModuleManifest::LoadFromCache(modulePath, manifest);
     }
 
     return manifest;

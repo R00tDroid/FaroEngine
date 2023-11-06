@@ -46,9 +46,9 @@ public:
     FileTimeDatabase fileDates;
     FileTree fileTree;
 
-    static ModuleManifest* Parse(std::filesystem::path path);
+    static ModuleManifest* Parse(std::filesystem::path path, ProjectManifest* project);
 
-    static ModuleManifest* LoadFromCache(std::filesystem::path path);
+    static ModuleManifest* LoadFromCache(std::filesystem::path path, ProjectManifest* project);
 
     static ModuleManifest* GetLoadedModule(std::filesystem::path path);
 
