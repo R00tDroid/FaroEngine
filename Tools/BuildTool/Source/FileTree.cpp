@@ -1,201 +1,121 @@
 #include "FileTree.hpp"
-#include "ModuleManifest.hpp"
+#include "Manifests/ModuleManifest.hpp"
 #include <fstream>
-#include <ctime>
-#include <chrono>
+#include <Utility.hpp>
 
-ModuleFileDates::ModuleFileDates(ModuleManifest* inModule) : module(inModule)
+FileTree::FileTree(ModuleManifest* inModule) : module(inModule)
 {
 }
 
-void ModuleFileDates::ParseFiles()
+std::set<std::filesystem::path> BuildIncludeTree(const std::filesystem::path& file, std::map<std::filesystem::path, std::set<std::filesystem::path>>& resolvedIncludes)
 {
-    fileInfo = {};
-    fileByPath = {};
+    std::set<std::filesystem::path> includes;
 
-    std::filesystem::path storageDir = GetStoragePath();
-
-    for (const std::filesystem::path& file : module->sourceFiles)
+    auto it = resolvedIncludes.find(file);
+    if (it != resolvedIncludes.end())
     {
-        if (!std::filesystem::exists(file)) continue;
+        includes = it->second;
+    }
 
-        FileTimeInfo* info = new FileTimeInfo();
-        fileInfo.push_back(info);
-        fileByPath.insert(std::pair<std::filesystem::path, FileTimeInfo*>(file, info));
-
-        info->file = file;
-        info->currentTime = std::filesystem::last_write_time(file);
-
-        std::string id = GetFileIdentifier(file);
-        std::filesystem::path  path = storageDir / (id + ".bin");
-
-        std::ifstream stream(path);
-        if (stream.is_open()) 
+    for (const std::filesystem::path& includeFile : includes)
+    {
+        std::set<std::filesystem::path> treeInclude = BuildIncludeTree(includeFile, resolvedIncludes);
+        for (const std::filesystem::path& include : treeInclude)
         {
-            unsigned long long fileTime;
-            stream >> fileTime;
-            info->storedTime = std::filesystem::file_time_type(std::filesystem::file_time_type::duration(fileTime));
-        }
-
-        info->hasChanged = info->storedTime != info->currentTime;
-    }
-}
-
-bool ModuleFileDates::HasFileChanged(std::filesystem::path file)
-{
-    FileTimeInfo* info = FindFile(file);
-    if (info != nullptr)
-    {
-        return info->hasChanged;
-    }
-
-    return true;
-}
-
-bool ModuleFileDates::HasTreeChanged(std::filesystem::path file)
-{
-    FileTimeInfo* info = FindFile(file);
-    if (info != nullptr)
-    {
-        return info->hasChanged || info->hasChildChanged;
-    }
-
-    return true;
-}
-
-void ModuleFileDates::MarkFileInvalid(std::filesystem::path file)
-{
-    FileTimeInfo* info = FindFile(file);
-    if (info != nullptr)
-    {
-        info->saveTime = {};
-    }
-}
-
-void ModuleFileDates::MarkFileUpdate(std::filesystem::path file)
-{
-    FileTimeInfo* info = FindFile(file);
-    if (info != nullptr)
-    {
-        info->saveTime = info->currentTime;
-    }
-}
-
-void ModuleFileDates::MarkTreeUpdate(std::filesystem::path file)
-{
-    FileTimeInfo* info = FindFile(file);
-    if (info != nullptr)
-    {
-        info->saveTime = info->currentTime;
-        for (FileTimeInfo* child : info->includeChildren)
-        {
-            MarkTreeUpdate(child->file);
+            includes.insert(include);
         }
     }
+
+    return includes;
 }
 
-void ModuleFileDates::Save()
+void FileTree::Parse()
 {
-    std::filesystem::path storageDir = GetStoragePath();
-    Utility::EnsureDirectory(storageDir);
+    std::set<ModuleManifest*> modules = module->GetDependencyTree();
+    modules.insert(module);
 
-    for (const FileTimeInfo* info : fileInfo)
+    std::set<std::filesystem::path> filePaths;
+    for (const ModuleManifest* parsingModule : modules)
     {
-        std::string id = GetFileIdentifier(info->file);
-        std::filesystem::path  path = storageDir / (id + ".bin");
+        for (const std::filesystem::path& filePath : parsingModule->sourceFiles)
+        {
+            filePaths.insert(filePath);
+        }
+    }
 
-        std::ofstream stream(path);
-        unsigned long long time = info->saveTime.time_since_epoch().count();
-        stream << time;
+    std::map<std::filesystem::path, std::set<std::filesystem::path>> resolvedIncludes;
+
+    for (const ModuleManifest* parsingModule : modules)
+    {
+        std::vector<std::filesystem::path> includeDirectories = parsingModule->GetModuleIncludeDirectories();
+
+        for (const std::filesystem::path& filePath : parsingModule->sourceFiles)
+        {
+            std::set<std::filesystem::path> resolvedFiles;
+
+            std::set<std::string> relativeIncludes;
+            std::set<std::string> absoluteIncludes;
+
+            if (FindIncludes(filePath, relativeIncludes, absoluteIncludes))
+            {
+                for (std::filesystem::path relativeFile : relativeIncludes)
+                {
+                    std::filesystem::path path = filePath.parent_path() / relativeFile;
+                    path = std::filesystem::weakly_canonical(path);
+
+                    auto it = filePaths.find(path);
+                    if (it != filePaths.end())
+                    {
+                        resolvedFiles.insert(path);
+                    }
+                }
+
+                for (std::filesystem::path absoluteFile : absoluteIncludes)
+                {
+                    for (const std::filesystem::path& includeDirectory : includeDirectories)
+                    {
+                        std::filesystem::path path = includeDirectory / absoluteFile;
+                        path = std::filesystem::weakly_canonical(path);
+
+                        auto it = filePaths.find(path);
+                        if (it != filePaths.end())
+                        {
+                            resolvedFiles.insert(path);
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                Utility::PrintLine("Failed to parse includes for: " + filePath.string());
+            }
+
+            resolvedIncludes.insert(std::pair<std::filesystem::path, std::set<std::filesystem::path>>(filePath, resolvedFiles));
+        }
+    }
+
+    for (const std::filesystem::path& filePath : module->sourceFiles)
+    {
+        includedFiles.insert(std::pair<std::filesystem::path, std::set<std::filesystem::path>>(filePath, BuildIncludeTree(filePath, resolvedIncludes)));
     }
 }
 
-std::string ModuleFileDates::GetFileIdentifier(const std::filesystem::path& file)
+std::set<std::filesystem::path> FileTree::GetTree(const std::filesystem::path& file)
 {
-    std::string path = std::filesystem::proximate(file, module->moduleRoot).string();
-    std::replace(path.begin(), path.end(), '\\', '_');
-    std::replace(path.begin(), path.end(), '/', '_');
-    std::replace(path.begin(), path.end(), '.', '_');
-    path = Utility::ToLower(path);
-    return path;
-}
-
-std::filesystem::path ModuleFileDates::GetStoragePath()
-{
-    return module->faroRoot / "ChangeDB";
-}
-
-FileTimeInfo* ModuleFileDates::FindFile(std::filesystem::path& path)
-{
-    auto it = fileByPath.find(path);
-    if (it == fileByPath.end())
-    {
-        return nullptr;
-    }
-    else
+    auto it = includedFiles.find(file);
+    if (it != includedFiles.end())
     {
         return it->second;
     }
+
+    return {};
 }
 
-void FileTreeGenerator::ParseTree(std::vector<ModuleManifest*> modules)
+bool FileTree::FindIncludes(const std::filesystem::path& file, std::set<std::string>& relativeIncludes, std::set<std::string>& absoluteIncludes)
 {
-    std::map<std::filesystem::path, FileTimeInfo*> fileByPath;
-    for (ModuleManifest* module : modules)
-    {
-        for (auto& it : module->fileDates.fileByPath)
-        {
-            fileByPath.insert(it);
-        }
-    }
-
-    for (ModuleManifest* module : modules)
-    {
-        for (std::filesystem::path& file : module->sourceFiles)
-        {
-            ResolveFiletree(module, file, fileByPath);
-        }
-    }
-
-    for (ModuleManifest* module : modules)
-    {
-        for (std::filesystem::path& file : module->sourceFiles)
-        {
-            FileTimeInfo* fileInfo = module->fileDates.FindFile(file);
-            if (fileInfo == nullptr) continue;
-
-            UpdateTreeStatus(fileInfo);
-        }
-    }
-}
-
-void FileTreeGenerator::UpdateTreeStatus(FileTimeInfo* file)
-{
-    if (!file->hasChildChanged) file->hasChildChanged = HasChildChanged(file);
-}
-
-bool FileTreeGenerator::HasChildChanged(FileTimeInfo* file)
-{
-    for (FileTimeInfo* child : file->includeChildren)
-    {
-        UpdateTreeStatus(child);
-    }
-
-    for (FileTimeInfo* child : file->includeChildren)
-    {
-        if (child->hasChanged || child->hasChildChanged) return true;
-    }
-
-    return false;
-}
-
-void FileTreeGenerator::ResolveFiletree(ModuleManifest* module, std::filesystem::path& file, std::map<std::filesystem::path, FileTimeInfo*>& fileByPath)
-{
-    FileTimeInfo* fileInfo = module->fileDates.FindFile(file);
-    if (fileInfo == nullptr) return;
-
     std::ifstream stream(file);
-    if (!stream.is_open()) return;
+    if (!stream.is_open()) return false;
 
     std::string line;
     while (std::getline(stream, line)) //TODO Ignore commented lines
@@ -203,36 +123,15 @@ void FileTreeGenerator::ResolveFiletree(ModuleManifest* module, std::filesystem:
         if (line.find("#include") == std::string::npos) continue;
 
         std::vector<std::string> matches;
-        if (Utility::MatchPattern(line, "(.*)(#include \")(.*)(\")(.*)", matches) || Utility::MatchPattern(line, "(.*)(#include <)(.*)(>)", matches))
+        if (Utility::MatchPattern(line, ".*#include.*\"(.*)\".*", matches))
         {
-            std::string include = matches[2];
-
-            std::vector<std::filesystem::path> directories = module->GetPublicIncludeTree();
-            directories.push_back(file.parent_path());
-
-            FileTimeInfo* includeInfo = FindFile(directories, include, fileByPath);
-            if (includeInfo != nullptr) 
-            {
-                fileInfo->includeChildren.push_back(includeInfo);
-                includeInfo->includeParents.push_back(fileInfo);
-            }
+            relativeIncludes.insert(matches[0]);
         }
-    }
-}
-
-FileTimeInfo* FileTreeGenerator::FindFile(std::vector<std::filesystem::path>& directories, std::string name, std::map<std::filesystem::path, FileTimeInfo*>& fileByPath)
-{
-    for (std::filesystem::path& directory : directories)
-    {
-        std::filesystem::path path = directory / name;
-        path = std::filesystem::weakly_canonical(path);
-
-        auto it = fileByPath.find(path);
-        if (it != fileByPath.end())
+        else if (Utility::MatchPattern(line, ".*#include.*<(.*)>.*", matches))
         {
-            return it->second;
+            absoluteIncludes.insert(matches[0]);
         }
     }
 
-    return nullptr;
+    return true;
 }

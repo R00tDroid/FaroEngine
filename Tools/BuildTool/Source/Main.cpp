@@ -1,6 +1,6 @@
 #include <vector>
 #include "Parameters.hpp"
-#include "ProjectManifest.hpp"
+#include "Manifests/ProjectManifest.hpp"
 #include "Utility.hpp"
 #include "Version.generated.hpp"
 #include "Tasks/ITask.hpp"
@@ -32,54 +32,63 @@ void PrintHelp()
     Utility::Print("-project <path>    The project to generate solution files for\n");
 }
 
-struct CommandInfo
-{
-    std::filesystem::path projectPath = "";
-    ProjectManifest projectManifest;
-
-    std::string buildPlatform = "";
-    std::string buildArchitecture = "";
-    BuildType buildType = BuildType::ENUMSIZE;
-};
-
-bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, CommandInfo& commandInfo)
+bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
 {
     if (parameters.HasArguments("project"))
     {
         try
         {
-            commandInfo.projectPath = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
-            commandInfo.projectPath.make_preferred();
+            runInfo.projectManifestPath = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
+            runInfo.projectManifestPath.make_preferred();
         }
         catch (std::exception const& e)
         {
             Utility::PrintLine("Failed to locate project: " + parameters.GetArguments("project")[0] + " (" + e.what() + ")");
             return false;
         }
+
+        Utility::PrintLineD("Project argument: " + runInfo.projectManifestPath.string());
     }
 
     if (parameters.CountArguments("platform") == 2)
     {
-        commandInfo.buildPlatform = parameters.GetArguments("platform")[0];
-        commandInfo.buildArchitecture = parameters.GetArguments("platform")[1];
+        runInfo.buildPlatform = parameters.GetArguments("platform")[0];
+        runInfo.buildArchitecture = parameters.GetArguments("platform")[1];
+
+        Utility::PrintLineD("Platform argument: " + runInfo.buildPlatform + ", " + runInfo.buildArchitecture);
     }
 
     if (parameters.Contains("debug"))
     {
-        commandInfo.buildType = BuildType::Debug;
+        runInfo.buildType = BuildType::Debug;
+        Utility::PrintLineD("Build type argument: debug");
     }
     if (parameters.Contains("development"))
     {
-        commandInfo.buildType = BuildType::Development;
+        runInfo.buildType = BuildType::Development;
+        Utility::PrintLineD("Build type argument: development");
     }
     if (parameters.Contains("release"))
     {
-        commandInfo.buildType = BuildType::Release;
+        runInfo.buildType = BuildType::Release;
+        Utility::PrintLineD("Build type argument: release");
+    }
+
+    if (parameters.HasArguments("module"))
+    {
+        for (int i = 0; i < parameters.CountArguments("module"); i++)
+        {
+            runInfo.moduleList.push_back(parameters.GetArguments("module")[i]);
+        }
+
+        Utility::PrintLineD("Module argument: " + std::to_string(runInfo.moduleList.size()));
     }
 
     if (parameters.Contains("generate"))
     {
-        if (commandInfo.projectPath.empty())
+        Utility::PrintLineD("Generate argument");
+
+        if (runInfo.projectManifestPath.empty())
         {
             Utility::PrintLine("'-generate' requires a project to be specified");
             return false;
@@ -90,51 +99,42 @@ bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, Comm
 
     if (parameters.Contains("build"))
     {
-        if (commandInfo.projectPath.empty())
+        Utility::PrintLineD("Build argument");
+
+        if (runInfo.projectManifestPath.empty())
         {
             Utility::PrintLine("'-build' requires a project to be specified");
             return false;
         }
 
-        if (commandInfo.buildPlatform.length() == 0)
+        if (runInfo.buildPlatform.length() == 0)
         {
             Utility::PrintLine("'-build' requires a platform to be specified");
             return false;
         }
 
-        if (commandInfo.buildType == BuildType::ENUMSIZE)
+        if (runInfo.buildType == BuildType::ENUMSIZE)
         {
             Utility::PrintLine("'-build' requires a build configuration to be specified");
             return false;
         }
 
-        tasks.push_back(new TaskBuild(commandInfo.buildPlatform, commandInfo.buildArchitecture, commandInfo.buildType));
+        tasks.push_back(new TaskBuild(runInfo.buildPlatform, runInfo.buildArchitecture, runInfo.buildType));
     }
 
     return true;
 }
 
-bool RunTasks(std::vector<ITask*>& tasks, CommandInfo& commandInfo)
+bool RunTasks(std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
 {
     std::sort(tasks.begin(), tasks.end(), [](const ITask* A, const ITask* B) { return A->GetPriority() < B->GetPriority(); });
-
-    if (!commandInfo.projectManifest.Parse(commandInfo.projectPath))
-    {
-        return false;
-    }
-
-    if (commandInfo.projectManifest.projectModules.empty())
-    {
-        Utility::PrintLine("Project does not contain any modules");
-        return false;
-    }
 
     for (ITask* task : tasks)
     {
         PerformanceTimer taskTimer;
-        Utility::PrintLineD("Executing task: ");
-        if (!task->Run(commandInfo.projectManifest)) return false;
-        taskTimer.Stop("Task");
+        Utility::PrintLineD("Executing task: " + task->GetTaskName());
+        if (!task->Run(runInfo)) return false;
+        taskTimer.Stop("Task (" + task->GetTaskName() + ")");
     }
     Utility::PrintLine("Done");
 
@@ -156,16 +156,16 @@ int main(int argc, char** argv)
         return 0;
     }
 
-    CommandInfo commandInfo;
+    TaskRunInfo taskInfo;
 
-    if (!ParseParameters(parameters, tasks, commandInfo))
+    if (!ParseParameters(parameters, tasks, taskInfo))
     {
         return -1;
     }
 
     if (!tasks.empty())
     {
-        if (!RunTasks(tasks, commandInfo))
+        if (!RunTasks(tasks, taskInfo))
         {
             return -1;
         }

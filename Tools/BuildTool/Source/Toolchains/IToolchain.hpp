@@ -1,5 +1,6 @@
 #pragma once
 #include <filesystem>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -44,7 +45,7 @@ public:
 
     virtual bool LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) = 0;
 
-    virtual bool LinkExecutable(ProjectManifest& project, BuildPlatform* target, BuildType configuration, std::vector<ModuleManifest*> modules) = 0;
+    virtual bool LinkExecutable(ModuleManifest& project, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles) = 0;
 
     std::filesystem::path GetObjDirectory(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
 
@@ -52,19 +53,20 @@ public:
 
     virtual std::string GetObjExtension() = 0;
 
-    std::filesystem::path GetLibDirectory(ModuleManifest& manifest);
+    std::filesystem::path GetBinDirectory(ModuleManifest& manifest);
 
     std::filesystem::path GetLibPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
 
-    std::filesystem::path GetExeDirectory(ProjectManifest& manifest);
-
-    std::filesystem::path GetExePath(ProjectManifest& manifest, BuildPlatform* target, BuildType configuration);
+    std::filesystem::path GetExePath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
 
     virtual std::string GetLibExtension() = 0;
 
     virtual  std::string GetExeExtension() = 0;
 
     std::vector<std::string> GetPreprocessorDefines(BuildPlatform* platform, BuildType configuration);
+
+    // Get a list of modules from direct dependencies and all descendants in the tree.
+    static std::set<ModuleManifest*> GetAllModuleDependencies(ModuleManifest& topModule);
 
 protected:
     static int ExecuteCommand(std::string command, std::string& output);

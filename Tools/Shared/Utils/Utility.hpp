@@ -9,6 +9,7 @@
 #include <regex>
 
 #ifdef WIN32
+#define NOMINMAX
 #include <Windows.h>
 #else
 #include <uuid/uuid.h>
