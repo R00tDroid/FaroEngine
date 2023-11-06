@@ -111,89 +111,89 @@ bool TaskGenerate::Run(TaskRunInfo& taskInfo)
         return false;
     }
 
-    /*for (ModuleManifest* moduleManifest : project.modulesPaths)
+    std::filesystem::path faroBuildTool = Utility::GetExecutablePath();
+
+    timer.Stop("Parse module manifests");
+    timer = {};
+
+    Utility::PrintLine("Performing action generation...");
+
+    std::vector<ProjectInfo*> projectInfoList;
+    CustomCommandInfo* commandInfo = new CustomCommandInfo();
+    commandInfo->name = "Build";
+    commandInfo->buildByDefault = true;
+    commandInfo->buildCommand = faroBuildTool.string() + " -build -project " + taskInfo.projectManifest->manifestPath.string();
+    commandInfo->cleanCommand = faroBuildTool.string() + " -clean -project " + taskInfo.projectManifest->manifestPath.string();
+    commandInfo->rebuildCommand = faroBuildTool.string() + " -clean -build -project " + taskInfo.projectManifest->manifestPath.string();
+    commandInfo->uuid = Utility::GetCachedUUID(taskInfo.projectManifest->faroDirectory / "ProjectInfo" / (commandInfo->name + "Id.txt"));
+    commandInfo->projectPath = taskInfo.projectManifest->faroDirectory / "Project" / (commandInfo->name + ".vcxproj");
+    commandInfo->solutionPath = "Project/Actions";
+    projectInfoList.push_back(commandInfo);
+
+    commandInfo = new CustomCommandInfo();
+    commandInfo->name = "Generate";
+    commandInfo->buildByDefault = false;
+    commandInfo->buildCommand = faroBuildTool.string() + " -generate -project " + taskInfo.projectManifest->manifestPath.string();
+    commandInfo->rebuildCommand = faroBuildTool.string() + " -generate -build -project " + taskInfo.projectManifest->manifestPath.string();
+    commandInfo->uuid = Utility::GetCachedUUID(taskInfo.projectManifest->faroDirectory / "ProjectInfo" / (commandInfo->name + "Id.txt"));
+    commandInfo->projectPath = taskInfo.projectManifest->faroDirectory / "Project" / (commandInfo->name + ".vcxproj");
+    commandInfo->solutionPath = "Project/Actions";
+    projectInfoList.push_back(commandInfo);
+
+    timer.Stop("Generate action projects");
+    timer = {};
+
+    Utility::PrintLine("Performing module generation...");
+
+    for (std::filesystem::path& modulePath : taskInfo.projectManifest->modulesPaths)
+    {
+        ModuleManifest* moduleManifest = ModuleManifest::GetLoadedModule(modulePath);
+        Utility::PrintLine("Discovered module: " + moduleManifest->name);
+
+        PerformanceTimer moduleTimer;
+
+        ModuleInfo* moduleInfo = new ModuleInfo();
+        moduleInfo->name = moduleManifest->name;
+        moduleInfo->module = moduleManifest;
+        moduleInfo->uuid = moduleManifest->uuid;
+        moduleInfo->projectPath = moduleManifest->project->faroDirectory / "Project" / (moduleManifest->name + ".vcxproj");
+        moduleInfo->solutionPath = "Project/Modules";
+        moduleInfo->buildByDefault = false;
+        moduleInfo->debuggable = moduleManifest->type == MT_Executable;
+        if (!moduleManifest->solutionLocation.empty())
         {
-            PerformanceTimer moduleTimer;
-            if (!moduleManifest->ResolveDependencies()) return false;
-            moduleManifest->Save();
-            moduleTimer.Stop("Resolve dependencies: " + moduleManifest->name);
+            moduleInfo->solutionPath /= moduleManifest->solutionLocation;
         }
 
-        Utility::PrintLine("Performing solution generation...");
-
-        std::filesystem::path faroBuildTool = Utility::GetExecutablePath();
-
-        timer.Stop("Parse module manifests");
-        timer = {};
-
-        std::vector<ProjectInfo*> projectInfoList;
-        CustomCommandInfo* commandInfo = new CustomCommandInfo();
-        commandInfo->name = "Build";
-        commandInfo->buildByDefault = true;
-        commandInfo->buildCommand = faroBuildTool.string() + " -build -project " + project.manifestPath.string();
-        commandInfo->cleanCommand = faroBuildTool.string() + " -clean -project " + project.manifestPath.string();
-        commandInfo->rebuildCommand = faroBuildTool.string() + " -clean -build -project " + project.manifestPath.string();
-        commandInfo->uuid = Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / (commandInfo->name + "Id.txt"));
-        commandInfo->projectPath = project.faroRoot / "Project" / (commandInfo->name + ".vcxproj");
-        commandInfo->solutionPath = "Project/Actions";
-        projectInfoList.push_back(commandInfo);
-
-        commandInfo = new CustomCommandInfo();
-        commandInfo->name = "Generate";
-        commandInfo->buildByDefault = false;
-        commandInfo->buildCommand = faroBuildTool.string() + " -generate -project " + project.manifestPath.string();
-        commandInfo->rebuildCommand = faroBuildTool.string() + " -generate -build -project " + project.manifestPath.string();
-        commandInfo->uuid = Utility::GetCachedUUID(project.faroRoot / "ProjectInfo" / (commandInfo->name + "Id.txt"));
-        commandInfo->projectPath = project.faroRoot / "Project" / (commandInfo->name + ".vcxproj");
-        commandInfo->solutionPath = "Project/Actions";
-        projectInfoList.push_back(commandInfo);
-
-        timer.Stop("Generate action projects");
-        timer = {};
-
-        for (ModuleManifest* moduleManifest : project.modulesPaths)
+        for (std::filesystem::path& dependencyPath : moduleManifest->moduleDependencies)
         {
-            PerformanceTimer moduleTimer;
-
-            ModuleInfo* moduleInfo = new ModuleInfo();
-            moduleInfo->name = moduleManifest->name;
-            moduleInfo->module = moduleManifest;
-            moduleInfo->uuid = moduleManifest->uuid;
-            moduleInfo->projectPath = moduleManifest->project->faroRoot / "Project" / (moduleManifest->name + ".vcxproj");
-            moduleInfo->solutionPath = "Project/Modules";
-            moduleInfo->buildByDefault = false;
-            moduleInfo->debuggable = moduleManifest->type == MT_Executable;
-            if (!moduleManifest->solutionLocation.empty())
-            {
-                moduleInfo->solutionPath /= moduleManifest->solutionLocation;
-            }
-
-            for (ModuleManifest* dependency : moduleManifest->moduleDependencies)
-            {
-                moduleInfo->dependencyUuids.push_back(dependency->uuid);
-            }
-
-            projectInfoList.push_back(moduleInfo);
-
-            moduleTimer.Stop("Module: " + moduleManifest->name);
+            ModuleManifest* dependency = ModuleManifest::GetLoadedModule(dependencyPath);
+            moduleInfo->dependencyUuids.push_back(dependency->uuid);
         }
 
-        for (ProjectInfo* projectInfo : projectInfoList)
+        projectInfoList.push_back(moduleInfo);
+
+        moduleTimer.Stop("Module: " + moduleManifest->name);
+    }
+
+    for (ProjectInfo* projectInfo : projectInfoList)
+    {
+        WriteProjectFile(*projectInfo);
+        WriteProjectUserFile(*projectInfo);
+
+        if (projectInfo->HasSourceFiles())
         {
-            WriteProjectFile(*projectInfo);
-            WriteProjectUserFile(*projectInfo);
-
-            if (projectInfo->HasSourceFiles())
-            {
-                WriteFilterFile(*projectInfo);
-            }
+            WriteFilterFile(*projectInfo);
         }
+    }
 
-        timer.Stop("Generate module projects");
+    timer.Stop("Generate module projects");
 
-        timer = {};
-        WriteSolutionFile(project, projectInfoList);
-        timer.Stop("generate solution file");*/
+    Utility::PrintLine("Performing solution generation...");
+
+    timer = {};
+    WriteSolutionFile(taskInfo.projectManifest, projectInfoList);
+    timer.Stop("generate solution file");
 
     return true;
 }
