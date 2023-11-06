@@ -152,6 +152,31 @@ bool TaskBuild::CheckModule(ModuleOrderInfo& moduleInfo)
         }
     }
 
+    if (!changeDetected)
+    {
+        std::filesystem::path binary;
+
+        if (module->type == MT_Library)
+        {
+            binary = targetToolchain->GetLibPath(*module, targetPlatform, buildType);
+        }
+        else if (module->type == MT_Executable)
+        {
+            binary = targetToolchain->GetExePath(*module, targetPlatform, buildType);
+        }
+        else
+        {
+            Utility::PrintLineD("Invalid module type");
+            return false;
+        }
+
+        if (!std::filesystem::exists(binary))
+        {
+            Utility::PrintLineD("Binary does not exist");
+            changeDetected = true;
+        }
+    }
+
     // Build module if something changed
     if (changeDetected)
     {
@@ -202,15 +227,16 @@ bool TaskBuild::BuildModule(ModuleManifest* module)
         }
     }
 
-    if (filesToCompile.empty())
-    {
-        Utility::PrintLine("All files up-to-date");
-    }
-    else
+    PerformanceTimer prepareTimer;
+    if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform, buildType)) return false;
+    prepareTimer.Stop("Prepare");
+
+    if (!filesToCompile.empty())
     {
         if (!CompileModule(module, filesToCompile)) return false;
-        if (!LinkModule(module, sourceFiles)) return false;
     }
+
+    if (!LinkModule(module, sourceFiles)) return false;
 
     module->fileDates.SaveDatabase();
 
@@ -223,10 +249,6 @@ bool TaskBuild::BuildModule(ModuleManifest* module)
 bool TaskBuild::CompileModule(ModuleManifest* module, std::vector<std::filesystem::path>& filesToCompile)
 {
     PerformanceTimer buildTimer;
-
-    PerformanceTimer prepareTimer;
-    if (!targetToolchain->PrepareModuleForBuild(*module, targetPlatform, buildType)) return false;
-    prepareTimer.Stop("Prepare");
 
     std::vector<std::filesystem::path> includes = module->GetModuleIncludeDirectories();
 

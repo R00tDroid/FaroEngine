@@ -73,9 +73,7 @@ bool ToolchainMSVC::PrepareModuleForBuild(ModuleManifest& manifest, BuildPlatfor
     return true;
 }
 
-bool ToolchainMSVC::BuildSource(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration,
-    std::filesystem::path sourceFile, std::vector<std::filesystem::path> includePaths,
-    std::vector<std::string> preprocessorDefines)
+bool ToolchainMSVC::BuildSource(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::filesystem::path sourceFile, std::vector<std::filesystem::path> includePaths, std::vector<std::string> preprocessorDefines)
 {
     std::string includes = "";
 
@@ -135,8 +133,7 @@ bool ToolchainMSVC::BuildSource(ModuleManifest& manifest, BuildPlatform* target,
     return result == 0;
 }
 
-bool ToolchainMSVC::LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration,
-    std::vector<std::filesystem::path> sourceFiles)
+bool ToolchainMSVC::LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles)
 {
     std::string objs = "";
     for (std::filesystem::path& sourceFile : sourceFiles)
@@ -168,8 +165,7 @@ bool ToolchainMSVC::LinkLibrary(ModuleManifest& manifest, BuildPlatform* target,
     return result == 0;
 }
 
-bool ToolchainMSVC::LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration,
-    std::vector<std::filesystem::path> sourceFiles)
+bool ToolchainMSVC::LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles)
 {
     // Get project object files
     std::string objs = "";
