@@ -66,6 +66,12 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
 
     for (ModuleOrderInfo& moduleInfo : moduleOrder)
     {
+        if (!runInfo.moduleList.empty())
+        {
+            auto it = std::find(runInfo.moduleList.begin(), runInfo.moduleList.end(), moduleInfo.module->name);
+            if (it == runInfo.moduleList.end()) continue;
+        }
+
         if (!CheckModule(moduleInfo)) return false;
     }
     return true;
