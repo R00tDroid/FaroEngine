@@ -11,7 +11,7 @@ std::vector<std::filesystem::path> TaskGenerate::ProjectInfo::GetSourceFiles()
 std::vector<std::filesystem::path> TaskGenerate::ProjectInfo::GetIncludePaths()
 { return {}; }
 
-std::filesystem::path TaskGenerate::ProjectInfo::GetOutputBinary(IToolchain*, BuildPlatform*, BuildType)
+std::filesystem::path TaskGenerate::ProjectInfo::GetOutputExecutable(IToolchain*, BuildPlatform*, BuildType)
 { return {}; }
 
 std::filesystem::path TaskGenerate::ProjectInfo::GetRootDirectory()
@@ -60,16 +60,11 @@ std::vector<std::filesystem::path> TaskGenerate::ModuleInfo::GetIncludePaths()
 std::filesystem::path TaskGenerate::ModuleInfo::GetRootDirectory()
 { return module->manifestDirectory; }
 
-std::filesystem::path TaskGenerate::ModuleInfo::GetOutputBinary(IToolchain* toolchain, BuildPlatform* platform,
-    BuildType type)
+std::filesystem::path TaskGenerate::ModuleInfo::GetOutputExecutable(IToolchain* toolchain, BuildPlatform* platform, BuildType type)
 {
     if (module->type == MT_Executable)
     {
         return toolchain->GetExePath(*module, platform, type);
-    }
-    else if (module->type == MT_Library)
-    {
-        return toolchain->GetLibPath(*module, platform, type);
     }
     else
     {
@@ -361,7 +356,7 @@ void TaskGenerate::WriteProjectFile(ProjectInfo& projectInfo)
 
                         element = propertyGroup->InsertNewChildElement("NMakeOutput");
 
-                        std::filesystem::path outputPath = projectInfo.GetOutputBinary(toolchain, platform, (BuildType)buildTypeIndex);
+                        std::filesystem::path outputPath = projectInfo.GetOutputExecutable(toolchain, platform, (BuildType)buildTypeIndex);
                         if (!outputPath.empty())
                         {
                             element->SetText(outputPath.string().c_str());
@@ -443,7 +438,7 @@ void TaskGenerate::WriteProjectUserFile(ProjectInfo& projectInfo)
                     propGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)'=='" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
 
                     tinyxml2::XMLElement* element = propGroup->InsertNewChildElement("LocalDebuggerCommand");
-                    element->SetText(projectInfo.GetOutputBinary(toolchain, platform, (BuildType)buildTypeIndex).string().c_str());
+                    element->SetText(projectInfo.GetOutputExecutable(toolchain, platform, (BuildType)buildTypeIndex).string().c_str());
                     element = propGroup->InsertNewChildElement("DebuggerFlavor");
                     element->SetText("WindowsLocalDebugger");
                 }

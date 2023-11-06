@@ -27,7 +27,7 @@ public:
         virtual std::string GetRebuildCommand() = 0;
         virtual std::string GetCleanCommand() = 0;
 
-        virtual std::filesystem::path GetOutputBinary(IToolchain*, BuildPlatform*, BuildType);
+        virtual std::filesystem::path GetOutputExecutable(IToolchain*, BuildPlatform*, BuildType);
 
         virtual std::filesystem::path GetRootDirectory();
     };
@@ -55,7 +55,7 @@ public:
         std::vector<std::filesystem::path> GetIncludePaths() override;
         std::filesystem::path GetRootDirectory() override;
 
-        std::filesystem::path GetOutputBinary(IToolchain* toolchain, BuildPlatform* platform, BuildType type) override;
+        std::filesystem::path GetOutputExecutable(IToolchain* toolchain, BuildPlatform* platform, BuildType type) override;
 
         ModuleManifest* module = nullptr;
     };
