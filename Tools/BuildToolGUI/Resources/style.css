@@ -218,12 +218,6 @@ select option:hover
     right: 6px;
 }
 
-.header > button 
-{
-    width: 25%;
-    height: 26px;
-}
-
 #commandOutput
 {
     color: var(--text-console);
@@ -264,8 +258,9 @@ select option:hover
 
 .header > button
 {
-    color: var(--text-interact);
+    width: 25%;
     height: 26px;
+    color: var(--text-interact);
     border-radius: 5px;
     border: 0px;
     background: var(--interact-idle);
