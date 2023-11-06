@@ -124,7 +124,7 @@ bool RunTasks(std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
         PerformanceTimer taskTimer;
         Utility::PrintLineD("Executing task: " + task->GetTaskName());
         if (!task->Run(runInfo)) return false;
-        taskTimer.Stop("Task");
+        taskTimer.Stop("Task (" + task->GetTaskName() + ")");
     }
     Utility::PrintLine("Done");
 
