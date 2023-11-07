@@ -154,26 +154,26 @@ bool TaskBuild::CheckModule(ModuleOrderInfo& moduleInfo)
 
     if (!changeDetected)
     {
-        std::filesystem::path binary;
-
-        if (module->type == MT_Library)
-        {
-            binary = targetToolchain->GetLibPath(*module, targetPlatform, buildType);
-        }
-        else if (module->type == MT_Executable)
-        {
-            binary = targetToolchain->GetExePath(*module, targetPlatform, buildType);
-        }
-        else
-        {
-            Utility::PrintLineD("Invalid module type");
-            return false;
-        }
-
+        std::filesystem::path binary = targetToolchain->GetBinaryPath(*module, targetPlatform, buildType);
+        
         if (!std::filesystem::exists(binary))
         {
             Utility::PrintLineD("Binary does not exist");
             changeDetected = true;
+        }
+    }
+
+    if (!changeDetected)
+    {
+        std::set<ModuleManifest*> dependencies = module->GetDependencyTree();
+        for (ModuleManifest* dependency : dependencies)
+        {
+            std::filesystem::path binary = targetToolchain->GetBinaryPath(*dependency, targetPlatform, buildType);
+            if ( timeDatabase.HasFileChanged(binary))
+            {
+                Utility::PrintLineD("Dependency binary has changed: " + dependency->name);
+                changeDetected = true;
+            }
         }
     }
 
@@ -224,6 +224,16 @@ bool TaskBuild::BuildModule(ModuleManifest* module)
         for (std::filesystem::path include : includeTree.GetTree(file))
         {
             timeDatabase.SetFileTime(include);
+        }
+    }
+
+    std::set<ModuleManifest*> dependencies = module->GetDependencyTree();
+    for (ModuleManifest* dependency : dependencies)
+    {
+        std::filesystem::path binary = targetToolchain->GetBinaryPath(*dependency, targetPlatform, buildType);
+        if (timeDatabase.HasFileChanged(binary))
+        {
+            timeDatabase.SetFileTime(binary);
         }
     }
 

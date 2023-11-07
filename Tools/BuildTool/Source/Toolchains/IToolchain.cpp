@@ -103,3 +103,16 @@ std::filesystem::path IToolchain::GetExePath(ModuleManifest& manifest, BuildPlat
 
     return GetBinDirectory(manifest) / (manifest.name + "_" + platformName + "." + GetExeExtension());
 }
+
+std::filesystem::path IToolchain::GetBinaryPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)
+{
+    if (manifest.type == MT_Library)
+    {
+        return GetLibPath(manifest, target, configuration);
+    }
+    else if (manifest.type == MT_Executable)
+    {
+        return GetExePath(manifest, target, configuration);
+    }
+    return {};
+}
