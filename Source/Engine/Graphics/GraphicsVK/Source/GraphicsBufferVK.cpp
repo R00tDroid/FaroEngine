@@ -45,22 +45,55 @@ namespace Faro
 
         GraphicsAdapterVK* adapter = GetTypedAdapter<GraphicsAdapterVK>();
 
-        VkBufferCreateInfo bufferCreateDesc = {};
-        bufferCreateDesc.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-        bufferCreateDesc.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-        bufferCreateDesc.size = GetDesc().dataSize;
-        bufferCreateDesc.usage = Convert(GetDesc().resourceType);
-        vkCreateBuffer(adapter->GetDevice(), &bufferCreateDesc, nullptr, &heapBuffer);
-        Debug_Assert(heapBuffer != nullptr);
+        const GraphicsBufferDesc& desc = GetDesc();
+        if (desc.resourceType == RT_Texture)
+        {
+            VkImageCreateInfo imageDesc = {};
+            imageDesc.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+            imageDesc.imageType = VK_IMAGE_TYPE_2D;
+            imageDesc.extent.width = desc.texture.resolution.x;
+            imageDesc.extent.height = desc.texture.resolution.y;
+            imageDesc.extent.depth = 1;
+            imageDesc.mipLevels = 1;
+            imageDesc.arrayLayers = 1;
+            imageDesc.format = VK_FORMAT_R8G8B8A8_UNORM; //TODO Convert format from desc
+            imageDesc.tiling = VK_IMAGE_TILING_OPTIMAL;
+            imageDesc.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED; //TODO Set initial state from desc
+            imageDesc.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+            imageDesc.samples = VK_SAMPLE_COUNT_1_BIT;
+            imageDesc.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+            vkCreateImage(adapter->GetDevice(), &imageDesc, nullptr, &heapImage);
 
-        VkMemoryAllocateInfo memoryCreateDesc = {};
-        memoryCreateDesc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-        memoryCreateDesc.allocationSize = bufferCreateDesc.size;
-        memoryCreateDesc.memoryTypeIndex = GetMemoryType();
-        vkAllocateMemory(adapter->GetDevice(), &memoryCreateDesc, nullptr, &heapMemory);
-        Debug_Assert(heapMemory != nullptr);
+            VkMemoryRequirements memoryDesc;
+            vkGetImageMemoryRequirements(adapter->GetDevice(), heapImage, &memoryDesc);
 
-        vkBindBufferMemory(adapter->GetDevice(), heapBuffer, heapMemory, 0);
+            VkMemoryAllocateInfo allocDesc{};
+            allocDesc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+            allocDesc.allocationSize = memoryDesc.size;
+            allocDesc.memoryTypeIndex = 0; //TODO Get correct memory type
+            vkAllocateMemory(adapter->GetDevice(), &allocDesc, nullptr, &heapMemory);
+
+            vkBindImageMemory(adapter->GetDevice(), heapImage, heapMemory, 0);
+        }
+        else 
+        {
+            VkBufferCreateInfo bufferCreateDesc = {};
+            bufferCreateDesc.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+            bufferCreateDesc.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+            bufferCreateDesc.size = GetDesc().dataSize;
+            bufferCreateDesc.usage = Convert(GetDesc().resourceType);
+            vkCreateBuffer(adapter->GetDevice(), &bufferCreateDesc, nullptr, &heapBuffer);
+            Debug_Assert(heapBuffer != nullptr);
+
+            VkMemoryAllocateInfo memoryCreateDesc = {};
+            memoryCreateDesc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+            memoryCreateDesc.allocationSize = bufferCreateDesc.size;
+            memoryCreateDesc.memoryTypeIndex = GetMemoryType();
+            vkAllocateMemory(adapter->GetDevice(), &memoryCreateDesc, nullptr, &heapMemory);
+            Debug_Assert(heapMemory != nullptr);
+
+            vkBindBufferMemory(adapter->GetDevice(), heapBuffer, heapMemory, 0);
+        }
     }
 
     void GraphicsBufferVK::Destroy()
@@ -70,6 +103,13 @@ namespace Faro
             vkDestroyBuffer(GetTypedAdapter<GraphicsAdapterVK>()->GetDevice(), heapBuffer, nullptr);
             heapBuffer = nullptr;
         }
+
+        if (heapImage != nullptr)
+        {
+            vkDestroyImage(GetTypedAdapter<GraphicsAdapterVK>()->GetDevice(), heapImage, nullptr);
+            heapImage = nullptr;
+        }
+
         GraphicsBuffer::Destroy();
     }
 
@@ -82,7 +122,7 @@ namespace Faro
     {
         //TODO Move transition logic to commandlist
 
-        VkImageMemoryBarrier BarrierDesc = {};
+        /*VkImageMemoryBarrier BarrierDesc = {};
         BarrierDesc.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
 
         BarrierDesc.oldLayout = Convert(GetResourceState());
@@ -94,7 +134,7 @@ namespace Faro
 
         vkCmdPipelineBarrier(CommandList->GetCommandBuffer(), VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &BarrierDesc);
 
-        SetResourceState(state);
+        SetResourceState(state);*/
     }
 
     uint32 GraphicsBufferUploadVK::GetMemoryType()
