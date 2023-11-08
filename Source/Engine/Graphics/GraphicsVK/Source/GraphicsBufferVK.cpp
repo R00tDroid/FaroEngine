@@ -63,6 +63,7 @@ namespace Faro
             imageDesc.samples = VK_SAMPLE_COUNT_1_BIT;
             imageDesc.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
             vkCreateImage(adapter->GetDevice(), &imageDesc, nullptr, &heapImage);
+            Debug_Assert(heapImage != nullptr);
 
             VkMemoryRequirements memoryDesc;
             vkGetImageMemoryRequirements(adapter->GetDevice(), heapImage, &memoryDesc);
@@ -70,8 +71,9 @@ namespace Faro
             VkMemoryAllocateInfo allocDesc{};
             allocDesc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
             allocDesc.allocationSize = memoryDesc.size;
-            allocDesc.memoryTypeIndex = 0; //TODO Get correct memory type
+            allocDesc.memoryTypeIndex = GetMemoryType();
             vkAllocateMemory(adapter->GetDevice(), &allocDesc, nullptr, &heapMemory);
+            Debug_Assert(heapMemory != nullptr);
 
             vkBindImageMemory(adapter->GetDevice(), heapImage, heapMemory, 0);
         }
@@ -137,13 +139,8 @@ namespace Faro
         SetResourceState(state);*/
     }
 
-    uint32 GraphicsBufferUploadVK::GetMemoryType()
+    uint32 GraphicsBufferVK::GetMemoryType()
     {
-        return 0; //TODO Get type from adapter
-    }
-
-    uint32 GraphicsBufferRemoteVK::GetMemoryType()
-    {
-        return 0; //TODO Get type from adapter
+        return 0; //TODO Get index from adapter based on desc
     }
 }

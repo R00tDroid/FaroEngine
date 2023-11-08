@@ -88,19 +88,8 @@ namespace Faro
 
     GraphicsBuffer* GraphicsAdapterVK::CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc)
     {
-        GraphicsBuffer* buffer = nullptr;
-
-        switch (type)
-        {
-            case BT_Upload: { buffer = MemoryManager::New<GraphicsBufferUploadVK>(); break; }
-            case BT_Remote: { buffer = MemoryManager::New<GraphicsBufferRemoteVK>(); break; }
-        }
-
-        if (buffer != nullptr)
-        {
-            buffer->Init(this, desc);
-        }
-
+        GraphicsBuffer* buffer = MemoryManager::New<GraphicsBufferVK>();
+        buffer->Init(this, desc);
         return buffer;
     }
 
