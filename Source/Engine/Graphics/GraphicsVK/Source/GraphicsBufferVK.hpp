@@ -20,6 +20,7 @@ namespace Faro
 
         VkDeviceMemory heapMemory = nullptr;
         VkBuffer heapBuffer = nullptr;
+        VkImage heapImage = nullptr;
     };
 
     class GraphicsBufferUploadVK : public GraphicsBufferVK
