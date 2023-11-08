@@ -16,22 +16,10 @@ namespace Faro
         void TransitionResource(VkCommandBuffer commandBuffer, GraphicsResourceState state);
 
     protected:
-        virtual uint32 GetMemoryType() = 0;
+        uint32 GetMemoryType();
 
         VkDeviceMemory heapMemory = nullptr;
         VkBuffer heapBuffer = nullptr;
         VkImage heapImage = nullptr;
-    };
-
-    class GraphicsBufferUploadVK : public GraphicsBufferVK
-    {
-    protected:
-        uint32 GetMemoryType() override;
-    };
-
-    class GraphicsBufferRemoteVK : public GraphicsBufferVK
-    {
-    protected:
-        uint32 GetMemoryType() override;
     };
 }
