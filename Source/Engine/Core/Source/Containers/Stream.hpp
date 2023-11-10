@@ -3,7 +3,6 @@
 #include <Memory/Object.hpp>
 #include <Containers/Array.hpp>
 #include <Containers/String.hpp>
-#include <Assert.hpp>
 
 namespace Faro
 {
