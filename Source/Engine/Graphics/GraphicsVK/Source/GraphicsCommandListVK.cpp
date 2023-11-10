@@ -2,6 +2,7 @@
 #include "GraphicsAdapterVK.hpp"
 #include "GraphicsBufferVK.hpp"
 #include "GraphicsLogVK.hpp"
+#include <Assert.hpp>
 
 namespace Faro
 {
