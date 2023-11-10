@@ -1,5 +1,6 @@
 #include "Stream.hpp"
 #include "Memory/MemoryManager.hpp"
+#include <Assert.hpp>
 
 namespace Faro
 {
