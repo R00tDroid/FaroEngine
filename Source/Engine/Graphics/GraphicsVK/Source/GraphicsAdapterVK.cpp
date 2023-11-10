@@ -1,4 +1,5 @@
 #include "GraphicsAdapterVK.hpp"
+#include <Assert.hpp>
 #include "GraphicsBufferVK.hpp"
 #include "GraphicsCommandListVK.hpp"
 #include "GraphicsFenceVK.hpp"

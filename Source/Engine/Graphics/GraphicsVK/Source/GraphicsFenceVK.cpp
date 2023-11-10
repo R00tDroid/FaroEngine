@@ -1,5 +1,6 @@
 #include "GraphicsFenceVK.hpp"
 #include <GraphicsAdapterVK.hpp>
+#include <Assert.hpp>
 
 namespace Faro
 {

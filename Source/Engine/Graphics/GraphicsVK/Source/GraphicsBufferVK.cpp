@@ -1,5 +1,6 @@
 #include "GraphicsBufferVK.hpp"
 #include "GraphicsAdapterVK.hpp"
+#include <Assert.hpp>
 
 namespace Faro
 {
@@ -21,7 +22,7 @@ namespace Faro
             }
         }
 
-        Debug_BreakMessage("Invalid heap type");
+        Debug_Break();
         return VK_BUFFER_USAGE_FLAG_BITS_MAX_ENUM;
     }
 
@@ -59,7 +60,7 @@ namespace Faro
             imageDesc.format = VK_FORMAT_R8G8B8A8_UNORM; //TODO Convert format from desc
             imageDesc.tiling = VK_IMAGE_TILING_OPTIMAL;
             imageDesc.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED; //TODO Set initial state from desc
-            imageDesc.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT;
+            imageDesc.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT; //TODO Get flags from desc
             imageDesc.samples = VK_SAMPLE_COUNT_1_BIT;
             imageDesc.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
             vkCreateImage(adapter->GetDevice(), &imageDesc, nullptr, &heapImage);
@@ -122,21 +123,25 @@ namespace Faro
 
     void GraphicsBufferVK::TransitionResource(VkCommandBuffer commandBuffer, GraphicsResourceState state)
     {
-        //TODO Move transition logic to commandlist
+        const GraphicsBufferDesc& desc = GetDesc();
+        if (desc.resourceType == RT_Texture)
+        {
+            VkImageMemoryBarrier barrierDesc = {};
+            barrierDesc.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
 
-        /*VkImageMemoryBarrier BarrierDesc = {};
-        BarrierDesc.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
+            barrierDesc.oldLayout = Convert(GetResourceState());
+            barrierDesc.newLayout = Convert(state);
+            barrierDesc.image = heapImage;
+            barrierDesc.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
+            barrierDesc.srcAccessMask = 0;
+            barrierDesc.dstAccessMask = 0;
 
-        BarrierDesc.oldLayout = Convert(GetResourceState());
-        BarrierDesc.newLayout = Convert(state);
-        BarrierDesc.image = GetImage();
-        BarrierDesc.subresourceRange = { VK_IMAGE_ASPECT_COLOR_BIT, 0, 1, 0, 1 };
-        BarrierDesc.srcAccessMask = 0;
-        BarrierDesc.dstAccessMask = 0;
+            vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrierDesc);
+        }
 
-        vkCmdPipelineBarrier(CommandList->GetCommandBuffer(), VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &BarrierDesc);
+        //TODO Implement buffer barrier
 
-        SetResourceState(state);*/
+        SetResourceState(state);
     }
 
     uint32 GraphicsBufferVK::GetMemoryType()
