@@ -102,6 +102,11 @@ namespace Faro
 
             Logger::Log(GraphicsLogVK, LC_Debug, "Memory type: %i, Flags: %s, Heap index %i, Heap size %imb", i, flags.Data(), type.heapIndex, memoryProperties.memoryHeaps[type.heapIndex].size / 1024 / 1024);
         }
+
+        memoryIndexRemote = GetMemoryIndex(memoryProperties, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT);
+        Debug_Assert(memoryIndexRemote >= 0);
+        memoryIndexUpload = GetMemoryIndex(memoryProperties, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
+        Debug_Assert(memoryIndexUpload >= 0);
     }
 
     void GraphicsAdapterVK::Destroy()
@@ -158,5 +163,29 @@ namespace Faro
     uint32 GraphicsAdapterVK::GetQueueIndex()
     {
         return graphicsQueue;
+    }
+
+    uint32 GraphicsAdapterVK::GetMemoryIndexRemote()
+    {
+        return memoryIndexRemote;
+    }
+
+    uint32 GraphicsAdapterVK::GetMemoryIndexUpload()
+    {
+        return memoryIndexUpload;
+    }
+
+    int32 GraphicsAdapterVK::GetMemoryIndex(const VkPhysicalDeviceMemoryProperties& memoryProperties, VkMemoryPropertyFlags memoryFlags)
+    {
+        for (uint32 i = 0; i < memoryProperties.memoryTypeCount; i++)
+        {
+            const VkMemoryType& type = memoryProperties.memoryTypes[i];
+            if (type.propertyFlags == memoryFlags)
+            {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }
