@@ -68,6 +68,40 @@ namespace Faro
         // Query queue
         vkGetDeviceQueue(device, queueCreateDesc.queueFamilyIndex, 0, &queue);
         Debug_Assert(queue != nullptr);
+
+        // Find memory types
+        VkPhysicalDeviceMemoryProperties memoryProperties;
+        vkGetPhysicalDeviceMemoryProperties(physicalDevice, &memoryProperties);
+
+        Map<VkMemoryPropertyFlagBits, String> flagNames;
+        flagNames.Add(VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, "DeviceLocal");
+        flagNames.Add(VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT, "HostVisible");
+        flagNames.Add(VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, "hostCoherent");
+        flagNames.Add(VK_MEMORY_PROPERTY_HOST_CACHED_BIT, "HostCached");
+
+        for (uint32 i = 0; i < memoryProperties.memoryTypeCount; i++)
+        {
+            VkMemoryType& type = memoryProperties.memoryTypes[i];
+
+            String flags = "";
+
+            if (type.propertyFlags == 0)
+            {
+                flags = " None";
+            }
+            else 
+            {
+                for (auto& it : flagNames)
+                {
+                    if ((type.propertyFlags & it.first) == it.first)
+                    {
+                        flags += " " + it.second;
+                    }
+                }
+            }
+
+            Logger::Log(GraphicsLogVK, LC_Debug, "Memory type: %i, Flags: %s, Heap index %i, Heap size %imb", i, flags.Data(), type.heapIndex, memoryProperties.memoryHeaps[type.heapIndex].size / 1024 / 1024);
+        }
     }
 
     void GraphicsAdapterVK::Destroy()
