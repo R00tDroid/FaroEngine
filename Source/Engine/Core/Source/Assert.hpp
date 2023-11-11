@@ -28,7 +28,7 @@
 #define _DebugCheck(expression, expressionString, message, filename, lineNumber, triggerAbort)\
     if (!(expression)){\
         DebugOutputMessage("\n--Debug check triggered--\n");\
-        DebugOutputMessage((filename) << ":" << (lineNumber) << "\n");\
+        DebugOutputMessage((filename) << "(" << (lineNumber) << ")\n");\
         if ((expressionString) != nullptr) DebugOutputMessage("Expression: " << (expressionString) << "\n");\
         if ((message) != nullptr) DebugOutputMessage("Message: " << (expressionString) << "\n\n");\
         if ((triggerAbort)) Debug_Break();\
