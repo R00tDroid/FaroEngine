@@ -12,29 +12,35 @@ namespace Faro
     {
         LogWindowCreationTest.Log(LC_Info, "Creating window...");
         window = GPlatform->CreateWindow();
+        Debug_Assert(window != nullptr);
         window->SetTitle("Test window");
 
         LogWindowCreationTest.Log(LC_Info, "Creating adapter...");
         Array<GraphicsAdapterDesc> adapters = GGraphics->GetAdapters();
         adapter = GGraphics->CreateAdapter(adapters[0]);
+        Debug_Assert(adapter != nullptr);
 
         fence = adapter->CreateFence();
+        Debug_Assert(fence != nullptr);
 
         swapchain = adapter->CreateSwapchain(window);
-
         Debug_Assert(swapchain != nullptr);
 
         GraphicsPipelineDesc pipelineDesc;
         pipeline = adapter->CreatePipeline(pipelineDesc);
+        Debug_Assert(pipeline != nullptr);
 
         LogWindowCreationTest.Log(LC_Info, "Creating commandlist...");
         commandList = adapter->CreateCommandList();
+        Debug_Assert(commandList != nullptr);
         commandList->Reset();
 
         LogWindowCreationTest.Log(LC_Info, "Creating buffers...");
         GraphicsBufferDesc bufferDesc = GraphicsBufferDesc::Texture2D({ 400, 300 }, true);
         uploadBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Upload, bufferDesc);
         remoteBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Remote, bufferDesc);
+        Debug_Assert(uploadBuffer != nullptr);
+        Debug_Assert(remoteBuffer != nullptr);
 
         commandList->SetResourceState(uploadBuffer, RS_CopySource);
         commandList->SetResourceState(remoteBuffer, RS_CopyDestination);
