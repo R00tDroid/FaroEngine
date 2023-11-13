@@ -13,6 +13,12 @@ namespace Faro
         void Present() override;
 
     private:
+        bool CreateSurface(Window* window);
+        bool CreateSwapchain();
+
+        VkSurfaceFormatKHR SelectFormat();
+        VkPresentModeKHR SelectPresentMode();
+
         VkSurfaceKHR windowSurface = nullptr;
         VkSwapchainKHR swapchain = nullptr;
     };
