@@ -54,7 +54,7 @@ file(REMOVE_RECURSE "${GladDirectory}")
 execute_process(COMMAND ${Python_EXECUTABLE} -m pip install glad2)
 execute_process(COMMAND ${Python_EXECUTABLE} -m glad
     --api=vulkan=1.0
-    --extension=VK_KHR_surface,VK_KHR_win32_surface
+    --extension=VK_KHR_surface,VK_KHR_win32_surface,VK_KHR_swapchain
     --out-path "${GladDirectory}" 
     c
     --loader)
