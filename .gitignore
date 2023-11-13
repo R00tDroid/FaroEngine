@@ -17,5 +17,5 @@ _deps
 .Faro
 *.sln
 /Docs/Doxygen
-/Source/Engine/Core/Source/EngineVersion.generated.cpp
 *.g.*
+/Source/Engine/Graphics/GraphicsVK/Thirdparty/GLAD
