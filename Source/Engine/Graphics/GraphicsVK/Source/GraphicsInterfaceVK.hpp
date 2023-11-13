@@ -21,6 +21,9 @@ namespace Faro
         VkInstance GetInstance();
 
     private:
+        static Array<char*> GetInstanceExtensions();
+        bool VerifyInstanceExtensions();
+
         Array<String> GetAvailableLayers();
 
         Array<GraphicsAdapterDesc> adapters;

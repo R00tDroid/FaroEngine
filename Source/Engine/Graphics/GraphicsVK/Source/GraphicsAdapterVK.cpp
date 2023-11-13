@@ -203,7 +203,7 @@ namespace Faro
 
     Array<char*> GraphicsAdapterVK::GetDeviceExtensions()
     {
-        return { VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_KHR_WIN32_SURFACE_EXTENSION_NAME };
+        return { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
     }
 
     bool GraphicsAdapterVK::VerifyDeviceExtensions(VkPhysicalDevice physicalDevice)
@@ -234,7 +234,7 @@ namespace Faro
         {
             for (String& extension : missingExtensions)
             {
-                Logger::Log(GraphicsLogVK, LC_Error, "Missing extension: %s", extension.Data());
+                Logger::Log(GraphicsLogVK, LC_Error, "Missing device extension: %s", extension.Data());
             }
             return false;
         }
