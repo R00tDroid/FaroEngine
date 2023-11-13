@@ -6,6 +6,7 @@
 #include "GraphicsInterface.hpp"
 #include "GraphicsInterfaceVK.hpp"
 #include "GraphicsLogVK.hpp"
+#include "GraphicsPipelineVK.hpp"
 #include "GraphicsSwapchainVK.hpp"
 
 namespace Faro
@@ -159,7 +160,9 @@ namespace Faro
 
     GraphicsPipeline* GraphicsAdapterVK::CreatePipeline(GraphicsPipelineDesc desc)
     {
-        return nullptr;
+        GraphicsPipelineVK* pipeline = MemoryManager::New<GraphicsPipelineVK>();
+        pipeline->Init(this, desc);
+        return pipeline;
     }
 
     VkPhysicalDevice GraphicsAdapterVK::GetPhysicalDevice()
