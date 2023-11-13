@@ -36,8 +36,6 @@ namespace Faro
             return;
         }
         Debug_Assert(commandBuffer != nullptr);
-
-        vkEndCommandBuffer(commandBuffer);
     }
 
     void GraphicsCommandListVK::Destroy()
@@ -53,10 +51,17 @@ namespace Faro
 
     void GraphicsCommandListVK::Reset()
     {
+        VkCommandBufferBeginInfo beginDesc = { VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO };
+        vkBeginCommandBuffer(commandBuffer, &beginDesc);
+
+        vkResetCommandBuffer(commandBuffer, 0);
     }
 
     void GraphicsCommandListVK::Execute()
     {
+        vkEndCommandBuffer(commandBuffer);
+
+        //TODO Submit commands to queue
     }
 
     void GraphicsCommandListVK::SetResourceState(GraphicsBuffer* bufferPtr, GraphicsResourceState state)
