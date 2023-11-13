@@ -72,7 +72,7 @@ namespace Faro
 
         // Load function pointers
         int32 gladVersion = gladLoaderLoadVulkan(static_cast<GraphicsInterfaceVK*>(GGraphics)->GetInstance(), physicalDevice, device);
-        Logger::Log(GraphicsLogVK, LC_Debug, "GLAD loader: %i.%i", GLAD_VERSION_MAJOR(gladVersion), GLAD_VERSION_MINOR(gladVersion));
+        Logger::Log(GraphicsLogVK, LC_Debug, "GLAD device: %i.%i", GLAD_VERSION_MAJOR(gladVersion), GLAD_VERSION_MINOR(gladVersion));
         Debug_Assert(gladVersion != 0);
 
         // Query queue
