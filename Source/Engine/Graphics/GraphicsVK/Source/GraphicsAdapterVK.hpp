@@ -45,5 +45,9 @@ namespace Faro
 
         int32 memoryIndexRemote = -1;
         int32 memoryIndexUpload = -1;
+
+#ifndef NDEBUG
+        VkDebugUtilsMessengerEXT debugMessenger = nullptr;
+#endif
     };
 }
