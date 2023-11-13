@@ -17,6 +17,11 @@ std::filesystem::path TaskGenerate::ProjectInfo::GetOutputExecutable(IToolchain*
 std::filesystem::path TaskGenerate::ProjectInfo::GetRootDirectory()
 { return {}; }
 
+ModuleManifest* TaskGenerate::ProjectInfo::GetModuleManifest()
+{
+    return nullptr;
+}
+
 std::string TaskGenerate::CustomCommandInfo::GetBuildCommand()
 { return buildCommand; }
 
@@ -70,6 +75,11 @@ std::filesystem::path TaskGenerate::ModuleInfo::GetOutputExecutable(IToolchain* 
     {
         return {};
     }
+}
+
+ModuleManifest* TaskGenerate::ModuleInfo::GetModuleManifest()
+{
+    return module;
 }
 
 int TaskGenerate::GetPriority() const
@@ -368,7 +378,7 @@ void TaskGenerate::WriteProjectFile(ProjectInfo& projectInfo)
                         element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
 
                         std::string preprocessorDefines;
-                        for (std::string& path : toolchain->GetPreprocessorDefines(platform, static_cast<BuildType>(buildTypeIndex)))
+                        for (std::string& path : toolchain->GetPreprocessorDefines(projectInfo.GetModuleManifest(), platform, static_cast<BuildType>(buildTypeIndex)))
                         {
                             preprocessorDefines += path + ";";
                         }

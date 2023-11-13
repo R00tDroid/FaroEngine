@@ -5,7 +5,7 @@
 #include "Command.hpp"
 #include "ToolchainMSVC.hpp"
 
-std::vector<std::string> IToolchain::GetPreprocessorDefines(BuildPlatform* platform, BuildType configuration)
+std::vector<std::string> IToolchain::GetPreprocessorDefines(ModuleManifest* manifest, BuildPlatform* platform, BuildType configuration)
 {
     std::vector<std::string> defines;
 
@@ -22,6 +22,15 @@ std::vector<std::string> IToolchain::GetPreprocessorDefines(BuildPlatform* platf
 
         case ENUMSIZE:;
         default:;
+    }
+
+    if (manifest != nullptr)
+    {
+        std::vector<std::string> moduleDefines = manifest->GetModuleDefines();
+        for (std::string& define : moduleDefines)
+        {
+            defines.push_back(define);
+        }
     }
 
     return defines;

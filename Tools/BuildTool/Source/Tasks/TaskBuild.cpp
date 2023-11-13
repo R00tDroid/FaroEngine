@@ -260,7 +260,7 @@ bool TaskBuild::CompileModule(ModuleManifest* module, std::vector<std::filesyste
         std::string displayName = GetDisplayName(*module, file);
         Utility::PrintLine(displayName);
 
-        if (!targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetToolchain->GetPreprocessorDefines(targetPlatform, buildType)))
+        if (!targetToolchain->BuildSource(*module, targetPlatform, buildType, file, includes, targetToolchain->GetPreprocessorDefines(module, targetPlatform, buildType)))
         {
             anyError = true;
             module->fileDates.InvalidateFileTime(file);
