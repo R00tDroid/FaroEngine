@@ -1,6 +1,6 @@
 #pragma once
 #include <GraphicsCommandList.hpp>
-#include <glad/vulkan.h>
+#include "Vulkan.hpp"
 
 namespace Faro
 {
