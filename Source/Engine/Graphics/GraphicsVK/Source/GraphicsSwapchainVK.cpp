@@ -41,7 +41,6 @@ namespace Faro
         presentDesc.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
         presentDesc.swapchainCount = 1;
         presentDesc.pSwapchains = &swapchain;
-        //presentDesc.pImageIndices = &imageIndex;
 
         GraphicsAdapterVK* vkAdapter = GetTypedAdapter<GraphicsAdapterVK>();
         vkQueuePresentKHR(vkAdapter->GetQueue(), &presentDesc);

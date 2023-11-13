@@ -8,7 +8,7 @@ namespace Faro
     bool GraphicsInterfaceVK::Init()
     {
         int32 gladVersion = gladLoaderLoadVulkan(nullptr, nullptr, nullptr);
-        Logger::Log(GraphicsLogVK, LC_Debug, "GLAD loader: %i.%i", GLAD_VERSION_MAJOR(gladVersion), GLAD_VERSION_MINOR(gladVersion));
+        Logger::Log(GraphicsLogVK, LC_Debug, "GLAD instance: %i.%i", GLAD_VERSION_MAJOR(gladVersion), GLAD_VERSION_MINOR(gladVersion));
 
         if (!VerifyInstanceExtensions()) return false;
 
