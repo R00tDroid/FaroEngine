@@ -1,5 +1,6 @@
 #include "GraphicsBufferVK.hpp"
 #include "GraphicsAdapterVK.hpp"
+#include "GraphicsSwapchainVK.hpp"
 #include <Assert.hpp>
 
 namespace Faro
@@ -49,34 +50,42 @@ namespace Faro
         const GraphicsBufferDesc& desc = GetDesc();
         if (desc.resourceType == RT_Texture)
         {
-            VkImageCreateInfo imageDesc = {};
-            imageDesc.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
-            imageDesc.imageType = VK_IMAGE_TYPE_2D;
-            imageDesc.extent.width = desc.texture.resolution.x;
-            imageDesc.extent.height = desc.texture.resolution.y;
-            imageDesc.extent.depth = 1;
-            imageDesc.mipLevels = 1;
-            imageDesc.arrayLayers = 1;
-            imageDesc.format = VK_FORMAT_R8G8B8A8_UNORM; //TODO Convert format from desc
-            imageDesc.tiling = VK_IMAGE_TILING_OPTIMAL;
-            imageDesc.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED; //TODO Set initial state from desc
-            imageDesc.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT; //TODO Get flags from desc
-            imageDesc.samples = VK_SAMPLE_COUNT_1_BIT;
-            imageDesc.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-            vkCreateImage(adapter->GetDevice(), &imageDesc, nullptr, &heapImage);
-            Debug_Assert(heapImage != nullptr);
+            if (desc.texture.renderTarget && desc.renderTarget.swapchain != nullptr)
+            {
+                GraphicsSwapchainVK* swapchain = (GraphicsSwapchainVK*)desc.renderTarget.swapchain;
+                heapImage = swapchain->GetBackbufferImage(desc.renderTarget.swapchainImageIndex);
+            }
+            else
+            {
+                VkImageCreateInfo imageDesc = {};
+                imageDesc.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
+                imageDesc.imageType = VK_IMAGE_TYPE_2D;
+                imageDesc.extent.width = desc.texture.resolution.x;
+                imageDesc.extent.height = desc.texture.resolution.y;
+                imageDesc.extent.depth = 1;
+                imageDesc.mipLevels = 1;
+                imageDesc.arrayLayers = 1;
+                imageDesc.format = VK_FORMAT_R8G8B8A8_UNORM; //TODO Convert format from desc
+                imageDesc.tiling = VK_IMAGE_TILING_OPTIMAL;
+                imageDesc.initialLayout = VK_IMAGE_LAYOUT_UNDEFINED; //TODO Set initial state from desc
+                imageDesc.usage = VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT; //TODO Get flags from desc
+                imageDesc.samples = VK_SAMPLE_COUNT_1_BIT;
+                imageDesc.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+                vkCreateImage(adapter->GetDevice(), &imageDesc, nullptr, &heapImage);
+                Debug_Assert(heapImage != nullptr);
 
-            VkMemoryRequirements memoryDesc;
-            vkGetImageMemoryRequirements(adapter->GetDevice(), heapImage, &memoryDesc);
+                VkMemoryRequirements memoryDesc;
+                vkGetImageMemoryRequirements(adapter->GetDevice(), heapImage, &memoryDesc);
 
-            VkMemoryAllocateInfo allocDesc{};
-            allocDesc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-            allocDesc.allocationSize = memoryDesc.size;
-            allocDesc.memoryTypeIndex = GetMemoryType();
-            vkAllocateMemory(adapter->GetDevice(), &allocDesc, nullptr, &heapMemory);
-            Debug_Assert(heapMemory != nullptr);
+                VkMemoryAllocateInfo allocDesc{};
+                allocDesc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+                allocDesc.allocationSize = memoryDesc.size;
+                allocDesc.memoryTypeIndex = GetMemoryType();
+                vkAllocateMemory(adapter->GetDevice(), &allocDesc, nullptr, &heapMemory);
+                Debug_Assert(heapMemory != nullptr);
 
-            vkBindImageMemory(adapter->GetDevice(), heapImage, heapMemory, 0);
+                vkBindImageMemory(adapter->GetDevice(), heapImage, heapMemory, 0);
+            }
         }
         else 
         {
