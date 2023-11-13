@@ -5,6 +5,9 @@
     "PrivateIncludeDirectories": [
         "Thirdparty/GLAD/include"
     ],
+    "PublicDefines": [
+        "VK_USE_PLATFORM_WIN32_KHR"
+    ],
     "Dependencies": [
         "GraphicsBase",
         "PlatformWindows"
