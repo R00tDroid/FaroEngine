@@ -58,6 +58,18 @@ ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifes
         return nullptr;
     }
 
+    if (!manifest->ParseDefines(rootObject, "PublicDefines", manifest->publicDefines))
+    {
+        delete manifest;
+        return nullptr;
+    }
+
+    if (!manifest->ParseDefines(rootObject, "PrivateDefines", manifest->privateDefines))
+    {
+        delete manifest;
+        return nullptr;
+    }
+
     if (!manifest->ParseModuleType(rootObject))
     {
         delete manifest;
@@ -110,6 +122,20 @@ ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path, Projec
         manifest->privateIncludes.push_back(line);
     }
     privateIncludeList.close();
+
+    std::ifstream publicDefineList(manifest->infoDirectory / "PublicDefines.txt");
+    while (std::getline(publicDefineList, line))
+    {
+        manifest->publicDefines.push_back(line);
+    }
+    publicDefineList.close();
+
+    std::ifstream privateDefineList(manifest->infoDirectory / "PrivateDefines.txt");
+    while (std::getline(privateDefineList, line))
+    {
+        manifest->privateDefines.push_back(line);
+    }
+    privateDefineList.close();
 
     std::ifstream dependencyList(manifest->infoDirectory / "Dependencies.txt");
     while (std::getline(dependencyList, line))
@@ -374,6 +400,35 @@ bool ModuleManifest::ParseIncludeDirectories(picojson::object& rootObject, std::
     return true;
 }
 
+bool ModuleManifest::ParseDefines(picojson::object& rootObject, std::string tag, std::vector<std::string>& output)
+{
+    output = {};
+
+    if (rootObject.find(tag) != rootObject.end())
+    {
+        picojson::value& value = rootObject[tag];
+        if (!value.is<picojson::array>())
+        {
+            Utility::PrintLine("Expected " + tag + " to be an array");
+            return false;
+        }
+
+        picojson::array& defineArray = value.get<picojson::array>();
+        for (picojson::value& defineValue : defineArray)
+        {
+            if (!defineValue.is<std::string>())
+            {
+                Utility::PrintLine("Expected define to be a string");
+                return false;
+            }
+
+            output.push_back(defineValue.get<std::string>());
+        }
+    }
+
+    return true;
+}
+
 bool ModuleManifest::ParseModuleType(picojson::object& rootObject)
 {
     solutionLocation = "";
@@ -479,6 +534,20 @@ void ModuleManifest::SaveCache()
         privateIncludeList << path.string() << "\n";
     }
     privateIncludeList.close();
+
+    std::ofstream publicDefineList(infoDirectory / "PublicDefines.txt");
+    for (std::string& path : publicDefines)
+    {
+        publicDefineList << path << "\n";
+    }
+    publicDefineList.close();
+
+    std::ofstream privateDefinesList(infoDirectory / "PrivateDefines.txt");
+    for (std::string& path : privateDefines)
+    {
+        privateDefinesList << path << "\n";
+    }
+    privateDefinesList.close();
 
     std::ofstream dependencyList(infoDirectory / "Dependencies.txt");
     for (std::filesystem::path dependency : moduleDependencies)
