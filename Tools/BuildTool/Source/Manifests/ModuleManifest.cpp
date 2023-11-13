@@ -205,6 +205,30 @@ std::vector<std::filesystem::path> ModuleManifest::GetModuleIncludeDirectories()
     return result;
 }
 
+std::vector<std::string> ModuleManifest::GetPublicDefineTree() const
+{
+    std::vector<std::string> result = publicDefines;
+    for (const std::filesystem::path& dependencyPath : moduleDependencies)
+    {
+        ModuleManifest* dependency = GetLoadedModule(dependencyPath);
+        for (std::string& path : dependency->GetPublicDefineTree())
+        {
+            result.push_back(path);
+        }
+    }
+    return result;
+}
+
+std::vector<std::string> ModuleManifest::GetModuleDefines() const
+{
+    std::vector<std::string> result = GetPublicDefineTree();
+    for (const std::string& define : privateDefines)
+    {
+        result.push_back(define);
+    }
+    return result;
+}
+
 std::string ModuleManifest::GetModuleName(const std::filesystem::path& path)
 {
     std::string result = path.filename().string();

@@ -59,6 +59,10 @@ public:
 
     std::vector<std::filesystem::path> GetModuleIncludeDirectories() const;
 
+    std::vector<std::string> GetPublicDefineTree() const;
+
+    std::vector<std::string> GetModuleDefines() const;
+
     static std::string GetModuleName(const std::filesystem::path& path);
 
     // Get list of direct dependencies
