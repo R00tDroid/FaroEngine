@@ -20,6 +20,8 @@ namespace Faro
 
         GraphicsPipeline* CreatePipeline(GraphicsPipelineDesc desc) override;
 
+        VkPhysicalDevice GetPhysicalDevice();
+
         VkDevice GetDevice();
 
         VkQueue GetQueue();
@@ -36,6 +38,7 @@ namespace Faro
         static Array<char*> GetDeviceExtensions();
         bool VerifyDeviceExtensions(VkPhysicalDevice device);
 
+        VkPhysicalDevice physicalDevice = nullptr;
         VkDevice device = nullptr;
         VkQueue queue = nullptr;
         uint32 graphicsQueue = 0;
