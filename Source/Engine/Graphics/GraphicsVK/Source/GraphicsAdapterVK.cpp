@@ -9,6 +9,19 @@
 #include "GraphicsPipelineVK.hpp"
 #include "GraphicsSwapchainVK.hpp"
 
+static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT severity, VkDebugUtilsMessageTypeFlagsEXT, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void*)
+{
+    Faro::Logger::Log(Faro::GraphicsLogVK, Faro::LC_Debug, "%s", pCallbackData->pMessage);
+
+    if ((severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT) == VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT ||
+        (severity & VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT) == VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT)
+    {
+        Debug_Break();
+    }
+
+    return VK_FALSE;
+}
+
 namespace Faro
 {
     void GraphicsAdapterVK::Init(GraphicsAdapterDesc& inDesc)
@@ -76,6 +89,14 @@ namespace Faro
         Logger::Log(GraphicsLogVK, LC_Debug, "GLAD device: %i.%i", GLAD_VERSION_MAJOR(gladVersion), GLAD_VERSION_MINOR(gladVersion));
         Debug_Assert(gladVersion != 0);
 
+#ifndef NDEBUG
+        VkDebugUtilsMessengerCreateInfoEXT debugDesc = { VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT };
+        debugDesc.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+        debugDesc.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+        debugDesc.pfnUserCallback = debugCallback;
+        vkCreateDebugUtilsMessengerEXT(static_cast<GraphicsInterfaceVK*>(GGraphics)->GetInstance(), &debugDesc, nullptr, &debugMessenger);
+#endif
+
         // Query queue
         vkGetDeviceQueue(device, queueCreateDesc.queueFamilyIndex, 0, &queue);
         Debug_Assert(queue != nullptr);
@@ -122,6 +143,14 @@ namespace Faro
 
     void GraphicsAdapterVK::Destroy()
     {
+#ifndef NDEBUG
+        if (debugMessenger != nullptr)
+        {
+            vkDestroyDebugUtilsMessengerEXT(static_cast<GraphicsInterfaceVK*>(GGraphics)->GetInstance(), debugMessenger, nullptr);
+            debugMessenger = nullptr;
+        }
+#endif
+
         if (device != nullptr)
         {
             vkDestroyDevice(device, nullptr);
