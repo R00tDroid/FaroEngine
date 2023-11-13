@@ -1,5 +1,6 @@
 #pragma once
 #include <GraphicsSwapchain.hpp>
+#include "Vulkan.hpp"
 
 namespace Faro
 {
@@ -10,5 +11,9 @@ namespace Faro
         void Destroy() override;
 
         void Present() override;
+
+    private:
+        VkSurfaceKHR windowSurface = nullptr;
+        VkSwapchainKHR swapchain = nullptr;
     };
 }

@@ -203,7 +203,7 @@ namespace Faro
 
     Array<char*> GraphicsAdapterVK::GetDeviceExtensions()
     {
-        return { VK_KHR_SWAPCHAIN_EXTENSION_NAME };
+        return { VK_KHR_SWAPCHAIN_EXTENSION_NAME, VK_KHR_WIN32_SURFACE_EXTENSION_NAME };
     }
 
     bool GraphicsAdapterVK::VerifyDeviceExtensions(VkPhysicalDevice physicalDevice)
