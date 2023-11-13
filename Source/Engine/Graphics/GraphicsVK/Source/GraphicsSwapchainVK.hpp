@@ -12,14 +12,18 @@ namespace Faro
 
         void Present() override;
 
+        VkImage GetBackbufferImage(uint32 index);
+
     private:
         bool CreateSurface(Window* window);
         bool CreateSwapchain();
+        bool GetImages();
 
         VkSurfaceFormatKHR SelectFormat();
         VkPresentModeKHR SelectPresentMode();
 
         VkSurfaceKHR windowSurface = nullptr;
         VkSwapchainKHR swapchain = nullptr;
+        Array<VkImage> images;
     };
 }

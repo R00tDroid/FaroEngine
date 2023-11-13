@@ -12,6 +12,7 @@ namespace Faro
 
         if (!CreateSurface(window)) return;
         if (!CreateSwapchain()) return;
+        if (!GetImages()) return;
         CreateBackbuffer();
     }
 
@@ -44,6 +45,16 @@ namespace Faro
 
         GraphicsAdapterVK* vkAdapter = GetTypedAdapter<GraphicsAdapterVK>();
         vkQueuePresentKHR(vkAdapter->GetQueue(), &presentDesc);
+    }
+
+    VkImage GraphicsSwapchainVK::GetBackbufferImage(uint32 index)
+    {
+        if (images.IsValidIndex(index))
+        {
+            return images[index];
+        }
+
+        return nullptr;
     }
 
     bool GraphicsSwapchainVK::CreateSurface(Window* window)
@@ -94,6 +105,22 @@ namespace Faro
         vkCreateSwapchainKHR(vkAdapter->GetDevice(), &swapchainDesc, nullptr, &swapchain);
 
         return swapchain != nullptr;
+    }
+
+    bool GraphicsSwapchainVK::GetImages()
+    {
+        Debug_Assert(images.Empty());
+
+        uint32 enumCount;
+        GraphicsAdapterVK* vkAdapter = GetTypedAdapter<GraphicsAdapterVK>();
+        vkGetSwapchainImagesKHR(vkAdapter->GetDevice(), swapchain, &enumCount, nullptr);
+
+        Debug_Assert(enumCount == 2);
+
+        images.Resize(enumCount);
+        vkGetSwapchainImagesKHR(vkAdapter->GetDevice(), swapchain, &enumCount, images.Data());
+
+        return true;
     }
 
     VkSurfaceFormatKHR GraphicsSwapchainVK::SelectFormat()
