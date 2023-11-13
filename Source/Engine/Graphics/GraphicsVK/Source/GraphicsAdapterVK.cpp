@@ -6,6 +6,7 @@
 #include "GraphicsInterface.hpp"
 #include "GraphicsInterfaceVK.hpp"
 #include "GraphicsLogVK.hpp"
+#include "GraphicsSwapchainVK.hpp"
 
 namespace Faro
 {
@@ -47,10 +48,19 @@ namespace Faro
             return;
         }
 
+        if (!VerifyDeviceExtensions(physicalDevice))
+        {
+            return;
+        }
+
         VkDeviceCreateInfo deviceCreateDesc = {};
         deviceCreateDesc.pQueueCreateInfos = &queueCreateDesc;
         deviceCreateDesc.queueCreateInfoCount = 1;
         deviceCreateDesc.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+
+        Array<char*> extensions = GetDeviceExtensions();
+        deviceCreateDesc.enabledExtensionCount = extensions.Size();
+        deviceCreateDesc.ppEnabledExtensionNames = extensions.Data();
 
         // Create device
         if (vkCreateDevice(physicalDevice, &deviceCreateDesc, nullptr, &device) != VK_SUCCESS)
@@ -142,7 +152,9 @@ namespace Faro
 
     GraphicsSwapchain* GraphicsAdapterVK::CreateSwapchain(Window* window)
     {
-        return nullptr;
+        GraphicsSwapchainVK* swapchain = MemoryManager::New<GraphicsSwapchainVK>();
+        swapchain->Init(this, window);
+        return swapchain;
     }
 
     GraphicsPipeline* GraphicsAdapterVK::CreatePipeline(GraphicsPipelineDesc desc)
@@ -187,5 +199,46 @@ namespace Faro
         }
 
         return -1;
+    }
+
+    Array<char*> GraphicsAdapterVK::GetDeviceExtensions()
+    {
+        return { "VK_KHR_swapchain" };
+    }
+
+    bool GraphicsAdapterVK::VerifyDeviceExtensions(VkPhysicalDevice physicalDevice)
+    {
+        uint32 extensionCount;
+        vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extensionCount, nullptr);
+
+        Array<VkExtensionProperties> availableExtensions;
+        availableExtensions.Resize(extensionCount);
+        vkEnumerateDeviceExtensionProperties(physicalDevice, nullptr, &extensionCount, availableExtensions.Data());
+
+        Array<String> missingExtensions;
+        Array<char*> extensions = GetDeviceExtensions();
+        for (char* extension : extensions)
+        {
+            missingExtensions.Add(extension);
+        }
+
+        for (VkExtensionProperties& extension : availableExtensions)
+        {
+            if (missingExtensions.Contains(extension.extensionName))
+            {
+                missingExtensions.Remove(extension.extensionName);
+            }
+        }
+
+        if (!missingExtensions.Empty())
+        {
+            for (String& extension : missingExtensions)
+            {
+                Logger::Log(GraphicsLogVK, LC_Error, "Missing extension: %s", extension.Data());
+            }
+            return false;
+        }
+
+        return true;
     }
 }

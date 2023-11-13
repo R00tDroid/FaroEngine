@@ -17,4 +17,8 @@ namespace Faro
     {
         GraphicsSwapchain::Destroy();
     }
+
+    void GraphicsSwapchainVK::Present()
+    {
+    }
 }
