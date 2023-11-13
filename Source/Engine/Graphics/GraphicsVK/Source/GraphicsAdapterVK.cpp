@@ -14,7 +14,7 @@ namespace Faro
     {
         Logger::Log(GraphicsLogVK, LC_Info, "Creating adapter: %s", inDesc.name.Data());
 
-        VkPhysicalDevice physicalDevice = (VkPhysicalDevice)inDesc.payload;
+        physicalDevice = (VkPhysicalDevice)inDesc.payload;
         Debug_Assert(physicalDevice != nullptr);
 
         // Find graphics queue index
@@ -160,6 +160,11 @@ namespace Faro
     GraphicsPipeline* GraphicsAdapterVK::CreatePipeline(GraphicsPipelineDesc desc)
     {
         return nullptr;
+    }
+
+    VkPhysicalDevice GraphicsAdapterVK::GetPhysicalDevice()
+    {
+        return physicalDevice;
     }
 
     VkDevice GraphicsAdapterVK::GetDevice()
