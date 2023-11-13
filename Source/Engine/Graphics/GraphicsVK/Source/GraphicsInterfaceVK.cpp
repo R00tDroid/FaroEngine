@@ -10,6 +10,8 @@ namespace Faro
         int32 gladVersion = gladLoaderLoadVulkan(nullptr, nullptr, nullptr);
         Logger::Log(GraphicsLogVK, LC_Debug, "GLAD loader: %i.%i", GLAD_VERSION_MAJOR(gladVersion), GLAD_VERSION_MINOR(gladVersion));
 
+        if (!VerifyInstanceExtensions()) return false;
+
         VkApplicationInfo appInfo = {};
         appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
         appInfo.pApplicationName = "";
@@ -38,6 +40,10 @@ namespace Faro
             instanceInfo.enabledLayerCount = enabledLayers.Size();
             instanceInfo.ppEnabledLayerNames = enabledLayers.Data();
         }
+
+        Array<char*> enabledExtensions = GetInstanceExtensions();
+        instanceInfo.enabledExtensionCount = enabledExtensions.Size();
+        instanceInfo.ppEnabledExtensionNames = enabledExtensions.Data();
 
         vkCreateInstance(&instanceInfo, nullptr, &instance);
 
@@ -115,6 +121,47 @@ namespace Faro
     VkInstance GraphicsInterfaceVK::GetInstance()
     {
         return instance;
+    }
+
+    Array<char*> GraphicsInterfaceVK::GetInstanceExtensions()
+    {
+        return { VK_KHR_SURFACE_EXTENSION_NAME, VK_KHR_WIN32_SURFACE_EXTENSION_NAME };
+    }
+
+    bool GraphicsInterfaceVK::VerifyInstanceExtensions()
+    {
+        uint32 extensionCount;
+        vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+
+        Array<VkExtensionProperties> availableExtensions;
+        availableExtensions.Resize(extensionCount);
+        vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, availableExtensions.Data());
+
+        Array<String> missingExtensions;
+        Array<char*> extensions = GetInstanceExtensions();
+        for (char* extension : extensions)
+        {
+            missingExtensions.Add(extension);
+        }
+
+        for (VkExtensionProperties& extension : availableExtensions)
+        {
+            if (missingExtensions.Contains(extension.extensionName))
+            {
+                missingExtensions.Remove(extension.extensionName);
+            }
+        }
+
+        if (!missingExtensions.Empty())
+        {
+            for (String& extension : missingExtensions)
+            {
+                Logger::Log(GraphicsLogVK, LC_Error, "Missing instance extension: %s", extension.Data());
+            }
+            return false;
+        }
+
+        return true;
     }
 
     Array<String> GraphicsInterfaceVK::GetAvailableLayers()

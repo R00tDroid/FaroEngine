@@ -34,7 +34,6 @@ namespace Faro
         static int32 GetMemoryIndex(const VkPhysicalDeviceMemoryProperties& memoryProperties, VkMemoryPropertyFlags memoryFlags);
 
         static Array<char*> GetDeviceExtensions();
-
         bool VerifyDeviceExtensions(VkPhysicalDevice device);
 
         VkDevice device = nullptr;
