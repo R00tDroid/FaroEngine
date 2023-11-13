@@ -11,6 +11,8 @@ namespace Faro
         WindowState windowState = window->GetWindowState();
 
         CreateBackbuffer();
+
+        //TODO Create swapchain
     }
 
     void GraphicsSwapchainVK::Destroy()
