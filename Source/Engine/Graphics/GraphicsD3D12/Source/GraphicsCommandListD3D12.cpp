@@ -44,21 +44,21 @@ namespace Faro
     {
         if (bufferPtr->GetResourceState() == state) return;
 
-        IGraphicsBufferD3D12* buffer = static_cast<IGraphicsBufferD3D12*>(bufferPtr);
+        GraphicsBufferD3D12* buffer = static_cast<GraphicsBufferD3D12*>(bufferPtr);
         buffer->TransitionResource(commandList, state);
     }
 
     void GraphicsCommandListD3D12::CopyBuffer(GraphicsBuffer* sourcePtr, GraphicsBuffer* destinationPtr)
     {
-        IGraphicsBufferD3D12* source = static_cast<IGraphicsBufferD3D12*>(sourcePtr);
-        IGraphicsBufferD3D12* destination = static_cast<IGraphicsBufferD3D12*>(destinationPtr);
+        GraphicsBufferD3D12* source = static_cast<GraphicsBufferD3D12*>(sourcePtr);
+        GraphicsBufferD3D12* destination = static_cast<GraphicsBufferD3D12*>(destinationPtr);
 
         commandList->CopyResource(destination->GetResource(), source->GetResource());
     }
 
     void GraphicsCommandListD3D12::ClearRenderTarget(GraphicsBuffer* inRenderTarget, FloatColor color)
     {
-        IGraphicsBufferD3D12* renderTarget = static_cast<IGraphicsBufferD3D12*>(inRenderTarget);
+        GraphicsBufferD3D12* renderTarget = static_cast<GraphicsBufferD3D12*>(inRenderTarget);
         commandList->ClearRenderTargetView(renderTarget->GetDescriptor(), color.d, 0, nullptr);
     }
 }
