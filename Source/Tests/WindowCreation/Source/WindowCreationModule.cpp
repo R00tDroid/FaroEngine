@@ -37,8 +37,8 @@ namespace Faro
 
         LogWindowCreationTest.Log(LC_Info, "Creating buffers...");
         GraphicsBufferDesc bufferDesc = GraphicsBufferDesc::Texture2D({ 400, 300 }, true);
-        uploadBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Upload, bufferDesc);
-        remoteBuffer = adapter->CreateBuffer(GraphicsBufferType::BT_Remote, bufferDesc);
+        uploadBuffer = adapter->CreateBuffer({ GraphicsBufferType::BT_Upload, bufferDesc });
+        remoteBuffer = adapter->CreateBuffer({ GraphicsBufferType::BT_Remote, bufferDesc });
         Debug_Assert(uploadBuffer != nullptr);
         Debug_Assert(remoteBuffer != nullptr);
 
