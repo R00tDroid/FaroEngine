@@ -6,13 +6,12 @@ namespace Faro
     class GraphicsBufferContainer : public IGraphicsAdapterChild
     {
     public:
-        virtual void Init(GraphicsAdapter* adapter, GraphicsBufferType type, GraphicsBufferDesc desc);
+        virtual void Init(GraphicsAdapter* adapter, GraphicsBufferCreateDesc createDesc);
         void Destroy() override;
 
         GraphicsBuffer* Get();
 
-        GraphicsBufferType type;
-        GraphicsBufferDesc desc;
+        GraphicsBufferCreateDesc createDesc;
 
     protected:
         GraphicsBuffer* resources[2] = { nullptr, nullptr };
