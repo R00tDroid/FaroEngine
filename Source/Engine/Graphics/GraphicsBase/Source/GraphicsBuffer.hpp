@@ -15,13 +15,6 @@ namespace Faro
         RS_Present ///< Marks a rendertarget buffer read for presentation by its swapchain.
     };
 
-    /// @brief Determines the type of a graphics buffer
-    enum GraphicsBufferType
-    {
-        BT_Upload, ///< Uploads data from the CPU to the graphics adapter.
-        BT_Remote ///< Stores memory on the graphics adapter.
-    };
-
     /// @brief A buffer storing graphics related data. Created by GraphicsAdapter::CreateBuffer.
     class GraphicsBuffer : public IGraphicsAdapterChild
     {
@@ -32,7 +25,9 @@ namespace Faro
          */
         const GraphicsBufferDesc& GetDesc();
 
-        void Init(GraphicsAdapter* adapter, GraphicsBufferDesc desc);
+        GraphicsBufferType GetBufferType();
+
+        void Init(GraphicsAdapter* adapter, GraphicsBufferCreateDesc createDesc);
 
         /**
          * @brief Prepare the given data so it can be uploaded to the graphics adapter. This buffer **must** be created as BT_Upload!
@@ -56,5 +51,6 @@ namespace Faro
     private:
         GraphicsBufferDesc desc;
         GraphicsResourceState state;
+        GraphicsBufferType type;
     };
 }
