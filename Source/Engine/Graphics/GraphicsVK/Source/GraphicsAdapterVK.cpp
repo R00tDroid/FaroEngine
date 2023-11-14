@@ -166,10 +166,10 @@ namespace Faro
         return commandList;
     }
 
-    GraphicsBuffer* GraphicsAdapterVK::CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc)
+    GraphicsBuffer* GraphicsAdapterVK::CreateBuffer(GraphicsBufferCreateDesc createDesc)
     {
         GraphicsBuffer* buffer = MemoryManager::New<GraphicsBufferVK>();
-        buffer->Init(this, desc);
+        buffer->Init(this, createDesc);
         return buffer;
     }
 
