@@ -65,7 +65,7 @@ namespace Faro
 
     GraphicsBuffer* GraphicsAdapterD3D12::CreateBuffer(GraphicsBufferCreateDesc createDesc)
     {
-        GraphicsBufferD3D12* buffer = MemoryManager::New<GraphicsBufferD3D12>();
+        GraphicsBuffer* buffer = MemoryManager::New<GraphicsBufferD3D12>();
         buffer->Init(this, createDesc);
         return buffer;
     }

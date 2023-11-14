@@ -5,41 +5,28 @@
 
 namespace Faro
 {
-    class IGraphicsBufferD3D12 : public GraphicsBuffer
+    class GraphicsBufferD3D12 : public GraphicsBuffer
     {
     public:
+        void Init() override;
+
         void Destroy() override;
 
         void TransitionResource(ID3D12GraphicsCommandList* commandList, GraphicsResourceState state);
 
+        void Upload(uint8* data) override;
+
         ID3D12Resource* GetResource();
         D3D12_CPU_DESCRIPTOR_HANDLE GetDescriptor();
 
-    protected:
+    private:
+        D3D12_RESOURCE_DESC GetNativeDesc();
+
         uint8* cpuAddress = nullptr;
         ID3D12Resource* gpuResource = nullptr;
 
         ID3D12DescriptorHeap* descriptorHeap = nullptr;
         uint32 descriptorHeapSize = 0;
-    };
-
-    class GraphicsBufferUploadD3D12 : public IGraphicsBufferD3D12
-    {
-    public:
-        void Init() override;
-
-        void Upload(uint8* data) override;
-    };
-
-    class GraphicsBufferRemoteD3D12 : public IGraphicsBufferD3D12
-    {
-    public:
-        void Init() override;
-
-        void Upload(uint8*) override {}
-
-    private:
-        D3D12_RESOURCE_DESC GetNativeDesc();
     };
 }
 #endif
