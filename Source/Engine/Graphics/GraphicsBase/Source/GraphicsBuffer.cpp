@@ -7,9 +7,15 @@ namespace Faro
         return desc;
     }
 
-    void GraphicsBuffer::Init(GraphicsAdapter* adapter, GraphicsBufferDesc inDesc)
+    GraphicsBufferType GraphicsBuffer::GetBufferType()
     {
-        desc = inDesc;
+        return type;
+    }
+
+    void GraphicsBuffer::Init(GraphicsAdapter* adapter, GraphicsBufferCreateDesc createDesc)
+    {
+        desc = createDesc.bufferDesc;
+        type = createDesc.bufferType;
         IGraphicsAdapterChild::Init(adapter);
     }
 
