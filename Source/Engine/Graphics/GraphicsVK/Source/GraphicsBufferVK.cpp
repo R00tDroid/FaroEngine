@@ -36,7 +36,7 @@ namespace Faro
             case RS_CopyDestination: return VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL;
             case RS_RenderTarget: return VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
             case RS_ShaderResource: return VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL;
-            //case RS_Present: return VK_IMAGE_LAYOUT_PRESENT_SRC_KHR; //TODO Support present layout
+            case RS_Present: return VK_IMAGE_LAYOUT_PRESENT_SRC_KHR;
         }
         return VK_IMAGE_LAYOUT_UNDEFINED;
     }
@@ -155,6 +155,19 @@ namespace Faro
 
     uint32 GraphicsBufferVK::GetMemoryType()
     {
-        return 0; //TODO Get index from adapter based on desc
+        GraphicsBufferType bufferType = GetBufferType();
+
+        switch (bufferType)
+        {
+            case BT_Upload:
+                return GetTypedAdapter<GraphicsAdapterVK>()->GetMemoryIndexUpload();
+            case BT_Remote:
+                return GetTypedAdapter<GraphicsAdapterVK>()->GetMemoryIndexRemote();
+            default:
+            {
+                Debug_Break();
+                return 0;
+        }
+        }        
     }
 }
