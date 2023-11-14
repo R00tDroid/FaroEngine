@@ -51,10 +51,10 @@ namespace Faro
 
     void GraphicsCommandListVK::Reset()
     {
-        VkCommandBufferBeginInfo beginDesc = { VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO };
-        vkBeginCommandBuffer(commandBuffer, &beginDesc);
-
         vkResetCommandBuffer(commandBuffer, 0);
+
+        VkCommandBufferBeginInfo beginDesc = { VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO };
+        vkBeginCommandBuffer(commandBuffer, &beginDesc);    
     }
 
     void GraphicsCommandListVK::Execute()
