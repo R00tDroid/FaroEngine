@@ -3,14 +3,13 @@
 
 namespace Faro
 {
-    void GraphicsBufferContainer::Init(GraphicsAdapter* adapter, GraphicsBufferType inType, GraphicsBufferDesc inDesc)
+    void GraphicsBufferContainer::Init(GraphicsAdapter* adapter, GraphicsBufferCreateDesc inCreateDesc)
     {
         IGraphicsAdapterChild::Init(adapter);
-        type = inType;
-        desc = inDesc;
+        createDesc = inCreateDesc;
 
-        resources[0] = GetAdapter()->CreateBuffer(type, desc);
-        resources[1] = GetAdapter()->CreateBuffer(type, desc);
+        resources[0] = GetAdapter()->CreateBuffer(createDesc);
+        resources[1] = GetAdapter()->CreateBuffer(createDesc);
     }
 
     void GraphicsBufferContainer::Destroy()

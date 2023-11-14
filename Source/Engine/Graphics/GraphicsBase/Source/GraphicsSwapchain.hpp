@@ -8,7 +8,7 @@ namespace Faro
     class GraphicsSwapchainImageContainer : public GraphicsBufferContainer
     {
     public:
-        void Init(GraphicsAdapter* adapter, GraphicsBufferType type, GraphicsBufferDesc desc) override;
+        void Init(GraphicsAdapter* adapter, GraphicsBufferCreateDesc createDesc) override;
     };
 
     class GraphicsSwapchain : public IGraphicsAdapterChild
