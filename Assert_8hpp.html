@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.2a89d31 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.40ed03c (main)</span>
    </div>
   </td>
  </tr>
@@ -68,29 +68,25 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#define-members">Macros</a>  </div>
   <div class="headertitle"><div class="title">Assert.hpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-
+<div class="textblock"><code>#include &lt;type_traits&gt;</code><br />
+<code>#include &lt;iostream&gt;</code><br />
+</div>
 <p><a href="Assert_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:namespaceFaro"><td class="memItemLeft" align="right" valign="top">namespace &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceFaro.html">Faro</a></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="define-members" name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a601225aa94d7866a0b5f8715c7aec40a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Assert_8hpp.html#a601225aa94d7866a0b5f8715c7aec40a">RequireSubClass</a>(BaseClass,  SubClass)&#160;&#160;&#160;(std::is_base_of&lt;BaseClass, SubClass&gt;::value)</td></tr>
-<tr class="separator:a601225aa94d7866a0b5f8715c7aec40a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0dea18746ffd098d4cb56606dfab3c18"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Assert_8hpp.html#a0dea18746ffd098d4cb56606dfab3c18">_DebugCheck</a>(expression,  expressionString,  message,  filename,  lineNumber,  triggerAbort)</td></tr>
 <tr class="separator:a0dea18746ffd098d4cb56606dfab3c18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac1bae08a256da35f3e6bc57d1af1fda7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Assert_8hpp.html#ac1bae08a256da35f3e6bc57d1af1fda7">Debug_Break</a>()</td></tr>
+<tr class="separator:ac1bae08a256da35f3e6bc57d1af1fda7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a601225aa94d7866a0b5f8715c7aec40a"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Assert_8hpp.html#a601225aa94d7866a0b5f8715c7aec40a">RequireSubClass</a>(BaseClass,  SubClass)&#160;&#160;&#160;(std::is_base_of&lt;BaseClass, SubClass&gt;::value)</td></tr>
+<tr class="separator:a601225aa94d7866a0b5f8715c7aec40a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b6a0cf44b0c34097cb747445b003a09"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Assert_8hpp.html#a0b6a0cf44b0c34097cb747445b003a09">Debug_BreakMessage</a>(message)&#160;&#160;&#160;<a class="el" href="Assert_8hpp.html#a0dea18746ffd098d4cb56606dfab3c18">_DebugCheck</a>(false, nullptr, message, __FILE__, __LINE__, true);</td></tr>
 <tr class="separator:a0b6a0cf44b0c34097cb747445b003a09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1bae08a256da35f3e6bc57d1af1fda7"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Assert_8hpp.html#ac1bae08a256da35f3e6bc57d1af1fda7">Debug_Break</a>()&#160;&#160;&#160;<a class="el" href="Assert_8hpp.html#a906c3183702e4ba38acd6e2280c73319">Debug_CheckMessage</a>(false, nullptr);</td></tr>
-<tr class="separator:ac1bae08a256da35f3e6bc57d1af1fda7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a906c3183702e4ba38acd6e2280c73319"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Assert_8hpp.html#a906c3183702e4ba38acd6e2280c73319">Debug_CheckMessage</a>(expression,  message)&#160;&#160;&#160;<a class="el" href="Assert_8hpp.html#a0dea18746ffd098d4cb56606dfab3c18">_DebugCheck</a>(expression, #expression, message, __FILE__, __LINE__, false);</td></tr>
 <tr class="separator:a906c3183702e4ba38acd6e2280c73319"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5bab94d74ae83ea0a4939d755778ea97"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Assert_8hpp.html#a5bab94d74ae83ea0a4939d755778ea97">Debug_Check</a>(expression)&#160;&#160;&#160;<a class="el" href="Assert_8hpp.html#a906c3183702e4ba38acd6e2280c73319">Debug_CheckMessage</a>(expression, nullptr);</td></tr>
@@ -211,7 +207,7 @@ Macros</h2></td></tr>
           <td class="memname">#define Debug_Break</td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td>&#160;&#160;&#160;<a class="el" href="Assert_8hpp.html#a906c3183702e4ba38acd6e2280c73319">Debug_CheckMessage</a>(false, nullptr);</td>
+          <td></td>
         </tr>
       </table>
 </div><div class="memdoc">

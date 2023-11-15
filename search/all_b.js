@@ -1,7 +1,7 @@
 var searchData=
 [
   ['m_0',['m',['../structFaro_1_1Matrix44.html#a9daaa222fe07c2b65fa7dd3878b55b22',1,'Faro::Matrix44']]],
-  ['magnitude_1',['Magnitude',['../structFaro_1_1Vector2.html#a2b8ab1c298de7fbaf1a818b3aa7e27bf',1,'Faro::Vector2::Magnitude()'],['../structFaro_1_1Vector3.html#a2d3712c632c69ab610784d56672f43f7',1,'Faro::Vector3::Magnitude()']]],
+  ['magnitude_1',['Magnitude',['../structFaro_1_1Vector3.html#a2d3712c632c69ab610784d56672f43f7',1,'Faro::Vector3::Magnitude()'],['../structFaro_1_1Vector2.html#a2b8ab1c298de7fbaf1a818b3aa7e27bf',1,'Faro::Vector2::Magnitude()']]],
   ['main_2',['main',['../Entrypoint_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'Entrypoint.cpp']]],
   ['mainthread_3',['MainThread',['../classFaro_1_1MainThread.html',1,'Faro']]],
   ['mainthread_2ecpp_4',['MainThread.cpp',['../MainThread_8cpp.html',1,'']]],
@@ -15,7 +15,7 @@ var searchData=
   ['map_3c_20faro_3a_3astring_2c_20uint32_20_3e_12',['Map&lt; Faro::String, uint32 &gt;',['../classFaro_1_1Map.html',1,'Faro']]],
   ['mathutil_2ecpp_13',['MathUtil.cpp',['../MathUtil_8cpp.html',1,'']]],
   ['mathutil_2ehpp_14',['MathUtil.hpp',['../MathUtil_8hpp.html',1,'']]],
-  ['matrix44_15',['Matrix44',['../structFaro_1_1Matrix44.html',1,'Faro::Matrix44'],['../structFaro_1_1Matrix44.html#a2bd7a44bb6661c072d111a684a02f663',1,'Faro::Matrix44::Matrix44(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33)'],['../structFaro_1_1Matrix44.html#aa3ec845317a38c532cf6dba973fff3cf',1,'Faro::Matrix44::Matrix44()']]],
+  ['matrix44_15',['Matrix44',['../structFaro_1_1Matrix44.html',1,'Faro::Matrix44'],['../structFaro_1_1Matrix44.html#aa3ec845317a38c532cf6dba973fff3cf',1,'Faro::Matrix44::Matrix44()'],['../structFaro_1_1Matrix44.html#a2bd7a44bb6661c072d111a684a02f663',1,'Faro::Matrix44::Matrix44(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33)']]],
   ['matrix44_2ecpp_16',['Matrix44.cpp',['../Matrix44_8cpp.html',1,'']]],
   ['matrix44_2ehpp_17',['Matrix44.hpp',['../Matrix44_8hpp.html',1,'']]],
   ['max_18',['Max',['../namespaceFaro.html#aaf590d6bcc6e909c45c28db1da92d726',1,'Faro']]],

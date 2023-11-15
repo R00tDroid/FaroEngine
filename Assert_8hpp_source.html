@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.2a89d31 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.40ed03c (main)</span>
    </div>
   </td>
  </tr>
@@ -72,29 +72,58 @@ $(function() {
 <div class="contents">
 <a href="Assert_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span> </div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno"><a class="line" href="namespaceFaro.html">    3</a></span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceFaro.html">Faro</a></div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span>{</div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#a601225aa94d7866a0b5f8715c7aec40a">    5</a></span><span class="preprocessor">    #define RequireSubClass(BaseClass, SubClass) (std::is_base_of&lt;BaseClass, SubClass&gt;::value)</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#ifdef FARO_DEBUG</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>    <span class="keyword">extern</span> <span class="keywordtype">void</span> <a class="code hl_define" href="Assert_8hpp.html#a0dea18746ffd098d4cb56606dfab3c18">_DebugCheck</a>(<span class="keywordtype">bool</span> expression, <span class="keyword">const</span> <span class="keywordtype">char</span>* expressionString, <span class="keyword">const</span> <span class="keywordtype">char</span>* message, <span class="keyword">const</span> <span class="keywordtype">char</span>* filename, <span class="keywordtype">int</span> lineNumber, <span class="keywordtype">bool</span> triggerAbort);</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#else</span></div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#a0dea18746ffd098d4cb56606dfab3c18">   10</a></span><span class="preprocessor">#define _DebugCheck(expression, expressionString, message, filename, lineNumber, triggerAbort)</span></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#endif</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span> </div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#a0b6a0cf44b0c34097cb747445b003a09">   13</a></span><span class="preprocessor">    #define Debug_BreakMessage(message) _DebugCheck(false, nullptr, message, __FILE__, __LINE__, true);</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#ac1bae08a256da35f3e6bc57d1af1fda7">   14</a></span><span class="preprocessor">    #define Debug_Break() Debug_CheckMessage(false, nullptr);</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#a906c3183702e4ba38acd6e2280c73319">   16</a></span><span class="preprocessor">    #define Debug_CheckMessage(expression, message) _DebugCheck(expression, #expression, message, __FILE__, __LINE__, false);</span></div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#a5bab94d74ae83ea0a4939d755778ea97">   17</a></span><span class="preprocessor">    #define Debug_Check(expression) Debug_CheckMessage(expression, nullptr);</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#adab1a24ed8994472a61a56c40c34782c">   19</a></span><span class="preprocessor">    #define Debug_AssertMessage(expression, message) _DebugCheck(expression, #expression, message, __FILE__, __LINE__, true);</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#ac51023bd67369eae7707a091f684cdba">   20</a></span><span class="preprocessor">    #define Debug_Assert(expression) Debug_AssertMessage(expression, nullptr);</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#add1e1b6ffe983639ceabfeb2dc278eea">   22</a></span><span class="preprocessor">    #define Debug_BuildAssert(expression, message) static_assert(expression, message);</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>}</div>
-<div class="ttc" id="aAssert_8hpp_html_a0dea18746ffd098d4cb56606dfab3c18"><div class="ttname"><a href="Assert_8hpp.html#a0dea18746ffd098d4cb56606dfab3c18">_DebugCheck</a></div><div class="ttdeci">#define _DebugCheck(expression, expressionString, message, filename, lineNumber, triggerAbort)</div><div class="ttdef"><b>Definition:</b> Assert.hpp:10</div></div>
-<div class="ttc" id="anamespaceFaro_html"><div class="ttname"><a href="namespaceFaro.html">Faro</a></div><div class="ttdef"><b>Definition:</b> Assert.hpp:4</div></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#ifdef FARO_DEBUG </span><span class="comment">// Define internal debugging macros</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span> </div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">    #ifdef FARO_OS_WINDOWS</span></div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">    #include &lt;sstream&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">    #include &lt;<a class="code" href="MinWindows_8hpp.html">MinWindows.hpp</a>&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">    #define DebugOutputMessage(message)           \</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">    {                                             \</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">        std::cerr &lt;&lt; message;                     \</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">        std::ostringstream stream;                \</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">        stream &lt;&lt; message;                        \</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">        OutputDebugStringA(stream.str().c_str()); \</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">    }</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">    #define Debug_Break() __debugbreak()</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">    #else</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">    #define DebugOutputMessage(message)  \</span></div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">    {                                    \</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">        std::cerr &lt;&lt; message;            \</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">    }</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">    #define Debug_Break() raise(SIGTRAP)</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">    #endif</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#define _DebugCheck(expression, expressionString, message, filename, lineNumber, triggerAbort)\</span></div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">    if (!(expression)){\</span></div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">        DebugOutputMessage(&quot;\n--Debug check triggered--\n&quot;</span>);\</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>        DebugOutputMessage((filename) &lt;&lt; &quot;(&quot; &lt;&lt; (lineNumber) &lt;&lt; &quot;)\n&quot;);\</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>        if ((expressionString) != nullptr) DebugOutputMessage(&quot;Expression: &quot; &lt;&lt; (expressionString) &lt;&lt; &quot;\n&quot;);\</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>        if ((message) != nullptr) DebugOutputMessage(&quot;Message: &quot; &lt;&lt; (expressionString) &lt;&lt; &quot;\n\n&quot;);\</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        if ((triggerAbort)) Debug_Break();\</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    }</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span><span class="preprocessor">#else </span><span class="comment">// Define placeholder for non-debug mode</span></div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#a0dea18746ffd098d4cb56606dfab3c18">   38</a></span><span class="preprocessor">#define _DebugCheck(expression, expressionString, message, filename, lineNumber, triggerAbort)</span></div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#ac1bae08a256da35f3e6bc57d1af1fda7">   39</a></span><span class="preprocessor">#define Debug_Break()</span></div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span><span class="comment">// Define usable macros</span></div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#a601225aa94d7866a0b5f8715c7aec40a">   43</a></span><span class="preprocessor">#define RequireSubClass(BaseClass, SubClass) (std::is_base_of&lt;BaseClass, SubClass&gt;::value)</span></div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#a0b6a0cf44b0c34097cb747445b003a09">   45</a></span><span class="preprocessor">#define Debug_BreakMessage(message) _DebugCheck(false, nullptr, message, __FILE__, __LINE__, true);</span></div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#a906c3183702e4ba38acd6e2280c73319">   47</a></span><span class="preprocessor">#define Debug_CheckMessage(expression, message) _DebugCheck(expression, #expression, message, __FILE__, __LINE__, false);</span></div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#a5bab94d74ae83ea0a4939d755778ea97">   48</a></span><span class="preprocessor">#define Debug_Check(expression) Debug_CheckMessage(expression, nullptr);</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span> </div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#adab1a24ed8994472a61a56c40c34782c">   50</a></span><span class="preprocessor">#define Debug_AssertMessage(expression, message) _DebugCheck(expression, #expression, message, __FILE__, __LINE__, true);</span></div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#ac51023bd67369eae7707a091f684cdba">   51</a></span><span class="preprocessor">#define Debug_Assert(expression) Debug_AssertMessage(expression, nullptr);</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span> </div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="Assert_8hpp.html#add1e1b6ffe983639ceabfeb2dc278eea">   53</a></span><span class="preprocessor">#define Debug_BuildAssert(expression, message) static_assert(expression, message);</span></div>
+<div class="ttc" id="aMinWindows_8hpp_html"><div class="ttname"><a href="MinWindows_8hpp.html">MinWindows.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
