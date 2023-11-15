@@ -4,12 +4,12 @@
 
 TEST(CommandList, ParameterListNull)
 {
-    ParameterList parameters(0, nullptr);
+    EXPECT_NO_FATAL_FAILURE(ParameterList parameters(0, nullptr));
 }
 
 TEST(CommandList, ParameterListInvalidCount)
 {
-    ParameterList parameters(10, nullptr);
+    EXPECT_NO_FATAL_FAILURE(ParameterList parameters(10, nullptr));
 }
 
 TEST(CommandList, ParameterListCommands)
