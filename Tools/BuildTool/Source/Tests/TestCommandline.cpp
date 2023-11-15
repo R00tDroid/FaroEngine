@@ -65,4 +65,28 @@ TEST(CommandList, ParameterListNoParameters)
     EXPECT_STREQ(taskInfo.buildPlatform.c_str(), "");
     EXPECT_STREQ(taskInfo.projectManifestPath.string().c_str(), "");
 }
+
+TEST(CommandList, ParameterListInvalidProject)
+{
+    const char* commands[] = { "dummyPath", "-project" };
+    ParameterList parameters(ExpandCommand(commands));
+
+    TaskRunInfo taskInfo;
+    std::vector<ITask*> tasks;
+
+    EXPECT_FALSE(ParseParameters(parameters, tasks, taskInfo));
+    EXPECT_STREQ(taskInfo.projectManifestPath.string().c_str(), "");
+}
+
+TEST(CommandList, ParameterListGenerate)
+{
+    const char* commands[] = { "dummyPath", "-project", "project/path/file.json", "-generate" };
+    ParameterList parameters(ExpandCommand(commands));
+
+    TaskRunInfo taskInfo;
+    std::vector<ITask*> tasks;
+
+    EXPECT_TRUE(ParseParameters(parameters, tasks, taskInfo));
+    EXPECT_EQ(tasks.size(), 1);
+}
 #endif

@@ -30,20 +30,28 @@ void PrintHelp()
 
 bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
 {
-    if (parameters.HasArguments("project"))
+    if (parameters.Contains("project")) 
     {
-        try
+        if (parameters.HasArguments("project"))
         {
-            runInfo.projectManifestPath = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
-            runInfo.projectManifestPath.make_preferred();
+            try
+            {
+                runInfo.projectManifestPath = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
+                runInfo.projectManifestPath.make_preferred();
+            }
+            catch (std::exception const& e)
+            {
+                Utility::PrintLine("Failed to locate project: " + parameters.GetArguments("project")[0] + " (" + e.what() + ")");
+                return false;
+            }
+
+            Utility::PrintLineD("Project argument: " + runInfo.projectManifestPath.string());
         }
-        catch (std::exception const& e)
+        else
         {
-            Utility::PrintLine("Failed to locate project: " + parameters.GetArguments("project")[0] + " (" + e.what() + ")");
+            Utility::PrintLine("Invalid -project argument. See -help for more information.");
             return false;
         }
-
-        Utility::PrintLineD("Project argument: " + runInfo.projectManifestPath.string());
     }
 
     if (parameters.CountArguments("platform") == 2)
