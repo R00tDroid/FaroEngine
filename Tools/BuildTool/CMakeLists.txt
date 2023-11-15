@@ -53,10 +53,9 @@ macro(SetupToolTarget TargetName)
 endmacro()
 
 SetupToolTarget(${PROJECT_NAME})
-SetupToolTarget(${PROJECT_NAME}_Test)
-
 set_target_properties(${PROJECT_NAME} PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "-project \"${CMAKE_CURRENT_LIST_DIR}\\..\\..\\Source\\FaroEngine.faroproject.json\" -platform windows x64 -debug -generate -build")
 target_compile_definitions(${PROJECT_NAME} PUBLIC FaroToolTest=0)
 
+SetupToolTarget(${PROJECT_NAME}_Test)
 target_link_libraries(${PROJECT_NAME}_Test gtest)
 target_compile_definitions(${PROJECT_NAME}_Test PUBLIC FaroToolTest=1)
