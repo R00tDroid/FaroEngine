@@ -14,6 +14,8 @@ foreach(ConfigName ${CMAKE_CONFIGURATION_TYPES})
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${ConfigName} "${CMAKE_CURRENT_LIST_DIR}/../Bin" CACHE PATH "" FORCE)
 endforeach()
 
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
+
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/ShaderTranspiler")
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/BuildTool")
 
