@@ -9,6 +9,8 @@ class ParameterList
 public:
     ParameterList(int argc, char** argv)
     {
+        if (argc == 0 || argv == nullptr) return;
+
         PerformanceTimer timer;
         Utility::PrintLineD("Parsing ParameterList...");
 

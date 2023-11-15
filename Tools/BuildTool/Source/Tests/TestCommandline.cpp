@@ -1,0 +1,47 @@
+#if FaroToolTest
+#include <gtest/gtest.h>
+#include "Commandline.hpp"
+
+TEST(CommandList, ParameterListNull)
+{
+    ParameterList parameters(0, nullptr);
+}
+
+TEST(CommandList, ParameterListInvalidCount)
+{
+    ParameterList parameters(10, nullptr);
+}
+
+TEST(CommandList, ParameterListCommands)
+{
+    char* commands[] = { "dummyPath", "-command1", "-command2" };
+    ParameterList parameters(_countof(commands), commands);
+
+    EXPECT_TRUE(parameters.Contains("command1"));
+    EXPECT_TRUE(parameters.Contains("command2"));
+
+    EXPECT_FALSE(parameters.Contains("-command1"));
+    EXPECT_FALSE(parameters.Contains("-command2"));
+
+    EXPECT_FALSE(parameters.Contains("Command1"));
+    EXPECT_FALSE(parameters.Contains("command"));
+}
+
+TEST(CommandList, ParameterListArguments)
+{
+    char* commands[] = { "dummyPath","-command1", "-command2", "argument2.1" };
+    ParameterList parameters(_countof(commands), commands);
+
+    EXPECT_TRUE(parameters.Contains("command1"));
+    EXPECT_TRUE(parameters.Contains("command2"));
+
+    EXPECT_FALSE(parameters.Contains("argument2.1"));
+
+    EXPECT_FALSE(parameters.HasArguments("command1"));
+    EXPECT_TRUE(parameters.HasArguments("command2"));
+
+    EXPECT_EQ(parameters.CountArguments("command1"), 0);
+    EXPECT_EQ(parameters.CountArguments("command2"), 1);
+}
+
+#endif
