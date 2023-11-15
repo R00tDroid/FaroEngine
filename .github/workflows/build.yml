@@ -29,7 +29,7 @@ jobs:
         path: |
           Bin/*.exe
           Bin/*.dll
-          !*_Test*
+          Bin/*_Test.*
 
   ToolchainLinux:
     runs-on: ubuntu-latest
@@ -52,7 +52,7 @@ jobs:
         if-no-files-found: error
         path: |
           Bin/*
-          !*_Test*
+          !Bin/*_Test.*
 
   Documentation:
     runs-on: ubuntu-latest
