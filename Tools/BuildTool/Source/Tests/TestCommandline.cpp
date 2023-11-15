@@ -14,7 +14,7 @@ TEST(CommandList, ParameterListInvalidCount)
 
 TEST(CommandList, ParameterListCommands)
 {
-    char* commands[] = { "dummyPath", "-command1", "-command2" };
+    const char* commands[] = { "dummyPath", "-command1", "-command2" };
     ParameterList parameters(_countof(commands), commands);
 
     EXPECT_TRUE(parameters.Contains("command1"));
@@ -29,7 +29,7 @@ TEST(CommandList, ParameterListCommands)
 
 TEST(CommandList, ParameterListArguments)
 {
-    char* commands[] = { "dummyPath","-command1", "-command2", "argument2.1" };
+    const char* commands[] = { "dummyPath","-command1", "-command2", "argument2.1" };
     ParameterList parameters(_countof(commands), commands);
 
     EXPECT_TRUE(parameters.Contains("command1"));

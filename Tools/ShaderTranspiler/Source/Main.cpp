@@ -129,7 +129,7 @@ bool CompileShaders()
 
 int main(int argc, char** argv)
 {
-    ParameterList parameters(argc, argv);
+    ParameterList parameters(argc, const_cast<const char**>(argv));
 
     if (parameters.Contains("help"))
     {

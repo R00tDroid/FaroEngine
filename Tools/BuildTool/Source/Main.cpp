@@ -33,7 +33,7 @@ int main(int argc, char** argv)
     PerformanceTimer::StartGlobalTimer();
     PerformanceTimer mainTimer;
 
-    ParameterList parameters(argc, argv);
+    ParameterList parameters(argc, const_cast<const char**>(argv));
 
     std::vector<ITask*> tasks;
 
