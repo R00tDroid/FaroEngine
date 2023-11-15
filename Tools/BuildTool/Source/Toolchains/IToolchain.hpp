@@ -59,6 +59,8 @@ public:
 
     std::filesystem::path GetExePath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
 
+    std::filesystem::path GetBinaryPath(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration);
+
     virtual std::string GetLibExtension() = 0;
 
     virtual  std::string GetExeExtension() = 0;
