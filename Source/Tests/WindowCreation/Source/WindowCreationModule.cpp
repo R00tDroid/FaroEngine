@@ -2,6 +2,7 @@
 #include <Log.hpp>
 #include <Memory/MemoryManager.hpp>
 #include <GraphicsInterface.hpp>
+#include <Assert.hpp>
 
 namespace Faro
 {
@@ -20,6 +21,8 @@ namespace Faro
         fence = adapter->CreateFence();
 
         swapchain = adapter->CreateSwapchain(window);
+
+        Debug_Assert(swapchain != nullptr);
 
         GraphicsPipelineDesc pipelineDesc;
         pipeline = adapter->CreatePipeline(pipelineDesc);
@@ -42,7 +45,7 @@ namespace Faro
         commandList->ClearRenderTarget(swapchain->backbuffer->Get(), FloatColor::Green);
         commandList->SetResourceState(swapchain->backbuffer->Get(), RS_Present);
 
-        LogWindowCreationTest.Log(LC_Info, "Execute commandlsit");
+        LogWindowCreationTest.Log(LC_Info, "Execute commandlist");
         commandList->Execute();
 
         LogWindowCreationTest.Log(LC_Info, "Trigger fence");
