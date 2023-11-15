@@ -30,6 +30,8 @@ public:
         virtual std::filesystem::path GetOutputExecutable(IToolchain*, BuildPlatform*, BuildType);
 
         virtual std::filesystem::path GetRootDirectory();
+
+        virtual ModuleManifest* GetModuleManifest();
     };
 
     struct CustomCommandInfo : ProjectInfo
@@ -56,6 +58,8 @@ public:
         std::filesystem::path GetRootDirectory() override;
 
         std::filesystem::path GetOutputExecutable(IToolchain* toolchain, BuildPlatform* platform, BuildType type) override;
+
+        ModuleManifest* GetModuleManifest() override;
 
         ModuleManifest* module = nullptr;
     };

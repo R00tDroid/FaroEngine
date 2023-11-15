@@ -65,7 +65,7 @@ public:
 
     virtual  std::string GetExeExtension() = 0;
 
-    std::vector<std::string> GetPreprocessorDefines(BuildPlatform* platform, BuildType configuration);
+    std::vector<std::string> GetPreprocessorDefines(ModuleManifest* manifest, BuildPlatform* platform, BuildType configuration);
 
     // Get a list of modules from direct dependencies and all descendants in the tree.
     static std::set<ModuleManifest*> GetAllModuleDependencies(ModuleManifest& topModule);

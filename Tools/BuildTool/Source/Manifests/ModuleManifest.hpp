@@ -31,6 +31,9 @@ public:
 
     std::vector<std::string> linkingLibraries;
 
+    std::vector<std::string> publicDefines;
+    std::vector<std::string> privateDefines;
+
     ModuleType type = MT_Library;
 
     // List of modules this module depends on
@@ -56,6 +59,10 @@ public:
 
     std::vector<std::filesystem::path> GetModuleIncludeDirectories() const;
 
+    std::vector<std::string> GetPublicDefineTree() const;
+
+    std::vector<std::string> GetModuleDefines() const;
+
     static std::string GetModuleName(const std::filesystem::path& path);
 
     // Get list of direct dependencies
@@ -76,6 +83,8 @@ private:
     bool ParseDependencies(picojson::object& rootObject);
 
     bool ParseIncludeDirectories(picojson::object& rootObject, std::string tag, std::vector<std::filesystem::path>& output);
+
+    bool ParseDefines(picojson::object& rootObject, std::string tag, std::vector<std::string>& output);
 
     bool ParseModuleType(picojson::object& rootObject);
 
