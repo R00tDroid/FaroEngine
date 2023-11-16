@@ -1,0 +1,20 @@
+{
+    "PublicIncludeDirectories": [
+        "Source"
+    ],
+    "PrivateIncludeDirectories": [
+    ],
+    "Dependencies": [
+      "PlatformWindows",
+      "GraphicsD3D12",
+      "Resources"
+    ],
+    "SourceFilters": [
+        "Source/**/*.cpp",
+        "Source/**/*.hpp",
+        "Source/**/*.c",
+        "Source/**/*.h"
+    ],
+    "ModuleType": "Executable",
+    "SolutionLocation": "Tests"
+}
