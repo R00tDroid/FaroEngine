@@ -10,7 +10,14 @@ std::filesystem::path GetTestProjectRoot()
     return path;
 }
 
-TEST(Project, ParseManifest)
+TEST(ProjectManifest, ParseNothing)
+{
+    std::filesystem::path project = {};
+    ProjectManifest* manifest = ProjectManifest::Parse(project);
+    EXPECT_EQ(manifest, nullptr);
+}
+
+TEST(ProjectManifest, Parse)
 {
     std::filesystem::path project = GetTestProjectRoot();
     ProjectManifest* manifest = ProjectManifest::Parse(project);
