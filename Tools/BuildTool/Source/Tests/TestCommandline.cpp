@@ -66,7 +66,7 @@ TEST(CommandList, ParameterListNoParameters)
     EXPECT_STREQ(taskInfo.projectManifestPath.string().c_str(), "");
 }
 
-TEST(CommandList, ParameterListInvalidProject)
+TEST(CommandList, ParameterListProjectInvalid)
 {
     const char* commands[] = { "dummyPath", "-project" };
     ParameterList parameters(ExpandCommand(commands));
@@ -76,6 +76,45 @@ TEST(CommandList, ParameterListInvalidProject)
 
     EXPECT_FALSE(ParseParameters(parameters, tasks, taskInfo));
     EXPECT_STREQ(taskInfo.projectManifestPath.string().c_str(), "");
+}
+
+TEST(CommandList, ParameterListPlatformNoArguments)
+{
+    const char* commands[] = { "dummyPath", "-platform" };
+    ParameterList parameters(ExpandCommand(commands));
+
+    TaskRunInfo taskInfo;
+    std::vector<ITask*> tasks;
+
+    EXPECT_FALSE(ParseParameters(parameters, tasks, taskInfo));
+    EXPECT_STREQ(taskInfo.buildPlatform.c_str(), "");
+    EXPECT_STREQ(taskInfo.buildArchitecture.c_str(), "");
+}
+
+TEST(CommandList, ParameterListPlatformNoArch)
+{
+    const char* commands[] = { "dummyPath", "-platform", "windows" };
+    ParameterList parameters(ExpandCommand(commands));
+
+    TaskRunInfo taskInfo;
+    std::vector<ITask*> tasks;
+
+    EXPECT_FALSE(ParseParameters(parameters, tasks, taskInfo));
+    EXPECT_STREQ(taskInfo.buildPlatform.c_str(), "");
+    EXPECT_STREQ(taskInfo.buildArchitecture.c_str(), "");
+}
+
+TEST(CommandList, ParameterListPlatform)
+{
+    const char* commands[] = { "dummyPath", "-platform", "windows", "x64" };
+    ParameterList parameters(ExpandCommand(commands));
+
+    TaskRunInfo taskInfo;
+    std::vector<ITask*> tasks;
+
+    EXPECT_TRUE(ParseParameters(parameters, tasks, taskInfo));
+    EXPECT_STREQ(taskInfo.buildPlatform.c_str(), "windows");
+    EXPECT_STREQ(taskInfo.buildArchitecture.c_str(), "x64");
 }
 
 TEST(CommandList, ParameterListGenerate)
@@ -88,5 +127,55 @@ TEST(CommandList, ParameterListGenerate)
 
     EXPECT_TRUE(ParseParameters(parameters, tasks, taskInfo));
     EXPECT_EQ(tasks.size(), 1);
+}
+
+TEST(CommandList, ParameterListBuildNoPlatform)
+{
+    const char* commands[] = { "dummyPath", "-project", "project/path/file.json", "-build" };
+    ParameterList parameters(ExpandCommand(commands));
+
+    TaskRunInfo taskInfo;
+    std::vector<ITask*> tasks;
+
+    EXPECT_FALSE(ParseParameters(parameters, tasks, taskInfo));
+    EXPECT_EQ(tasks.size(), 0);
+}
+
+TEST(CommandList, ParameterListBuildNoConfig)
+{
+    const char* commands[] = { "dummyPath", "-project", "project/path/file.json", "-platform", "windows", "x64", "-build" };
+    ParameterList parameters(ExpandCommand(commands));
+
+    TaskRunInfo taskInfo;
+    std::vector<ITask*> tasks;
+
+    EXPECT_FALSE(ParseParameters(parameters, tasks, taskInfo));
+    EXPECT_EQ(tasks.size(), 0);
+}
+
+TEST(CommandList, ParameterListBuild)
+{
+    const char* commands[] = { "dummyPath", "-project", "project/path/file.json", "-platform", "windows", "x64", "-debug", "-build" };
+    ParameterList parameters(ExpandCommand(commands));
+
+    TaskRunInfo taskInfo;
+    std::vector<ITask*> tasks;
+
+    EXPECT_TRUE(ParseParameters(parameters, tasks, taskInfo));
+    EXPECT_EQ(tasks.size(), 1);
+}
+
+TEST(CommandList, ParameterListBuildAndGenerate)
+{
+    const char* commands[] = { "dummyPath", "-project", "project/path/file.json", "-platform", "windows", "x64", "-debug", "-build", "-generate" };
+    ParameterList parameters(ExpandCommand(commands));
+
+    TaskRunInfo taskInfo;
+    std::vector<ITask*> tasks;
+
+    EXPECT_TRUE(ParseParameters(parameters, tasks, taskInfo));
+    EXPECT_EQ(tasks.size(), 2);
+    EXPECT_STREQ(tasks[0]->GetTaskName().c_str(), "Generate");
+    EXPECT_STREQ(tasks[1]->GetTaskName().c_str(), "Build");
 }
 #endif
