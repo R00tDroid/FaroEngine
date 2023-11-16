@@ -54,12 +54,20 @@ bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, Task
         }
     }
 
-    if (parameters.CountArguments("platform") == 2)
+    if (parameters.Contains("platform"))
     {
-        runInfo.buildPlatform = parameters.GetArguments("platform")[0];
-        runInfo.buildArchitecture = parameters.GetArguments("platform")[1];
+        if (parameters.CountArguments("platform") == 2)
+        {
+            runInfo.buildPlatform = parameters.GetArguments("platform")[0];
+            runInfo.buildArchitecture = parameters.GetArguments("platform")[1];
 
-        Utility::PrintLineD("Platform argument: " + runInfo.buildPlatform + ", " + runInfo.buildArchitecture);
+            Utility::PrintLineD("Platform argument: " + runInfo.buildPlatform + ", " + runInfo.buildArchitecture);
+        }
+        else
+        {
+            Utility::PrintLine("Invalid -platform argument. See -help for more information.");
+            return false;
+        }
     }
 
     if (parameters.Contains("debug"))
