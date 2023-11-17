@@ -1,14 +1,7 @@
 #if FaroToolTest
 #include <gtest/gtest.h>
 #include "Manifests/ProjectManifest.hpp"
-#include "TestInfo.generated.hpp"
-
-std::filesystem::path GetTestProjectRoot()
-{
-    std::filesystem::path path = std::filesystem::path(TestAppRoot) / "TestProject" / "TestProject.faroproject.json";
-    path.make_preferred();
-    return path;
-}
+#include "TestPaths.hpp"
 
 TEST(ProjectManifest, ParseNothing)
 {
