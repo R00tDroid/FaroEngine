@@ -12,7 +12,7 @@ TEST(ProjectManifest, ParseNothing)
 
 TEST(ProjectManifest, Parse)
 {
-    std::filesystem::path project = GetTestProjectRoot();
+    std::filesystem::path project = GetTestProjectManifest();
     ProjectManifest* manifest = ProjectManifest::Parse(project);
     EXPECT_NE(manifest, nullptr);
     EXPECT_STREQ(manifest->projectName.c_str(), "Test Project");
@@ -21,7 +21,7 @@ TEST(ProjectManifest, Parse)
 
 TEST(ProjectManifest, LoadCached)
 {
-    std::filesystem::path project = GetTestProjectRoot();
+    std::filesystem::path project = GetTestProjectManifest();
 
     {
         ProjectManifest* manifest = ProjectManifest::Parse(project);

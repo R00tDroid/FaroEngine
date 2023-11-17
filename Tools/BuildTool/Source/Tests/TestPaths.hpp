@@ -5,7 +5,14 @@
 
 inline std::filesystem::path GetTestProjectRoot()
 {
-    std::filesystem::path path = std::filesystem::path(TestAppRoot) / "TestProject" / "TestProject.faroproject.json";
+    std::filesystem::path path = std::filesystem::path(TestAppRoot) / "TestProject";
+    path.make_preferred();
+    return path;
+}
+
+inline std::filesystem::path GetTestProjectManifest()
+{
+    std::filesystem::path path = GetTestProjectRoot() / "TestProject.faroproject.json";
     path.make_preferred();
     return path;
 }
