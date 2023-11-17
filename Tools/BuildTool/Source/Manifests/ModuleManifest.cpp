@@ -5,6 +5,12 @@
 
 ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifest* project)
 {
+    if (!std::filesystem::exists(path))
+    {
+        Utility::PrintLine("Failed to find module manifest: " + path.string());
+        return nullptr;
+    }
+
     ModuleManifest* manifest = new ModuleManifest(path);
     manifest->project = project;
 
