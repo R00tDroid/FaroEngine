@@ -5,6 +5,7 @@
     "PrivateIncludeDirectories": [
     ],
     "Dependencies": [
+        "ModuleA"
     ],
     "SourceFilters": [
         "Source/**/*.cpp",
