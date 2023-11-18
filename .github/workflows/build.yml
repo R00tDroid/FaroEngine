@@ -76,7 +76,7 @@ jobs:
 
     - name: Test
       shell: cmd
-      run: OpenCppCoverage.exe --sources Tools\BuildTool\Source\* --sources Tools\Shared\* --excluded_sources Tools\Shared\googletest\* --working_dir .\ --verbose --export_type=html:Documentation/html/Coverage -- Bin\FaroBuildTool_Test.exe
+      run: OpenCppCoverage.exe --sources Tools\BuildTool\Source\* --sources Tools\Shared\* --excluded_sources Tools\Shared\googletest\* --working_dir .\ --verbose --export_type=cobertura:Documentation/html/Coverage/Coverage.xml --export_type=html:Documentation/html/Coverage -- Bin\FaroBuildTool_Test.exe
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v3
@@ -85,6 +85,15 @@ jobs:
         if-no-files-found: error
         path: |
           ./Documentation/**/*
+
+    - name: Report to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      with:
+          files: ./Documentation/html/Coverage/Coverage.xml
+          fail_ci_if_error: true
+          functionalities: fix
 
   Documentation:
     runs-on: ubuntu-latest
