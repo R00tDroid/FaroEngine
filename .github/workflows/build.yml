@@ -76,7 +76,7 @@ jobs:
 
     - name: Test
       shell: cmd
-      run: OpenCppCoverage.exe --sources Tools\\BuildTool\\Source -- Bin\\BuildTool_Test.exe
+      run: OpenCppCoverage.exe --sources Tools\BuildTool\Source\* --working_dir .\ --verbose -- Bin\BuildTool_Test.exe
 
   Documentation:
     runs-on: ubuntu-latest
