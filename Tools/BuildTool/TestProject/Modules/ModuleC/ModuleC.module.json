@@ -13,6 +13,6 @@
         "Source/**/*.c",
         "Source/**/*.h"
     ],
-    "ModuleType": "Library",
+    "ModuleType": "Executable",
     "SolutionLocation": "TestProject"
 }
