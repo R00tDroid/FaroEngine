@@ -17,4 +17,11 @@ inline std::filesystem::path GetTestProjectManifest()
     return path;
 }
 
+inline std::filesystem::path GetTestModuleManifest(std::string moduleName)
+{
+    std::filesystem::path path = GetTestProjectRoot() / "Modules" / moduleName / (moduleName + ".module.json");
+    path.make_preferred();
+    return path;
+}
+
 #endif
