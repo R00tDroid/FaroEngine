@@ -5,9 +5,6 @@
     "PrivateIncludeDirectories": [
     ],
     "Dependencies": [
-      "PlatformWindows",
-      "GraphicsD3D12",
-      "Resources"
     ],
     "SourceFilters": [
         "Source/**/*.cpp",
@@ -15,6 +12,6 @@
         "Source/**/*.c",
         "Source/**/*.h"
     ],
-    "ModuleType": "Executable",
-    "SolutionLocation": "Tests"
+    "ModuleType": "Library",
+    "SolutionLocation": "TestProject"
 }
