@@ -74,7 +74,7 @@ jobs:
 
     - name: Test
       shell: cmd
-      run: OpenCppCoverage.exe --sources Tools\BuildTool\Source\* --working_dir .\ --verbose --export_type=html:Documentation/html/Coverage -- Bin\FaroBuildTool_Test.exe
+      run: OpenCppCoverage.exe --sources Tools\BuildTool\Source\* --sources Tools\Shared\* --working_dir .\ --verbose --export_type=html:Documentation/html/Coverage -- Bin\FaroBuildTool_Test.exe
 
   Documentation:
     runs-on: ubuntu-latest
