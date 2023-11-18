@@ -28,9 +28,7 @@ TEST(ModuleManifest, ParseNoPath)
 TEST(ModuleManifest, Parse)
 {
     ProjectManifest* project = GetProject();
-
     std::filesystem::path modulePath = project->modulesPaths[0];
-
     EXPECT_STREQ(modulePath.filename().string().c_str(), "ModuleA.module.json");
 
     ModuleManifest* manifest = ModuleManifest::Parse(modulePath, project);
@@ -45,6 +43,33 @@ TEST(ModuleManifest, Parse)
     EXPECT_EQ(manifest->moduleDependencies.size(), 0);
     EXPECT_EQ(manifest->type, MT_Library);
     EXPECT_STRNE(manifest->uuid.c_str(), "");
+}
+
+TEST(ModuleManifest, LoadCached)
+{
+    ProjectManifest* project = GetProject();
+    std::filesystem::path modulePath = project->modulesPaths[0];
+    EXPECT_STREQ(modulePath.filename().string().c_str(), "ModuleA.module.json");
+
+    {
+        ModuleManifest* manifest = ModuleManifest::LoadFromCache(modulePath, project);
+        EXPECT_NE(manifest, nullptr);
+    }
+
+    {
+        ModuleManifest* manifest = ModuleManifest::LoadFromCache(modulePath, project);
+        EXPECT_NE(manifest, nullptr);
+        EXPECT_EQ(manifest->project, project);
+        EXPECT_EQ(manifest->sourceFiles.size(), 2);
+        EXPECT_EQ(manifest->publicIncludes.size(), 1);
+        EXPECT_EQ(manifest->privateIncludes.size(), 0);
+        EXPECT_EQ(manifest->publicDefines.size(), 0);
+        EXPECT_EQ(manifest->privateDefines.size(), 0);
+        EXPECT_EQ(manifest->linkingLibraries.size(), 0);
+        EXPECT_EQ(manifest->moduleDependencies.size(), 0);
+        EXPECT_EQ(manifest->type, MT_Library);
+        EXPECT_STRNE(manifest->uuid.c_str(), "");
+    }
 }
 
 #endif
