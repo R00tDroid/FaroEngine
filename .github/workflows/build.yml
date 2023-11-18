@@ -64,9 +64,7 @@ jobs:
         submodules: recursive
 
     - name: Get OpenCppCoverage
-      run: |
-        choco install OpenCppCoverage -y
-        echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
+      run: choco install OpenCppCoverage -y
 
     - name: Generate
       run: cmake ./Tools
