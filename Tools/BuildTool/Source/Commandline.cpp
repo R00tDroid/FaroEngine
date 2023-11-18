@@ -28,9 +28,9 @@ void PrintHelp()
     Utility::Print("-project <path>    The project to generate solution files for\n");
 }
 
-bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
+bool ParseProject(ParameterList& parameters, TaskRunInfo& runInfo)
 {
-    if (parameters.Contains("project")) 
+    if (parameters.Contains("project"))
     {
         if (parameters.HasArguments("project"))
         {
@@ -54,6 +54,11 @@ bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, Task
         }
     }
 
+    return true;
+}
+
+bool ParsePlatform(ParameterList& parameters, TaskRunInfo& runInfo)
+{
     if (parameters.Contains("platform"))
     {
         if (parameters.CountArguments("platform") == 2)
@@ -70,6 +75,11 @@ bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, Task
         }
     }
 
+    return true;
+}
+
+bool ParseBuildType(ParameterList& parameters, TaskRunInfo& runInfo)
+{
     if (parameters.Contains("debug"))
     {
         runInfo.buildType = BuildType::Debug;
@@ -86,6 +96,11 @@ bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, Task
         Utility::PrintLineD("Build type argument: release");
     }
 
+    return true;
+}
+
+bool ParseModule(ParameterList& parameters, TaskRunInfo& runInfo)
+{
     if (parameters.HasArguments("module"))
     {
         for (int i = 0; i < parameters.CountArguments("module"); i++)
@@ -96,6 +111,11 @@ bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, Task
         Utility::PrintLineD("Module argument: " + std::to_string(runInfo.moduleList.size()));
     }
 
+    return true;
+}
+
+bool ParseTasks(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
+{
     if (parameters.Contains("generate"))
     {
         Utility::PrintLineD("Generate argument");
@@ -133,6 +153,17 @@ bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, Task
 
         tasks.push_back(new TaskBuild(runInfo.buildPlatform, runInfo.buildArchitecture, runInfo.buildType));
     }
+
+    return true;
+}
+
+bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
+{
+    if (!ParseProject(parameters, runInfo)) return false;
+    if (!ParsePlatform(parameters, runInfo)) return false;
+    if (!ParseBuildType(parameters, runInfo)) return false;
+    if (!ParseModule(parameters, runInfo)) return false;
+    if (!ParseTasks(parameters, tasks, runInfo)) return false;
 
     return true;
 }
