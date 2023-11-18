@@ -31,6 +31,8 @@ std::set<std::filesystem::path> BuildIncludeTree(const std::filesystem::path& fi
 
 void FileTree::Parse()
 {
+    if (module == nullptr) return;
+
     std::set<ModuleManifest*> modules = module->GetDependencyTree();
     modules.insert(module);
 
