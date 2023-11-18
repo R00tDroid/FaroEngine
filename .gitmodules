@@ -13,3 +13,6 @@
 [submodule "Source/Engine/Graphics/GraphicsD3D12/Thirdparty/DirectX-Headers"]
 	path = Source/Engine/Graphics/GraphicsD3D12/Thirdparty/DirectX-Headers
 	url = https://github.com/microsoft/DirectX-Headers.git
+[submodule "Tools/Shared/googletest"]
+	path = Tools/Shared/googletest
+	url = https://github.com/google/googletest.git

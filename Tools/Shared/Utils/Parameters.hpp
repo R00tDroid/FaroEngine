@@ -7,8 +7,10 @@
 class ParameterList
 {
 public:
-    ParameterList(int argc, char** argv)
+    ParameterList(int argc, const char** argv)
     {
+        if (argc == 0 || argv == nullptr) return;
+
         PerformanceTimer timer;
         Utility::PrintLineD("Parsing ParameterList...");
 

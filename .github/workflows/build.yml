@@ -29,6 +29,7 @@ jobs:
         path: |
           Bin/*.exe
           Bin/*.dll
+          !Bin/*_Test.*
 
   ToolchainLinux:
     runs-on: ubuntu-latest
@@ -51,6 +52,49 @@ jobs:
         if-no-files-found: error
         path: |
           Bin/*
+          !Bin/*_Test
+
+  ToolchainCoverage:
+    runs-on: windows-latest
+    needs: [ToolchainWindows, ToolchainLinux]
+    steps:
+    - name: Checkout repository and submodules
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    - name: Get OpenCppCoverage
+      run: |
+        choco install OpenCppCoverage -y
+        echo "C:\Program Files\OpenCppCoverage" >> $env:GITHUB_PATH
+
+    - name: Generate
+      run: cmake ./Tools
+
+    - name: Build
+      run: cmake --build . --config Debug
+
+    - name: Test
+      shell: cmd
+      run: OpenCppCoverage.exe --sources Tools\BuildTool\Source\* --sources Tools\Shared\* --excluded_sources Tools\Shared\googletest\* --working_dir .\ --verbose --export_type=cobertura:Documentation/html/Coverage/Coverage.xml --export_type=html:Documentation/html/Coverage -- Bin\FaroBuildTool_Test.exe
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ToolchainCoverage
+        if-no-files-found: error
+        path: |
+          ./Documentation/**/*
+
+    - name: Report to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      with:
+          files: ./Documentation/html/Coverage/Coverage.xml
+          fail_ci_if_error: true
+          flags: Toolchain,UnitTests
+          os: windows
 
   Documentation:
     runs-on: ubuntu-latest

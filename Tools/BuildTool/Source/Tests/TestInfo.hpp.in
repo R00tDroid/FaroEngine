@@ -1,0 +1,4 @@
+#pragma once
+#if FaroToolTest
+#define TestAppRoot "@CMAKE_CURRENT_LIST_DIR@"
+#endif
