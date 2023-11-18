@@ -40,8 +40,10 @@ Include directories control how the compiler searches for included headers. Thes
 The following values can be set:
 | Value | Type | Description |
 | ---: | :---: | :--- |
-| PublicIncludeDirectories | Array | List of string that indicate where directories can be found relative to the module manifest. |
-| PrivateIncludeDirectories | Array | List of string that indicate where directories can be found relative to the module manifest. |
+| PublicIncludeDirectories | Array | List of strings that indicate where directories can be found relative to the module manifest. |
+| PrivateIncludeDirectories | Array | List of strings that indicate where directories can be found relative to the module manifest. |
+| PublicDefines | Array | List of strings that are set as preprocessor defines while compiling this module and any others that include it. |
+| PrivateDefines | Array | List of strings that are set as preprocessor defines while compiling this module. |
 | Dependencies | Array | List of strings to indicate what modules this one depends on. |
 | SourceFilters | Array | List of strings to indicate where source files can be found relative to this module manifest. |
 | ModuleType | String | Linkage type of the module. Either Library or Application. |
