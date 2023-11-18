@@ -29,7 +29,7 @@ jobs:
         path: |
           Bin/*.exe
           Bin/*.dll
-          Bin/*_Test.*
+          !Bin/*_Test.*
 
   ToolchainLinux:
     runs-on: ubuntu-latest

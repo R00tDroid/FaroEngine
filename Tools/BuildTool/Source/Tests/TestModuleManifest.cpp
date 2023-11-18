@@ -70,5 +70,4 @@ TEST(ModuleManifest, LoadCached)
     EXPECT_EQ(loadedManifest->type, parsedManifest->type);
     EXPECT_STREQ(loadedManifest->uuid.c_str(), parsedManifest->uuid.c_str());
 }
-
 #endif
