@@ -67,8 +67,8 @@ TEST(ModuleManifest, LoadCached)
     EXPECT_EQ(loadedManifest->privateDefines.size(), parsedManifest->privateDefines.size());
     EXPECT_EQ(loadedManifest->linkingLibraries.size(), parsedManifest->linkingLibraries.size());
     EXPECT_EQ(loadedManifest->moduleDependencies.size(), parsedManifest->moduleDependencies.size());
-    EXPECT_EQ(loadedManifest->type, MT_Library);
-    EXPECT_STRNE(loadedManifest->uuid.c_str(), "");
+    EXPECT_EQ(loadedManifest->type, parsedManifest->type);
+    EXPECT_STREQ(loadedManifest->uuid.c_str(), parsedManifest->uuid.c_str());
 }
 
 #endif
