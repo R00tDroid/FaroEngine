@@ -1,8 +1,4 @@
 #include "ModuleB.hpp"
-#include <Log.hpp>
-#include <Memory/MemoryManager.hpp>
-#include <GraphicsInterface.hpp>
-#include <Assert.hpp>
 
 namespace Faro
 {

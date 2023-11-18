@@ -1,7 +1,6 @@
 #pragma once
 #include <Module.hpp>
-#include <Platform.hpp>
-#include <GraphicsAdapter.hpp>
+#include <ModuleA.hpp>
 
 namespace Faro
 {
