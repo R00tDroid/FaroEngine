@@ -4,12 +4,6 @@
 #include "Manifests/ProjectManifest.hpp"
 #include "TestPaths.hpp"
 
-ProjectManifest* GetProject()
-{
-    std::filesystem::path project = GetTestProjectManifest();
-    return ProjectManifest::Parse(project);
-}
-
 TEST(ModuleManifest, ParseNothing)
 {
     ModuleManifest* manifest = ModuleManifest::Parse({}, nullptr);
@@ -18,7 +12,7 @@ TEST(ModuleManifest, ParseNothing)
 
 TEST(ModuleManifest, ParseNoPath)
 {
-    ProjectManifest* project = GetProject();
+    ProjectManifest* project = LoadTestProject();
 
     std::filesystem::path modulePath = {};
     ModuleManifest* manifest = ModuleManifest::Parse(modulePath, project);
@@ -27,7 +21,7 @@ TEST(ModuleManifest, ParseNoPath)
 
 TEST(ModuleManifest, Parse)
 {
-    ProjectManifest* project = GetProject();
+    ProjectManifest* project = LoadTestProject();
     std::filesystem::path modulePath = project->modulesPaths[0];
     EXPECT_STREQ(modulePath.c_str(), GetTestModuleManifest("ModuleA").c_str());
 
@@ -47,7 +41,7 @@ TEST(ModuleManifest, Parse)
 
 TEST(ModuleManifest, LoadCached)
 {
-    ProjectManifest* project = GetProject();
+    ProjectManifest* project = LoadTestProject();
     std::filesystem::path modulePath = project->modulesPaths[0];
     EXPECT_STREQ(modulePath.c_str(), GetTestModuleManifest("ModuleA").c_str());
 
@@ -73,7 +67,7 @@ TEST(ModuleManifest, LoadCached)
 
 TEST(ModuleManifest, Dependencies)
 {
-    ProjectManifest* project = GetProject();
+    ProjectManifest* project = LoadTestProject();
     EXPECT_NE(project, nullptr);
 
     ModuleManifest* moduleA = ModuleManifest::GetLoadedModule(GetTestModuleManifest("ModuleA"));

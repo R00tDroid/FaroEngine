@@ -5,12 +5,6 @@
 #include "FileTree.hpp"
 #include "TestPaths.hpp"
 
-ProjectManifest* GetTestProject()
-{
-    std::filesystem::path project = GetTestProjectManifest();
-    return ProjectManifest::Parse(project);
-}
-
 TEST(FileTree, MissingModule)
 {
     FileTree tree(nullptr);
@@ -19,7 +13,7 @@ TEST(FileTree, MissingModule)
 
 TEST(FileTree, NoDependencies)
 {
-    ProjectManifest* project = GetTestProject();
+    ProjectManifest* project = LoadTestProject();
     EXPECT_NE(project, nullptr);
 
     ModuleManifest* moduleA = ModuleManifest::GetLoadedModule(GetTestModuleManifest("ModuleA"));
@@ -33,7 +27,7 @@ TEST(FileTree, NoDependencies)
 
 TEST(FileTree, WithDependencies)
 {
-    ProjectManifest* project = GetTestProject();
+    ProjectManifest* project = LoadTestProject();
     EXPECT_NE(project, nullptr);
 
     ModuleManifest* moduleC = ModuleManifest::GetLoadedModule(GetTestModuleManifest("ModuleC"));
