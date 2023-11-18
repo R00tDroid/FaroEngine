@@ -29,7 +29,7 @@ TEST(ModuleManifest, Parse)
 {
     ProjectManifest* project = GetProject();
     std::filesystem::path modulePath = project->modulesPaths[0];
-    EXPECT_STREQ(modulePath.filename().string().c_str(), "ModuleA.module.json");
+    EXPECT_STREQ(modulePath.c_str(), GetTestModuleManifest("ModuleA").c_str());
 
     ModuleManifest* manifest = ModuleManifest::Parse(modulePath, project);
     EXPECT_NE(manifest, nullptr);
@@ -49,7 +49,7 @@ TEST(ModuleManifest, LoadCached)
 {
     ProjectManifest* project = GetProject();
     std::filesystem::path modulePath = project->modulesPaths[0];
-    EXPECT_STREQ(modulePath.filename().string().c_str(), "ModuleA.module.json");
+    EXPECT_STREQ(modulePath.c_str(), GetTestModuleManifest("ModuleA").c_str());
 
     ModuleManifest* parsedManifest = ModuleManifest::Parse(modulePath, project);
     EXPECT_NE(parsedManifest, nullptr);
@@ -69,5 +69,32 @@ TEST(ModuleManifest, LoadCached)
     EXPECT_EQ(loadedManifest->moduleDependencies.size(), parsedManifest->moduleDependencies.size());
     EXPECT_EQ(loadedManifest->type, parsedManifest->type);
     EXPECT_STREQ(loadedManifest->uuid.c_str(), parsedManifest->uuid.c_str());
+}
+
+TEST(ModuleManifest, Dependencies)
+{
+    ProjectManifest* project = GetProject();
+    EXPECT_NE(project, nullptr);
+
+    ModuleManifest* moduleA = ModuleManifest::GetLoadedModule(GetTestModuleManifest("ModuleA"));
+    EXPECT_NE(moduleA, nullptr);
+
+    ModuleManifest* moduleB = ModuleManifest::GetLoadedModule(GetTestModuleManifest("ModuleB"));
+    EXPECT_NE(moduleB, nullptr);
+
+    ModuleManifest* moduleC = ModuleManifest::GetLoadedModule(GetTestModuleManifest("ModuleC"));
+    EXPECT_NE(moduleC, nullptr);
+
+    EXPECT_EQ(moduleA->moduleDependencies.size(), 0);
+    EXPECT_EQ(moduleB->moduleDependencies.size(), 1);
+    EXPECT_EQ(moduleC->moduleDependencies.size(), 1);
+
+    EXPECT_EQ(moduleA->GetDependencies().size(), 0);
+    EXPECT_EQ(moduleB->GetDependencies().size(), 1);
+    EXPECT_EQ(moduleC->GetDependencies().size(), 1);
+
+    EXPECT_EQ(moduleA->GetDependencyTree().size(), 0);
+    EXPECT_EQ(moduleB->GetDependencyTree().size(), 1);
+    EXPECT_EQ(moduleC->GetDependencyTree().size(), 2);
 }
 #endif
