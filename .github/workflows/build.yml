@@ -75,8 +75,8 @@ jobs:
       run: cmake --build . --config Debug
 
     - name: Test
-        shell: cmd
-        run: OpenCppCoverage.exe --sources ./Tools/BuildTool/Source -- ./Bin/BuildTool_Test.exe
+      shell: cmd
+      run: OpenCppCoverage.exe --sources ./Tools/BuildTool/Source -- ./Bin/BuildTool_Test.exe
 
   Documentation:
     runs-on: ubuntu-latest
