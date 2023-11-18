@@ -93,7 +93,8 @@ jobs:
       with:
           files: ./Documentation/html/Coverage/Coverage.xml
           fail_ci_if_error: true
-          functionalities: fix
+          flags: Toolchain,UnitTests
+          os: windows
 
   Documentation:
     runs-on: ubuntu-latest
