@@ -177,6 +177,8 @@ ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path, Projec
         manifest->type = MT_Executable;
     }
 
+    manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ModuleId.txt");
+
     return manifest;
 }
 
