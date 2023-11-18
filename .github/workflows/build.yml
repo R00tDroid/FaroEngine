@@ -52,7 +52,7 @@ jobs:
         if-no-files-found: error
         path: |
           Bin/*
-          !Bin/*_Test.*
+          !Bin/*_Test
 
   Documentation:
     runs-on: ubuntu-latest
