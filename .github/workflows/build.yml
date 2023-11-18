@@ -54,7 +54,7 @@ jobs:
           Bin/*
           !Bin/*_Test
 
-  ToolchainTests:
+  ToolchainCoverage:
     runs-on: windows-latest
     needs: [ToolchainWindows, ToolchainLinux]
     steps:
@@ -76,7 +76,15 @@ jobs:
 
     - name: Test
       shell: cmd
-      run: OpenCppCoverage.exe --sources Tools\BuildTool\Source\* --sources Tools\Shared\* --working_dir .\ --verbose --export_type=html:Documentation/html/Coverage -- Bin\FaroBuildTool_Test.exe
+      run: OpenCppCoverage.exe --sources Tools\BuildTool\Source\* --sources Tools\Shared\* --excluded_sources Tools\Shared\googletest\* --working_dir .\ --verbose --export_type=html:Documentation/html/Coverage -- Bin\FaroBuildTool_Test.exe
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ToolchainCoverage
+        if-no-files-found: error
+        path: |
+          ./Documentation/**/*
 
   Documentation:
     runs-on: ubuntu-latest
