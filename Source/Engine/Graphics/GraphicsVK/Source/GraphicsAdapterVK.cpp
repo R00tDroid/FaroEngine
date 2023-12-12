@@ -229,7 +229,7 @@ namespace Faro
         for (uint32 i = 0; i < memoryProperties.memoryTypeCount; i++)
         {
             const VkMemoryType& type = memoryProperties.memoryTypes[i];
-            if (type.propertyFlags == memoryFlags)
+            if ((type.propertyFlags & memoryFlags) == memoryFlags)
             {
                 return i;
             }
