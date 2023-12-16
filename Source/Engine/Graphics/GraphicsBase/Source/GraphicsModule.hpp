@@ -11,6 +11,4 @@ namespace Faro
         String GetName() override;
         Array<String> GetRuntimeDependencies() override;
     };
-
-    REGISTER_MODULE(GraphicsModule)
 }

@@ -2,13 +2,11 @@
 
 namespace Faro
 {
-    IMPLEMENT_INSTANCE_REGISTRY(LogSinks, Faro::ILogSink)
-
     Array<ILogSink*> Logger::logSinks;
 
     Array<ILogSink*> GetRegisteredLogSinks()
     {
-        return InstanceRegistry_LogSinks::Get().GetValues();
+        return {};// InstanceRegistry_LogSinks::Get().GetValues();
     }
 
     LogTag::LogTag(String inName) : name(inName) {}

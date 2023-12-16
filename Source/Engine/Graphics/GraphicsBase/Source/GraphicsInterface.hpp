@@ -27,6 +27,6 @@ namespace Faro
 
     extern Array<GraphicsInterface*> GetGraphicsInterfaces();
 
-    DEFINE_INSTANCE_REGISTRY(GraphicsInterface, Faro::GraphicsInterface)
-#define REGISTER_GRAPHICS(TYPE) REGISTER_INSTANCE(GraphicsInterface, TYPE)
+    //DEFINE_INSTANCE_REGISTRY(GraphicsInterface, Faro::GraphicsInterface)
+#define REGISTER_GRAPHICS(TYPE) REGISTER_CLASS(TYPE)
 }
