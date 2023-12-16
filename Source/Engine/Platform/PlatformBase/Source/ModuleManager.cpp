@@ -25,6 +25,16 @@ namespace Faro
     {
         modules = GetRegisteredModules();
 
+        const Array<ClassReflection*>& classes = ReflectionManager::Get().GetClasses();
+
+        for (ClassReflection* classReflection : classes)
+        {
+            if (classReflection->typeName == "")
+            {
+                return { nullptr };
+            }
+        }
+
         if (!SortModules()) return false;
 
         Logger::Log(ModuleManagerLog, LC_Debug, "Loading modules");

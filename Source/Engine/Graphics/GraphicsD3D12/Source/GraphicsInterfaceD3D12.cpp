@@ -9,6 +9,8 @@
 
 namespace Faro
 {
+    REGISTER_GRAPHICS(GraphicsInterfaceD3D12)
+
     bool GraphicsInterfaceD3D12::Init()
     {
 #ifndef NDEBUG
