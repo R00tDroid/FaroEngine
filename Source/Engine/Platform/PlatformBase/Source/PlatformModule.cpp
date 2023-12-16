@@ -4,6 +4,8 @@
 
 namespace Faro
 {
+    REGISTER_MODULE(PlatformModule)
+
     LOG_DECLARATION(PlatformLog, Platform)
 
     void PlatformModule::Load()

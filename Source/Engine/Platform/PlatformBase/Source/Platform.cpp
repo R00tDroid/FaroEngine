@@ -2,8 +2,6 @@
 
 namespace Faro
 {
-    IMPLEMENT_INSTANCE_REGISTRY(Platform, Faro::Platform)
-
     Platform* GPlatform = nullptr;
 
     Monitor Platform::GetPrimaryMonitor()
@@ -48,6 +46,6 @@ namespace Faro
 
     Array<Platform*> GetRegisteredPlatforms()
     {
-        return InstanceRegistry_Platform::Get().GetValues();
+        return {};// InstanceRegistry_Platform::Get().GetValues();
     }
 }
