@@ -1,9 +1,7 @@
 #pragma once
-#include "../Containers/Map.hpp"
 #include "../Containers/String.hpp"
-#include <functional>
 #include <typeinfo>
-#include "Assert.hpp"
+#include <Memory/MemoryManager.hpp>
 
 namespace Faro
 {
@@ -36,24 +34,44 @@ namespace Faro
         Array<ClassReflection*> classes;
     };
 
-    struct ClassReflection
+    class ClassReflection
     {
+    public:
         ClassReflection(const TypeId& typeId):
             typeId(typeId),
             typeName(typeId.name())
-        {}
+        {}  
 
         String typeName;
         const TypeId& typeId;
+
+        template<class T>
+        T* Construct(...)
+        {
+            va_list arguments;
+            va_start(arguments, b);
+            T* instance = (T*)ConstructInstance(arguments);
+            va_end(arguments);
+            return instance;
+        }
+
+    private:
+        virtual void* ConstructInstance(va_list arguments) = 0;
     };
 
-    template <class type>
-    struct TypedClassReflection : ClassReflection
+    template <class T>
+    class TypedClassReflection : public ClassReflection
     {
-        TypedClassReflection() : ClassReflection(GetTypeId<type>())
+    public:
+        TypedClassReflection() : ClassReflection(GetTypeId<T>())
         {
             ReflectionManager::Get().Register(this);
-        }      
+        }
+
+        void* ConstructInstance(va_list arguments) override
+        {
+            return MemoryManager::NewArgList<T>(arguments);
+        }
     };
 }
 

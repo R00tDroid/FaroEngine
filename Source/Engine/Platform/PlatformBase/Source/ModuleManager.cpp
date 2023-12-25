@@ -3,6 +3,7 @@
 #include <Log.hpp>
 #include <Memory/MemoryManager.hpp>
 #include <Math/MathUtil.hpp>
+#include <Containers/Map.hpp>
 
 namespace Faro
 {
