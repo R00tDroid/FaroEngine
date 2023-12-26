@@ -29,6 +29,7 @@ namespace Faro
 
     void GraphicsFenceVK::Trigger()
     {
+        vkResetFences(GetTypedAdapter<GraphicsAdapterVK>()->GetDevice(), 1, &fence);
         vkQueueSubmit(GetTypedAdapter<GraphicsAdapterVK>()->GetQueue(), 0, nullptr, fence);
     }
 
