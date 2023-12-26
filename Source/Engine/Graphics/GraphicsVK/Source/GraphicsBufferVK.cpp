@@ -55,7 +55,7 @@ namespace Faro
                 GraphicsSwapchainVK* swapchain = (GraphicsSwapchainVK*)desc.renderTarget.swapchain;
                 heapImage = swapchain->GetBackbufferImage(desc.renderTarget.swapchainImageIndex);
             }
-            else
+            else if (GetBufferType() == BT_Remote)
             {
                 VkImageCreateInfo imageDesc = {};
                 imageDesc.sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO;
@@ -85,6 +85,25 @@ namespace Faro
                 Debug_Assert(heapMemory != nullptr);
 
                 vkBindImageMemory(adapter->GetDevice(), heapImage, heapMemory, 0);
+            }
+            else if(GetBufferType() == BT_Upload)
+            {
+                VkBufferCreateInfo bufferCreateDesc = {};
+                bufferCreateDesc.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
+                bufferCreateDesc.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
+                bufferCreateDesc.size = GetDesc().dataSize;
+                bufferCreateDesc.usage = VK_BUFFER_USAGE_TRANSFER_SRC_BIT;
+                vkCreateBuffer(adapter->GetDevice(), &bufferCreateDesc, nullptr, &heapBuffer);
+                Debug_Assert(heapBuffer != nullptr);
+
+                VkMemoryAllocateInfo memoryCreateDesc = {};
+                memoryCreateDesc.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
+                memoryCreateDesc.allocationSize = bufferCreateDesc.size;
+                memoryCreateDesc.memoryTypeIndex = GetMemoryType();
+                vkAllocateMemory(adapter->GetDevice(), &memoryCreateDesc, nullptr, &heapMemory);
+                Debug_Assert(heapMemory != nullptr);
+
+                vkBindBufferMemory(adapter->GetDevice(), heapBuffer, heapMemory, 0);
             }
         }
         else 
@@ -132,8 +151,7 @@ namespace Faro
 
     void GraphicsBufferVK::TransitionResource(VkCommandBuffer commandBuffer, GraphicsResourceState state)
     {
-        const GraphicsBufferDesc& desc = GetDesc();
-        if (desc.resourceType == RT_Texture)
+        if (heapImage != nullptr)
         {
             VkImageMemoryBarrier barrierDesc = {};
             barrierDesc.sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER;
@@ -147,8 +165,18 @@ namespace Faro
 
             vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 0, nullptr, 1, &barrierDesc);
         }
+        else if (heapBuffer != nullptr)
+        {
+            VkBufferMemoryBarrier barrierDesc = {};
+            barrierDesc.sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER;
 
-        //TODO Implement buffer barrier
+            barrierDesc.buffer = heapBuffer;
+            barrierDesc.offset = 0;
+            barrierDesc.size = VK_WHOLE_SIZE;
+            //TODO Set correct before- and after states
+
+            vkCmdPipelineBarrier(commandBuffer, VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT, 0, 0, nullptr, 1, &barrierDesc, 0, nullptr);
+        }
 
         SetResourceState(state);
     }
