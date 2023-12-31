@@ -13,6 +13,7 @@ namespace Faro
         if (!CreateSurface(window)) return;
         if (!CreateSwapchain()) return;
         if (!GetImages()) return;
+        GetNextImageIndex();
         CreateBackbuffer();
     }
 
@@ -42,9 +43,12 @@ namespace Faro
         presentDesc.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
         presentDesc.swapchainCount = 1;
         presentDesc.pSwapchains = &swapchain;
+        presentDesc.pImageIndices = &currentImage;
 
         GraphicsAdapterVK* vkAdapter = GetTypedAdapter<GraphicsAdapterVK>();
         vkQueuePresentKHR(vkAdapter->GetQueue(), &presentDesc);
+
+        GetNextImageIndex();
     }
 
     VkImage GraphicsSwapchainVK::GetBackbufferImage(uint32 index)
@@ -75,8 +79,6 @@ namespace Faro
     bool GraphicsSwapchainVK::CreateSwapchain()
     {
         VkSurfaceCapabilitiesKHR capabilities;
-    
-        Array<VkPresentModeKHR> presentModes;
 
         GraphicsAdapterVK* vkAdapter = GetTypedAdapter<GraphicsAdapterVK>();
         vkGetPhysicalDeviceSurfaceCapabilitiesKHR(vkAdapter->GetPhysicalDevice(), windowSurface, &capabilities);
@@ -158,5 +160,11 @@ namespace Faro
         if (presentModes.Contains(VK_PRESENT_MODE_FIFO_KHR)) return VK_PRESENT_MODE_FIFO_KHR;
 
         return VK_PRESENT_MODE_MAX_ENUM_KHR;
+    }
+
+    void GraphicsSwapchainVK::GetNextImageIndex()
+    {
+        GraphicsAdapterVK* vkAdapter = GetTypedAdapter<GraphicsAdapterVK>();
+        vkAcquireNextImageKHR(vkAdapter->GetDevice(), swapchain, UINT64_MAX, nullptr, nullptr, &currentImage);
     }
 }

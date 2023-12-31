@@ -19,7 +19,7 @@ namespace Faro
 
     void GraphicsFenceVK::Destroy()
     {
-        if (fence != nullptr) 
+        if (fence != nullptr)
         {
             vkDestroyFence(GetTypedAdapter<GraphicsAdapterVK>()->GetDevice(), fence, nullptr);
             fence = nullptr;
