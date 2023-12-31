@@ -16,3 +16,6 @@
 [submodule "Tools/Shared/googletest"]
 	path = Tools/Shared/googletest
 	url = https://github.com/google/googletest.git
+[submodule "Tools/BuildToolGUI/Dependencies/SDL"]
+	path = Tools/BuildToolGUI/Dependencies/SDL
+	url = https://github.com/libsdl-org/SDL.git
