@@ -22,8 +22,12 @@ namespace Faro
         VkSurfaceFormatKHR SelectFormat();
         VkPresentModeKHR SelectPresentMode();
 
+        void GetNextImageIndex();
+
         VkSurfaceKHR windowSurface = nullptr;
         VkSwapchainKHR swapchain = nullptr;
         Array<VkImage> images;
+
+        uint32 currentImage = 0;
     };
 }
