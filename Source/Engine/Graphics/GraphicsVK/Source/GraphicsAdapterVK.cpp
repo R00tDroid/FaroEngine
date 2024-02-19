@@ -8,6 +8,7 @@
 #include "GraphicsLogVK.hpp"
 #include "GraphicsPipelineVK.hpp"
 #include "GraphicsSwapchainVK.hpp"
+#include "GraphicsSyncPointVK.hpp"
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT severity, VkDebugUtilsMessageTypeFlagsEXT, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void*)
 {
@@ -192,6 +193,13 @@ namespace Faro
         GraphicsPipelineVK* pipeline = MemoryManager::New<GraphicsPipelineVK>();
         pipeline->Init(this, desc);
         return pipeline;
+    }
+
+    GraphicsSyncPoint* GraphicsAdapterVK::CreateSyncPoint()
+    {
+        GraphicsSyncPointVK* syncPoint = MemoryManager::New<GraphicsSyncPointVK>();
+        syncPoint->Init(this);
+        return syncPoint;
     }
 
     VkPhysicalDevice GraphicsAdapterVK::GetPhysicalDevice()
