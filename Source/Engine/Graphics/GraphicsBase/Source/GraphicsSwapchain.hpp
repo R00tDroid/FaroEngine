@@ -3,6 +3,8 @@
 #include <Window.hpp>
 #include <GraphicsBufferContainer.hpp>
 
+#include "GraphicsSyncPoint.hpp"
+
 namespace Faro
 {
     class GraphicsSwapchainImageContainer : public GraphicsBufferContainer
@@ -21,7 +23,10 @@ namespace Faro
 
         GraphicsSwapchainImageContainer* backbuffer = nullptr;
 
+        GraphicsSyncPoint* GetSyncPoint(uint8 imageIndex);
+
     protected:
         void CreateBackbuffer();
+        Array<GraphicsSyncPoint*> bufferReadySync;
     };
 }
