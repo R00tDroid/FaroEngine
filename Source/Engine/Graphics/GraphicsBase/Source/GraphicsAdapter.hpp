@@ -7,6 +7,7 @@
 #include <GraphicsCommandList.hpp>
 #include <GraphicsBufferContainer.hpp>
 #include <GraphicsPipeline.hpp>
+#include <GraphicsSyncPoint.hpp>
 
 namespace Faro
 {
@@ -50,5 +51,7 @@ namespace Faro
         virtual GraphicsSwapchain* CreateSwapchain(Window* window) = 0;
 
         virtual GraphicsPipeline* CreatePipeline(GraphicsPipelineDesc desc) = 0;
+
+        virtual GraphicsSyncPoint* CreateSyncPoint();
     };
 }
