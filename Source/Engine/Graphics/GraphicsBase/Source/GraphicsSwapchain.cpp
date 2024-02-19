@@ -2,6 +2,8 @@
 #include <Memory/MemoryManager.hpp>
 #include <GraphicsAdapter.hpp>
 
+#include "Assert.hpp"
+
 namespace Faro
 {
     void GraphicsSwapchainImageContainer::Init(GraphicsAdapter* adapter, GraphicsBufferCreateDesc inCreateDesc)
@@ -21,12 +23,27 @@ namespace Faro
     void GraphicsSwapchain::Init(GraphicsAdapter* adapter, Window* window)
     {
         IGraphicsAdapterChild::Init(adapter);
+
+        bufferReadySync.Add(GetAdapter()->CreateSyncPoint());
+        bufferReadySync.Add(GetAdapter()->CreateSyncPoint());
     }
 
     void GraphicsSwapchain::Destroy()
     {
+        for (GraphicsSyncPoint* syncPoint : bufferReadySync) 
+        {
+            MemoryManager::SafeDelete(syncPoint);
+        }
+        bufferReadySync.Clear();
+
         MemoryManager::SafeDelete(backbuffer);
         IGraphicsAdapterChild::Destroy();
+    }
+
+    GraphicsSyncPoint* GraphicsSwapchain::GetSyncPoint(uint8 imageIndex)
+    {
+        Debug_Assert(imageIndex < bufferReadySync.Size());
+        return bufferReadySync[imageIndex];
     }
 
     void GraphicsSwapchain::CreateBackbuffer()

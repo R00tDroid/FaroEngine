@@ -3,6 +3,7 @@
 #include <WindowWindows.hpp>
 #include <Assert.hpp>
 #include "GraphicsInterfaceVK.hpp"
+#include "GraphicsSyncPointVK.hpp"
 
 namespace Faro
 {
@@ -164,7 +165,9 @@ namespace Faro
 
     void GraphicsSwapchainVK::GetNextImageIndex()
     {
+        GraphicsSyncPointVK* syncPoint = static_cast<GraphicsSyncPointVK*>(GetSyncPoint(0)); //TODO Use image index.
+
         GraphicsAdapterVK* vkAdapter = GetTypedAdapter<GraphicsAdapterVK>();
-        vkAcquireNextImageKHR(vkAdapter->GetDevice(), swapchain, UINT64_MAX, nullptr, nullptr, &currentImage);
+        vkAcquireNextImageKHR(vkAdapter->GetDevice(), swapchain, UINT64_MAX, syncPoint->GetHandle(), nullptr, &currentImage);
     }
 }
