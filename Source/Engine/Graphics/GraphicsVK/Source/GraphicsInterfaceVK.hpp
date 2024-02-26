@@ -1,0 +1,34 @@
+#pragma once
+#include <GraphicsInterface.hpp>
+#include "Vulkan.hpp"
+
+namespace Faro
+{
+    class GraphicsInterfaceVK : public GraphicsInterface
+    {
+    public:
+        bool Init() override;
+        void Destroy() override;
+
+        String GetName() override { return "Vulkan"; }
+
+        Array<GraphicsAdapterDesc> GetAdapters() override;
+
+        GraphicsAdapter* CreateAdapter(GraphicsAdapterDesc description) override;
+
+        uint8 GetShaderBinaryType() override;
+
+        VkInstance GetInstance();
+
+    private:
+        static Array<char*> GetInstanceExtensions();
+        bool VerifyInstanceExtensions();
+
+        Array<String> GetAvailableLayers();
+
+        Array<GraphicsAdapterDesc> adapters;
+        VkInstance instance = nullptr;
+    };
+
+    REGISTER_GRAPHICS(GraphicsInterfaceVK)
+}

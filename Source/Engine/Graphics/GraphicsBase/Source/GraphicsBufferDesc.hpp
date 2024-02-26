@@ -78,4 +78,17 @@ namespace Faro
             return desc;
         }
     };
+
+    /// @brief Determines the type of a graphics buffer
+    enum GraphicsBufferType
+    {
+        BT_Upload, ///< Uploads data from the CPU to the graphics adapter.
+        BT_Remote ///< Stores memory on the graphics adapter.
+    };
+
+    struct GraphicsBufferCreateDesc
+    {
+        GraphicsBufferType bufferType;
+        GraphicsBufferDesc bufferDesc;
+    };
 }
