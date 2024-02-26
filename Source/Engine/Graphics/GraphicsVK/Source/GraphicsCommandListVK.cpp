@@ -61,7 +61,13 @@ namespace Faro
     {
         vkEndCommandBuffer(commandBuffer);
 
-        //TODO Submit commands to queue
+        VkSubmitInfo info = {};
+        info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+        info.pCommandBuffers = &commandBuffer;
+        info.commandBufferCount = 1;
+
+        GraphicsAdapterVK* adapter = GetTypedAdapter<GraphicsAdapterVK>();
+        vkQueueSubmit(adapter->GetQueue(), 1, &info, nullptr);
     }
 
     void GraphicsCommandListVK::SetResourceState(GraphicsBuffer* bufferPtr, GraphicsResourceState state)
