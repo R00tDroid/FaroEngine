@@ -30,7 +30,7 @@ namespace Faro
 
     void GraphicsSwapchain::Destroy()
     {
-        for (GraphicsSyncPoint* syncPoint : bufferReadySync) 
+        for (GraphicsSemaphore* syncPoint : bufferReadySync) 
         {
             MemoryManager::SafeDelete(syncPoint);
         }
@@ -40,7 +40,7 @@ namespace Faro
         IGraphicsAdapterChild::Destroy();
     }
 
-    GraphicsSyncPoint* GraphicsSwapchain::GetSyncPoint(uint8 imageIndex)
+    GraphicsSemaphore* GraphicsSwapchain::GetSyncPoint(uint8 imageIndex)
     {
         Debug_Assert(imageIndex < bufferReadySync.Size());
         return bufferReadySync[imageIndex];

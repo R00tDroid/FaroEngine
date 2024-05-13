@@ -3,7 +3,7 @@
 
 namespace Faro
 {
-    class GraphicsSyncPoint : public IGraphicsAdapterChild
+    class GraphicsSemaphore : public IGraphicsAdapterChild
     {
     public:
         using IGraphicsAdapterChild::Init;

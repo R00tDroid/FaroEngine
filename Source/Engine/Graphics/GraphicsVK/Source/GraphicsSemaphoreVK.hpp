@@ -4,10 +4,10 @@
 
 namespace Faro
 {
-    class GraphicsSyncPointVK : public GraphicsSyncPoint
+    class GraphicsSemaphoreVK : public GraphicsSemaphore
     {
     public:
-        using GraphicsSyncPoint::Init;
+        using GraphicsSemaphore::Init;
 
         VkSemaphore GetHandle();
 

@@ -195,9 +195,9 @@ namespace Faro
         return pipeline;
     }
 
-    GraphicsSyncPoint* GraphicsAdapterVK::CreateSyncPoint()
+    GraphicsSemaphore* GraphicsAdapterVK::CreateSyncPoint()
     {
-        GraphicsSyncPointVK* syncPoint = MemoryManager::New<GraphicsSyncPointVK>();
+        GraphicsSemaphoreVK* syncPoint = MemoryManager::New<GraphicsSemaphoreVK>();
         syncPoint->Init(this);
         return syncPoint;
     }

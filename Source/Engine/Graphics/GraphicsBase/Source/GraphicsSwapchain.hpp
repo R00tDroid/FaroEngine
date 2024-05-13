@@ -22,10 +22,10 @@ namespace Faro
 
         GraphicsSwapchainImageContainer* backbuffer = nullptr;
 
-        GraphicsSyncPoint* GetSyncPoint(uint8 imageIndex);
+        GraphicsSemaphore* GetSyncPoint(uint8 imageIndex);
 
     protected:
         void CreateBackbuffer();
-        Array<GraphicsSyncPoint*> bufferReadySync;
+        Array<GraphicsSemaphore*> bufferReadySync;
     };
 }
