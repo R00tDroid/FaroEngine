@@ -52,6 +52,6 @@ namespace Faro
 
         virtual GraphicsPipeline* CreatePipeline(GraphicsPipelineDesc desc) = 0;
 
-        virtual GraphicsSyncPoint* CreateSyncPoint();
+        virtual GraphicsSemaphore* CreateSyncPoint();
     };
 }

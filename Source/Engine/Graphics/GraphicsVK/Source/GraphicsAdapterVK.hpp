@@ -20,7 +20,7 @@ namespace Faro
 
         GraphicsPipeline* CreatePipeline(GraphicsPipelineDesc desc) override;
 
-        GraphicsSyncPoint* CreateSyncPoint() override;
+        GraphicsSemaphore* CreateSyncPoint() override;
 
         VkPhysicalDevice GetPhysicalDevice();
 

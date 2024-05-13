@@ -165,7 +165,7 @@ namespace Faro
 
     void GraphicsSwapchainVK::GetNextImageIndex()
     {
-        GraphicsSyncPointVK* syncPoint = static_cast<GraphicsSyncPointVK*>(GetSyncPoint(0)); //TODO Use image index.
+        GraphicsSemaphoreVK* syncPoint = static_cast<GraphicsSemaphoreVK*>(GetSyncPoint(0)); //TODO Use image index.
 
         GraphicsAdapterVK* vkAdapter = GetTypedAdapter<GraphicsAdapterVK>();
         vkAcquireNextImageKHR(vkAdapter->GetDevice(), swapchain, UINT64_MAX, syncPoint->GetHandle(), nullptr, &currentImage);

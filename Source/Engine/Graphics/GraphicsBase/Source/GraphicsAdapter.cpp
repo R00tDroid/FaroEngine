@@ -2,9 +2,9 @@
 
 namespace Faro
 {
-    GraphicsSyncPoint* GraphicsAdapter::CreateSyncPoint()
+    GraphicsSemaphore* GraphicsAdapter::CreateSyncPoint()
     {
-        GraphicsSyncPoint* syncPoint = MemoryManager::New<GraphicsSyncPoint>();
+        GraphicsSemaphore* syncPoint = MemoryManager::New<GraphicsSemaphore>();
         syncPoint->Init(this);
         return syncPoint;
     }

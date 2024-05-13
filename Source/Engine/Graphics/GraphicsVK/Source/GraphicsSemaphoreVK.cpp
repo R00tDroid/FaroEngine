@@ -5,12 +5,12 @@
 
 namespace Faro
 {
-    VkSemaphore GraphicsSyncPointVK::GetHandle()
+    VkSemaphore GraphicsSemaphoreVK::GetHandle()
     {
         return semaphore;
     }
 
-    void GraphicsSyncPointVK::Destroy()
+    void GraphicsSemaphoreVK::Destroy()
     {
         if (semaphore != nullptr)
         {
@@ -19,12 +19,12 @@ namespace Faro
             semaphore = nullptr;
         }
 
-        GraphicsSyncPoint::Destroy();
+        GraphicsSemaphore::Destroy();
     }
 
-    void GraphicsSyncPointVK::Init()
+    void GraphicsSemaphoreVK::Init()
     {
-        GraphicsSyncPoint::Init();
+        GraphicsSemaphore::Init();
 
         GraphicsAdapterVK* adapter = GetTypedAdapter<GraphicsAdapterVK>();
 
