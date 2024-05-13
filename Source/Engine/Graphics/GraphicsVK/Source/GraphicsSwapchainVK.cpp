@@ -3,7 +3,7 @@
 #include <WindowWindows.hpp>
 #include <Assert.hpp>
 #include "GraphicsInterfaceVK.hpp"
-#include "GraphicsSyncPointVK.hpp"
+#include "GraphicsSemaphoreVK.hpp"
 
 namespace Faro
 {

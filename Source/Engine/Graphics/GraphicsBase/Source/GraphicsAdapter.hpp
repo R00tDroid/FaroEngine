@@ -7,7 +7,7 @@
 #include <GraphicsCommandList.hpp>
 #include <GraphicsBufferContainer.hpp>
 #include <GraphicsPipeline.hpp>
-#include <GraphicsSyncPoint.hpp>
+#include <GraphicsSemaphore.hpp>
 
 namespace Faro
 {

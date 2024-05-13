@@ -2,8 +2,7 @@
 #include <GraphicsAdapterChild.hpp>
 #include <Window.hpp>
 #include <GraphicsBufferContainer.hpp>
-
-#include "GraphicsSyncPoint.hpp"
+#include <GraphicsSemaphore.hpp>
 
 namespace Faro
 {
