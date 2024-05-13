@@ -32,7 +32,7 @@ namespace Faro
         commandList->Reset(allocator, nullptr);
     }
 
-    void GraphicsCommandListD3D12::Execute()
+    void GraphicsCommandListD3D12::Execute(Array<GraphicsSemaphore*> waitForSemaphores)
     {
         commandList->Close();
 

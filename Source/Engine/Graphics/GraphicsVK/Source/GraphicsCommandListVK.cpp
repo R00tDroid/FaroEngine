@@ -3,6 +3,8 @@
 #include "GraphicsBufferVK.hpp"
 #include "GraphicsLogVK.hpp"
 #include <Assert.hpp>
+#include "Math/MathUtil.hpp"
+#include "GraphicsSemaphoreVK.hpp"
 
 namespace Faro
 {
@@ -57,14 +59,24 @@ namespace Faro
         vkBeginCommandBuffer(commandBuffer, &beginDesc);    
     }
 
-    void GraphicsCommandListVK::Execute()
+#define MaxWaitSemaphores 16
+
+    void GraphicsCommandListVK::Execute(Array<GraphicsSemaphore*> waitForSemaphores)
     {
+        VkSemaphore waitSemaphoreHandles[MaxWaitSemaphores];
+        for (uint32 i = 0; i < Min<uint32>(MaxWaitSemaphores, waitForSemaphores.Size()); i++)
+        {
+            waitSemaphoreHandles[i] = static_cast<GraphicsSemaphoreVK*>(waitForSemaphores[i])->GetHandle();
+        }
+
         vkEndCommandBuffer(commandBuffer);
 
         VkSubmitInfo info = {};
         info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
         info.pCommandBuffers = &commandBuffer;
         info.commandBufferCount = 1;
+        info.pWaitSemaphores = waitSemaphoreHandles;
+        info.waitSemaphoreCount = waitForSemaphores.Size();
 
         GraphicsAdapterVK* adapter = GetTypedAdapter<GraphicsAdapterVK>();
         vkQueueSubmit(adapter->GetQueue(), 1, &info, nullptr);
