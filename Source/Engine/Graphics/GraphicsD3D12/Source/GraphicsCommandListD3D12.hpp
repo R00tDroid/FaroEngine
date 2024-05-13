@@ -15,7 +15,7 @@ namespace Faro
         void Destroy() override;
 
         void Reset() override;
-        void Execute() override;
+        void Execute(Array<GraphicsSemaphore*> waitForSemaphores) override;
 
         void SetResourceState(GraphicsBuffer* buffer, GraphicsResourceState state) override;
 
