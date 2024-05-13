@@ -1,5 +1,5 @@
 #pragma once
-#include <GraphicsSyncPoint.hpp>
+#include <GraphicsSemaphore.hpp>
 #include "Vulkan.hpp"
 
 namespace Faro

@@ -1,4 +1,4 @@
-#include "GraphicsSyncPointVK.hpp"
+#include "GraphicsSemaphoreVK.hpp"
 
 #include "Assert.hpp"
 #include "GraphicsAdapterVK.hpp"
