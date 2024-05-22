@@ -20,6 +20,15 @@ bool ToolchainEmscripten::PrepareModuleForBuild(ModuleManifest&, BuildPlatform*,
 
 #define MEMORY_SIZE 512 * 1024 * 1024
 
+std::string GetEmscriptenFlags()
+{
+    std::string compilerFlags;
+    compilerFlags += " -std=c++11";
+    compilerFlags += " -s USE_PTHREADS=1";
+    compilerFlags += " -s INITIAL_MEMORY=" + std::to_string(MEMORY_SIZE);
+    return compilerFlags;
+}
+
 bool ToolchainEmscripten::BuildSource(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::filesystem::path sourceFile, std::vector<std::filesystem::path> includePaths, std::vector<std::string> preprocessorDefines)
 {
     std::string includes = "";
@@ -37,11 +46,7 @@ bool ToolchainEmscripten::BuildSource(ModuleManifest& manifest, BuildPlatform* t
         defines += " -D" + define;
     }
 
-    std::string compilerFlags;
-
-    compilerFlags += " -std=c++11";
-    compilerFlags += " -s USE_PTHREADS=1";
-    compilerFlags += " -s INITIAL_MEMORY=" + std::to_string(MEMORY_SIZE);
+    std::string compilerFlags = GetEmscriptenFlags();
 
     switch (configuration)
     {
@@ -57,7 +62,6 @@ bool ToolchainEmscripten::BuildSource(ModuleManifest& manifest, BuildPlatform* t
     Utility::EnsureDirectory(outputFile.parent_path());
 
     std::filesystem::path env_path = emscriptenRoot / "emsdk_env.bat";
-
 
     std::string log = "";
     int result = ExecuteCommand(env_path.string() + "  >nul 2>&1 && em++ -c " + sourceFile.string() + compilerFlags + includes + defines + " -o " + outputFile.string(), log);
@@ -82,16 +86,84 @@ bool ToolchainEmscripten::BuildSource(ModuleManifest& manifest, BuildPlatform* t
     return result == 0;
 }
 
-bool ToolchainEmscripten::LinkLibrary(ModuleManifest&, BuildPlatform*, BuildType,  std::vector<std::filesystem::path>)
+bool ToolchainEmscripten::LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles)
 {
-    //TODO Implement
-    return false;
+    std::string objs = "";
+    for (std::filesystem::path& sourceFile : sourceFiles)
+    {
+        objs += " \"" + GetObjPath(manifest, target, configuration, sourceFile).string() + "\"";
+    }
+
+    std::filesystem::path archiver = emscriptenRoot / "upstream" / "bin" / "llvm-ar.exe";
+
+    std::filesystem::path libPath = GetLibPath(manifest, target, configuration);
+    Utility::EnsureDirectory(libPath.parent_path());
+    Utility::PrintLineD(libPath.string());
+
+    std::string log = "";
+    int result = ExecuteCommand(archiver.string() + " crsD \"" + libPath.string() + "\" " + objs, log);
+
+    // Format, trim and print output message
+    if (!log.empty())
+    {
+        log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
+
+        if (!log.empty())
+        {
+            Utility::PrintLine(log);
+        }
+    }
+
+    return result == 0;
 }
 
-bool ToolchainEmscripten::LinkExecutable(ModuleManifest&, BuildPlatform*, BuildType, std::vector<std::filesystem::path>)
+bool ToolchainEmscripten::LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles)
 {
-    //TODO Implement
-    return false;
+    // Get project object files
+    std::string objs = "";
+    for (std::filesystem::path& sourceFile : sourceFiles)
+    {
+        objs += " \"" + GetObjPath(manifest, target, configuration, sourceFile).string() + "\"";
+    }
+
+    std::string libs = "";
+    std::string moduleLibs = "";
+
+    // Get dependency libraries
+    for (ModuleManifest* module : GetAllModuleDependencies(manifest))
+    {
+        std::filesystem::path lib = GetLibPath(*module, target, configuration);
+        Utility::PrintLineD("\t" + lib.string());
+        moduleLibs += " /WHOLEARCHIVE:\"" + lib.string() + "\"";
+
+        for (std::string& linkerLibrary : module->linkingLibraries)
+        {
+            libs += " \"" + linkerLibrary + "\"";
+        }
+    }
+
+    std::filesystem::path outputFile = GetExePath(manifest, target, configuration);
+    Utility::EnsureDirectory(outputFile.parent_path());
+    Utility::PrintLineD(outputFile.string());
+
+    std::string compilerFlags = GetEmscriptenFlags();
+
+    std::filesystem::path env_path = emscriptenRoot / "emsdk_env.bat";
+
+    std::string log = "";
+    int result = ExecuteCommand(env_path.string() + "  >nul 2>&1 && em++ " + compilerFlags + objs + libs + moduleLibs + " -o " + outputFile.string(), log);
+
+    // Format, trim and print output message
+    if (!log.empty())
+    {
+        log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
+
+        if (!log.empty())
+        {
+            Utility::PrintLine(log);
+        }
+    }
+    return result == 0;
 }
 
 std::string ToolchainEmscripten::GetObjExtension()
