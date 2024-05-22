@@ -55,6 +55,10 @@ namespace Faro
     class IThread : public IThreadInterface
     {
     public:
+        IThread() : shouldRun(true), isRunning(false)
+        {
+        }
+
         /// @brief Start the thread.
         void Start();
 
@@ -79,7 +83,7 @@ namespace Faro
     private:
         std::thread thread;
 
-        ThreadSafe<bool> shouldRun = true;
-        ThreadSafe<bool> isRunning = false;
+        ThreadSafe<bool> shouldRun;
+        ThreadSafe<bool> isRunning;
     };
 }
