@@ -4,6 +4,7 @@
 #include <Manifests/ProjectManifest.hpp>
 #include "Command.hpp"
 #include "ToolchainMSVC.hpp"
+#include "ToolchainEmscripten.hpp"
 
 std::vector<std::string> IToolchain::GetPreprocessorDefines(ModuleManifest* manifest, BuildPlatform* platform, BuildType configuration)
 {
@@ -74,7 +75,7 @@ int IToolchain::ExecuteCommand(std::string command)
 
 std::vector<IToolchain*> IToolchain::GetToolchains()
 {
-    return { &ToolchainMSVC::Instance };
+    return { &ToolchainMSVC::Instance, &ToolchainEmscripten::Instance };
 }
 
 std::filesystem::path IToolchain::GetObjDirectory(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)
