@@ -21,7 +21,7 @@ namespace Faro
     protected:
         void Destroy() override;
 
-        Path file = "";
+        Path file = String("");
         EFileMode mode;
 
         FILE* stream = nullptr;
