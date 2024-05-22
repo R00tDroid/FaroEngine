@@ -51,8 +51,8 @@ bool ToolchainEmscripten::BuildSource(ModuleManifest& manifest, BuildPlatform* t
     switch (configuration)
     {
     case Debug:
-    case Development: { compilerFlags += " /O0 /g"; break; }
-    case Release: { compilerFlags += " /O3"; break; }
+    case Development: { compilerFlags += " -O0 -g"; break; }
+    case Release: { compilerFlags += " -O3"; break; }
 
     case ENUMSIZE:;
     default:;
