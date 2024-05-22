@@ -1,4 +1,5 @@
 #pragma once
+#include <thread>
 #include <ThreadSafety.hpp>
 #include <Primitives.hpp>
 #include <Containers/Array.hpp>
