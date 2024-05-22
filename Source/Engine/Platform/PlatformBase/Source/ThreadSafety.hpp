@@ -72,7 +72,7 @@ namespace Faro
             return data;
         }
 
-/**
+        /**
          * @brief Get a pointer to the contained value.
          * @warning Must be locked with #Lock and unlocked with #Unlock
          * @return T* Pointer to the contained value
