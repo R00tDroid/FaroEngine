@@ -168,18 +168,15 @@ bool ToolchainEmscripten::LinkExecutable(ModuleManifest& manifest, BuildPlatform
 
 std::string ToolchainEmscripten::GetObjExtension()
 {
-    //TODO Implement
-    return {};
+    return "o";
 }
 
 std::string ToolchainEmscripten::GetLibExtension()
 {
-    //TODO Implement
-    return {};
+    return "a";
 }
 
 std::string ToolchainEmscripten::GetExeExtension()
 {
-    //TODO Implement
-    return {};
+    return "js";
 }
