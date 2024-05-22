@@ -64,7 +64,7 @@ bool ToolchainEmscripten::BuildSource(ModuleManifest& manifest, BuildPlatform* t
     std::filesystem::path env_path = emscriptenRoot / "emsdk_env.bat";
 
     std::string log = "";
-    int result = ExecuteCommand(env_path.string() + "  >nul 2>&1 && em++ -c " + sourceFile.string() + compilerFlags + includes + defines + " -o " + outputFile.string(), log);
+    int result = ExecuteCommand(env_path.string() + " >nul 2>&1 && em++ -c " + sourceFile.string() + compilerFlags + includes + defines + " -o " + outputFile.string(), log);
 
     // Format, trim and print output message
     if (!log.empty())
