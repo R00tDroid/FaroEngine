@@ -1,4 +1,3 @@
-#pragma once
 #include "Stream.hpp"
 #include "Memory/MemoryManager.hpp"
 
