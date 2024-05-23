@@ -6,8 +6,7 @@ std::vector<BuildPlatform*> ToolchainEmscripten::GetPlatforms()
 {
     if (platforms.empty())
     {
-        //TODO Prevent double "Web Web"
-        platforms.push_back(new EmscriptenBuildPlatform{ "Web web", { "FARO_OS_WEB", "FARO_ARCH_WEB" }, {} });
+        platforms.push_back(new EmscriptenBuildPlatform{ "Web", { "FARO_OS_WEB", "FARO_ARCH_WASM" }, {} });
     }
 
     return platforms;

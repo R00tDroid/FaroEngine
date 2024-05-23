@@ -6,7 +6,7 @@
 class TaskBuild : public ITask
 {
 public:
-    TaskBuild(std::string platform, std::string architecture, BuildType configuration);
+    TaskBuild(std::string platform, BuildType configuration);
 
     int GetPriority() const override;
 
@@ -40,7 +40,6 @@ private:
 
 private:
     std::string buildPlatform;
-    std::string buildArchitecture;
     BuildType buildType;
 
     IToolchain* targetToolchain = nullptr;

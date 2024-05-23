@@ -7,8 +7,8 @@ std::vector<BuildPlatform*> ToolchainMSVC::GetPlatforms()
 {
     if (platforms.empty())
     {
-        platforms.push_back(new MSVCBuildPlatform{ "Windows x64", { "FARO_OS_WINDOWS", "FARO_ARCH_X64" }, {}, EMSVCArchitecture::x64 });
-        platforms.push_back(new MSVCBuildPlatform{ "Windows x86", { "FARO_OS_WINDOWS", "FARO_ARCH_X86" }, {}, EMSVCArchitecture::x86 });
+        platforms.push_back(new MSVCBuildPlatform{ "WindowsX64", { "FARO_OS_WINDOWS", "FARO_ARCH_X64" }, {}, EMSVCArchitecture::x64 });
+        platforms.push_back(new MSVCBuildPlatform{ "WindowsX86", { "FARO_OS_WINDOWS", "FARO_ARCH_X86" }, {}, EMSVCArchitecture::x86 });
     }
 
     return platforms;
