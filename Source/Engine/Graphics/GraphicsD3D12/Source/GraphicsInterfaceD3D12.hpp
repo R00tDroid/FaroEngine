@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_OS_WINDOWS
 #include <GraphicsInterface.hpp>
 #include <dxgi1_4.h>
 
@@ -29,3 +30,4 @@ namespace Faro
 
     REGISTER_GRAPHICS(GraphicsInterfaceD3D12)
 }
+#endif

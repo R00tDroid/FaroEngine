@@ -1,3 +1,4 @@
+#if FARO_OS_WINDOWS
 #include "ConversionD3D12.hpp"
 #include <Containers/Map.hpp>
 
@@ -86,3 +87,4 @@ void LoadConversionMaps()
         }
     }
 }
+#endif

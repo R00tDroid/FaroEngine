@@ -1,3 +1,4 @@
+#if FARO_OS_WINDOWS
 #include "GraphicsSwapchainD3D12.hpp"
 #include <GraphicsAdapterD3D12.hpp>
 #include <WindowWindows.hpp>
@@ -48,3 +49,4 @@ namespace Faro
         swapchain->Present1(0, 0, &presentParams);
     }
 }
+#endif

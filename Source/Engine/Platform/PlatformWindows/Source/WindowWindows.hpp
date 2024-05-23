@@ -1,5 +1,5 @@
 #pragma once
-#if FARO_PLATFORM_WINDOWS
+#if FARO_OS_WINDOWS
 #include <Window.hpp>
 #include <Thread.hpp>
 #include <MinWindows.hpp>

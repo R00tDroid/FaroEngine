@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_OS_WINDOWS
 #include <GraphicsFence.hpp>
 #include <d3d12.h>
 #include <Primitives.hpp>
@@ -24,3 +25,4 @@ namespace Faro
         HANDLE fenceEvent = nullptr;
     };
 }
+#endif

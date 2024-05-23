@@ -1,4 +1,4 @@
-#if FARO_PLATFORM_WINDOWS
+#if FARO_OS_WINDOWS
 #include "WindowWindows.hpp"
 #include <MinWindows.hpp>
 #include <MainThread.hpp>

@@ -1,3 +1,4 @@
+#if FARO_OS_WINDOWS
 #include "GraphicsFenceD3D12.hpp"
 #include <GraphicsAdapterD3D12.hpp>
 
@@ -42,3 +43,4 @@ namespace Faro
         WaitForSingleObject(fenceEvent, 64);
     }
 }
+#endif

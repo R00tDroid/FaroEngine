@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_OS_WINDOWS
 #include <GraphicsSwapchain.hpp>
 #include <dxgi1_5.h>
 
@@ -18,3 +19,4 @@ namespace Faro
         IDXGISwapChain4* swapchain = nullptr;
     };
 }
+#endif

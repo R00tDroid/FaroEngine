@@ -1,4 +1,4 @@
-#if FARO_PLATFORM_WINDOWS
+#if FARO_OS_WINDOWS
 #include "PlatformWindows.hpp"
 #include <iostream>
 #include <Log.hpp>

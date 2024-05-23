@@ -1,5 +1,5 @@
 #pragma once
-#if FARO_PLATFORM_WINDOWS
+#if FARO_OS_WINDOWS
 #include <Platform.hpp>
 
 namespace Faro
