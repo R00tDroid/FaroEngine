@@ -25,7 +25,6 @@ std::string GetEmscriptenFlags()
     std::string compilerFlags;
     compilerFlags += " -std=c++11";
     compilerFlags += " -s USE_PTHREADS=1";
-    compilerFlags += " -s INITIAL_MEMORY=" + std::to_string(MEMORY_SIZE);
     return compilerFlags;
 }
 
@@ -79,6 +78,7 @@ bool ToolchainEmscripten::BuildSource(ModuleManifest& manifest, BuildPlatform* t
 
         if (!log.empty())
         {
+            //TODO Rewrite file line numbers
             Utility::PrintLine(log);
         }
     }
@@ -147,6 +147,7 @@ bool ToolchainEmscripten::LinkExecutable(ModuleManifest& manifest, BuildPlatform
     Utility::PrintLineD(outputFile.string());
 
     std::string compilerFlags = GetEmscriptenFlags();
+    compilerFlags += " -s INITIAL_MEMORY=" + std::to_string(MEMORY_SIZE);
 
     std::filesystem::path env_path = emscriptenRoot / "emsdk_env.bat";
 
