@@ -38,7 +38,7 @@ namespace Faro
 
     private:
         uint32 claims = 0;
-        ThreadSafe<ResourceState> state = RS_Unknown;
+        ThreadSafe<ResourceState> state;
         DataStream* stream = nullptr;
     };
 }
