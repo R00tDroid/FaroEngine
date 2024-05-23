@@ -15,17 +15,17 @@ namespace Faro
 
         Duration(std::chrono::steady_clock::duration duration) : duration(duration){}
 
-        int32 TotalHours();
-        int32 TotalMinutes();
-        int64 TotalSeconds();
-        int64 TotalMilliseconds();
-        int64 TotalMicroseconds();
+        int32 TotalHours() const;
+        int32 TotalMinutes() const;
+        int64 TotalSeconds() const;
+        int64 TotalMilliseconds() const;
+        int64 TotalMicroseconds() const;
 
-        int8 Hours();
-        int8 Minutes();
-        int8 Seconds();
-        int16 Milliseconds();
-        int16 Microseconds();
+        int8 Hours() const;
+        int8 Minutes() const;
+        int8 Seconds() const;
+        int16 Milliseconds() const;
+        int16 Microseconds() const;
 
     private:
         std::chrono::steady_clock::duration duration;
