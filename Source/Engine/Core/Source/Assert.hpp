@@ -3,9 +3,9 @@
 #include <type_traits>
 #include <iostream>
 
-#ifdef FARO_DEBUG // Define internal debugging macros
+#if FARO_DEBUG // Define internal debugging macros
 
-    #ifdef FARO_OS_WINDOWS
+    #if FARO_OS_WINDOWS
 
     #include <sstream>
     #include <MinWindows.hpp>
@@ -18,7 +18,7 @@
     }
     #define Debug_Break() __debugbreak()
 
-    #elif defined(FARO_OS_WEB)
+    #elif FARO_OS_WEB
 
     #define DebugOutputMessage(message)  \
         {                                    \

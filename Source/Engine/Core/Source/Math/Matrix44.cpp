@@ -220,16 +220,16 @@ namespace Faro
 
     Matrix44 Matrix44::Get()
     {
-#ifdef Faro_DX11 //TODO Replace preprocessor transposing
+#if FARO_DX11 //TODO Replace preprocessor transposing
         return Transposed();
 #endif
-#ifdef Faro_GL
+#if FARO_GL
         return *this;
 #endif
-#ifdef Faro_GLES
+#if FARO_GLES
         return *this;
 #endif
-#ifdef Faro_WEBGL
+#if FARO_WEBGL
         return Transposed();
 #endif
 
