@@ -142,7 +142,7 @@ bool ToolchainEmscripten::LinkExecutable(ModuleManifest& manifest, BuildPlatform
     {
         std::filesystem::path lib = GetLibPath(*module, target, configuration);
         Utility::PrintLineD("\t" + lib.string());
-        moduleLibs += " /WHOLEARCHIVE:\"" + lib.string() + "\"";
+        moduleLibs += " \"" + lib.string() + "\"";
 
         for (std::string& linkerLibrary : module->linkingLibraries)
         {
@@ -187,5 +187,5 @@ std::string ToolchainEmscripten::GetLibExtension()
 
 std::string ToolchainEmscripten::GetExeExtension()
 {
-    return "js";
+    return "html";
 }
