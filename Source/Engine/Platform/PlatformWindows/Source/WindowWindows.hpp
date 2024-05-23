@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_PLATFORM_WINDOWS
 #include <Window.hpp>
 #include <Thread.hpp>
 #include <MinWindows.hpp>
@@ -48,3 +49,4 @@ namespace Faro
         WindowState windowState;
     };
 }
+#endif

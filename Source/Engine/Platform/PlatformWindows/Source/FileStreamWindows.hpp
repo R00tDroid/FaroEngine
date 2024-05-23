@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_PLATFORM_WINDOWS
 #include <FileStream.hpp>
 #include <Containers/Path.hpp>
 
@@ -28,3 +29,4 @@ namespace Faro
         uint32 size = 0;
     };
 }
+#endif

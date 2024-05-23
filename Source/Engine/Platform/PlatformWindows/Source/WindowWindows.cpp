@@ -1,3 +1,4 @@
+#if FARO_PLATFORM_WINDOWS
 #include "WindowWindows.hpp"
 #include <MinWindows.hpp>
 #include <MainThread.hpp>
@@ -210,3 +211,4 @@ namespace Faro
         return windowThread.windowHandle.GetCopy();
     }
 }
+#endif
