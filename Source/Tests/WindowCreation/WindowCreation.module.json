@@ -7,7 +7,7 @@
     "Dependencies": [
       "PlatformWindows",
       "PlatformWeb",
-      "GraphicsBase",
+      "GraphicsD3D12",
       "Resources"
     ],
     "SourceFilters": [
