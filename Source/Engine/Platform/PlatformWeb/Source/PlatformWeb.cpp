@@ -1,6 +1,6 @@
 #if FARO_OS_WEB
 #include "PlatformWeb.hpp"
-#include <iostream>
+#include <emscripten/console.h>
 #include <Log.hpp>
 #include <WindowWeb.hpp>
 #include <Memory/MemoryManager.hpp>
@@ -34,11 +34,15 @@ namespace Faro
 
             if (message.category == LC_Error || message.category == LC_Fatal)
             {
-                std::cerr << string.Data() << std::endl;
+                emscripten_err(string.Data());
+            }
+            else if (message.category == LC_Warning)
+            {
+                emscripten_dbg(string.Data());
             }
             else 
             {
-                std::cout << string.Data() << std::endl;
+                emscripten_out(string.Data());
             }
         }
     };
