@@ -156,6 +156,8 @@ bool ToolchainEmscripten::LinkExecutable(ModuleManifest& manifest, BuildPlatform
 
     std::string compilerFlags = GetEmscriptenFlags();
     compilerFlags += " -s INITIAL_MEMORY=" + std::to_string(MEMORY_SIZE);
+    compilerFlags += " -s PTHREAD_POOL_SIZE=10";
+    compilerFlags += " -s PTHREAD_POOL_SIZE_STRICT=2";
 
     std::filesystem::path env_path = emscriptenRoot / "emsdk_env.bat";
 
