@@ -5,10 +5,7 @@
     "PrivateIncludeDirectories": [
     ],
     "Dependencies": [
-      "PlatformWindows",
-      "PlatformWeb",
-      "GraphicsBase",
-      "Resources"
+        "PlatformBase"
     ],
     "SourceFilters": [
         "Source/**/*.cpp",
@@ -16,6 +13,6 @@
         "Source/**/*.c",
         "Source/**/*.h"
     ],
-    "ModuleType": "Executable",
-    "SolutionLocation": "Tests"
+    "ModuleType": "Library",
+    "SolutionLocation": "Platform"
 }
