@@ -140,6 +140,8 @@ bool ToolchainEmscripten::LinkExecutable(ModuleManifest& manifest, BuildPlatform
     // Get dependency libraries
     for (ModuleManifest* module : GetAllModuleDependencies(manifest))
     {
+        if (!module->IsCompatible(target)) continue;
+
         std::filesystem::path lib = GetLibPath(*module, target, configuration);
         Utility::PrintLineD("\t" + lib.string());
         moduleLibs += " -Wl,--whole-archive \"" + lib.string() + "\"";

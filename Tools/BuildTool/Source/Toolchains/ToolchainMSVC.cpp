@@ -208,6 +208,8 @@ bool ToolchainMSVC::LinkExecutable(ModuleManifest& manifest, BuildPlatform* targ
     // Get dependency libraries
     for (ModuleManifest* module : GetAllModuleDependencies(manifest))
     {
+        if (!module->IsCompatible(target)) continue;
+
         std::filesystem::path lib = GetLibPath(*module, target, configuration);
         Utility::PrintLineD("\t" + lib.string());
         moduleLibs += " /WHOLEARCHIVE:\""+ lib.string() + "\"";
