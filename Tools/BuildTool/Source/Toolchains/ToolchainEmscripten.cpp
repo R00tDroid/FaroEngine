@@ -189,3 +189,10 @@ std::string ToolchainEmscripten::GetExeExtension()
 {
     return "html";
 }
+
+std::vector<std::filesystem::path> ToolchainEmscripten::GetToolchainIncludes(BuildPlatform*, BuildType)
+{
+    return {
+        emscriptenRoot / "upstream" / "emscripten" / "system" / "include"
+    };
+}

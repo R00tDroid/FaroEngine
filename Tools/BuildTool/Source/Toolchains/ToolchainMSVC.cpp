@@ -263,6 +263,11 @@ std::string ToolchainMSVC::GetExeExtension()
     return "exe";
 }
 
+std::vector<std::filesystem::path> ToolchainMSVC::GetToolchainIncludes(BuildPlatform*, BuildType)
+{
+    return { "$(VC_IncludePath)", "$(WindowsSDK_IncludePath)" }; //TODO Replace by specific paths
+}
+
 std::string ToolchainMSVC::GetEnvCommand()
 {
     //TODO Add MSVC IDE path

@@ -332,12 +332,24 @@ void TaskGenerate::WriteProjectFile(ProjectInfo& projectInfo)
                     {
                         tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
 
-                        std::string includePaths = "$(VC_IncludePath);$(WindowsSDK_IncludePath)"; //TODO directly reference used platform includes from toolchain
+                        std::string includePaths;
+
+                        ModuleManifest* moduleManifest = projectInfo.GetModuleManifest();
+                        if (moduleManifest != nullptr)
+                        {
+                            toolchain->PrepareModuleForBuild(*projectInfo.GetModuleManifest(), platform, static_cast<BuildType>(buildTypeIndex));
+                            std::vector<std::filesystem::path> toolchainIncludes = toolchain->GetToolchainIncludes(platform, static_cast<BuildType>(buildTypeIndex));
+
+                            for (std::filesystem::path& path : toolchainIncludes)
+                            {
+                                includePaths += path.string() + ";";
+                            }
+                        }
+
                         for (std::filesystem::path& path : projectInfo.GetIncludePaths())
                         {
-                            includePaths += ";" + path.string();
+                            includePaths += path.string() + ";";
                         }
-                        includePaths += ";";
 
                         element->SetText(includePaths.c_str());
 

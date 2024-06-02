@@ -25,6 +25,8 @@ public:
 
     std::string GetExeExtension() override;
 
+    std::vector<std::filesystem::path> GetToolchainIncludes(BuildPlatform* platform, BuildType configuration) override;
+
 private:
     std::filesystem::path emscriptenRoot = "";
     std::vector<BuildPlatform*> platforms;
