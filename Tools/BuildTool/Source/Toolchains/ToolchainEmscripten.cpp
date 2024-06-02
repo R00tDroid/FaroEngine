@@ -142,7 +142,7 @@ bool ToolchainEmscripten::LinkExecutable(ModuleManifest& manifest, BuildPlatform
     {
         std::filesystem::path lib = GetLibPath(*module, target, configuration);
         Utility::PrintLineD("\t" + lib.string());
-        moduleLibs += " \"" + lib.string() + "\"";
+        moduleLibs += " -Wl,--whole-archive \"" + lib.string() + "\"";
 
         for (std::string& linkerLibrary : module->linkingLibraries)
         {
