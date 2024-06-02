@@ -99,6 +99,12 @@ ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifes
         return nullptr;
     }
 
+    if (!manifest->ParsePlatformFilter(rootObject))
+    {
+        delete manifest;
+        return nullptr;
+    }
+
     manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ModuleId.txt");
 
     manifest->SaveCache();
@@ -178,6 +184,13 @@ ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path, Projec
     }
 
     manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ModuleId.txt");
+
+    std::ifstream platformFilterList(manifest->infoDirectory / "PlatformFilter.txt");
+    std::stringstream platformFilterStream;
+    platformFilterStream << platformFilterList.rdbuf();
+    platformFilterList.close();
+    manifest->platformFilter = platformFilterStream.str();
+    platformFilterList.close();
 
     return manifest;
 }
@@ -275,6 +288,11 @@ std::set<ModuleManifest*> ModuleManifest::GetDependencyTree()
     }
 
     return dependencies;
+}
+
+bool ModuleManifest::IsCompatible(BuildPlatform*) const
+{
+    return false; //TODO Check module compatibility
 }
 
 ModuleManifest::ModuleManifest(const std::filesystem::path& path): IManifest(path), fileDates(this), fileTree(this)
@@ -549,6 +567,25 @@ bool ModuleManifest::ParseLinkerLibraries(picojson::object& rootObject)
     return true;
 }
 
+bool ModuleManifest::ParsePlatformFilter(picojson::object& rootObject)
+{
+    platformFilter = "*";
+
+    if (rootObject.find("PlatformFilter") != rootObject.end())
+    {
+        picojson::value& value = rootObject["PlatformFilter"];
+        if (!value.is<std::string>())
+        {
+            Utility::PrintLine("Expected PlatformFilter to be a string");
+            return false;
+        }
+
+        platformFilter = value.get<std::string>();
+    }
+
+    return true;
+}
+
 void ModuleManifest::SaveCache()
 {
     std::ofstream filesList(infoDirectory / "Source.txt");
@@ -607,4 +644,8 @@ void ModuleManifest::SaveCache()
         case MT_Executable: { moduleType << "app"; break; }
     }
     moduleType.close();
+
+    std::ofstream platformFilterList(infoDirectory / "PlatformFilter.txt");
+    platformFilterList << platformFilter;
+    platformFilterList.close();
 }
