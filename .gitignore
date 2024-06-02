@@ -10,12 +10,13 @@ compile_commands.json
 CTestTestfile.cmake
 _deps
 
-.vs
+.*
+*.generated*
+*.sln
+*.g.*
+
 /Bin
 /Tools/Build
-*.generated*
-.Faro
-*.sln
 /Docs/Doxygen
-/Source/Engine/Core/Source/EngineVersion.generated.cpp
-*.g.*
+
+!.github
