@@ -142,6 +142,8 @@ namespace Utility
 
         return true;
     }
+
+    bool ReadEnvVariable(std::string variableName, std::string& value);
 }
 
 class PerformanceTimer

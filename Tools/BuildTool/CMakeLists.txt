@@ -14,6 +14,7 @@ configure_file(${CMAKE_CURRENT_LIST_DIR}/Source/Tests/TestInfo.hpp.in ${CMAKE_CU
 
 file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
+    ${CMAKE_CURRENT_LIST_DIR}/../Shared/Utils/*.*
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo/*.*
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/MSVCInfo/*.*
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/EmscriptenInfo/*.*
