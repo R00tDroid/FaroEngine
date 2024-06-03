@@ -1,6 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include "ToolchainEmscripten.hpp"
 #include <Utility.hpp>
+#include <EmscriptenInfo.hpp>
+
 
 std::vector<BuildPlatform*> ToolchainEmscripten::GetPlatforms()
 {
@@ -14,11 +16,11 @@ std::vector<BuildPlatform*> ToolchainEmscripten::GetPlatforms()
 
 bool ToolchainEmscripten::PrepareModuleForBuild(ModuleManifest&, BuildPlatform*, BuildType)
 {
-    const char* emscriptenEnv = std::getenv("EMSDK");
+    const std::vector<EmscriptenSDK>& SDKs = GetEmscriptenSDKs();
 
-    if (emscriptenEnv != nullptr)
+    if (!SDKs.empty())
     {
-        emscriptenRoot = emscriptenEnv;
+        emscriptenRoot = SDKs[0].Root;
         emscriptenRoot = emscriptenRoot.make_preferred();
         return true;
     }

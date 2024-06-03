@@ -16,6 +16,7 @@ file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo/*.*
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/MSVCInfo/*.*
+    ${CMAKE_CURRENT_LIST_DIR}/../Shared/EmscriptenInfo/*.*
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command/*.*
 )
 
@@ -41,6 +42,7 @@ macro(SetupToolTarget TargetName)
         ${CMAKE_CURRENT_LIST_DIR}/../Shared/Utils
         ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo
         ${CMAKE_CURRENT_LIST_DIR}/../Shared/MSVCInfo
+        ${CMAKE_CURRENT_LIST_DIR}/../Shared/EmscriptenInfo
         ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command
     )
 
