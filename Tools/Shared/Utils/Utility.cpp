@@ -1,5 +1,16 @@
 #include "Utility.hpp"
 
+#include <iostream>
+#include <fstream>
+#include <regex>
+
+#ifdef WIN32
+#define NOMINMAX
+#include <Windows.h>
+#else
+#include <uuid/uuid.h>
+#endif
+
 void Utility::Print(std::string log)
 {
     std::cout << log.c_str() << std::flush;
@@ -101,6 +112,15 @@ std::filesystem::path Utility::GetExecutablePath()
         return std::filesystem::canonical("/proc/self/exe");
 #endif
 }
+
+#ifdef WIN32
+void Utility::HideFolder(std::filesystem::path folder)
+{
+    SetFileAttributesA(folder.string().c_str(), FILE_ATTRIBUTE_HIDDEN);
+}
+#else
+void Utility::HideFolder(std::filesystem::path) {}
+#endif
 
 bool Utility::MatchPattern(std::string source, std::string pattern, std::vector<std::string>& outMatches)
 {

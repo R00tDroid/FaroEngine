@@ -1,6 +1,7 @@
 #include "TaskGenerate.hpp"
 #include <Utility.hpp>
 #include <tinyxml2.h>
+#include <fstream>
 
 bool TaskGenerate::ProjectInfo::HasSourceFiles()
 { return false; }

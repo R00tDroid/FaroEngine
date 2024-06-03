@@ -1,6 +1,7 @@
 #pragma once
 #include <Utility.hpp>
 #include <ShaderDefinition.hpp>
+#include <fstream>
 
 class ShaderPacker
 {

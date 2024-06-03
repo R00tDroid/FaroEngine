@@ -3,6 +3,7 @@
 #include <ShaderDefinition.hpp>
 
 #ifdef _WIN32
+#include <Windows.h>
 #include <dxcapi.h>
 #pragma comment(lib, "dxcompiler.lib")
 #endif

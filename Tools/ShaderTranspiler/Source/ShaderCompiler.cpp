@@ -1,5 +1,6 @@
 #include "ShaderCompiler.hpp"
 #include <Command.hpp>
+#include <fstream>
 
 ShaderCompiler::ShaderCompiler()
 {

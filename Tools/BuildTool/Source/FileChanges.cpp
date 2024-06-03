@@ -1,6 +1,7 @@
 #include "FileChanges.hpp"
 #include <Utility.hpp>
 #include <Manifests/ModuleManifest.hpp>
+#include <fstream>
 
 #define MaxPathLength 2048
 

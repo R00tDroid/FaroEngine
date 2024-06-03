@@ -1,19 +1,9 @@
 #pragma once
 
-#include <iostream>
 #include <string>
 #include <chrono>
 #include <filesystem>
 #include <map>
-#include <fstream>
-#include <regex>
-
-#ifdef WIN32
-#define NOMINMAX
-#include <Windows.h>
-#else
-#include <uuid/uuid.h>
-#endif
 
 namespace Utility
 {
@@ -37,14 +27,7 @@ namespace Utility
 
     std::filesystem::path GetExecutablePath();
 
-#ifdef WIN32
-    inline void HideFolder(std::filesystem::path folder)
-    {
-        SetFileAttributesA(folder.string().c_str(), FILE_ATTRIBUTE_HIDDEN);
-    }
-#else
-    inline void HideFolder(std::filesystem::path) {}
-#endif
+    void HideFolder(std::filesystem::path folder);
 
     bool MatchPattern(std::string source, std::string pattern, std::vector<std::string>& outMatches);
 
