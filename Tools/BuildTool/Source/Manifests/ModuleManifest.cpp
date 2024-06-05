@@ -290,9 +290,9 @@ std::set<ModuleManifest*> ModuleManifest::GetDependencyTree()
     return dependencies;
 }
 
-bool ModuleManifest::IsCompatible(BuildPlatform*) const
+bool ModuleManifest::IsCompatible(BuildPlatform* target) const
 {
-    return false; //TODO Check module compatibility
+    return Utility::MatchWildcard(target->platformName, platformFilter);
 }
 
 ModuleManifest::ModuleManifest(const std::filesystem::path& path): IManifest(path), fileDates(this), fileTree(this)

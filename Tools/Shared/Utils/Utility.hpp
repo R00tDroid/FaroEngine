@@ -31,6 +31,8 @@ namespace Utility
 
     bool MatchPattern(std::string source, std::string pattern, std::vector<std::string>& outMatches);
 
+    bool MatchWildcard(const std::string& source, const std::string& pattern);
+
     bool ReadEnvVariable(std::string variableName, std::string& value);
 }
 

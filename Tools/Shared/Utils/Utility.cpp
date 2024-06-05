@@ -138,6 +138,38 @@ bool Utility::MatchPattern(std::string source, std::string pattern, std::vector<
     return true;
 }
 
+bool MatchWildcardInternal(const std::string& source, const std::string& pattern, size_t sourceIndex, size_t patternIndex)
+{
+    if (pattern.length() == patternIndex)
+    {
+        return source.length() == sourceIndex;
+    }
+    else if (pattern[patternIndex] == '*') 
+    {
+        for (; source[sourceIndex] != '\0'; sourceIndex++)
+        {
+            if (MatchWildcardInternal(source, pattern, sourceIndex, patternIndex + 1))
+            {
+                return true;
+            }
+        }
+        return MatchWildcardInternal(source, pattern, sourceIndex, patternIndex + 1);
+    }
+    else if (pattern[patternIndex] != '?' && pattern[patternIndex] != source[sourceIndex]) 
+    {
+        return false;
+    }
+    else 
+    {
+        return MatchWildcardInternal(source, pattern, sourceIndex + 1, patternIndex + 1);
+    }
+}
+
+bool Utility::MatchWildcard(const std::string& source, const std::string& pattern)
+{
+    return MatchWildcardInternal(source, pattern, 0, 0);
+}
+
 bool Utility::ReadEnvVariable(std::string variableName, std::string& value)
 {
 #ifdef WIN32
