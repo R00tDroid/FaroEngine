@@ -204,227 +204,240 @@ bool TaskGenerate::Run(TaskRunInfo& taskInfo)
     return true;
 }
 
+void WriteProjectConfigs(tinyxml2::XMLElement* projectElement, const std::string& uuid, const std::string& VSPlatformVersion)
+{
+    std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
+
+    tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
+    projectElement->SetAttribute("Label", "ProjectConfigurations");
+
+    for (IToolchain* toolchain : toolchains)
+    {
+        std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+        for (BuildPlatform* platform : platforms)
+        {
+            for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+            {
+                const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+
+                tinyxml2::XMLElement* projectConfig = itemGroup->InsertNewChildElement("ProjectConfiguration");
+                projectConfig->SetAttribute("Include", (platform->platformName + " " + buildTypeName + "|Win32").c_str());
+
+                {
+                    tinyxml2::XMLElement* configElement = projectConfig->InsertNewChildElement("Configuration");
+                    configElement->SetText((platform->platformName + " " + buildTypeName).c_str());
+                }
+                {
+                    tinyxml2::XMLElement* platformElement = projectConfig->InsertNewChildElement("Platform");
+                    platformElement->SetText("Win32");
+                }
+            }
+        }
+    }
+
+    {
+        tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
+        propertyGroup->SetAttribute("Label", "Globals");
+
+        tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("ProjectGuid");
+        element->SetText(uuid.c_str());
+
+        element = propertyGroup->InsertNewChildElement("PlatformToolset");
+        element->SetText(VSPlatformVersion.c_str());
+
+        element = propertyGroup->InsertNewChildElement("TargetRuntime");
+        element->SetText("Native");
+    }
+
+    {
+        tinyxml2::XMLElement* importElement = projectElement->InsertNewChildElement("Import");
+        importElement->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.Default.props");
+    }
+}
+
+void WriteConfigList(tinyxml2::XMLElement* projectElement, const std::string& VSPlatformVersion)
+{
+    std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
+    for (IToolchain* toolchain : toolchains)
+    {
+        std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+        for (BuildPlatform* platform : platforms)
+        {
+            for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+            {
+                const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+
+                tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
+                propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
+                propertyGroup->SetAttribute("Label", "Configuration");
+
+                {
+                    tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("ConfigurationType");
+                    element->SetText("Makefile");
+                }
+                {
+                    tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("PlatformToolset");
+                    element->SetText(VSPlatformVersion.c_str());
+                }
+            }
+        }
+    }
+}
+
+void WriteConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::ProjectInfo& projectInfo, BuildPlatform* platform, BuildType buildType, IToolchain* toolchain)
+{
+    const char* buildTypeName = BuildTypeNames[buildType];
+
+    tinyxml2::XMLElement* importGroup = projectElement->InsertNewChildElement("ImportGroup");
+    importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
+    importGroup->SetAttribute("Label", "PropertySheets");
+
+    {
+        tinyxml2::XMLElement* element = importGroup->InsertNewChildElement("Import");
+        element->SetAttribute("Project", "$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props");
+        element->SetAttribute("Condition", "exists('$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props')");
+        element->SetAttribute("Label", "LocalAppDataPlatform");
+    }
+
+    tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
+    propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
+    {
+        tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
+
+        std::string includePaths;
+
+        ModuleManifest* moduleManifest = projectInfo.GetModuleManifest();
+        if (moduleManifest != nullptr)
+        {
+            toolchain->PrepareModuleForBuild(*projectInfo.GetModuleManifest(), platform, buildType);
+            std::vector<std::filesystem::path> toolchainIncludes = toolchain->GetToolchainIncludes(platform, buildType);
+
+            for (std::filesystem::path& path : toolchainIncludes)
+            {
+                includePaths += path.string() + ";";
+            }
+        }
+
+        for (std::filesystem::path& path : projectInfo.GetIncludePaths())
+        {
+            includePaths += path.string() + ";";
+        }
+
+        element->SetText(includePaths.c_str());
+
+        element = propertyGroup->InsertNewChildElement("ReferencePath");
+        element = propertyGroup->InsertNewChildElement("LibraryPath");
+        element = propertyGroup->InsertNewChildElement("LibraryWPath");
+        element = propertyGroup->InsertNewChildElement("SourcePath");
+        element = propertyGroup->InsertNewChildElement("ExcludePath");
+
+        std::filesystem::path faroBuildTool = Utility::GetExecutablePath();
+
+        element = propertyGroup->InsertNewChildElement("OutDir");
+        element->SetText("$(ProjectDir)\\..\\Bin");
+
+        element = propertyGroup->InsertNewChildElement("IntDir");
+        element->SetText("$(ProjectDir)\\Intermediate");
+
+        element = propertyGroup->InsertNewChildElement("NMakeBuildCommandLine");
+        element->SetText((projectInfo.GetBuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
+
+        element = propertyGroup->InsertNewChildElement("NMakeReBuildCommandLine");
+        element->SetText((projectInfo.GetRebuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
+
+        element = propertyGroup->InsertNewChildElement("NMakeCleanCommandLine");
+        element->SetText((projectInfo.GetCleanCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
+
+        element = propertyGroup->InsertNewChildElement("NMakeOutput");
+
+        std::filesystem::path outputPath = projectInfo.GetOutputExecutable(toolchain, platform, buildType);
+        if (!outputPath.empty())
+        {
+            element->SetText(outputPath.string().c_str());
+        }
+
+        element = propertyGroup->InsertNewChildElement("NMakeIncludeSearchPath");
+        element->SetText(includePaths.c_str());
+
+        element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
+
+        std::string preprocessorDefines;
+        for (std::string& path : toolchain->GetPreprocessorDefines(projectInfo.GetModuleManifest(), platform, buildType))
+        {
+            preprocessorDefines += path + ";";
+        }
+
+        element->SetText(preprocessorDefines.c_str());
+    }
+}
+
 void TaskGenerate::WriteProjectFile(ProjectInfo& projectInfo)
 {
     Utility::EnsureDirectory(projectInfo.projectPath.parent_path());
 
-    std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
-
     tinyxml2::XMLDocument doc(false);
+    
+    tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
+    projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
+    projectElement->SetAttribute("DefaultTargets", "Build");
+    projectElement->SetAttribute("ToolsVersion", "Current");
+    doc.InsertEndChild(projectElement);
+
+    WriteProjectConfigs(projectElement, projectInfo.uuid, VSPlatformVersion);
+
+    WriteConfigList(projectElement, VSPlatformVersion);
+
     {
-        tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
-        projectElement->SetAttribute("xmlns", "http://schemas.microsoft.com/developer/msbuild/2003");
-        projectElement->SetAttribute("DefaultTargets", "Build");
-        projectElement->SetAttribute("ToolsVersion", "Current");
-        doc.InsertEndChild(projectElement);
+        tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("Import");
+        element->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.props");
+    }
 
+    {
+        tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("ImportGroup");
+        element->SetAttribute("Label", "ExtensionTargets");
+    }
+
+    {
+        tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("PropertyGroup");
+        element->SetAttribute("Label", "UserMacros");
+    }
+
+    std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
+    for (IToolchain* toolchain : toolchains)
+    {
+        std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+        for (BuildPlatform* platform : platforms)
         {
-            tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
-            projectElement->SetAttribute("Label", "ProjectConfigurations");
-
-            for (IToolchain* toolchain : toolchains)
+            for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
             {
-                std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-                for (BuildPlatform* platform : platforms)
-                {
-                    for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
-                    {
-                        const char* buildTypeName = BuildTypeNames[buildTypeIndex];
-
-                        tinyxml2::XMLElement* projectConfig = itemGroup->InsertNewChildElement("ProjectConfiguration");
-                        projectConfig->SetAttribute("Include", (platform->platformName + " " + buildTypeName + "|Win32").c_str());
-
-                        {
-                            tinyxml2::XMLElement* configElement = projectConfig->InsertNewChildElement("Configuration");
-                            configElement->SetText((platform->platformName + " " + buildTypeName).c_str());
-                        }
-                        {
-                            tinyxml2::XMLElement* platformElement = projectConfig->InsertNewChildElement("Platform");
-                            platformElement->SetText("Win32");
-                        }
-                    }
-                }
-            }
-        }
-
-            
-        {
-            tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
-            propertyGroup->SetAttribute("Label", "Globals");
-
-            tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("ProjectGuid");
-            element->SetText(projectInfo.uuid.c_str());
-
-            element = propertyGroup->InsertNewChildElement("PlatformToolset");
-            element->SetText(VSPlatformVersion.c_str());
-
-
-            element = propertyGroup->InsertNewChildElement("TargetRuntime");
-            element->SetText("Native");
-        }
-
-        {
-            tinyxml2::XMLElement* importElement = projectElement->InsertNewChildElement("Import");
-            importElement->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.Default.props");
-        }
-
-        for( IToolchain* toolchain : toolchains)
-        {
-            std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-            for (BuildPlatform* platform : platforms)
-            {
-                for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
-                {
-                    const char* buildTypeName = BuildTypeNames[buildTypeIndex];
-
-                    tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
-                    propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
-                    propertyGroup->SetAttribute("Label", "Configuration");
-
-                    {
-                        tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("ConfigurationType");
-                        element->SetText("Makefile");
-                    }
-                    {
-                        tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("PlatformToolset");
-                        element->SetText(VSPlatformVersion.c_str());
-                    }
-                }
-            }
-        }
-
-        {
-            tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("Import");
-            element->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.props");
-        }
-
-        {
-            tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("ImportGroup");
-            element->SetAttribute("Label", "ExtensionTargets");
-        }
-
-        {
-            tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("PropertyGroup");
-            element->SetAttribute("Label", "UserMacros");
-        }
-
-        for (IToolchain* toolchain : toolchains)
-        {
-            std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-            for (BuildPlatform* platform : platforms)
-            {
-                for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
-                {
-                    const char* buildTypeName = BuildTypeNames[buildTypeIndex];
-
-                    tinyxml2::XMLElement* importGroup = projectElement->InsertNewChildElement("ImportGroup");
-                    importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
-                    importGroup->SetAttribute("Label", "PropertySheets");
-
-                    {
-                        tinyxml2::XMLElement* element = importGroup->InsertNewChildElement("Import");
-                        element->SetAttribute("Project", "$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props");
-                        element->SetAttribute("Condition", "exists('$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props')");
-                        element->SetAttribute("Label", "LocalAppDataPlatform");
-                    }
-
-                    tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
-                    propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
-                    {
-                        tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
-
-                        std::string includePaths;
-
-                        ModuleManifest* moduleManifest = projectInfo.GetModuleManifest();
-                        if (moduleManifest != nullptr)
-                        {
-                            toolchain->PrepareModuleForBuild(*projectInfo.GetModuleManifest(), platform, static_cast<BuildType>(buildTypeIndex));
-                            std::vector<std::filesystem::path> toolchainIncludes = toolchain->GetToolchainIncludes(platform, static_cast<BuildType>(buildTypeIndex));
-
-                            for (std::filesystem::path& path : toolchainIncludes)
-                            {
-                                includePaths += path.string() + ";";
-                            }
-                        }
-
-                        for (std::filesystem::path& path : projectInfo.GetIncludePaths())
-                        {
-                            includePaths += path.string() + ";";
-                        }
-
-                        element->SetText(includePaths.c_str());
-
-                        element = propertyGroup->InsertNewChildElement("ReferencePath");
-                        element = propertyGroup->InsertNewChildElement("LibraryPath");
-                        element = propertyGroup->InsertNewChildElement("LibraryWPath");
-                        element = propertyGroup->InsertNewChildElement("SourcePath");
-                        element = propertyGroup->InsertNewChildElement("ExcludePath");
-
-                        std::filesystem::path faroBuildTool = Utility::GetExecutablePath();
-
-                        element = propertyGroup->InsertNewChildElement("OutDir");
-                        element->SetText("$(ProjectDir)\\..\\Bin");
-
-                        element = propertyGroup->InsertNewChildElement("IntDir");
-                        element->SetText("$(ProjectDir)\\Intermediate");
-
-                        element = propertyGroup->InsertNewChildElement("NMakeBuildCommandLine");
-                        element->SetText((projectInfo.GetBuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
-
-                        element = propertyGroup->InsertNewChildElement("NMakeReBuildCommandLine");
-                        element->SetText((projectInfo.GetRebuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
-
-                        element = propertyGroup->InsertNewChildElement("NMakeCleanCommandLine");
-                        element->SetText((projectInfo.GetCleanCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
-
-                        element = propertyGroup->InsertNewChildElement("NMakeOutput");
-
-                        std::filesystem::path outputPath = projectInfo.GetOutputExecutable(toolchain, platform, (BuildType)buildTypeIndex);
-                        if (!outputPath.empty())
-                        {
-                            element->SetText(outputPath.string().c_str());
-                        }
-                         
-                        element = propertyGroup->InsertNewChildElement("NMakeIncludeSearchPath");
-                        element->SetText(includePaths.c_str());
-
-                        element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
-
-                        std::string preprocessorDefines;
-                        for (std::string& path : toolchain->GetPreprocessorDefines(projectInfo.GetModuleManifest(), platform, static_cast<BuildType>(buildTypeIndex)))
-                        {
-                            preprocessorDefines += path + ";";
-                        }
-
-                        element->SetText(preprocessorDefines.c_str());
-                    }
-                }
-            }
-        }
-
-        {
-            tinyxml2::XMLElement* importElement = projectElement->InsertNewChildElement("Import");
-            importElement->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.targets");
-        }
-
-        {
-            tinyxml2::XMLElement* ImportGroupElement = projectElement->InsertNewChildElement("ImportGroup");
-            ImportGroupElement->SetAttribute("Label", "ExtensionTargets");
-        }
-
-        {
-            tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
-            std::vector<std::filesystem::path> sourceFiles = projectInfo.GetSourceFiles();
-            for (std::filesystem::path& file : sourceFiles)
-            {
-                std::string extension = file.extension().string();
-                extension = Utility::ToLower(extension);
-                bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
-                tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
-                fileElement->SetAttribute("Include", file.string().c_str());
+                WriteConfigSection(projectElement, projectInfo, platform, static_cast<BuildType>(buildTypeIndex), toolchain);
             }
         }
     }
+
+    {
+        tinyxml2::XMLElement* importElement = projectElement->InsertNewChildElement("Import");
+        importElement->SetAttribute("Project", "$(VCTargetsPath)\\Microsoft.Cpp.targets");
+    }
+
+    {
+        tinyxml2::XMLElement* ImportGroupElement = projectElement->InsertNewChildElement("ImportGroup");
+        ImportGroupElement->SetAttribute("Label", "ExtensionTargets");
+    }
+
+    {
+        tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
+        std::vector<std::filesystem::path> sourceFiles = projectInfo.GetSourceFiles();
+        for (std::filesystem::path& file : sourceFiles)
+        {
+            std::string extension = file.extension().string();
+            extension = Utility::ToLower(extension);
+            bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
+            tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
+            fileElement->SetAttribute("Include", file.string().c_str());
+        }
+    }
+
 
     doc.SaveFile(projectInfo.projectPath.string().c_str());
 }
