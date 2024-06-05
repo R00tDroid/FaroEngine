@@ -45,61 +45,16 @@ ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifes
 
     picojson::object& rootObject = rootValue.get<picojson::object>();
 
-    if (!manifest->ParseSourceFiles(rootObject))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseDependencies(rootObject)) 
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseIncludeDirectories(rootObject, "PublicIncludeDirectories", manifest->publicIncludes))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseIncludeDirectories(rootObject, "PrivateIncludeDirectories", manifest->privateIncludes))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseDefines(rootObject, "PublicDefines", manifest->publicDefines))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseDefines(rootObject, "PrivateDefines", manifest->privateDefines))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseModuleType(rootObject))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseSolutionLocation(rootObject))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseLinkerLibraries(rootObject))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParsePlatformFilter(rootObject))
+    if (!manifest->ParseSourceFiles(rootObject) || 
+        !manifest->ParseDependencies(rootObject) ||
+        !manifest->ParseIncludeDirectories(rootObject, "PublicIncludeDirectories", manifest->publicIncludes) ||
+        !manifest->ParseIncludeDirectories(rootObject, "PrivateIncludeDirectories", manifest->privateIncludes) ||
+        !manifest->ParseDefines(rootObject, "PublicDefines", manifest->publicDefines) ||
+        !manifest->ParseDefines(rootObject, "PrivateDefines", manifest->privateDefines) ||
+        !manifest->ParseModuleType(rootObject) ||
+        !manifest->ParseSolutionLocation(rootObject) ||
+        !manifest->ParseLinkerLibraries(rootObject) ||
+        !manifest->ParsePlatformFilter(rootObject))
     {
         delete manifest;
         return nullptr;
