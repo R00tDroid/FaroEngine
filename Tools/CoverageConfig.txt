@@ -2,3 +2,4 @@ sources=BuildTool\*
 sources=Shared\*
 
 excluded_sources=Shared\googletest\*
+excluded_sources=BuildTool\Source\Toolchains\*
