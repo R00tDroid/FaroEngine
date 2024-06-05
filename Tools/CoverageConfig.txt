@@ -1,0 +1,4 @@
+sources=BuildTool\*
+sources=Shared\*
+
+excluded_sources=Shared\googletest\*
