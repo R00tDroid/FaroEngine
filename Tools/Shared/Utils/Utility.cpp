@@ -183,6 +183,11 @@ bool Utility::ReadEnvVariable(std::string variableName, std::string& value)
 
     Utility::PrintLineD("ReadEnvVariable::size: " + std::to_string(size));
 
+    if (size == 0)
+    {
+        return false;
+    }
+
     value.resize(size);
     if (getenv_s(&size, value.data(), size, variableName.c_str()) != 0)
     {
