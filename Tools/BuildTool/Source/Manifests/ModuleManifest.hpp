@@ -9,6 +9,12 @@
 
 class ProjectManifest;
 
+enum ModuleType
+{
+    MT_Library,
+    MT_Executable
+};
+
 struct FolderMount
 {
     std::filesystem::path location;
