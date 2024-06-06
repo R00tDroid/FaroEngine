@@ -599,7 +599,7 @@ bool ModuleManifest::ParseMounts(picojson::object& rootObject)
                 return false;
             }
 
-            folderMounts.push_back({ std::filesystem::weakly_canonical(moduleRoot / locationValue.get<std::string>()), pointValue.get<std::string>() });
+            folderMounts.push_back({ std::filesystem::weakly_canonical(manifestDirectory / locationValue.get<std::string>()), pointValue.get<std::string>() });
         }
     }
 
