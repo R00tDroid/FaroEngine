@@ -1,3 +1,4 @@
+#if FARO_OS_WINDOWS
 #include "GraphicsPipelineD3D12.hpp"
 #include <directx/d3dx12.h>
 #include <GraphicsLogD3D12.hpp>
@@ -95,3 +96,4 @@ namespace Faro
         MemoryManager::Free(inputLayout);
     }
 }
+#endif

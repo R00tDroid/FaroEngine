@@ -1,3 +1,4 @@
+#if FARO_OS_WINDOWS
 #include "PlatformWindows.hpp"
 #include <iostream>
 #include <Log.hpp>
@@ -128,3 +129,4 @@ namespace Faro
         return paths;
     }
 }
+#endif

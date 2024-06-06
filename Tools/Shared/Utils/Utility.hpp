@@ -1,205 +1,56 @@
 #pragma once
 
-#include <iostream>
 #include <string>
 #include <chrono>
 #include <filesystem>
 #include <map>
-#include <fstream>
-#include <regex>
-
-#ifdef WIN32
-#define NOMINMAX
-#include <Windows.h>
-#else
-#include <uuid/uuid.h>
-#endif
+#include <vector>
 
 namespace Utility
 {
-    inline void Print(std::string log)
-    {
-        std::cout << log.c_str() << std::flush;
-        #ifdef WIN32
-        OutputDebugStringA(log.c_str());
-        #endif
-    }
+    void Print(std::string log);
 
-    inline void PrintLine(std::string log)
-    {
-        Print(log + "\n");
-    }
+    void PrintLine(std::string log);
 
-    inline void PrintD(std::string log)
-    {
-#ifndef NDEBUG
-        Print("[D] " + log);
-#endif
-    }
+    void PrintD(std::string log);
 
-    inline void PrintLineD(std::string log)
-    {
-#ifndef NDEBUG
-        PrintD(log + "\n");
-#endif
-    }
-    inline void EnsureDirectory(std::filesystem::path path)
-    {
-        if (!std::filesystem::exists(path)) 
-        {
-            std::filesystem::create_directories(path);
-        }
-    }
+    void PrintLineD(std::string log);
 
-    inline std::string ToLower(std::string& Input)
-    {
-        std::string Result = Input;
-        std::transform(Result.begin(), Result.end(), Result.begin(), [](char c) { return static_cast<char>(std::tolower(c)); });
-        return Result;
-    }
+    void EnsureDirectory(std::filesystem::path path);
 
-    inline std::string ToUpper(std::string& Input)
-    {
-        std::string Result = Input;
-        std::transform(Result.begin(), Result.end(), Result.begin(), [](char c) { return static_cast<char>(std::toupper(c)); });
-        return Result;
-    }
+    std::string ToLower(std::string& Input);
 
-    inline std::string GenerateUUID()
-    {
-#ifdef WIN32
-        UUID uuid;
-        if (UuidCreate(&uuid) != RPC_S_OK) { Utility::PrintLine("Failed to generate uuid"); return {}; }
+    std::string ToUpper(std::string& Input);
 
-        unsigned char* uuidString = nullptr;
-        if (UuidToStringA(&uuid, &uuidString) != RPC_S_OK) { Utility::PrintLine("Failed to process uuid"); return {}; }
+    std::string GenerateUUID();
 
-        std::string string(reinterpret_cast<char*>(uuidString));
+    std::string GetCachedUUID(std::filesystem::path storageLocation);
 
-        RpcStringFreeA(&uuidString);
-#else
-        uuid_t uuid;
-        uuid_generate_random(uuid);
-        char uuidString[37];
-        uuid_unparse(uuid, uuidString);
-        std::string string(uuidString);
-#endif
-        return ToUpper(string);
-    }
+    std::filesystem::path GetExecutablePath();
 
-    inline std::string GetCachedUUID(std::filesystem::path storageLocation)
-    {
-        std::ifstream uuidFile(storageLocation);
-        if (uuidFile.is_open())
-        {
-            std::string uuid;
-            uuidFile >> uuid;
-            uuidFile.close();
-            return ToUpper(uuid);
-        }
-        else
-        {
-            std::string uuid = Utility::GenerateUUID();
-            std::ofstream uuidOutFile(storageLocation);
-            uuidOutFile << uuid;
-            uuidOutFile.close();
-            return uuid;
-        }
-    }
+    void HideFolder(std::filesystem::path folder);
 
-    inline std::filesystem::path GetExecutablePath()
-    {
-#ifdef WIN32
-        char filename[MAX_PATH];
-        GetModuleFileNameA(nullptr, filename, MAX_PATH);
-        return filename;
-#else
-        return std::filesystem::canonical("/proc/self/exe");
-#endif
-    }
+    bool MatchPattern(std::string source, std::string pattern, std::vector<std::string>& outMatches);
 
-#ifdef WIN32
-    inline void HideFolder(std::filesystem::path folder)
-    {
-        SetFileAttributesA(folder.string().c_str(), FILE_ATTRIBUTE_HIDDEN);
-    }
-#else
-    inline void HideFolder(std::filesystem::path) {}
-#endif
+    bool MatchWildcard(const std::string& source, const std::string& pattern);
 
-    inline bool MatchPattern(std::string source, std::string pattern, std::vector<std::string>& outMatches)
-    {
-        std::smatch matches;
-        if (!std::regex_search(source, matches, std::regex(pattern)))
-        {
-            return false;
-        }
-
-        for (size_t i = 1; i < matches.size(); i++)
-        {
-            outMatches.push_back(matches[i]);
-        }
-
-        return true;
-    }
+    bool ReadEnvVariable(std::string variableName, std::string& value);
 }
 
 class PerformanceTimer
 {
 public:
-    static void StartGlobalTimer()
-    {
-        AppStart = std::chrono::high_resolution_clock::now();
-    }
+    static void StartGlobalTimer();
 
-    static double GetMillisSinceStart()
-    {
-        std::chrono::high_resolution_clock::time_point Now = std::chrono::high_resolution_clock::now();
-        const long long microseconds = static_cast<long long>(std::chrono::duration_cast<std::chrono::microseconds>(Now - AppStart).count());
-        return static_cast<double>(microseconds / 1000.0);
-    }
+    static double GetMillisSinceStart();
 
-    PerformanceTimer()
-    {
-        timer = std::chrono::high_resolution_clock::now();
+    PerformanceTimer();
 
-        depth = globalDepth;
-        globalDepth++;
+    ~PerformanceTimer();
 
-        index = timerCount;
-        timerCount++;
-    }
+    void Stop(std::string label);
 
-    ~PerformanceTimer()
-    {
-    }
-
-    void Stop(std::string label)
-    {
-        globalDepth--;
-
-        std::chrono::high_resolution_clock::time_point Now = std::chrono::high_resolution_clock::now();
-        const long long microseconds = static_cast<long long>(std::chrono::duration_cast<std::chrono::microseconds>(Now - timer).count());
-
-        std::string message = "";
-        for (int i = 0; i < depth; i++)
-        {
-            message += " |";
-        }
-        message += "-*>";
-        message += "[" + label + "] " + std::to_string(microseconds / 1000.0f);
-
-        timerReports.insert(std::pair<int, std::string>(index, message));
-    }
-
-    static void PrintTimers()
-    {
-        Utility::PrintLine("\n--Perf report--");
-        for (const auto& report : timerReports)
-        {
-            Utility::PrintLine(report.second);
-        }
-    }
+    static void PrintTimers();
 
 private:
     inline static std::chrono::high_resolution_clock::time_point AppStart;

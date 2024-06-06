@@ -1,7 +1,6 @@
+#if FARO_OS_WINDOWS
 #include "GraphicsCommandListD3D12.hpp"
-
 #include <directx/d3dx12.h>
-
 #include "GraphicsAdapterD3D12.hpp"
 #include "GraphicsBufferD3D12.hpp"
 
@@ -63,3 +62,4 @@ namespace Faro
         commandList->ClearRenderTargetView(renderTarget->GetDescriptor(), color.d, 0, nullptr);
     }
 }
+#endif

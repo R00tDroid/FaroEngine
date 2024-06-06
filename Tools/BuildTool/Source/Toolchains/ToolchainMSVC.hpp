@@ -34,6 +34,8 @@ public:
 
     std::string GetExeExtension() override;
 
+    std::vector<std::filesystem::path> GetToolchainIncludes(BuildPlatform* platform, BuildType configuration) override;
+
 private:
     std::string GetEnvCommand();
     std::filesystem::path objDir = "";

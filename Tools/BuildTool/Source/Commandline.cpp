@@ -16,7 +16,7 @@ void PrintHelp()
     Utility::Print("-project <path>                                        The project to compile\n");
     Utility::Print("-module <module1, module2>                            Modules to be compile\n");
     Utility::Print("-debug / -development / -release                        The configuration to compile with (debug / deployment / release)\n");
-    Utility::Print("-platform <platform type> <architecture>             Defines the platform (windows, android or linux) and architecture (x86, x64, arm, arm-v7, arm64, mips)\n\n");
+    Utility::Print("-platform <platform type><architecture>             Defines the platform (windows, android or linux) and architecture (x86, x64, arm, arm-v7, arm64, mips)\n\n");
 
     Utility::Print("Cleaning: -clean\n");
     Utility::Print("-project <path>                                        The project to clean\n");
@@ -61,12 +61,10 @@ bool ParsePlatform(ParameterList& parameters, TaskRunInfo& runInfo)
 {
     if (parameters.Contains("platform"))
     {
-        if (parameters.CountArguments("platform") == 2)
+        if (parameters.CountArguments("platform") == 1)
         {
             runInfo.buildPlatform = parameters.GetArguments("platform")[0];
-            runInfo.buildArchitecture = parameters.GetArguments("platform")[1];
-
-            Utility::PrintLineD("Platform argument: " + runInfo.buildPlatform + ", " + runInfo.buildArchitecture);
+            Utility::PrintLineD("Platform argument: " + runInfo.buildPlatform);
         }
         else
         {
@@ -151,7 +149,7 @@ bool ParseTasks(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunIn
             return false;
         }
 
-        tasks.push_back(new TaskBuild(runInfo.buildPlatform, runInfo.buildArchitecture, runInfo.buildType));
+        tasks.push_back(new TaskBuild(runInfo.buildPlatform, runInfo.buildType));
     }
 
     return true;

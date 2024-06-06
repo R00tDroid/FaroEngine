@@ -61,7 +61,6 @@ TEST(CommandList, ParameterListNoParameters)
     EXPECT_EQ(tasks.size(), 0);
     EXPECT_EQ(taskInfo.moduleList.size(), 0);
     EXPECT_EQ(taskInfo.projectManifest, nullptr);
-    EXPECT_STREQ(taskInfo.buildArchitecture.c_str(), "");
     EXPECT_STREQ(taskInfo.buildPlatform.c_str(), "");
     EXPECT_STREQ(taskInfo.projectManifestPath.string().c_str(), "");
 }
@@ -88,33 +87,18 @@ TEST(CommandList, ParameterListPlatformNoArguments)
 
     EXPECT_FALSE(ParseParameters(parameters, tasks, taskInfo));
     EXPECT_STREQ(taskInfo.buildPlatform.c_str(), "");
-    EXPECT_STREQ(taskInfo.buildArchitecture.c_str(), "");
-}
-
-TEST(CommandList, ParameterListPlatformNoArch)
-{
-    const char* commands[] = { "dummyPath", "-platform", "windows" };
-    ParameterList parameters(ExpandCommand(commands));
-
-    TaskRunInfo taskInfo;
-    std::vector<ITask*> tasks;
-
-    EXPECT_FALSE(ParseParameters(parameters, tasks, taskInfo));
-    EXPECT_STREQ(taskInfo.buildPlatform.c_str(), "");
-    EXPECT_STREQ(taskInfo.buildArchitecture.c_str(), "");
 }
 
 TEST(CommandList, ParameterListPlatform)
 {
-    const char* commands[] = { "dummyPath", "-platform", "windows", "x64" };
+    const char* commands[] = { "dummyPath", "-platform", "windowsx64" };
     ParameterList parameters(ExpandCommand(commands));
 
     TaskRunInfo taskInfo;
     std::vector<ITask*> tasks;
 
     EXPECT_TRUE(ParseParameters(parameters, tasks, taskInfo));
-    EXPECT_STREQ(taskInfo.buildPlatform.c_str(), "windows");
-    EXPECT_STREQ(taskInfo.buildArchitecture.c_str(), "x64");
+    EXPECT_STREQ(taskInfo.buildPlatform.c_str(), "windowsx64");
 }
 
 TEST(CommandList, ParameterListGenerate)
@@ -155,7 +139,7 @@ TEST(CommandList, ParameterListBuildNoConfig)
 
 TEST(CommandList, ParameterListBuild)
 {
-    const char* commands[] = { "dummyPath", "-project", "project/path/file.json", "-platform", "windows", "x64", "-debug", "-build" };
+    const char* commands[] = { "dummyPath", "-project", "project/path/file.json", "-platform", "windowsx64", "-debug", "-build" };
     ParameterList parameters(ExpandCommand(commands));
 
     TaskRunInfo taskInfo;
@@ -167,7 +151,7 @@ TEST(CommandList, ParameterListBuild)
 
 TEST(CommandList, ParameterListBuildAndGenerate)
 {
-    const char* commands[] = { "dummyPath", "-project", "project/path/file.json", "-platform", "windows", "x64", "-debug", "-build", "-generate" };
+    const char* commands[] = { "dummyPath", "-project", "project/path/file.json", "-platform", "windowsx64", "-debug", "-build", "-generate" };
     ParameterList parameters(ExpandCommand(commands));
 
     TaskRunInfo taskInfo;

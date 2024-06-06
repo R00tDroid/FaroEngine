@@ -4,25 +4,33 @@
 #include <Manifests/ProjectManifest.hpp>
 #include "Command.hpp"
 #include "ToolchainMSVC.hpp"
+#include "ToolchainEmscripten.hpp"
 
 std::vector<std::string> IToolchain::GetPreprocessorDefines(ModuleManifest* manifest, BuildPlatform* platform, BuildType configuration)
 {
     std::vector<std::string> defines;
 
-    for (std::string& define : platform->preprocessorDefines)
+    std::set<std::string> platformDefines;
+    for (IToolchain* toolchain : IToolchain::GetToolchains())
     {
-        defines.push_back(define);
+        for (BuildPlatform* toolchainPlatform : toolchain->GetPlatforms())
+        {
+            for (std::string& define : toolchainPlatform->preprocessorDefines)
+            {
+                platformDefines.insert(define);
+            }
+        }
     }
 
-    switch (configuration)
+    for (std::string define : platformDefines)
     {
-        case Debug: { defines.push_back("FARO_DEBUG"); break; }
-        case Development: { defines.push_back("FARO_DEVELOPMENT"); break; }
-        case Release: { defines.push_back("FARO_RELEASE"); break; }
-
-        case ENUMSIZE:;
-        default:;
+        bool found = std::find(platform->preprocessorDefines.begin(), platform->preprocessorDefines.end(), define) != platform->preprocessorDefines.end();
+        defines.push_back(define + "=" + (found ? '1' : '0'));
     }
+
+    defines.push_back(std::string("FARO_DEBUG=") + (configuration == Debug ? '1' : '0'));
+    defines.push_back(std::string("FARO_DEVELOPMENT=") + (configuration == Development ? '1' : '0'));
+    defines.push_back(std::string("FARO_RELEASE=") + (configuration == Release ? '1' : '0'));
 
     if (manifest != nullptr)
     {
@@ -74,7 +82,7 @@ int IToolchain::ExecuteCommand(std::string command)
 
 std::vector<IToolchain*> IToolchain::GetToolchains()
 {
-    return { &ToolchainMSVC::Instance };
+    return { &ToolchainMSVC::Instance, &ToolchainEmscripten::Instance };
 }
 
 std::filesystem::path IToolchain::GetObjDirectory(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)

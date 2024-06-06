@@ -1,3 +1,4 @@
+#if FARO_OS_WINDOWS
 #include "FileStreamWindows.hpp"
 #include "PlatformWindowsLog.hpp"
 
@@ -87,3 +88,4 @@ namespace Faro
         FileStream::Destroy();
     }
 }
+#endif

@@ -6,6 +6,7 @@
     ],
     "Dependencies": [
       "PlatformWindows",
+      "PlatformWeb",
       "GraphicsD3D12",
       "Resources"
     ],

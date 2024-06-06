@@ -1,3 +1,4 @@
+#if FARO_OS_WINDOWS
 #include "GraphicsAdapterD3D12.hpp"
 #include <Memory/MemoryManager.hpp>
 #include <GraphicsLogD3D12.hpp>
@@ -101,3 +102,4 @@ namespace Faro
         return pipeline;
     }
 }
+#endif

@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_OS_WINDOWS
 #include <Platform.hpp>
 
 namespace Faro
@@ -22,3 +23,4 @@ namespace Faro
 
     REGISTER_PLATFORM(PlatformWindows)
 }
+#endif

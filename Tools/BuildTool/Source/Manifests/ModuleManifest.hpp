@@ -44,6 +44,8 @@ public:
 
     std::vector<std::filesystem::path> sourceFiles;
 
+    std::string platformFilter = "*";
+
     std::string uuid = "";
 
     FileTimeDatabase fileDates;
@@ -70,6 +72,8 @@ public:
     // Get a list of all dependencies in this branch of the tree
     std::set<ModuleManifest*> GetDependencyTree();
 
+    bool IsCompatible(BuildPlatform* platform) const;
+
 protected:
     ModuleManifest(const std::filesystem::path& path);
 
@@ -91,6 +95,8 @@ private:
     bool ParseSolutionLocation(picojson::object& rootObject);
 
     bool ParseLinkerLibraries(picojson::object& rootObject);
+
+    bool ParsePlatformFilter(picojson::object& rootObject);
 
     void SaveCache();
 };

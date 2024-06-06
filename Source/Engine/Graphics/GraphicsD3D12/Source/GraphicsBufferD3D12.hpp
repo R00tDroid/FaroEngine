@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_OS_WINDOWS
 #include <GraphicsAdapter.hpp>
 #include <d3d12.h>
 
@@ -41,3 +42,4 @@ namespace Faro
         D3D12_RESOURCE_DESC GetNativeDesc();
     };
 }
+#endif

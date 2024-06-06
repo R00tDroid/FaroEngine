@@ -4,7 +4,7 @@
 #include <GraphicsBuffer.hpp>
 #include <GraphicsFence.hpp>
 #include <GraphicsSwapchain.hpp>
-#include <GraphicsCommandlist.hpp>
+#include <GraphicsCommandList.hpp>
 #include <GraphicsBufferContainer.hpp>
 #include <GraphicsPipeline.hpp>
 

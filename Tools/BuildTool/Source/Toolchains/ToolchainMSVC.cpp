@@ -7,8 +7,8 @@ std::vector<BuildPlatform*> ToolchainMSVC::GetPlatforms()
 {
     if (platforms.empty())
     {
-        platforms.push_back(new MSVCBuildPlatform{ "Windows x64", { "FARO_OS_WINDOWS", "FARO_ARCH_X64" }, {}, EMSVCArchitecture::x64 });
-        platforms.push_back(new MSVCBuildPlatform{ "Windows x86", { "FARO_OS_WINDOWS", "FARO_ARCH_X86" }, {}, EMSVCArchitecture::x86 });
+        platforms.push_back(new MSVCBuildPlatform{ "WindowsX64", { "FARO_OS_WINDOWS", "FARO_ARCH_X64" }, {}, EMSVCArchitecture::x64 });
+        platforms.push_back(new MSVCBuildPlatform{ "WindowsX86", { "FARO_OS_WINDOWS", "FARO_ARCH_X86" }, {}, EMSVCArchitecture::x86 });
     }
 
     return platforms;
@@ -208,6 +208,8 @@ bool ToolchainMSVC::LinkExecutable(ModuleManifest& manifest, BuildPlatform* targ
     // Get dependency libraries
     for (ModuleManifest* module : GetAllModuleDependencies(manifest))
     {
+        if (!module->IsCompatible(target)) continue;
+
         std::filesystem::path lib = GetLibPath(*module, target, configuration);
         Utility::PrintLineD("\t" + lib.string());
         moduleLibs += " /WHOLEARCHIVE:\""+ lib.string() + "\"";
@@ -261,6 +263,11 @@ std::string ToolchainMSVC::GetLibExtension()
 std::string ToolchainMSVC::GetExeExtension()
 {
     return "exe";
+}
+
+std::vector<std::filesystem::path> ToolchainMSVC::GetToolchainIncludes(BuildPlatform*, BuildType)
+{
+    return { "$(VC_IncludePath)", "$(WindowsSDK_IncludePath)" }; //TODO Replace by specific paths
 }
 
 std::string ToolchainMSVC::GetEnvCommand()

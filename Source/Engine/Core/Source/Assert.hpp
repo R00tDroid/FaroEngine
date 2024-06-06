@@ -3,9 +3,10 @@
 #include <type_traits>
 #include <iostream>
 
-#ifdef FARO_DEBUG // Define internal debugging macros
+#if FARO_DEBUG // Define internal debugging macros
 
-    #ifdef FARO_OS_WINDOWS
+    #if FARO_OS_WINDOWS
+
     #include <sstream>
     #include <MinWindows.hpp>
     #define DebugOutputMessage(message)           \
@@ -16,7 +17,18 @@
         OutputDebugStringA(stream.str().c_str()); \
     }
     #define Debug_Break() __debugbreak()
+
+    #elif FARO_OS_WEB
+
+    #define DebugOutputMessage(message)  \
+        {                                    \
+            std::cerr << message;            \
+        }
+
+    #define Debug_Break()
+
     #else
+
     #define DebugOutputMessage(message)  \
     {                                    \
         std::cerr << message;            \

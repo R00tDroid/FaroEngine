@@ -67,6 +67,8 @@ public:
 
     std::vector<std::string> GetPreprocessorDefines(ModuleManifest* manifest, BuildPlatform* platform, BuildType configuration);
 
+    virtual std::vector<std::filesystem::path> GetToolchainIncludes(BuildPlatform* platform, BuildType configuration) = 0;
+
     // Get a list of modules from direct dependencies and all descendants in the tree.
     static std::set<ModuleManifest*> GetAllModuleDependencies(ModuleManifest& topModule);
 

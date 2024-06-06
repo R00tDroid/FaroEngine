@@ -1,10 +1,9 @@
 #include "TaskBuild.hpp"
 #include <Utility.hpp>
 
-TaskBuild::TaskBuild(std::string platform, std::string architecture, BuildType configuration)
+TaskBuild::TaskBuild(std::string platform, BuildType configuration)
 {
     buildPlatform = platform;
-    buildArchitecture = architecture;
     buildType = configuration;
 }
 
@@ -30,7 +29,7 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
 
     if (!FindToolchain() || targetToolchain == nullptr || targetPlatform == nullptr) 
     {
-        Utility::PrintLine("Unable to find suitable toolchain for platform: " + buildPlatform + " " + buildArchitecture);
+        Utility::PrintLine("Unable to find suitable toolchain for platform: " + buildPlatform);
         return false;
     }
 
@@ -89,7 +88,7 @@ bool TaskBuild::FindToolchain()
         for (BuildPlatform* platform : platforms)
         {
             std::string platformName = platform->platformName;
-            std::string requiredPlatform = buildPlatform + " " + buildArchitecture;
+            std::string requiredPlatform = buildPlatform;
 
             platformName = Utility::ToLower(platformName);
             requiredPlatform = Utility::ToLower(requiredPlatform);

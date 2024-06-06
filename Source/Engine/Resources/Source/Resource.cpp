@@ -6,7 +6,7 @@
 
 namespace Faro
 {
-    IResource::IResource(DataStream* inStream) : stream(inStream) { }
+    IResource::IResource(DataStream* inStream) : stream(inStream), state(RS_Unknown){ }
 
     IResource::~IResource()
     {
@@ -25,7 +25,7 @@ namespace Faro
 
     void IResource::ReleaseResource()
     {
-        Debug_Assert(claims > 0, "Mismatched claim and release");
+        Debug_AssertMessage(claims > 0, "Mismatched claim and release");
         claims--;
 
         if (claims == 0)

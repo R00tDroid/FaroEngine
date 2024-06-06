@@ -8,7 +8,6 @@ struct TaskRunInfo
     ProjectManifest* projectManifest = nullptr;
 
     std::string buildPlatform = "";
-    std::string buildArchitecture = "";
     BuildType buildType = BuildType::ENUMSIZE;
 
     std::vector<std::string> moduleList = {};

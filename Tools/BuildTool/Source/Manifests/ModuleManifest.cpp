@@ -3,28 +3,19 @@
 #include <fstream>
 #include <sstream>
 
-ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifest* project)
+bool ReadManifestFile(std::filesystem::path& path, picojson::object& rootObject)
 {
-    if (project == nullptr)
-    {
-        return nullptr;
-    }
-
     if (!std::filesystem::exists(path))
     {
         Utility::PrintLine("Failed to find module manifest: " + path.string());
-        return nullptr;
+        return false;
     }
 
-    ModuleManifest* manifest = new ModuleManifest(path);
-    manifest->project = project;
-
-    std::ifstream fileStream(manifest->manifestPath);
+    std::ifstream fileStream(path);
     if (!fileStream.is_open())
     {
-        Utility::PrintLine("Failed to open module manifest: " + manifest->manifestPath.string());
-        delete manifest;
-        return nullptr;
+        Utility::PrintLine("Failed to open module manifest: " + path.string());
+        return false;
     }
 
     picojson::value rootValue;
@@ -32,68 +23,46 @@ ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifes
     if (!error.empty())
     {
         Utility::Print("JSON parsing error: " + error);
-        delete manifest;
-        return nullptr;
+        return false;
     }
 
     if (!rootValue.is<picojson::object>())
     {
         Utility::PrintLine("Expected a JSON object as root of the module manifest");
-        delete manifest;
-        return nullptr;
+        return false;
     }
 
-    picojson::object& rootObject = rootValue.get<picojson::object>();
+    rootObject = rootValue.get<picojson::object>();
 
-    if (!manifest->ParseSourceFiles(rootObject))
+    return true;
+}
+
+ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifest* project)
+{
+    if (project == nullptr)
     {
-        delete manifest;
         return nullptr;
     }
 
-    if (!manifest->ParseDependencies(rootObject)) 
+    picojson::object rootObject;
+    if (!ReadManifestFile(path, rootObject))
     {
-        delete manifest;
         return nullptr;
     }
 
-    if (!manifest->ParseIncludeDirectories(rootObject, "PublicIncludeDirectories", manifest->publicIncludes))
-    {
-        delete manifest;
-        return nullptr;
-    }
+    ModuleManifest* manifest = new ModuleManifest(path);
+    manifest->project = project;
 
-    if (!manifest->ParseIncludeDirectories(rootObject, "PrivateIncludeDirectories", manifest->privateIncludes))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseDefines(rootObject, "PublicDefines", manifest->publicDefines))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseDefines(rootObject, "PrivateDefines", manifest->privateDefines))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseModuleType(rootObject))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseSolutionLocation(rootObject))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!manifest->ParseLinkerLibraries(rootObject))
+    if (!manifest->ParseSourceFiles(rootObject) || 
+        !manifest->ParseDependencies(rootObject) ||
+        !manifest->ParseIncludeDirectories(rootObject, "PublicIncludeDirectories", manifest->publicIncludes) ||
+        !manifest->ParseIncludeDirectories(rootObject, "PrivateIncludeDirectories", manifest->privateIncludes) ||
+        !manifest->ParseDefines(rootObject, "PublicDefines", manifest->publicDefines) ||
+        !manifest->ParseDefines(rootObject, "PrivateDefines", manifest->privateDefines) ||
+        !manifest->ParseModuleType(rootObject) ||
+        !manifest->ParseSolutionLocation(rootObject) ||
+        !manifest->ParseLinkerLibraries(rootObject) ||
+        !manifest->ParsePlatformFilter(rootObject))
     {
         delete manifest;
         return nullptr;
@@ -178,6 +147,13 @@ ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path, Projec
     }
 
     manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ModuleId.txt");
+
+    std::ifstream platformFilterList(manifest->infoDirectory / "PlatformFilter.txt");
+    std::stringstream platformFilterStream;
+    platformFilterStream << platformFilterList.rdbuf();
+    platformFilterList.close();
+    manifest->platformFilter = platformFilterStream.str();
+    platformFilterList.close();
 
     return manifest;
 }
@@ -275,6 +251,11 @@ std::set<ModuleManifest*> ModuleManifest::GetDependencyTree()
     }
 
     return dependencies;
+}
+
+bool ModuleManifest::IsCompatible(BuildPlatform* target) const
+{
+    return Utility::MatchWildcard(target->platformName, platformFilter);
 }
 
 ModuleManifest::ModuleManifest(const std::filesystem::path& path): IManifest(path), fileDates(this), fileTree(this)
@@ -549,6 +530,25 @@ bool ModuleManifest::ParseLinkerLibraries(picojson::object& rootObject)
     return true;
 }
 
+bool ModuleManifest::ParsePlatformFilter(picojson::object& rootObject)
+{
+    platformFilter = "*";
+
+    if (rootObject.find("PlatformFilter") != rootObject.end())
+    {
+        picojson::value& value = rootObject["PlatformFilter"];
+        if (!value.is<std::string>())
+        {
+            Utility::PrintLine("Expected PlatformFilter to be a string");
+            return false;
+        }
+
+        platformFilter = value.get<std::string>();
+    }
+
+    return true;
+}
+
 void ModuleManifest::SaveCache()
 {
     std::ofstream filesList(infoDirectory / "Source.txt");
@@ -607,4 +607,8 @@ void ModuleManifest::SaveCache()
         case MT_Executable: { moduleType << "app"; break; }
     }
     moduleType.close();
+
+    std::ofstream platformFilterList(infoDirectory / "PlatformFilter.txt");
+    platformFilterList << platformFilter;
+    platformFilterList.close();
 }

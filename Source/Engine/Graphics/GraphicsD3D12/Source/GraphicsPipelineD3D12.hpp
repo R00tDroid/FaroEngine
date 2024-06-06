@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_OS_WINDOWS
 #include <GraphicsPipeline.hpp>
 #include <d3d12.h>
 
@@ -20,3 +21,4 @@ namespace Faro
         ID3D12RootSignature* rootSignature = nullptr;
     };
 }
+#endif

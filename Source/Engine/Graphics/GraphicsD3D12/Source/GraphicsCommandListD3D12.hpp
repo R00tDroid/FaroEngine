@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_OS_WINDOWS
 #include <GraphicsCommandList.hpp>
 #include <d3d12.h>
 
@@ -27,3 +28,4 @@ namespace Faro
         ID3D12GraphicsCommandList* commandList = nullptr;
     };
 }
+#endif

@@ -5,8 +5,8 @@ The toolchain will be used to build the engine and your projects. You build it y
 1. Open a command prompt in the directory you want the engine to end up
 2. `git clone --recursive https://github.com/R00tDroid/FaroEngine.git`
 3. `cd Tools`
-4. `mkdir Build`
-5. `cd Build`
+4. `mkdir .Build`
+5. `cd .Build`
 6. `cmake ..`
 7. `cmake --build . --config Release`
 8. All tools are now in the `Bin` folder in the engine directory

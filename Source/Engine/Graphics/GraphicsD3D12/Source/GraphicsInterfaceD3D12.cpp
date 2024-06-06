@@ -1,3 +1,4 @@
+#if FARO_OS_WINDOWS
 #include "GraphicsInterfaceD3D12.hpp"
 #include <Windows.h>
 #include <d3d12.h>
@@ -112,3 +113,4 @@ namespace Faro
         }
     }
 }
+#endif

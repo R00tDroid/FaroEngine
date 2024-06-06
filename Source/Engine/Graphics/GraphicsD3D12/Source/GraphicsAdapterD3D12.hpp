@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_OS_WINDOWS
 #include <GraphicsAdapter.hpp>
 #include <d3d12.h>
 #include <dxgi.h>
@@ -34,3 +35,4 @@ namespace Faro
         ID3D12CommandQueue* commandQueue = nullptr;
     };
 }
+#endif

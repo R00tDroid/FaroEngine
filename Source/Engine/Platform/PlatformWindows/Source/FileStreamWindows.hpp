@@ -1,4 +1,5 @@
 #pragma once
+#if FARO_OS_WINDOWS
 #include <FileStream.hpp>
 #include <Containers/Path.hpp>
 
@@ -21,10 +22,11 @@ namespace Faro
     protected:
         void Destroy() override;
 
-        Path file = "";
+        Path file = String("");
         EFileMode mode;
 
         FILE* stream = nullptr;
         uint32 size = 0;
     };
 }
+#endif
