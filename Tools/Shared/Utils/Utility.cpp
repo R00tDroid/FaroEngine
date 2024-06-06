@@ -172,12 +172,17 @@ bool Utility::MatchWildcard(const std::string& source, const std::string& patter
 
 bool Utility::ReadEnvVariable(std::string variableName, std::string& value)
 {
+    Utility::PrintLineD("ReadEnvVariable: " + variableName);
+
 #ifdef WIN32
     size_t size = 0;
     if (getenv_s(&size, nullptr, 0, variableName.c_str()) != 0)
     {
         return false;
     }
+
+    Utility::PrintLineD("ReadEnvVariable::size: " + std::to_string(size));
+
     value.resize(size);
     if (getenv_s(&size, value.data(), size, variableName.c_str()) != 0)
     {
@@ -187,11 +192,15 @@ bool Utility::ReadEnvVariable(std::string variableName, std::string& value)
     value = std::string(getenv(variableName.c_str()));
 #endif
 
+    Utility::PrintLineD("ReadEnvVariable::1");
+
     // Remove null-terminator at end of string
     if (value.back() == '\0')
     {
         value.pop_back();
     }
+
+    Utility::PrintLineD("ReadEnvVariable::2");
 
     return true;
 }
