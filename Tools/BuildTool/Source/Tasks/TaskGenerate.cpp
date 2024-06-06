@@ -182,13 +182,18 @@ bool TaskGenerate::Run(TaskRunInfo& taskInfo)
         moduleTimer.Stop("Module: " + moduleManifest->name);
     }
 
+    Utility::PrintLineD("Generating project targets");
+
     for (ProjectInfo* projectInfo : projectInfoList)
     {
+        Utility::PrintLineD("Project target file:" + projectInfo->name);
         WriteProjectFile(*projectInfo);
+        Utility::PrintLineD("Project user file:" + projectInfo->name);
         WriteProjectUserFile(*projectInfo);
 
         if (projectInfo->HasSourceFiles())
         {
+            Utility::PrintLineD("Project filter file:" + projectInfo->name);
             WriteFilterFile(*projectInfo);
         }
     }
