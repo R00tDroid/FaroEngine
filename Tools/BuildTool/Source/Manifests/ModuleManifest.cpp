@@ -3,28 +3,19 @@
 #include <fstream>
 #include <sstream>
 
-ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifest* project)
+bool ReadManifestFile(std::filesystem::path& path, picojson::object& rootObject)
 {
-    if (project == nullptr)
-    {
-        return nullptr;
-    }
-
     if (!std::filesystem::exists(path))
     {
         Utility::PrintLine("Failed to find module manifest: " + path.string());
-        return nullptr;
+        return false;
     }
 
-    ModuleManifest* manifest = new ModuleManifest(path);
-    manifest->project = project;
-
-    std::ifstream fileStream(manifest->manifestPath);
+    std::ifstream fileStream(path);
     if (!fileStream.is_open())
     {
-        Utility::PrintLine("Failed to open module manifest: " + manifest->manifestPath.string());
-        delete manifest;
-        return nullptr;
+        Utility::PrintLine("Failed to open module manifest: " + path.string());
+        return false;
     }
 
     picojson::value rootValue;
@@ -32,18 +23,35 @@ ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifes
     if (!error.empty())
     {
         Utility::Print("JSON parsing error: " + error);
-        delete manifest;
-        return nullptr;
+        return false;
     }
 
     if (!rootValue.is<picojson::object>())
     {
         Utility::PrintLine("Expected a JSON object as root of the module manifest");
-        delete manifest;
+        return false;
+    }
+
+    rootObject = rootValue.get<picojson::object>();
+
+    return true;
+}
+
+ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifest* project)
+{
+    if (project == nullptr)
+    {
         return nullptr;
     }
 
-    picojson::object& rootObject = rootValue.get<picojson::object>();
+    picojson::object rootObject;
+    if (!ReadManifestFile(path, rootObject))
+    {
+        return nullptr;
+    }
+
+    ModuleManifest* manifest = new ModuleManifest(path);
+    manifest->project = project;
 
     if (!manifest->ParseSourceFiles(rootObject) || 
         !manifest->ParseDependencies(rootObject) ||
