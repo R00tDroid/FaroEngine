@@ -292,6 +292,7 @@ void WriteConfigList(tinyxml2::XMLElement* projectElement, const std::string& VS
 void WriteConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::ProjectInfo& projectInfo, BuildPlatform* platform, BuildType buildType, IToolchain* toolchain)
 {
     const char* buildTypeName = BuildTypeNames[buildType];
+    Utility::PrintLineD("WriteConfigSection::buildTypeName: " + std::string(buildTypeName));
 
     tinyxml2::XMLElement* importGroup = projectElement->InsertNewChildElement("ImportGroup");
     importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
@@ -312,10 +313,12 @@ void WriteConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::Proj
         std::string includePaths;
 
         ModuleManifest* moduleManifest = projectInfo.GetModuleManifest();
+        Utility::PrintLineD("WriteConfigSection::moduleManifest: " + std::to_string(moduleManifest != nullptr));
         if (moduleManifest != nullptr)
         {
             toolchain->PrepareModuleForBuild(*projectInfo.GetModuleManifest(), platform, buildType);
             std::vector<std::filesystem::path> toolchainIncludes = toolchain->GetToolchainIncludes(platform, buildType);
+            Utility::PrintLineD("WriteConfigSection::toolchainIncludes: " + std::to_string(toolchainIncludes.size()));
 
             for (std::filesystem::path& path : toolchainIncludes)
             {
