@@ -16,12 +16,18 @@ std::vector<BuildPlatform*> ToolchainEmscripten::GetPlatforms()
 
 bool ToolchainEmscripten::PrepareModuleForBuild(ModuleManifest&, BuildPlatform*, BuildType)
 {
+    Utility::PrintLineD("PrepareModuleForBuild");
     const std::vector<EmscriptenSDK>& SDKs = GetEmscriptenSDKs();
+
+    Utility::PrintLineD("PrepareModuleForBuild::SDKs: " + std::to_string(SDKs.size()));
 
     if (!SDKs.empty())
     {
         emscriptenRoot = SDKs[0].Root;
         emscriptenRoot = emscriptenRoot.make_preferred();
+
+        Utility::PrintLineD("PrepareModuleForBuild::emscriptenRoot: " + emscriptenRoot.string());
+
         return true;
     }
 

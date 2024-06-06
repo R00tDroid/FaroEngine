@@ -21,9 +21,13 @@ const std::vector<EmscriptenSDK>& GetEmscriptenSDKs()
         EmscriptenSDKs.push_back({ path });
     }
 
+    Utility::PrintLineD("EmscriptenSDKs: " + std::to_string(EmscriptenSDKs.size()));
+
     // Remove duplicates
     std::sort(EmscriptenSDKs.begin(), EmscriptenSDKs.end());
     EmscriptenSDKs.erase(unique(EmscriptenSDKs.begin(), EmscriptenSDKs.end()), EmscriptenSDKs.end());
+
+    Utility::PrintLineD("EmscriptenSDKs post sort: " + std::to_string(EmscriptenSDKs.size()));
 
     return EmscriptenSDKs;
 }
