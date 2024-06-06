@@ -62,7 +62,8 @@ ModuleManifest* ModuleManifest::Parse(std::filesystem::path path, ProjectManifes
         !manifest->ParseModuleType(rootObject) ||
         !manifest->ParseSolutionLocation(rootObject) ||
         !manifest->ParseLinkerLibraries(rootObject) ||
-        !manifest->ParsePlatformFilter(rootObject))
+        !manifest->ParsePlatformFilter(rootObject) ||
+        !manifest->ParseMounts(rootObject))
     {
         delete manifest;
         return nullptr;
@@ -154,6 +155,8 @@ ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path, Projec
     platformFilterList.close();
     manifest->platformFilter = platformFilterStream.str();
     platformFilterList.close();
+
+    //TODO Load mounts
 
     return manifest;
 }
@@ -549,6 +552,60 @@ bool ModuleManifest::ParsePlatformFilter(picojson::object& rootObject)
     return true;
 }
 
+bool ModuleManifest::ParseMounts(picojson::object& rootObject)
+{
+    folderMounts = {};
+
+    if (rootObject.find("Mounts") != rootObject.end())
+    {
+        picojson::value& value = rootObject["Mounts"];
+        if (!value.is<picojson::array>())
+        {
+            Utility::PrintLine("Expected Mounts to be an array");
+            return false;
+        }
+
+        picojson::array& mountArray = value.get<picojson::array>();
+        for (picojson::value& mountValue : mountArray)
+        {
+            if (!mountValue.is<picojson::object>())
+            {
+                Utility::PrintLine("Expected mount to be a object");
+                return false;
+            }
+
+            picojson::object& mountObject = mountValue.get<picojson::object>();
+            if (mountObject.find("Location") == mountObject.end())
+            {
+                Utility::PrintLine("Missing Location in mount definition");
+                return false;
+            }
+            picojson::value& locationValue = mountObject["Location"];
+            if (!locationValue.is<std::string>())
+            {
+                Utility::PrintLine("Expected Location to be a string");
+                return false;
+            }
+
+            if (mountObject.find("MountPoint") == mountObject.end())
+            {
+                Utility::PrintLine("Missing MountPoint in mount definition");
+                return false;
+            }
+            picojson::value& pointValue = mountObject["MountPoint"];
+            if (!pointValue.is<std::string>())
+            {
+                Utility::PrintLine("Expected MountPoint be a string");
+                return false;
+            }
+
+            folderMounts.push_back({ std::filesystem::weakly_canonical(moduleRoot / locationValue.get<std::string>()), pointValue.get<std::string>() });
+        }
+    }
+
+    return true;
+}
+
 void ModuleManifest::SaveCache()
 {
     std::ofstream filesList(infoDirectory / "Source.txt");
@@ -611,4 +668,6 @@ void ModuleManifest::SaveCache()
     std::ofstream platformFilterList(infoDirectory / "PlatformFilter.txt");
     platformFilterList << platformFilter;
     platformFilterList.close();
+
+      //TODO Save mounts
 }
