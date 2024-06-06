@@ -15,6 +15,8 @@ bool operator==(const EmscriptenSDK& a, const EmscriptenSDK& b)
 std::vector<EmscriptenSDK> EmscriptenSDKs;
 const std::vector<EmscriptenSDK>& GetEmscriptenSDKs()
 {
+    EmscriptenSDKs.clear();
+
     std::string path;
     if (Utility::ReadEnvVariable("EMSDK", path))
     {
