@@ -104,7 +104,9 @@ private:
 
     bool ParseLinkerLibraries(picojson::object& rootObject);
 
-    bool ParseMounts(picojson::object& rootObject)
+    bool ParsePlatformFilter(picojson::object& rootObject);
+
+    bool ParseMounts(picojson::object& rootObject);
 
     void SaveCache();
 };
