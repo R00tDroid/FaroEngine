@@ -408,11 +408,14 @@ void TaskGenerate::WriteProjectFile(ProjectInfo& projectInfo)
     }
 
     std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
+    Utility::PrintLineD("WriteProjectFile::toolchains: " + std::to_string(toolchains.size()));
     for (IToolchain* toolchain : toolchains)
     {
         std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
+        Utility::PrintLineD("WriteProjectFile::toolchains::platforms " + std::to_string(platforms.size()));
         for (BuildPlatform* platform : platforms)
         {
+            Utility::PrintLineD("WriteProjectFile::toolchain::platform: " + platform->platformName);
             for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
             {
                 WriteConfigSection(projectElement, projectInfo, platform, static_cast<BuildType>(buildTypeIndex), toolchain);
@@ -433,6 +436,7 @@ void TaskGenerate::WriteProjectFile(ProjectInfo& projectInfo)
     {
         tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
         std::vector<std::filesystem::path> sourceFiles = projectInfo.GetSourceFiles();
+        Utility::PrintLineD("WriteProjectFile::toolchain::sourceFiles: " + std::to_string(sourceFiles.size()));
         for (std::filesystem::path& file : sourceFiles)
         {
             std::string extension = file.extension().string();
