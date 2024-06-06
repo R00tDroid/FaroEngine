@@ -333,11 +333,11 @@ void WriteConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::Proj
 
         element->SetText(includePaths.c_str());
 
-        element = propertyGroup->InsertNewChildElement("ReferencePath");
-        element = propertyGroup->InsertNewChildElement("LibraryPath");
-        element = propertyGroup->InsertNewChildElement("LibraryWPath");
-        element = propertyGroup->InsertNewChildElement("SourcePath");
-        element = propertyGroup->InsertNewChildElement("ExcludePath");
+        propertyGroup->InsertNewChildElement("ReferencePath");
+        propertyGroup->InsertNewChildElement("LibraryPath");
+        propertyGroup->InsertNewChildElement("LibraryWPath");
+        propertyGroup->InsertNewChildElement("SourcePath");
+        propertyGroup->InsertNewChildElement("ExcludePath");
 
         std::filesystem::path faroBuildTool = Utility::GetExecutablePath();
 
