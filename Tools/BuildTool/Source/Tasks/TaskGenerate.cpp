@@ -182,18 +182,14 @@ bool TaskGenerate::Run(TaskRunInfo& taskInfo)
         moduleTimer.Stop("Module: " + moduleManifest->name);
     }
 
-    Utility::PrintLineD("Generating project targets");
 
     for (ProjectInfo* projectInfo : projectInfoList)
     {
-        Utility::PrintLineD("Project target file: " + projectInfo->name);
         WriteProjectFile(*projectInfo);
-        Utility::PrintLineD("Project user file: " + projectInfo->name);
         WriteProjectUserFile(*projectInfo);
 
         if (projectInfo->HasSourceFiles())
         {
-            Utility::PrintLineD("Project filter file: " + projectInfo->name);
             WriteFilterFile(*projectInfo);
         }
     }
@@ -292,7 +288,6 @@ void WriteConfigList(tinyxml2::XMLElement* projectElement, const std::string& VS
 void WriteConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::ProjectInfo& projectInfo, BuildPlatform* platform, BuildType buildType, IToolchain* toolchain)
 {
     const char* buildTypeName = BuildTypeNames[buildType];
-    Utility::PrintLineD("WriteConfigSection::buildTypeName: " + std::string(buildTypeName));
 
     tinyxml2::XMLElement* importGroup = projectElement->InsertNewChildElement("ImportGroup");
     importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
@@ -313,12 +308,10 @@ void WriteConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::Proj
         std::string includePaths;
 
         ModuleManifest* moduleManifest = projectInfo.GetModuleManifest();
-        Utility::PrintLineD("WriteConfigSection::moduleManifest: " + std::to_string(moduleManifest != nullptr));
         if (moduleManifest != nullptr)
         {
             toolchain->PrepareModuleForBuild(*projectInfo.GetModuleManifest(), platform, buildType);
             std::vector<std::filesystem::path> toolchainIncludes = toolchain->GetToolchainIncludes(platform, buildType);
-            Utility::PrintLineD("WriteConfigSection::toolchainIncludes: " + std::to_string(toolchainIncludes.size()));
 
             for (std::filesystem::path& path : toolchainIncludes)
             {
@@ -411,14 +404,11 @@ void TaskGenerate::WriteProjectFile(ProjectInfo& projectInfo)
     }
 
     std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
-    Utility::PrintLineD("WriteProjectFile::toolchains: " + std::to_string(toolchains.size()));
     for (IToolchain* toolchain : toolchains)
     {
         std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-        Utility::PrintLineD("WriteProjectFile::toolchains::platforms " + std::to_string(platforms.size()));
         for (BuildPlatform* platform : platforms)
         {
-            Utility::PrintLineD("WriteProjectFile::toolchain::platform: " + platform->platformName);
             for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
             {
                 WriteConfigSection(projectElement, projectInfo, platform, static_cast<BuildType>(buildTypeIndex), toolchain);
@@ -439,7 +429,6 @@ void TaskGenerate::WriteProjectFile(ProjectInfo& projectInfo)
     {
         tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
         std::vector<std::filesystem::path> sourceFiles = projectInfo.GetSourceFiles();
-        Utility::PrintLineD("WriteProjectFile::toolchain::sourceFiles: " + std::to_string(sourceFiles.size()));
         for (std::filesystem::path& file : sourceFiles)
         {
             std::string extension = file.extension().string();
