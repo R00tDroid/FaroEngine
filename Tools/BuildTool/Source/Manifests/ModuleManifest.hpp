@@ -44,6 +44,8 @@ public:
 
     std::vector<std::filesystem::path> sourceFiles;
 
+    std::string platformFilter = "*";
+
     std::vector<FolderMount> folderMounts;
 
     std::string uuid = "";
