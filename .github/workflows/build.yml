@@ -190,11 +190,11 @@ jobs:
 
   PublishDocumentation:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    # if: github.ref == 'refs/heads/main'
     needs: Documentation
     steps:
-    - name: actions/download-artifact@4
-      uses: actions/download-artifact@4
+    - name: actions/download-artifact@v4
+      uses: actions/download-artifact@v4
       with:
         name: Documentation
         path: Documentation
