@@ -669,5 +669,10 @@ void ModuleManifest::SaveCache()
     platformFilterList << platformFilter;
     platformFilterList.close();
 
-      //TODO Save mounts
+    std::ofstream mountList(infoDirectory / "Mounts.txt");
+    for (FolderMount& mount : folderMounts)
+    {
+        mountList << mount.location.string().c_str() << "\n" << mount.mountPoint.string().c_str() << "\n";
+    }
+    mountList.close();
 }
