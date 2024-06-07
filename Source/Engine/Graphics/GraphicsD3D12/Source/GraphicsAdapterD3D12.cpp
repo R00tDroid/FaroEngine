@@ -63,21 +63,10 @@ namespace Faro
         return commandList;
     }
 
-    GraphicsBuffer* GraphicsAdapterD3D12::CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc)
+    GraphicsBuffer* GraphicsAdapterD3D12::CreateBuffer(GraphicsBufferCreateDesc createDesc)
     {
-        GraphicsBuffer* buffer = nullptr;
-
-        switch (type)
-        {
-            case BT_Upload: { buffer = MemoryManager::New<GraphicsBufferUploadD3D12>(); }
-            case BT_Remote: { buffer = MemoryManager::New<GraphicsBufferRemoteD3D12>(); }
-        }
-
-        if (buffer != nullptr)
-        {
-            buffer->Init(this, desc);
-        }
-
+        GraphicsBuffer* buffer = MemoryManager::New<GraphicsBufferD3D12>();
+        buffer->Init(this, createDesc);
         return buffer;
     }
 

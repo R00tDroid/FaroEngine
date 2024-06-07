@@ -7,6 +7,7 @@
 #include <GraphicsCommandList.hpp>
 #include <GraphicsBufferContainer.hpp>
 #include <GraphicsPipeline.hpp>
+#include <GraphicsSemaphore.hpp>
 
 namespace Faro
 {
@@ -15,7 +16,9 @@ namespace Faro
         String name;
         String manufacturer;
 
-        uint32 vram = 0;
+        uint64 vramDedicated = 0;
+        uint64 vramShared = 0;
+        uint64 vramTotal = 0;
 
         void* payload = nullptr;
     };
@@ -28,19 +31,19 @@ namespace Faro
 
         virtual GraphicsCommandList* CreateCommandList() = 0;
 
-        virtual GraphicsBuffer* CreateBuffer(GraphicsBufferType type, GraphicsBufferDesc desc) = 0;
+        virtual GraphicsBuffer* CreateBuffer(GraphicsBufferCreateDesc createDesc) = 0;
 
         template<class T>
-        T* CreateBufferContainer(GraphicsBufferType type, GraphicsBufferDesc desc)
+        T* CreateBufferContainer(GraphicsBufferCreateDesc createDesc)
         {
             T* bufferContainer = MemoryManager::New<T>();
-            bufferContainer->Init(this, type, desc);
+            bufferContainer->Init(this, createDesc);
             return bufferContainer;
         }
 
-        GraphicsBufferContainer* CreateBufferContainer(GraphicsBufferType type, GraphicsBufferDesc desc)
+        GraphicsBufferContainer* CreateBufferContainer(GraphicsBufferCreateDesc createDesc)
         {
-            return CreateBufferContainer<GraphicsBufferContainer>(type, desc);
+            return CreateBufferContainer<GraphicsBufferContainer>(createDesc);
         }
 
         virtual GraphicsFence* CreateFence() = 0;
@@ -48,5 +51,7 @@ namespace Faro
         virtual GraphicsSwapchain* CreateSwapchain(Window* window) = 0;
 
         virtual GraphicsPipeline* CreatePipeline(GraphicsPipelineDesc desc) = 0;
+
+        virtual GraphicsSemaphore* CreateSyncPoint();
     };
 }

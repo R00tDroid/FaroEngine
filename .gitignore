@@ -17,6 +17,7 @@ _deps
 
 /Bin
 /Tools/Build
+/Source/Engine/Graphics/GraphicsVK/Thirdparty/GLAD
 /Docs/Doxygen
 
 !.github

@@ -1,11 +1,10 @@
 #pragma once
-#if FARO_OS_WINDOWS
 #include <GraphicsCommandList.hpp>
-#include <d3d12.h>
+#include "Vulkan.hpp"
 
 namespace Faro
 {
-    class GraphicsCommandListD3D12 : public GraphicsCommandList
+    class GraphicsCommandListVK : public GraphicsCommandList
     {
     public:
         using IGraphicsAdapterChild::Init;
@@ -24,8 +23,7 @@ namespace Faro
         void ClearRenderTarget(GraphicsBuffer* renderTarget, FloatColor color) override;
 
     private:
-        ID3D12CommandAllocator* allocator = nullptr;
-        ID3D12GraphicsCommandList* commandList = nullptr;
+        VkCommandPool commandPool = nullptr;
+        VkCommandBuffer commandBuffer = nullptr;
     };
 }
-#endif
