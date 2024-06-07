@@ -15,11 +15,5 @@
     "GeneratedFiles": [
         "Source/EngineVersion.generated.cpp"
     ],
-    "Mounts": [
-        {
-            "Location": "Resources",
-            "MountPoint": "App/Resources"
-        }
-    ],
     "ModuleType": "Library"
 }

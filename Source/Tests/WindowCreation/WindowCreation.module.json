@@ -18,6 +18,12 @@
         "Source/**/*.hlsli",
         "Source/**/*.hlsl"
     ],
+    "Mounts": [
+        {
+            "Location": "Resources",
+            "MountPoint": "App/Resources"
+        }
+    ],
     "ModuleType": "Executable",
     "SolutionLocation": "Tests"
 }
