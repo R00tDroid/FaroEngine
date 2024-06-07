@@ -6,10 +6,14 @@ var searchData=
   ['platform_2ehpp_3',['Platform.hpp',['../Platform_8hpp.html',1,'']]],
   ['platformmodule_2ecpp_4',['PlatformModule.cpp',['../PlatformModule_8cpp.html',1,'']]],
   ['platformmodule_2ehpp_5',['PlatformModule.hpp',['../PlatformModule_8hpp.html',1,'']]],
-  ['platformwindows_2ecpp_6',['PlatformWindows.cpp',['../PlatformWindows_8cpp.html',1,'']]],
-  ['platformwindows_2ehpp_7',['PlatformWindows.hpp',['../PlatformWindows_8hpp.html',1,'']]],
-  ['platformwindowslog_2ecpp_8',['PlatformWindowsLog.cpp',['../PlatformWindowsLog_8cpp.html',1,'']]],
-  ['platformwindowslog_2ehpp_9',['PlatformWindowsLog.hpp',['../PlatformWindowsLog_8hpp.html',1,'']]],
-  ['primitives_2ehpp_10',['Primitives.hpp',['../Primitives_8hpp.html',1,'']]],
-  ['projectsetup_2emd_11',['ProjectSetup.md',['../ProjectSetup_8md.html',1,'']]]
+  ['platformweb_2ecpp_6',['PlatformWeb.cpp',['../PlatformWeb_8cpp.html',1,'']]],
+  ['platformweb_2ehpp_7',['PlatformWeb.hpp',['../PlatformWeb_8hpp.html',1,'']]],
+  ['platformweblog_2ecpp_8',['PlatformWebLog.cpp',['../PlatformWebLog_8cpp.html',1,'']]],
+  ['platformweblog_2ehpp_9',['PlatformWebLog.hpp',['../PlatformWebLog_8hpp.html',1,'']]],
+  ['platformwindows_2ecpp_10',['PlatformWindows.cpp',['../PlatformWindows_8cpp.html',1,'']]],
+  ['platformwindows_2ehpp_11',['PlatformWindows.hpp',['../PlatformWindows_8hpp.html',1,'']]],
+  ['platformwindowslog_2ecpp_12',['PlatformWindowsLog.cpp',['../PlatformWindowsLog_8cpp.html',1,'']]],
+  ['platformwindowslog_2ehpp_13',['PlatformWindowsLog.hpp',['../PlatformWindowsLog_8hpp.html',1,'']]],
+  ['primitives_2ehpp_14',['Primitives.hpp',['../Primitives_8hpp.html',1,'']]],
+  ['projectsetup_2emd_15',['ProjectSetup.md',['../ProjectSetup_8md.html',1,'']]]
 ];

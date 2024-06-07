@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['toolchain_20usage_0',['Toolchain usage',['../md_Toolchain.html',1,'']]]
+  ['guide_0',['Coding style guide',['../md_Style.html',1,'']]]
 ];

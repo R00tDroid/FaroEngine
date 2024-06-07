@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['vector2_0',['Vector2',['../structFaro_1_1Vector2.html#a78f9a8dc9688c3a52ce87ff0dae2c446',1,'Faro::Vector2::Vector2()'],['../structFaro_1_1Vector2.html#a01060eab324fcaed69883a389cbf14f1',1,'Faro::Vector2::Vector2(T x, T y)']]],
-  ['vector3_1',['Vector3',['../structFaro_1_1Vector3.html#a96a536550d751b7a45d030822d434530',1,'Faro::Vector3::Vector3()'],['../structFaro_1_1Vector3.html#a41b68300a8bd3e347c6d90dc760902a8',1,'Faro::Vector3::Vector3(T x, T y, T z)'],['../structFaro_1_1Vector3.html#a29ff1042d587d551811c6d4f8f348fba',1,'Faro::Vector3::Vector3(Vector2&lt; T &gt; v, T z)']]],
-  ['vector4_2',['Vector4',['../structFaro_1_1Vector4.html#a4f6e08d047288cb146ca4d3aad1a3891',1,'Faro::Vector4::Vector4()'],['../structFaro_1_1Vector4.html#ae87e309ae66934448d7b82571bb1ee87',1,'Faro::Vector4::Vector4(T x, T y, T z, T w)'],['../structFaro_1_1Vector4.html#a99eb8c9bc61386f4d46483baeabae844',1,'Faro::Vector4::Vector4(Vector3&lt; T &gt; v, T w)'],['../structFaro_1_1Vector4.html#a5e0e35cc5916c0298dc8071e7a90c56d',1,'Faro::Vector4::Vector4(Vector2&lt; T &gt; a, Vector2&lt; T &gt; b)']]],
-  ['version_3',['Version',['../structFaro_1_1Version.html#a2b726201d19ee0dfe7cc1ea8cf816a43',1,'Faro::Version']]]
+  ['waitforfinish_0',['WaitForFinish',['../classFaro_1_1GraphicsFence.html#a12c14ac1a407b895cffd762ecd3dd9e2',1,'Faro::GraphicsFence']]],
+  ['waitforstop_1',['WaitForStop',['../classFaro_1_1IThread.html#af65a39ccbed31a9baa1a3012f985c2f4',1,'Faro::IThread']]],
+  ['write_2',['write',['../classFaro_1_1DataStream.html#a01e1fdad1de4d1fecc5d388245728edb',1,'Faro::DataStream::Write(void *source, uint16 elementSize, uint32 elementCount)=0'],['../classFaro_1_1DataStream.html#af46befcfdf57a244419c8f3157c0aa10',1,'Faro::DataStream::Write(T *source, uint32 elementCount)'],['../classFaro_1_1DataStream.html#af7cdf680e70d9b3121bc21f2a9fe9137',1,'Faro::DataStream::Write(T value)'],['../classFaro_1_1DataStreamCopy.html#a0da7e130265e1ddc086945219c9f94d1',1,'Faro::DataStreamCopy::Write()']]]
 ];
