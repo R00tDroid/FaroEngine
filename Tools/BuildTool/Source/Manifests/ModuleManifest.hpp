@@ -15,6 +15,12 @@ enum ModuleType
     MT_Executable
 };
 
+struct FolderMount
+{
+    std::filesystem::path location;
+    std::filesystem::path mountPoint;
+};
+
 class ModuleManifest : public IManifest
 {
 public:
@@ -45,6 +51,8 @@ public:
     std::vector<std::filesystem::path> sourceFiles;
 
     std::string platformFilter = "*";
+
+    std::vector<FolderMount> folderMounts;
 
     std::string uuid = "";
 
@@ -97,6 +105,8 @@ private:
     bool ParseLinkerLibraries(picojson::object& rootObject);
 
     bool ParsePlatformFilter(picojson::object& rootObject);
+
+    bool ParseMounts(picojson::object& rootObject);
 
     void SaveCache();
 };

@@ -14,7 +14,15 @@
         "Source/**/*.cpp",
         "Source/**/*.hpp",
         "Source/**/*.c",
-        "Source/**/*.h"
+        "Source/**/*.h",
+        "Source/**/*.hlsli",
+        "Source/**/*.hlsl"
+    ],
+    "Mounts": [
+        {
+            "Location": "Resources",
+            "MountPoint": "App/Resources"
+        }
     ],
     "ModuleType": "Executable",
     "SolutionLocation": "Tests"
