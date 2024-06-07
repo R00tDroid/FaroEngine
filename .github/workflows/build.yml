@@ -169,6 +169,10 @@ jobs:
           Documentation/**/*
 
   BuildEngine:
+    strategy:
+      matrix:
+          platform: [WindowsX64, WindowsX86]
+          config: [release, development, debug]
     runs-on: windows-latest
     timeout-minutes: 30
     needs: PackageEngine
@@ -182,7 +186,7 @@ jobs:
       run: Bin/FaroBuildTool.exe -generate -project Source/FaroEngine.faroproject.json
 
     - name: Build
-      run: Bin/FaroBuildTool.exe -build -platform WindowsX64 -release -project Source/FaroEngine.faroproject.json
+      run: Bin/FaroBuildTool.exe -build -platform ${{ matrix.platform }} -${{ matrix.config }} -project Source/FaroEngine.faroproject.json
 
   PublishDocumentation:
     runs-on: ubuntu-latest
