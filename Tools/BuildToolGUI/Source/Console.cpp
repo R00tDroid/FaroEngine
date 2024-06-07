@@ -8,11 +8,11 @@ std::filesystem::path Console::buildTool;
 
 void Console::Init()
 {
-    wchar_t binaryPath[MAX_PATH];
-    GetModuleFileNameW(nullptr, binaryPath, MAX_PATH);
+    //wchar_t binaryPath[MAX_PATH];
+    //GetModuleFileNameW(nullptr, binaryPath, MAX_PATH);
 
-    std::filesystem::path exePath = binaryPath;
-    buildTool = exePath.parent_path() / "FaroBuildTool.exe";
+    //std::filesystem::path exePath = binaryPath;
+    //buildTool = exePath.parent_path() / "FaroBuildTool.exe";
 }
 
 void Console::ExecuteCommand(std::wstring command, std::wstring platform, std::wstring config, std::wstring project)
@@ -71,9 +71,9 @@ void Console::Clear()
 {
     consoleLock.lock();
 
-    BEHAVIOR_EVENT_PARAMS params = { 0 };
+    /*BEHAVIOR_EVENT_PARAMS params = { 0 };
     params.name = WSTR("consoleClear");
-    AppWindow::broadcast_event(params);
+    AppWindow::broadcast_event(params);*/
 
     consoleLock.unlock();
 }
@@ -82,10 +82,10 @@ void Console::Append(std::wstring string)
 {
     consoleLock.lock();
 
-    BEHAVIOR_EVENT_PARAMS params = { 0 };
+    /*BEHAVIOR_EVENT_PARAMS params = { 0 };
     params.name = WSTR("consoleAppend");
     params.data = string;
-    AppWindow::broadcast_event(params);
+    AppWindow::broadcast_event(params);*/
 
     consoleLock.unlock();
 }
@@ -95,10 +95,10 @@ void Console::AppendLine(std::wstring string)
     Append(string + L"\n");
 }
 
-void Console::LockConsole(bool lock)
+void Console::LockConsole(bool)
 {
-    BEHAVIOR_EVENT_PARAMS params = { 0 };
+    /*BEHAVIOR_EVENT_PARAMS params = { 0 };
     params.name = WSTR("lockConsole");
     params.data = lock ? L"true" : L"false";
-    AppWindow::broadcast_event(params);
+    AppWindow::broadcast_event(params);*/
 }

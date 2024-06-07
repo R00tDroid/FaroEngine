@@ -7,12 +7,15 @@
 [submodule "Tools/BuildTool/Dependencies/tinyxml2"]
 	path = Tools/BuildTool/Dependencies/tinyxml2
 	url = https://github.com/leethomason/tinyxml2.git
-[submodule "Tools/BuildToolGUI/Dependencies/sciter"]
-	path = Tools/BuildToolGUI/Dependencies/sciter
-	url = https://gitlab.com/sciter-engine/sciter-js-sdk.git
+[submodule "Tools/BuildToolGUI/Dependencies/Nuklear"]
+	path = Tools/BuildToolGUI/Dependencies/Nuklear
+	url = https://github.com/Immediate-Mode-UI/Nuklear.git
 [submodule "Source/Engine/Graphics/GraphicsD3D12/Thirdparty/DirectX-Headers"]
 	path = Source/Engine/Graphics/GraphicsD3D12/Thirdparty/DirectX-Headers
 	url = https://github.com/microsoft/DirectX-Headers.git
 [submodule "Tools/Shared/googletest"]
 	path = Tools/Shared/googletest
 	url = https://github.com/google/googletest.git
+[submodule "Tools/BuildToolGUI/Dependencies/SDL"]
+	path = Tools/BuildToolGUI/Dependencies/SDL
+	url = https://github.com/libsdl-org/SDL.git

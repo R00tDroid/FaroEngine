@@ -1,37 +1,42 @@
 #include "Resources.generated.hpp"
-#include "sciter-x.h"
 #include "Window.hpp"
 #include "Console.hpp"
-#include <shellapi.h>
 
-int uimain(std::function<int()> run)
+int main(int, char*[])
 {
-    sciter::archive::instance().open(aux::elements_of(resources));
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) 
+    {
+        fprintf(stderr, "SDL failed to initialise: %s\n", SDL_GetError());
+        return 1;
+    }
+
+    int mouseX, mouseY;
+    SDL_GetGlobalMouseState(&mouseX, &mouseY);
 
     int windowSizeX = 430, windowSizeY = 713;
-
-    // Get monitor from cursor position
-    POINT cursorPosition;
-    GetCursorPos(&cursorPosition);
-    HMONITOR userMonitor = MonitorFromPoint(cursorPosition, MONITOR_DEFAULTTONEAREST);
-    MONITORINFO monitorInfo;
-    monitorInfo.cbSize = sizeof(MONITORINFO);
-    GetMonitorInfoA(userMonitor, &monitorInfo);
+    int windowX = 0, windowY = 0;
 
     // Move window to monitor in use by user
-    int monitorCenterX = (monitorInfo.rcMonitor.left + monitorInfo.rcMonitor.right) / 2;
-    int monitorCenterY = (monitorInfo.rcMonitor.top + monitorInfo.rcMonitor.bottom) / 2;
-    int windowX = monitorCenterX - windowSizeX / 2;
-    int windowY = monitorCenterY - windowSizeY / 2;
+    int monitorCount = SDL_GetNumVideoDisplays();
+    for (int i = 0; i < monitorCount; i++)
+    {
+        SDL_Rect monitorRect;
+        if (SDL_GetDisplayBounds(i, &monitorRect) == 0)
+        {
+            if (mouseX >= monitorRect.x && mouseX <= monitorRect.x + monitorRect.w &&
+                mouseY >= monitorRect.y && mouseY <= monitorRect.y + monitorRect.h)
+            {
+                windowX = monitorRect.x + monitorRect.w / 2 - windowSizeX / 2;
+                windowY = monitorRect.y + monitorRect.h / 2 - windowSizeY / 2;
+                break;
+            }
+        }
+    }
 
-    sciter::om::hasset<AppWindow> window = new AppWindow({ windowX, windowY, windowX + windowSizeX, windowY + windowSizeY });
-
-    // Setup GUI
-    window->load(WSTR("this://app/index.html"));
-    window->expand();
+    AppWindow* window = new AppWindow({ windowX, windowY, windowSizeX, windowSizeY });
 
     // Parse commandline arguments
-    std::wstring commandLine = GetCommandLineW();
+    /*std::wstring commandLine = GetCommandLineW();
     int argc = 0;
     LPWSTR* argv = CommandLineToArgvW(commandLine.c_str(), &argc);
     if (argc > 1)
@@ -41,9 +46,25 @@ int uimain(std::function<int()> run)
         projectPath = std::filesystem::weakly_canonical(projectPath);
 
         window->SetProjectPath(projectPath.wstring());
-    }
+    }*/
 
     Console::Init();
 
-    return run();
+    while (true)
+    {
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+                case SDL_QUIT:
+                {
+                    delete window;
+                    return 0;
+                }
+            }
+        }
+
+        window->Render();
+    }
 }
