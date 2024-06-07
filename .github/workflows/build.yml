@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Checkout repository and submodules
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
@@ -22,7 +22,7 @@ jobs:
       run: cmake --build . --config Release
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ToolchainWindows
         if-no-files-found: error
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository and submodules
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
@@ -46,7 +46,7 @@ jobs:
       run: cmake --build . --config Release
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ToolchainLinux
         if-no-files-found: error
@@ -60,7 +60,7 @@ jobs:
     needs: [ToolchainWindows, ToolchainLinux]
     steps:
     - name: Checkout repository and submodules
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
@@ -80,7 +80,7 @@ jobs:
       run: OpenCppCoverage.exe --config_file Tools\CoverageConfig.txt --working_dir .\ --verbose --export_type=cobertura:Documentation/html/Coverage/Coverage.xml --export_type=html:Documentation/html/Coverage --optimized_build Bin\FaroBuildTool_Test.exe
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: ToolchainCoverage
         if-no-files-found: error
@@ -88,7 +88,7 @@ jobs:
           ./Documentation/**/*
 
     - name: Report to Codecov
-      uses: codecov/codecov-action@v3
+      uses: codecov/codecov-action@v4
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       with:
@@ -101,7 +101,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository and submodules
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
@@ -109,13 +109,13 @@ jobs:
       run: cmake ./Docs
 
     - name: Build
-      uses: mattnotmitt/doxygen-action@v1.9.4
+      uses: mattnotmitt/doxygen-action@v1.9.8
       with:
         doxyfile-path: 'Doxygen'
         working-directory: 'Docs'
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: Documentation
         if-no-files-found: error
@@ -128,24 +128,24 @@ jobs:
     needs: [ToolchainWindows, ToolchainLinux, Documentation]
     steps:
     - name: Checkout engine
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
     - name: DownloadToolchainWindows
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: ToolchainWindows
         path: ./Bin
 
     - name: DownloadToolchainLinux
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: ToolchainLinux
         path: ./Bin
 
     - name: DownloadDocumentation
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         name: Documentation
         path: ./Documentation
@@ -157,7 +157,7 @@ jobs:
       run: cmake ./Tools
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: FaroEngine
         if-no-files-found: error
@@ -169,12 +169,16 @@ jobs:
           Documentation/**/*
 
   BuildEngine:
+    strategy:
+      matrix:
+        platform: [WindowsX64]
+        config: [release, development, debug]
     runs-on: windows-latest
     timeout-minutes: 30
     needs: PackageEngine
     steps:
-    - name: actions/download-artifact@v3
-      uses: actions/download-artifact@v3
+    - name: actions/download-artifact@v4
+      uses: actions/download-artifact@v4
       with:
         name: FaroEngine
 
@@ -182,21 +186,21 @@ jobs:
       run: Bin/FaroBuildTool.exe -generate -project Source/FaroEngine.faroproject.json
 
     - name: Build
-      run: Bin/FaroBuildTool.exe -build -platform WindowsX64 -release -project Source/FaroEngine.faroproject.json
+      run: Bin/FaroBuildTool.exe -build -platform ${{ matrix.platform }} -${{ matrix.config }} -project Source/FaroEngine.faroproject.json
 
   PublishDocumentation:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
     needs: Documentation
     steps:
-    - name: actions/download-artifact@master
-      uses: actions/download-artifact@master
+    - name: actions/download-artifact@v4
+      uses: actions/download-artifact@v4
       with:
         name: Documentation
         path: Documentation
 
     - name: Deploy
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./Documentation/html
