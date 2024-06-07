@@ -156,7 +156,16 @@ ModuleManifest* ModuleManifest::LoadFromCache(std::filesystem::path path, Projec
     manifest->platformFilter = platformFilterStream.str();
     platformFilterList.close();
 
-    //TODO Load mounts
+    std::ifstream mountList(manifest->infoDirectory / "Mounts.txt");
+    while (true)
+    {
+        std::string location, mountPoint;
+        if (!std::getline(mountList, location)) break;
+        if (!std::getline(mountList, mountPoint)) break;
+
+        manifest->folderMounts.push_back({location, mountPoint});
+    }
+    mountList.close();
 
     return manifest;
 }
