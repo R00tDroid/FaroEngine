@@ -16,7 +16,6 @@ file(GLOB_RECURSE SourceFiles
 add_executable(
     ${PROJECT_NAME}
     ${SourceFiles}
-    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/tinyxml2/tinyxml2.cpp
 )
 
 if(MSVC)
@@ -36,12 +35,6 @@ include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/MSVCInfo
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/EmscriptenInfo
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command
-)
-
-target_include_directories(${PROJECT_NAME} PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/picojson
-    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/glob/single_include
-    ${CMAKE_CURRENT_LIST_DIR}/Dependencies/tinyxml2
 )
 
 target_link_libraries(${PROJECT_NAME} gtest Builder ShaderTranspiler)
