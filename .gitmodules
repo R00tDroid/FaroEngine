@@ -1,13 +1,13 @@
-[submodule "Tools/BuildTool/Dependencies/picojson"]
+[submodule "Tools/Builder/Dependencies/picojson"]
 	path = Tools/Builder/Dependencies/picojson
 	url = https://github.com/kazuho/picojson.git
-[submodule "Tools/BuildTool/Dependencies/glob"]
+[submodule "Tools/Builder/Dependencies/glob"]
 	path = Tools/Builder/Dependencies/glob
 	url = https://github.com/p-ranav/glob.git
-[submodule "Tools/BuildTool/Dependencies/tinyxml2"]
+[submodule "Tools/Builder/Dependencies/tinyxml2"]
 	path = Tools/Builder/Dependencies/tinyxml2
 	url = https://github.com/leethomason/tinyxml2.git
-[submodule "Tools/BuildToolGUI/Dependencies/sciter"]
+[submodule "Tools/FaroGUI/Dependencies/sciter"]
 	path = Tools/FaroGUI/Dependencies/sciter
 	url = https://gitlab.com/sciter-engine/sciter-js-sdk.git
 [submodule "Source/Engine/Graphics/GraphicsD3D12/Thirdparty/DirectX-Headers"]
