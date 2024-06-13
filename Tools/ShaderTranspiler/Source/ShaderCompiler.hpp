@@ -1,6 +1,7 @@
 #pragma once
 #include <Utility.hpp>
 #include <ShaderDefinition.hpp>
+#include "ShaderTranspilerDll.h"
 
 #ifdef _WIN32
 #include <Windows.h>
@@ -8,7 +9,7 @@
 #pragma comment(lib, "dxcompiler.lib")
 #endif
 
-class ShaderCompiler
+class ShaderTranspilerExport ShaderCompiler
 #ifdef _WIN32
     : public IDxcIncludeHandler
 #endif
@@ -47,8 +48,8 @@ private:
 #endif
 
     // List of directories to use for include searching
-    std::vector<std::filesystem::path> searchDirectories;
+    //std::vector<std::filesystem::path> searchDirectories;
 
     // searchDirectories + parent folder of currently compiled shader file
-    std::vector<std::filesystem::path> includeDirectories;
+    //std::vector<std::filesystem::path> includeDirectories;
 };

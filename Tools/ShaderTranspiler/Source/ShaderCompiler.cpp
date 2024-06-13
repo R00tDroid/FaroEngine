@@ -27,11 +27,11 @@ HRESULT ShaderCompiler::QueryInterface(const IID& riid, void** ppvObject)
     return defaultHandler->QueryInterface(riid, ppvObject);
 }
 
-HRESULT ShaderCompiler::LoadSource(LPCWSTR pFilename, IDxcBlob** ppIncludeSource)
+HRESULT ShaderCompiler::LoadSource(LPCWSTR pFilename, IDxcBlob**)// ppIncludeSource)
 {
     std::string fileName = Utility::Convert(std::wstring(pFilename));
 
-    for(std::filesystem::path& directory : includeDirectories)
+    /*for(std::filesystem::path& directory : includeDirectories)
     {
         std::filesystem::path filePath = directory / fileName;
         if (std::filesystem::exists(filePath))
@@ -41,7 +41,7 @@ HRESULT ShaderCompiler::LoadSource(LPCWSTR pFilename, IDxcBlob** ppIncludeSource
 
             return S_OK;
         }
-    }
+    }*/
 
     return S_FALSE;
 }
@@ -61,9 +61,9 @@ IDxcBlobEncoding* ShaderCompiler::LoadFileToBlob(std::filesystem::path& filePath
 }
 #endif
 
-void ShaderCompiler::SetSearchDirectory(std::vector<std::filesystem::path>& directories)
+void ShaderCompiler::SetSearchDirectory(std::vector<std::filesystem::path>&) //directories)
 {
-    searchDirectories = directories;
+    //searchDirectories = directories;
 }
 
 bool ShaderCompiler::CompileShader(std::filesystem::path& file, ShaderStage& output, CompilerFlavor compilerFlavor, ShaderType shaderType, bool debug)
@@ -109,8 +109,8 @@ bool ShaderCompiler::CompileShader(std::filesystem::path& file, ShaderStage& out
     IDxcCompilerArgs* dxArgs = nullptr;
     dxcUtils->BuildArguments(Utility::Convert(file.string()).c_str(), entrypoint.c_str(), profile.c_str(), const_cast<LPCWSTR*>(additionalArguments.data()), static_cast<UINT32>(additionalArguments.size()), nullptr, 0, &dxArgs);
 
-    includeDirectories = searchDirectories;
-    includeDirectories.push_back(file.parent_path());
+    //includeDirectories = searchDirectories;
+    //includeDirectories.push_back(file.parent_path());
 
     IDxcBlobEncoding* sourceBlob = LoadFileToBlob(file);
     DxcBuffer sourceBuffer;

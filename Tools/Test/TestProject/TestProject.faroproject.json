@@ -1,0 +1,10 @@
+{
+    "Name": "Test Project",
+    "EngineVersion": "1.2.3",
+    "Modules": 
+    [
+        "Modules/ModuleA",
+        "Modules/ModuleB",
+        "Modules/ModuleC"
+    ]
+}
