@@ -3,18 +3,10 @@
 #include <set>
 #include <string>
 #include <vector>
+#include "BuildConfig.hpp"
 
 class ModuleManifest;
 class ProjectManifest;
-
-enum BuildType
-{
-    Debug,
-    Development,
-    Release,
-
-    ENUMSIZE
-};
 
 inline const char* BuildTypeNames[] =
 {

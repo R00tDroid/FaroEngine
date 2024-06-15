@@ -24,7 +24,7 @@ struct TaskRunInfo
 };
 
 // Interface for a task. Tasks define a specific action that will be performed (generate solution, build project, clean project, etc).
-class BuilderExport ITask
+class ITask
 {
 public:
     virtual ~ITask() = default;
