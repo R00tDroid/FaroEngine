@@ -28,4 +28,4 @@ struct BuilderExport BuilderConfiguration
     unsigned int modulesCount = 0;
 };
 
-extern bool performBuildStages(BuilderConfiguration* configuration);
+extern bool BuilderExport performBuildStages(BuilderConfiguration* configuration);
