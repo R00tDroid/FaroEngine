@@ -1,12 +1,6 @@
 #include "TaskBuild.hpp"
 #include <Utility.hpp>
 
-TaskBuild::TaskBuild(std::string platform, BuildType configuration)
-{
-    buildPlatform = platform;
-    buildType = configuration;
-}
-
 int TaskBuild::GetPriority() const
 {
     return 3;
@@ -27,9 +21,9 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
     targetToolchain = nullptr;
     targetPlatform = nullptr;
 
-    if (!FindToolchain() || targetToolchain == nullptr || targetPlatform == nullptr) 
+    if (!FindToolchain(runInfo.buildPlatform) || targetToolchain == nullptr || targetPlatform == nullptr) 
     {
-        Utility::PrintLine("Unable to find suitable toolchain for platform: " + buildPlatform);
+        Utility::PrintLine("Unable to find suitable toolchain for platform: " + runInfo.buildPlatform);
         return false;
     }
 
@@ -73,12 +67,12 @@ bool TaskBuild::Run(TaskRunInfo& runInfo)
 
         moduleInfo.module->fileDates.SetBuildType(runInfo.buildType);
 
-        if (!CheckModule(moduleInfo)) return false;
+        if (!CheckModule(runInfo.buildType, moduleInfo)) return false;
     }
     return true;
 }
 
-bool TaskBuild::FindToolchain()
+bool TaskBuild::FindToolchain(const std::string& buildPlatform)
 {
     PerformanceTimer toolchainTimer;
     std::vector<IToolchain*> toolchains = IToolchain::GetToolchains();
@@ -107,7 +101,7 @@ bool TaskBuild::FindToolchain()
     return false;
 }
 
-bool TaskBuild::CheckModule(ModuleOrderInfo& moduleInfo)
+bool TaskBuild::CheckModule(BuildType buildType, ModuleOrderInfo& moduleInfo)
 {
     ModuleManifest* module = moduleInfo.module;
 
@@ -184,7 +178,7 @@ bool TaskBuild::CheckModule(ModuleOrderInfo& moduleInfo)
         fileTree.Parse();
 
         Utility::PrintLine("Performing build...");
-        if (!BuildModule(module))
+        if (!BuildModule(buildType, module))
         {
             return false;
         }
@@ -197,7 +191,7 @@ bool TaskBuild::CheckModule(ModuleOrderInfo& moduleInfo)
     return true;
 }
 
-bool TaskBuild::BuildModule(ModuleManifest* module)
+bool TaskBuild::BuildModule(BuildType buildType, ModuleManifest* module)
 {
     FileTimeDatabase& timeDatabase = module->fileDates;
     FileTree& includeTree = module->fileTree;
@@ -213,7 +207,7 @@ bool TaskBuild::BuildModule(ModuleManifest* module)
     }
 
     std::vector<std::filesystem::path> sourceFiles;
-    std::vector<std::filesystem::path> filesToCompile = FindFilesToCompile(module, sourceFiles);
+    std::vector<std::filesystem::path> filesToCompile = FindFilesToCompile(buildType, module, sourceFiles);
 
     timeDatabase.ClearDatabase();
     for (std::filesystem::path& file : source)
@@ -242,10 +236,10 @@ bool TaskBuild::BuildModule(ModuleManifest* module)
 
     if (!filesToCompile.empty())
     {
-        if (!CompileModule(module, filesToCompile)) return false;
+        if (!CompileModule(buildType, module, filesToCompile)) return false;
     }
 
-    if (!LinkModule(module, sourceFiles)) return false;
+    if (!LinkModule(buildType, module, sourceFiles)) return false;
 
     module->fileDates.SaveDatabase();
 
@@ -255,7 +249,7 @@ bool TaskBuild::BuildModule(ModuleManifest* module)
     return true;
 }
 
-bool TaskBuild::CompileModule(ModuleManifest* module, std::vector<std::filesystem::path>& filesToCompile)
+bool TaskBuild::CompileModule(BuildType buildType, ModuleManifest* module, std::vector<std::filesystem::path>& filesToCompile)
 {
     PerformanceTimer buildTimer;
 
@@ -289,7 +283,7 @@ bool TaskBuild::CompileModule(ModuleManifest* module, std::vector<std::filesyste
     return true;
 }
 
-bool TaskBuild::LinkModule(ModuleManifest* module, std::vector<std::filesystem::path>& sourceFiles)
+bool TaskBuild::LinkModule(BuildType buildType, ModuleManifest* module, std::vector<std::filesystem::path>& sourceFiles)
 {
     PerformanceTimer linkTimer;
     switch (module->type)
@@ -321,7 +315,7 @@ bool TaskBuild::LinkModule(ModuleManifest* module, std::vector<std::filesystem::
     return true;
 }
 
-std::vector<std::filesystem::path> TaskBuild::FindFilesToCompile(ModuleManifest* module, std::vector<std::filesystem::path>& outSourceFiles)
+std::vector<std::filesystem::path> TaskBuild::FindFilesToCompile(BuildType buildType, ModuleManifest* module, std::vector<std::filesystem::path>& outSourceFiles)
 {
     FileTimeDatabase& timeDatabase = module->fileDates;
     FileTree& includeTree = module->fileTree;
