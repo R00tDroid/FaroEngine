@@ -22,16 +22,13 @@ else()
     )
 endif()
 
-include_directories(
+target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/Source
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Utils
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/WindowsKitInfo
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/MSVCInfo
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/EmscriptenInfo
     ${CMAKE_CURRENT_LIST_DIR}/../Shared/Command
-)
-
-target_include_directories(${PROJECT_NAME} PUBLIC
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/picojson
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/glob/single_include
     ${CMAKE_CURRENT_LIST_DIR}/Dependencies/tinyxml2
