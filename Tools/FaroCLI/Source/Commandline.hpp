@@ -1,8 +1,6 @@
 #pragma once
 #include <Parameters.hpp>
-#include <Tasks/ITask.hpp>
-
-class ITask;
+#include "BuildConfig.hpp"
 
 extern void PrintHelp();
-extern bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunInfo& runInfo);
+extern bool ParseParameters(ParameterList& parameters, BuilderConfiguration& config);

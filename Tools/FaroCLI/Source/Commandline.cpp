@@ -1,3 +1,4 @@
+
 #include "Commandline.hpp"
 #include "Tasks/TaskBuild.hpp"
 #include "Tasks/TaskGenerate.hpp"
@@ -27,7 +28,7 @@ void PrintHelp()
     Utility::Print("-project <path>    The project to generate solution files for\n");
 }
 
-bool ParseProject(ParameterList& parameters, TaskRunInfo& runInfo)
+bool ParseProject(ParameterList& parameters, BuilderConfiguration& config)
 {
     if (parameters.Contains("project"))
     {
@@ -35,8 +36,9 @@ bool ParseProject(ParameterList& parameters, TaskRunInfo& runInfo)
         {
             try
             {
-                runInfo.projectManifestPath = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
-                runInfo.projectManifestPath.make_preferred();
+                std::filesystem::path path = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
+                path.make_preferred();
+                config.projectManifestPath = Utility::CopyString(path.string());
             }
             catch (std::exception const& e)
             {
@@ -44,7 +46,7 @@ bool ParseProject(ParameterList& parameters, TaskRunInfo& runInfo)
                 return false;
             }
 
-            Utility::PrintLineD("Project argument: " + runInfo.projectManifestPath.string());
+            Utility::PrintLineD("Project argument: " + std::string(config.projectManifestPath));
         }
         else
         {
@@ -56,14 +58,14 @@ bool ParseProject(ParameterList& parameters, TaskRunInfo& runInfo)
     return true;
 }
 
-bool ParsePlatform(ParameterList& parameters, TaskRunInfo& runInfo)
+bool ParsePlatform(ParameterList& parameters, BuilderConfiguration& config)
 {
     if (parameters.Contains("platform"))
     {
         if (parameters.CountArguments("platform") == 1)
         {
-            runInfo.buildPlatform = parameters.GetArguments("platform")[0];
-            Utility::PrintLineD("Platform argument: " + runInfo.buildPlatform);
+            config.build.buildPlatform = Utility::CopyString(parameters.GetArguments("platform")[0]);
+            Utility::PrintLineD("Platform argument: " + std::string(config.build.buildPlatform));
         }
         else
         {
@@ -75,92 +77,99 @@ bool ParsePlatform(ParameterList& parameters, TaskRunInfo& runInfo)
     return true;
 }
 
-bool ParseBuildType(ParameterList& parameters, TaskRunInfo& runInfo)
+bool ParseBuildType(ParameterList& parameters, BuilderConfiguration& config)
 {
     if (parameters.Contains("debug"))
     {
-        runInfo.buildType = BuildType::Debug;
+        config.build.buildType = BuildType::Debug;
         Utility::PrintLineD("Build type argument: debug");
     }
     if (parameters.Contains("development"))
     {
-        runInfo.buildType = BuildType::Development;
+        config.build.buildType = BuildType::Development;
         Utility::PrintLineD("Build type argument: development");
     }
     if (parameters.Contains("release"))
     {
-        runInfo.buildType = BuildType::Release;
+        config.build.buildType = BuildType::Release;
         Utility::PrintLineD("Build type argument: release");
     }
 
     return true;
 }
 
-bool ParseModule(ParameterList& parameters, TaskRunInfo& runInfo)
+bool ParseModule(ParameterList& parameters, BuilderConfiguration& config)
 {
     if (parameters.HasArguments("module"))
     {
-        for (int i = 0; i < parameters.CountArguments("module"); i++)
+        config.modulesCount = parameters.CountArguments("module");
+
+        if (config.modulesCount > 0) 
         {
-            runInfo.moduleList.push_back(parameters.GetArguments("module")[i]);
+            config.modules = new const char* [config.modulesCount];
+
+            for (unsigned int i = 0; i < config.modulesCount; i++)
+            {
+                config.modules[i] = Utility::CopyString(parameters.GetArguments("module")[i]);
+            }
         }
 
-        Utility::PrintLineD("Module argument: " + std::to_string(runInfo.moduleList.size()));
+        Utility::PrintLineD("Module argument: " + std::to_string(config.modulesCount));
     }
 
     return true;
 }
 
-bool ParseTasks(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
+bool ParseTasks(ParameterList& parameters, BuilderConfiguration& config)
 {
     if (parameters.Contains("generate"))
     {
         Utility::PrintLineD("Generate argument");
 
-        if (runInfo.projectManifestPath.empty())
+        if (config.projectManifestPath == nullptr)
         {
             Utility::PrintLine("'-generate' requires a project to be specified");
             return false;
         }
 
-        tasks.push_back(new TaskGenerate());
+        config.runGeneration = true;
     }
 
     if (parameters.Contains("build"))
     {
         Utility::PrintLineD("Build argument");
 
-        if (runInfo.projectManifestPath.empty())
+        if (config.projectManifestPath == nullptr)
         {
             Utility::PrintLine("'-build' requires a project to be specified");
             return false;
         }
 
-        if (runInfo.buildPlatform.length() == 0)
+        if (config.build.buildPlatform == nullptr)
         {
             Utility::PrintLine("'-build' requires a platform to be specified");
             return false;
         }
 
-        if (runInfo.buildType == BuildType::ENUMSIZE)
+        if (config.build.buildType == BuildType::ENUMSIZE)
         {
             Utility::PrintLine("'-build' requires a build configuration to be specified");
             return false;
         }
 
-        tasks.push_back(new TaskBuild(runInfo.buildPlatform, runInfo.buildType));
+        config.runBuild = true;
     }
 
     return true;
 }
 
-bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
+bool ParseParameters(ParameterList& parameters, BuilderConfiguration& config)
 {
-    if (!ParseProject(parameters, runInfo)) return false;
-    if (!ParsePlatform(parameters, runInfo)) return false;
-    if (!ParseBuildType(parameters, runInfo)) return false;
-    if (!ParseModule(parameters, runInfo)) return false;
-    if (!ParseTasks(parameters, tasks, runInfo)) return false;
+    if (!ParseProject(parameters, config)) return false;
+    if (!ParsePlatform(parameters, config)) return false;
+    if (!ParseBuildType(parameters, config)) return false;
+    if (!ParseModule(parameters, config)) return false;
+    if (!ParseTasks(parameters, config)) return false;
 
     return true;
 }
