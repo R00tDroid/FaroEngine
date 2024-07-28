@@ -35,6 +35,8 @@ namespace Utility
     bool MatchWildcard(const std::string& source, const std::string& pattern);
 
     bool ReadEnvVariable(std::string variableName, std::string& value);
+
+    const char* CopyString(std::string string);
 }
 
 class PerformanceTimer

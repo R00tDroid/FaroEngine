@@ -4,7 +4,6 @@
 #include <ShaderDefinition.hpp>
 #include "ShaderCompiler.hpp"
 #include "ShaderPacker.hpp"
-#include "Version.generated.hpp"
 
 #ifdef _WIN32
 #include <dxcapi.h>
@@ -13,7 +12,7 @@
 
 void PrintHelp()
 {
-    Utility::PrintLine("Faro Engine shader transpiler " + std::string(EngineVersion));
+    Utility::PrintLine("Faro Engine shader transpiler");
     Utility::Print("-shader <shader paths> Path to one or more shader file to compile\n");
     Utility::Print("-include <directory paths> Path to one or more directories for include scanning\n");
 }
@@ -127,7 +126,7 @@ bool CompileShaders()
     return true;
 }
 
-int main(int argc, char** argv)
+int main_function(int argc, char** argv) //TODO Remove main
 {
     ParameterList parameters(argc, const_cast<const char**>(argv));
 

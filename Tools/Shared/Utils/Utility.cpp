@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Utility.hpp"
 
 #include <iostream>
@@ -199,6 +200,13 @@ bool Utility::ReadEnvVariable(std::string variableName, std::string& value)
     }
 
     return true;
+}
+
+const char* Utility::CopyString(std::string string)
+{
+    char* newString = new char[string.length() + 1];
+    std::strcpy(newString, string.c_str());
+    return newString;
 }
 
 void PerformanceTimer::StartGlobalTimer()
