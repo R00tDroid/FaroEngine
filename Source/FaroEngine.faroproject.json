@@ -7,6 +7,7 @@
         "Engine/Platform/PlatformBase",
         "Engine/Platform/PlatformWindows",
         "Engine/Platform/PlatformWeb",
+        "Engine/Platform/PlatformAndroid",
         "Engine/Graphics/GraphicsBase",
         "Engine/Graphics/GraphicsD3D12",
         "Engine/Resources",
