@@ -1,12 +1,14 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include "ToolchainAndroid.hpp"
 #include <Utility.hpp>
-#include <EmscriptenInfo.hpp>
-
 
 std::vector<BuildPlatform*> ToolchainAndroid::GetPlatforms()
 {
-    return {};
+    if (platforms.empty())
+    {
+        platforms.push_back(new AndroidBuildPlatform{ "Android", { "FARO_OS_ANDROID", "FARO_ARCH_ARM" }, {} });
+    }
+
+    return platforms;
 }
 
 bool ToolchainAndroid::PrepareModuleForBuild(ModuleManifest&, BuildPlatform*, BuildType)

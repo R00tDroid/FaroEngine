@@ -28,6 +28,7 @@ public:
     std::vector<std::filesystem::path> GetToolchainIncludes(BuildPlatform* platform, BuildType configuration) override;
 
 private:
+    std::vector<BuildPlatform*> platforms;
 };
 
 inline ToolchainAndroid ToolchainAndroid::Instance;
