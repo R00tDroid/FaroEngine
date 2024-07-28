@@ -2,7 +2,6 @@
 #include "Parameters.hpp"
 #include "Utility.hpp"
 #include "Tasks/ITask.hpp"
-#include "Commandline.hpp"
 
 bool RunTasks(std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
 {

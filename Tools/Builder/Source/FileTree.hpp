@@ -5,7 +5,7 @@
 
 class ModuleManifest;
 
-class FileTree
+class BuilderExport FileTree
 {
 public:
     FileTree(ModuleManifest*);
