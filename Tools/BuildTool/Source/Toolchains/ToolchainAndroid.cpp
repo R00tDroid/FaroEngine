@@ -18,11 +18,14 @@ bool ToolchainAndroid::PrepareModuleForBuild(ModuleManifest&, BuildPlatform*, Bu
     return true;
 }
 
+std::string getClangFlags()
+{
+    return " -std=c++11";
+}
+
 bool ToolchainAndroid::BuildSource(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::filesystem::path sourceFile, std::vector<std::filesystem::path> includePaths, std::vector<std::string> preprocessorDefines)
 {
     std::string includes = "";
-
-    includes += " -I\"" + ndkToolchain.string() +  "\\include\\c++\\4.9.x\"";
 
     for (std::filesystem::path& include : includePaths)
     {
@@ -35,7 +38,7 @@ bool ToolchainAndroid::BuildSource(ModuleManifest& manifest, BuildPlatform* targ
         defines += " -D" + define;
     }
 
-    std::string compilerFlags = "";
+    std::string compilerFlags = getClangFlags();
 
     switch (configuration)
     {
@@ -76,14 +79,84 @@ bool ToolchainAndroid::BuildSource(ModuleManifest& manifest, BuildPlatform* targ
     return result == 0;
 }
 
-bool ToolchainAndroid::LinkLibrary(ModuleManifest&, BuildPlatform*, BuildType, std::vector<std::filesystem::path>)
+bool ToolchainAndroid::LinkLibrary(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles)
 {
-    return false;
+    std::string objs = "";
+    for (std::filesystem::path& sourceFile : sourceFiles)
+    {
+        objs += " \"" + GetObjPath(manifest, target, configuration, sourceFile).string() + "\"";
+    }
+
+    std::filesystem::path archiver = ndkBin / "llvm-ar.exe";
+
+    std::filesystem::path libPath = GetLibPath(manifest, target, configuration);
+    Utility::EnsureDirectory(libPath.parent_path());
+    Utility::PrintLineD(libPath.string());
+
+    std::string log = "";
+    int result = ExecuteCommand(archiver.string() + " crsD \"" + libPath.string() + "\" " + objs, log);
+
+    // Format, trim and print output message
+    if (!log.empty())
+    {
+        log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
+
+        if (!log.empty())
+        {
+            Utility::PrintLine(log);
+        }
+    }
+
+    return result == 0;
 }
 
-bool ToolchainAndroid::LinkExecutable(ModuleManifest&, BuildPlatform*, BuildType, std::vector<std::filesystem::path>)
+bool ToolchainAndroid::LinkExecutable(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::vector<std::filesystem::path> sourceFiles)
 {
-    return false;
+    std::string objs = "";
+    for (std::filesystem::path& sourceFile : sourceFiles)
+    {
+        objs += " \"" + GetObjPath(manifest, target, configuration, sourceFile).string() + "\"";
+    }
+
+    std::string libs = "";
+    std::string moduleLibs = "";
+
+    // Get dependency libraries
+    for (ModuleManifest* module : GetAllModuleDependencies(manifest))
+    {
+        if (!module->IsCompatible(target)) continue;
+
+        std::filesystem::path lib = GetLibPath(*module, target, configuration);
+        Utility::PrintLineD("\t" + lib.string());
+        moduleLibs += " -Wl \"" + lib.string() + "\"";
+
+        for (std::string& linkerLibrary : module->linkingLibraries)
+        {
+            libs += " \"" + linkerLibrary + "\"";
+        }
+    }
+
+    std::filesystem::path clang = ndkBin / "armv7a-linux-androideabi26-clang++"; //TODO Find variant
+
+    std::filesystem::path libPath = GetExePath(manifest, target, configuration);
+    Utility::EnsureDirectory(libPath.parent_path());
+    Utility::PrintLineD(libPath.string());
+
+    std::string log = "";
+    int result = ExecuteCommand(clang.string() + " " + objs + " " + moduleLibs + " " + libs + " -o \"" + libPath.string() + "\"", log);
+
+    // Format, trim and print output message
+    if (!log.empty())
+    {
+        log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
+
+        if (!log.empty())
+        {
+            Utility::PrintLine(log);
+        }
+    }
+
+    return result == 0;
 }
 
 std::string ToolchainAndroid::GetObjExtension()
