@@ -29,6 +29,11 @@ public:
 
 private:
     std::vector<BuildPlatform*> platforms;
+    std::filesystem::path sdkRoot = "D:\\Content\\AndroidSDK"; //TODO Find NDK dynamically
+    std::string ndkVersion = "25.2.9519653"; //TODO Find NDK version dynamically
+
+    std::filesystem::path ndkToolchain;
+    std::filesystem::path ndkBin;
 };
 
 inline ToolchainAndroid ToolchainAndroid::Instance;

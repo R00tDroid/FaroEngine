@@ -13,12 +13,67 @@ std::vector<BuildPlatform*> ToolchainAndroid::GetPlatforms()
 
 bool ToolchainAndroid::PrepareModuleForBuild(ModuleManifest&, BuildPlatform*, BuildType)
 {
-    return false;
+    ndkToolchain = sdkRoot / "ndk" / ndkVersion / "toolchains" / "llvm" / "prebuilt" / "windows-x86_64";
+    ndkBin = ndkToolchain / "bin";
+    return true;
 }
 
-bool ToolchainAndroid::BuildSource(ModuleManifest&, BuildPlatform*, BuildType, std::filesystem::path, std::vector<std::filesystem::path>, std::vector<std::string>)
+bool ToolchainAndroid::BuildSource(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration, std::filesystem::path sourceFile, std::vector<std::filesystem::path> includePaths, std::vector<std::string> preprocessorDefines)
 {
-    return false;
+    std::string includes = "";
+
+    includes += " -I\"" + ndkToolchain.string() +  "\\include\\c++\\4.9.x\"";
+
+    for (std::filesystem::path& include : includePaths)
+    {
+        includes += " -I\"" + include.string() + "\"";
+    }
+
+    std::string defines;
+    for (std::string& define : preprocessorDefines)
+    {
+        defines += " -D" + define;
+    }
+
+    std::string compilerFlags = "";
+
+    switch (configuration)
+    {
+    case Debug:
+    case Development: { compilerFlags += " -O0 -g"; break; }
+    case Release: { compilerFlags += " -O3"; break; }
+
+    case ENUMSIZE:;
+    default:;
+    }
+
+    std::filesystem::path outputFile = GetObjPath(manifest, target, configuration, sourceFile);
+    Utility::EnsureDirectory(outputFile.parent_path());
+
+    std::filesystem::path clang = ndkBin / "armv7a-linux-androideabi26-clang++"; //TODO Find clang variant dynamically
+
+    std::string log = "";
+    int result = ExecuteCommand(clang.string() + " -c " + sourceFile.string() + compilerFlags + includes + defines + " -o " + outputFile.string(), log);
+
+    // Format, trim and print output message
+    if (!log.empty())
+    {
+        log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
+
+        std::string header = sourceFile.filename().string() + "\n";
+        if (log.substr(0, header.size()) == header)
+        {
+            log = log.substr(header.size());
+        }
+
+        if (!log.empty())
+        {
+            //TODO Rewrite file line numbers
+            Utility::PrintLine(log);
+        }
+    }
+
+    return result == 0;
 }
 
 bool ToolchainAndroid::LinkLibrary(ModuleManifest&, BuildPlatform*, BuildType, std::vector<std::filesystem::path>)
