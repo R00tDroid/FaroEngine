@@ -159,10 +159,16 @@ bool ToolchainAndroid::LinkExecutable(ModuleManifest& manifest, BuildPlatform* t
     if (result != 0) return false;
 
     std::filesystem::path androidPath = GetBinDirectory(manifest) / "Android";
-    Utility::EnsureDirectory(androidPath);
 
-    log = "";
-    result = ExecuteCommand("cd /d \"" + androidPath.string() + "\" && gradle init --type java-application  --dsl kotlin --java-version 17 --project-name android --use-defaults", log);
+    //if (!std::filesystem::exists(androidPath)) 
+    {
+        Utility::EnsureDirectory(androidPath);
+        std::filesystem::path templatePath = Utility::GetExecutablePath().parent_path() / "Templates" / "Android";
+        std::filesystem::copy(templatePath, androidPath, std::filesystem::copy_options::recursive);
+    }
+
+    /*log = "";
+    result = ExecuteCommand("cd /d \"" + androidPath.string() + "\" && gradlew build", log);
 
     // Format, trim and print output message
     if (!log.empty())
@@ -173,7 +179,7 @@ bool ToolchainAndroid::LinkExecutable(ModuleManifest& manifest, BuildPlatform* t
         {
             Utility::PrintLine(log);
         }
-    }
+    }*/
 
     return result == 0;
 }

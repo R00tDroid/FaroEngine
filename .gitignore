@@ -20,3 +20,4 @@ _deps
 /Docs/Doxygen
 
 !.github
+!/Bin/Templates/*
