@@ -167,7 +167,7 @@ bool ToolchainAndroid::LinkExecutable(ModuleManifest& manifest, BuildPlatform* t
         std::filesystem::copy(templatePath, androidPath, std::filesystem::copy_options::recursive);
     }
 
-    /*log = "";
+    log = "";
     result = ExecuteCommand("cd /d \"" + androidPath.string() + "\" && gradlew build", log);
 
     // Format, trim and print output message
@@ -179,7 +179,7 @@ bool ToolchainAndroid::LinkExecutable(ModuleManifest& manifest, BuildPlatform* t
         {
             Utility::PrintLine(log);
         }
-    }*/
+    }
 
     return result == 0;
 }
