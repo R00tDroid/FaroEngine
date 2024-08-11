@@ -15,9 +15,9 @@ _deps
 *.sln
 *.g.*
 
-/Bin
-/Tools/Build
-/Docs/Doxygen
+Bin/*
+Tools/Build
+Docs/Doxygen
 
 !.github
-!/Bin/Templates/*
+!Bin/Templates
