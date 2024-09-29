@@ -155,32 +155,7 @@ bool ToolchainAndroid::LinkExecutable(ModuleManifest& manifest, BuildPlatform* t
             Utility::PrintLine(log);
         }
     }
-
-    if (result != 0) return false;
-
-    std::filesystem::path androidPath = GetBinDirectory(manifest) / "Android";
-
-    //if (!std::filesystem::exists(androidPath)) 
-    {
-        Utility::EnsureDirectory(androidPath);
-        std::filesystem::path templatePath = Utility::GetExecutablePath().parent_path() / "Templates" / "Android";
-        std::filesystem::copy(templatePath, androidPath, std::filesystem::copy_options::recursive);
-    }
-
-    log = "";
-    result = ExecuteCommand("cd /d \"" + androidPath.string() + "\" && gradlew build", log);
-
-    // Format, trim and print output message
-    if (!log.empty())
-    {
-        log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
-
-        if (!log.empty())
-        {
-            Utility::PrintLine(log);
-        }
-    }
-
+    
     return result == 0;
 }
 
