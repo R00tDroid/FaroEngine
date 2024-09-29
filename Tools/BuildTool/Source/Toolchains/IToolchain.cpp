@@ -3,6 +3,7 @@
 #include <Manifests/ModuleManifest.hpp>
 #include <Manifests/ProjectManifest.hpp>
 #include "Command.hpp"
+#include "ToolchainAndroid.hpp"
 #include "ToolchainMSVC.hpp"
 #include "ToolchainEmscripten.hpp"
 
@@ -82,7 +83,7 @@ int IToolchain::ExecuteCommand(std::string command)
 
 std::vector<IToolchain*> IToolchain::GetToolchains()
 {
-    return { &ToolchainMSVC::Instance, &ToolchainEmscripten::Instance };
+    return { &ToolchainMSVC::Instance, &ToolchainEmscripten::Instance, &ToolchainAndroid::Instance };
 }
 
 std::filesystem::path IToolchain::GetObjDirectory(ModuleManifest& manifest, BuildPlatform* target, BuildType configuration)
