@@ -26,7 +26,7 @@ endforeach()
 #add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
 
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
-#add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Project")
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Project")
 #add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Generation")
 #add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Shaders")
 #add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Building")
