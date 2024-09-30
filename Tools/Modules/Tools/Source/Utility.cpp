@@ -1,5 +1,6 @@
 #include "Utility.hpp"
 
+#include <map>
 #include <iostream>
 #include <fstream>
 #include <regex>
@@ -201,55 +202,71 @@ bool Utility::ReadEnvVariable(std::string variableName, std::string& value)
     return true;
 }
 
+struct PerformanceTimerStatic
+{
+    std::chrono::high_resolution_clock::time_point appStart;
+    int globalDepth = 0;
+    int timerCount = 0;
+    std::map<int, std::string> timerReports;
+} performanceTimer_static;
+
+struct PerformanceTimer::Impl
+{
+    int depth = 0;
+    int index = 0;
+    std::chrono::high_resolution_clock::time_point timer = {};
+};
+
 void PerformanceTimer::StartGlobalTimer()
 {
-    AppStart = std::chrono::high_resolution_clock::now();
+    performanceTimer_static.appStart = std::chrono::high_resolution_clock::now();
 }
 
 double PerformanceTimer::GetMillisSinceStart()
 {
     std::chrono::high_resolution_clock::time_point Now = std::chrono::high_resolution_clock::now();
-    const long long microseconds = static_cast<long long>(std::chrono::duration_cast<std::chrono::microseconds>(Now - AppStart).count());
+    const long long microseconds = static_cast<long long>(std::chrono::duration_cast<std::chrono::microseconds>(Now - performanceTimer_static.appStart).count());
     return static_cast<double>(microseconds / 1000.0);
 }
 
 PerformanceTimer::PerformanceTimer()
 {
-    timer = std::chrono::high_resolution_clock::now();
+    impl = new Impl();
+    impl->timer = std::chrono::high_resolution_clock::now();
 
-    depth = globalDepth;
-    globalDepth++;
+    impl->depth = performanceTimer_static.globalDepth;
+    performanceTimer_static.globalDepth++;
 
-    index = timerCount;
-    timerCount++;
+    impl->index = performanceTimer_static.timerCount;
+    performanceTimer_static.timerCount++;
 }
 
 PerformanceTimer::~PerformanceTimer()
 {
 }
 
-void PerformanceTimer::Stop(std::string label)
+void PerformanceTimer::Stop(const char* label)
 {
-    globalDepth--;
+    performanceTimer_static.globalDepth--;
 
     std::chrono::high_resolution_clock::time_point Now = std::chrono::high_resolution_clock::now();
-    const long long microseconds = static_cast<long long>(std::chrono::duration_cast<std::chrono::microseconds>(Now - timer).count());
+    const long long microseconds = static_cast<long long>(std::chrono::duration_cast<std::chrono::microseconds>(Now - impl->timer).count());
 
     std::string message = "";
-    for (int i = 0; i < depth; i++)
+    for (int i = 0; i < impl->depth; i++)
     {
         message += " |";
     }
     message += "-*>";
-    message += "[" + label + "] " + std::to_string(microseconds / 1000.0f);
+    message += "[" + std::string(label) + "] " + std::to_string(microseconds / 1000.0f);
 
-    timerReports.insert(std::pair<int, std::string>(index, message));
+    performanceTimer_static.timerReports.insert(std::pair<int, std::string>(impl->index, message));
 }
 
 void PerformanceTimer::PrintTimers()
 {
     Utility::PrintLine("\n--Perf report--");
-    for (const auto& report : timerReports)
+    for (const auto& report : performanceTimer_static.timerReports)
     {
         Utility::PrintLine(report.second);
     }

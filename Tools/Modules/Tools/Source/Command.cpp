@@ -1,6 +1,7 @@
 #include "Command.hpp"
 #include <array>
 #include <thread>
+#include <FaroToolsExports.generated.h>
 
 #ifdef WIN32
 #include <windows.h>
