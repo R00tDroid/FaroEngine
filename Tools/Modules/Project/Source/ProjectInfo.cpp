@@ -1,8 +1,65 @@
-#include "ProjectManifest.hpp"
+#include "ProjectInfo.hpp"
 #include <fstream>
 #include <sstream>
 #include <Utility.hpp>
-#include "ModuleManifest.hpp"
+#include <picojson.h>
+
+struct ProjectManifest::Impl
+{
+    std::string projectName = "";
+    std::vector<std::filesystem::path> modulesPaths;
+    std::string uuid = "";
+};
+
+const char* ProjectManifest::projectManifestExtension()
+{
+    return ".faroproject.json";
+}
+
+ProjectManifest::ProjectManifest(const char* manifestLocation) : IManifest(manifestLocation)
+{
+    impl = new Impl();
+}
+
+ProjectManifest::~ProjectManifest()
+{
+    delete impl;
+}
+
+const char* ProjectManifest::projectName() const
+{
+    return impl->projectName.c_str();
+}
+
+const char* ProjectManifest::uuid() const
+{
+    return impl->uuid.c_str();
+}
+
+unsigned int ProjectManifest::modules() const
+{
+    return impl->modulesPaths.size();
+}
+
+const char* ProjectManifest::modulePath(unsigned int index) const
+{
+    return impl->modulesPaths[index].string().c_str();
+}
+
+bool ProjectManifest::load()
+{
+    return false;
+}
+
+bool ProjectManifest::loadCache()
+{
+    return false;
+}
+
+bool ProjectManifest::loadManifest()
+{
+    return false;
+}
 
 ProjectManifest* ProjectManifest::Parse(std::filesystem::path path)
 {

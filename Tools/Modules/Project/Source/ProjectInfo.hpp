@@ -1,30 +1,25 @@
 #pragma once
 #include "ManifestInterface.hpp"
-#include <picojson.h>
 
-class ProjectManifest : public IManifest
+class FaroProjectsExports ProjectManifest : public IManifest
 {
 public:
-    inline static std::string projectFileSuffix = ".faroproject.json";
+    static const char* projectManifestExtension();
 
-    std::string projectName = "";
-    std::vector<std::filesystem::path> modulesPaths;
-    std::string uuid = "";
-    
-    // Parse the project manifest at the provided location. Returns nullptr if not able to parse the manifest.
-    static ProjectManifest* Parse(std::filesystem::path path);
+    ProjectManifest(const char* manifestLocation);
+    ~ProjectManifest() override;
 
-    // Load cached information about the manifest at the provided location. Returns nullptr if not able to load the cached information.
-    static ProjectManifest* LoadFromCache(std::filesystem::path path);
+    const char* projectName() const;
+    const char* uuid() const;
 
-protected:
-    ProjectManifest(const std::filesystem::path& path);
+    unsigned int modules() const;
+    const char* modulePath(unsigned int index) const;
+
+    bool load();
+    bool loadCache();
+    bool loadManifest();
 
 private:
-    void SaveCachedInfo();
-    void LoadCachedInfo();
-
-    bool ParseProject(picojson::object& rootObject);
-
-    bool ParseModules(picojson::object& rootObject);
+    struct Impl;
+    Impl* impl = nullptr;
 };
