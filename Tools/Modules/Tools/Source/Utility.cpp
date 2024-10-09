@@ -243,6 +243,7 @@ PerformanceTimer::PerformanceTimer()
 
 PerformanceTimer::~PerformanceTimer()
 {
+    delete impl;
 }
 
 void PerformanceTimer::Stop(const char* label)
