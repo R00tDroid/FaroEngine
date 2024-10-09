@@ -1,17 +1,25 @@
 #pragma once
-#include <filesystem>
+#include "FaroProjectsExports.generated.h"
 
-class IManifest
+class FaroProjectsExports IManifest
 {
 public:
-    IManifest(const std::filesystem::path& manifestLocation);
+    IManifest(const char* manifestLocation);
+    virtual ~IManifest();
 
     // Path to the manifest file
-    std::filesystem::path manifestPath = "";
+    const char* manifestPath() const;
+
     // Path to the directory containing the manifest
-    std::filesystem::path manifestDirectory = "";
+    const char* manifestDirectory() const;
+
     // Path to the hidden .Faro directory in which to generate intermediate files
-    std::filesystem::path faroDirectory = "";
+    const char* faroDirectory() const;
+
     // Path to the hidden .Faro/Info directory in which to generate information cache files
-    std::filesystem::path infoDirectory = "";
+    const char* cacheDirectory() const;
+
+private:
+    struct Impl;
+    Impl* impl = nullptr;
 };

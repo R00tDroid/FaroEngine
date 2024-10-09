@@ -1,16 +1,54 @@
 #include "ManifestInterface.hpp"
+#include <filesystem>
 #include <Utility.hpp>
 
-IManifest::IManifest(const std::filesystem::path& manifestLocation):
-    manifestPath(manifestLocation),
-    manifestDirectory(manifestPath.parent_path()),
-    faroDirectory(manifestDirectory / ".Faro"),
-    infoDirectory(faroDirectory / "Info")
+struct IManifest::Impl
 {
-    if (std::filesystem::exists(manifestPath)) 
+    std::filesystem::path manifestPath = "";
+    std::filesystem::path manifestDirectory = "";
+    std::filesystem::path faroDirectory = "";
+    std::filesystem::path cacheDirectory = "";
+};
+
+IManifest::IManifest(const char* manifestLocation)
+{
+    impl = new Impl();
+
+    impl->manifestPath = manifestLocation;
+
+    impl->manifestDirectory = impl->manifestPath.parent_path();
+    impl->faroDirectory = impl->manifestDirectory / ".Faro";
+    impl->cacheDirectory = impl->faroDirectory / "Cache";
+
+    if (std::filesystem::exists(impl->manifestPath))
     {
-        Utility::EnsureDirectory(faroDirectory);
-        Utility::EnsureDirectory(infoDirectory);
-        Utility::HideFolder(faroDirectory);
+        Utility::EnsureDirectory(impl->faroDirectory);
+        Utility::HideFolder(impl->faroDirectory);
+        Utility::EnsureDirectory(impl->cacheDirectory);
     }
+}
+
+IManifest::~IManifest()
+{
+    delete impl;
+}
+
+const char* IManifest::manifestPath() const
+{
+    return impl->manifestPath.string().c_str();
+}
+
+const char* IManifest::manifestDirectory() const
+{
+    return impl->manifestDirectory.string().c_str();
+}
+
+const char* IManifest::faroDirectory() const
+{
+    return impl->faroDirectory.string().c_str();
+}
+
+const char* IManifest::cacheDirectory() const
+{
+    return impl->cacheDirectory.string().c_str();
 }
