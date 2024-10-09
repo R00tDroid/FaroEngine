@@ -1,0 +1,7 @@
+#pragma once
+
+#ifdef @ModuleName@_Impl
+    #define @ModuleName@Exports __declspec(dllexport)
+#else
+    #define @ModuleName@Exports __declspec(dllimport)
+#endif
