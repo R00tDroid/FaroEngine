@@ -38,7 +38,7 @@ const char* ProjectManifest::uuid() const
 
 unsigned int ProjectManifest::modules() const
 {
-    return impl->modulesPaths.size();
+    return (unsigned int)impl->modulesPaths.size();
 }
 
 const char* ProjectManifest::modulePath(unsigned int index) const
@@ -48,122 +48,36 @@ const char* ProjectManifest::modulePath(unsigned int index) const
 
 bool ProjectManifest::load()
 {
-    return false;
+    return loadCache(); //TODO Load from manifest if cache is missing or out-of-date
 }
 
 bool ProjectManifest::loadCache()
 {
-    return false;
-}
+    //TODO Check if cache is available
 
-bool ProjectManifest::loadManifest()
-{
-    return false;
-}
+    impl->modulesPaths.clear();
 
-ProjectManifest* ProjectManifest::Parse(std::filesystem::path path)
-{
-    ProjectManifest* manifest = new ProjectManifest(path);
+    std::filesystem::path cacheDir(cacheDirectory());
 
-    std::ifstream fileStream(path);
-    if (!fileStream.is_open())
-    {
-        Utility::PrintLine("Failed to open project file: " + path.string());
-        delete manifest;
-        return nullptr;
-    }
-
-    picojson::value rootValue;
-    std::string error = picojson::parse(rootValue, fileStream);
-    if (!error.empty())
-    {
-        Utility::Print("JSON parsing error: " + error);
-        delete manifest;
-        return nullptr;
-    }
-
-    if (!rootValue.is<picojson::object>())
-    {
-        Utility::PrintLine("Expected a JSON object as root of the project manifest");
-        delete manifest;
-        return nullptr;
-    }
-
-    picojson::object& rootObject = rootValue.get<picojson::object>();
-
-    if (!manifest->ParseProject(rootObject))
-    {
-        delete manifest;
-        return nullptr;
-    }
-    if (!manifest->ParseModules(rootObject))
-    {
-        delete manifest;
-        return nullptr;
-    }
-
-    manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ProjectId.txt");
-
-    manifest->SaveCachedInfo();
-
-    for (std::filesystem::path& modulePath : manifest->modulesPaths)
-    {
-        ModuleManifest::Parse(modulePath, manifest);
-    }
-
-    return manifest;
-}
-
-ProjectManifest* ProjectManifest::LoadFromCache(std::filesystem::path path)
-{
-    ProjectManifest* manifest = new ProjectManifest(path);
-    manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ProjectId.txt");
-
-    manifest->LoadCachedInfo();
-
-    for (std::filesystem::path& modulePath : manifest->modulesPaths)
-    {
-        ModuleManifest::LoadFromCache(modulePath, manifest);
-    }
-
-    return manifest;
-}
-
-ProjectManifest::ProjectManifest(const std::filesystem::path& path): IManifest(path)
-{}
-
-void ProjectManifest::SaveCachedInfo()
-{
-    std::ofstream moduleList(infoDirectory / "Modules.txt");
-    for (std::filesystem::path& modulePath : modulesPaths)
-    {
-        moduleList << modulePath.string() << std::endl;
-    }
-    moduleList.close();
-
-    std::ofstream projectNameFile(infoDirectory / "ProjectName.txt");
-    projectNameFile << projectName;
-    projectNameFile.close();
-}
-
-void ProjectManifest::LoadCachedInfo()
-{
-    std::ifstream moduleList(infoDirectory / "Modules.txt");
+    std::ifstream moduleList(cacheDir / "Modules.txt");
     std::string moduleFilePath;
     while (std::getline(moduleList, moduleFilePath))
     {
-        modulesPaths.push_back(moduleFilePath);
+        impl->modulesPaths.push_back(moduleFilePath);
     }
     moduleList.close();
 
-    std::ifstream projectNameFile(infoDirectory / "ProjectName.txt");
+    std::ifstream projectNameFile(cacheDir / "ProjectName.txt");
     std::stringstream projectNameStream;
     projectNameStream << projectNameFile.rdbuf();
     projectNameFile.close();
-    projectName = projectNameStream.str();
+    impl->projectName = projectNameStream.str();
+
+    return true;
 }
 
-bool ProjectManifest::ParseProject(picojson::object& rootObject)
+
+bool parseProject(ProjectManifest::Impl& impl, picojson::object& rootObject)
 {
     if (rootObject.find("Name") != rootObject.end()) //TODO Save and load project name
     {
@@ -173,14 +87,16 @@ bool ProjectManifest::ParseProject(picojson::object& rootObject)
             Utility::PrintLine("Expected Name to be a string");
             return false;
         }
-        projectName = value.get<std::string>();
+        impl.projectName = value.get<std::string>();
     }
 
     return true;
 }
 
-bool ProjectManifest::ParseModules(picojson::object& rootObject)
+bool parseModules(ProjectManifest::Impl& impl, picojson::object& rootObject)
 {
+    impl.modulesPaths.clear();
+
     if (rootObject.find("Modules") != rootObject.end())
     {
         picojson::value& value = rootObject["Modules"];
@@ -199,7 +115,7 @@ bool ProjectManifest::ParseModules(picojson::object& rootObject)
                 return false;
             }
 
-            std::filesystem::path moduleRoot = manifestDirectory / moduleValue.get<std::string>();
+            std::filesystem::path moduleRoot = std::filesystem::path() / moduleValue.get<std::string>();
             moduleRoot.make_preferred();
 
             bool foundManifest = false;
@@ -207,10 +123,12 @@ bool ProjectManifest::ParseModules(picojson::object& rootObject)
             {
                 if (std::filesystem::is_regular_file(entry))
                 {
+                    std::string extension(ProjectManifest::projectManifestExtension());
+
                     std::string path = entry.path().string().substr();
-                    if (path.length() > ModuleManifest::moduleFileSuffix.length() && path.substr(path.length() - ModuleManifest::moduleFileSuffix.length()) == ModuleManifest::moduleFileSuffix)
+                    if (path.length() > extension.length() && path.substr(path.length() - extension.length()) == extension)
                     {
-                        modulesPaths.push_back(path);
+                        impl.modulesPaths.push_back(path);
                         foundManifest = true;
                         break;
                     }
@@ -224,5 +142,57 @@ bool ProjectManifest::ParseModules(picojson::object& rootObject)
             }
         }
     }
+    return true;
+}
+
+
+bool ProjectManifest::loadManifest()
+{
+    std::ifstream fileStream(manifestPath());
+
+    if (!fileStream.is_open())
+    {
+        Utility::PrintLine("Failed to open project file: " + std::string(manifestPath()));
+        return false;
+    }
+
+    picojson::value rootValue;
+    std::string error = picojson::parse(rootValue, fileStream);
+    if (!error.empty())
+    {
+        Utility::Print("JSON parsing error: " + error);
+        return false;
+    }
+
+    if (!rootValue.is<picojson::object>())
+    {
+        Utility::PrintLine("Expected a JSON object as root of the project manifest");
+        return false;
+    }
+
+    picojson::object& rootObject = rootValue.get<picojson::object>();
+
+    if (!parseProject(*impl, rootObject))
+    {
+        return false;
+    }
+    if (!parseModules(*impl, rootObject))
+    {
+        return false;
+    }
+
+    impl->uuid = Utility::GetCachedUUID(std::filesystem::path(cacheDirectory()) / "ProjectId.txt");
+
+    std::ofstream moduleList(std::filesystem::path(cacheDirectory()) / "Modules.txt");
+    for (std::filesystem::path& modulePath : impl->modulesPaths)
+    {
+        moduleList << modulePath.string() << std::endl;
+    }
+    moduleList.close();
+
+    std::ofstream projectNameFile(std::filesystem::path(cacheDirectory()) / "ProjectName.txt");
+    projectNameFile << impl->projectName;
+    projectNameFile.close();
+
     return true;
 }
