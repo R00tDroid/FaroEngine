@@ -16,3 +16,6 @@
 [submodule "Tools/Shared/googletest"]
 	path = Tools/Shared/googletest
 	url = https://github.com/google/googletest.git
+[submodule "Tools/Shared/duktape"]
+	path = Tools/Shared/duktape
+	url = https://github.com/svaarala/duktape.git
