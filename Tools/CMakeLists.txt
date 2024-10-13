@@ -23,6 +23,12 @@ foreach(ConfigName ${CMAKE_CONFIGURATION_TYPES})
     set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${ConfigName} "${EXECUTABLE_OUTPUT_PATH}" CACHE PATH "" FORCE)
 endforeach()
 
+include_directories(
+    ${CMAKE_CURRENT_LIST_DIR}/Shared/picojson
+)
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Shared/glob")
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Shared/tinyxml2")
+
 #add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
 
 add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
