@@ -1,11 +1,5 @@
 #pragma once
-#include <filesystem>
-#include <picojson.h>
-#include <glob/glob.hpp>
-#include <set>
-#include "FileChanges.hpp"
 #include "ManifestInterface.hpp"
-#include "FileTree.hpp"
 
 class ProjectManifest;
 
@@ -15,25 +9,22 @@ enum ModuleType
     MT_Executable
 };
 
-struct FolderMount
-{
-    std::filesystem::path location;
-    std::filesystem::path mountPoint;
-};
-
 class ModuleManifest : public IManifest
 {
 public:
-    inline static std::string moduleFileSuffix = ".module.json";
+    static const char* moduleManifestExtension();
+
+    ModuleManifest(const char* manifestLocation);
+    ~ModuleManifest() override;
 
     // Name of the module
-    std::string name = "";
+    const char* name();
 
     // Location within the solution hierarchy
-    std::filesystem::path solutionLocation = "";
+    const char* solutionLocation();
 
     // Project this module belongs to
-    ProjectManifest* project = nullptr;
+    ProjectManifest* project();
 
     std::vector<std::string> linkingLibraries;
 
@@ -82,13 +73,9 @@ public:
 
     bool IsCompatible(BuildPlatform* platform) const;
 
-protected:
-    ModuleManifest(const std::filesystem::path& path);
-
-    ~ModuleManifest();
-
 private:
-    static std::map<std::filesystem::path, ModuleManifest*> loadedModules;
+    struct Impl;
+    Impl* impl = nullptr;
 
     bool ParseSourceFiles(picojson::object& rootObject);
 
@@ -110,5 +97,3 @@ private:
 
     void SaveCache();
 };
-
-inline std::map<std::filesystem::path, ModuleManifest*> ModuleManifest::loadedModules;

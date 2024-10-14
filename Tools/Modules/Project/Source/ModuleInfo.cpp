@@ -1,7 +1,28 @@
-#include "ModuleManifest.hpp"
+#include "ModuleInfo.hpp"
 #include <Utility.hpp>
 #include <fstream>
 #include <sstream>
+
+struct ModuleManifest::Impl
+{
+    std::string name;
+    std::filesystem::path solutionDirectory;
+};
+
+const char* ModuleManifest::moduleManifestExtension()
+{
+    return ".faromod.js";
+}
+
+ModuleManifest::ModuleManifest(const char* manifestLocation) : IManifest(manifestLocation)
+{
+    impl = new Impl();
+}
+
+ModuleManifest::~ModuleManifest()
+{
+    delete impl;
+}
 
 bool ReadManifestFile(std::filesystem::path& path, picojson::object& rootObject)
 {
@@ -268,18 +289,6 @@ std::set<ModuleManifest*> ModuleManifest::GetDependencyTree()
 bool ModuleManifest::IsCompatible(BuildPlatform* target) const
 {
     return Utility::MatchWildcard(target->platformName, platformFilter);
-}
-
-ModuleManifest::ModuleManifest(const std::filesystem::path& path): IManifest(path), fileDates(this), fileTree(this)
-{
-    name = GetModuleName(manifestPath);
-    loadedModules.insert(std::pair<std::filesystem::path, ModuleManifest*>(manifestPath, this));
-}
-
-ModuleManifest::~ModuleManifest()
-{
-    auto it = loadedModules.find(manifestPath);
-    loadedModules.erase(it);
 }
 
 bool ModuleManifest::ParseSourceFiles(picojson::object& rootObject)
