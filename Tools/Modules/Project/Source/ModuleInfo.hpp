@@ -32,7 +32,7 @@ public:
     ~ModuleManifest() override;
 
     // Name of the module
-    const char* name();
+    const char* name() const;
 
     // Location within the solution hierarchy
     const char* solutionLocation() const;
@@ -64,10 +64,15 @@ public:
     const char* uuid() const override;
 
     bool configure(const Configuration* configuration) const;
+    bool load(const Configuration* configuration) const;
+
     bool prebuild(const Configuration* configuration) const;
     bool postbuild(const Configuration* configuration) const;
 
 private:
     struct Impl;
     Impl* impl = nullptr;
+
+    bool saveCache(const Configuration* configuration) const;
+    bool loadCache(const Configuration* configuration);
 };
