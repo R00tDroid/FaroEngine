@@ -19,6 +19,9 @@ public:
     // Path to the hidden .Faro/Info directory in which to generate information cache files
     const char* cacheDirectory() const;
 
+    // Unique identifier for the module
+    virtual const char* uuid() const = 0;
+
 private:
     struct Impl;
     Impl* impl = nullptr;

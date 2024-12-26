@@ -1,4 +1,6 @@
 #pragma once
+#include "Configuration.hpp"
+#include "FaroProjectsExports.generated.h"
 #include "ManifestInterface.hpp"
 
 class ProjectManifest;
@@ -9,7 +11,19 @@ enum ModuleType
     MT_Executable
 };
 
-class ModuleManifest : public IManifest
+enum AccessDomain 
+{
+    AD_Private,
+    AD_Public
+};
+
+struct FaroProjectsExports FolderMount
+{
+    const char* location;
+    const char* mountPoint;
+};
+
+class FaroProjectsExports ModuleManifest : public IManifest
 {
 public:
     static const char* moduleManifestExtension();
@@ -21,79 +35,39 @@ public:
     const char* name();
 
     // Location within the solution hierarchy
-    const char* solutionLocation();
+    const char* solutionLocation() const;
 
     // Project this module belongs to
-    ProjectManifest* project();
+    ProjectManifest* project() const;
 
-    std::vector<std::string> linkingLibraries;
+    unsigned int defines(AccessDomain type) const;
+    const char* define(AccessDomain type, unsigned int index) const;
 
-    std::vector<std::string> publicDefines;
-    std::vector<std::string> privateDefines;
+    unsigned int linkerLibraries() const;
+    const char* linkerLibrary(unsigned int index) const;
 
-    ModuleType type = MT_Library;
+    ModuleType moduleType() const;
 
     // List of modules this module depends on
-    std::vector<std::filesystem::path> moduleDependencies;
+    unsigned int DependencyPaths() const;
+    const char* DependencyPath(unsigned int index) const;
 
-    std::vector<std::filesystem::path> privateIncludes;
-    std::vector<std::filesystem::path> publicIncludes;
+    unsigned int includePaths(AccessDomain type) const;
+    const char* includePath(AccessDomain type, unsigned int index) const;
 
-    std::vector<std::filesystem::path> sourceFiles;
+    unsigned int sourceFiles() const;
+    const char* sourceFile(unsigned int index) const;
 
-    std::string platformFilter = "*";
+    unsigned int mounts() const;
+    const FolderMount& mount(unsigned int index) const;
 
-    std::vector<FolderMount> folderMounts;
+    const char* uuid() const override;
 
-    std::string uuid = "";
-
-    FileTimeDatabase fileDates;
-    FileTree fileTree;
-
-    static ModuleManifest* Parse(std::filesystem::path path, ProjectManifest* project);
-
-    static ModuleManifest* LoadFromCache(std::filesystem::path path, ProjectManifest* project);
-
-    static ModuleManifest* GetLoadedModule(std::filesystem::path path);
-
-    std::vector<std::filesystem::path> GetPublicIncludeTree() const;
-
-    std::vector<std::filesystem::path> GetModuleIncludeDirectories() const;
-
-    std::vector<std::string> GetPublicDefineTree() const;
-
-    std::vector<std::string> GetModuleDefines() const;
-
-    static std::string GetModuleName(const std::filesystem::path& path);
-
-    // Get list of direct dependencies
-    std::set<ModuleManifest*> GetDependencies();
-    // Get a list of all dependencies in this branch of the tree
-    std::set<ModuleManifest*> GetDependencyTree();
-
-    bool IsCompatible(BuildPlatform* platform) const;
+    bool configure(const Configuration* configuration) const;
+    bool prebuild(const Configuration* configuration) const;
+    bool postbuild(const Configuration* configuration) const;
 
 private:
     struct Impl;
     Impl* impl = nullptr;
-
-    bool ParseSourceFiles(picojson::object& rootObject);
-
-    bool ParseDependencies(picojson::object& rootObject);
-
-    bool ParseIncludeDirectories(picojson::object& rootObject, std::string tag, std::vector<std::filesystem::path>& output);
-
-    bool ParseDefines(picojson::object& rootObject, std::string tag, std::vector<std::string>& output);
-
-    bool ParseModuleType(picojson::object& rootObject);
-
-    bool ParseSolutionLocation(picojson::object& rootObject);
-
-    bool ParseLinkerLibraries(picojson::object& rootObject);
-
-    bool ParsePlatformFilter(picojson::object& rootObject);
-
-    bool ParseMounts(picojson::object& rootObject);
-
-    void SaveCache();
 };

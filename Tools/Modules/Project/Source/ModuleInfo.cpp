@@ -7,6 +7,23 @@ struct ModuleManifest::Impl
 {
     std::string name;
     std::filesystem::path solutionDirectory;
+
+    std::vector<std::string> linkingLibraries;
+    std::vector<std::string> publicDefines;
+    std::vector<std::string> privateDefines;
+
+    ModuleType type = MT_Library;
+
+    std::vector<std::filesystem::path> moduleDependencies;
+
+    std::vector<std::filesystem::path> privateIncludes;
+    std::vector<std::filesystem::path> publicIncludes;
+
+    std::vector<std::filesystem::path> sourceFiles;
+
+    std::vector<FolderMount> folderMounts;
+
+    std::string uuid = "";
 };
 
 const char* ModuleManifest::moduleManifestExtension()

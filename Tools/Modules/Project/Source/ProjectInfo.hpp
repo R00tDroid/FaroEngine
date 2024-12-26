@@ -12,8 +12,7 @@ public:
     // Name of the project
     const char* projectName() const;
 
-    // Unique identifier for the project
-    const char* uuid() const;
+    const char* uuid() const override;
 
     // Amount of modules in the project
     unsigned int modules() const;
