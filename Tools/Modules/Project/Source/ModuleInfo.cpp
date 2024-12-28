@@ -170,64 +170,70 @@ bool ModuleManifest::postbuild(const Configuration*) const
     return false; //TODO Implement
 }
 
-
-bool ModuleManifest::loadCache(const Configuration*)
+std::filesystem::path getConfigurationPath(const ModuleManifest* module, const Configuration* config)
 {
-    ModuleManifest* manifest = new ModuleManifest(path);
-    manifest->project = project;
+    std::filesystem::path cacheFolder = module->cacheDirectory();
+    std::filesystem::path configsFolder = cacheFolder / "Config";
+    std::string configName = std::string(config->platform()) + "_" + std::string(config->architecture());
+    return configsFolder / configName;
+}
+
+bool ModuleManifest::loadCache(const Configuration* config)
+{
+    std::filesystem::path cacheFolder = getConfigurationPath(this, config);
 
     std::string line;
 
-    std::ifstream filesList(manifest->infoDirectory / "Source.txt");
+    std::ifstream filesList(cacheFolder / "Source.txt");
     while (std::getline(filesList, line))
     {
-        manifest->sourceFiles.push_back(line);
+        impl->sourceFiles.push_back(line);
     }
     filesList.close();
 
-    std::ifstream publicIncludeList(manifest->infoDirectory / "PublicIncludes.txt");
+    std::ifstream publicIncludeList(cacheFolder / "PublicIncludes.txt");
     while (std::getline(publicIncludeList, line))
     {
-        manifest->publicIncludes.push_back(line);
+        impl->publicIncludes.push_back(line);
     }
     publicIncludeList.close();
 
-    std::ifstream privateIncludeList(manifest->infoDirectory / "PrivateIncludes.txt");
+    std::ifstream privateIncludeList(cacheFolder / "PrivateIncludes.txt");
     while (std::getline(privateIncludeList, line))
     {
-        manifest->privateIncludes.push_back(line);
+        impl->privateIncludes.push_back(line);
     }
     privateIncludeList.close();
 
-    std::ifstream publicDefineList(manifest->infoDirectory / "PublicDefines.txt");
+    std::ifstream publicDefineList(cacheFolder / "PublicDefines.txt");
     while (std::getline(publicDefineList, line))
     {
-        manifest->publicDefines.push_back(line);
+        impl->publicDefines.push_back(line);
     }
     publicDefineList.close();
 
-    std::ifstream privateDefineList(manifest->infoDirectory / "PrivateDefines.txt");
+    std::ifstream privateDefineList(cacheFolder / "PrivateDefines.txt");
     while (std::getline(privateDefineList, line))
     {
-        manifest->privateDefines.push_back(line);
+        impl->privateDefines.push_back(line);
     }
     privateDefineList.close();
 
-    std::ifstream dependencyList(manifest->infoDirectory / "Dependencies.txt");
+    std::ifstream dependencyList(cacheFolder / "Dependencies.txt");
     while (std::getline(dependencyList, line))
     {
-        manifest->moduleDependencies.push_back(line);
+        impl->moduleDependencies.push_back(line);
     }
     dependencyList.close();
 
-    std::ifstream libraryList(manifest->infoDirectory / "Libraries.txt");
+    std::ifstream libraryList(cacheFolder / "Libraries.txt");
     while (std::getline(libraryList, line))
     {
-        manifest->linkingLibraries.push_back(line);
+        impl->linkingLibraries.push_back(line);
     }
     libraryList.close();
 
-    std::ifstream moduleType(manifest->infoDirectory / "ModuleType.txt");
+    std::ifstream moduleType(cacheFolder / "ModuleType.txt");
     std::stringstream moduleTypeStream;
     moduleTypeStream << moduleType.rdbuf();
     moduleType.close();
@@ -235,103 +241,103 @@ bool ModuleManifest::loadCache(const Configuration*)
 
     if (moduleTypeString == "lib")
     {
-        manifest->type = MT_Library;
+        impl->type = MT_Library;
     }
     else if (moduleTypeString == "app")
     {
-        manifest->type = MT_Executable;
+        impl->type = MT_Executable;
     }
 
-    manifest->uuid = Utility::GetCachedUUID(manifest->infoDirectory / "ModuleId.txt");
+    impl->uuid = Utility::GetCachedUUID(cacheFolder / "ModuleId.txt");
 
-    std::ifstream platformFilterList(manifest->infoDirectory / "PlatformFilter.txt");
+    std::ifstream platformFilterList(cacheFolder / "PlatformFilter.txt");
     std::stringstream platformFilterStream;
     platformFilterStream << platformFilterList.rdbuf();
     platformFilterList.close();
-    manifest->platformFilter = platformFilterStream.str();
+    impl->platformFilter = platformFilterStream.str();
     platformFilterList.close();
 
-    std::ifstream mountList(manifest->infoDirectory / "Mounts.txt");
+    std::ifstream mountList(cacheFolder / "Mounts.txt");
     while (true)
     {
         std::string location, mountPoint;
         if (!std::getline(mountList, location)) break;
         if (!std::getline(mountList, mountPoint)) break;
 
-        manifest->folderMounts.push_back({location, mountPoint});
+        impl->folderMounts.push_back({location, mountPoint});
     }
     mountList.close();
 
-    return manifest;
+    return true;
 }
 
-bool ModuleManifest::saveCache(const Configuration*) const
+bool ModuleManifest::saveCache(const Configuration* config) const
 {
-    std::ofstream filesList(infoDirectory / "Source.txt");
-    for (std::string& path : sourceFiles)
+    std::filesystem::path cacheFolder = getConfigurationPath(this, config);
+
+    std::ofstream filesList(cacheFolder / "Source.txt");
+    for (std::string& path : impl->sourceFiles)
     {
-        filesList << path.string() << "\n";
+        filesList << path << "\n";
     }
     filesList.close();
 
-    std::ofstream publicIncludeList(infoDirectory / "PublicIncludes.txt");
-    for (std::string& path : publicIncludes)
+    std::ofstream publicIncludeList(cacheFolder / "PublicIncludes.txt");
+    for (std::string& path : impl->publicIncludes)
     {
-        publicIncludeList << path.string() << "\n";
+        publicIncludeList << path << "\n";
     }
     publicIncludeList.close();
 
-    std::ofstream privateIncludeList(infoDirectory / "PrivateIncludes.txt");
-    for (std::string& path : privateIncludes)
+    std::ofstream privateIncludeList(cacheFolder / "PrivateIncludes.txt");
+    for (std::string& path : impl->privateIncludes)
     {
-        privateIncludeList << path.string() << "\n";
+        privateIncludeList << path << "\n";
     }
     privateIncludeList.close();
 
-    std::ofstream publicDefineList(infoDirectory / "PublicDefines.txt");
-    for (std::string& path : publicDefines)
+    std::ofstream publicDefineList(cacheFolder / "PublicDefines.txt");
+    for (std::string& path : impl->publicDefines)
     {
         publicDefineList << path << "\n";
     }
     publicDefineList.close();
 
-    std::ofstream privateDefinesList(infoDirectory / "PrivateDefines.txt");
-    for (std::string& path : privateDefines)
+    std::ofstream privateDefinesList(cacheFolder / "PrivateDefines.txt");
+    for (std::string& path : impl->privateDefines)
     {
         privateDefinesList << path << "\n";
     }
     privateDefinesList.close();
 
-    std::ofstream dependencyList(infoDirectory / "Dependencies.txt");
-    for (std::string dependency : moduleDependencies)
+    std::ofstream dependencyList(cacheFolder / "Dependencies.txt");
+    for (std::string& dependency : impl->moduleDependencies)
     {
-        dependencyList << dependency.string() << "\n";
+        dependencyList << dependency << "\n";
     }
     dependencyList.close();
 
-    std::ofstream libraryList(infoDirectory / "Libraries.txt");
-    for (std::string& path : linkingLibraries)
+    std::ofstream libraryList(cacheFolder / "Libraries.txt");
+    for (std::string& path : impl->linkingLibraries)
     {
         libraryList << path.c_str() << "\n";
     }
     libraryList.close();
 
-    std::ofstream moduleType(infoDirectory / "ModuleType.txt");
-    switch (type)
+    std::ofstream moduleType(cacheFolder / "ModuleType.txt");
+    switch (impl->type)
     {
         case MT_Library: { moduleType << "lib"; break; }
         case MT_Executable: { moduleType << "app"; break; }
     }
     moduleType.close();
 
-    std::ofstream platformFilterList(infoDirectory / "PlatformFilter.txt");
-    platformFilterList << platformFilter;
-    platformFilterList.close();
-
-    std::ofstream mountList(infoDirectory / "Mounts.txt");
-    for (FolderMount& mount : folderMounts)
+    std::ofstream mountList(cacheFolder / "Mounts.txt");
+    for (FolderMount& mount : impl->folderMounts)
     {
-        mountList << mount.location.string().c_str() << "\n" << mount.mountPoint.string().c_str() << "\n";
+        mountList << mount.location << "\n" << mount.mountPoint << "\n";
     }
     mountList.close();
+
+    return true;
 }
