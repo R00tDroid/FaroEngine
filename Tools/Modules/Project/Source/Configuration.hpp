@@ -3,7 +3,7 @@
 
 struct FaroProjectsExports Configuration
 {
-    virtual const char* name() = 0;
-    virtual const char* platform() = 0;
-    virtual const char* architecture() = 0;
+    virtual const char* name() const = 0;
+    virtual const char* platform() const = 0;
+    virtual const char* architecture() const = 0;
 };
