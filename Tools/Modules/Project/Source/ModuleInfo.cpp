@@ -250,13 +250,6 @@ bool ModuleManifest::loadCache(const Configuration* config)
 
     impl->uuid = Utility::GetCachedUUID(cacheFolder / "ModuleId.txt");
 
-    std::ifstream platformFilterList(cacheFolder / "PlatformFilter.txt");
-    std::stringstream platformFilterStream;
-    platformFilterStream << platformFilterList.rdbuf();
-    platformFilterList.close();
-    impl->platformFilter = platformFilterStream.str();
-    platformFilterList.close();
-
     std::ifstream mountList(cacheFolder / "Mounts.txt");
     while (true)
     {
