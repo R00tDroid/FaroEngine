@@ -276,7 +276,12 @@ bool ModuleManifest::loadCache(const Configuration* config)
         impl->type = MT_Executable;
     }
 
-    impl->uuid = Utility::GetCachedUUID(cacheFolder / "ModuleId.txt");
+    char uuid[UUID_LENGTH];
+    std::filesystem::path uuidStorage = cacheFolder / "ModuleId.txt";
+    if (Utility::GetCachedUUID(uuidStorage.string().c_str(), uuid))
+    {
+        impl->uuid = uuid;
+    }
 
     std::ifstream mountList(cacheFolder / "Mounts.txt");
     while (true)

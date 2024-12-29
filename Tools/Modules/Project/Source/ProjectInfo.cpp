@@ -181,7 +181,12 @@ bool ProjectManifest::loadManifest()
         return false;
     }
 
-    impl->uuid = Utility::GetCachedUUID(std::filesystem::path(cacheDirectory()) / "ProjectId.txt");
+    char uuid[UUID_LENGTH];
+    std::filesystem::path uuidStorage = std::filesystem::path(cacheDirectory()) / "ProjectId.txt";
+    if (Utility::GetCachedUUID(uuidStorage.string().c_str(), uuid))
+    {
+        impl->uuid = uuid;
+    }
 
     std::ofstream moduleList(std::filesystem::path(cacheDirectory()) / "Modules.txt");
     for (std::filesystem::path& modulePath : impl->modulesPaths)
