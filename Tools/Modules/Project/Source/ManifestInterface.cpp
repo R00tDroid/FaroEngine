@@ -22,9 +22,9 @@ IManifest::IManifest(const char* manifestLocation)
 
     if (std::filesystem::exists(impl->manifestPath))
     {
-        Utility::EnsureDirectory(impl->faroDirectory);
-        Utility::HideFolder(impl->faroDirectory);
-        Utility::EnsureDirectory(impl->cacheDirectory);
+        Utility::EnsureDirectory(impl->faroDirectory.string().c_str());
+        Utility::HideFolder(impl->faroDirectory.string().c_str());
+        Utility::EnsureDirectory(impl->cacheDirectory.string().c_str());
     }
 }
 
