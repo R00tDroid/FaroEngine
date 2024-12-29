@@ -12,34 +12,37 @@
 #include <uuid/uuid.h>
 #endif
 
-void Utility::Print(std::string log)
+void Utility::Print(const char* log)
 {
-    std::cout << log.c_str() << std::flush;
+    std::cout << log << std::flush;
 #ifdef WIN32
-    OutputDebugStringA(log.c_str());
+    OutputDebugStringA(log);
 #endif
 }
 
-void Utility::PrintLine(std::string log)
+void Utility::PrintLine(const char* log)
 {
-    Print(log + "\n");
+    Print(log);
+    Print("\n");
 }
 
-void Utility::PrintD(std::string log)
-{
-#ifndef NDEBUG
-    Print("[D] " + log);
-#endif
-}
-
-void Utility::PrintLineD(std::string log)
+void Utility::PrintD(const char* log)
 {
 #ifndef NDEBUG
-    PrintD(log + "\n");
+    Print("[D] ");
+    Print(log);
 #endif
 }
 
-void Utility::EnsureDirectory(std::filesystem::path path)
+void Utility::PrintLineD(const char* log)
+{
+#ifndef NDEBUG
+    Print(log);
+    Print("\n");
+#endif
+}
+
+void Utility::EnsureDirectory(const char* path)
 {
     if (!std::filesystem::exists(path)) 
     {
@@ -47,21 +50,7 @@ void Utility::EnsureDirectory(std::filesystem::path path)
     }
 }
 
-std::string Utility::ToLower(std::string& Input)
-{
-    std::string Result = Input;
-    std::transform(Result.begin(), Result.end(), Result.begin(), [](char c) { return static_cast<char>(std::tolower(c)); });
-    return Result;
-}
-
-std::string Utility::ToUpper(std::string& Input)
-{
-    std::string Result = Input;
-    std::transform(Result.begin(), Result.end(), Result.begin(), [](char c) { return static_cast<char>(std::toupper(c)); });
-    return Result;
-}
-
-std::string Utility::GenerateUUID()
+std::string GenerateUUIDInternal()
 {
 #ifdef WIN32
     UUID uuid;
@@ -74,33 +63,52 @@ std::string Utility::GenerateUUID()
 
     RpcStringFreeA(&uuidString);
 #else
-        uuid_t uuid;
-        uuid_generate_random(uuid);
-        char uuidString[37];
-        uuid_unparse(uuid, uuidString);
-        std::string string(uuidString);
+    uuid_t uuid;
+    uuid_generate_random(uuid);
+    char uuidString[37];
+    uuid_unparse(uuid, uuidString);
+    std::string string(uuidString);
 #endif
-    return ToUpper(string);
+
+    Utility::ToUpper(string);
+    if (string.length() > UUID_LENGTH) string.resize(UUID_LENGTH);
+    return string;
 }
 
-std::string Utility::GetCachedUUID(std::filesystem::path storageLocation)
+bool Utility::GenerateUUID(char* outUuid)
 {
+    std::string uuid = GenerateUUIDInternal();
+    memset(outUuid, 0, UUID_LENGTH);
+    memcpy(outUuid, uuid.c_str(), uuid.length());
+
+    return true;
+}
+
+bool Utility::GetCachedUUID(const char* storageLocation, char* outUuid)
+{
+    std::string uuid;
+
     std::ifstream uuidFile(storageLocation);
     if (uuidFile.is_open())
     {
-        std::string uuid;
         uuidFile >> uuid;
         uuidFile.close();
-        return ToUpper(uuid);
     }
     else
     {
-        std::string uuid = Utility::GenerateUUID();
+        uuid = GenerateUUIDInternal();
         std::ofstream uuidOutFile(storageLocation);
         uuidOutFile << uuid;
         uuidOutFile.close();
-        return uuid;
     }
+
+    ToUpper(uuid);
+    if (uuid.length() > UUID_LENGTH) uuid.resize(UUID_LENGTH);
+
+    memset(outUuid, 0, UUID_LENGTH);
+    memcpy(outUuid, uuid.c_str(), uuid.length());
+
+    return true;
 }
 
 std::filesystem::path Utility::GetExecutablePath()
@@ -115,12 +123,12 @@ std::filesystem::path Utility::GetExecutablePath()
 }
 
 #ifdef WIN32
-void Utility::HideFolder(std::filesystem::path folder)
+void Utility::HideFolder(const char* folder)
 {
-    SetFileAttributesA(folder.string().c_str(), FILE_ATTRIBUTE_HIDDEN);
+    SetFileAttributesA(folder, FILE_ATTRIBUTE_HIDDEN);
 }
 #else
-void Utility::HideFolder(std::filesystem::path) {}
+void Utility::HideFolder(const char*) {}
 #endif
 
 bool Utility::MatchPattern(std::string source, std::string pattern, std::vector<std::string>& outMatches)
@@ -166,9 +174,12 @@ bool MatchWildcardInternal(const std::string& source, const std::string& pattern
     }
 }
 
-bool Utility::MatchWildcard(const std::string& source, const std::string& pattern)
+bool Utility::MatchWildcard(const char* source, const char* pattern)
 {
-    return MatchWildcardInternal(source, pattern, 0, 0);
+    std::string sourceString(source);
+    std::string patternString(pattern);
+
+    return MatchWildcardInternal(sourceString, patternString, 0, 0);
 }
 
 bool Utility::ReadEnvVariable(std::string variableName, std::string& value)

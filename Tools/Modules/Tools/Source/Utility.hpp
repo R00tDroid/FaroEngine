@@ -6,35 +6,58 @@
 #include <vector>
 #include <FaroToolsExports.generated.h>
 
+#define UUID_LENGTH 36
+
 namespace Utility
 {
-    void Print(std::string log);
+    void FaroToolsExports Print(const char* log);
+    inline void Print(const std::string& log) { Print(log.c_str()); }
+    inline void Print(const std::string&& log) { Print(log); }
 
-    void PrintLine(std::string log);
+    void FaroToolsExports PrintLine(const char* log);
+    inline void PrintLine(const std::string& log) { PrintLine(log.c_str()); }
+    inline void PrintLine(const std::string&& log) { PrintLine(log); }
 
-    void PrintD(std::string log);
+    void FaroToolsExports PrintD(const char* log);
+    inline void PrintD(const std::string& log) { PrintLine(log.c_str()); }
+    inline void PrintD(const std::string&& log) { PrintLine(log); }
 
-    void PrintLineD(std::string log);
+    void FaroToolsExports PrintLineD(const char* log);
+    inline void PrintLineD(const std::string& log) { PrintLine(log.c_str()); }
+    inline void PrintLineD(const std::string&& log) { PrintLine(log); }
 
-    void EnsureDirectory(std::filesystem::path path);
+    void FaroToolsExports EnsureDirectory(const char* path);
 
-    std::string ToLower(std::string& Input);
+    inline std::string ToLower(const std::string& Input)
+    {
+        std::string Result = Input;
+        std::transform(Result.begin(), Result.end(), Result.begin(), [](char c) { return static_cast<char>(std::tolower(c)); });
+        return Result;
+    }
 
-    std::string ToUpper(std::string& Input);
+    inline std::string ToUpper(const std::string& Input)
+    {
+        std::string Result = Input;
+        std::transform(Result.begin(), Result.end(), Result.begin(), [](char c) { return static_cast<char>(std::toupper(c)); });
+        return Result;
+    }
 
-    std::string GenerateUUID();
+    bool FaroToolsExports GenerateUUID(char* uuid);
 
-    std::string GetCachedUUID(std::filesystem::path storageLocation);
+    bool FaroToolsExports GetCachedUUID(const char* storageLocation, char* uuid);
 
-    std::filesystem::path GetExecutablePath();
+    //TODO Don't use stl containers
+    std::filesystem::path FaroToolsExports GetExecutablePath();
 
-    void HideFolder(std::filesystem::path folder);
+    void FaroToolsExports HideFolder(const char* folder);
 
-    bool MatchPattern(std::string source, std::string pattern, std::vector<std::string>& outMatches);
+    //TODO Don't use stl containers
+    bool FaroToolsExports MatchPattern(std::string source, std::string pattern, std::vector<std::string>& outMatches);
 
-    bool MatchWildcard(const std::string& source, const std::string& pattern);
+    bool FaroToolsExports MatchWildcard(const char* source, const char* pattern);
 
-    bool ReadEnvVariable(std::string variableName, std::string& value);
+    //TODO Don't use stl containers
+    bool FaroToolsExports ReadEnvVariable(std::string variableName, std::string& value);
 }
 
 class FaroToolsExports PerformanceTimer
