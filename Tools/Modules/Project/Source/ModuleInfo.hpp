@@ -17,10 +17,18 @@ enum AccessDomain
     AD_Public
 };
 
-struct FaroProjectsExports FolderMount
+class FaroProjectsExports FolderMount
 {
-    const char* location;
-    const char* mountPoint;
+public:
+    FolderMount(const char* location, const char* mountPoint);
+    ~FolderMount();
+
+    const char* location() const;
+    const char* mountPoint() const;
+
+private:
+    struct Impl;
+    Impl* impl = nullptr;
 };
 
 class FaroProjectsExports ModuleManifest : public IManifest

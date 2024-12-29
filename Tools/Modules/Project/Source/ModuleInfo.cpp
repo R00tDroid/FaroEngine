@@ -3,6 +3,12 @@
 #include <fstream>
 #include <sstream>
 
+struct FolderMount::Impl
+{
+    std::string location;
+    std::string mountPoint;
+};
+
 struct ModuleManifest::Impl
 {
     std::string name;
@@ -257,7 +263,7 @@ bool ModuleManifest::loadCache(const Configuration* config)
         if (!std::getline(mountList, location)) break;
         if (!std::getline(mountList, mountPoint)) break;
 
-        impl->folderMounts.push_back({location, mountPoint});
+        impl->folderMounts.push_back({location.c_str(), mountPoint.c_str()});
     }
     mountList.close();
 
@@ -328,7 +334,7 @@ bool ModuleManifest::saveCache(const Configuration* config) const
     std::ofstream mountList(cacheFolder / "Mounts.txt");
     for (FolderMount& mount : impl->folderMounts)
     {
-        mountList << mount.location << "\n" << mount.mountPoint << "\n";
+        mountList << mount.location() << "\n" << mount.mountPoint() << "\n";
     }
     mountList.close();
 
