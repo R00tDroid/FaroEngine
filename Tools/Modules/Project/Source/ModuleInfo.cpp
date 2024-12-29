@@ -32,6 +32,28 @@ struct ModuleManifest::Impl
     std::string uuid = "";
 };
 
+FolderMount::FolderMount(const char* location, const char* mountPoint)
+{
+    impl = new Impl();
+    impl->location = location;
+    impl->mountPoint = mountPoint;
+}
+
+FolderMount::~FolderMount()
+{
+    delete impl;
+}
+
+const char* FolderMount::location() const
+{
+    return impl->location.c_str();
+}
+
+const char* FolderMount::mountPoint() const
+{
+    return impl->mountPoint.c_str();
+}
+
 const char* ModuleManifest::moduleManifestExtension()
 {
     return ".faromod.js";
