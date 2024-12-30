@@ -20,10 +20,9 @@ endforeach()
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/Shared/picojson
 )
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Shared/glob")
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Shared/tinyxml2")
-
-#add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
+AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/glob")
+AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/tinyxml2")
+#AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
 
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Project")
