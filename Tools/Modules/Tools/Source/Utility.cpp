@@ -26,21 +26,22 @@ void Utility::PrintLine(const char* log)
     Print("\n");
 }
 
+#ifdef NDEBUG
+void Utility::PrintD(const char*) {}
+void Utility::PrintLineD(const char*) {}
+#else
 void Utility::PrintD(const char* log)
 {
-#ifndef NDEBUG
     Print("[D] ");
     Print(log);
-#endif
 }
-
 void Utility::PrintLineD(const char* log)
 {
-#ifndef NDEBUG
     Print(log);
     Print("\n");
-#endif
+
 }
+#endif
 
 void Utility::EnsureDirectory(const char* path)
 {
