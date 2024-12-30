@@ -3,12 +3,6 @@ project(FaroTools)
 
 set(CMAKE_CXX_STANDARD 17)
 
-if (MSVC)
-    add_compile_options(/W4 /WX)
-else()
-    add_compile_options(-Wall -Wextra -pedantic -Werror)
-endif()
-
 include(${CMAKE_CURRENT_LIST_DIR}/../CMake/ProjectVersion.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../CMake/ModuleExports.cmake)
 string(REPLACE "." "," FaroEngineVersionShortComma ${FaroEngineVersionShort})
@@ -31,15 +25,15 @@ add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Shared/tinyxml2")
 
 #add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
 
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Project")
-#add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Generation")
-#add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Shaders")
-#add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Modules/Building")
-#add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroCLI")
+AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
+AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Project")
+#AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Generation")
+#AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Shaders")
+#AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Building")
+#AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroCLI")
 
 #if(MSVC)
-#    add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroGUI")
+#    AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroGUI")
 #endif()
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.cpp.in ${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.generated.cpp @ONLY)
