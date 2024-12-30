@@ -36,7 +36,7 @@ function(AddModule Directory)
     foreach(Target ${Targets})
         message("Module: ${Target}")
         ModuleWall(${Target})
-        set_target_properties(${Target} PROPERTIES FOLDER "Faro")
+        set_target_properties(${Target} PROPERTIES FOLDER "Modules")
     endforeach()
 endfunction()
 
