@@ -27,7 +27,7 @@ AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/tinyxml2")
 
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Project")
-#AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Generation")
+AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Generation")
 #AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Shaders")
 #AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Building")
 #AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroCLI")
