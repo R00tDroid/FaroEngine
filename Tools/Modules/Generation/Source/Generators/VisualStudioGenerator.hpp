@@ -4,5 +4,5 @@
 class VisualStudioGenerator : public GeneratorInterface
 {
 public:
-    bool generate(ProjectManifest* project) override;
+    bool generate(const ProjectManifest* project) override;
 };

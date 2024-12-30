@@ -1,6 +1,6 @@
 #include "VisualStudioGenerator.hpp"
 
-bool VisualStudioGenerator::generate(ProjectManifest*)
+bool VisualStudioGenerator::generate(const ProjectManifest*)
 {
     return false; //TODO Implement VS generation
 }

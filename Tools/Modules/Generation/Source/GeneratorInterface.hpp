@@ -5,5 +5,5 @@ class GeneratorInterface
 {
 public:
     virtual ~GeneratorInterface() = default;
-    virtual bool generate(ProjectManifest* project) = 0;
+    virtual bool generate(const ProjectManifest* project) = 0;
 };
