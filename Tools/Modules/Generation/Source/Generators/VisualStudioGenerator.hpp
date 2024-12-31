@@ -16,47 +16,47 @@ struct VSProjectInfo
 
     std::vector<std::string> dependencyUuids;
 
-    virtual bool HasSourceFiles();
-    virtual std::vector<std::filesystem::path> GetSourceFiles();
-    virtual std::vector<std::filesystem::path> GetIncludePaths();
+    virtual bool hasSourceFiles();
+    virtual std::vector<std::filesystem::path> getSourceFiles();
+    virtual std::vector<std::filesystem::path> getIncludePaths();
 
-    virtual std::string GetBuildCommand() = 0;
-    virtual std::string GetRebuildCommand() = 0;
-    virtual std::string GetCleanCommand() = 0;
+    virtual std::string getBuildCommand() = 0;
+    virtual std::string getRebuildCommand() = 0;
+    virtual std::string getCleanCommand() = 0;
 
-    virtual std::filesystem::path GetOutputExecutable(Toolchain*, Configuration*);
+    virtual std::filesystem::path getOutputExecutable(Toolchain*, Configuration*);
 
-    virtual std::filesystem::path GetRootDirectory();
+    virtual std::filesystem::path getRootDirectory();
 
-    virtual ModuleManifest* GetModuleManifest();
+    virtual ModuleManifest* getModuleManifest();
 };
 
 struct VSCustomCommandInfo : VSProjectInfo
 {
-    std::string GetBuildCommand() override;
-    std::string GetRebuildCommand() override;
-    std::string GetCleanCommand() override;
+    std::string getBuildCommand() override;
+    std::string getRebuildCommand() override;
+    std::string getCleanCommand() override;
 
     std::string buildCommand, rebuildCommand, cleanCommand;
 };
 
 struct VSModuleInfo : VSProjectInfo
 {
-    std::string GetBuildCommand() override;
+    std::string getBuildCommand() override;
 
-    std::string GetRebuildCommand() override;
+    std::string getRebuildCommand() override;
 
-    std::string GetCleanCommand() override;
+    std::string getCleanCommand() override;
 
-    bool HasSourceFiles() override;
+    bool hasSourceFiles() override;
 
-    std::vector<std::filesystem::path> GetSourceFiles() override;
-    std::vector<std::filesystem::path> GetIncludePaths() override;
-    std::filesystem::path GetRootDirectory() override;
+    std::vector<std::filesystem::path> getSourceFiles() override;
+    std::vector<std::filesystem::path> getIncludePaths() override;
+    std::filesystem::path getRootDirectory() override;
 
-    std::filesystem::path GetOutputExecutable(Toolchain*, Configuration*) override;
+    std::filesystem::path getOutputExecutable(Toolchain*, Configuration*) override;
 
-    ModuleManifest* GetModuleManifest() override;
+    ModuleManifest* getModuleManifest() override;
 
     ModuleManifest* module = nullptr;
 };
@@ -67,21 +67,21 @@ public:
     bool generate(const ProjectManifest* project) override;
 
 private:
-    std::string VSPlatformVersion = "";
+    std::string vsPlatformVersion = "";
 
     std::vector<std::string> sourceExtensions = { ".cpp", ".c", ".hlsl" };
 
-    void WriteProjectFile(VSProjectInfo& VSProjectInfo);
+    void writeProjectFile(VSProjectInfo& vsProjectInfo);
 
-    void WriteProjectUserFile(VSProjectInfo& VSProjectInfo);
+    void writeProjectUserFile(VSProjectInfo& vsProjectInfo);
 
-    static std::filesystem::path GetFileRelativeDirectory(std::filesystem::path root, std::filesystem::path file);
+    static std::filesystem::path getFileRelativeDirectory(std::filesystem::path root, std::filesystem::path file);
 
-    static std::vector<std::filesystem::path> GetDirectoryTree(std::filesystem::path& root);
+    static std::vector<std::filesystem::path> getDirectoryTree(std::filesystem::path& root);
 
-    void WriteFilterFile(VSProjectInfo& VSProjectInfo);
+    void writeFilterFile(VSProjectInfo& vsProjectInfo);
 
-    void WriteSolutionFile(ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList);
+    void writeSolutionFile(ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList);
 
-    inline static  void WriteSolutionProjectConfig(std::ofstream& stream, VSProjectInfo& VSProjectInfo);
+    inline static void writeSolutionProjectConfig(std::ofstream& stream, VSProjectInfo& vsProjectInfo);
 };
