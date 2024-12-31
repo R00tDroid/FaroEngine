@@ -82,7 +82,7 @@ bool VisualStudioGenerator::generate(const ProjectManifest*)
     return false; //TODO Implement VS generation
 }
 
-void WriteProjectConfigs(tinyxml2::XMLElement* projectElement, const std::string& uuid, const std::string& VSPlatformVersion)
+void writeProjectConfigs(tinyxml2::XMLElement* projectElement, const std::string& uuid, const std::string& VSPlatformVersion)
 {
     std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
 
@@ -133,7 +133,7 @@ void WriteProjectConfigs(tinyxml2::XMLElement* projectElement, const std::string
     }
 }
 
-void WriteConfigList(tinyxml2::XMLElement* projectElement, const std::string& VSPlatformVersion)
+void writeConfigList(tinyxml2::XMLElement* projectElement, const std::string& VSPlatformVersion)
 {
     std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
     for (IToolchain* toolchain : toolchains)
@@ -162,7 +162,7 @@ void WriteConfigList(tinyxml2::XMLElement* projectElement, const std::string& VS
     }
 }
 
-void WriteConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSProjectInfo& VSProjectInfo, BuildPlatform* platform, BuildType buildType, IToolchain* toolchain)
+void writeConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSProjectInfo& VSProjectInfo, BuildPlatform* platform, BuildType buildType, IToolchain* toolchain)
 {
     const char* buildTypeName = BuildTypeNames[buildType];
 
@@ -228,7 +228,7 @@ void WriteConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSPr
 
         element = propertyGroup->InsertNewChildElement("NMakeOutput");
 
-        std::filesystem::path outputPath = VSProjectInfo.GetOutputExecutable(toolchain, platform, buildType);
+        std::filesystem::path outputPath = VSProjectInfo.getOutputExecutable(toolchain, platform, buildType);
         if (!outputPath.empty())
         {
             element->SetText(outputPath.string().c_str());
@@ -249,7 +249,7 @@ void WriteConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSPr
     }
 }
 
-void VisualStudioGenerator::WriteProjectFile(VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeProjectFile(VSProjectInfo& VSProjectInfo)
 {
     Utility::EnsureDirectory(VSProjectInfo.projectPath.parent_path());
 
@@ -320,7 +320,7 @@ void VisualStudioGenerator::WriteProjectFile(VSProjectInfo& VSProjectInfo)
     doc.SaveFile(VSProjectInfo.projectPath.string().c_str());
 }
 
-void VisualStudioGenerator::WriteProjectUserFile(VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeProjectUserFile(VSProjectInfo& VSProjectInfo)
 {
     if (!VSProjectInfo.debuggable) return;
 
@@ -339,7 +339,7 @@ void VisualStudioGenerator::WriteProjectUserFile(VSProjectInfo& VSProjectInfo)
         doc.InsertEndChild(projectElement);
 
 
-        for (IToolchain* toolchain : toolchains)
+        for (Toolchain* toolchain : toolchains)
         {
             std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
             for (BuildPlatform* platform : platforms)
@@ -364,7 +364,7 @@ void VisualStudioGenerator::WriteProjectUserFile(VSProjectInfo& VSProjectInfo)
     doc.SaveFile(file.string().c_str());
 }
 
-void VisualStudioGenerator::WriteFilterFile(VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeFilterFile(VSProjectInfo& VSProjectInfo)
 {
     std::filesystem::path filePath = VSProjectInfo.projectPath;
     filePath.replace_extension(".vcxproj.filters");
@@ -420,7 +420,7 @@ void VisualStudioGenerator::WriteFilterFile(VSProjectInfo& VSProjectInfo)
     doc.SaveFile(filePath.string().c_str());
 }
 
-void VisualStudioGenerator::WriteSolutionFile(ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList)
+void VisualStudioGenerator::writeSolutionFile(ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList)
 {
     std::ofstream stream(project->manifestDirectory / (project->projectName + ".sln"));
 
@@ -510,7 +510,7 @@ void VisualStudioGenerator::WriteSolutionFile(ProjectManifest* project, std::vec
     stream.close();
 }
 
-void VisualStudioGenerator::WriteSolutionProjectConfig(std::ofstream& stream, VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream& stream, VSProjectInfo& VSProjectInfo)
 {
     std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
     for (Toolchain* toolchain : toolchains)
