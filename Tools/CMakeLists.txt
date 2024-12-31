@@ -23,14 +23,15 @@ include_directories(
 )
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/glob")
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/tinyxml2")
-#AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
+AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
 
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Project")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Generation")
 #AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Shaders")
 #AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Building")
-AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroCLI")
+#AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroCLI")
+AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/Tests")
 
 #if(MSVC)
 #    AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroGUI")
