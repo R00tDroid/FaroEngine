@@ -24,6 +24,8 @@ include_directories(
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/glob")
 set(tinyxml2_BUILD_TESTING FALSE)
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/tinyxml2")
+set(BUILD_GMOCK FALSE)
+set(INSTALL_GTEST FALSE)
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
 
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
