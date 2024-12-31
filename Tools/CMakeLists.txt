@@ -22,6 +22,7 @@ include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/Shared/picojson
 )
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/glob")
+set(tinyxml2_BUILD_TESTING FALSE)
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/tinyxml2")
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
 
