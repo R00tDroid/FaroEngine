@@ -4,19 +4,22 @@
 #include <fstream>
 #include <map>
 
+#include "FaroLocation.hpp"
 #include "Toolchain.hpp"
 
 bool VisualStudioGenerator::generate(const ProjectManifest*)
 {
     Utility::PrintLine("Performing module generation...");
 
+    std::string faroBuildTool = FaroLocation::buildTool();
+
     std::vector<VSProjectInfo*> projectInfoList;
     VSCustomCommandInfo* commandInfo = new VSCustomCommandInfo();
     commandInfo->name = "Build";
     commandInfo->buildByDefault = true;
-    commandInfo->buildCommand = faroBuildTool.string() + " -build -project " + taskInfo.projectManifest->manifestPath.string();
-    commandInfo->cleanCommand = faroBuildTool.string() + " -clean -project " + taskInfo.projectManifest->manifestPath.string();
-    commandInfo->rebuildCommand = faroBuildTool.string() + " -clean -build -project " + taskInfo.projectManifest->manifestPath.string();
+    commandInfo->buildCommand = faroBuildTool + " -build -project " + taskInfo.projectManifest->manifestPath.string();
+    commandInfo->cleanCommand = faroBuildTool + " -clean -project " + taskInfo.projectManifest->manifestPath.string();
+    commandInfo->rebuildCommand = faroBuildTool + " -clean -build -project " + taskInfo.projectManifest->manifestPath.string();
     commandInfo->uuid = Utility::GetCachedUUID(taskInfo.projectManifest->faroDirectory / "VSProjectInfo" / (commandInfo->name + "Id.txt"));
     commandInfo->projectPath = taskInfo.projectManifest->faroDirectory / "Project" / (commandInfo->name + ".vcxproj");
     commandInfo->solutionPath = "Project/Actions";
@@ -25,8 +28,8 @@ bool VisualStudioGenerator::generate(const ProjectManifest*)
     commandInfo = new VSCustomCommandInfo();
     commandInfo->name = "Generate";
     commandInfo->buildByDefault = false;
-    commandInfo->buildCommand = faroBuildTool.string() + " -generate -project " + taskInfo.projectManifest->manifestPath.string();
-    commandInfo->rebuildCommand = faroBuildTool.string() + " -generate -build -project " + taskInfo.projectManifest->manifestPath.string();
+    commandInfo->buildCommand = faroBuildTool + " -generate -project " + taskInfo.projectManifest->manifestPath.string();
+    commandInfo->rebuildCommand = faroBuildTool + " -generate -build -project " + taskInfo.projectManifest->manifestPath.string();
     commandInfo->uuid = Utility::GetCachedUUID(taskInfo.projectManifest->faroDirectory / "VSProjectInfo" / (commandInfo->name + "Id.txt"));
     commandInfo->projectPath = taskInfo.projectManifest->faroDirectory / "Project" / (commandInfo->name + ".vcxproj");
     commandInfo->solutionPath = "Project/Actions";
@@ -192,13 +195,13 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSPr
 
             for (std::filesystem::path& path : toolchainIncludes)
             {
-                includePaths += path.string() + ";";
+                includePaths += path + ";";
             }
         }
 
         for (std::filesystem::path& path : VSProjectInfo.GetIncludePaths())
         {
-            includePaths += path.string() + ";";
+            includePaths += path + ";";
         }
 
         element->SetText(includePaths.c_str());
@@ -231,7 +234,7 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSPr
         std::filesystem::path outputPath = VSProjectInfo.getOutputExecutable(toolchain, platform, buildType);
         if (!outputPath.empty())
         {
-            element->SetText(outputPath.string().c_str());
+            element->SetText(outputPath.c_str());
         }
 
         element = propertyGroup->InsertNewChildElement("NMakeIncludeSearchPath");
@@ -308,16 +311,16 @@ void VisualStudioGenerator::writeProjectFile(VSProjectInfo& VSProjectInfo)
         std::vector<std::filesystem::path> sourceFiles = VSProjectInfo.GetSourceFiles();
         for (std::filesystem::path& file : sourceFiles)
         {
-            std::string extension = file.extension().string();
+            std::string extension = file.extension();
             extension = Utility::ToLower(extension);
             bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
             tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
-            fileElement->SetAttribute("Include", file.string().c_str());
+            fileElement->SetAttribute("Include", file.c_str());
         }
     }
 
 
-    doc.SaveFile(VSProjectInfo.projectPath.string().c_str());
+    doc.SaveFile(VSProjectInfo.projectPath.c_str());
 }
 
 void VisualStudioGenerator::writeProjectUserFile(VSProjectInfo& VSProjectInfo)
@@ -352,7 +355,7 @@ void VisualStudioGenerator::writeProjectUserFile(VSProjectInfo& VSProjectInfo)
                     propGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)'=='" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
 
                     tinyxml2::XMLElement* element = propGroup->InsertNewChildElement("LocalDebuggerCommand");
-                    element->SetText(VSProjectInfo.GetOutputExecutable(toolchain, platform, (BuildType)buildTypeIndex).string().c_str());
+                    element->SetText(VSProjectInfo.GetOutputExecutable(toolchain, platform, (BuildType)buildTypeIndex).c_str());
                     element = propGroup->InsertNewChildElement("DebuggerFlavor");
                     element->SetText("WindowsLocalDebugger");
                 }
@@ -361,7 +364,7 @@ void VisualStudioGenerator::writeProjectUserFile(VSProjectInfo& VSProjectInfo)
     }
 
 
-    doc.SaveFile(file.string().c_str());
+    doc.SaveFile(file.c_str());
 }
 
 void VisualStudioGenerator::writeFilterFile(VSProjectInfo& VSProjectInfo)
@@ -384,7 +387,7 @@ void VisualStudioGenerator::writeFilterFile(VSProjectInfo& VSProjectInfo)
     for (std::filesystem::path& file : sourceFiles)
     {
         std::filesystem::path directory = GetFileRelativeDirectory(VSProjectInfo.GetRootDirectory(), file);
-        if (!directory.empty() && directory.string() != ".")
+        if (!directory.empty() && directory != ".")
         {
             std::vector<std::filesystem::path> allDirectories = GetDirectoryTree(directory);
 
@@ -396,28 +399,28 @@ void VisualStudioGenerator::writeFilterFile(VSProjectInfo& VSProjectInfo)
                 }
             }
 
-            std::string extension = file.extension().string();
+            std::string extension = file.extension();
             extension = Utility::ToLower(extension);
             bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
 
             tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
-            fileElement->SetAttribute("Include", file.string().c_str());
+            fileElement->SetAttribute("Include", file.c_str());
 
             tinyxml2::XMLElement* filterElement = fileElement->InsertNewChildElement("Filter");
-            filterElement->SetText(directory.string().c_str());
+            filterElement->SetText(directory.c_str());
         }
     }
 
     for (auto& directory : directories)
     {
         tinyxml2::XMLElement* filterElement = itemGroup->InsertNewChildElement("Filter");
-        filterElement->SetAttribute("Include", directory.first.string().c_str());
+        filterElement->SetAttribute("Include", directory.first.c_str());
 
         tinyxml2::XMLElement* idElement = filterElement->InsertNewChildElement("UniqueIdentifier");
         idElement->SetText(("{" + directory.second + "}").c_str());
     }
 
-    doc.SaveFile(filePath.string().c_str());
+    doc.SaveFile(filePath.c_str());
 }
 
 void VisualStudioGenerator::writeSolutionFile(ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList)
@@ -430,7 +433,7 @@ void VisualStudioGenerator::writeSolutionFile(ProjectManifest* project, std::vec
 
     for (VSProjectInfo* VSProjectInfo : projectInfoList)
     {
-        stream << "Project(\"{" + project->uuid + "}\") = \"" + VSProjectInfo->name + "\", \"" + (VSProjectInfo->projectPath).string() + "\", \"{" + VSProjectInfo->uuid + "}\"\n";
+        stream << "Project(\"{" + project->uuid + "}\") = \"" + VSProjectInfo->name + "\", \"" + (VSProjectInfo->projectPath) + "\", \"{" + VSProjectInfo->uuid + "}\"\n";
         if (!VSProjectInfo->dependencyUuids.empty())
         {
             stream << "\tProjectSection(ProjectDependencies) = postProject\n";
@@ -455,14 +458,14 @@ void VisualStudioGenerator::writeSolutionFile(ProjectManifest* project, std::vec
             auto it = solutionDirectories.find(solutionDir);
             if (it == solutionDirectories.end())
             {
-                solutionDirectories.insert(std::pair<std::filesystem::path, std::string>(solutionDir, Utility::GetCachedUUID(project->manifestDirectory / "VSProjectInfo" / ("Dir" + solutionDir.filename().string() + "Id.txt"))));
+                solutionDirectories.insert(std::pair<std::filesystem::path, std::string>(solutionDir, Utility::GetCachedUUID(project->manifestDirectory / "VSProjectInfo" / ("Dir" + solutionDir.filename() + "Id.txt"))));
             }
         }
     }
 
     for (auto& it : solutionDirectories)
     {
-        stream << "Project(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\") = \"" + it.first.filename().string() + "\", \"" + it.first.filename().string() + "\", \"{" + it.second + "}\"\n";
+        stream << "Project(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\") = \"" + it.first.filename() + "\", \"" + it.first.filename() + "\", \"{" + it.second + "}\"\n";
         stream << "EndProject\n";
     }
 
