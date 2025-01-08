@@ -67,17 +67,17 @@ bool VisualStudioGenerator::generate(const ProjectManifest*)
 
     for (VSProjectInfo* VSProjectInfo : projectInfoList)
     {
-        WriteProjectFile(*VSProjectInfo);
-        WriteProjectUserFile(*VSProjectInfo);
+        writeProjectFile(*VSProjectInfo);
+        writeProjectUserFile(*VSProjectInfo);
 
         if (VSProjectInfo->HasSourceFiles())
         {
-            WriteFilterFile(*VSProjectInfo);
+            writeFilterFile(*VSProjectInfo);
         }
     }
 
     Utility::PrintLine("Performing solution generation...");
-    WriteSolutionFile(taskInfo.projectManifest, projectInfoList);
+    writeSolutionFile(taskInfo.projectManifest, projectInfoList);
 
     return false; //TODO Implement VS generation
 }
@@ -89,7 +89,7 @@ void writeProjectConfigs(tinyxml2::XMLElement* projectElement, const std::string
     tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
     projectElement->SetAttribute("Label", "ProjectConfigurations");
 
-    for (IToolchain* toolchain : toolchains)
+    for (Toolchain* toolchain : toolchains)
     {
         std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
         for (BuildPlatform* platform : platforms)
@@ -136,7 +136,7 @@ void writeProjectConfigs(tinyxml2::XMLElement* projectElement, const std::string
 void writeConfigList(tinyxml2::XMLElement* projectElement, const std::string& VSPlatformVersion)
 {
     std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
-    for (IToolchain* toolchain : toolchains)
+    for (Toolchain* toolchain : toolchains)
     {
         std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
         for (BuildPlatform* platform : platforms)
@@ -261,9 +261,9 @@ void VisualStudioGenerator::writeProjectFile(VSProjectInfo& VSProjectInfo)
     projectElement->SetAttribute("ToolsVersion", "Current");
     doc.InsertEndChild(projectElement);
 
-    WriteProjectConfigs(projectElement, VSProjectInfo.uuid, VSPlatformVersion);
+    writeProjectConfigs(projectElement, VSProjectInfo.uuid, VSPlatformVersion);
 
-    WriteConfigList(projectElement, VSPlatformVersion);
+    writeConfigList(projectElement, VSPlatformVersion);
 
     {
         tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("Import");
@@ -288,7 +288,7 @@ void VisualStudioGenerator::writeProjectFile(VSProjectInfo& VSProjectInfo)
         {
             for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
             {
-                WriteConfigSection(projectElement, VSProjectInfo, platform, static_cast<BuildType>(buildTypeIndex), toolchain);
+                writeConfigSection(projectElement, VSProjectInfo, platform, static_cast<BuildType>(buildTypeIndex), toolchain);
             }
         }
     }
@@ -486,7 +486,7 @@ void VisualStudioGenerator::writeSolutionFile(ProjectManifest* project, std::vec
     stream << "\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n";
     for (VSProjectInfo* VSProjectInfo : projectInfoList)
     {
-        WriteSolutionProjectConfig(stream, *VSProjectInfo);
+        writeSolutionProjectConfig(stream, *VSProjectInfo);
     }
     stream << "\tEndGlobalSection\n";
 
