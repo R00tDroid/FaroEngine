@@ -7,31 +7,40 @@
 #include "FaroLocation.hpp"
 #include "Toolchain.hpp"
 
-bool VisualStudioGenerator::generate(const ProjectManifest*)
+bool VisualStudioGenerator::generate(const ProjectManifest* project)
 {
     Utility::PrintLine("Performing module generation...");
 
     std::string faroBuildTool = FaroLocation::buildTool();
 
+    std::filesystem::path vsProjectInfo(project->faroDirectory());
+    vsProjectInfo /= "VSProjectInfo";
+
     std::vector<VSProjectInfo*> projectInfoList;
     VSCustomCommandInfo* commandInfo = new VSCustomCommandInfo();
     commandInfo->name = "Build";
+    std::string idFile = (vsProjectInfo / (commandInfo->name + "Id.txt")).string();
+    std::string projectPath = (std::filesystem::path(project->faroDirectory()) / "Project" / (commandInfo->name + ".vcxproj")).string();
     commandInfo->buildByDefault = true;
-    commandInfo->buildCommand = faroBuildTool + " -build -project " + taskInfo.projectManifest->manifestPath.string();
-    commandInfo->cleanCommand = faroBuildTool + " -clean -project " + taskInfo.projectManifest->manifestPath.string();
-    commandInfo->rebuildCommand = faroBuildTool + " -clean -build -project " + taskInfo.projectManifest->manifestPath.string();
-    commandInfo->uuid = Utility::GetCachedUUID(taskInfo.projectManifest->faroDirectory / "VSProjectInfo" / (commandInfo->name + "Id.txt"));
-    commandInfo->projectPath = taskInfo.projectManifest->faroDirectory / "Project" / (commandInfo->name + ".vcxproj");
+    commandInfo->buildCommand = faroBuildTool + " -build -project " + project->manifestPath();
+    commandInfo->cleanCommand = faroBuildTool + " -clean -project " + project->manifestPath();
+    commandInfo->rebuildCommand = faroBuildTool + " -clean -build -project " + project->manifestPath();
+    commandInfo->uuid.resize(UUID_LENGTH);
+    Utility::GetCachedUUID(idFile.c_str(), commandInfo->uuid.data());
+    commandInfo->projectPath = projectPath.c_str();
     commandInfo->solutionPath = "Project/Actions";
     projectInfoList.push_back(commandInfo);
 
     commandInfo = new VSCustomCommandInfo();
     commandInfo->name = "Generate";
+    idFile = (vsProjectInfo / (commandInfo->name + "Id.txt")).string();
+    projectPath = (std::filesystem::path(project->faroDirectory()) / "Project" / (commandInfo->name + ".vcxproj")).string();
     commandInfo->buildByDefault = false;
-    commandInfo->buildCommand = faroBuildTool + " -generate -project " + taskInfo.projectManifest->manifestPath.string();
-    commandInfo->rebuildCommand = faroBuildTool + " -generate -build -project " + taskInfo.projectManifest->manifestPath.string();
-    commandInfo->uuid = Utility::GetCachedUUID(taskInfo.projectManifest->faroDirectory / "VSProjectInfo" / (commandInfo->name + "Id.txt"));
-    commandInfo->projectPath = taskInfo.projectManifest->faroDirectory / "Project" / (commandInfo->name + ".vcxproj");
+    commandInfo->buildCommand = faroBuildTool + " -generate -project " + project->manifestPath();
+    commandInfo->rebuildCommand = faroBuildTool + " -generate -build -project " + project->manifestPath();
+    commandInfo->uuid.resize(UUID_LENGTH);
+    Utility::GetCachedUUID(idFile.c_str(), commandInfo->uuid.data());
+    commandInfo->projectPath = projectPath.c_str();
     commandInfo->solutionPath = "Project/Actions";
     projectInfoList.push_back(commandInfo);
 
@@ -47,8 +56,8 @@ bool VisualStudioGenerator::generate(const ProjectManifest*)
         VSModuleInfo* moduleInfo = new VSModuleInfo();
         moduleInfo->name = moduleManifest->name;
         moduleInfo->module = moduleManifest;
-        moduleInfo->uuid = moduleManifest->uuid;
-        moduleInfo->projectPath = moduleManifest->project->faroDirectory / "Project" / (moduleManifest->name + ".vcxproj");
+        moduleInfo->uuid = moduleManifest->uuid();
+        moduleInfo->projectPath = std::filesystem::path(moduleManifest->faroDirectory()) / "Project" / (moduleManifest->name + ".vcxproj");
         moduleInfo->solutionPath = "Project/Modules";
         moduleInfo->buildByDefault = false;
         moduleInfo->debuggable = moduleManifest->type == MT_Executable;
