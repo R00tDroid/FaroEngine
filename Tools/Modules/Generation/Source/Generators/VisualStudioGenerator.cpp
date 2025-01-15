@@ -46,35 +46,32 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
 
     Utility::PrintLine("Performing module generation...");
 
-    for (std::filesystem::path& modulePath : taskInfo.projectManifest->modulesPaths)
+    for (unsigned int moduleIndex = 0; moduleIndex < project->modules(); moduleIndex++)
     {
-        ModuleManifest* moduleManifest = ModuleManifest::GetLoadedModule(modulePath);
-        Utility::PrintLine("Discovered module: " + moduleManifest->name);
-
-        PerformanceTimer moduleTimer;
+        ModuleManifest* moduleManifest = project->module(moduleIndex);
+        Utility::PrintLine("Discovered module: " + std::string(moduleManifest->name()));
 
         VSModuleInfo* moduleInfo = new VSModuleInfo();
-        moduleInfo->name = moduleManifest->name;
+        moduleInfo->name = moduleManifest->name();
         moduleInfo->module = moduleManifest;
         moduleInfo->uuid = moduleManifest->uuid();
-        moduleInfo->projectPath = std::filesystem::path(moduleManifest->faroDirectory()) / "Project" / (moduleManifest->name + ".vcxproj");
+        moduleInfo->projectPath = std::filesystem::path(moduleManifest->faroDirectory()) / "Project" / (std::string(moduleManifest->name()) + ".vcxproj");
         moduleInfo->solutionPath = "Project/Modules";
         moduleInfo->buildByDefault = false;
-        moduleInfo->debuggable = moduleManifest->type == MT_Executable;
-        if (!moduleManifest->solutionLocation.empty())
+        moduleInfo->debuggable = moduleManifest->moduleType() == MT_Executable;
+        if (moduleManifest->solutionLocation() != nullptr)
         {
-            moduleInfo->solutionPath /= moduleManifest->solutionLocation;
+            moduleInfo->solutionPath /= moduleManifest->solutionLocation();
+            //TODO Verify if this return a nullptr when empty
         }
 
-        for (std::filesystem::path& dependencyPath : moduleManifest->moduleDependencies)
+        for (unsigned int dependencyIndex = 0; dependencyIndex < moduleManifest->dependencies(); dependencyIndex++)
         {
-            ModuleManifest* dependency = ModuleManifest::GetLoadedModule(dependencyPath);
-            moduleInfo->dependencyUuids.push_back(dependency->uuid);
+            ModuleManifest* dependency = moduleManifest->dependency(dependencyIndex);
+            moduleInfo->dependencyUuids.push_back(dependency->uuid());
         }
 
         projectInfoList.push_back(moduleInfo);
-
-        moduleTimer.Stop("Module: " + moduleManifest->name);
     }
 
     for (VSProjectInfo* VSProjectInfo : projectInfoList)
@@ -82,14 +79,14 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
         writeProjectFile(*VSProjectInfo);
         writeProjectUserFile(*VSProjectInfo);
 
-        if (VSProjectInfo->HasSourceFiles())
+        if (VSProjectInfo->hasSourceFiles())
         {
             writeFilterFile(*VSProjectInfo);
         }
     }
 
     Utility::PrintLine("Performing solution generation...");
-    writeSolutionFile(taskInfo.projectManifest, projectInfoList);
+    writeSolutionFile(project, projectInfoList);
 
     return false; //TODO Implement VS generation
 }
@@ -261,7 +258,7 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSPr
     }
 }
 
-void VisualStudioGenerator::writeProjectFile(VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& VSProjectInfo)
 {
     Utility::EnsureDirectory(VSProjectInfo.projectPath.parent_path());
 
@@ -332,7 +329,7 @@ void VisualStudioGenerator::writeProjectFile(VSProjectInfo& VSProjectInfo)
     doc.SaveFile(VSProjectInfo.projectPath.c_str());
 }
 
-void VisualStudioGenerator::writeProjectUserFile(VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo& VSProjectInfo)
 {
     if (!VSProjectInfo.debuggable) return;
 
@@ -376,7 +373,7 @@ void VisualStudioGenerator::writeProjectUserFile(VSProjectInfo& VSProjectInfo)
     doc.SaveFile(file.c_str());
 }
 
-void VisualStudioGenerator::writeFilterFile(VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& VSProjectInfo)
 {
     std::filesystem::path filePath = VSProjectInfo.projectPath;
     filePath.replace_extension(".vcxproj.filters");
@@ -432,7 +429,7 @@ void VisualStudioGenerator::writeFilterFile(VSProjectInfo& VSProjectInfo)
     doc.SaveFile(filePath.c_str());
 }
 
-void VisualStudioGenerator::writeSolutionFile(ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList)
+void VisualStudioGenerator::writeSolutionFile(const ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList)
 {
     std::ofstream stream(project->manifestDirectory / (project->projectName + ".sln"));
 
@@ -522,7 +519,7 @@ void VisualStudioGenerator::writeSolutionFile(ProjectManifest* project, std::vec
     stream.close();
 }
 
-void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream& stream, VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream& stream, const VSProjectInfo& VSProjectInfo)
 {
     std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
     for (Toolchain* toolchain : toolchains)

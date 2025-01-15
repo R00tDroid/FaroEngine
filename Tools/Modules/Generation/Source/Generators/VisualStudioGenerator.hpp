@@ -71,17 +71,17 @@ private:
 
     std::vector<std::string> sourceExtensions = { ".cpp", ".c", ".hlsl" };
 
-    void writeProjectFile(VSProjectInfo& vsProjectInfo);
+    void writeProjectFile(const VSProjectInfo& vsProjectInfo);
 
-    void writeProjectUserFile(VSProjectInfo& vsProjectInfo);
+    void writeProjectUserFile(const VSProjectInfo& vsProjectInfo);
 
     static std::filesystem::path getFileRelativeDirectory(std::filesystem::path root, std::filesystem::path file);
 
     static std::vector<std::filesystem::path> getDirectoryTree(std::filesystem::path& root);
 
-    void writeFilterFile(VSProjectInfo& vsProjectInfo);
+    void writeFilterFile(const VSProjectInfo& vsProjectInfo);
 
-    void writeSolutionFile(ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList);
+    void writeSolutionFile(const ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList);
 
-    inline static void writeSolutionProjectConfig(std::ofstream& stream, VSProjectInfo& vsProjectInfo);
+    inline static void writeSolutionProjectConfig(std::ofstream& stream, const VSProjectInfo& vsProjectInfo);
 };
