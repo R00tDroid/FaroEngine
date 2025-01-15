@@ -1,4 +1,5 @@
 #include "ProjectInfo.hpp"
+#include "ModuleInfo.hpp"
 #include <fstream>
 #include <sstream>
 #include <Utility.hpp>
@@ -7,7 +8,7 @@
 struct ProjectManifest::Impl
 {
     std::string projectName = "";
-    std::vector<std::filesystem::path> modulesPaths;
+    std::vector<ModuleManifest*> modules;
     std::string uuid = "";
 };
 
@@ -38,44 +39,13 @@ const char* ProjectManifest::uuid() const
 
 unsigned int ProjectManifest::modules() const
 {
-    return (unsigned int)impl->modulesPaths.size();
+    return static_cast<unsigned int>(impl->modules.size());
 }
 
-const char* ProjectManifest::modulePath(unsigned int index) const
+ModuleManifest* ProjectManifest::module(unsigned int index) const
 {
-    return impl->modulesPaths[index].string().c_str();
+    return impl->modules[index];
 }
-
-bool ProjectManifest::load()
-{
-    return loadCache(); //TODO Load from manifest if cache is missing or out-of-date
-}
-
-bool ProjectManifest::loadCache()
-{
-    //TODO Check if cache is available
-
-    impl->modulesPaths.clear();
-
-    std::filesystem::path cacheDir(cacheDirectory());
-
-    std::ifstream moduleList(cacheDir / "Modules.txt");
-    std::string moduleFilePath;
-    while (std::getline(moduleList, moduleFilePath))
-    {
-        impl->modulesPaths.push_back(moduleFilePath);
-    }
-    moduleList.close();
-
-    std::ifstream projectNameFile(cacheDir / "ProjectName.txt");
-    std::stringstream projectNameStream;
-    projectNameStream << projectNameFile.rdbuf();
-    projectNameFile.close();
-    impl->projectName = projectNameStream.str();
-
-    return true;
-}
-
 
 bool parseProject(ProjectManifest::Impl& impl, picojson::object& rootObject)
 {
@@ -95,7 +65,11 @@ bool parseProject(ProjectManifest::Impl& impl, picojson::object& rootObject)
 
 bool parseModules(ProjectManifest::Impl& impl, picojson::object& rootObject)
 {
-    impl.modulesPaths.clear();
+    for (ModuleManifest* module : impl.modules)
+    {
+        delete module;
+    }
+    impl.modules.clear();
 
     if (rootObject.find("Modules") != rootObject.end())
     {
@@ -128,7 +102,7 @@ bool parseModules(ProjectManifest::Impl& impl, picojson::object& rootObject)
                     std::string path = entry.path().string().substr();
                     if (path.length() > extension.length() && path.substr(path.length() - extension.length()) == extension)
                     {
-                        impl.modulesPaths.push_back(path);
+                        impl.modules.push_back(new ModuleManifest(path.c_str()));
                         foundManifest = true;
                         break;
                     }
@@ -146,7 +120,7 @@ bool parseModules(ProjectManifest::Impl& impl, picojson::object& rootObject)
 }
 
 
-bool ProjectManifest::loadManifest()
+bool ProjectManifest::configure()
 {
     std::ifstream fileStream(manifestPath());
 
@@ -189,15 +163,40 @@ bool ProjectManifest::loadManifest()
     }
 
     std::ofstream moduleList(std::filesystem::path(cacheDirectory()) / "Modules.txt");
-    for (std::filesystem::path& modulePath : impl->modulesPaths)
+    for (ModuleManifest* module : impl->modules)
     {
-        moduleList << modulePath.string() << std::endl;
+        moduleList << module->manifestPath() << std::endl;
     }
     moduleList.close();
 
     std::ofstream projectNameFile(std::filesystem::path(cacheDirectory()) / "ProjectName.txt");
     projectNameFile << impl->projectName;
     projectNameFile.close();
+
+    return true;
+}
+
+bool ProjectManifest::load()
+{
+    //TODO Check if cache is available
+
+    impl->modules.clear();
+
+    std::filesystem::path cacheDir(cacheDirectory());
+
+    std::ifstream moduleList(cacheDir / "Modules.txt");
+    std::string moduleFilePath;
+    while (std::getline(moduleList, moduleFilePath))
+    {
+        impl->modules.push_back(new ModuleManifest(moduleFilePath.c_str()));
+    }
+    moduleList.close();
+
+    std::ifstream projectNameFile(cacheDir / "ProjectName.txt");
+    std::stringstream projectNameStream;
+    projectNameStream << projectNameFile.rdbuf();
+    projectNameFile.close();
+    impl->projectName = projectNameStream.str();
 
     return true;
 }

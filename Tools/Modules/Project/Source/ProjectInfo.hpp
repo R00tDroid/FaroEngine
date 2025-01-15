@@ -1,6 +1,8 @@
 #pragma once
 #include "ManifestInterface.hpp"
 
+class ModuleManifest;
+
 class FaroProjectsExports ProjectManifest : public IManifest
 {
 public:
@@ -18,11 +20,10 @@ public:
     unsigned int modules() const;
 
     // Path to the module manifest at the specified index.
-    const char* modulePath(unsigned int index) const;
+    ModuleManifest* module(unsigned int index) const;
 
+    bool configure();
     bool load();
-    bool loadCache();
-    bool loadManifest();
 
     struct Impl;
 private:
