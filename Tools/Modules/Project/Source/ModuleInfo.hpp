@@ -57,8 +57,8 @@ public:
     ModuleType moduleType() const;
 
     // List of modules this module depends on
-    unsigned int dependencyPaths() const;
-    const char* dependencyPath(unsigned int index) const;
+    unsigned int dependencies() const;
+    ModuleManifest* dependency(unsigned int index) const;
 
     unsigned int includePaths(AccessDomain type) const;
     const char* includePath(AccessDomain type, unsigned int index) const;

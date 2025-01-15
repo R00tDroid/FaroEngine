@@ -20,7 +20,8 @@ struct ModuleManifest::Impl
 
     ModuleType type = MT_Library;
 
-    std::vector<std::string> moduleDependencies;
+    std::vector<std::string> moduleDependencyPaths; //TODO Resolve path to module
+    std::vector<ModuleManifest*> moduleDependencies;
 
     std::vector<std::string> privateIncludes;
     std::vector<std::string> publicIncludes;
@@ -121,14 +122,14 @@ ModuleType ModuleManifest::moduleType() const
     return impl->type;
 }
 
-unsigned int ModuleManifest::dependencyPaths() const
+unsigned int ModuleManifest::dependencies() const
 {
     return static_cast<unsigned int>(impl->moduleDependencies.size());
 }
 
-const char* ModuleManifest::dependencyPath(unsigned int index) const
+ModuleManifest* ModuleManifest::dependency(unsigned int index) const
 {
-    return impl->moduleDependencies[index].c_str();
+    return impl->moduleDependencies[index];
 }
 
 unsigned int ModuleManifest::includePaths(AccessDomain type) const
@@ -250,7 +251,7 @@ bool ModuleManifest::loadCache(const Configuration* config)
     std::ifstream dependencyList(cacheFolder / "Dependencies.txt");
     while (std::getline(dependencyList, line))
     {
-        impl->moduleDependencies.push_back(line);
+        impl->moduleDependencyPaths.push_back(line);
     }
     dependencyList.close();
 
@@ -337,9 +338,9 @@ bool ModuleManifest::saveCache(const Configuration* config) const
     privateDefinesList.close();
 
     std::ofstream dependencyList(cacheFolder / "Dependencies.txt");
-    for (std::string& dependency : impl->moduleDependencies)
+    for (ModuleManifest* dependency : impl->moduleDependencies)
     {
-        dependencyList << dependency << "\n";
+        dependencyList << dependency->manifestPath() << "\n";
     }
     dependencyList.close();
 
