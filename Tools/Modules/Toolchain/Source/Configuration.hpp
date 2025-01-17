@@ -1,7 +1,7 @@
 #pragma once
-#include "ManifestInterface.hpp"
+#include "FaroToolchainExports.generated.h"
 
-struct FaroProjectsExports Configuration
+struct FaroToolchainExports Configuration
 {
     virtual const char* name() const = 0;
     virtual const char* platform() const = 0;
