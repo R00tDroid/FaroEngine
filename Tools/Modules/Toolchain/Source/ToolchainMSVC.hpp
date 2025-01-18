@@ -1,10 +1,15 @@
 #pragma once
 #include "Toolchain.hpp"
-#include "Configuration.hpp"
+#include "BuildSetup.hpp"
 
-struct ConfigurationMSVC : Configuration
+struct TargetMSVC : Target
 {
-    
+    const char* configName;
+    const char* configArchitecture;
+
+    const char* name() const override { return configName; }
+    const char* platform() const override { return nullptr; }
+    const char* architecture() const override { return configArchitecture; }
 };
 
 class ToolchainMSVC : public Toolchain
@@ -12,6 +17,6 @@ class ToolchainMSVC : public Toolchain
 public:
     static ToolchainMSVC& instance();
 
-    unsigned configurations() override;
-    Configuration* configuration(unsigned index) override;
+    unsigned targets() override;
+    Target* target(unsigned index) override;
 };

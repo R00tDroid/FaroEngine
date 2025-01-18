@@ -1,5 +1,5 @@
 #pragma once
-#include "Configuration.hpp"
+#include "BuildSetup.hpp"
 #include "FaroProjectsExports.generated.h"
 #include "ManifestInterface.hpp"
 
