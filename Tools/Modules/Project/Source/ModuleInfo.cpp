@@ -179,37 +179,37 @@ const char* ModuleManifest::uuid() const
     return impl->uuid.c_str();
 }
 
-bool ModuleManifest::configure(const Configuration*) const
+bool ModuleManifest::configure(const BuildSetup*) const
 {
     return false; //TODO Implement
 }
 
-bool ModuleManifest::load(const Configuration*) const
+bool ModuleManifest::load(const BuildSetup*) const
 {
     return false; //TODO Implement
 }
 
-bool ModuleManifest::prebuild(const Configuration*) const
+bool ModuleManifest::prebuild(const BuildSetup*) const
 {
     return false; //TODO Implement
 }
 
-bool ModuleManifest::postbuild(const Configuration*) const
+bool ModuleManifest::postbuild(const BuildSetup*) const
 {
     return false; //TODO Implement
 }
 
-std::filesystem::path getConfigurationPath(const ModuleManifest* module, const Configuration* config)
+std::filesystem::path getBuildSetupPath(const ModuleManifest* module, const BuildSetup* setup)
 {
     std::filesystem::path cacheFolder = module->cacheDirectory();
     std::filesystem::path configsFolder = cacheFolder / "Config";
-    std::string configName = std::string(config->platform()) + "_" + std::string(config->architecture());
+    std::string configName = std::string(setup->target->identifier()) + "_" + configurationToString(setup->configuration);
     return configsFolder / configName;
 }
 
-bool ModuleManifest::loadCache(const Configuration* config)
+bool ModuleManifest::loadCache(const BuildSetup* config)
 {
-    std::filesystem::path cacheFolder = getConfigurationPath(this, config);
+    std::filesystem::path cacheFolder = getBuildSetupPath(this, config);
 
     std::string line;
 
@@ -298,9 +298,9 @@ bool ModuleManifest::loadCache(const Configuration* config)
     return true;
 }
 
-bool ModuleManifest::saveCache(const Configuration* config) const
+bool ModuleManifest::saveCache(const BuildSetup* config) const
 {
-    std::filesystem::path cacheFolder = getConfigurationPath(this, config);
+    std::filesystem::path cacheFolder = getBuildSetupPath(this, config);
 
     std::ofstream filesList(cacheFolder / "Source.txt");
     for (std::string& path : impl->sourceFiles)
