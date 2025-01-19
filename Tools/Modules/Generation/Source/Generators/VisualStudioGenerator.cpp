@@ -93,26 +93,29 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
 
 void writeProjectConfigs(tinyxml2::XMLElement* projectElement, const std::string& uuid, const std::string& VSPlatformVersion)
 {
-    std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
-
     tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
     projectElement->SetAttribute("Label", "ProjectConfigurations");
 
-    for (Toolchain* toolchain : toolchains)
+    for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
     {
-        std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-        for (BuildPlatform* platform : platforms)
+        Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
+
+        for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
         {
-            for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+            Target* target = toolchain->target(targetIndex);
+
+            for (int configurationIndex = 0; configurationIndex < Configuration::C_ENUMSIZE; configurationIndex++)
             {
-                const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+                std::string id = target->identifier();
+                id += " ";
+                id += configurationToString(static_cast<Configuration>(configurationIndex));
 
                 tinyxml2::XMLElement* projectConfig = itemGroup->InsertNewChildElement("ProjectConfiguration");
-                projectConfig->SetAttribute("Include", (platform->platformName + " " + buildTypeName + "|Win32").c_str());
+                projectConfig->SetAttribute("Include", (id + "|Win32").c_str());
 
                 {
                     tinyxml2::XMLElement* configElement = projectConfig->InsertNewChildElement("Configuration");
-                    configElement->SetText((platform->platformName + " " + buildTypeName).c_str());
+                    configElement->SetText(id.c_str());
                 }
                 {
                     tinyxml2::XMLElement* platformElement = projectConfig->InsertNewChildElement("Platform");
