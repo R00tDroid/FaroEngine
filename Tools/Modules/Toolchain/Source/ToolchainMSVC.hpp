@@ -4,12 +4,14 @@
 
 struct TargetMSVC : Target
 {
-    const char* configName;
-    const char* configArchitecture;
+    TargetMSVC(const char* configName, const char* configId) : configName(configName), configId(configId) {}
 
-    const char* name() const override { return configName; }
-    const char* platform() const override { return nullptr; }
-    const char* architecture() const override { return configArchitecture; }
+    const char* configName;
+    const char* configId;
+
+    const char* platform() const override { return "windows"; }
+    const char* displayName() const override { return configName;  }
+    const char* identifier() const override { return configId; }
 };
 
 class ToolchainMSVC : public Toolchain

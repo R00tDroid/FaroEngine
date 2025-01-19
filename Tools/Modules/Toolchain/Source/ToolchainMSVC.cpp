@@ -1,8 +1,7 @@
 #include "ToolchainMSVC.hpp"
 
-TargetMSVC* msvcConfigurations[2] = {
-    new TargetMSVC("WindowsX64", "x64"),
-    new TargetMSVC(),
+TargetMSVC* msvcConfigurations[] = {
+    new TargetMSVC("Windows", "windowsx64"),
 };
 
 ToolchainMSVC msvcInstance;
@@ -14,10 +13,10 @@ ToolchainMSVC& ToolchainMSVC::instance()
 
 unsigned int ToolchainMSVC::targets()
 {
-    return 0;
+    return sizeof(msvcConfigurations) / sizeof(TargetMSVC*);
 }
 
-Target* ToolchainMSVC::target(unsigned int)
+Target* ToolchainMSVC::target(unsigned int index)
 {
-    return nullptr;
+    return msvcConfigurations[index];
 }
