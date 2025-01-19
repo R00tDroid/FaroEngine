@@ -9,6 +9,8 @@ enum FaroToolchainExports Configuration
     C_ENUMSIZE
 };
 
+extern FaroToolchainExports const char* configurationToString(Configuration configuration);
+extern FaroToolchainExports Configuration configurationFromString(const char* name);
 
 struct FaroToolchainExports Target
 {
