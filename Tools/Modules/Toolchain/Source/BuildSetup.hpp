@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 #include "FaroToolchainExports.generated.h"
 
 enum FaroToolchainExports Configuration
@@ -23,4 +24,9 @@ struct FaroToolchainExports BuildSetup
 {
     Configuration configuration;
     Target* target;
+
+    inline std::string identifier() const
+    {
+        return std::string(target->identifier()) + "_" + std::string(configurationToString(configuration));
+    }
 };
