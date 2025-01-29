@@ -1,34 +1,33 @@
 #include "Commandline.hpp"
 #include "Version.generated.hpp"
-#include "Tasks/TaskBuild.hpp"
-#include "Tasks/TaskGenerate.hpp"
 
-void PrintHelp()
+void printHelp()
 {
     Utility::Print("Faro Engine build tool " + std::string(EngineVersion) + "\n\n");
     Utility::Print("Tasks:\n");
+    Utility::Print("-configure    Generate Visual Studio project\n");
+    Utility::Print("-project    Generate Visual Studio project\n");
     Utility::Print("-build    Compile the specified source\n");
     Utility::Print("-clean        Clean intermediates\n");
-    Utility::Print("-generate    Generate Visual Studio project\n");
     Utility::Print("-deploy        Assemble build for specified project\n\n");
 
-    Utility::Print("Compilation: -compile\n");
-    Utility::Print("-project <path>                                        The project to compile\n");
-    Utility::Print("-module <module1, module2>                            Modules to be compile\n");
+    Utility::Print("Building: -compile\n");
+    Utility::Print("-path <path>                                        The project to build\n");
+    Utility::Print("-module <module1, module2>                            Modules to be build\n");
     Utility::Print("-debug / -development / -release                        The configuration to compile with (debug / deployment / release)\n");
     Utility::Print("-platform <platform type><architecture>             Defines the platform (windows, android or linux) and architecture (x86, x64, arm, arm-v7, arm64, mips)\n\n");
 
     Utility::Print("Cleaning: -clean\n");
-    Utility::Print("-project <path>                                        The project to clean\n");
+    Utility::Print("-path <path>                                        The project to clean\n");
     Utility::Print("-module <module1, module2>                            Modules to be cleaned\n");
     Utility::Print("-debug / -development / -release                    The configuration to build or clean (debug / development / release)\n");
     Utility::Print("-platform <platform type> <architecture> [flavor]    Defines the platform (windows, android or linux) and architecture (x86, x64, arm, arm-v7, arm64, mips)\n\n");
 
     Utility::Print("solution generation: -generate\n");
-    Utility::Print("-project <path>    The project to generate solution files for\n");
+    Utility::Print("-path <path>    The project to generate solution files for\n");
 }
 
-bool ParseProject(ParameterList& parameters, TaskRunInfo& runInfo)
+bool parseProject(ParameterList& parameters, TaskInfo& taskInfo)
 {
     if (parameters.Contains("project"))
     {
@@ -36,8 +35,8 @@ bool ParseProject(ParameterList& parameters, TaskRunInfo& runInfo)
         {
             try
             {
-                runInfo.projectManifestPath = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
-                runInfo.projectManifestPath.make_preferred();
+                taskInfo.manifest = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
+                taskInfo.manifest.make_preferred();
             }
             catch (std::exception const& e)
             {
@@ -45,7 +44,7 @@ bool ParseProject(ParameterList& parameters, TaskRunInfo& runInfo)
                 return false;
             }
 
-            Utility::PrintLineD("Project argument: " + runInfo.projectManifestPath.string());
+            Utility::PrintLineD("Project argument: " + taskInfo.manifest.string());
         }
         else
         {
@@ -57,14 +56,14 @@ bool ParseProject(ParameterList& parameters, TaskRunInfo& runInfo)
     return true;
 }
 
-bool ParsePlatform(ParameterList& parameters, TaskRunInfo& runInfo)
+bool parsePlatform(ParameterList& parameters, TaskInfo& taskInfo)
 {
     if (parameters.Contains("platform"))
     {
         if (parameters.CountArguments("platform") == 1)
         {
-            runInfo.buildPlatform = parameters.GetArguments("platform")[0];
-            Utility::PrintLineD("Platform argument: " + runInfo.buildPlatform);
+            taskInfo.platformName = parameters.GetArguments("platform")[0];
+            Utility::PrintLineD("Platform argument: " + taskInfo.platformName);
         }
         else
         {
@@ -76,92 +75,124 @@ bool ParsePlatform(ParameterList& parameters, TaskRunInfo& runInfo)
     return true;
 }
 
-bool ParseBuildType(ParameterList& parameters, TaskRunInfo& runInfo)
+bool parseBuildType(ParameterList& parameters, TaskInfo& taskInfo)
 {
     if (parameters.Contains("debug"))
     {
-        runInfo.buildType = BuildType::Debug;
+        taskInfo.config = C_Debug;
         Utility::PrintLineD("Build type argument: debug");
     }
     if (parameters.Contains("development"))
     {
-        runInfo.buildType = BuildType::Development;
+        taskInfo.config = C_Development;
         Utility::PrintLineD("Build type argument: development");
     }
     if (parameters.Contains("release"))
     {
-        runInfo.buildType = BuildType::Release;
+        taskInfo.config = C_Release;
         Utility::PrintLineD("Build type argument: release");
     }
 
     return true;
 }
 
-bool ParseModule(ParameterList& parameters, TaskRunInfo& runInfo)
+bool parseModule(ParameterList& parameters, TaskInfo& taskInfo)
 {
     if (parameters.HasArguments("module"))
     {
         for (int i = 0; i < parameters.CountArguments("module"); i++)
         {
-            runInfo.moduleList.push_back(parameters.GetArguments("module")[i]);
+            taskInfo.modules.push_back(parameters.GetArguments("module")[i]);
         }
 
-        Utility::PrintLineD("Module argument: " + std::to_string(runInfo.moduleList.size()));
+        Utility::PrintLineD("Module argument: " + std::to_string(taskInfo.modules.size()));
     }
 
     return true;
 }
 
-bool ParseTasks(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
+bool parseTasks(ParameterList& parameters, TaskInfo& taskInfo)
 {
     if (parameters.Contains("generate"))
     {
         Utility::PrintLineD("Generate argument");
+        taskInfo.runConfigure = true;
+    }
 
-        if (runInfo.projectManifestPath.empty())
-        {
-            Utility::PrintLine("'-generate' requires a project to be specified");
-            return false;
-        }
-
-        tasks.push_back(new TaskGenerate());
+    if (parameters.Contains("project"))
+    {
+        Utility::PrintLineD("Project argument");
+        taskInfo.runProject = true;
     }
 
     if (parameters.Contains("build"))
     {
         Utility::PrintLineD("Build argument");
+        taskInfo.runBuild = true;
+    }
 
-        if (runInfo.projectManifestPath.empty())
-        {
-            Utility::PrintLine("'-build' requires a project to be specified");
-            return false;
-        }
-
-        if (runInfo.buildPlatform.length() == 0)
-        {
-            Utility::PrintLine("'-build' requires a platform to be specified");
-            return false;
-        }
-
-        if (runInfo.buildType == BuildType::ENUMSIZE)
-        {
-            Utility::PrintLine("'-build' requires a build configuration to be specified");
-            return false;
-        }
-
-        tasks.push_back(new TaskBuild(runInfo.buildPlatform, runInfo.buildType));
+    if (parameters.Contains("clean"))
+    {
+        Utility::PrintLineD("Clean argument");
+        taskInfo.runClean = true;
     }
 
     return true;
 }
 
-bool ParseParameters(ParameterList& parameters, std::vector<ITask*>& tasks, TaskRunInfo& runInfo)
+bool verifyTasks(TaskInfo& taskInfo)
 {
-    if (!ParseProject(parameters, runInfo)) return false;
-    if (!ParsePlatform(parameters, runInfo)) return false;
-    if (!ParseBuildType(parameters, runInfo)) return false;
-    if (!ParseModule(parameters, runInfo)) return false;
-    if (!ParseTasks(parameters, tasks, runInfo)) return false;
+    if (taskInfo.runConfigure)
+    {
+        if (taskInfo.manifest.empty())
+        {
+            Utility::PrintLine("'-configure' requires a project to be specified");
+            return false;
+        }
+    }
+
+    if (taskInfo.runProject)
+    {
+        if (taskInfo.manifest.empty())
+        {
+            Utility::PrintLine("'-project' requires a project to be specified");
+            return false;
+        }
+    }
+
+    if (taskInfo.runBuild)
+    {
+        if (taskInfo.manifest.empty())
+        {
+            Utility::PrintLine("'-build' requires a project to be specified");
+            return false;
+        }
+
+        if (taskInfo.platformName.empty())
+        {
+            Utility::PrintLine("'-build' requires a platform to be specified");
+            return false;
+        }
+
+        if (taskInfo.config == C_ENUMSIZE)
+        {
+            Utility::PrintLine("'-build' requires a build configuration to be specified");
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool parseParameters(ParameterList& parameters, TaskInfo& taskInfo)
+{
+    if (!parseProject(parameters, taskInfo)) return false;
+    if (!parsePlatform(parameters, taskInfo)) return false;
+    if (!parseBuildType(parameters, taskInfo)) return false;
+    if (!parseModule(parameters, taskInfo)) return false;
+    if (!parseTasks(parameters, taskInfo)) return false;
+
+    if (!verifyTasks(taskInfo)) return false;
 
     return true;
 }
