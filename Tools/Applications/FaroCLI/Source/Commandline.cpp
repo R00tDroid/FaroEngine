@@ -29,26 +29,26 @@ void printHelp()
 
 bool parseProject(ParameterList& parameters, TaskInfo& taskInfo)
 {
-    if (parameters.Contains("project"))
+    if (parameters.Contains("path"))
     {
-        if (parameters.HasArguments("project"))
+        if (parameters.HasArguments("path"))
         {
             try
             {
-                taskInfo.manifest = std::filesystem::weakly_canonical(parameters.GetArguments("project")[0]);
+                taskInfo.manifest = std::filesystem::weakly_canonical(parameters.GetArguments("path")[0]);
                 taskInfo.manifest.make_preferred();
             }
             catch (std::exception const& e)
             {
-                Utility::PrintLine("Failed to locate project: " + parameters.GetArguments("project")[0] + " (" + e.what() + ")");
+                Utility::PrintLine("Failed to locate project: " + parameters.GetArguments("path")[0] + " (" + e.what() + ")");
                 return false;
             }
 
-            Utility::PrintLineD("Project argument: " + taskInfo.manifest.string());
+            Utility::PrintLineD("Path argument: " + taskInfo.manifest.string());
         }
         else
         {
-            Utility::PrintLine("Invalid -project argument. See -help for more information.");
+            Utility::PrintLine("Invalid -path argument. See -help for more information.");
             return false;
         }
     }
