@@ -147,18 +147,20 @@ void writeProjectConfigs(tinyxml2::XMLElement* projectElement, const std::string
 
 void writeConfigList(tinyxml2::XMLElement* projectElement, const std::string& VSPlatformVersion)
 {
-    std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
-    for (Toolchain* toolchain : toolchains)
+    for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
     {
-        std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-        for (BuildPlatform* platform : platforms)
+        Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
+
+        for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
         {
-            for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+            Target* target = toolchain->target(targetIndex);
+
+            for (int configurationIndex = 0; configurationIndex < Configuration::C_ENUMSIZE; configurationIndex++)
             {
-                const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+                const char* buildTypeName = configurationToString(static_cast<Configuration>(configurationIndex));
 
                 tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
-                propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
+                propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + std::string(target->identifier()) + " " + buildTypeName + "|Win32'").c_str());
                 propertyGroup->SetAttribute("Label", "Configuration");
 
                 {
@@ -174,12 +176,12 @@ void writeConfigList(tinyxml2::XMLElement* projectElement, const std::string& VS
     }
 }
 
-void writeConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSProjectInfo& VSProjectInfo, BuildPlatform* platform, BuildType buildType, IToolchain* toolchain)
+/*void writeConfigSection(tinyxml2::XMLElement* projectElement, VSProjectInfo& VSProjectInfo, BuildSetup setup, Toolchain* toolchain)
 {
-    const char* buildTypeName = BuildTypeNames[buildType];
+    std::string setupId = setup.identifier();
 
     tinyxml2::XMLElement* importGroup = projectElement->InsertNewChildElement("ImportGroup");
-    importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
+    importGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + setupId + "|Win32'").c_str());
     importGroup->SetAttribute("Label", "PropertySheets");
 
     {
@@ -190,17 +192,17 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSPr
     }
 
     tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
-    propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
+    propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + setupId + "|Win32'").c_str());
     {
         tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
 
         std::string includePaths;
 
-        ModuleManifest* moduleManifest = VSProjectInfo.GetModuleManifest();
+        ModuleManifest* moduleManifest = VSProjectInfo.getModuleManifest();
         if (moduleManifest != nullptr)
         {
-            toolchain->PrepareModuleForBuild(*VSProjectInfo.GetModuleManifest(), platform, buildType);
-            std::vector<std::filesystem::path> toolchainIncludes = toolchain->GetToolchainIncludes(platform, buildType);
+            toolchain->prepareModuleForBuild(*VSProjectInfo.getModuleManifest(), platform, buildType);
+            std::vector<std::filesystem::path> toolchainIncludes = toolchain->getToolchainIncludes(platform, buildType);
 
             for (std::filesystem::path& path : toolchainIncludes)
             {
@@ -208,9 +210,9 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSPr
             }
         }
 
-        for (std::filesystem::path& path : VSProjectInfo.GetIncludePaths())
+        for (std::filesystem::path& path : VSProjectInfo.getIncludePaths())
         {
-            includePaths += path + ";";
+            includePaths += path.string() + ";";
         }
 
         element->SetText(includePaths.c_str());
@@ -230,17 +232,17 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSPr
         element->SetText("$(ProjectDir)\\Intermediate");
 
         element = propertyGroup->InsertNewChildElement("NMakeBuildCommandLine");
-        element->SetText((VSProjectInfo.GetBuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
+        //element->SetText((VSProjectInfo.getBuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
 
         element = propertyGroup->InsertNewChildElement("NMakeReBuildCommandLine");
-        element->SetText((VSProjectInfo.GetRebuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
+        //element->SetText((VSProjectInfo.getRebuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
 
         element = propertyGroup->InsertNewChildElement("NMakeCleanCommandLine");
-        element->SetText((VSProjectInfo.GetCleanCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
+        //element->SetText((VSProjectInfo.getCleanCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
 
         element = propertyGroup->InsertNewChildElement("NMakeOutput");
 
-        std::filesystem::path outputPath = VSProjectInfo.getOutputExecutable(toolchain, platform, buildType);
+        std::filesystem::path outputPath = VSProjectInfo.getOutputExecutable(toolchain, setup);
         if (!outputPath.empty())
         {
             element->SetText(outputPath.c_str());
@@ -259,11 +261,11 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, TaskGenerate::VSPr
 
         element->SetText(preprocessorDefines.c_str());
     }
-}
+}*/
 
-void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeProjectFile(const VSProjectInfo&)
 {
-    Utility::EnsureDirectory(VSProjectInfo.projectPath.parent_path());
+    /*Utility::EnsureDirectory(project.projectPath.parent_path());
 
     tinyxml2::XMLDocument doc(false);
 
@@ -329,12 +331,12 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& VSProjectInfo)
     }
 
 
-    doc.SaveFile(VSProjectInfo.projectPath.c_str());
+    doc.SaveFile(VSProjectInfo.projectPath.c_str());*/
 }
 
-void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo&)
 {
-    if (!VSProjectInfo.debuggable) return;
+    /*if (!VSProjectInfo.debuggable) return;
 
     std::filesystem::path file = VSProjectInfo.projectPath;
     file.replace_extension(".vcxproj.user");
@@ -373,12 +375,12 @@ void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo& VSProjectI
     }
 
 
-    doc.SaveFile(file.c_str());
+    doc.SaveFile(file.c_str());*/
 }
 
-void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeFilterFile(const VSProjectInfo&)
 {
-    std::filesystem::path filePath = VSProjectInfo.projectPath;
+    /*std::filesystem::path filePath = VSProjectInfo.projectPath;
     filePath.replace_extension(".vcxproj.filters");
 
     tinyxml2::XMLDocument doc(false);
@@ -429,12 +431,12 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& VSProjectInfo)
         idElement->SetText(("{" + directory.second + "}").c_str());
     }
 
-    doc.SaveFile(filePath.c_str());
+    doc.SaveFile(filePath.c_str());*/
 }
 
-void VisualStudioGenerator::writeSolutionFile(const ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList)
+void VisualStudioGenerator::writeSolutionFile(const ProjectManifest*, std::vector<VSProjectInfo*>)
 {
-    std::ofstream stream(project->manifestDirectory / (project->projectName + ".sln"));
+    /*std::ofstream stream(project->manifestDirectory / (project->projectName + ".sln"));
 
     stream << "Microsoft Visual Studio Solution File, Format Version 12.00\n";
     stream << "# Visual Studio 16\n";
@@ -519,12 +521,12 @@ void VisualStudioGenerator::writeSolutionFile(const ProjectManifest* project, st
 
     stream << "EndGlobal\n";
 
-    stream.close();
+    stream.close();*/
 }
 
-void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream& stream, const VSProjectInfo& VSProjectInfo)
+void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream&, const VSProjectInfo&)
 {
-    std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
+    /*std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
     for (Toolchain* toolchain : toolchains)
     {
         std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
@@ -540,5 +542,5 @@ void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream& stream, co
                 }
             }
         }
-    }
+    }*/
 }

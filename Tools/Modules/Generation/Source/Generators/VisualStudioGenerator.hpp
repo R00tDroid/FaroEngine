@@ -24,7 +24,7 @@ struct VSProjectInfo
     virtual std::string getRebuildCommand() = 0;
     virtual std::string getCleanCommand() = 0;
 
-    virtual std::filesystem::path getOutputExecutable(Toolchain*, Configuration*);
+    virtual std::filesystem::path getOutputExecutable(Toolchain*, BuildSetup&);
 
     virtual std::filesystem::path getRootDirectory();
 
@@ -54,7 +54,7 @@ struct VSModuleInfo : VSProjectInfo
     std::vector<std::filesystem::path> getIncludePaths() override;
     std::filesystem::path getRootDirectory() override;
 
-    std::filesystem::path getOutputExecutable(Toolchain*, Configuration*) override;
+    std::filesystem::path getOutputExecutable(Toolchain*, BuildSetup&) override;
 
     ModuleManifest* getModuleManifest() override;
 
