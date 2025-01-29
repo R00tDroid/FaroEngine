@@ -10,4 +10,4 @@ target_include_directories(FaroCLI PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Source)
 
 target_link_libraries(FaroCLI PUBLIC FaroTools FaroProjects FaroGeneration)
 
-set_target_properties(FaroCLI PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "-configure -project -clean -build -path \"${CMAKE_CURRENT_LIST_DIR}\\..\\Tests\\TestProject\\TestProject.faroproject.json\"")
+set_target_properties(FaroCLI PROPERTIES VS_DEBUGGER_COMMAND_ARGUMENTS "-configure -project -clean -build -debug -platform windowsx64 -path \"${CMAKE_CURRENT_LIST_DIR}\\..\\Tests\\TestProject\\TestProject.faroproject.json\"")
