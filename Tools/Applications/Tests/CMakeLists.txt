@@ -4,7 +4,7 @@ file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
 )
 
-add_library(Tests SHARED ${SourceFiles})
+add_executable(Tests ${SourceFiles})
 
 target_include_directories(Tests PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Source)
 
