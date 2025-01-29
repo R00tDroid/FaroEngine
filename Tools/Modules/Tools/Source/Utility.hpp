@@ -19,12 +19,12 @@ namespace Utility
     inline void PrintLine(const std::string&& log) { PrintLine(log); }
 
     void FaroToolsExports PrintD(const char* log);
-    inline void PrintD(const std::string& log) { PrintLine(log.c_str()); }
-    inline void PrintD(const std::string&& log) { PrintLine(log); }
+    inline void PrintD(const std::string& log) { PrintD(log.c_str()); }
+    inline void PrintD(const std::string&& log) { PrintD(log); }
 
     void FaroToolsExports PrintLineD(const char* log);
-    inline void PrintLineD(const std::string& log) { PrintLine(log.c_str()); }
-    inline void PrintLineD(const std::string&& log) { PrintLine(log); }
+    inline void PrintLineD(const std::string& log) { PrintLineD(log.c_str()); }
+    inline void PrintLineD(const std::string&& log) { PrintLineD(log); }
 
     void FaroToolsExports EnsureDirectory(const char* path);
 
