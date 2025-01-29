@@ -7,6 +7,96 @@
 #include "FaroLocation.hpp"
 #include "Toolchain.hpp"
 
+bool VSProjectInfo::hasSourceFiles()
+{
+    return true; //TODO Implement
+}
+
+std::vector<std::filesystem::path> VSProjectInfo::getSourceFiles()
+{
+    return {}; //TODO Implement
+}
+
+std::vector<std::filesystem::path> VSProjectInfo::getIncludePaths()
+{
+    return {}; //TODO Implement
+}
+
+std::filesystem::path VSProjectInfo::getOutputExecutable(Toolchain*, BuildSetup&)
+{
+    return {}; //TODO Implement
+}
+
+std::filesystem::path VSProjectInfo::getRootDirectory()
+{
+    return {}; //TODO Implement
+}
+
+ModuleManifest* VSProjectInfo::getModuleManifest()
+{
+    return {}; //TODO Implement
+}
+
+std::string VSCustomCommandInfo::getBuildCommand()
+{
+    return {}; //TODO Implement
+}
+
+std::string VSCustomCommandInfo::getRebuildCommand()
+{
+    return {}; //TODO Implement
+}
+
+std::string VSCustomCommandInfo::getCleanCommand()
+{
+    return {}; //TODO Implement
+}
+
+std::string VSModuleInfo::getBuildCommand()
+{
+    return {}; //TODO Implement
+}
+
+std::string VSModuleInfo::getRebuildCommand()
+{
+    return {}; //TODO Implement
+}
+
+std::string VSModuleInfo::getCleanCommand()
+{
+    return {}; //TODO Implement
+}
+
+bool VSModuleInfo::hasSourceFiles()
+{
+    return {}; //TODO Implement
+}
+
+std::vector<std::filesystem::path> VSModuleInfo::getSourceFiles()
+{
+    return {}; //TODO Implement
+}
+
+std::vector<std::filesystem::path> VSModuleInfo::getIncludePaths()
+{
+    return {}; //TODO Implement
+}
+
+std::filesystem::path VSModuleInfo::getRootDirectory()
+{
+    return {}; //TODO Implement
+}
+
+std::filesystem::path VSModuleInfo::getOutputExecutable(Toolchain*, BuildSetup&)
+{
+    return {}; //TODO Implement
+}
+
+ModuleManifest* VSModuleInfo::getModuleManifest()
+{
+    return {}; //TODO Implement
+}
+
 bool VisualStudioGenerator::generate(const ProjectManifest* project)
 {
     Utility::PrintLine("Performing module generation...");
@@ -376,6 +466,16 @@ void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo&)
 
 
     doc.SaveFile(file.c_str());*/
+}
+
+std::filesystem::path VisualStudioGenerator::getFileRelativeDirectory(std::filesystem::path, std::filesystem::path)
+{
+    return {}; //TODO Implement
+}
+
+std::vector<std::filesystem::path> VisualStudioGenerator::getDirectoryTree(std::filesystem::path&)
+{
+    return {}; //TODO Implement
 }
 
 void VisualStudioGenerator::writeFilterFile(const VSProjectInfo&)
