@@ -4,7 +4,7 @@ file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
 )
 
-add_library(FaroCLI SHARED ${SourceFiles})
+add_executable(FaroCLI ${SourceFiles})
 
 target_include_directories(FaroCLI PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Source)
 
