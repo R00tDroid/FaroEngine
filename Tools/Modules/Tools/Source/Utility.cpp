@@ -37,7 +37,7 @@ void Utility::PrintD(const char* log)
 }
 void Utility::PrintLineD(const char* log)
 {
-    Print(log);
+    PrintD(log);
     Print("\n");
 
 }
