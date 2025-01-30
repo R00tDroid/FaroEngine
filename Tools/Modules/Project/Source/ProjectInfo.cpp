@@ -63,7 +63,7 @@ bool parseProject(ProjectManifest::Impl& impl, picojson::object& rootObject)
     return true;
 }
 
-bool parseModules(ProjectManifest::Impl& impl, picojson::object& rootObject)
+bool parseModules(ProjectManifest::Impl& impl, ProjectManifest& project, picojson::object& rootObject)
 {
     for (ModuleManifest* module : impl.modules)
     {
@@ -89,7 +89,7 @@ bool parseModules(ProjectManifest::Impl& impl, picojson::object& rootObject)
                 return false;
             }
 
-            std::filesystem::path moduleRoot = std::filesystem::path() / moduleValue.get<std::string>();
+            std::filesystem::path moduleRoot = std::filesystem::path(project.manifestDirectory()) / moduleValue.get<std::string>();
             moduleRoot.make_preferred();
 
             bool foundManifest = false;
@@ -97,7 +97,7 @@ bool parseModules(ProjectManifest::Impl& impl, picojson::object& rootObject)
             {
                 if (std::filesystem::is_regular_file(entry))
                 {
-                    std::string extension(ProjectManifest::projectManifestExtension());
+                    std::string extension(ModuleManifest::moduleManifestExtension());
 
                     std::string path = entry.path().string().substr();
                     if (path.length() > extension.length() && path.substr(path.length() - extension.length()) == extension)
@@ -111,7 +111,7 @@ bool parseModules(ProjectManifest::Impl& impl, picojson::object& rootObject)
 
             if (!foundManifest)
             {
-                Utility::PrintLine("Could not find module manifest in: " + moduleRoot.string());
+                Utility::PrintLine("Could not find module manifest in: " + moduleRoot.string() + ". Should have the following extension: \"" + ModuleManifest::moduleManifestExtension() + "\"");
                 return false;
             }
         }
@@ -150,7 +150,7 @@ bool ProjectManifest::configure()
     {
         return false;
     }
-    if (!parseModules(*impl, rootObject))
+    if (!parseModules(*impl, *this, rootObject))
     {
         return false;
     }
