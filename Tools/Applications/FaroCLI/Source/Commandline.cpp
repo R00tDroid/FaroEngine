@@ -113,9 +113,9 @@ bool parseModule(ParameterList& parameters, TaskInfo& taskInfo)
 
 bool parseTasks(ParameterList& parameters, TaskInfo& taskInfo)
 {
-    if (parameters.Contains("generate"))
+    if (parameters.Contains("configure"))
     {
-        Utility::PrintLineD("Generate argument");
+        Utility::PrintLineD("Configure argument");
         taskInfo.runConfigure = true;
     }
 
