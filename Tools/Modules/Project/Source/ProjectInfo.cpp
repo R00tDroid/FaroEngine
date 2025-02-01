@@ -155,12 +155,20 @@ bool ProjectManifest::configure()
         return false;
     }
 
+    unsigned int setupCount = buildSetups();
     for (ModuleManifest* mod : impl->modules)
     {
-        if (!mod->configure(nullptr)) //TODO Get setups from toolchains and configs
+        Utility::PrintLineD(std::string("Configuring: ") + mod->manifestPath());
+        for (unsigned int setupIndex = 0; setupIndex < setupCount; setupIndex++) 
         {
-            Utility::PrintLine(std::string("Error when configuring module: ") + mod->manifestPath());
-            return false;
+            BuildSetup setup = buildSetup(setupIndex);
+            Utility::PrintLineD(std::string("Configuring: ") + setup.identifier());
+
+            if (!mod->configure(setup))
+            {
+                Utility::PrintLine(std::string("Error when configuring module: ") + mod->manifestPath());
+                return false;
+            }
         }
     }
 
