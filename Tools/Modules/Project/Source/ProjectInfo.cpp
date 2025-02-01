@@ -159,7 +159,7 @@ bool ProjectManifest::configure()
     std::filesystem::path uuidStorage = std::filesystem::path(cacheDirectory()) / "ProjectId.txt";
     if (Utility::GetCachedUUID(uuidStorage.string().c_str(), uuid))
     {
-        impl->uuid = uuid;
+        impl->uuid = std::string(uuid, UUID_LENGTH);
     }
 
     std::ofstream moduleList(std::filesystem::path(cacheDirectory()) / "Modules.txt");
