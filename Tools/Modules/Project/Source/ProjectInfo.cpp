@@ -157,7 +157,7 @@ bool ProjectManifest::configure()
 
     for (ModuleManifest* mod : impl->modules)
     {
-        if (!mod->configure(nullptr)) //TODO 
+        if (!mod->configure(nullptr)) //TODO Get setups from toolchains and configs
         {
             Utility::PrintLine(std::string("Error when configuring module: ") + mod->manifestPath());
             return false;
