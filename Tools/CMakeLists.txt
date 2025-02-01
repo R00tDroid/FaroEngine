@@ -27,6 +27,7 @@ AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/tinyxml2")
 set(BUILD_GMOCK FALSE)
 set(INSTALL_GTEST FALSE)
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
+AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/duktape")
 
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Toolchain")
