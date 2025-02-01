@@ -155,6 +155,15 @@ bool ProjectManifest::configure()
         return false;
     }
 
+    for (ModuleManifest* mod : impl->modules)
+    {
+        if (!mod->configure(nullptr)) //TODO 
+        {
+            Utility::PrintLine(std::string("Error when configuring module: ") + mod->manifestPath());
+            return false;
+        }
+    }
+
     char uuid[UUID_LENGTH];
     std::filesystem::path uuidStorage = std::filesystem::path(cacheDirectory()) / "ProjectId.txt";
     if (Utility::GetCachedUUID(uuidStorage.string().c_str(), uuid))
