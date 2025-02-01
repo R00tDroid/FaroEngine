@@ -179,35 +179,35 @@ const char* ModuleManifest::uuid() const
     return impl->uuid.c_str();
 }
 
-bool ModuleManifest::configure(const BuildSetup*) const
+bool ModuleManifest::configure(const BuildSetup&) const
 {
     return false; //TODO Implement
 }
 
-bool ModuleManifest::load(const BuildSetup*) const
+bool ModuleManifest::load(const BuildSetup&) const
 {
     return false; //TODO Implement
 }
 
-bool ModuleManifest::prebuild(const BuildSetup*) const
+bool ModuleManifest::prebuild(const BuildSetup&) const
 {
     return false; //TODO Implement
 }
 
-bool ModuleManifest::postbuild(const BuildSetup*) const
+bool ModuleManifest::postbuild(const BuildSetup&) const
 {
     return false; //TODO Implement
 }
 
-std::filesystem::path getBuildSetupPath(const ModuleManifest* module, const BuildSetup* setup)
+std::filesystem::path getBuildSetupPath(const ModuleManifest* module, const BuildSetup& setup)
 {
     std::filesystem::path cacheFolder = module->cacheDirectory();
     std::filesystem::path configsFolder = cacheFolder / "Config";
-    std::string configName = std::string(setup->target->identifier()) + "_" + configurationToString(setup->configuration);
+    std::string configName(setup.identifier());
     return configsFolder / configName;
 }
 
-bool ModuleManifest::loadCache(const BuildSetup* config)
+bool ModuleManifest::loadCache(const BuildSetup& config)
 {
     std::filesystem::path cacheFolder = getBuildSetupPath(this, config);
 
@@ -298,7 +298,7 @@ bool ModuleManifest::loadCache(const BuildSetup* config)
     return true;
 }
 
-bool ModuleManifest::saveCache(const BuildSetup* config) const
+bool ModuleManifest::saveCache(const BuildSetup& config) const
 {
     std::filesystem::path cacheFolder = getBuildSetupPath(this, config);
 

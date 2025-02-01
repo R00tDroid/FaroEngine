@@ -71,16 +71,16 @@ public:
 
     const char* uuid() const override;
 
-    bool configure(const BuildSetup* setup) const;
-    bool load(const BuildSetup* setup) const;
+    bool configure(const BuildSetup& setup) const;
+    bool load(const BuildSetup& setup) const;
 
-    bool prebuild(const BuildSetup* setup) const;
-    bool postbuild(const BuildSetup* setup) const;
+    bool prebuild(const BuildSetup& setup) const;
+    bool postbuild(const BuildSetup& setup) const;
 
 private:
     struct Impl;
     Impl* impl = nullptr;
 
-    bool saveCache(const BuildSetup* setup) const;
-    bool loadCache(const BuildSetup* setup);
+    bool saveCache(const BuildSetup& setup) const;
+    bool loadCache(const BuildSetup& setup);
 };
