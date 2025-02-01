@@ -1,0 +1,59 @@
+#include "ScriptVM.hpp"
+#include "Utility.hpp"
+#include <fstream>
+
+bool ScriptVM::init(std::filesystem::path file)
+{
+	context = duk_create_heap_default();
+	return loadFromFile(file);
+}
+
+void ScriptVM::destroy()
+{
+	duk_destroy_heap(context);
+	context = nullptr;
+}
+
+bool ScriptVM::loadFromFile(std::filesystem::path file)
+{
+	std::ifstream stream(file);
+	std::string string((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
+	stream.close();
+
+	return loadFromString(string);
+}
+
+bool ScriptVM::loadFromString(std::string& string)
+{
+	duk_push_lstring(context, string.c_str(), string.length());
+
+	if (duk_peval(context) != 0)
+	{
+		Utility::PrintLine("> " + std::string(duk_safe_to_string(context, -1)));
+		destroy();
+		return false;
+	}
+
+	duk_pop(context);
+
+	return true;
+}
+
+bool ModuleScript::configure(const BuildSetup&)
+{
+	duk_push_global_object(context);
+
+	if (duk_get_global_string(context, "configure") == 0)
+	{
+		Utility::PrintLine("Could not find function 'configure'");
+		return false;
+	}
+
+	if (duk_pcall(context, 0) != DUK_EXEC_SUCCESS)
+	{
+		Utility::PrintLine("> " + std::string(duk_safe_to_string(context, -1)));
+		return false;
+	}
+
+	return true;
+}

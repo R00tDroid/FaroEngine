@@ -2,6 +2,7 @@
 #include <Utility.hpp>
 #include <fstream>
 #include <sstream>
+#include "ScriptVM.hpp"
 
 struct FolderMount::Impl
 {
@@ -179,9 +180,22 @@ const char* ModuleManifest::uuid() const
     return impl->uuid.c_str();
 }
 
-bool ModuleManifest::configure(const BuildSetup&) const
+bool ModuleManifest::configure(const BuildSetup& setup) const
 {
-    return false; //TODO Implement
+    ModuleScript vm;
+    if (!vm.init(manifestPath()))
+    {
+        return false;
+    }
+
+    if (!vm.configure(setup))
+    {
+        return false;
+    }
+
+    vm.destroy();
+
+    return true;
 }
 
 bool ModuleManifest::load(const BuildSetup&) const
