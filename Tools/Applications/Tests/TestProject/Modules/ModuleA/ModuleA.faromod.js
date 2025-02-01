@@ -1,17 +1,5 @@
-{
-    "PublicIncludeDirectories": [
-        "Source"
-    ],
-    "PrivateIncludeDirectories": [
-    ],
-    "Dependencies": [
-    ],
-    "SourceFilters": [
-        "Source/**/*.cpp",
-        "Source/**/*.hpp",
-        "Source/**/*.c",
-        "Source/**/*.h"
-    ],
-    "ModuleType": "Library",
-    "SolutionLocation": "TestProject"
+function configure(build_setup, module) {
+    print(build_setup.config);
+    print(build_setup.target);
+    module.name = "ModuleA"
 }
