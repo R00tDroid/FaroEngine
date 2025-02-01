@@ -14,8 +14,8 @@ protected:
     duk_context* context = nullptr;
 
 private:
-    bool loadFromFile(std::filesystem::path file);
-    bool loadFromString(std::string& string);
+    bool loadFromFile(const std::filesystem::path& file);
+    bool loadFromString(const std::string& string);
 };
 
 class ModuleScript : public ScriptVM
