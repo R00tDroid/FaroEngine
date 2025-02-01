@@ -6,6 +6,6 @@ add_library(FaroProjects SHARED ${SourceFiles})
 
 target_include_directories(FaroProjects PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Source)
 
-target_link_libraries(FaroProjects PUBLIC FaroTools FaroToolchain)
+target_link_libraries(FaroProjects PUBLIC Duktape FaroTools FaroToolchain)
 
 ModuleExports(FaroProjects ${CMAKE_CURRENT_LIST_DIR}/Source)
