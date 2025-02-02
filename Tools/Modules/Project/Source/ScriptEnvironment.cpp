@@ -1,4 +1,4 @@
-#include "ScriptVM.hpp"
+#include "ScriptEnvironment.hpp"
 #include "Utility.hpp"
 #include <fstream>
 
@@ -8,7 +8,7 @@ duk_ret_t ecma_print(duk_context* ctx)
 	return 0;
 }
 
-bool ScriptVM::init(std::filesystem::path file)
+bool ScriptEnvironment::init(std::filesystem::path file)
 {
 	context = duk_create_heap_default();
 
@@ -18,13 +18,13 @@ bool ScriptVM::init(std::filesystem::path file)
 	return loadFromFile(file);
 }
 
-void ScriptVM::destroy()
+void ScriptEnvironment::destroy()
 {
 	duk_destroy_heap(context);
 	context = nullptr;
 }
 
-bool ScriptVM::loadFromFile(const std::filesystem::path& file)
+bool ScriptEnvironment::loadFromFile(const std::filesystem::path& file)
 {
 	std::ifstream stream(file);
 	std::string string((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
@@ -33,7 +33,7 @@ bool ScriptVM::loadFromFile(const std::filesystem::path& file)
 	return loadFromString(string);
 }
 
-bool ScriptVM::loadFromString(const std::string& string)
+bool ScriptEnvironment::loadFromString(const std::string& string)
 {
 	duk_push_lstring(context, string.c_str(), string.length());
 

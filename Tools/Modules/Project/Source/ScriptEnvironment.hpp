@@ -4,7 +4,7 @@
 
 struct BuildSetup;
 
-class ScriptVM
+class ScriptEnvironment
 {
 public:
     bool init(std::filesystem::path file);
@@ -18,7 +18,7 @@ private:
     bool loadFromString(const std::string& string);
 };
 
-class ModuleScript : public ScriptVM
+class ModuleScript : public ScriptEnvironment
 {
 public:
     bool configure(const BuildSetup&);
