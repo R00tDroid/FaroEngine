@@ -12,6 +12,7 @@ public:
 
 protected:
     duk_context* context = nullptr;
+    virtual bool bindEnvironment();
 
 private:
     bool loadFromFile(const std::filesystem::path& file);
@@ -22,4 +23,7 @@ class ModuleScript : public ScriptEnvironment
 {
 public:
     bool configure(const BuildSetup&);
+
+protected:
+    bool bindEnvironment() override;
 };

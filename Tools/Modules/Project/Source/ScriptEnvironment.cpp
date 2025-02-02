@@ -12,10 +12,19 @@ bool ScriptEnvironment::init(std::filesystem::path file)
 {
 	context = duk_create_heap_default();
 
+	if (!loadFromFile(file)) return false;
+
+	if (!bindEnvironment()) return false;
+
+	return true;
+}
+
+bool ScriptEnvironment::bindEnvironment()
+{
 	duk_push_c_function(context, ecma_print, 1);
 	duk_put_global_string(context, "print");
 
-	return loadFromFile(file);
+	return true;
 }
 
 void ScriptEnvironment::destroy()
@@ -64,6 +73,13 @@ bool ModuleScript::configure(const BuildSetup&)
 		Utility::PrintLine("> " + std::string(duk_safe_to_string(context, -1)));
 		return false;
 	}
+
+	return true;
+}
+
+bool ModuleScript::bindEnvironment()
+{
+	if (!ScriptEnvironment::bindEnvironment()) return false;
 
 	return true;
 }
