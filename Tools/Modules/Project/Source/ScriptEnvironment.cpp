@@ -4,7 +4,10 @@
 
 duk_ret_t ecma_print(duk_context* ctx)
 {
-	if (duk_is_string(ctx, 0) || duk_is_number(ctx, 0) || duk_is_boolean(ctx, 0)) Utility::PrintLine("> " + std::string(duk_to_string(ctx, 0)));
+	if (duk_is_string(ctx, 0) || duk_is_number(ctx, 0) || duk_is_boolean(ctx, 0))
+		Utility::PrintLine("> " + std::string(duk_to_string(ctx, 0)));
+	else
+		Utility::PrintLine("print()");
 	return 0;
 }
 
@@ -25,6 +28,13 @@ bool ScriptEnvironment::bindEnvironment()
 	duk_put_global_string(context, "print");
 
 	return true;
+}
+
+void ScriptEnvironment::printStack()
+{
+	duk_push_context_dump(context);
+	Utility::PrintLineD(std::string(duk_to_string(context, -1)));
+	duk_pop(context);
 }
 
 void ScriptEnvironment::destroy()
@@ -58,9 +68,11 @@ bool ScriptEnvironment::loadFromString(const std::string& string)
 	return true;
 }
 
-bool ModuleScript::configure(const BuildSetup&)
+bool ModuleScript::configure(const BuildSetup& setup)
 {
 	duk_push_global_object(context);
+
+	EcmaBuildSetup(context, setup);
 
 	if (duk_get_global_string(context, "configure") == 0)
 	{
@@ -68,7 +80,18 @@ bool ModuleScript::configure(const BuildSetup&)
 		return false;
 	}
 
-	if (duk_pcall(context, 0) != DUK_EXEC_SUCCESS)
+duk_push_object(context);
+	//ECMAOBJECT_EXPOSE_FUNCTION(context, -2, EcmaBuildSetup, config, 0)
+	//ECMAOBJECT_EXPOSE_FUNCTION(context, -2, EcmaBuildSetup, target, 0)
+
+	duk_push_c_function(context, &ModuleScript::config, 0);
+	duk_put_prop_string(context, -2, "config");
+	duk_push_c_function(context, &ModuleScript::target, 0);
+	duk_put_prop_string(context, -2, "target");
+
+    printStack();
+
+	if (duk_pcall(context, 1) != DUK_EXEC_SUCCESS)
 	{
 		Utility::PrintLine("> " + std::string(duk_safe_to_string(context, -1)));
 		return false;
@@ -82,4 +105,16 @@ bool ModuleScript::bindEnvironment()
 	if (!ScriptEnvironment::bindEnvironment()) return false;
 
 	return true;
+}
+
+duk_ret_t ModuleScript::config(duk_context* context)
+{
+	duk_push_string(context, "Release");
+	return 1;
+}
+
+duk_ret_t ModuleScript::target(duk_context* context)
+{
+	duk_push_string(context, "WindowsX64");
+	return 1;
 }

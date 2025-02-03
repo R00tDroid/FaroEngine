@@ -13,6 +13,7 @@ public:
 protected:
     duk_context* context = nullptr;
     virtual bool bindEnvironment();
+    void printStack();
 
 private:
     bool loadFromFile(const std::filesystem::path& file);
@@ -26,4 +27,7 @@ public:
 
 protected:
     bool bindEnvironment() override;
+
+    static duk_ret_t config(duk_context* context);
+    static duk_ret_t target(duk_context* context);
 };
