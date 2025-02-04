@@ -6,13 +6,6 @@
 #define EcmaObjectFunction(type, function) static duk_ret_t function##_relay(duk_context* context) { duk_push_this(context); duk_get_prop_string(context, -1, "ptr"); void* ptr = duk_get_pointer(context, -1); type* instance = (type*)ptr; if(instance == nullptr){ return DUK_RET_ERROR; } return instance->function(context); } duk_ret_t function(duk_context* context)
 #define EcmaObjectFunctionBinding(function, args) functions.insert(std::pair<const char*, EcmaFunction>(#function, { &function##_relay, args }))
 
-void printContextStack(duk_context* context)
-{
-    duk_push_context_dump(context);
-    Utility::PrintLineD(std::string(duk_to_string(context, -1)));
-    duk_pop(context);
-}
-
 struct EcmaFunction
 {
     duk_c_function function = nullptr;
@@ -82,15 +75,6 @@ private:
     std::string name;
 };
 
-duk_ret_t ecma_print(duk_context* ctx)
-{
-    if (duk_is_string(ctx, 0) || duk_is_number(ctx, 0) || duk_is_boolean(ctx, 0))
-        Utility::PrintLine("> " + std::string(duk_to_string(ctx, 0)));
-    else
-        Utility::PrintLine("print()");
-    return 0;
-}
-
 bool ScriptEnvironment::init(std::filesystem::path file)
 {
     context = duk_create_heap_default();
@@ -104,21 +88,32 @@ bool ScriptEnvironment::init(std::filesystem::path file)
 
 bool ScriptEnvironment::bindEnvironment()
 {
-    duk_push_c_function(context, ecma_print, 1);
+    duk_push_c_function(context, &ScriptEnvironment::print, 1);
     duk_put_global_string(context, "print");
 
     return true;
-}
-
-void ScriptEnvironment::printStack()
-{
-    printContextStack(context);
 }
 
 void ScriptEnvironment::destroy()
 {
     duk_destroy_heap(context);
     context = nullptr;
+}
+
+duk_ret_t ScriptEnvironment::print(duk_context* context)
+{
+    if (duk_is_string(context, 0) || duk_is_number(context, 0) || duk_is_boolean(context, 0))
+        Utility::PrintLine("> " + std::string(duk_to_string(context, 0)));
+    else
+        Utility::PrintLine("print()");
+    return 0;
+}
+
+void ScriptEnvironment::dumpStack(duk_context* context)
+{
+    duk_push_context_dump(context);
+    Utility::PrintLineD(std::string(duk_to_string(context, -1)));
+    duk_pop(context);
 }
 
 bool ScriptEnvironment::loadFromFile(const std::filesystem::path& file)

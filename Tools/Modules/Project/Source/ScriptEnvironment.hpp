@@ -10,10 +10,12 @@ public:
     bool init(std::filesystem::path file);
     void destroy();
 
+    static duk_ret_t print(duk_context* context);
+    static void dumpStack(duk_context* context);
+
 protected:
     duk_context* context = nullptr;
     virtual bool bindEnvironment();
-    void printStack();
 
 private:
     bool loadFromFile(const std::filesystem::path& file);
