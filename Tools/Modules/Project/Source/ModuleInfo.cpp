@@ -2,7 +2,7 @@
 #include <Utility.hpp>
 #include <fstream>
 #include <sstream>
-#include "ScriptEnvironment.hpp"
+#include "Scripts/ModuleScript.hpp"
 
 struct FolderMount::Impl
 {
