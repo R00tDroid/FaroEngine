@@ -1,14 +1,22 @@
 #include "ScriptEnvironment.hpp"
 #include "Utility.hpp"
 #include <fstream>
+#include <map>
 
 #define EcmaObjectFunction(type, function) static duk_ret_t function##_relay(duk_context* context) { duk_push_this(context); duk_get_prop_string(context, -1, "ptr"); void* ptr = duk_get_pointer(context, -1); type* instance = (type*)ptr; if(instance == nullptr){ return DUK_RET_ERROR; } return instance->function(context); } duk_ret_t function(duk_context* context)
 #define EcmaObjectFunctionBinding(function, args) functions.insert(std::pair<const char*, EcmaFunction>(#function, { &function##_relay, args }))
 
+void printContextStack(duk_context* context)
+{
+    duk_push_context_dump(context);
+    Utility::PrintLineD(std::string(duk_to_string(context, -1)));
+    duk_pop(context);
+}
+
 struct EcmaFunction
 {
     duk_c_function function = nullptr;
-    unsigned int args = 0;
+    duk_int_t args = 0;
 };
 
 class EcmaObject
@@ -54,101 +62,119 @@ public:
     }
 };
 
+class EcmaModule : public EcmaObject
+{
+public:
+    EcmaModule()
+    {
+        EcmaObjectFunctionBinding(setName, 1);
+    }
+
+    EcmaObjectFunction(EcmaModule, setName)
+    {
+        name = duk_safe_to_string(context, 0);
+        Utility::PrintLine("Name: " + name);
+        return 0;
+    }
+    const std::string& getName() const { return name; }
+
+private:
+    std::string name;
+};
+
 duk_ret_t ecma_print(duk_context* ctx)
 {
-	if (duk_is_string(ctx, 0) || duk_is_number(ctx, 0) || duk_is_boolean(ctx, 0))
-		Utility::PrintLine("> " + std::string(duk_to_string(ctx, 0)));
-	else
-		Utility::PrintLine("print()");
-	return 0;
+    if (duk_is_string(ctx, 0) || duk_is_number(ctx, 0) || duk_is_boolean(ctx, 0))
+        Utility::PrintLine("> " + std::string(duk_to_string(ctx, 0)));
+    else
+        Utility::PrintLine("print()");
+    return 0;
 }
 
 bool ScriptEnvironment::init(std::filesystem::path file)
 {
-	context = duk_create_heap_default();
+    context = duk_create_heap_default();
 
-	if (!loadFromFile(file)) return false;
+    if (!loadFromFile(file)) return false;
 
-	if (!bindEnvironment()) return false;
+    if (!bindEnvironment()) return false;
 
-	return true;
+    return true;
 }
 
 bool ScriptEnvironment::bindEnvironment()
 {
-	duk_push_c_function(context, ecma_print, 1);
-	duk_put_global_string(context, "print");
+    duk_push_c_function(context, ecma_print, 1);
+    duk_put_global_string(context, "print");
 
-	return true;
+    return true;
 }
 
 void ScriptEnvironment::printStack()
 {
-	duk_push_context_dump(context);
-	Utility::PrintLineD(std::string(duk_to_string(context, -1)));
-	duk_pop(context);
+    printContextStack(context);
 }
 
 void ScriptEnvironment::destroy()
 {
-	duk_destroy_heap(context);
-	context = nullptr;
+    duk_destroy_heap(context);
+    context = nullptr;
 }
 
 bool ScriptEnvironment::loadFromFile(const std::filesystem::path& file)
 {
-	std::ifstream stream(file);
-	std::string string((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
-	stream.close();
+    std::ifstream stream(file);
+    std::string string((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
+    stream.close();
 
-	return loadFromString(string);
+    return loadFromString(string);
 }
 
 bool ScriptEnvironment::loadFromString(const std::string& string)
 {
-	duk_push_lstring(context, string.c_str(), string.length());
+    duk_push_lstring(context, string.c_str(), string.length());
 
-	if (duk_peval(context) != 0)
-	{
-		Utility::PrintLine("> " + std::string(duk_safe_to_string(context, -1)));
-		destroy();
-		return false;
-	}
+    if (duk_peval(context) != 0)
+    {
+        Utility::PrintLine("> " + std::string(duk_safe_to_string(context, -1)));
+        destroy();
+        return false;
+    }
 
-	duk_pop(context);
+    duk_pop(context);
 
-	return true;
+    return true;
 }
 
 bool ModuleScript::configure(const BuildSetup& setup)
 {
-	duk_push_global_object(context);
+    duk_push_global_object(context);
 
     EcmaBuildSetup buildSetup(setup);
+    EcmaModule buildModule;
 
-	if (duk_get_global_string(context, "configure") == 0)
-	{
-		Utility::PrintLine("Could not find function 'configure'");
-		return false;
-	}
+    if (duk_get_global_string(context, "configure") == 0)
+    {
+        Utility::PrintLine("Could not find function 'configure'");
+        return false;
+    }
 
 
     buildSetup.bind(context);
+    buildModule.bind(context);
 
-    printStack();
+    if (duk_pcall(context, 2) != DUK_EXEC_SUCCESS)
+    {
+        Utility::PrintLine("> " + std::string(duk_safe_to_string(context, -1)));
+        return false;
+    }
 
-	if (duk_pcall(context, 1) != DUK_EXEC_SUCCESS)
-	{
-		Utility::PrintLine("> " + std::string(duk_safe_to_string(context, -1)));
-		return false;
-	}
-
-	return true;
+    return true;
 }
 
 bool ModuleScript::bindEnvironment()
 {
-	if (!ScriptEnvironment::bindEnvironment()) return false;
+    if (!ScriptEnvironment::bindEnvironment()) return false;
 
-	return true;
+    return true;
 }
