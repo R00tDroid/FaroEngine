@@ -5,7 +5,7 @@
 class EcmaBuildSetup : public EcmaObject
 {
 public:
-    EcmaBuildSetup(const BuildSetup&)
+    EcmaBuildSetup(const BuildSetup& setup) : setup(setup)
     {
         EcmaObjectFunctionBinding(config, 0);
         EcmaObjectFunctionBinding(target, 0);
@@ -13,15 +13,18 @@ public:
 
     EcmaObjectFunction(EcmaBuildSetup, config)
     {
-        duk_push_string(context, "Release");
+        duk_push_string(context, configurationToString(setup.configuration));
         return 1;
     }
 
     EcmaObjectFunction(EcmaBuildSetup, target)
     {
-        duk_push_string(context, "WindowsX64");
+        duk_push_string(context, setup.target->identifier());
         return 1;
     }
+
+private:
+    BuildSetup setup;
 };
 
 class EcmaModule : public EcmaObject
