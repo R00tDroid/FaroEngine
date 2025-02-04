@@ -2,6 +2,7 @@
 #include "Utility.hpp"
 #include <fstream>
 #include <map>
+#include "ModuleInfo.hpp"
 
 #define EcmaObjectFunction(type, function) static duk_ret_t function##_relay(duk_context* context) { duk_push_this(context); duk_get_prop_string(context, -1, "ptr"); void* ptr = duk_get_pointer(context, -1); type* instance = (type*)ptr; if(instance == nullptr){ return DUK_RET_ERROR; } return instance->function(context); } duk_ret_t function(duk_context* context)
 #define EcmaObjectFunctionBinding(function, args) functions.insert(std::pair<const char*, EcmaFunction>(#function, { &function##_relay, args }))
@@ -58,9 +59,17 @@ public:
 class EcmaModule : public EcmaObject
 {
 public:
-    EcmaModule()
+    EcmaModule(ModuleManifest* moduleManifest) : moduleManifest(moduleManifest)
     {
+        EcmaObjectFunctionBinding(dir, 0);
         EcmaObjectFunctionBinding(setName, 1);
+        EcmaObjectFunctionBinding(scanSource, 1);
+    }
+
+    EcmaObjectFunction(EcmaModule, dir)
+    {
+        duk_push_string(context, moduleManifest->manifestDirectory());
+        return 1;
     }
 
     EcmaObjectFunction(EcmaModule, setName)
@@ -71,7 +80,18 @@ public:
     }
     const std::string& getName() const { return name; }
 
+    EcmaObjectFunction(EcmaModule, scanSource)
+    {
+        std::filesystem::path path(duk_safe_to_string(context, 0));
+        path.make_preferred();
+        path = weakly_canonical(path);
+
+        Utility::PrintLine("Scan source: " + path.string());
+        return 0;
+    }
+
 private:
+    ModuleManifest* moduleManifest = nullptr;
     std::string name;
 };
 
@@ -141,12 +161,12 @@ bool ScriptEnvironment::loadFromString(const std::string& string)
     return true;
 }
 
-bool ModuleScript::configure(const BuildSetup& setup)
+bool ModuleScript::configure(const BuildSetup& setup, ModuleManifest* module)
 {
     duk_push_global_object(context);
 
     EcmaBuildSetup buildSetup(setup);
-    EcmaModule buildModule;
+    EcmaModule buildModule(module);
 
     if (duk_get_global_string(context, "configure") == 0)
     {

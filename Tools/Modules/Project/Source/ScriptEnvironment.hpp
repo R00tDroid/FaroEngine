@@ -2,6 +2,7 @@
 #include <filesystem>
 #include <duktape.h>
 
+class ModuleManifest;
 struct BuildSetup;
 
 class ScriptEnvironment
@@ -25,7 +26,7 @@ private:
 class ModuleScript : public ScriptEnvironment
 {
 public:
-    bool configure(const BuildSetup&);
+    bool configure(const BuildSetup&, ModuleManifest* module);
 
 protected:
     bool bindEnvironment() override;

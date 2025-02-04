@@ -180,7 +180,7 @@ const char* ModuleManifest::uuid() const
     return impl->uuid.c_str();
 }
 
-bool ModuleManifest::configure(const BuildSetup& setup) const
+bool ModuleManifest::configure(const BuildSetup& setup)
 {
     ModuleScript vm;
     if (!vm.init(manifestPath()))
@@ -188,7 +188,7 @@ bool ModuleManifest::configure(const BuildSetup& setup) const
         return false;
     }
 
-    if (!vm.configure(setup))
+    if (!vm.configure(setup, this))
     {
         return false;
     }
@@ -198,7 +198,7 @@ bool ModuleManifest::configure(const BuildSetup& setup) const
     return true;
 }
 
-bool ModuleManifest::load(const BuildSetup&) const
+bool ModuleManifest::load(const BuildSetup&)
 {
     return false; //TODO Implement
 }
