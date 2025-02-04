@@ -2,6 +2,58 @@
 #include "Utility.hpp"
 #include <fstream>
 
+#define EcmaObjectFunction(type, function) static duk_ret_t function##_relay(duk_context* context) { duk_push_this(context); duk_get_prop_string(context, -1, "ptr"); void* ptr = duk_get_pointer(context, -1); type* instance = (type*)ptr; if(instance == nullptr){ return DUK_RET_ERROR; } return instance->function(context); } duk_ret_t function(duk_context* context)
+#define EcmaObjectFunctionBinding(function, args) functions.insert(std::pair<const char*, EcmaFunction>(#function, { &function##_relay, args }))
+
+struct EcmaFunction
+{
+    duk_c_function function = nullptr;
+    unsigned int args = 0;
+};
+
+class EcmaObject
+{
+public:
+    void bind(duk_context* context)
+    {
+        duk_push_object(context);
+
+        duk_push_pointer(context, this);
+        duk_put_prop_string(context, -2, "ptr");
+
+        for (const auto& function : functions)
+        {
+            duk_push_c_function(context, function.second.function, function.second.args);
+            duk_put_prop_string(context, -2, function.first);
+        }
+    }
+
+protected:
+    std::map<const char*, EcmaFunction> functions;
+};
+
+class EcmaBuildSetup : public EcmaObject
+{
+public:
+    EcmaBuildSetup(const BuildSetup&)
+    {
+        EcmaObjectFunctionBinding(config, 0);
+        EcmaObjectFunctionBinding(target, 0);
+    }
+
+    EcmaObjectFunction(EcmaBuildSetup, config)
+    {
+        duk_push_string(context, "Release");
+        return 1;
+    }
+
+    EcmaObjectFunction(EcmaBuildSetup, target)
+    {
+        duk_push_string(context, "WindowsX64");
+        return 1;
+    }
+};
+
 duk_ret_t ecma_print(duk_context* ctx)
 {
 	if (duk_is_string(ctx, 0) || duk_is_number(ctx, 0) || duk_is_boolean(ctx, 0))
@@ -72,7 +124,7 @@ bool ModuleScript::configure(const BuildSetup& setup)
 {
 	duk_push_global_object(context);
 
-	EcmaBuildSetup(context, setup);
+    EcmaBuildSetup buildSetup(setup);
 
 	if (duk_get_global_string(context, "configure") == 0)
 	{
@@ -80,14 +132,8 @@ bool ModuleScript::configure(const BuildSetup& setup)
 		return false;
 	}
 
-duk_push_object(context);
-	//ECMAOBJECT_EXPOSE_FUNCTION(context, -2, EcmaBuildSetup, config, 0)
-	//ECMAOBJECT_EXPOSE_FUNCTION(context, -2, EcmaBuildSetup, target, 0)
 
-	duk_push_c_function(context, &ModuleScript::config, 0);
-	duk_put_prop_string(context, -2, "config");
-	duk_push_c_function(context, &ModuleScript::target, 0);
-	duk_put_prop_string(context, -2, "target");
+    buildSetup.bind(context);
 
     printStack();
 
@@ -105,16 +151,4 @@ bool ModuleScript::bindEnvironment()
 	if (!ScriptEnvironment::bindEnvironment()) return false;
 
 	return true;
-}
-
-duk_ret_t ModuleScript::config(duk_context* context)
-{
-	duk_push_string(context, "Release");
-	return 1;
-}
-
-duk_ret_t ModuleScript::target(duk_context* context)
-{
-	duk_push_string(context, "WindowsX64");
-	return 1;
 }
