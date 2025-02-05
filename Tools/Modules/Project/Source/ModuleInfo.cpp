@@ -175,8 +175,9 @@ void ModuleManifest::scanSource(const char* filter) const
 {
     Utility::PrintLineD("Scanning: " + std::string(filter));
     unsigned int files = 0;
-    for (auto& file : glob::rglob(filter))
+    for (auto file : glob::rglob(filter))
     {
+        file = weakly_canonical(file);
         impl->sourceFiles.push_back(file.string());
         files++;
     }
