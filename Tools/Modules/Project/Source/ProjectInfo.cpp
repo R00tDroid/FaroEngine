@@ -4,6 +4,7 @@
 #include <sstream>
 #include <Utility.hpp>
 #include <picojson.h>
+#include "Scripts/ModuleScript.hpp"
 
 struct ProjectManifest::Impl
 {
@@ -159,12 +160,24 @@ bool ProjectManifest::configure()
     for (ModuleManifest* mod : impl->modules)
     {
         Utility::PrintLineD(std::string("Configuring: ") + mod->manifestPath());
+
+        ModuleScript vm;
+        if (!vm.init(mod->manifestPath()))
+        {
+            return false;
+        }
+
+        if (!vm.configureModule(mod))
+        {
+            return false;
+        }
+
         for (unsigned int setupIndex = 0; setupIndex < setupCount; setupIndex++) 
         {
             BuildSetup setup = buildSetup(setupIndex);
             Utility::PrintLineD(std::string("Configuring: ") + setup.identifier());
 
-            if (!mod->configure(setup))
+            if (!vm.configureSetup(setup, mod))
             {
                 Utility::PrintLine(std::string("Error when configuring module: ") + mod->manifestPath());
                 return false;
