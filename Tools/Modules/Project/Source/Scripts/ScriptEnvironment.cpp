@@ -27,11 +27,16 @@ void ScriptEnvironment::destroy()
     context = nullptr;
 }
 
+void scriptPrint(std::string&& string)
+{
+    Utility::PrintLine("> " + string);
+}
+
 duk_ret_t ScriptEnvironment::print(duk_context* context)
 {
     if (duk_is_string(context, 0) || duk_is_number(context, 0) || duk_is_boolean(context, 0))
     {
-        Utility::PrintLine("> " + std::string(duk_to_string(context, 0)));
+        scriptPrint(std::string(duk_to_string(context, 0)));
         return 0;
     }
     else if (duk_is_object(context, 0))
@@ -41,7 +46,7 @@ duk_ret_t ScriptEnvironment::print(duk_context* context)
             void* ptr = duk_get_pointer(context, -1);
             ScriptObject* instance = static_cast<ScriptObject*>(ptr);
             std::string objectLog = instance->print();
-            Utility::PrintLine("> Object: " + objectLog);
+            scriptPrint("Object: " + objectLog);
             return 0;
         }
     }
@@ -72,7 +77,7 @@ bool ScriptEnvironment::loadFromString(const std::string& string)
 
     if (duk_peval(context) != 0)
     {
-        Utility::PrintLine("> " + std::string(duk_safe_to_string(context, -1)));
+        Utility::PrintLine(std::string(duk_safe_to_string(context, -1)));
         destroy();
         return false;
     }
