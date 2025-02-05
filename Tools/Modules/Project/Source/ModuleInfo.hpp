@@ -41,6 +41,7 @@ public:
 
     // Name of the module
     const char* name() const;
+    void name(const char* name);
 
     // Location within the solution hierarchy
     const char* solutionLocation() const;
@@ -65,6 +66,7 @@ public:
 
     unsigned int sourceFiles() const;
     const char* sourceFile(unsigned int index) const;
+    void scanSource(const char*) const;
 
     unsigned int mounts() const;
     const FolderMount& mount(unsigned int index) const;

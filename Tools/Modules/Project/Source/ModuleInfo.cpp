@@ -76,6 +76,11 @@ const char* ModuleManifest::name() const
     return impl->name.c_str();
 }
 
+void ModuleManifest::name(const char* name)
+{
+    impl->name = name;
+}
+
 const char* ModuleManifest::solutionLocation() const
 {
     return impl->solutionDirectory.c_str();
@@ -163,6 +168,11 @@ unsigned int ModuleManifest::sourceFiles() const
 const char* ModuleManifest::sourceFile(unsigned int index) const
 {
     return impl->sourceFiles[index].c_str();
+}
+
+void ModuleManifest::scanSource(const char*) const
+{
+    //TODO Scan source files
 }
 
 unsigned int ModuleManifest::mounts() const
