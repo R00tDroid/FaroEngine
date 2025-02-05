@@ -180,7 +180,7 @@ const char* ModuleManifest::uuid() const
     return impl->uuid.c_str();
 }
 
-bool ModuleManifest::configure(const BuildSetup& setup)
+bool ModuleManifest::configure()
 {
     ModuleScript vm;
     if (!vm.init(manifestPath()))
@@ -188,17 +188,27 @@ bool ModuleManifest::configure(const BuildSetup& setup)
         return false;
     }
 
-    if (!vm.configureSetup(setup, this))
+    if (!vm.configureModule(this))
     {
         return false;
     }
 
-    vm.destroy();
+    unsigned int setupCount = buildSetups();
+    for (unsigned int setupIndex = 0; setupIndex < setupCount; setupIndex++)
+    {
+        BuildSetup setup = buildSetup(setupIndex);
+        Utility::PrintLineD(std::string("Configuring: ") + setup.identifier());
+
+        if (!vm.configureSetup(setup, this))
+        {
+            return false;
+        }
+    }
 
     return true;
 }
 
-bool ModuleManifest::load(const BuildSetup&)
+bool ModuleManifest::load()
 {
     return false; //TODO Implement
 }
