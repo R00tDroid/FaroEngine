@@ -27,19 +27,8 @@ private:
 class ScriptObject
 {
 public:
-    void bind(duk_context* context)
-    {
-        duk_push_object(context);
-
-        duk_push_pointer(context, this);
-        duk_put_prop_string(context, -2, "ptr");
-
-        for (const auto& function : functions)
-        {
-            duk_push_c_function(context, function.second.function, function.second.args);
-            duk_put_prop_string(context, -2, function.first);
-        }
-    }
+    void bind(duk_context* context) const;
+    std::string print() const;
 
 protected:
     struct ScriptFunction { duk_c_function function = nullptr; duk_int_t args = 0; };
