@@ -39,6 +39,32 @@ duk_ret_t ScriptEnvironment::print(duk_context* context)
         scriptPrint(std::string(duk_to_string(context, 0)));
         return 0;
     }
+    else if (duk_is_array(context, 0))
+    {
+        std::string log;
+
+        duk_size_t length = duk_get_length(context, 0);
+        for (duk_size_t index = 0; index < length; index++)
+        {
+            if (!log.empty()) log += ", ";
+
+            duk_get_prop_index(context, -1, static_cast<duk_uarridx_t>(index));
+            if (duk_is_string(context, -1) || duk_is_number(context, -1) || duk_is_boolean(context, -1))
+            {
+                log += std::string(duk_to_string(context, -1));
+            }
+            else
+            {
+                log += "?";
+            }
+
+            duk_pop(context);
+        }
+
+        scriptPrint("Array: [" + log + "]");
+
+        return 0;
+    }
     else if (duk_is_object(context, 0))
     {
         if (duk_get_prop_string(context, 0, "ptr"))
