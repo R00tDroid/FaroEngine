@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include "Scripts/ModuleScript.hpp"
+#include <glob/glob.hpp>
 
 struct FolderMount::Impl
 {
@@ -170,9 +171,13 @@ const char* ModuleManifest::sourceFile(unsigned int index) const
     return impl->sourceFiles[index].c_str();
 }
 
-void ModuleManifest::scanSource(const char*) const
+void ModuleManifest::scanSource(const char* filter) const
 {
-    //TODO Scan source files
+    Utility::PrintLineD("Scanning: " + std::string(filter));
+    for (auto& file : glob::rglob(filter))
+    {
+        impl->sourceFiles.push_back(file.string());
+    }
 }
 
 unsigned int ModuleManifest::mounts() const
