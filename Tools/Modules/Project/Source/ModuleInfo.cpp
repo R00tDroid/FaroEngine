@@ -188,7 +188,7 @@ bool ModuleManifest::configure(const BuildSetup& setup)
         return false;
     }
 
-    if (!vm.configure(setup, this))
+    if (!vm.configureSetup(setup, this))
     {
         return false;
     }

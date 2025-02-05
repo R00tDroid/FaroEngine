@@ -24,7 +24,7 @@ private:
     bool loadFromString(const std::string& string);
 };
 
-class EcmaObject
+class ScriptObject
 {
 public:
     void bind(duk_context* context)
@@ -42,9 +42,9 @@ public:
     }
 
 protected:
-    struct EcmaFunction { duk_c_function function = nullptr; duk_int_t args = 0; };
-    std::map<const char*, EcmaFunction> functions;
+    struct ScriptFunction { duk_c_function function = nullptr; duk_int_t args = 0; };
+    std::map<const char*, ScriptFunction> functions;
 };
 
-#define EcmaObjectFunction(type, function) static duk_ret_t function##_relay(duk_context* context) { duk_push_this(context); duk_get_prop_string(context, -1, "ptr"); void* ptr = duk_get_pointer(context, -1); type* instance = (type*)ptr; if(instance == nullptr){ return DUK_RET_ERROR; } return instance->function(context); } duk_ret_t function(duk_context* context)
-#define EcmaObjectFunctionBinding(function, args) functions.insert(std::pair<const char*, EcmaFunction>(#function, { &function##_relay, args }))
+#define ScriptObjectFunction(type, function) static duk_ret_t function##_relay(duk_context* context) { duk_push_this(context); duk_get_prop_string(context, -1, "ptr"); void* ptr = duk_get_pointer(context, -1); type* instance = (type*)ptr; if(instance == nullptr){ return DUK_RET_ERROR; } return instance->function(context); } duk_ret_t function(duk_context* context)
+#define ScriptObjectFunctionBinding(function, args) functions.insert(std::pair<const char*, ScriptFunction>(#function, { &function##_relay, args }))

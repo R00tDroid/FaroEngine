@@ -66219,7 +66219,7 @@ ret_nan:
  *    - Unprotected call to ECMAScript or Duktape/C function, from native
  *      code or bytecode executor.
  *
- *    - Also handles Ecma-to-Ecma calls which reuses a currently running
+ *    - Also handles Script-to-Script calls which reuses a currently running
  *      executor instance to avoid native recursion.  Call setup is done
  *      normally, but just before calling the bytecode executor a special
  *      return code is used to indicate that a calling executor is reused.
@@ -68269,7 +68269,7 @@ DUK_LOCAL duk_int_t duk__handle_call_raw(duk_hthread *thr, duk_idx_t idx_func, d
 	 *  recursion.  This can happen e.g. for almost any property read
 	 *  because it may cause a getter call or a Proxy trap (GC and finalizers
 	 *  are not an issue because they are not recursive).  If we end up
-	 *  doing an Ecma-to-Ecma call, revert the increase.  (See GH-2032.)
+	 *  doing an Script-to-Script call, revert the increase.  (See GH-2032.)
 	 *
 	 *  For similar reasons, ensure there is a known value stack spare
 	 *  even before we actually prepare the value stack for the target
@@ -68409,7 +68409,7 @@ DUK_LOCAL duk_int_t duk__handle_call_raw(duk_hthread *thr, duk_idx_t idx_func, d
 	DUK_ASSERT(thr->valstack_end >= thr->valstack_top);
 
 	/*
-	 *  Make the actual call.  For Ecma-to-Ecma calls detect that
+	 *  Make the actual call.  For Script-to-Script calls detect that
 	 *  setup is complete, then return with a status code that allows
 	 *  the caller to reuse the running executor.
 	 */
@@ -80002,13 +80002,13 @@ DUK_LOCAL duk_bool_t duk__executor_handle_call(duk_hthread *thr, duk_idx_t idx, 
 
 	duk_set_top_unsafe(thr, (duk_idx_t) (idx + nargs + 2)); /* [ ... func this arg1 ... argN ] */
 
-	/* Attempt an Ecma-to-Ecma call setup.  If the call
+	/* Attempt an Script-to-Script call setup.  If the call
 	 * target is (directly or indirectly) Reflect.construct(),
 	 * the call may change into a constructor call on the fly.
 	 */
 	rc = (duk_bool_t) duk_handle_call_unprotected(thr, idx, call_flags);
 	if (rc != 0) {
-		/* Ecma-to-ecma call possible, may or may not
+		/* Script-to-ecma call possible, may or may not
 		 * be a tail call.  Avoid C recursion by
 		 * reusing current executor instance.
 		 */

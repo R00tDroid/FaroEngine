@@ -2,22 +2,22 @@
 #include "ModuleInfo.hpp"
 #include "Utility.hpp"
 
-class EcmaBuildSetup : public EcmaObject
+class ScriptBuildSetup : public ScriptObject
 {
 public:
-    EcmaBuildSetup(const BuildSetup& setup) : setup(setup)
+    ScriptBuildSetup(const BuildSetup& setup) : setup(setup)
     {
-        EcmaObjectFunctionBinding(config, 0);
-        EcmaObjectFunctionBinding(target, 0);
+        ScriptObjectFunctionBinding(config, 0);
+        ScriptObjectFunctionBinding(target, 0);
     }
 
-    EcmaObjectFunction(EcmaBuildSetup, config)
+    ScriptObjectFunction(ScriptBuildSetup, config)
     {
         duk_push_string(context, configurationToString(setup.configuration));
         return 1;
     }
 
-    EcmaObjectFunction(EcmaBuildSetup, target)
+    ScriptObjectFunction(ScriptBuildSetup, target)
     {
         duk_push_string(context, setup.target->identifier());
         return 1;
@@ -27,23 +27,34 @@ private:
     BuildSetup setup;
 };
 
-class EcmaModule : public EcmaObject
+class ScriptModuleBase : public ScriptObject
 {
 public:
-    EcmaModule(ModuleManifest* moduleManifest) : moduleManifest(moduleManifest)
+    ScriptModuleBase(ModuleManifest* moduleManifest) : moduleManifest(moduleManifest)
     {
-        EcmaObjectFunctionBinding(dir, 0);
-        EcmaObjectFunctionBinding(setName, 1);
-        EcmaObjectFunctionBinding(scanSource, 1);
+        ScriptObjectFunctionBinding(dir, 0);
     }
 
-    EcmaObjectFunction(EcmaModule, dir)
+    ScriptObjectFunction(ScriptModuleBase, dir)
     {
         duk_push_string(context, moduleManifest->manifestDirectory());
         return 1;
     }
 
-    EcmaObjectFunction(EcmaModule, setName)
+protected:
+    ModuleManifest* moduleManifest = nullptr;
+};
+
+class ScriptModuleConfig : public ScriptModuleBase
+{
+public:
+    ScriptModuleConfig(ModuleManifest* moduleManifest) : ScriptModuleBase(moduleManifest)
+    {
+        ScriptObjectFunctionBinding(setName, 1);
+        ScriptObjectFunctionBinding(scanSource, 1);
+    }
+
+    ScriptObjectFunction(ScriptModuleConfig, setName)
     {
         name = duk_safe_to_string(context, 0);
         Utility::PrintLine("Name: " + name);
@@ -51,7 +62,7 @@ public:
     }
     const std::string& getName() const { return name; }
 
-    EcmaObjectFunction(EcmaModule, scanSource)
+    ScriptObjectFunction(ScriptModuleConfig, scanSource)
     {
         std::filesystem::path path(duk_safe_to_string(context, 0));
         path.make_preferred();
@@ -61,24 +72,51 @@ public:
         return 0;
     }
 
-private:
-    ModuleManifest* moduleManifest = nullptr;
+protected:
     std::string name;
 };
 
-bool ModuleScript::configure(const BuildSetup& setup, ModuleManifest* module)
+class ScriptModuleSetup : public ScriptModuleBase
+{
+public:
+    ScriptModuleSetup(ModuleManifest* moduleManifest) : ScriptModuleBase(moduleManifest) { }   
+};
+
+bool ModuleScript::configureModule(ModuleManifest* module)
 {
     duk_push_global_object(context);
 
-    EcmaBuildSetup buildSetup(setup);
-    EcmaModule buildModule(module);
+    ScriptModuleConfig buildModule(module);
 
-    if (duk_get_global_string(context, "configure") == 0)
+    if (duk_get_global_string(context, "configureModule") == 0)
     {
-        Utility::PrintLine("Could not find function 'configure'");
+        Utility::PrintLine("Could not find function 'configureModule'");
         return false;
     }
 
+    buildModule.bind(context);
+
+    if (duk_pcall(context, 1) != DUK_EXEC_SUCCESS)
+    {
+        Utility::PrintLine("> " + std::string(duk_safe_to_string(context, -1)));
+        return false;
+    }
+
+    return true;
+}
+
+bool ModuleScript::configureSetup(const BuildSetup& setup, ModuleManifest* module)
+{
+    duk_push_global_object(context);
+
+    ScriptBuildSetup buildSetup(setup);
+    ScriptModuleSetup buildModule(module);
+
+    if (duk_get_global_string(context, "configureSetup") == 0)
+    {
+        Utility::PrintLine("Could not find function 'configureSetup'");
+        return false;
+    }
 
     buildSetup.bind(context);
     buildModule.bind(context);
