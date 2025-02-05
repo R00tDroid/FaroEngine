@@ -22,6 +22,7 @@ class ScriptModuleBase : public ScriptObject
 public:
     ScriptModuleBase(ModuleManifest* moduleManifest);
     ScriptObjectFunction(ScriptModuleBase, dir);
+    ScriptObjectFunction(ScriptModuleBase, source);
 
 protected:
     ModuleManifest* moduleManifest = nullptr;

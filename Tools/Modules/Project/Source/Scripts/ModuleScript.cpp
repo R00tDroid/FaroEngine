@@ -29,11 +29,26 @@ duk_ret_t ScriptBuildSetup::target(duk_context* context)
 ScriptModuleBase::ScriptModuleBase(ModuleManifest* moduleManifest): moduleManifest(moduleManifest)
 {
     ScriptObjectFunctionBinding(dir, 0);
+    ScriptObjectFunctionBinding(source, 0);
 }
 
 duk_ret_t ScriptModuleBase::dir(duk_context* context)
 {
     duk_push_string(context, moduleManifest->manifestDirectory());
+    return 1;
+}
+
+duk_ret_t ScriptModuleBase::source(duk_context* context)
+{
+    duk_push_array(context);
+
+    unsigned int fileCount = moduleManifest->sourceFiles();
+    for (unsigned int fileIndex = 0; fileIndex < fileCount; fileIndex++)
+    {
+        duk_push_string(context, moduleManifest->sourceFile(fileIndex));
+        duk_put_prop_index(context, -2, fileIndex);
+    }
+
     return 1;
 }
 
