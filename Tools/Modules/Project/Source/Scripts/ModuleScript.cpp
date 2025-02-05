@@ -56,7 +56,25 @@ duk_ret_t ScriptModuleConfig::scanSource(duk_context* context)
     path.make_preferred();
     path = weakly_canonical(path);
     std::string pathString = path.string();
-    moduleManifest->scanSource(pathString.c_str());
+
+    std::string pattern = std::filesystem::path("**\\").make_preferred().string();
+    std::vector<std::string> directories = { pathString };
+
+    while (true)
+    {
+        size_t index = pathString.find(pattern);
+        if (index == std::string::npos) break;
+
+        pathString[index] = '.';
+        pathString.erase(index + 1, 1);
+
+        directories.push_back(pathString);
+    }
+
+    for (std::string& directory : directories)
+    {
+        moduleManifest->scanSource(directory.c_str());
+    }
 
     return 0;
 }

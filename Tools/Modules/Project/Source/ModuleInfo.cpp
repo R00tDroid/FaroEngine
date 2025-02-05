@@ -174,10 +174,13 @@ const char* ModuleManifest::sourceFile(unsigned int index) const
 void ModuleManifest::scanSource(const char* filter) const
 {
     Utility::PrintLineD("Scanning: " + std::string(filter));
+    unsigned int files = 0;
     for (auto& file : glob::rglob(filter))
     {
         impl->sourceFiles.push_back(file.string());
+        files++;
     }
+    Utility::PrintLineD("Found files: " + std::to_string(files));
 }
 
 unsigned int ModuleManifest::mounts() const
