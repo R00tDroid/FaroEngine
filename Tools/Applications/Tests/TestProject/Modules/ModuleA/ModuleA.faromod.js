@@ -1,4 +1,6 @@
 function configureModule(module) {
+    print(module);
+
     module.setName("ModuleA");
 
     module.scanSource(module.dir() + "/Source/**/*.cpp");
@@ -6,12 +8,13 @@ function configureModule(module) {
     module.scanSource(module.dir() + "/Source/**/*.c");
     module.scanSource(module.dir() + "/Source/**/*.h");
 
-    print(module);
+    var source = module.source();
+    print(source);
 }
 
 function configureSetup(setup, module) {
+    print(module);
+
     print(setup.config());
     print(setup.target());
-
-    print(module);
 }
