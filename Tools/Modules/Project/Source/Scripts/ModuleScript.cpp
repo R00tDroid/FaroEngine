@@ -30,6 +30,10 @@ ScriptModuleBase::ScriptModuleBase(ModuleManifest* moduleManifest): moduleManife
 {
     ScriptObjectFunctionBinding(dir, 0);
     ScriptObjectFunctionBinding(source, 0);
+    ScriptObjectFunctionBinding(addDependency, 0);
+    ScriptObjectFunctionBinding(setType, 0);
+    ScriptObjectFunctionBinding(setSolutionLocation, 0);
+    ScriptObjectFunctionBinding(link, 1);
 }
 
 duk_ret_t ScriptModuleBase::dir(duk_context* context)
@@ -52,16 +56,96 @@ duk_ret_t ScriptModuleBase::source(duk_context* context)
     return 1;
 }
 
+duk_ret_t ScriptModuleBase::addDependency(duk_context* context)
+{
+    std::string dependency = duk_safe_to_string(context, 0);
+    moduleManifest->addDependency(dependency.c_str());
+    return 0;
+}
+
+duk_ret_t ScriptModuleBase::setType(duk_context* context)
+{
+    std::string type = duk_safe_to_string(context, 0);
+    if (type == "library")
+    {
+        moduleManifest->setModuleType(MT_Library);
+    }
+    else if (type == "executable")
+    {
+        moduleManifest->setModuleType(MT_Executable);
+    }
+    else
+    {
+        Utility::PrintLine("Unknown module type: " + type);
+        return -1;
+    }
+    
+    return 0;
+}
+
+duk_ret_t ScriptModuleBase::setSolutionLocation(duk_context* context)
+{
+    std::string path = duk_safe_to_string(context, 0);
+    moduleManifest->setSolutionLocation(path.c_str());
+    return 0;
+}
+
+duk_ret_t ScriptModuleBase::link(duk_context* context)
+{
+    std::string library = duk_safe_to_string(context, 0);
+    moduleManifest->addLinkerLibrary(library.c_str());
+    return 0;
+}
+
 ScriptModuleConfig::ScriptModuleConfig(ModuleManifest* moduleManifest): ScriptModuleBase(moduleManifest)
 {
     ScriptObjectFunctionBinding(setName, 1);
+    ScriptObjectFunctionBinding(addSource, 1);
     ScriptObjectFunctionBinding(scanSource, 1);
+    ScriptObjectFunctionBinding(addIncludePrivate, 1);
+    ScriptObjectFunctionBinding(addIncludePublic, 1);
 }
 
 duk_ret_t ScriptModuleConfig::setName(duk_context* context)
 {
     std::string name = duk_safe_to_string(context, 0);
-    moduleManifest->name(name.c_str());
+    moduleManifest->setName(name.c_str());
+    return 0;
+}
+
+duk_ret_t ScriptModuleConfig::addSource(duk_context* context)
+{
+    std::filesystem::path path(duk_safe_to_string(context, 0));
+    path.make_preferred();
+    path = weakly_canonical(path);
+    std::string pathString = path.string();
+
+    moduleManifest->addSource(pathString.c_str());
+
+    return 0;
+}
+
+duk_ret_t ScriptModuleConfig::addIncludePrivate(duk_context* context)
+{
+    std::filesystem::path path(duk_safe_to_string(context, 0));
+    path.make_preferred();
+    path = weakly_canonical(path);
+    std::string pathString = path.string();
+
+    moduleManifest->addIncludePath(AD_Private, pathString.c_str());
+
+    return 0;
+}
+
+duk_ret_t ScriptModuleConfig::addIncludePublic(duk_context* context)
+{
+    std::filesystem::path path(duk_safe_to_string(context, 0));
+    path.make_preferred();
+    path = weakly_canonical(path);
+    std::string pathString = path.string();
+
+    moduleManifest->addIncludePath(AD_Public, pathString.c_str());
+
     return 0;
 }
 

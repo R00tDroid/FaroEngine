@@ -23,6 +23,10 @@ public:
     ScriptModuleBase(ModuleManifest* moduleManifest);
     ScriptObjectFunction(ScriptModuleBase, dir);
     ScriptObjectFunction(ScriptModuleBase, source);
+    ScriptObjectFunction(ScriptModuleBase, addDependency);
+    ScriptObjectFunction(ScriptModuleBase, setType);
+    ScriptObjectFunction(ScriptModuleBase, setSolutionLocation);
+    ScriptObjectFunction(ScriptModuleBase, link);
 
 protected:
     ModuleManifest* moduleManifest = nullptr;
@@ -33,7 +37,10 @@ class ScriptModuleConfig : public ScriptModuleBase
 public:
     ScriptModuleConfig(ModuleManifest* moduleManifest);
     ScriptObjectFunction(ScriptModuleConfig, setName);
+    ScriptObjectFunction(ScriptModuleConfig, addSource);
     ScriptObjectFunction(ScriptModuleConfig, scanSource);
+    ScriptObjectFunction(ScriptModuleConfig, addIncludePrivate);
+    ScriptObjectFunction(ScriptModuleConfig, addIncludePublic);
 };
 
 class ModuleScript : public ScriptEnvironment

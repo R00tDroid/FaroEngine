@@ -77,7 +77,7 @@ const char* ModuleManifest::name() const
     return impl->name.c_str();
 }
 
-void ModuleManifest::name(const char* name)
+void ModuleManifest::setName(const char* name)
 {
     impl->name = name;
 }
@@ -85,6 +85,48 @@ void ModuleManifest::name(const char* name)
 const char* ModuleManifest::solutionLocation() const
 {
     return impl->solutionDirectory.c_str();
+}
+
+void ModuleManifest::setSolutionLocation(const char* location)
+{
+    impl->solutionDirectory = location;
+}
+
+void ModuleManifest::addLinkerLibrary(const char* library) const
+{
+    impl->linkingLibraries.push_back(library);
+}
+
+void ModuleManifest::setModuleType(ModuleType type) const
+{
+    impl->type = type;
+}
+
+void ModuleManifest::addDependency(const char* dependency)
+{
+    impl->moduleDependencyPaths.push_back(dependency);
+}
+
+void ModuleManifest::addIncludePath(AccessDomain type, const char* path) const
+{
+    switch (type)
+    {
+        case AD_Private:
+        {
+            impl->privateIncludes.push_back(path);
+            break;
+        }
+        case AD_Public:
+        {
+            impl->publicIncludes.push_back(path);
+            break;
+        }
+    }
+}
+
+void ModuleManifest::addSource(const char* path) const
+{
+    impl->sourceFiles.push_back(path);
 }
 
 ProjectManifest* ModuleManifest::project() const
@@ -178,7 +220,8 @@ void ModuleManifest::scanSource(const char* filter) const
     for (auto file : glob::rglob(filter))
     {
         file = weakly_canonical(file);
-        impl->sourceFiles.push_back(file.string());
+        std::string fileString = file.string();
+        addSource(fileString.c_str());
         files++;
     }
     Utility::PrintLineD("Found files: " + std::to_string(files));
