@@ -265,12 +265,14 @@ bool ModuleManifest::configure()
         {
             return false;
         }
+
+        //TODO Store config
     }
 
     return true;
 }
 
-bool ModuleManifest::load()
+bool ModuleManifest::load(const BuildSetup&)
 {
     return false; //TODO Implement
 }

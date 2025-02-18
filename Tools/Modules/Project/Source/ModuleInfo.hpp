@@ -80,7 +80,7 @@ public:
     const char* uuid() const override;
 
     bool configure();
-    bool load();
+    bool load(const BuildSetup& setup);
 
     bool prebuild(const BuildSetup& setup) const;
     bool postbuild(const BuildSetup& setup) const;

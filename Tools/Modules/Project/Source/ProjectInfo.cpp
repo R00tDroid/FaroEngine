@@ -187,7 +187,7 @@ bool ProjectManifest::configure()
     return true;
 }
 
-bool ProjectManifest::load()
+bool ProjectManifest::load(const BuildSetup&)
 {
     //TODO Check if cache is available
 

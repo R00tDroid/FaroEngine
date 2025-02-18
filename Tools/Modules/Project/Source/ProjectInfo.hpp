@@ -1,6 +1,7 @@
 #pragma once
 #include "ManifestInterface.hpp"
 
+struct BuildSetup;
 class ModuleManifest;
 
 class FaroProjectsExports ProjectManifest : public IManifest
@@ -23,7 +24,7 @@ public:
     ModuleManifest* module(unsigned int index) const;
 
     bool configure();
-    bool load();
+    bool load(const BuildSetup& setup);
 
     struct Impl;
 private:

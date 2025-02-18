@@ -30,12 +30,15 @@ int main(int argc, char** argv)
             return -1;
         }
     }
-    else if (taskInfo.runProject ||
+
+    if (taskInfo.runProject ||
              taskInfo.runBuild ||
              taskInfo.runClean ||
              taskInfo.runDeploy)
     {
-        if (!project.load())
+        //TODO Find correct setup
+        BuildSetup setup;
+        if (!project.load(setup))
         {
             Utility::PrintLine("Error while loading project");
             return -1;
