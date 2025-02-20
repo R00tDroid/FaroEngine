@@ -27,6 +27,8 @@ ScriptModuleBase::ScriptModuleBase(const ModuleManifest* moduleManifest): module
     ScriptObjectFunctionBinding(addLinkerLibrary, 1);
     ScriptObjectFunctionBinding(addIncludePrivate, 1);
     ScriptObjectFunctionBinding(addIncludePublic, 1);
+    ScriptObjectFunctionBinding(addDefinePrivate, 1);
+    ScriptObjectFunctionBinding(addDefinePublic, 1);
 }
 
 duk_ret_t ScriptModuleBase::getDirectory(duk_context* context)
@@ -125,6 +127,20 @@ duk_ret_t ScriptModuleBase::addIncludePublic(duk_context* context)
 
     includesPublic.push_back(pathString);
 
+    return 0;
+}
+
+duk_ret_t ScriptModuleBase::addDefinePrivate(duk_context* context)
+{
+    std::string define(duk_safe_to_string(context, 0));
+    definesPrivate.push_back(define);
+    return 0;
+}
+
+duk_ret_t ScriptModuleBase::addDefinePublic(duk_context* context)
+{
+    std::string define(duk_safe_to_string(context, 0));
+    definesPublic.push_back(define);
     return 0;
 }
 

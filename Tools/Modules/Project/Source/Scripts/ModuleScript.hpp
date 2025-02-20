@@ -25,10 +25,14 @@ public:
     ScriptObjectFunction(ScriptModuleBase, addLinkerLibrary);
     ScriptObjectFunction(ScriptModuleBase, addIncludePrivate);
     ScriptObjectFunction(ScriptModuleBase, addIncludePublic);
+    ScriptObjectFunction(ScriptModuleBase, addDefinePrivate);
+    ScriptObjectFunction(ScriptModuleBase, addDefinePublic);
 
     std::vector<std::string> linkerLibraries;
     std::vector<std::string> includesPrivate;
     std::vector<std::string> includesPublic;
+    std::vector<std::string> definesPrivate;
+    std::vector<std::string> definesPublic;
 
 protected:
     const ModuleManifest* moduleManifest = nullptr;

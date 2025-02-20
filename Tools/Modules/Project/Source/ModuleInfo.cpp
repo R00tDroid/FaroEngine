@@ -289,26 +289,26 @@ bool ModuleManifest::Impl::configureModule(const ModuleManifest* manifest, Modul
     }
     privateIncludeList.close();
 
-    /*std::ofstream publicDefineList(cacheFolder / "PublicDefines.txt");
-    for (std::string& path : buildModule.publicDefines)
+    std::ofstream publicDefineList(cacheFolder / "PublicDefines.txt");
+    for (std::string& path : buildModule.definesPublic)
     {
         publicDefineList << path << "\n";
     }
     publicDefineList.close();
 
     std::ofstream privateDefinesList(cacheFolder / "PrivateDefines.txt");
-    for (std::string& path : buildModule.privateDefines)
+    for (std::string& path : buildModule.definesPrivate)
     {
         privateDefinesList << path << "\n";
     }
     privateDefinesList.close();
 
     std::ofstream dependencyList(cacheFolder / "Dependencies.txt");
-    for (ModuleManifest* dependency : buildModule.dependencies)
+    for (std::string& dependency : buildModule.dependencies)
     {
-        dependencyList << dependency->manifestPath() << "\n";
+        dependencyList << dependency << "\n";
     }
-    dependencyList.close();*/
+    dependencyList.close();
 
     std::ofstream libraryList(cacheFolder / "Libraries.txt");
     for (std::string& path : buildModule.linkerLibraries)
