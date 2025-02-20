@@ -5,6 +5,8 @@ function configureModule(module) {
     module.scanSource(module.getDirectory() + "/Source/**/*.hpp");
     module.scanSource(module.getDirectory() + "/Source/**/*.c");
     module.scanSource(module.getDirectory() + "/Source/**/*.h");
+    
+    module.addDependency("ModuleA");
 }
 
 function configureSetup(setup, module) {
