@@ -41,11 +41,9 @@ public:
 
     // Name of the module
     const char* name() const;
-    void setName(const char* name);
 
     // Location within the solution hierarchy
     const char* solutionLocation() const;
-    void setSolutionLocation(const char* location);
 
     // Project this module belongs to
     ProjectManifest* project() const;
@@ -55,24 +53,18 @@ public:
 
     unsigned int linkerLibraries() const;
     const char* linkerLibrary(unsigned int index) const;
-    void addLinkerLibrary(const char*) const;
 
     ModuleType moduleType() const;
-    void setModuleType(ModuleType type) const;
 
     // List of modules this module depends on
     unsigned int dependencies() const;
     ModuleManifest* dependency(unsigned int index) const;
-    void addDependency(const char* dependency);
 
     unsigned int includePaths(AccessDomain type) const;
     const char* includePath(AccessDomain type, unsigned int index) const;
-    void addIncludePath(AccessDomain type, const char*) const;
 
     unsigned int sourceFiles() const;
     const char* sourceFile(unsigned int index) const;
-    void addSource(const char*) const;
-    void scanSource(const char*) const;
 
     unsigned int mounts() const;
     const FolderMount& mount(unsigned int index) const;
@@ -89,6 +81,5 @@ private:
     struct Impl;
     Impl* impl = nullptr;
 
-    bool saveCache(const BuildSetup& setup) const;
     bool loadCache(const BuildSetup& setup);
 };

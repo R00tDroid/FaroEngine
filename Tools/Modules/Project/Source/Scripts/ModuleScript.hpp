@@ -10,8 +10,8 @@ class ScriptBuildSetup : public ScriptObject
 {
 public:
     ScriptBuildSetup(const BuildSetup& setup);
-    ScriptObjectFunction(ScriptBuildSetup, config);
-    ScriptObjectFunction(ScriptBuildSetup, target);
+    ScriptObjectFunction(ScriptBuildSetup, getConfig);
+    ScriptObjectFunction(ScriptBuildSetup, getTarget);
 
 private:
     BuildSetup setup;
@@ -20,34 +20,49 @@ private:
 class ScriptModuleBase : public ScriptObject
 {
 public:
-    ScriptModuleBase(ModuleManifest* moduleManifest);
-    ScriptObjectFunction(ScriptModuleBase, dir);
-    ScriptObjectFunction(ScriptModuleBase, source);
-    ScriptObjectFunction(ScriptModuleBase, addDependency);
-    ScriptObjectFunction(ScriptModuleBase, setType);
-    ScriptObjectFunction(ScriptModuleBase, setSolutionLocation);
-    ScriptObjectFunction(ScriptModuleBase, link);
+    ScriptModuleBase(const ModuleManifest* moduleManifest);
+    ScriptObjectFunction(ScriptModuleBase, getDirectory);
+    ScriptObjectFunction(ScriptModuleBase, addLinkerLibrary);
+    ScriptObjectFunction(ScriptModuleBase, addIncludePrivate);
+    ScriptObjectFunction(ScriptModuleBase, addIncludePublic);
+
+    std::vector<std::string> linkerLibraries;
+    std::vector<std::string> includesPrivate;
+    std::vector<std::string> includesPublic;
 
 protected:
-    ModuleManifest* moduleManifest = nullptr;
+    const ModuleManifest* moduleManifest = nullptr;
 };
 
 class ScriptModuleConfig : public ScriptModuleBase
 {
 public:
-    ScriptModuleConfig(ModuleManifest* moduleManifest);
+    ScriptModuleConfig(const ModuleManifest* moduleManifest);
     ScriptObjectFunction(ScriptModuleConfig, setName);
     ScriptObjectFunction(ScriptModuleConfig, addSource);
     ScriptObjectFunction(ScriptModuleConfig, scanSource);
-    ScriptObjectFunction(ScriptModuleConfig, addIncludePrivate);
-    ScriptObjectFunction(ScriptModuleConfig, addIncludePublic);
+    ScriptObjectFunction(ScriptModuleConfig, setType);
+    ScriptObjectFunction(ScriptModuleConfig, addDependency);
+    ScriptObjectFunction(ScriptModuleConfig, setSolutionLocation);
+
+    std::string name = "";
+    std::vector<std::string> sourceFiles;
+    ModuleType type = MT_Library;
+    std::vector<std::string> dependencies;
+    std::string solutionPath = "";
+};
+
+class ScriptModuleSetup : public ScriptModuleBase
+{
+public:
+    ScriptModuleSetup(const ModuleManifest* moduleManifest);
 };
 
 class ModuleScript : public ScriptEnvironment
 {
 public:
-    bool configureModule(ModuleManifest* module);
-    bool configureSetup(const BuildSetup&, ModuleManifest* module);
+    bool configureModule(ScriptModuleConfig& module);
+    bool configureSetup(ScriptBuildSetup& buildSetup, ScriptModuleSetup& buildModule);
 
 protected:
     bool bindEnvironment() override;

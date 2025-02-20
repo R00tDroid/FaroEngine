@@ -57,6 +57,9 @@ struct ModuleManifest::Impl
 
     CombineImpls(privateIncludes);
     CombineImpls(publicIncludes);
+
+    bool configureModule(const ModuleManifest* module, ModuleScript& vm);
+    bool configureSetup(const ModuleManifest* module, ModuleScript& vm, const BuildSetup& setup);
 };
 
 FolderMount::FolderMount(const char* location, const char* mountPoint)
@@ -101,56 +104,9 @@ const char* ModuleManifest::name() const
     return impl->module.name.c_str();
 }
 
-void ModuleManifest::setName(const char* name)
-{
-    impl->module.name = name;
-}
-
 const char* ModuleManifest::solutionLocation() const
 {
     return impl->module.solutionDirectory.c_str();
-}
-
-void ModuleManifest::setSolutionLocation(const char* location)
-{
-    impl->module.solutionDirectory = location;
-}
-
-void ModuleManifest::addLinkerLibrary(const char* library) const
-{
-    impl->module.linkingLibraries.push_back(library);
-}
-
-void ModuleManifest::setModuleType(ModuleType type) const
-{
-    impl->module.type = type;
-}
-
-void ModuleManifest::addDependency(const char* dependency)
-{
-    impl->module.moduleDependencyPaths.push_back(dependency);
-}
-
-void ModuleManifest::addIncludePath(AccessDomain type, const char* path) const
-{
-    switch (type)
-    {
-        case AD_Private:
-        {
-            impl->module.privateIncludes.push_back(path);
-            break;
-        }
-        case AD_Public:
-        {
-            impl->module.publicIncludes.push_back(path);
-            break;
-        }
-    }
-}
-
-void ModuleManifest::addSource(const char* path) const
-{
-    impl->module.sourceFiles.push_back(path);
 }
 
 ProjectManifest* ModuleManifest::project() const
@@ -237,20 +193,6 @@ const char* ModuleManifest::sourceFile(unsigned int index) const
     return impl->module.sourceFiles[index].c_str();
 }
 
-void ModuleManifest::scanSource(const char* filter) const
-{
-    Utility::PrintLineD("Scanning: " + std::string(filter));
-    unsigned int files = 0;
-    for (auto file : glob::rglob(filter))
-    {
-        file = weakly_canonical(file);
-        std::string fileString = file.string();
-        addSource(fileString.c_str());
-        files++;
-    }
-    Utility::PrintLineD("Found files: " + std::to_string(files));
-}
-
 unsigned int ModuleManifest::mounts() const
 {
     return static_cast<unsigned int>(impl->module.folderMounts.size());
@@ -274,7 +216,7 @@ bool ModuleManifest::configure()
         return false;
     }
 
-    if (!vm.configureModule(this))
+    if (!impl->configureModule(this, vm))
     {
         return false;
     }
@@ -285,13 +227,39 @@ bool ModuleManifest::configure()
         BuildSetup setup = buildSetup(setupIndex);
         Utility::PrintLineD(std::string("Configuring: ") + setup.identifier());
 
-        if (!vm.configureSetup(setup, this))
+        if (!impl->configureSetup(this, vm, setup))
         {
             return false;
         }
-
-        //TODO Store config
     }
+
+    return true;
+}
+
+bool ModuleManifest::Impl::configureModule(const ModuleManifest* manifest, ModuleScript& vm)
+{
+    ScriptModuleConfig buildModule(manifest);
+    if (!vm.configureModule(buildModule))
+    {
+        return false;
+    }
+
+    //TODO Store configure results
+
+    return true;
+}
+
+bool ModuleManifest::Impl::configureSetup(const ModuleManifest* manifest, ModuleScript& vm, const BuildSetup& configureSetup)
+{
+    ScriptBuildSetup buildSetup(configureSetup);
+    ScriptModuleSetup buildModule(manifest);
+
+    if (!vm.configureSetup(buildSetup, buildModule))
+    {
+        return false;
+    }
+
+    //TODO Store configure results in impl
 
     return true;
 }
@@ -410,7 +378,7 @@ bool ModuleManifest::loadCache(const BuildSetup& config)
     return true;
 }
 
-bool ModuleManifest::saveCache(const BuildSetup& config) const
+/*bool ModuleManifest::saveCache(const BuildSetup& config) const
 {
     std::filesystem::path cacheFolder = getBuildSetupPath(this, config);
 
@@ -479,4 +447,4 @@ bool ModuleManifest::saveCache(const BuildSetup& config) const
     mountList.close();
 
     return true;
-}
+}*/
