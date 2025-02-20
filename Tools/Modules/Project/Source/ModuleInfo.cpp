@@ -236,6 +236,28 @@ bool ModuleManifest::configure()
     return true;
 }
 
+std::filesystem::path getConfigDirectory(const ModuleManifest* module)
+{
+    std::filesystem::path cacheFolder = module->cacheDirectory();
+    std::filesystem::path configsFolder = cacheFolder / "Config";
+    return configsFolder;
+}
+
+std::filesystem::path getModuleConfigDirectory(const ModuleManifest* module)
+{
+    std::filesystem::path configsFolder = getConfigDirectory(module) / "Module";
+    Utility::EnsureDirectory(configsFolder.string().c_str());
+    return configsFolder;
+}
+
+std::filesystem::path getSetupConfigDirectory(const ModuleManifest* module, const BuildSetup& setup)
+{
+    std::string setupName = setup.identifier();
+    std::filesystem::path configsFolder = getConfigDirectory(module) / ("Setup_" + setupName);
+    Utility::EnsureDirectory(configsFolder.string().c_str());
+    return configsFolder;
+}
+
 bool ModuleManifest::Impl::configureModule(const ModuleManifest* manifest, ModuleScript& vm)
 {
     ScriptModuleConfig buildModule(manifest);
@@ -244,7 +266,64 @@ bool ModuleManifest::Impl::configureModule(const ModuleManifest* manifest, Modul
         return false;
     }
 
-    //TODO Store configure results
+    std::filesystem::path cacheFolder = getModuleConfigDirectory(manifest);
+
+    std::ofstream filesList(cacheFolder / "Source.txt");
+    for (std::string& path : buildModule.sourceFiles)
+    {
+        filesList << path << "\n";
+    }
+    filesList.close();
+
+    std::ofstream publicIncludeList(cacheFolder / "PublicIncludes.txt");
+    for (std::string& path : buildModule.includesPublic)
+    {
+        publicIncludeList << path << "\n";
+    }
+    publicIncludeList.close();
+
+    std::ofstream privateIncludeList(cacheFolder / "PrivateIncludes.txt");
+    for (std::string& path : buildModule.includesPrivate)
+    {
+        privateIncludeList << path << "\n";
+    }
+    privateIncludeList.close();
+
+    /*std::ofstream publicDefineList(cacheFolder / "PublicDefines.txt");
+    for (std::string& path : buildModule.publicDefines)
+    {
+        publicDefineList << path << "\n";
+    }
+    publicDefineList.close();
+
+    std::ofstream privateDefinesList(cacheFolder / "PrivateDefines.txt");
+    for (std::string& path : buildModule.privateDefines)
+    {
+        privateDefinesList << path << "\n";
+    }
+    privateDefinesList.close();
+
+    std::ofstream dependencyList(cacheFolder / "Dependencies.txt");
+    for (ModuleManifest* dependency : buildModule.dependencies)
+    {
+        dependencyList << dependency->manifestPath() << "\n";
+    }
+    dependencyList.close();*/
+
+    std::ofstream libraryList(cacheFolder / "Libraries.txt");
+    for (std::string& path : buildModule.linkerLibraries)
+    {
+        libraryList << path.c_str() << "\n";
+    }
+    libraryList.close();
+
+    std::ofstream moduleType(cacheFolder / "ModuleType.txt");
+    switch (buildModule.type)
+    {
+        case MT_Library: { moduleType << "lib"; break; }
+        case MT_Executable: { moduleType << "app"; break; }
+    }
+    moduleType.close();
 
     return true;
 }
@@ -259,7 +338,28 @@ bool ModuleManifest::Impl::configureSetup(const ModuleManifest* manifest, Module
         return false;
     }
 
-    //TODO Store configure results in impl
+    std::filesystem::path cacheFolder = getSetupConfigDirectory(manifest, configureSetup);
+
+    std::ofstream publicIncludeList(cacheFolder / "PublicIncludes.txt");
+    for (std::string& path : buildModule.includesPublic)
+    {
+        publicIncludeList << path << "\n";
+    }
+    publicIncludeList.close();
+
+    std::ofstream privateIncludeList(cacheFolder / "PrivateIncludes.txt");
+    for (std::string& path : buildModule.includesPrivate)
+    {
+        privateIncludeList << path << "\n";
+    }
+    privateIncludeList.close();
+
+    std::ofstream libraryList(cacheFolder / "Libraries.txt");
+    for (std::string& path : buildModule.linkerLibraries)
+    {
+        libraryList << path.c_str() << "\n";
+    }
+    libraryList.close();
 
     return true;
 }
@@ -279,17 +379,9 @@ bool ModuleManifest::postbuild(const BuildSetup&) const
     return false; //TODO Implement
 }
 
-std::filesystem::path getBuildSetupPath(const ModuleManifest* module, const BuildSetup& setup)
-{
-    std::filesystem::path cacheFolder = module->cacheDirectory();
-    std::filesystem::path configsFolder = cacheFolder / "Config";
-    std::string configName(setup.identifier());
-    return configsFolder / configName;
-}
-
 bool ModuleManifest::loadCache(const BuildSetup& config)
 {
-    std::filesystem::path cacheFolder = getBuildSetupPath(this, config);
+    std::filesystem::path cacheFolder = getSetupConfigDirectory(this, config);
 
     std::string line;
 
