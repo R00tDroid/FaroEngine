@@ -543,7 +543,7 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& project)
                 if (directories.find(dir) == directories.end())
                 {
                     char uuid[UUID_LENGTH];
-                    Utility::GenerateUUID(uuid);
+                    Utility::GenerateUUID(uuid); //TODO Cache uuid
                     directories.insert(std::pair<std::filesystem::path, std::string>(dir, std::string(uuid, UUID_LENGTH)));
                 }
             }
