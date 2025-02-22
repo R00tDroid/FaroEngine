@@ -498,10 +498,9 @@ std::vector<std::filesystem::path> VisualStudioGenerator::getDirectoryTree(std::
     return {}; //TODO Implement
 }
 
-void VisualStudioGenerator::writeFilterFile(const VSProjectInfo&)
+void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& project)
 {
-    //TODO Implement
-    /*std::filesystem::path filePath = VSProjectInfo.projectPath;
+    std::filesystem::path filePath = project.projectPath;
     filePath.replace_extension(".vcxproj.filters");
 
     tinyxml2::XMLDocument doc(false);
@@ -513,25 +512,27 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo&)
 
     tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
 
-    std::vector<std::filesystem::path> sourceFiles = VSProjectInfo.GetSourceFiles();
+    std::vector<std::filesystem::path> sourceFiles = project.getSourceFiles();
 
     std::map<std::filesystem::path, std::string> directories;
     for (std::filesystem::path& file : sourceFiles)
     {
-        std::filesystem::path directory = GetFileRelativeDirectory(VSProjectInfo.GetRootDirectory(), file);
+        std::filesystem::path directory = getFileRelativeDirectory(project.getRootDirectory(), file);
         if (!directory.empty() && directory != ".")
         {
-            std::vector<std::filesystem::path> allDirectories = GetDirectoryTree(directory);
+            std::vector<std::filesystem::path> allDirectories = getDirectoryTree(directory);
 
             for (std::filesystem::path& dir : allDirectories)
             {
                 if (directories.find(dir) == directories.end())
                 {
-                    directories.insert(std::pair<std::filesystem::path, std::string>(dir, Utility::GenerateUUID()));
+                    char uuid[UUID_LENGTH];
+                    Utility::GenerateUUID(uuid);
+                    directories.insert(std::pair<std::filesystem::path, std::string>(dir, uuid));
                 }
             }
 
-            std::string extension = file.extension();
+            std::string extension = file.extension().string();
             extension = Utility::ToLower(extension);
             bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
 
@@ -552,7 +553,7 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo&)
         idElement->SetText(("{" + directory.second + "}").c_str());
     }
 
-    doc.SaveFile(filePath.c_str());*/
+    doc.SaveFile(filePath.string().c_str());
 }
 
 void VisualStudioGenerator::writeSolutionFile(const ProjectManifest*, std::vector<VSProjectInfo*>)
