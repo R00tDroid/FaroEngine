@@ -230,7 +230,13 @@ bool ProjectManifest::load(const BuildSetup& buildSetup)
         }
     }
 
-    //TODO Resolve module dependencies
+    for (ModuleManifest* module : impl->modules)
+    {
+        if (!module->resolve(this))
+        {
+            return false;
+        }
+    }
 
     return true;
 }
