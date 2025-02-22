@@ -4,6 +4,7 @@
 #include <sstream>
 #include "Scripts/ModuleScript.hpp"
 #include <glob/glob.hpp>
+#include "ProjectInfo.hpp"
 
 struct FolderMount::Impl
 {
@@ -26,8 +27,8 @@ struct ModuleManifest::Impl
 
         ModuleType type = MT_Library;
 
-        std::vector<std::string> moduleDependencyPaths; //TODO Resolve path to module
-        std::vector<ModuleManifest*> moduleDependencies;
+        std::vector<std::string> dependencyNames;
+        std::vector<ModuleManifest*> dependencies;
 
         std::vector<std::string> privateIncludes;
         std::vector<std::string> publicIncludes;
@@ -153,12 +154,12 @@ ModuleType ModuleManifest::moduleType() const
 
 unsigned int ModuleManifest::dependencies() const
 {
-    return static_cast<unsigned int>(impl->module.moduleDependencies.size());
+    return static_cast<unsigned int>(impl->module.dependencies.size());
 }
 
 ModuleManifest* ModuleManifest::dependency(unsigned int index) const
 {
-    return impl->module.moduleDependencies[index];
+    return impl->module.dependencies[index];
 }
 
 unsigned int ModuleManifest::includePaths(AccessDomain type) const
@@ -387,6 +388,21 @@ bool ModuleManifest::load(const BuildSetup& buildSetup)
     return true;
 }
 
+bool ModuleManifest::resolve(ProjectManifest* project)
+{
+    for (const std::string& dependencyName : impl->module.dependencyNames)
+    {
+        ModuleManifest* dependency = project->findModule(dependencyName.c_str());
+        if (dependency == nullptr)
+        {
+            Utility::PrintLine("Failed to find dependency: " + dependencyName);
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool ModuleManifest::prebuild(const BuildSetup&) const
 {
     return false; //TODO Implement
@@ -420,7 +436,7 @@ bool ModuleManifest::loadCache(const BuildSetup& config)
     readLines(cacheFolderModule / "PrivateIncludes.txt", impl->module.privateIncludes);
     readLines(cacheFolderModule / "PublicDefines.txt", impl->module.publicDefines);
     readLines(cacheFolderModule / "PrivateDefines.txt", impl->module.privateDefines);
-    readLines(cacheFolderModule / "Dependencies.txt", impl->module.moduleDependencyPaths);
+    readLines(cacheFolderModule / "Dependencies.txt", impl->module.dependencyNames);
     readLines(cacheFolderModule / "Libraries.txt", impl->module.linkingLibraries);
 
     readLines(cacheFolderSetup / "Libraries.txt", impl->setup.linkingLibraries);

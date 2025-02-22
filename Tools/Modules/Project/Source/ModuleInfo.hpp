@@ -73,6 +73,7 @@ public:
 
     bool configure();
     bool load(const BuildSetup& setup);
+    bool resolve(ProjectManifest* project);
 
     bool prebuild(const BuildSetup& setup) const;
     bool postbuild(const BuildSetup& setup) const;
