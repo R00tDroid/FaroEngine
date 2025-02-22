@@ -187,7 +187,7 @@ bool ProjectManifest::configure()
     return true;
 }
 
-bool ProjectManifest::load(const BuildSetup&)
+bool ProjectManifest::load(const BuildSetup& buildSetup)
 {
     //TODO Check if cache is available
 
@@ -208,6 +208,16 @@ bool ProjectManifest::load(const BuildSetup&)
     projectNameStream << projectNameFile.rdbuf();
     projectNameFile.close();
     impl->projectName = projectNameStream.str();
+
+    for (ModuleManifest* module : impl->modules)
+    {
+        if (!module->load(buildSetup))
+        {
+            return false;
+        }
+    }
+
+    //TODO Resolve module dependencies
 
     return true;
 }
