@@ -8,6 +8,8 @@ function configureModule(module) {
 
     module.addDependency("ModuleB");
     module.addDependency("ModuleC");
+
+    module.setType("executable");
 }
 
 function configureSetup(setup, module) {
