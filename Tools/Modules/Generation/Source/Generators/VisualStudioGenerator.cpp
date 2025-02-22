@@ -634,7 +634,6 @@ void VisualStudioGenerator::writeSolutionFile(const ProjectManifest* project, st
                 Configuration configuration = static_cast<Configuration>(configurationIndex);
                 std::string targetName = target->displayName();
                 std::string configName = configurationToString(configuration);
-
                 std::string displayName = targetName + " " + configName;
 
                 stream << "\t\t" << displayName << "|x86 = " << displayName << "|x86\n";
@@ -670,24 +669,27 @@ void VisualStudioGenerator::writeSolutionFile(const ProjectManifest* project, st
     stream.close();
 }
 
-void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream&, const VSProjectInfo&)
+void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream& stream, const VSProjectInfo& project)
 {
-    //TODO Implement
-    /*std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
-    for (Toolchain* toolchain : toolchains)
+    for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
     {
-        std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-        for (BuildPlatform* platform : platforms)
+        Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
+        for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
         {
-            for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+            Target* target = toolchain->target(targetIndex);
+            for (int configurationIndex = 0; configurationIndex < Configuration::C_ENUMSIZE; configurationIndex++)
             {
-                const char* buildTypeName = BuildTypeNames[buildTypeIndex];
-                stream << "\t\t{" << VSProjectInfo.uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.ActiveCfg = " << platform->platformName << " " << buildTypeName << "|Win32\n";
-                if (VSProjectInfo.buildByDefault)
+                Configuration configuration = static_cast<Configuration>(configurationIndex);
+                std::string configName = configurationToString(configuration);
+                std::string setupName = std::string(target->identifier()) + " " + configName;
+                std::string displayName = std::string(target->displayName()) + " " + configName;
+
+                stream << "\t\t{" << project.uuid << "}." << setupName << "|x86.ActiveCfg = " << displayName << "|Win32\n";
+                if (project.buildByDefault)
                 {
-                    stream << "\t\t{" << VSProjectInfo.uuid << "}." << platform->platformName << " " << buildTypeName << "|x86.Build.0 = " << platform->platformName << " " << buildTypeName << "|Win32\n";
+                    stream << "\t\t{" << project.uuid << "}." << setupName << "|x86.Build.0 = " << displayName << "|Win32\n";
                 }
             }
         }
-    }*/
+    }
 }
