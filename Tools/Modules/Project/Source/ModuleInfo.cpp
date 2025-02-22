@@ -326,6 +326,10 @@ bool ModuleManifest::Impl::configureModule(const ModuleManifest* manifest, Modul
     }
     moduleType.close();
 
+    std::ofstream moduleName(cacheFolder / "ModuleName.txt");
+    moduleName << buildModule.name;
+    moduleName.close();
+
     return true;
 }
 
@@ -459,6 +463,13 @@ bool ModuleManifest::loadCache(const BuildSetup& config)
     {
         impl->module.type = MT_Executable;
     }
+
+    std::ifstream moduleName(cacheFolderModule / "ModuleName.txt");
+    std::stringstream moduleNameStream;
+    moduleNameStream << moduleName.rdbuf();
+    moduleName.close();
+    std::string moduleNameString = moduleNameStream.str();
+    impl->module.name = moduleNameString;
 
     char uuid[UUID_LENGTH];
     std::filesystem::path uuidStorage = cacheFolderModule / "ModuleId.txt";
