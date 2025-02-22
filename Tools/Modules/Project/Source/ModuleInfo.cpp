@@ -378,9 +378,13 @@ bool ModuleManifest::Impl::configureSetup(const ModuleManifest* manifest, Module
     return true;
 }
 
-bool ModuleManifest::load(const BuildSetup&)
+bool ModuleManifest::load(const BuildSetup& buildSetup)
 {
-    return false; //TODO Implement
+    if (!loadCache(buildSetup))
+    {
+        return false;
+    }
+    return true;
 }
 
 bool ModuleManifest::prebuild(const BuildSetup&) const
@@ -393,62 +397,39 @@ bool ModuleManifest::postbuild(const BuildSetup&) const
     return false; //TODO Implement
 }
 
+void readLines(std::filesystem::path path, std::vector<std::string>& array)
+{
+    std::string line;
+    std::ifstream filesList(path);
+    while (std::getline(filesList, line))
+    {
+        array.push_back(line);
+    }
+    filesList.close();
+}
+
 bool ModuleManifest::loadCache(const BuildSetup& config)
 {
-    std::filesystem::path cacheFolder = getSetupConfigDirectory(this, config);
+    std::filesystem::path cacheFolderModule = getModuleConfigDirectory(this);
+    std::filesystem::path cacheFolderSetup = getSetupConfigDirectory(this, config);
 
     std::string line;
 
-    std::ifstream filesList(cacheFolder / "Source.txt");
-    while (std::getline(filesList, line))
-    {
-        impl->module.sourceFiles.push_back(line);
-    }
-    filesList.close();
+    readLines(cacheFolderModule / "Source.txt", impl->module.sourceFiles);
+    readLines(cacheFolderModule / "PublicIncludes.txt", impl->module.publicIncludes);
+    readLines(cacheFolderModule / "PrivateIncludes.txt", impl->module.privateIncludes);
+    readLines(cacheFolderModule / "PublicDefines.txt", impl->module.publicDefines);
+    readLines(cacheFolderModule / "PrivateDefines.txt", impl->module.privateDefines);
+    readLines(cacheFolderModule / "Dependencies.txt", impl->module.moduleDependencyPaths);
+    readLines(cacheFolderModule / "Libraries.txt", impl->module.linkingLibraries);
 
-    std::ifstream publicIncludeList(cacheFolder / "PublicIncludes.txt");
-    while (std::getline(publicIncludeList, line))
-    {
-        impl->module.publicIncludes.push_back(line);
-    }
-    publicIncludeList.close();
+    readLines(cacheFolderSetup / "Libraries.txt", impl->setup.linkingLibraries);
+    readLines(cacheFolderSetup / "PublicIncludes.txt", impl->setup.publicIncludes);
+    readLines(cacheFolderSetup / "PrivateIncludes.txt", impl->setup.privateIncludes);
+    readLines(cacheFolderSetup / "PublicDefines.txt", impl->setup.publicDefines);
+    readLines(cacheFolderSetup / "PrivateDefines.txt", impl->setup.privateDefines);
 
-    std::ifstream privateIncludeList(cacheFolder / "PrivateIncludes.txt");
-    while (std::getline(privateIncludeList, line))
-    {
-        impl->module.privateIncludes.push_back(line);
-    }
-    privateIncludeList.close();
-
-    std::ifstream publicDefineList(cacheFolder / "PublicDefines.txt");
-    while (std::getline(publicDefineList, line))
-    {
-        impl->module.publicDefines.push_back(line);
-    }
-    publicDefineList.close();
-
-    std::ifstream privateDefineList(cacheFolder / "PrivateDefines.txt");
-    while (std::getline(privateDefineList, line))
-    {
-        impl->module.privateDefines.push_back(line);
-    }
-    privateDefineList.close();
-
-    std::ifstream dependencyList(cacheFolder / "Dependencies.txt");
-    while (std::getline(dependencyList, line))
-    {
-        impl->module.moduleDependencyPaths.push_back(line);
-    }
-    dependencyList.close();
-
-    std::ifstream libraryList(cacheFolder / "Libraries.txt");
-    while (std::getline(libraryList, line))
-    {
-        impl->module.linkingLibraries.push_back(line);
-    }
-    libraryList.close();
-
-    std::ifstream moduleType(cacheFolder / "ModuleType.txt");
+    std::ifstream moduleType(cacheFolderModule / "ModuleType.txt");
     std::stringstream moduleTypeStream;
     moduleTypeStream << moduleType.rdbuf();
     moduleType.close();
@@ -464,13 +445,13 @@ bool ModuleManifest::loadCache(const BuildSetup& config)
     }
 
     char uuid[UUID_LENGTH];
-    std::filesystem::path uuidStorage = cacheFolder / "ModuleId.txt";
+    std::filesystem::path uuidStorage = cacheFolderModule / "ModuleId.txt";
     if (Utility::GetCachedUUID(uuidStorage.string().c_str(), uuid))
     {
         impl->module.uuid = uuid;
     }
 
-    std::ifstream mountList(cacheFolder / "Mounts.txt");
+    std::ifstream mountList(cacheFolderModule / "Mounts.txt");
     while (true)
     {
         std::string location, mountPoint;
