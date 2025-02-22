@@ -106,11 +106,15 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
     std::filesystem::path vsProjectInfo(project->faroDirectory());
     vsProjectInfo /= "VSProjectInfo";
 
+    std::filesystem::path projectDirectory(project->faroDirectory());
+    projectDirectory /= "Project";
+    Utility::EnsureDirectory(projectDirectory.string().c_str());
+
     std::vector<VSProjectInfo*> projectInfoList;
     VSCustomCommandInfo* commandInfo = new VSCustomCommandInfo();
     commandInfo->name = "Build";
     std::string idFile = (vsProjectInfo / (commandInfo->name + "Id.txt")).string();
-    std::string projectPath = (std::filesystem::path(project->faroDirectory()) / "Project" / (commandInfo->name + ".vcxproj")).string();
+    std::string projectPath = (projectDirectory / ("Action_" + commandInfo->name + ".vcxproj")).string();
     commandInfo->buildByDefault = true;
     commandInfo->buildCommand = faroBuildTool + " -build -project " + project->manifestPath();
     commandInfo->cleanCommand = faroBuildTool + " -clean -project " + project->manifestPath();
@@ -124,7 +128,7 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
     commandInfo = new VSCustomCommandInfo();
     commandInfo->name = "Generate";
     idFile = (vsProjectInfo / (commandInfo->name + "Id.txt")).string();
-    projectPath = (std::filesystem::path(project->faroDirectory()) / "Project" / (commandInfo->name + ".vcxproj")).string();
+    projectPath = (projectDirectory / ("Action_" + commandInfo->name + ".vcxproj")).string();
     commandInfo->buildByDefault = false;
     commandInfo->buildCommand = faroBuildTool + " -generate -project " + project->manifestPath();
     commandInfo->rebuildCommand = faroBuildTool + " -generate -build -project " + project->manifestPath();
@@ -145,7 +149,7 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
         moduleInfo->name = moduleManifest->name();
         moduleInfo->module = moduleManifest;
         moduleInfo->uuid = moduleManifest->uuid();
-        moduleInfo->projectPath = std::filesystem::path(moduleManifest->faroDirectory()) / "Project" / (std::string(moduleManifest->name()) + ".vcxproj");
+        moduleInfo->projectPath = projectDirectory / ("Module_ " + std::string(moduleManifest->name()) + ".vcxproj");
         moduleInfo->solutionPath = "Project/Modules";
         moduleInfo->buildByDefault = false;
         moduleInfo->debuggable = moduleManifest->moduleType() == MT_Executable;
