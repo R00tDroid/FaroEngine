@@ -10,6 +10,8 @@ function configureModule(module) {
     module.addDependency("ModuleC");
 
     module.setType("executable");
+
+    module.setSolutionLocation("Apps/Tests");
 }
 
 function configureSetup(setup, module) {
