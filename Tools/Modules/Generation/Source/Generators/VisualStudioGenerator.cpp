@@ -91,7 +91,7 @@ std::vector<std::filesystem::path> VSModuleInfo::getIncludePaths() const
 
 std::filesystem::path VSModuleInfo::getRootDirectory() const
 {
-    return {}; //TODO Implement
+    return module->manifestDirectory();
 }
 
 std::filesystem::path VSModuleInfo::getOutputExecutable(const Toolchain*, const BuildSetup&) const
@@ -488,14 +488,30 @@ void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo& project)
     doc.SaveFile(file.string().c_str());
 }
 
-std::filesystem::path VisualStudioGenerator::getFileRelativeDirectory(std::filesystem::path, std::filesystem::path)
+std::filesystem::path VisualStudioGenerator::getFileRelativeDirectory(std::filesystem::path root, std::filesystem::path file)
 {
-    return {}; //TODO Implement
+    std::filesystem::path directory = std::filesystem::absolute(file.parent_path());
+    return std::filesystem::proximate(directory, root);
 }
 
-std::vector<std::filesystem::path> VisualStudioGenerator::getDirectoryTree(std::filesystem::path&)
+std::vector<std::filesystem::path> VisualStudioGenerator::getDirectoryTree(std::filesystem::path& root)
 {
-    return {}; //TODO Implement
+    std::vector<std::filesystem::path> result = { root };
+    while (true)
+    {
+        std::filesystem::path& current = result[result.size() - 1];
+        std::filesystem::path parent = current.parent_path();
+        if (!parent.empty())
+        {
+            result.push_back(parent);
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    return result;
 }
 
 void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& project)
@@ -547,7 +563,7 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& project)
     for (auto& directory : directories)
     {
         tinyxml2::XMLElement* filterElement = itemGroup->InsertNewChildElement("Filter");
-        filterElement->SetAttribute("Include", directory.first.c_str());
+        filterElement->SetAttribute("Include", directory.first.string().c_str());
 
         tinyxml2::XMLElement* idElement = filterElement->InsertNewChildElement("UniqueIdentifier");
         idElement->SetText(("{" + directory.second + "}").c_str());
