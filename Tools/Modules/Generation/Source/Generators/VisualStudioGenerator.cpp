@@ -149,7 +149,7 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
         moduleInfo->name = moduleManifest->name();
         moduleInfo->module = moduleManifest;
         moduleInfo->uuid = moduleManifest->uuid();
-        moduleInfo->projectPath = projectDirectory / ("Module_ " + std::string(moduleManifest->name()) + ".vcxproj");
+        moduleInfo->projectPath = projectDirectory / ("Module_" + std::string(moduleManifest->name()) + ".vcxproj");
         moduleInfo->solutionPath = "Project/Modules";
         moduleInfo->buildByDefault = false;
         moduleInfo->debuggable = moduleManifest->moduleType() == MT_Executable;
