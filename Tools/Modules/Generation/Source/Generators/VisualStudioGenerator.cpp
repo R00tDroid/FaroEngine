@@ -12,12 +12,12 @@ bool VSProjectInfo::hasSourceFiles()
     return true; //TODO Implement
 }
 
-std::vector<std::filesystem::path> VSProjectInfo::getSourceFiles()
+std::vector<std::filesystem::path> VSProjectInfo::getSourceFiles() const
 {
     return {}; //TODO Implement
 }
 
-std::vector<std::filesystem::path> VSProjectInfo::getIncludePaths()
+std::vector<std::filesystem::path> VSProjectInfo::getIncludePaths() const
 {
     return {}; //TODO Implement
 }
@@ -37,32 +37,32 @@ ModuleManifest* VSProjectInfo::getModuleManifest()
     return {}; //TODO Implement
 }
 
-std::string VSCustomCommandInfo::getBuildCommand()
+std::string VSCustomCommandInfo::getBuildCommand() const
 {
     return {}; //TODO Implement
 }
 
-std::string VSCustomCommandInfo::getRebuildCommand()
+std::string VSCustomCommandInfo::getRebuildCommand() const
 {
     return {}; //TODO Implement
 }
 
-std::string VSCustomCommandInfo::getCleanCommand()
+std::string VSCustomCommandInfo::getCleanCommand() const
 {
     return {}; //TODO Implement
 }
 
-std::string VSModuleInfo::getBuildCommand()
+std::string VSModuleInfo::getBuildCommand() const
 {
     return {}; //TODO Implement
 }
 
-std::string VSModuleInfo::getRebuildCommand()
+std::string VSModuleInfo::getRebuildCommand() const
 {
     return {}; //TODO Implement
 }
 
-std::string VSModuleInfo::getCleanCommand()
+std::string VSModuleInfo::getCleanCommand() const
 {
     return {}; //TODO Implement
 }
@@ -72,12 +72,12 @@ bool VSModuleInfo::hasSourceFiles()
     return {}; //TODO Implement
 }
 
-std::vector<std::filesystem::path> VSModuleInfo::getSourceFiles()
+std::vector<std::filesystem::path> VSModuleInfo::getSourceFiles() const
 {
     return {}; //TODO Implement
 }
 
-std::vector<std::filesystem::path> VSModuleInfo::getIncludePaths()
+std::vector<std::filesystem::path> VSModuleInfo::getIncludePaths() const
 {
     return {}; //TODO Implement
 }
@@ -357,10 +357,8 @@ void writeConfigList(tinyxml2::XMLElement* projectElement, const std::string& VS
     }
 }*/
 
-void VisualStudioGenerator::writeProjectFile(const VSProjectInfo&)
+void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& project)
 {
-    /*Utility::EnsureDirectory(project.projectPath.parent_path());
-
     tinyxml2::XMLDocument doc(false);
 
     tinyxml2::XMLElement* projectElement = doc.NewElement("Project");
@@ -369,9 +367,9 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo&)
     projectElement->SetAttribute("ToolsVersion", "Current");
     doc.InsertEndChild(projectElement);
 
-    writeProjectConfigs(projectElement, VSProjectInfo.uuid, VSPlatformVersion);
-
-    writeConfigList(projectElement, VSPlatformVersion);
+    //TODO Write sections
+    //writeProjectConfigs(projectElement, project.uuid, VSPlatformVersion);
+    //writeConfigList(projectElement, VSPlatformVersion);
 
     {
         tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("Import");
@@ -388,15 +386,21 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo&)
         element->SetAttribute("Label", "UserMacros");
     }
 
-    std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
-    for (Toolchain* toolchain : toolchains)
+    for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
     {
-        std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-        for (BuildPlatform* platform : platforms)
+        Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
+        for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
         {
-            for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+            Target* target = toolchain->target(targetIndex);
+            BuildSetup buildSetup;
+            buildSetup.target = target;
+
+            for (int ConfigurationIndex = 0; ConfigurationIndex < Configuration::C_ENUMSIZE; ConfigurationIndex++)
             {
-                writeConfigSection(projectElement, VSProjectInfo, platform, static_cast<BuildType>(buildTypeIndex), toolchain);
+                buildSetup.configuration = static_cast<Configuration>(ConfigurationIndex);
+                Utility::PrintLineD(buildSetup.identifier());
+                //TODO Write section
+                //writeConfigSection(projectElement, project, platform, static_cast<BuildType>(buildTypeIndex), toolchain);
             }
         }
     }
@@ -413,10 +417,10 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo&)
 
     {
         tinyxml2::XMLElement* itemGroup = projectElement->InsertNewChildElement("ItemGroup");
-        std::vector<std::filesystem::path> sourceFiles = VSProjectInfo.GetSourceFiles();
+        std::vector<std::filesystem::path> sourceFiles = project.getSourceFiles();
         for (std::filesystem::path& file : sourceFiles)
         {
-            std::string extension = file.extension();
+            std::string extension = file.extension().string();
             extension = Utility::ToLower(extension);
             bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
             tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
@@ -424,8 +428,10 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo&)
         }
     }
 
-
-    doc.SaveFile(VSProjectInfo.projectPath.c_str());*/
+    if (doc.SaveFile(project.projectPath.string().c_str()) != tinyxml2::XML_SUCCESS)
+    {
+        Utility::PrintLine("Failed to save " + project.projectPath.string());
+    }
 }
 
 void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo&)

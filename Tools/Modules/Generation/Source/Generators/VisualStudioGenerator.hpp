@@ -17,12 +17,12 @@ struct VSProjectInfo
     std::vector<std::string> dependencyUuids;
 
     virtual bool hasSourceFiles();
-    virtual std::vector<std::filesystem::path> getSourceFiles();
-    virtual std::vector<std::filesystem::path> getIncludePaths();
+    virtual std::vector<std::filesystem::path> getSourceFiles() const;
+    virtual std::vector<std::filesystem::path> getIncludePaths() const;
 
-    virtual std::string getBuildCommand() = 0;
-    virtual std::string getRebuildCommand() = 0;
-    virtual std::string getCleanCommand() = 0;
+    virtual std::string getBuildCommand() const = 0;
+    virtual std::string getRebuildCommand() const = 0;
+    virtual std::string getCleanCommand() const = 0;
 
     virtual std::filesystem::path getOutputExecutable(Toolchain*, BuildSetup&);
 
@@ -33,25 +33,25 @@ struct VSProjectInfo
 
 struct VSCustomCommandInfo : VSProjectInfo
 {
-    std::string getBuildCommand() override;
-    std::string getRebuildCommand() override;
-    std::string getCleanCommand() override;
+    std::string getBuildCommand() const override;
+    std::string getRebuildCommand() const override;
+    std::string getCleanCommand() const override;
 
     std::string buildCommand, rebuildCommand, cleanCommand;
 };
 
 struct VSModuleInfo : VSProjectInfo
 {
-    std::string getBuildCommand() override;
+    std::string getBuildCommand() const override;
 
-    std::string getRebuildCommand() override;
+    std::string getRebuildCommand() const override;
 
-    std::string getCleanCommand() override;
+    std::string getCleanCommand() const override;
 
     bool hasSourceFiles() override;
 
-    std::vector<std::filesystem::path> getSourceFiles() override;
-    std::vector<std::filesystem::path> getIncludePaths() override;
+    std::vector<std::filesystem::path> getSourceFiles() const override;
+    std::vector<std::filesystem::path> getIncludePaths() const override;
     std::filesystem::path getRootDirectory() override;
 
     std::filesystem::path getOutputExecutable(Toolchain*, BuildSetup&) override;
