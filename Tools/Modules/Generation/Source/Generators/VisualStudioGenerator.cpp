@@ -572,10 +572,9 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& project)
     doc.SaveFile(filePath.string().c_str());
 }
 
-void VisualStudioGenerator::writeSolutionFile(const ProjectManifest*, std::vector<VSProjectInfo*>)
+void VisualStudioGenerator::writeSolutionFile(const ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList)
 {
-    //TODO Implement
-    /*std::ofstream stream(project->manifestDirectory / (project->projectName + ".sln"));
+    std::ofstream stream(std::filesystem::path(project->manifestDirectory()) / (std::string(project->projectName()) + ".sln"));
 
     stream << "Microsoft Visual Studio Solution File, Format Version 12.00\n";
     stream << "# Visual Studio 16\n";
@@ -583,7 +582,7 @@ void VisualStudioGenerator::writeSolutionFile(const ProjectManifest*, std::vecto
 
     for (VSProjectInfo* VSProjectInfo : projectInfoList)
     {
-        stream << "Project(\"{" + project->uuid + "}\") = \"" + VSProjectInfo->name + "\", \"" + (VSProjectInfo->projectPath) + "\", \"{" + VSProjectInfo->uuid + "}\"\n";
+        stream << "Project(\"{" + std::string(project->uuid()) + "}\") = \"" + VSProjectInfo->name + "\", \"" + (VSProjectInfo->projectPath.string()) + "\", \"{" + VSProjectInfo->uuid + "}\"\n";
         if (!VSProjectInfo->dependencyUuids.empty())
         {
             stream << "\tProjectSection(ProjectDependencies) = postProject\n";
@@ -602,35 +601,43 @@ void VisualStudioGenerator::writeSolutionFile(const ProjectManifest*, std::vecto
         VSProjectInfo->solutionPath.make_preferred();
         VSProjectInfo->solutionPath = std::filesystem::weakly_canonical(VSProjectInfo->solutionPath);
 
-        std::vector<std::filesystem::path> tree = GetDirectoryTree(VSProjectInfo->solutionPath);
+        std::vector<std::filesystem::path> tree = getDirectoryTree(VSProjectInfo->solutionPath);
         for (std::filesystem::path& solutionDir : tree)
         {
             auto it = solutionDirectories.find(solutionDir);
             if (it == solutionDirectories.end())
             {
-                solutionDirectories.insert(std::pair<std::filesystem::path, std::string>(solutionDir, Utility::GetCachedUUID(project->manifestDirectory / "VSProjectInfo" / ("Dir" + solutionDir.filename() + "Id.txt"))));
+                std::string uuidPath = (std::filesystem::path(project->manifestDirectory()) / "VSProjectInfo" / ("Dir" + solutionDir.filename().string() + "Id.txt")).string();
+                char uuid[UUID_LENGTH];
+                Utility::GetCachedUUID(uuidPath.c_str(), uuid);
+                solutionDirectories.insert(std::pair<std::filesystem::path, std::string>(solutionDir, std::string(uuid, UUID_LENGTH)));
             }
         }
     }
 
     for (auto& it : solutionDirectories)
     {
-        stream << "Project(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\") = \"" + it.first.filename() + "\", \"" + it.first.filename() + "\", \"{" + it.second + "}\"\n";
+        stream << "Project(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\") = \"" + it.first.filename().string() + "\", \"" + it.first.filename().string() + "\", \"{" + it.second + "}\"\n";
         stream << "EndProject\n";
     }
 
     stream << "Global\n";
     stream << "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution\n";
-    std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
-    for (Toolchain* toolchain : toolchains)
+    for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
     {
-        std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-        for (BuildPlatform* platform : platforms)
+        Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
+        for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
         {
-            for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
+            Target* target = toolchain->target(targetIndex);
+            for (int configurationIndex = 0; configurationIndex < Configuration::C_ENUMSIZE; configurationIndex++)
             {
-                const char* buildTypeName = BuildTypeNames[buildTypeIndex];
-                stream << "\t\t" << platform->platformName << " " << buildTypeName << "|x86 = " << platform->platformName << " " << buildTypeName << "|x86\n";
+                Configuration configuration = static_cast<Configuration>(configurationIndex);
+                std::string targetName = target->displayName();
+                std::string configName = configurationToString(configuration);
+
+                std::string displayName = targetName + " " + configName;
+
+                stream << "\t\t" << displayName << "|x86 = " << displayName << "|x86\n";
             }
         }
     }
@@ -660,7 +667,7 @@ void VisualStudioGenerator::writeSolutionFile(const ProjectManifest*, std::vecto
 
     stream << "EndGlobal\n";
 
-    stream.close();*/
+    stream.close();
 }
 
 void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream&, const VSProjectInfo&)
