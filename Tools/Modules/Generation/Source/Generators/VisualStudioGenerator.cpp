@@ -676,13 +676,15 @@ void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream& stream, co
         Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
         for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
         {
-            Target* target = toolchain->target(targetIndex);
+            BuildSetup setup;
+            setup.target = toolchain->target(targetIndex);;
+
             for (int configurationIndex = 0; configurationIndex < Configuration::C_ENUMSIZE; configurationIndex++)
             {
-                Configuration configuration = static_cast<Configuration>(configurationIndex);
-                std::string configName = configurationToString(configuration);
-                std::string setupName = std::string(target->identifier()) + " " + configName;
-                std::string displayName = std::string(target->displayName()) + " " + configName;
+                setup.configuration = static_cast<Configuration>(configurationIndex);;
+                std::string configName = configurationToString(setup.configuration);
+                std::string setupName = setup.identifier();
+                std::string displayName = std::string(setup.target->displayName()) + " " + configName;
 
                 stream << "\t\t{" << project.uuid << "}." << setupName << "|x86.ActiveCfg = " << displayName << "|Win32\n";
                 if (project.buildByDefault)
