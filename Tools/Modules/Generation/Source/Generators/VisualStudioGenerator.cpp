@@ -74,7 +74,14 @@ bool VSModuleInfo::hasSourceFiles()
 
 std::vector<std::filesystem::path> VSModuleInfo::getSourceFiles() const
 {
-    return {}; //TODO Implement
+    unsigned int sourceCount = module->sourceFiles();
+    std::vector<std::filesystem::path> paths;
+    paths.reserve(sourceCount);
+    for (unsigned int i = 0; i < sourceCount; i++)
+    {
+        paths.emplace_back(module->sourceFile(i));
+    }
+    return paths;
 }
 
 std::vector<std::filesystem::path> VSModuleInfo::getIncludePaths() const
