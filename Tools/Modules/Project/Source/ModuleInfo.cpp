@@ -475,7 +475,7 @@ bool ModuleManifest::loadCache(const BuildSetup& config)
     std::filesystem::path uuidStorage = cacheFolderModule / "ModuleId.txt";
     if (Utility::GetCachedUUID(uuidStorage.string().c_str(), uuid))
     {
-        impl->module.uuid = uuid;
+        impl->module.uuid = std::string(uuid, UUID_LENGTH);
     }
 
     std::ifstream mountList(cacheFolderModule / "Mounts.txt");
