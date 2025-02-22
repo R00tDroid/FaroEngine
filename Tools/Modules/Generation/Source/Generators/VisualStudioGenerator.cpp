@@ -69,7 +69,7 @@ std::string VSModuleInfo::getCleanCommand() const
 
 bool VSModuleInfo::hasSourceFiles()
 {
-    return {}; //TODO Implement
+    return module->sourceFiles() > 0;
 }
 
 std::vector<std::filesystem::path> VSModuleInfo::getSourceFiles() const
@@ -431,7 +431,7 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& project)
             extension = Utility::ToLower(extension);
             bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
             tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
-            fileElement->SetAttribute("Include", file.c_str());
+            fileElement->SetAttribute("Include", file.string().c_str());
         }
     }
 
