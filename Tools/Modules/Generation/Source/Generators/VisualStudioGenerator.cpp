@@ -442,16 +442,12 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& project)
     }
 }
 
-void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo&)
+void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo& project)
 {
-    /*if (!VSProjectInfo.debuggable) return;
+    if (!project.debuggable) return;
 
-    std::filesystem::path file = VSProjectInfo.projectPath;
+    std::filesystem::path file = project.projectPath;
     file.replace_extension(".vcxproj.user");
-
-    Utility::EnsureDirectory(file.parent_path());
-
-    std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
 
     tinyxml2::XMLDocument doc(false);
     {
@@ -461,20 +457,23 @@ void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo&)
         doc.InsertEndChild(projectElement);
 
 
-        for (Toolchain* toolchain : toolchains)
+        for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
         {
-            std::vector<BuildPlatform*> platforms = toolchain->GetPlatforms();
-            for (BuildPlatform* platform : platforms)
+            Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
+            for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
             {
-                for (int buildTypeIndex = 0; buildTypeIndex < BuildType::ENUMSIZE; buildTypeIndex++)
-                {
-                    const char* buildTypeName = BuildTypeNames[buildTypeIndex];
+                Target* target = toolchain->target(targetIndex);
+                BuildSetup buildSetup;
+                buildSetup.target = target;
 
+                for (int configurationIndex = 0; configurationIndex < Configuration::C_ENUMSIZE; configurationIndex++)
+                {
+                    buildSetup.configuration = static_cast<Configuration>(configurationIndex);
                     tinyxml2::XMLElement* propGroup = projectElement->InsertNewChildElement("PropertyGroup");
-                    propGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)'=='" + platform->platformName + " " + buildTypeName + "|Win32'").c_str());
+                    propGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)'=='" + buildSetup.identifier() + "|Win32'").c_str());
 
                     tinyxml2::XMLElement* element = propGroup->InsertNewChildElement("LocalDebuggerCommand");
-                    element->SetText(VSProjectInfo.GetOutputExecutable(toolchain, platform, (BuildType)buildTypeIndex).c_str());
+                    element->SetText(project.getOutputExecutable(toolchain, buildSetup).c_str());
                     element = propGroup->InsertNewChildElement("DebuggerFlavor");
                     element->SetText("WindowsLocalDebugger");
                 }
@@ -483,7 +482,7 @@ void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo&)
     }
 
 
-    doc.SaveFile(file.c_str());*/
+    doc.SaveFile(file.string().c_str());
 }
 
 std::filesystem::path VisualStudioGenerator::getFileRelativeDirectory(std::filesystem::path, std::filesystem::path)
