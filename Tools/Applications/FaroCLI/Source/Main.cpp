@@ -23,49 +23,59 @@ int main(int argc, char** argv)
 
     ProjectManifest project(taskInfo.manifest.string().c_str());
 
-    if (taskInfo.runConfigure)
+    if (taskInfo.runConfigure ||
+        taskInfo.runProject ||
+        taskInfo.runBuild ||
+        taskInfo.runClean ||
+        taskInfo.runDeploy)
     {
-        if (!project.configure())
-        {
-            Utility::PrintLine("Error while configuring project");
-            return -1;
-        }
-    }
 
-    if (taskInfo.runProject ||
-             taskInfo.runBuild ||
-             taskInfo.runClean ||
-             taskInfo.runDeploy)
-    {
-        BuildSetup setup;
-        setup.target = nullptr;
-        setup.configuration = taskInfo.config;
-
-        for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
+        if (taskInfo.runConfigure)
         {
-            Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
-            for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
+            if (!project.configure())
             {
-                Target* target = toolchain->target(targetIndex);
-                if (taskInfo.platformName == target->identifier())
-                {
-                    setup.target = target;
-                    break;
-                }
+                Utility::PrintLine("Error while configuring project");
+                return -1;
             }
         }
 
-        if (setup.target == nullptr)
+        if (taskInfo.runProject ||
+            taskInfo.runBuild ||
+            taskInfo.runClean ||
+            taskInfo.runDeploy)
         {
-            Utility::PrintLine("Unable to find target " + taskInfo.platformName);
-            return -1;
+            BuildSetup setup;
+            setup.target = nullptr;
+            setup.configuration = taskInfo.config;
+
+            for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
+            {
+                Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
+                for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
+                {
+                    Target* target = toolchain->target(targetIndex);
+                    if (taskInfo.platformName == target->identifier())
+                    {
+                        setup.target = target;
+                        break;
+                    }
+                }
+            }
+
+            if (setup.target == nullptr)
+            {
+                Utility::PrintLine("Unable to find target " + taskInfo.platformName);
+                return -1;
+            }
+
+            if (!project.load(setup))
+            {
+                Utility::PrintLine("Error while loading project");
+                return -1;
+            }
         }
- 
-        if (!project.load(setup))
-        {
-            Utility::PrintLine("Error while loading project");
-            return -1;
-        }
+
+        return 0;
     }
 
     Utility::PrintLine("No tasks specified");
