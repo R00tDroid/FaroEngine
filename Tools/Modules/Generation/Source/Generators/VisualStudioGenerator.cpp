@@ -334,12 +334,15 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, const VSProjectInf
         element->SetText("$(ProjectDir)\\Intermediate");
 
         element = propertyGroup->InsertNewChildElement("NMakeBuildCommandLine");
+        //TODO Implement
         //element->SetText((VSProjectInfo.getBuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
 
         element = propertyGroup->InsertNewChildElement("NMakeReBuildCommandLine");
+        //TODO Implement
         //element->SetText((VSProjectInfo.getRebuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
 
         element = propertyGroup->InsertNewChildElement("NMakeCleanCommandLine");
+        //TODO Implement
         //element->SetText((VSProjectInfo.getCleanCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
 
         element = propertyGroup->InsertNewChildElement("NMakeOutput");
@@ -497,6 +500,7 @@ std::vector<std::filesystem::path> VisualStudioGenerator::getDirectoryTree(std::
 
 void VisualStudioGenerator::writeFilterFile(const VSProjectInfo&)
 {
+    //TODO Implement
     /*std::filesystem::path filePath = VSProjectInfo.projectPath;
     filePath.replace_extension(".vcxproj.filters");
 
@@ -553,6 +557,7 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo&)
 
 void VisualStudioGenerator::writeSolutionFile(const ProjectManifest*, std::vector<VSProjectInfo*>)
 {
+    //TODO Implement
     /*std::ofstream stream(project->manifestDirectory / (project->projectName + ".sln"));
 
     stream << "Microsoft Visual Studio Solution File, Format Version 12.00\n";
@@ -643,6 +648,7 @@ void VisualStudioGenerator::writeSolutionFile(const ProjectManifest*, std::vecto
 
 void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream&, const VSProjectInfo&)
 {
+    //TODO Implement
     /*std::vector<Toolchain*> toolchains = Toolchain::getToolchains();
     for (Toolchain* toolchain : toolchains)
     {
