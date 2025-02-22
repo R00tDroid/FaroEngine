@@ -24,11 +24,11 @@ struct VSProjectInfo
     virtual std::string getRebuildCommand() const = 0;
     virtual std::string getCleanCommand() const = 0;
 
-    virtual std::filesystem::path getOutputExecutable(Toolchain*, BuildSetup&);
+    virtual std::filesystem::path getOutputExecutable(const Toolchain*, const BuildSetup&) const;
 
-    virtual std::filesystem::path getRootDirectory();
+    virtual std::filesystem::path getRootDirectory() const;
 
-    virtual ModuleManifest* getModuleManifest();
+    virtual ModuleManifest* getModuleManifest() const;
 };
 
 struct VSCustomCommandInfo : VSProjectInfo
@@ -52,11 +52,11 @@ struct VSModuleInfo : VSProjectInfo
 
     std::vector<std::filesystem::path> getSourceFiles() const override;
     std::vector<std::filesystem::path> getIncludePaths() const override;
-    std::filesystem::path getRootDirectory() override;
+    std::filesystem::path getRootDirectory() const override;
 
-    std::filesystem::path getOutputExecutable(Toolchain*, BuildSetup&) override;
+    std::filesystem::path getOutputExecutable(const Toolchain*, const BuildSetup&) const override;
 
-    ModuleManifest* getModuleManifest() override;
+    ModuleManifest* getModuleManifest() const override;
 
     ModuleManifest* module = nullptr;
 };

@@ -22,17 +22,17 @@ std::vector<std::filesystem::path> VSProjectInfo::getIncludePaths() const
     return {}; //TODO Implement
 }
 
-std::filesystem::path VSProjectInfo::getOutputExecutable(Toolchain*, BuildSetup&)
+std::filesystem::path VSProjectInfo::getOutputExecutable(const Toolchain*, const BuildSetup&) const
 {
     return {}; //TODO Implement
 }
 
-std::filesystem::path VSProjectInfo::getRootDirectory()
+std::filesystem::path VSProjectInfo::getRootDirectory() const
 {
     return {}; //TODO Implement
 }
 
-ModuleManifest* VSProjectInfo::getModuleManifest()
+ModuleManifest* VSProjectInfo::getModuleManifest() const
 {
     return {}; //TODO Implement
 }
@@ -89,17 +89,17 @@ std::vector<std::filesystem::path> VSModuleInfo::getIncludePaths() const
     return {}; //TODO Implement
 }
 
-std::filesystem::path VSModuleInfo::getRootDirectory()
+std::filesystem::path VSModuleInfo::getRootDirectory() const
 {
     return {}; //TODO Implement
 }
 
-std::filesystem::path VSModuleInfo::getOutputExecutable(Toolchain*, BuildSetup&)
+std::filesystem::path VSModuleInfo::getOutputExecutable(const Toolchain*, const BuildSetup&) const
 {
     return {}; //TODO Implement
 }
 
-ModuleManifest* VSModuleInfo::getModuleManifest()
+ModuleManifest* VSModuleInfo::getModuleManifest() const
 {
     return {}; //TODO Implement
 }
@@ -189,7 +189,7 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
     Utility::PrintLine("Performing solution generation...");
     writeSolutionFile(project, projectInfoList);
 
-    return false; //TODO Implement VS generation
+    return true;
 }
 
 void writeProjectConfigs(tinyxml2::XMLElement* projectElement, const std::string& uuid, const std::string& VSPlatformVersion)
@@ -277,7 +277,7 @@ void writeConfigList(tinyxml2::XMLElement* projectElement, const std::string& VS
     }
 }
 
-/*void writeConfigSection(tinyxml2::XMLElement* projectElement, VSProjectInfo& VSProjectInfo, BuildSetup setup, Toolchain* toolchain)
+void writeConfigSection(tinyxml2::XMLElement* projectElement, const VSProjectInfo& project, const BuildSetup& setup, const Toolchain* toolchain)
 {
     std::string setupId = setup.identifier();
 
@@ -299,19 +299,20 @@ void writeConfigList(tinyxml2::XMLElement* projectElement, const std::string& VS
 
         std::string includePaths;
 
-        ModuleManifest* moduleManifest = VSProjectInfo.getModuleManifest();
+        //TODO Get toolchain info
+        /*ModuleManifest* moduleManifest = project.getModuleManifest();
         if (moduleManifest != nullptr)
         {
-            toolchain->prepareModuleForBuild(*VSProjectInfo.getModuleManifest(), platform, buildType);
+            toolchain->prepareModuleForBuild(*project.getModuleManifest(), platform, buildType);
             std::vector<std::filesystem::path> toolchainIncludes = toolchain->getToolchainIncludes(platform, buildType);
 
             for (std::filesystem::path& path : toolchainIncludes)
             {
                 includePaths += path + ";";
             }
-        }
+        }*/
 
-        for (std::filesystem::path& path : VSProjectInfo.getIncludePaths())
+        for (std::filesystem::path& path : project.getIncludePaths())
         {
             includePaths += path.string() + ";";
         }
@@ -343,7 +344,7 @@ void writeConfigList(tinyxml2::XMLElement* projectElement, const std::string& VS
 
         element = propertyGroup->InsertNewChildElement("NMakeOutput");
 
-        std::filesystem::path outputPath = VSProjectInfo.getOutputExecutable(toolchain, setup);
+        std::filesystem::path outputPath = project.getOutputExecutable(toolchain, setup);
         if (!outputPath.empty())
         {
             element->SetText(outputPath.c_str());
@@ -354,15 +355,16 @@ void writeConfigList(tinyxml2::XMLElement* projectElement, const std::string& VS
 
         element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
 
-        std::string preprocessorDefines;
-        for (std::string& path : toolchain->GetPreprocessorDefines(VSProjectInfo.GetModuleManifest(), platform, buildType))
+        //TODO Get toolchain info
+        /*std::string preprocessorDefines;
+        for (std::string& path : toolchain->GetPreprocessorDefines(project.GetModuleManifest(), platform, buildType))
         {
             preprocessorDefines += path + ";";
         }
 
-        element->SetText(preprocessorDefines.c_str());
+        element->SetText(preprocessorDefines.c_str());*/
     }
-}*/
+}
 
 void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& project)
 {
@@ -406,8 +408,7 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& project)
             {
                 buildSetup.configuration = static_cast<Configuration>(ConfigurationIndex);
                 Utility::PrintLineD(buildSetup.identifier());
-                //TODO Write section
-                //writeConfigSection(projectElement, project, platform, static_cast<BuildType>(buildTypeIndex), toolchain);
+                writeConfigSection(projectElement, project, buildSetup, toolchain);
             }
         }
     }
