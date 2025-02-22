@@ -23,6 +23,8 @@ public:
     // Path to the module manifest at the specified index.
     ModuleManifest* module(unsigned int index) const;
 
+    ModuleManifest* findModule(const char* name) const;
+
     bool configure();
     bool load(const BuildSetup& setup);
 

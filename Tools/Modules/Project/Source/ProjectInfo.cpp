@@ -48,6 +48,19 @@ ModuleManifest* ProjectManifest::module(unsigned int index) const
     return impl->modules[index];
 }
 
+ModuleManifest* ProjectManifest::findModule(const char* name) const
+{
+    for (ModuleManifest* module : impl->modules)
+    {
+        if (strcmp(module->name(), name) == 0)
+        {
+            return module;
+        }
+    }
+
+    return nullptr;
+}
+
 bool parseProject(ProjectManifest::Impl& impl, picojson::object& rootObject)
 {
     if (rootObject.find("Name") != rootObject.end()) //TODO Save and load project name
