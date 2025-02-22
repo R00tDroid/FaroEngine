@@ -1,6 +1,7 @@
 #include "Parameters.hpp"
 #include "Utility.hpp"
 #include "Commandline.hpp"
+#include "Generator.hpp"
 #include "ProjectInfo.hpp"
 #include "Toolchain.hpp"
 
@@ -73,6 +74,19 @@ int main(int argc, char** argv)
                 Utility::PrintLine("Error while loading project");
                 return -1;
             }
+
+            if (taskInfo.runProject)
+            {
+                if (!Generator::generate(&project))
+                {
+                    Utility::PrintLine("Error while generating a project ");
+                    return -1;
+                }
+            }
+
+            //TODO Run clean
+            //TODO Run build
+            //TODO Run deploy
         }
 
         return 0;
