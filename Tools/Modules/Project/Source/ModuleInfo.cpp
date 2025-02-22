@@ -268,6 +268,8 @@ bool ModuleManifest::Impl::configureModule(const ModuleManifest* manifest, Modul
         return false;
     }
 
+    //TODO Save solution location
+
     std::filesystem::path cacheFolder = getModuleConfigDirectory(manifest);
 
     std::ofstream filesList(cacheFolder / "Source.txt");
@@ -449,6 +451,8 @@ bool ModuleManifest::loadCache(const BuildSetup& config)
     readLines(cacheFolderSetup / "PrivateIncludes.txt", impl->setup.privateIncludes);
     readLines(cacheFolderSetup / "PublicDefines.txt", impl->setup.publicDefines);
     readLines(cacheFolderSetup / "PrivateDefines.txt", impl->setup.privateDefines);
+
+    //TODO Load solution location
 
     std::ifstream moduleType(cacheFolderModule / "ModuleType.txt");
     std::stringstream moduleTypeStream;
