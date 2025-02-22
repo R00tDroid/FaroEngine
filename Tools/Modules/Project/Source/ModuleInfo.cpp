@@ -107,6 +107,7 @@ const char* ModuleManifest::name() const
 
 const char* ModuleManifest::solutionLocation() const
 {
+    if (impl->module.solutionDirectory.empty()) return nullptr;
     return impl->module.solutionDirectory.c_str();
 }
 

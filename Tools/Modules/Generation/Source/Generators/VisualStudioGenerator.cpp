@@ -163,7 +163,6 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
         if (moduleManifest->solutionLocation() != nullptr)
         {
             moduleInfo->solutionPath /= moduleManifest->solutionLocation();
-            //TODO Verify if this return a nullptr when empty
         }
 
         for (unsigned int dependencyIndex = 0; dependencyIndex < moduleManifest->dependencies(); dependencyIndex++)
