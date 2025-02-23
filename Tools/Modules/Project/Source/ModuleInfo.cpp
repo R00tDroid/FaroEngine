@@ -405,6 +405,14 @@ bool ModuleManifest::resolve(ProjectManifest* project)
             Utility::PrintLine("Failed to find dependency: " + dependencyName);
             return false;
         }
+
+        if (dependency == this)
+        {
+            Utility::PrintLine("Module depends on itself: " + impl->module.name);
+            return false;
+        }
+
+        impl->module.dependencies.push_back(dependency);
     }
 
     return true;
