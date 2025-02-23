@@ -34,7 +34,7 @@ AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Toolchain")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Project")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Generation")
 #AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Shaders")
-#AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Building")
+AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Building")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroCLI")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/Tests")
 
