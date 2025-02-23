@@ -6,8 +6,8 @@ function configureModule(module) {
     module.scanSource(module.getDirectory() + "/Source/**/*.c");
     module.scanSource(module.getDirectory() + "/Source/**/*.h");
 
+    module.addDependency("ModuleA");
     module.addDependency("ModuleB");
-    module.addDependency("ModuleC");
 
     module.setType("executable");
 
