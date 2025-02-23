@@ -80,5 +80,11 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
         buildStages[order].push_back(module);
     }
 
+    for (size_t stageId = 0; stageId < buildStages.size(); stageId++)
+    {
+        const std::vector<const ModuleManifest*>& buildStage = buildStages[stageId];
+        Utility::PrintLineD("Build stage " + std::to_string(stageId) + ": " + std::to_string(buildStage.size()));
+    }
+
     return false;
 }
