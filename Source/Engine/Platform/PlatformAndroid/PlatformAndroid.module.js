@@ -1,18 +1,15 @@
-{
-    "PublicIncludeDirectories": [
-        "Source"
-    ],
-    "PrivateIncludeDirectories": [
-    ],
-    "Dependencies": [
-        "PlatformBase"
-    ],
-    "SourceFilters": [
-        "Source/**/*.cpp",
-        "Source/**/*.hpp",
-        "Source/**/*.c",
-        "Source/**/*.h"
-    ],
-    "ModuleType": "Library",
-    "SolutionLocation": "Platform"
+function configureModule(module) {
+    module.setName("PlatformAndroid");
+
+    module.scanSource(module.getDirectory() + "/Source/**/*.cpp");
+    module.scanSource(module.getDirectory() + "/Source/**/*.hpp");
+    module.scanSource(module.getDirectory() + "/Source/**/*.c");
+    module.scanSource(module.getDirectory() + "/Source/**/*.h");
+
+    module.addDependency("PlatformBase");
+
+    module.setSolutionLocation("Platform");
+}
+
+function configureSetup(setup, module) {
 }

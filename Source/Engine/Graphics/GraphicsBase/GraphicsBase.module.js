@@ -1,19 +1,16 @@
-{
-    "PublicIncludeDirectories": [
-        "Source"
-    ],
-    "PrivateIncludeDirectories": [
-    ],
-    "Dependencies": [
-        "Core",
-        "PlatformBase"
-    ],
-    "SourceFilters": [
-        "Source/**/*.cpp",
-        "Source/**/*.hpp",
-        "Source/**/*.c",
-        "Source/**/*.h"
-    ],
-    "ModuleType": "Library",
-    "SolutionLocation": "Graphics"
+function configureModule(module) {
+    module.setName("GraphicsBase");
+
+    module.scanSource(module.getDirectory() + "/Source/**/*.cpp");
+    module.scanSource(module.getDirectory() + "/Source/**/*.hpp");
+    module.scanSource(module.getDirectory() + "/Source/**/*.c");
+    module.scanSource(module.getDirectory() + "/Source/**/*.h");
+
+    module.addDependency("Core");
+    module.addDependency("PlatformBase");
+
+    module.setSolutionLocation("Graphics");
+}
+
+function configureSetup(setup, module) {
 }
