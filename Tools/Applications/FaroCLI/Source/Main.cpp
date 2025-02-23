@@ -4,6 +4,7 @@
 #include "Generator.hpp"
 #include "ProjectInfo.hpp"
 #include "Toolchain.hpp"
+#include "Builder.hpp"
 
 int main(int argc, char** argv)
 {
@@ -85,7 +86,17 @@ int main(int argc, char** argv)
             }
 
             //TODO Run clean
-            //TODO Run build
+
+            if (taskInfo.runBuild)
+            {
+                //TODO Pass specific modules
+                if (!Builder::build(setup, &project, 0, nullptr))
+                {
+                    Utility::PrintLine("Error while building");
+                    return -1;
+                }
+            }
+
             //TODO Run deploy
         }
 
