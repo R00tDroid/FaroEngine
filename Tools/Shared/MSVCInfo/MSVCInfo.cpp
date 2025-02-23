@@ -20,89 +20,91 @@ _COM_SMARTPTR_TYPEDEF(ISetupPropertyStore, __uuidof(ISetupPropertyStore));
 #endif
 struct VSInstallation
 {
-    std::string Root;
-    std::string Name;
+    std::string root;
+    std::string name;
 };
-std::vector<VSInstallation> VisualStudioInstallations;
-void FindVisualStudioInstallations()
+std::vector<VSInstallation> visualStudioInstallations;
+void findVisualStudioInstallations()
 {
     #ifdef WIN32
-    if (VisualStudioInstallations.empty())
+    if (visualStudioInstallations.empty())
     {
-        ISetupConfigurationPtr SetupConfig;
-        IEnumSetupInstancesPtr InstanceEnumerator;
+        ISetupConfigurationPtr setupConfig;
+        IEnumSetupInstancesPtr instanceEnumerator;
 
-        auto UserLCID = GetUserDefaultLCID();
+        auto userLCID = GetUserDefaultLCID();
 
-        CoInitialize(nullptr);
-        SetupConfig.CreateInstance(__uuidof(SetupConfiguration));
-        SetupConfig->EnumInstances(&InstanceEnumerator);
+        HRESULT initResult = CoInitialize(nullptr);
+        if (initResult != S_OK) return;
+
+        setupConfig.CreateInstance(__uuidof(SetupConfiguration));
+        setupConfig->EnumInstances(&instanceEnumerator);
 
         while (true)
         {
-            ISetupInstance* InstancePtr = nullptr;
-            unsigned long DummyValue = 0;
-            HRESULT hr = InstanceEnumerator->Next(1, &InstancePtr, &DummyValue);
+            ISetupInstance* instancePtr = nullptr;
+            unsigned long dummyValue = 0;
+            HRESULT hr = instanceEnumerator->Next(1, &instancePtr, &dummyValue);
             if (hr != S_OK)
             {
                 break;
             }
 
-            ISetupInstancePtr SetupInstance(InstancePtr, false);
-            ISetupInstanceCatalogPtr InstanceCatalog;
-            ISetupPropertyStorePtr InfoStorage;
-            SetupInstance->QueryInterface(&InstanceCatalog);
-            InstanceCatalog->GetCatalogInfo(&InfoStorage);
+            ISetupInstancePtr setupInstance(instancePtr, false);
+            ISetupInstanceCatalogPtr instanceCatalog;
+            ISetupPropertyStorePtr infoStorage;
+            setupInstance->QueryInterface(&instanceCatalog);
+            instanceCatalog->GetCatalogInfo(&infoStorage);
 
-            VSInstallation VSInfo;
+            VSInstallation vsInstall;
 
             BSTR InstallPath;
-            SetupInstance->GetInstallationPath(&InstallPath);
-            VSInfo.Root = _bstr_t(InstallPath);
+            setupInstance->GetInstallationPath(&InstallPath);
+            vsInstall.root = _bstr_t(InstallPath);
 
-            BSTR DisplayName;
-            SetupInstance->GetDisplayName(UserLCID, &DisplayName);
-            VSInfo.Name = _bstr_t(DisplayName);
+            BSTR displayName;
+            setupInstance->GetDisplayName(userLCID, &displayName);
+            vsInstall.name = _bstr_t(displayName);
 
-            if (!std::filesystem::exists(VSInfo.Root)) continue;
+            if (!std::filesystem::exists(vsInstall.root)) continue;
 
-            VisualStudioInstallations.push_back(VSInfo);
+            visualStudioInstallations.push_back(vsInstall);
         }
     }
     #endif
 }
 
-std::vector<MSVCVersion> MSVCInstallations;
-void FindMSVCInstallations()
+std::vector<MSVCVersion> msvcInstallations;
+void findMSVCInstallations()
 {
-    if (MSVCInstallations.empty()) 
+    if (msvcInstallations.empty())
     {
-        FindVisualStudioInstallations();
-        for (const VSInstallation& VSVersion : VisualStudioInstallations)
+        findVisualStudioInstallations();
+        for (const VSInstallation& vsInstall : visualStudioInstallations)
         {
-            std::string MSVCDirectory = VSVersion.Root + "\\VC\\Tools\\MSVC";
+            std::string msvcDirectory = vsInstall.root + "\\VC\\Tools\\MSVC";
 
-            std::vector<std::filesystem::path> versions = glob::glob((std::filesystem::path(VSVersion.Root) / "VC" / "Redist" / "MSVC" / "v*").string());
+            std::vector<std::filesystem::path> versions = glob::glob((std::filesystem::path(vsInstall.root) / "VC" / "Redist" / "MSVC" / "v*").string());
             std::string msvcVersion = "";
             for (std::filesystem::path& version : versions)
             {
                 msvcVersion = version.filename().string();
             }
 
-            for (auto const& DirectoryEntry : std::filesystem::directory_iterator(MSVCDirectory))
+            for (auto const& directoryEntry : std::filesystem::directory_iterator(msvcDirectory))
             {
-                if (DirectoryEntry.is_directory())
+                if (directoryEntry.is_directory())
                 {
-                    std::filesystem::path Path = DirectoryEntry.path();
-                    MSVCInstallations.push_back({ msvcVersion, Path.string() });
+                    std::filesystem::path path = directoryEntry.path();
+                    msvcInstallations.push_back({ msvcVersion, path.string() });
                 }
             }
         }
     }
 }
 
-const std::vector<MSVCVersion>& GetMSVCInstallations()
+const std::vector<MSVCVersion>& getMSVCInstallations()
 {
-    FindMSVCInstallations();
-    return MSVCInstallations;
+    findMSVCInstallations();
+    return msvcInstallations;
 }

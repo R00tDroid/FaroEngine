@@ -4,8 +4,8 @@
 
 struct MSVCVersion
 {
-    std::string RedistVersion;
-    std::string Root;
+    std::string redistVersion;
+    std::string root;
 };
 
-extern const std::vector<MSVCVersion>& GetMSVCInstallations();
+extern const std::vector<MSVCVersion>& getMSVCInstallations();
