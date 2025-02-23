@@ -70,5 +70,15 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
         if (!anyMoved) break;
     }
 
+    std::vector<std::vector<const ModuleManifest*>> buildStages;
+    for (auto& it : moduleOrder)
+    {
+        const ModuleManifest* module = it.first;
+        unsigned int& order = it.second;
+
+        if (order >= buildStages.size()) buildStages.resize(order + 1);
+        buildStages[order].push_back(module);
+    }
+
     return false;
 }
