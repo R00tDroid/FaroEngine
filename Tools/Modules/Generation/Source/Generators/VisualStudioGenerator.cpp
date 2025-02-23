@@ -562,10 +562,10 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& project)
             bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
 
             tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
-            fileElement->SetAttribute("Include", file.c_str());
+            fileElement->SetAttribute("Include", file.string().c_str());
 
             tinyxml2::XMLElement* filterElement = fileElement->InsertNewChildElement("Filter");
-            filterElement->SetText(directory.c_str());
+            filterElement->SetText(directory.string().c_str());
         }
     }
 
