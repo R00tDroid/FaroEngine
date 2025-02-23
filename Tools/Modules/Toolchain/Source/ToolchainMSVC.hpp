@@ -1,17 +1,22 @@
 #pragma once
+#include <vector>
 #include "Toolchain.hpp"
 #include "BuildSetup.hpp"
 
+class ToolchainMSVC;
+
 struct TargetMSVC : Target
 {
-    TargetMSVC(const char* configName, const char* configId) : configName(configName), configId(configId) {}
+    TargetMSVC(const char* configName, const char* configId, ToolchainMSVC* msvcToolchain);
 
     const char* configName;
     const char* configId;
+    ToolchainMSVC* msvcToolchain = nullptr;
 
-    const char* platform() const override { return "windows"; }
-    const char* displayName() const override { return configName;  }
-    const char* identifier() const override { return configId; }
+    const char* platform() const override;
+    const char* displayName() const override;
+    const char* identifier() const override;
+    const Toolchain* toolchain() const override;
 };
 
 class ToolchainMSVC : public Toolchain
@@ -19,6 +24,11 @@ class ToolchainMSVC : public Toolchain
 public:
     static ToolchainMSVC& instance();
 
+    ToolchainMSVC();
+
     unsigned targets() override;
     Target* target(unsigned index) override;
+
+private:
+    std::vector<TargetMSVC> configurations;
 };
