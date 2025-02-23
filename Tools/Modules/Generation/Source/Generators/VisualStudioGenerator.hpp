@@ -3,6 +3,7 @@
 #include <vector>
 #include "ModuleInfo.hpp"
 #include <filesystem>
+#include "MSVCInfo.hpp"
 #include "Toolchain.hpp"
 
 struct VSProjectInfo
@@ -84,4 +85,6 @@ private:
     void writeSolutionFile(const ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList);
 
     inline static void writeSolutionProjectConfig(std::ofstream& stream, const VSProjectInfo& vsProjectInfo);
+
+    MSVCVersion msvcVersion;
 };

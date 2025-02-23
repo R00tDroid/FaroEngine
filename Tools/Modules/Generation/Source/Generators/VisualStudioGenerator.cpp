@@ -5,6 +5,7 @@
 #include <map>
 
 #include "FaroLocation.hpp"
+#include "MSVCInfo.hpp"
 #include "Toolchain.hpp"
 
 bool VSProjectInfo::hasSourceFiles()
@@ -107,6 +108,16 @@ ModuleManifest* VSModuleInfo::getModuleManifest() const
 bool VisualStudioGenerator::generate(const ProjectManifest* project)
 {
     Utility::PrintLine("Performing module generation...");
+
+    std::vector<MSVCVersion> msvcVersions = getMSVCInstallations();
+    Utility::PrintLineD("Found " + std::to_string(msvcVersions.size()) + " MSVC versions");
+    if (msvcVersions.empty())
+    {
+        Utility::PrintLine("Failed to find MSVC toolchain");
+        return false;
+    }
+    msvcVersion = msvcVersions[0];
+    Utility::PrintLineD("Using MSVC " + msvcVersion.redistVersion + " (" + msvcVersion.root + ")");
 
     std::string faroBuildTool = FaroLocation::buildTool();
 
@@ -378,9 +389,8 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& project)
     projectElement->SetAttribute("ToolsVersion", "Current");
     doc.InsertEndChild(projectElement);
 
-    //TODO Write sections
-    //writeProjectConfigs(projectElement, project.uuid, VSPlatformVersion);
-    //writeConfigList(projectElement, VSPlatformVersion);
+    writeProjectConfigs(projectElement, project.uuid, msvcVersion.redistVersion);
+    writeConfigList(projectElement, msvcVersion.redistVersion);
 
     {
         tinyxml2::XMLElement* element = projectElement->InsertNewChildElement("Import");
