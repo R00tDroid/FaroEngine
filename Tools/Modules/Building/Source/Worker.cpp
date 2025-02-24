@@ -36,7 +36,7 @@ void WorkerPool::stop()
 bool WorkerPool::isDone()
 {
     taskListLock.lock();
-    bool done = taskList.empty() && tasksInProgress.empty();
+    bool done = taskList.empty() && tasksInProgress == 0;
     taskListLock.unlock();
     return done;
 }
@@ -67,6 +67,33 @@ void WorkerPool::threadEntry()
         statusLock.unlock();
 
         if (stop) break;
+
+        WorkerTask* task = nullptr;
+
+        taskListLock.lock();
+        if (!taskList.empty())
+        {
+            task = taskList.front();
+            taskList.pop();
+            tasksInProgress++;
+        }
+        taskListLock.unlock();
+
+        if (task != nullptr)
+        {
+            task->runTask();
+
+            delete task;
+
+            taskListLock.lock();
+            if (!taskList.empty())
+            {
+                tasksInProgress--;
+            }
+            taskListLock.unlock();
+        }
+
+        std::this_thread::sleep_for(std::chrono::microseconds(1));
     }
     Utility::PrintLineD("Stop worker");
 }

@@ -5,6 +5,8 @@
 class WorkerTask
 {
 public:
+    virtual ~WorkerTask() = default;
+    virtual void runTask() = 0;
 };
 
 class WorkerPool
@@ -23,7 +25,7 @@ private:
 
     std::mutex taskListLock;
     std::queue<WorkerTask*> taskList;
-    std::vector<WorkerTask*> tasksInProgress;
+    unsigned int tasksInProgress = 0;
 
     std::mutex statusLock;
     bool runThreads = false;
