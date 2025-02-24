@@ -3,6 +3,7 @@
 #include <map>
 #include <iostream>
 #include <fstream>
+#include <mutex>
 #include <regex>
 
 #ifdef WIN32
@@ -12,7 +13,9 @@
 #include <uuid/uuid.h>
 #endif
 
-void Utility::Print(const char* log)
+std::mutex logLock;
+
+void writeLog(const char* log)
 {
     std::cout << log << std::flush;
 #ifdef WIN32
@@ -20,10 +23,19 @@ void Utility::Print(const char* log)
 #endif
 }
 
+void Utility::Print(const char* log)
+{
+    logLock.lock();
+    writeLog(log);
+    logLock.unlock();
+}
+
 void Utility::PrintLine(const char* log)
 {
-    Print(log);
-    Print("\n");
+    logLock.lock();
+    writeLog(log);
+    writeLog("\n");
+    logLock.unlock();
 }
 
 #ifdef NDEBUG
@@ -32,13 +44,18 @@ void Utility::PrintLineD(const char*) {}
 #else
 void Utility::PrintD(const char* log)
 {
-    Print("[D] ");
-    Print(log);
+    logLock.lock();
+    writeLog("[D] ");
+    writeLog(log);
+    logLock.unlock();
 }
 void Utility::PrintLineD(const char* log)
 {
-    PrintD(log);
-    Print("\n");
+    logLock.lock();
+    writeLog("[D] ");
+    writeLog(log);
+    writeLog("\n");
+    logLock.unlock();
 
 }
 #endif
