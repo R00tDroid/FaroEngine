@@ -18,7 +18,16 @@ public:
     bool isDone();
     void waitForCompletion();
 
-    void addTask(WorkerTask* task);
+    template<typename T, typename... Args>
+    void addTask(Args... args)
+    {
+        T* newTask = new T(args...);
+        scheduleTask(newTask);
+    }
+
+
+private:
+    void scheduleTask(WorkerTask* task);
 
 private:
     void threadEntry();

@@ -50,7 +50,7 @@ void WorkerPool::waitForCompletion()
     }
 }
 
-void WorkerPool::addTask(WorkerTask* task)
+void WorkerPool::scheduleTask(WorkerTask* task)
 {
     taskListLock.lock();
     taskList.push(task);
@@ -86,10 +86,7 @@ void WorkerPool::threadEntry()
             delete task;
 
             taskListLock.lock();
-            if (!taskList.empty())
-            {
-                tasksInProgress--;
-            }
+            tasksInProgress--;
             taskListLock.unlock();
         }
 
