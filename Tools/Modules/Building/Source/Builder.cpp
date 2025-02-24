@@ -3,6 +3,7 @@
 #include "ModuleInfo.hpp"
 #include "ProjectInfo.hpp"
 #include "Utility.hpp"
+#include "Worker.hpp"
 
 bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project, unsigned int moduleCount, const ModuleManifest** moduleList)
 {
@@ -80,11 +81,19 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
         buildStages[order].push_back(module);
     }
 
+    WorkerPool workerPool;
+    workerPool.start();
+
     for (size_t stageId = 0; stageId < buildStages.size(); stageId++)
     {
         const std::vector<const ModuleManifest*>& buildStage = buildStages[stageId];
         Utility::PrintLineD("Build stage " + std::to_string(stageId) + ": " + std::to_string(buildStage.size()));
+
+        //TODO Schedule tasks
+        workerPool.waitForCompletion();
     }
+
+    workerPool.stop();
 
     return false;
 }
