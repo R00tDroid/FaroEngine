@@ -1,5 +1,6 @@
 #include "Builder.hpp"
 #include <map>
+#include "BuilderTasks.hpp"
 #include "ModuleInfo.hpp"
 #include "ProjectInfo.hpp"
 #include "Utility.hpp"
@@ -84,10 +85,17 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
     WorkerPool workerPool;
     workerPool.start();
 
+    BuilderInfo builderInfo = { workerPool };
+
     for (size_t stageId = 0; stageId < buildStages.size(); stageId++)
     {
         const std::vector<const ModuleManifest*>& buildStage = buildStages[stageId];
         Utility::PrintLineD("Build stage " + std::to_string(stageId) + ": " + std::to_string(buildStage.size()));
+
+        for (const ModuleManifest* module : buildStage)
+        {
+            workerPool.addTask<ModuleCheckTask>(builderInfo, module);
+        }
 
         //TODO Schedule tasks
         workerPool.waitForCompletion();
