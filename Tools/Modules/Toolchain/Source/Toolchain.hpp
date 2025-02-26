@@ -9,6 +9,8 @@ struct FaroToolchainExports ToolchainCompileInfo
 {
     const BuildSetup& buildSetup;
     const char* file = nullptr;
+    void* userData = nullptr;
+    void (*onLog)(void*, unsigned int, const char*) = nullptr;
 };
 
 class FaroToolchainExports Toolchain

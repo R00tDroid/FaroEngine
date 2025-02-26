@@ -100,7 +100,7 @@ bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
 
         if (!log.empty())
         {
-            Utility::PrintLine(log);
+            info.onLog(info.userData, static_cast<unsigned int>(log.length()), log.c_str());
         }
     }
 

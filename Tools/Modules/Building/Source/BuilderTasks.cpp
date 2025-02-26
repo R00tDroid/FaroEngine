@@ -22,9 +22,25 @@ void CompileTask::runTask()
     std::string fileString = file.string();
     ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str() };
 
-    Utility::PrintLineD("Compile " + fileString);
-    if (!info->toolchain->compile(compileInfo))
+    std::string log;
+    compileInfo.userData = &log;
+    compileInfo.onLog = [](void* userData, unsigned int length, const char* string)
     {
-        Utility::PrintLine("Failed to compile " + fileString);
+        *((std::string*)userData) += std::string(string, length);
+    };
+
+    bool status = info->toolchain->compile(compileInfo);
+
+    std::string message = "> " + fileString;
+    if (!log.empty()) 
+    {
+        message += "\n" + log;
     }
+
+    if (!status)
+    {
+        message += "\nFailed to compile";
+    }
+
+    Utility::PrintLine(message);
 }
