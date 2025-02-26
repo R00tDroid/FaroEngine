@@ -81,11 +81,12 @@ bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
 
     std::filesystem::path clExe = msvcTools.string() + "\\cl.exe";
     std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
-    std::filesystem::path outputFile = "";// GetObjPath(manifest, target, configuration, sourceFile);
+    std::filesystem::path outputFile = info.output;// GetObjPath(manifest, target, configuration, sourceFile);
     //Utility::EnsureDirectory(outputFile.parent_path());
 
+    //TODO Fix pdb path, and check if we need /FS
     std::string log = "";
-    int result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + clExe.string() + "\" /c /FC /nologo /EHsc " + defines + " " + compilerFlags + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
+    int result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + clExe.string() + "\" /c /FC /FS /nologo /EHsc " + defines + " " + compilerFlags + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
 
     // Format, trim and print output message
     if (!log.empty())

@@ -27,7 +27,8 @@ CompileTask::CompileTask(BuilderInfo* info, const ModuleManifest* module, std::f
 void CompileTask::runTask()
 {
     std::string fileString = file.string();
-    ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str() };
+    std::string outString = file.string() + ".obj"; //TODO Set output path
+    ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str(), outString.c_str() };
 
     std::string log;
     compileInfo.userData = &log;
@@ -41,6 +42,11 @@ void CompileTask::runTask()
     std::string message = "> " + fileString;
     if (!log.empty()) 
     {
+        auto it = log.end() - 1;
+        if (*it == '\n')
+        {
+            log.erase(it);
+        }
         message += "\n" + log;
     }
 
