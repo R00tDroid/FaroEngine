@@ -11,7 +11,14 @@ void ModuleCheckTask::runTask()
 
     for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
     {
-        info->pool.addTask<CompileTask>(info, module, module->sourceFile(sourceIndex));
+        std::filesystem::path file = module->sourceFile(sourceIndex);
+        std::string extension = file.extension().string();
+
+        //TODO Check file type with supported source list
+        if (extension == ".cpp")
+        {
+            info->pool.addTask<CompileTask>(info, module, file);
+        }
     }
 }
 
@@ -26,7 +33,7 @@ void CompileTask::runTask()
     compileInfo.userData = &log;
     compileInfo.onLog = [](void* userData, unsigned int length, const char* string)
     {
-        *((std::string*)userData) += std::string(string, length);
+        *static_cast<std::string*>(userData) += std::string(string, length);
     };
 
     bool status = info->toolchain->compile(compileInfo);
