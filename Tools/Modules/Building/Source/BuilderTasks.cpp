@@ -26,8 +26,13 @@ CompileTask::CompileTask(BuilderInfo* info, const ModuleManifest* module, std::f
 
 void CompileTask::runTask()
 {
+    std::filesystem::path outputPath = module->faroDirectory();
+    outputPath /= "Obj";
+    outputPath /= info->buildSetup.identifier();
+    outputPath /= file.filename().replace_extension(".obj");
+
     std::string fileString = file.string();
-    std::string outString = file.string() + ".obj"; //TODO Set output path
+    std::string outString = outputPath.string();
     ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str(), outString.c_str() };
 
     std::string log;
