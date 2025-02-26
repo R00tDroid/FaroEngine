@@ -43,9 +43,9 @@ Target* ToolchainMSVC::target(unsigned int index)
     return &configurations[index];
 }
 
-bool ToolchainMSVC::compile(const BuildSetup& buildSetup, const char* file) const
+bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
 {
-    std::filesystem::path sourceFile(file);
+    std::filesystem::path sourceFile(info.file);
     std::filesystem::path msvcRoot = msvcVersion.root;
     std::filesystem::path msvcTools = msvcRoot / "bin" / "Hostx64" / "x64";
 
@@ -69,7 +69,7 @@ bool ToolchainMSVC::compile(const BuildSetup& buildSetup, const char* file) cons
     }*/
 
     std::string compilerFlags;
-    switch (buildSetup.configuration)
+    switch (info.buildSetup.configuration)
     {
         case C_Debug:
         case C_Development: { compilerFlags = " /DDEBUG /D_DEBUG /D_MT /D_CRTDBG_MAP_ALLOC /MTd /Od /Zi"; break; }

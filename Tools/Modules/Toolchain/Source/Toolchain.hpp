@@ -5,6 +5,12 @@
 class ModuleManifest;
 struct Target;
 
+struct FaroToolchainExports ToolchainCompileInfo
+{
+    const BuildSetup& buildSetup;
+    const char* file = nullptr;
+};
+
 class FaroToolchainExports Toolchain
 {
 public:
@@ -14,7 +20,7 @@ public:
     virtual unsigned int targets() = 0;
     virtual Target* target(unsigned int index) = 0;
 
-    virtual bool compile(const BuildSetup& buildSetup, const char* file) const = 0;
+    virtual bool compile(const ToolchainCompileInfo& info) const = 0;
 };
 
 extern FaroToolchainExports unsigned int buildSetups();

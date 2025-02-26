@@ -29,7 +29,7 @@ public:
 
     unsigned targets() override;
     Target* target(unsigned index) override;
-    bool compile(const BuildSetup& buildSetup, const char* file) const override;
+    bool compile(const ToolchainCompileInfo& info) const override;
 
 private:
     MSVCVersion msvcVersion;

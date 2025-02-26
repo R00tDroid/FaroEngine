@@ -19,9 +19,12 @@ CompileTask::CompileTask(BuilderInfo* info, const ModuleManifest* module, std::f
 
 void CompileTask::runTask()
 {
-    Utility::PrintLineD("Compile " + file.string());
-    if (!info->toolchain->compile(info->buildSetup, file.string().c_str()))
+    std::string fileString = file.string();
+    ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str() };
+
+    Utility::PrintLineD("Compile " + fileString);
+    if (!info->toolchain->compile(compileInfo))
     {
-        Utility::PrintLine("Failed to compile " + file.string());
+        Utility::PrintLine("Failed to compile " + fileString);
     }
 }
