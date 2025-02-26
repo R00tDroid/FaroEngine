@@ -1,5 +1,4 @@
 #include "MSVCInfo.hpp"
-
 #include <string>
 #include <vector>
 #include <filesystem>
@@ -23,11 +22,11 @@ struct VSInstallation
     std::string root;
     std::string name;
 };
-std::vector<VSInstallation> visualStudioInstallations;
+std::vector<VSInstallation> foundVisualStudioInstallations;
 void findVisualStudioInstallations()
 {
     #ifdef WIN32
-    if (visualStudioInstallations.empty())
+    if (foundVisualStudioInstallations.empty())
     {
         ISetupConfigurationPtr setupConfig;
         IEnumSetupInstancesPtr instanceEnumerator;
@@ -68,19 +67,19 @@ void findVisualStudioInstallations()
 
             if (!std::filesystem::exists(vsInstall.root)) continue;
 
-            visualStudioInstallations.push_back(vsInstall);
+            foundVisualStudioInstallations.push_back(vsInstall);
         }
     }
     #endif
 }
 
-std::vector<MSVCVersion> msvcInstallations;
+std::vector<MSVCVersion> foundMSVCInstallations;
 void findMSVCInstallations()
 {
-    if (msvcInstallations.empty())
+    if (foundMSVCInstallations.empty())
     {
         findVisualStudioInstallations();
-        for (const VSInstallation& vsInstall : visualStudioInstallations)
+        for (const VSInstallation& vsInstall : foundVisualStudioInstallations)
         {
             std::string msvcDirectory = vsInstall.root + "\\VC\\Tools\\MSVC";
 
@@ -96,15 +95,20 @@ void findMSVCInstallations()
                 if (directoryEntry.is_directory())
                 {
                     std::filesystem::path path = directoryEntry.path();
-                    msvcInstallations.push_back({ msvcVersion, path.string() });
+                    foundMSVCInstallations.push_back({ msvcVersion, path.string() });
                 }
             }
         }
     }
 }
 
-const std::vector<MSVCVersion>& getMSVCInstallations()
+unsigned int msvcInstallations()
 {
     findMSVCInstallations();
-    return msvcInstallations;
+    return static_cast<unsigned int>(foundMSVCInstallations.size());
+}
+
+MSVCVersion msvcInstallation(unsigned int index)
+{
+    return foundMSVCInstallations[index];
 }

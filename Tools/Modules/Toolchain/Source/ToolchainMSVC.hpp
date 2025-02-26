@@ -2,6 +2,7 @@
 #include <vector>
 #include "Toolchain.hpp"
 #include "BuildSetup.hpp"
+#include "MSVCInfo/MSVCInfo.hpp"
 
 class ToolchainMSVC;
 
@@ -28,7 +29,9 @@ public:
 
     unsigned targets() override;
     Target* target(unsigned index) override;
+    bool compile(const BuildSetup& buildSetup, const char* file) const override;
 
 private:
+    MSVCVersion msvcVersion;
     std::vector<TargetMSVC> configurations;
 };

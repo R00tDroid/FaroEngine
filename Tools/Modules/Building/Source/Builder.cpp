@@ -3,6 +3,7 @@
 #include "BuilderTasks.hpp"
 #include "ModuleInfo.hpp"
 #include "ProjectInfo.hpp"
+#include "Toolchain.hpp"
 #include "Utility.hpp"
 #include "Worker.hpp"
 
@@ -85,7 +86,7 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
     WorkerPool workerPool;
     workerPool.start();
 
-    BuilderInfo builderInfo = { workerPool };
+    BuilderInfo builderInfo = { workerPool, buildSetup, toolchain };
 
     for (size_t stageId = 0; stageId < buildStages.size(); stageId++)
     {
@@ -94,7 +95,7 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
 
         for (const ModuleManifest* module : buildStage)
         {
-            workerPool.addTask<ModuleCheckTask>(builderInfo, module);
+            workerPool.addTask<ModuleCheckTask>(&builderInfo, module);
         }
 
         //TODO Schedule tasks

@@ -1,4 +1,6 @@
 #include "ToolchainMSVC.hpp"
+#include "Command.hpp"
+#include "Utility.hpp"
 
 ToolchainMSVC msvcInstance;
 
@@ -19,7 +21,16 @@ ToolchainMSVC& ToolchainMSVC::instance()
 
 ToolchainMSVC::ToolchainMSVC()
 {
-    configurations.push_back(TargetMSVC("Windows", "windowsx64", this));
+    unsigned int msvcVersions = msvcInstallations();
+    if (msvcVersions == 0)
+    {
+        Utility::PrintLine("MSVC not found. Toolchain not available");
+    }
+    else
+    {
+        msvcVersion = msvcInstallation(0);
+        configurations.push_back(TargetMSVC("Windows", "windowsx64", this));
+    }
 }
 
 unsigned int ToolchainMSVC::targets()
@@ -30,4 +41,68 @@ unsigned int ToolchainMSVC::targets()
 Target* ToolchainMSVC::target(unsigned int index)
 {
     return &configurations[index];
+}
+
+bool ToolchainMSVC::compile(const BuildSetup& buildSetup, const char* file) const
+{
+    std::filesystem::path sourceFile(file);
+    std::filesystem::path msvcRoot = msvcVersion.root;
+    std::filesystem::path msvcTools = msvcRoot / "bin" / "Hostx64" / "x64";
+
+    std::string includes = "";
+
+    includes += " /I\"" + msvcRoot.string() + "\\include\""; //TODO Don't define here but expose to ensure they're in-line with the generated project
+    /*includes += " /I\"" + windowsSdkInclude.string() + "\\shared\"";
+    includes += " /I\"" + windowsSdkInclude.string() + "\\ucrt\"";
+    includes += " /I\"" + windowsSdkInclude.string() + "\\winrt\"";
+    includes += " /I\"" + windowsSdkInclude.string() + "\\um\"";
+
+    for (std::filesystem::path& include : includePaths)
+    {
+        includes += " /I\"" + include.string() + "\"";
+    }*/
+
+    std::string defines;
+    /*for (std::string& define : preprocessorDefines)
+    {
+        defines += " /D" + define;
+    }*/
+
+    std::string compilerFlags;
+    switch (buildSetup.configuration)
+    {
+        case C_Debug:
+        case C_Development: { compilerFlags = " /DDEBUG /D_DEBUG /D_MT /D_CRTDBG_MAP_ALLOC /MTd /Od /Zi"; break; }
+        case C_Release: { compilerFlags = " /D_MT /D_CRTDBG_MAP_ALLOC /MT /O2"; break; }
+
+        case C_ENUMSIZE:;
+        default:;
+    }
+
+    std::filesystem::path clExe = msvcTools.string() + "\\cl.exe";
+    std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
+    std::filesystem::path outputFile = "";// GetObjPath(manifest, target, configuration, sourceFile);
+    //Utility::EnsureDirectory(outputFile.parent_path());
+
+    std::string log = "";
+    int result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + clExe.string() + "\" /c /FC /nologo /EHsc " + defines + " " + compilerFlags + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
+
+    // Format, trim and print output message
+    if (!log.empty())
+    {
+        log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
+
+        std::string header = sourceFile.filename().string() + "\n";
+        if (log.substr(0, header.size()) == header)
+        {
+            log = log.substr(header.size());
+        }
+
+        if (!log.empty())
+        {
+            Utility::PrintLine(log);
+        }
+    }
+
+    return result == 0;
 }

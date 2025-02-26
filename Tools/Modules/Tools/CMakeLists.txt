@@ -13,5 +13,9 @@ else()
 endif()
 
 target_include_directories(FaroTools PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Source)
+target_include_directories(FaroTools PRIVATE 
+    ${CMAKE_CURRENT_LIST_DIR}/../../Shared/MSVCInfo
+    ${CMAKE_CURRENT_LIST_DIR}/../../Shared/glob/single_include
+)
 
 ModuleExports(FaroTools ${CMAKE_CURRENT_LIST_DIR}/Source)

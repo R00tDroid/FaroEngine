@@ -9,7 +9,7 @@ void WorkerPool::start()
     runThreads = true;
     statusLock.unlock();
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 8; i++)
     {
         threads.push_back(std::thread(&WorkerPool::threadEntry, this));
     }

@@ -5,6 +5,7 @@
 #include "Scripts/ModuleScript.hpp"
 #include <glob/glob.hpp>
 #include "ProjectInfo.hpp"
+#include "Toolchain.hpp"
 
 struct FolderMount::Impl
 {

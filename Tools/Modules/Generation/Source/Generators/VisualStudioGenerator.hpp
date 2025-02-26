@@ -3,7 +3,7 @@
 #include <vector>
 #include "ModuleInfo.hpp"
 #include <filesystem>
-#include "MSVCInfo.hpp"
+#include "MSVCInfo/MSVCInfo.hpp"
 #include "Toolchain.hpp"
 
 struct VSProjectInfo

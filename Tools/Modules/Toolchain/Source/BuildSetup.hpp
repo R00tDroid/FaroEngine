@@ -33,6 +33,3 @@ struct FaroToolchainExports BuildSetup
         return std::string(target->identifier()) + "_" + std::string(configurationToString(configuration));
     }
 };
-
-extern FaroToolchainExports unsigned int buildSetups();
-extern FaroToolchainExports BuildSetup buildSetup(unsigned int);
