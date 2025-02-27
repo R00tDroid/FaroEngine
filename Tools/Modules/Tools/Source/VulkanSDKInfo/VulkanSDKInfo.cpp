@@ -1,5 +1,5 @@
 #include "VulkanSDKInfo.hpp"
-#include "../Utils/Utility.hpp"
+#include "Utility.hpp"
 #include <algorithm>
 #include <stdlib.h>
 

@@ -63,8 +63,14 @@ void FindWindowsKits()
     #endif
 }
 
-const std::vector<WindowsKit>& GetWindowsKits()
+unsigned int windowsKits()
 {
     FindWindowsKits();
-    return WindowsKits;
+    return static_cast<unsigned int>(WindowsKits.size());
+}
+
+WindowsKit windowsKit(unsigned int index)
+{
+    FindWindowsKits();
+    return WindowsKits[index];
 }

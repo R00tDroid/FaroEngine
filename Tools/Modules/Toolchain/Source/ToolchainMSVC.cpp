@@ -1,6 +1,7 @@
 #include "ToolchainMSVC.hpp"
 #include "Command.hpp"
 #include "Utility.hpp"
+#include "WindowsKitInfo/WindowsKitInfo.hpp"
 
 ToolchainMSVC msvcInstance;
 
@@ -25,12 +26,24 @@ ToolchainMSVC::ToolchainMSVC()
     if (msvcVersions == 0)
     {
         Utility::PrintLine("MSVC not found. Toolchain not available");
+        return;
     }
-    else
+    msvcVersion = msvcInstallation(0);
+
+    unsigned int windowsKitVersions = windowsKits();
+    if (windowsKitVersions == 0)
     {
-        msvcVersion = msvcInstallation(0);
-        configurations.push_back(TargetMSVC("Windows", "windowsx64", this));
+        Utility::PrintLine("Windows Kit not found. Toolchain not available");
+        return;
     }
+    WindowsKit kit = windowsKit(0);
+    std::filesystem::path root = kit.Root;
+    std::string version = kit.Version;
+
+    windowsSdkInclude = root / "Include" / version;
+    windowsSdkLib = root / "Lib" / version;
+
+    configurations.push_back(TargetMSVC("Windows", "windowsx64", this));
 }
 
 unsigned int ToolchainMSVC::targets()
@@ -52,11 +65,11 @@ bool ToolchainMSVC::prepare(const BuildSetup&)
     msvcDrive = msvcRoot.string().substr(0, 1);
 
     includePaths = {
-        msvcRoot.string() + "\\include"
-        /*includes += " /I\"" + windowsSdkInclude.string() + "\\shared\"";
-        includes += " /I\"" + windowsSdkInclude.string() + "\\ucrt\"";
-        includes += " /I\"" + windowsSdkInclude.string() + "\\winrt\"";
-        includes += " /I\"" + windowsSdkInclude.string() + "\\um\"";*/
+        (msvcRoot / "include").string(),
+        (windowsSdkInclude / "shared").string(),
+        (windowsSdkInclude / "ucrt").string(),
+        (windowsSdkInclude / "winrt").string(),
+        (windowsSdkInclude / "um").string(),
     };
 
     defines = {
