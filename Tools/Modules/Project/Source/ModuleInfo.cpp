@@ -1,6 +1,7 @@
 #include "ModuleInfo.hpp"
 #include <Utility.hpp>
 #include <fstream>
+#include <mutex>
 #include <sstream>
 #include "Scripts/ModuleScript.hpp"
 #include <glob/glob.hpp>
@@ -13,7 +14,8 @@ struct FolderMount::Impl
     std::string mountPoint;
 };
 
-#define CombineImpls(name) std::vector<std::string> _##name; const std::vector<std::string>& name() { size_t size = module.name.size() + setup.name.size(); if (_##name.size() != size) { _##name.clear(); _##name.reserve(size); _##name.insert(_##name.end(), module.name.begin(), module.name.end()); _##name.insert(_##name.end(), setup.name.begin(), setup.name.end()); } return _##name; }
+std::mutex combineLock;
+#define CombineImpls(name) std::vector<std::string> _##name; const std::vector<std::string>& name() { combineLock.lock(); size_t size = module.name.size() + setup.name.size(); if (_##name.size() != size) { _##name.clear(); _##name.reserve(size); _##name.insert(_##name.end(), module.name.begin(), module.name.end()); _##name.insert(_##name.end(), setup.name.begin(), setup.name.end()); } combineLock.unlock(); return _##name; }
 
 struct ModuleManifest::Impl
 {
