@@ -3,10 +3,13 @@ function configureModule(module) {
 
     module.setName("ModuleA");
 
-    module.scanSource(module.getDirectory() + "/Source/**/*.cpp");
-    module.scanSource(module.getDirectory() + "/Source/**/*.hpp");
-    module.scanSource(module.getDirectory() + "/Source/**/*.c");
-    module.scanSource(module.getDirectory() + "/Source/**/*.h");
+    var source = module.getDirectory() + "/Source";
+    module.addIncludePublic(source)
+
+    module.scanSource(source + "/**/*.cpp");
+    module.scanSource(source + "/**/*.hpp");
+    module.scanSource(source + "/**/*.c");
+    module.scanSource(source + "/**/*.h");
 }
 
 function configureSetup(setup, module) {
