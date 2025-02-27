@@ -15,7 +15,7 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
         return false;
     }
 
-    const Toolchain* toolchain = buildSetup.target->toolchain();
+    Toolchain* toolchain = buildSetup.target->toolchain();
     if (toolchain == nullptr)
     {
         Utility::PrintLine("Invalid toolchain for build target");
@@ -85,6 +85,8 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
 
     WorkerPool workerPool;
     workerPool.start();
+
+    toolchain->prepare(buildSetup);
 
     BuilderInfo builderInfo = { workerPool, buildSetup, toolchain };
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <filesystem>
 #include <vector>
 #include "Toolchain.hpp"
 #include "BuildSetup.hpp"
@@ -17,7 +18,7 @@ struct TargetMSVC : Target
     const char* platform() const override;
     const char* displayName() const override;
     const char* identifier() const override;
-    const Toolchain* toolchain() const override;
+    Toolchain* toolchain() const override;
 };
 
 class ToolchainMSVC : public Toolchain
@@ -29,9 +30,19 @@ public:
 
     unsigned targets() override;
     Target* target(unsigned index) override;
+    bool prepare(const BuildSetup& buildSetup) override;
     bool compile(const ToolchainCompileInfo& info) const override;
 
 private:
     MSVCVersion msvcVersion;
     std::vector<TargetMSVC> configurations;
+
+    std::vector<std::string> includePaths;
+    std::vector<std::string> defines;
+
+    std::filesystem::path msvcRoot;
+    std::filesystem::path msvcTools;
+
+    std::filesystem::path clExe;
+    std::filesystem::path msvcDrive;
 };

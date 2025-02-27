@@ -12,7 +12,7 @@ const char* TargetMSVC::displayName() const { return configName; }
 
 const char* TargetMSVC::identifier() const { return configId; }
 
-const Toolchain* TargetMSVC::toolchain() const { return msvcToolchain; }
+Toolchain* TargetMSVC::toolchain() const { return msvcToolchain; }
 
 ToolchainMSVC& ToolchainMSVC::instance()
 {
@@ -43,31 +43,53 @@ Target* ToolchainMSVC::target(unsigned int index)
     return &configurations[index];
 }
 
+bool ToolchainMSVC::prepare(const BuildSetup&)
+{
+    msvcRoot = msvcVersion.root;
+    msvcTools = msvcRoot / "bin" / "Hostx64" / "x64";
+
+    clExe = msvcTools.string() + "\\cl.exe";
+    msvcDrive = msvcRoot.string().substr(0, 1);
+
+    includePaths = {
+        msvcRoot.string() + "\\include"
+        /*includes += " /I\"" + windowsSdkInclude.string() + "\\shared\"";
+        includes += " /I\"" + windowsSdkInclude.string() + "\\ucrt\"";
+        includes += " /I\"" + windowsSdkInclude.string() + "\\winrt\"";
+        includes += " /I\"" + windowsSdkInclude.string() + "\\um\"";*/
+    };
+
+    defines = {
+        //TODO Set toolchain defines
+    };
+
+    return true;
+}
+
 bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
 {
     std::filesystem::path sourceFile(info.file);
-    std::filesystem::path msvcRoot = msvcVersion.root;
-    std::filesystem::path msvcTools = msvcRoot / "bin" / "Hostx64" / "x64";
 
-    std::string includes = "";
-
-    includes += " /I\"" + msvcRoot.string() + "\\include\""; //TODO Don't define here but expose to ensure they're in-line with the generated project
-    /*includes += " /I\"" + windowsSdkInclude.string() + "\\shared\"";
-    includes += " /I\"" + windowsSdkInclude.string() + "\\ucrt\"";
-    includes += " /I\"" + windowsSdkInclude.string() + "\\winrt\"";
-    includes += " /I\"" + windowsSdkInclude.string() + "\\um\"";*/
-
+    std::string includesString = "";
+    for (const std::string& include : includePaths)
+    {
+        includesString += " /I\"" + include + "\"";
+    }
     for (unsigned i = 0; i < info.includePaths; i++)
     {
         const char* path = info.includePathsPtr[i];
-        includes += " /I\"" + std::string(path) + "\"";
+        includesString += " /I\"" + std::string(path) + "\"";
     }
 
-    std::string defines;
+    std::string definesString;
+    for (const std::string& define : defines)
+    {
+        definesString += " /D" + define;
+    }
     for (unsigned i = 0; i < info.defines; i++)
     {
         const char* define = info.definesPtr[i];
-        includes += " /D" + std::string(define);
+        definesString += " /D" + std::string(define);
     }
 
     std::string compilerFlags;
@@ -81,14 +103,12 @@ bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
         default:;
     }
 
-    std::filesystem::path clExe = msvcTools.string() + "\\cl.exe";
-    std::filesystem::path msvcDrive = msvcRoot.string().substr(0, 1);
     std::filesystem::path outputFile = info.output;
     Utility::EnsureDirectory(outputFile.parent_path().string().c_str());
 
     //TODO Fix pdb path, and check if we need /FS
     std::string log = "";
-    int result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + clExe.string() + "\" /c /FC /FS /nologo /EHsc " + defines + " " + compilerFlags + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includes, log);
+    int result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + clExe.string() + "\" /c /FC /FS /nologo /EHsc " + definesString + " " + compilerFlags + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includesString, log);
 
     // Format, trim and print output message
     if (!log.empty())

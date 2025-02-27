@@ -30,6 +30,7 @@ public:
     virtual unsigned int targets() = 0;
     virtual Target* target(unsigned int index) = 0;
 
+    virtual bool prepare(const BuildSetup& buildSetup) = 0;
     virtual bool compile(const ToolchainCompileInfo& info) const = 0;
 };
 
