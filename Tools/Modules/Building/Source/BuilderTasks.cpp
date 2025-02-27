@@ -35,7 +35,7 @@ void CompileTask::runTask()
     std::string outString = outputPath.string();
     ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str(), outString.c_str() };
 
-    std::vector<const char*> includePaths;
+    std::vector<const char*> includePaths; //TODO Get public includes from dependencies
     for (int includeType = 0; includeType < AD_ENUMSIZE; includeType++)
     {
         AccessDomain type = static_cast<AccessDomain>(includeType);
