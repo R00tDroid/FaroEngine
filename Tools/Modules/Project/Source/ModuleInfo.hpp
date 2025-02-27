@@ -14,7 +14,8 @@ enum ModuleType
 enum AccessDomain 
 {
     AD_Private,
-    AD_Public
+    AD_Public,
+    AD_ENUMSIZE
 };
 
 class FaroProjectsExports FolderMount

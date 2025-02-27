@@ -35,6 +35,19 @@ void CompileTask::runTask()
     std::string outString = outputPath.string();
     ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str(), outString.c_str() };
 
+    std::vector<const char*> includePaths;
+    for (int includeType = 0; includeType < AD_ENUMSIZE; includeType++)
+    {
+        AccessDomain type = static_cast<AccessDomain>(includeType);
+        for (unsigned int includeIndex = 0; includeIndex < module->includePaths(type); includeIndex++)
+        {
+            const char* include = module->includePath(type, includeIndex);
+            includePaths.push_back(include);
+        }
+    }
+    compileInfo.includePaths = static_cast<unsigned int>(includePaths.size());
+    compileInfo.includePathsPtr = includePaths.data();
+
     std::string log;
     compileInfo.userData = &log;
     compileInfo.onLog = [](void* userData, unsigned int length, const char* string)
