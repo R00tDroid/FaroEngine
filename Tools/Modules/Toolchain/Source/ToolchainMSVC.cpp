@@ -37,8 +37,8 @@ ToolchainMSVC::ToolchainMSVC()
         return;
     }
     WindowsKit kit = windowsKit(0);
-    std::filesystem::path root = kit.Root;
-    std::string version = kit.Version;
+    std::filesystem::path root = kit.root;
+    std::string version = kit.version;
 
     windowsSdkInclude = root / "Include" / version;
     windowsSdkLib = root / "Lib" / version;

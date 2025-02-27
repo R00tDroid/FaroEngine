@@ -10,11 +10,11 @@
 #include <comdef.h>
 #endif
 
-std::vector<WindowsKit> WindowsKits;
-void FindWindowsKits()
+std::vector<WindowsKit> foundWindowsKits;
+void findWindowsKits()
 {
     #ifdef WIN32
-    if (WindowsKits.empty())
+    if (foundWindowsKits.empty())
     {
         // Find root of windows kit installations
         HKEY Key;
@@ -24,39 +24,39 @@ void FindWindowsKits()
         }
 
         // Enumerate installed versions
-        char ValueData[MAX_PATH];
-        DWORD ValueSize = MAX_PATH;
-        if (SUCCEEDED(RegQueryValueExA(Key, "KitsRoot10", nullptr, nullptr, (LPBYTE)&ValueData, &ValueSize)))
+        char valueData[MAX_PATH];
+        DWORD valueSize = MAX_PATH;
+        if (SUCCEEDED(RegQueryValueExA(Key, "KitsRoot10", nullptr, nullptr, (LPBYTE)&valueData, &valueSize)))
         {
-            std::string Kit10Root(ValueData, ValueSize - 1);
+            std::string kit10Root(valueData, valueSize - 1);
 
-            int SubKeyIndex = 0;
+            int subKeyIndex = 0;
 
             while (true)
             {
-                char KeyName[MAX_PATH];
-                DWORD KeyNameSize = MAX_PATH;
-                if (RegEnumKeyExA(Key, SubKeyIndex, KeyName, &KeyNameSize, nullptr, nullptr, nullptr, nullptr) != ERROR_SUCCESS) break;
-                SubKeyIndex++;
+                char keyName[MAX_PATH];
+                DWORD keyNameSize = MAX_PATH;
+                if (RegEnumKeyExA(Key, subKeyIndex, keyName, &keyNameSize, nullptr, nullptr, nullptr, nullptr) != ERROR_SUCCESS) break;
+                subKeyIndex++;
 
-                std::string Version(KeyName, KeyNameSize);
-                std::string BinPath = Kit10Root + "Bin\\" + Version;
-                std::string LibPath = Kit10Root + "Lib\\" + Version;
+                std::string version(keyName, keyNameSize);
+                std::string binPath = kit10Root + "Bin\\" + version;
+                std::string libPath = kit10Root + "Lib\\" + version;
 
-                if (!std::filesystem::exists(BinPath) || !std::filesystem::exists(LibPath)) continue;
+                if (!std::filesystem::exists(binPath) || !std::filesystem::exists(libPath)) continue;
 
-                WindowsKits.push_back({ Kit10Root, Version });
+                foundWindowsKits.push_back({ kit10Root, version });
             }
         }
 
         RegCloseKey(Key);
 
         // Sort newest to oldest
-        if (!WindowsKits.empty())
+        if (!foundWindowsKits.empty())
         {
-            std::sort(WindowsKits.begin(), WindowsKits.end(), [](const WindowsKit& A, const WindowsKit& B)
+            std::sort(foundWindowsKits.begin(), foundWindowsKits.end(), [](const WindowsKit& A, const WindowsKit& B)
                 {
-                    return B.Version < A.Version;
+                    return B.version < A.version;
                 });
         }
     }
@@ -65,12 +65,12 @@ void FindWindowsKits()
 
 unsigned int windowsKits()
 {
-    FindWindowsKits();
-    return static_cast<unsigned int>(WindowsKits.size());
+    findWindowsKits();
+    return static_cast<unsigned int>(foundWindowsKits.size());
 }
 
 WindowsKit windowsKit(unsigned int index)
 {
-    FindWindowsKits();
-    return WindowsKits[index];
+    findWindowsKits();
+    return foundWindowsKits[index];
 }

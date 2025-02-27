@@ -5,8 +5,8 @@
 //TODO No STL
 struct WindowsKit
 {
-    std::string Root;
-    std::string Version;
+    std::string root;
+    std::string version;
 };
 
 extern FaroToolsExports unsigned int windowsKits();
