@@ -10,6 +10,13 @@ struct FaroToolchainExports ToolchainCompileInfo
     const BuildSetup& buildSetup;
     const char* file = nullptr;
     const char* output = nullptr;
+
+    unsigned int includePaths = 0;
+    const char** includePathsPtr = nullptr;
+
+    unsigned int defines = 0;
+    const char** definesPtr = nullptr;
+
     void* userData = nullptr;
     void (*onLog)(void*, unsigned int, const char*) = nullptr;
 };

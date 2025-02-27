@@ -55,18 +55,20 @@ bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
     /*includes += " /I\"" + windowsSdkInclude.string() + "\\shared\"";
     includes += " /I\"" + windowsSdkInclude.string() + "\\ucrt\"";
     includes += " /I\"" + windowsSdkInclude.string() + "\\winrt\"";
-    includes += " /I\"" + windowsSdkInclude.string() + "\\um\"";
+    includes += " /I\"" + windowsSdkInclude.string() + "\\um\"";*/
 
-    for (std::filesystem::path& include : includePaths)
+    for (unsigned i = 0; i < info.includePaths; i++)
     {
-        includes += " /I\"" + include.string() + "\"";
-    }*/
+        const char* path = info.includePathsPtr[i];
+        includes += " /I\"" + std::string(path) + "\"";
+    }
 
     std::string defines;
-    /*for (std::string& define : preprocessorDefines)
+    for (unsigned i = 0; i < info.defines; i++)
     {
-        defines += " /D" + define;
-    }*/
+        const char* define = info.definesPtr[i];
+        includes += " /D" + std::string(define);
+    }
 
     std::string compilerFlags;
     switch (info.buildSetup.configuration)
