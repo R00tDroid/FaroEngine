@@ -32,6 +32,9 @@ public:
 
     virtual bool prepare(const BuildSetup& buildSetup) = 0;
     virtual bool compile(const ToolchainCompileInfo& info) const = 0;
+
+    static unsigned int defines(const BuildSetup& buildSetup);
+    static const char* define(const BuildSetup& buildSetup, unsigned int index);
 };
 
 extern FaroToolchainExports unsigned int buildSetups();

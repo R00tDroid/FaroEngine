@@ -19,8 +19,11 @@ struct FaroToolchainExports Target
 {
     virtual const char* displayName() const = 0;
     virtual const char* identifier() const = 0;
-    virtual const char* platform() const = 0;
     virtual Toolchain* toolchain() const = 0;
+
+
+    virtual unsigned int defines() const = 0;
+    virtual const char* define(unsigned int index) const = 0;
 };
 
 struct FaroToolchainExports BuildSetup

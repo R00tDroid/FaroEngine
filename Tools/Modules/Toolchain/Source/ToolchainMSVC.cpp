@@ -5,15 +5,27 @@
 
 ToolchainMSVC msvcInstance;
 
-TargetMSVC::TargetMSVC(const char* configName, const char* configId, ToolchainMSVC* msvcToolchain): configName(configName), configId(configId), msvcToolchain(msvcToolchain) {}
+std::vector<const char*> TargetMSVC::msvcDefines = {
+    "FARO_WINDOWS"
+};
 
-const char* TargetMSVC::platform() const { return "windows"; }
+TargetMSVC::TargetMSVC(const char* configName, const char* configId, ToolchainMSVC* msvcToolchain): configName(configName), configId(configId), msvcToolchain(msvcToolchain) {}
 
 const char* TargetMSVC::displayName() const { return configName; }
 
 const char* TargetMSVC::identifier() const { return configId; }
 
 Toolchain* TargetMSVC::toolchain() const { return msvcToolchain; }
+
+unsigned int TargetMSVC::defines() const
+{
+    return static_cast<unsigned int>(msvcDefines.size());
+}
+
+const char* TargetMSVC::define(unsigned int index) const
+{
+    return msvcDefines[index];
+}
 
 ToolchainMSVC& ToolchainMSVC::instance()
 {

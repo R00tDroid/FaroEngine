@@ -15,10 +15,14 @@ struct TargetMSVC : Target
     const char* configId;
     ToolchainMSVC* msvcToolchain = nullptr;
 
-    const char* platform() const override;
     const char* displayName() const override;
     const char* identifier() const override;
     Toolchain* toolchain() const override;
+
+    unsigned int defines() const override;
+    const char* define(unsigned int index) const override;
+
+    static std::vector<const char*> msvcDefines;
 };
 
 class ToolchainMSVC : public Toolchain

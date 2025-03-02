@@ -44,6 +44,38 @@ void getBuildSetups()
     }
 }
 
+std::vector<const char*> toolchainDefines(const Configuration& config)
+{
+    std::vector<const char*> defines;
+
+    if (config == C_Debug)
+        defines.push_back("FARO_DEBUG=1");
+    else
+        defines.push_back("FARO_DEBUG=0");
+
+    if (config == C_Development)
+        defines.push_back("FARO_DEVELOPMENT=1");
+    else
+        defines.push_back("FARO_DEVELOPMENT=0");
+
+    if (config == C_Release)
+        defines.push_back("FARO_RELEASE=1");
+    else
+        defines.push_back("FARO_RELEASE=0");
+
+    return defines;
+}
+
+unsigned int Toolchain::defines(const BuildSetup& buildSetup)
+{
+    return static_cast<unsigned int>(toolchainDefines(buildSetup.configuration).size());
+}
+
+const char* Toolchain::define(const BuildSetup& buildSetup, unsigned int index)
+{
+    return toolchainDefines(buildSetup.configuration)[index];
+}
+
 unsigned int buildSetups()
 {
     getBuildSetups();
