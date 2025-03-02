@@ -214,12 +214,13 @@ void writeProjectConfigs(tinyxml2::XMLElement* projectElement, const std::string
         for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
         {
             Target* target = toolchain->target(targetIndex);
+            BuildSetup buildSetup;
+            buildSetup.target = target;
 
             for (int configurationIndex = 0; configurationIndex < Configuration::C_ENUMSIZE; configurationIndex++)
             {
-                std::string id = target->identifier();
-                id += " ";
-                id += configurationToString(static_cast<Configuration>(configurationIndex));
+                buildSetup.configuration = static_cast<Configuration>(configurationIndex);
+                std::string id = buildSetup.identifier();
 
                 tinyxml2::XMLElement* projectConfig = itemGroup->InsertNewChildElement("ProjectConfiguration");
                 projectConfig->SetAttribute("Include", (id + "|Win32").c_str());
@@ -265,13 +266,17 @@ void writeConfigList(tinyxml2::XMLElement* projectElement, const std::string& VS
         for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
         {
             Target* target = toolchain->target(targetIndex);
+            BuildSetup buildSetup;
+            buildSetup.target = target;
 
             for (int configurationIndex = 0; configurationIndex < Configuration::C_ENUMSIZE; configurationIndex++)
             {
-                const char* buildTypeName = configurationToString(static_cast<Configuration>(configurationIndex));
+                buildSetup.configuration = static_cast<Configuration>(configurationIndex);
+
+                std::string setupId = buildSetup.identifier();
 
                 tinyxml2::XMLElement* propertyGroup = projectElement->InsertNewChildElement("PropertyGroup");
-                propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + std::string(target->identifier()) + " " + buildTypeName + "|Win32'").c_str());
+                propertyGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)' == '" + setupId + "|Win32'").c_str());
                 propertyGroup->SetAttribute("Label", "Configuration");
 
                 {
