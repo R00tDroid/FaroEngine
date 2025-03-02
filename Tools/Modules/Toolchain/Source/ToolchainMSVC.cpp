@@ -6,7 +6,7 @@
 ToolchainMSVC msvcInstance;
 
 std::vector<const char*> TargetMSVC::msvcDefines = {
-    "FARO_WINDOWS"
+    "FARO_OS_WINDOWS"
 };
 
 TargetMSVC::TargetMSVC(const char* configName, const char* configId, ToolchainMSVC* msvcToolchain): configName(configName), configId(configId), msvcToolchain(msvcToolchain) {}
