@@ -1,4 +1,5 @@
 #pragma once
+#include <filesystem>
 #include "BuildSetup.hpp"
 #include "FaroProjectsExports.generated.h"
 #include "ManifestInterface.hpp"
@@ -64,6 +65,16 @@ public:
     unsigned int includePaths(AccessDomain type) const;
     const char* includePath(AccessDomain type, unsigned int index) const;
 
+    std::vector<std::filesystem::path> moduleIncludes() const
+    {
+        std::vector<std::filesystem::path> includes = treeIncludes();
+        for (unsigned int i = 0; i < includePaths(AD_Private); i++)
+        {
+            includes.push_back(includePath(AD_Private, i));
+        }
+        return includes;
+    }
+
     unsigned int sourceFiles() const;
     const char* sourceFile(unsigned int index) const;
 
@@ -80,6 +91,26 @@ public:
     bool postbuild(const BuildSetup& setup) const;
 
 private:
+    std::vector<std::filesystem::path> treeIncludes() const
+    {
+        std::vector<std::filesystem::path> includes;
+
+        for (unsigned int i = 0; i < dependencies(); i++)
+        {
+            std::vector<std::filesystem::path> dependencyIncludes = dependency(i)->treeIncludes();
+            for (const std::filesystem::path& include : dependencyIncludes)
+            {
+                includes.push_back(include);
+            }
+        }
+
+        for (unsigned int i = 0; i < includePaths(AD_Public); i++)
+        {
+            includes.push_back(includePath(AD_Public, i));
+        }
+        return includes;
+    }
+
     struct Impl;
     Impl* impl = nullptr;
 
