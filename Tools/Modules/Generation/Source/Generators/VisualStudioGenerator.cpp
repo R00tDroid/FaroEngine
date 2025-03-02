@@ -20,7 +20,7 @@ std::vector<std::filesystem::path> VSProjectInfo::getSourceFiles() const
 
 std::vector<std::filesystem::path> VSProjectInfo::getIncludePaths() const
 {
-    return {}; //TODO Implement
+    return {};
 }
 
 std::filesystem::path VSProjectInfo::getOutputExecutable(const Toolchain*, const BuildSetup&) const
@@ -87,7 +87,7 @@ std::vector<std::filesystem::path> VSModuleInfo::getSourceFiles() const
 
 std::vector<std::filesystem::path> VSModuleInfo::getIncludePaths() const
 {
-    return {}; //TODO Implement
+    return module->moduleIncludes();
 }
 
 std::filesystem::path VSModuleInfo::getRootDirectory() const
