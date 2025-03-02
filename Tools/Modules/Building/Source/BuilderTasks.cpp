@@ -35,15 +35,15 @@ void CompileTask::runTask()
     std::string outString = outputPath.string();
     ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str(), outString.c_str() };
 
-    std::vector<const char*> includePaths; //TODO Get public includes from dependencies
-    for (int includeType = 0; includeType < AD_ENUMSIZE; includeType++)
+    std::vector<std::string> includeStrings;
+    for (const std::filesystem::path& include : module->moduleIncludes())
     {
-        AccessDomain type = static_cast<AccessDomain>(includeType);
-        for (unsigned int includeIndex = 0; includeIndex < module->includePaths(type); includeIndex++)
-        {
-            const char* include = module->includePath(type, includeIndex);
-            includePaths.push_back(include);
-        }
+        includeStrings.push_back(include.string());
+    }
+    std::vector<const char*> includePaths;
+    for (const std::string& include : includeStrings)
+    {
+        includePaths.push_back(include.c_str());
     }
     compileInfo.includePaths = static_cast<unsigned int>(includePaths.size());
     compileInfo.includePathsPtr = includePaths.data();
