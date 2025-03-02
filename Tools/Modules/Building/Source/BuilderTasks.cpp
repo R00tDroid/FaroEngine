@@ -48,6 +48,37 @@ void CompileTask::runTask()
     compileInfo.includePaths = static_cast<unsigned int>(includePaths.size());
     compileInfo.includePathsPtr = includePaths.data();
 
+    std::vector<std::string> defineStrings;
+    for (unsigned int i = 0; i < Toolchain::defines(info->buildSetup); i++)
+    {
+        defineStrings.push_back(Toolchain::define(info->buildSetup, i));
+    }
+
+    for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
+    {
+        Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
+        for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
+        {
+            Target* target = toolchain->target(targetIndex);
+            bool isCurrent = target == info->buildSetup.target;
+
+            for (unsigned int defineIndex = 0; defineIndex < target->defines(); defineIndex++)
+            {
+                std::string define = target->define(defineIndex);
+                defineStrings.push_back(define + "=" + (isCurrent ? "1" : "0"));
+            }
+        }
+    }
+
+    std::vector<const char*> defines;
+    for (const std::string& define : defineStrings)
+    {
+        defines.push_back(define.c_str());
+    }
+
+    compileInfo.defines = static_cast<unsigned int>(defines.size());
+    compileInfo.definesPtr = defines.data();
+
     std::string log;
     compileInfo.userData = &log;
     compileInfo.onLog = [](void* userData, unsigned int length, const char* string)
