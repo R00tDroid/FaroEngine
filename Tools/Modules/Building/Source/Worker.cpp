@@ -9,7 +9,15 @@ void WorkerPool::start()
     runThreads = true;
     statusLock.unlock();
 
-    for (int i = 0; i < 8; i++)
+    unsigned int coreCount = std::thread::hardware_concurrency();
+    Utility::PrintLineD("Core count: " + std::to_string(coreCount));
+    if (coreCount == 0)
+    {
+        coreCount = 4;
+        Utility::PrintLineD("Falling back to core count: " + std::to_string(coreCount));
+    }
+
+    for (unsigned int i = 0; i < coreCount; i++)
     {
         threads.push_back(std::thread(&WorkerPool::threadEntry, this));
     }
