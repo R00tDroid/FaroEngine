@@ -12,7 +12,7 @@ function configureModule(module) {
     module.addIncludePrivate(module.getDirectory() + "/Thirdparty/DirectX-Headers/include");
 
     module.addDependency("GraphicsBase");
-    module.addDependency("PlatformBase");
+    module.addDependency("PlatformWindows");
 
     module.setSolutionLocation("Graphics");
 }
