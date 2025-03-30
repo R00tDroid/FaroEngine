@@ -1,30 +1,65 @@
 #include "BuilderTasks.hpp"
-
 #include "Toolchain.hpp"
 #include "Utility.hpp"
 
-ModuleCheckTask::ModuleCheckTask(BuilderInfo* info, const ModuleManifest* module) : info(info), module(module) {}
+ModuleBuild::ModuleBuild(WorkerPool& pool, const BuildSetup& buildSetup, const Toolchain* toolchain, const ModuleManifest* module) :
+    pool(pool),
+    buildSetup(buildSetup),
+    toolchain(toolchain),
+    module(module),
+    checkStage(pool),
+    buildStage(pool),
+    linkStage(pool)
+{
+    checkStage.addTask<ModuleCheckTask>(this, module);
+}
+
+void ModuleBuild::update()
+{
+    if (step == MBS_Check && checkStage.isDone())
+    {
+        //TODO Skip early if nothing needs to be updated
+        step = MBS_Build;
+
+        for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
+        {
+            std::filesystem::path file = module->sourceFile(sourceIndex);
+            std::string extension = file.extension().string();
+
+            //TODO Check file type with supported source list
+            if (extension == ".cpp")
+            {
+                buildStage.addTask<ModuleCompileTask>(this, module, file);
+            }
+        }
+    }
+    else if (step == MBS_Build && buildStage.isDone())
+    {
+        step = MBS_Link;
+        //TODO Schedule link steps
+    }
+    else if (step == MBS_Link && linkStage.isDone())
+    {
+        step = MBS_Done;
+    }
+}
+
+bool ModuleBuild::isDone()
+{
+    return step == MBS_Done;
+}
+
+ModuleCheckTask::ModuleCheckTask(ModuleBuild* info, const ModuleManifest* module) : info(info), module(module) {}
 
 void ModuleCheckTask::runTask()
 {
     Utility::PrintLineD("Check module " + std::string(module->name()));
-
-    for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
-    {
-        std::filesystem::path file = module->sourceFile(sourceIndex);
-        std::string extension = file.extension().string();
-
-        //TODO Check file type with supported source list
-        if (extension == ".cpp")
-        {
-            info->pool.addTask<CompileTask>(info, module, file);
-        }
-    }
+    //TODO Check for changes and missing output files
 }
 
-CompileTask::CompileTask(BuilderInfo* info, const ModuleManifest* module, std::filesystem::path file) : info(info), module(module), file(file) {}
+ModuleCompileTask::ModuleCompileTask(ModuleBuild* info, const ModuleManifest* module, std::filesystem::path file) : info(info), module(module), file(file) {}
 
-void CompileTask::runTask()
+void ModuleCompileTask::runTask()
 {
     std::filesystem::path outputPath = module->faroDirectory();
     outputPath /= "Obj";

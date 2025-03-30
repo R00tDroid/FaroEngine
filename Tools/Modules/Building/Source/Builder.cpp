@@ -88,20 +88,36 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
 
     toolchain->prepare(buildSetup);
 
-    BuilderInfo builderInfo = { workerPool, buildSetup, toolchain };
-
     for (size_t stageId = 0; stageId < buildStages.size(); stageId++)
     {
         const std::vector<const ModuleManifest*>& buildStage = buildStages[stageId];
         Utility::PrintLineD("Build stage " + std::to_string(stageId) + ": " + std::to_string(buildStage.size()));
 
+        std::vector<ModuleBuild*> moduleBuilds;
+
         for (const ModuleManifest* module : buildStage)
         {
-            workerPool.addTask<ModuleCheckTask>(&builderInfo, module);
+            moduleBuilds.push_back(new ModuleBuild(workerPool, buildSetup, toolchain, module));
         }
 
-        //TODO Schedule tasks
+        while (true)
+        {
+            bool anyBusy = false;
+            for (ModuleBuild* moduleBuild : moduleBuilds)
+            {
+                moduleBuild->update();
+                if (!moduleBuild->isDone()) anyBusy = true;
+            }
+
+            if (!anyBusy) break;
+        }
+
         workerPool.waitForCompletion();
+
+        for (ModuleBuild* moduleBuild : moduleBuilds)
+        {
+            delete moduleBuild;
+        }
     }
 
     workerPool.stop();

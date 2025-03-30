@@ -61,7 +61,7 @@ public:
     template<typename T, typename... Args>
     void addTask(Args... args)
     {
-        T* task = pool.addTask<T>(args...);
+        WorkerTask* task = pool.addTask<T>(args...);
         tasks.push_back(task);
     }
 
