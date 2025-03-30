@@ -1,6 +1,24 @@
 #include "Worker.hpp"
 #include "Utility.hpp"
 
+void WorkerTask::execute()
+{
+    runTask();
+
+    statusLock.lock();
+    complete = true;
+    statusLock.unlock();
+}
+
+bool WorkerTask::isDone()
+{
+    statusLock.lock();
+    bool done = complete;
+    statusLock.unlock();
+
+    return done;
+}
+
 void WorkerPool::start()
 {
     Utility::PrintLineD("Start workers");
@@ -89,9 +107,7 @@ void WorkerPool::threadEntry()
 
         if (task != nullptr)
         {
-            task->runTask();
-
-            delete task;
+            task->execute();
 
             taskListLock.lock();
             tasksInProgress--;
@@ -101,4 +117,24 @@ void WorkerPool::threadEntry()
         std::this_thread::sleep_for(std::chrono::microseconds(1));
     }
     Utility::PrintLineD("Stop worker");
+}
+
+WorkerGroup::WorkerGroup(WorkerPool& pool) : pool(pool) {}
+
+WorkerGroup::~WorkerGroup()
+{
+    for (WorkerTask* task : tasks)
+    {
+        delete task;
+    }
+    tasks.clear();
+}
+
+bool WorkerGroup::isDone() const
+{
+    for (WorkerTask* task : tasks)
+    {
+        if (!task->isDone()) return false;
+    }
+    return true;
 }

@@ -6,7 +6,16 @@ class WorkerTask
 {
 public:
     virtual ~WorkerTask() = default;
+
+    virtual void execute();
+    bool isDone();
+
+protected:
     virtual void runTask() = 0;
+
+private:
+    std::mutex statusLock;
+    bool complete = false;
 };
 
 class WorkerPool
@@ -19,12 +28,12 @@ public:
     void waitForCompletion();
 
     template<typename T, typename... Args>
-    void addTask(Args... args)
+    WorkerTask* addTask(Args... args)
     {
         T* newTask = new T(args...);
         scheduleTask(newTask);
+        return newTask;
     }
-
 
 private:
     void scheduleTask(WorkerTask* task);
@@ -40,3 +49,24 @@ private:
     bool runThreads = false;
     std::vector<std::thread> threads;
 };
+
+class WorkerGroup
+{
+public:
+    WorkerGroup(WorkerPool& pool);
+    ~WorkerGroup();
+
+    bool isDone() const;
+
+    template<typename T, typename... Args>
+    void addTask(Args... args)
+    {
+        T* task = pool.addTask<T>(args...);
+        tasks.push_back(task);
+    }
+
+private:
+    WorkerPool& pool;
+    std::vector<WorkerTask*> tasks;
+};
+
