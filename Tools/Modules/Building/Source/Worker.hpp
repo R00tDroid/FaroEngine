@@ -50,11 +50,11 @@ private:
     std::vector<std::thread> threads;
 };
 
-class WorkerGroup
+class TaskGroup
 {
 public:
-    WorkerGroup(WorkerPool& pool);
-    ~WorkerGroup();
+    TaskGroup(WorkerPool& pool);
+    ~TaskGroup();
 
     bool isDone() const;
 

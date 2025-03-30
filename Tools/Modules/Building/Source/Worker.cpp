@@ -119,9 +119,9 @@ void WorkerPool::threadEntry()
     Utility::PrintLineD("Stop worker");
 }
 
-WorkerGroup::WorkerGroup(WorkerPool& pool) : pool(pool) {}
+TaskGroup::TaskGroup(WorkerPool& pool) : pool(pool) {}
 
-WorkerGroup::~WorkerGroup()
+TaskGroup::~TaskGroup()
 {
     for (WorkerTask* task : tasks)
     {
@@ -130,7 +130,7 @@ WorkerGroup::~WorkerGroup()
     tasks.clear();
 }
 
-bool WorkerGroup::isDone() const
+bool TaskGroup::isDone() const
 {
     for (WorkerTask* task : tasks)
     {
