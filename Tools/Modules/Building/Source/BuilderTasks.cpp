@@ -11,7 +11,7 @@ ModuleBuild::ModuleBuild(WorkerPool& pool, const BuildSetup& buildSetup, const T
     buildStage(pool),
     linkStage(pool)
 {
-    checkStage.addTask<ModuleCheckTask>(this, module);
+    checkStage.addTask<ModuleCheckTask>(this);
 }
 
 void ModuleBuild::update()
@@ -29,14 +29,14 @@ void ModuleBuild::update()
             //TODO Check file type with supported source list
             if (extension == ".cpp")
             {
-                buildStage.addTask<ModuleCompileTask>(this, module, file);
+                buildStage.addTask<ModuleCompileTask>(this, file);
             }
         }
     }
     else if (step == MBS_Build && buildStage.isDone())
     {
         step = MBS_Link;
-        checkStage.addTask<ModuleLinkTask>(this, module);
+        checkStage.addTask<ModuleLinkTask>(this);
         //TODO Stop on error
     }
     else if (step == MBS_Link && linkStage.isDone())
@@ -50,19 +50,19 @@ bool ModuleBuild::isDone()
     return step == MBS_Done;
 }
 
-ModuleCheckTask::ModuleCheckTask(ModuleBuild* info, const ModuleManifest* module) : info(info), module(module) {}
+ModuleCheckTask::ModuleCheckTask(ModuleBuild* info) : info(info) {}
 
 void ModuleCheckTask::runTask()
 {
-    Utility::PrintLineD("Check module " + std::string(module->name()));
+    Utility::PrintLineD("Check module " + std::string(info->module->name()));
     //TODO Check for changes and missing output files
 }
 
-ModuleCompileTask::ModuleCompileTask(ModuleBuild* info, const ModuleManifest* module, std::filesystem::path file) : info(info), module(module), file(file) {}
+ModuleCompileTask::ModuleCompileTask(ModuleBuild* info, std::filesystem::path file) : info(info), file(file) {}
 
 void ModuleCompileTask::runTask()
 {
-    std::filesystem::path outputPath = module->faroDirectory();
+    std::filesystem::path outputPath = info->module->faroDirectory();
     outputPath /= "Obj";
     outputPath /= info->buildSetup.identifier();
     outputPath /= file.filename().replace_extension(".obj");
@@ -72,7 +72,7 @@ void ModuleCompileTask::runTask()
     ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str(), outString.c_str() };
 
     std::vector<std::string> includeStrings;
-    for (const std::filesystem::path& include : module->moduleIncludes())
+    for (const std::filesystem::path& include : info->module->moduleIncludes())
     {
         includeStrings.push_back(include.string());
     }
@@ -143,7 +143,7 @@ void ModuleCompileTask::runTask()
     Utility::PrintLine(message);
 }
 
-ModuleLinkTask::ModuleLinkTask(ModuleBuild* info, const ModuleManifest* module) : info(info), module(module) {}
+ModuleLinkTask::ModuleLinkTask(ModuleBuild* info) : info(info) {}
 
 void ModuleLinkTask::runTask()
 {

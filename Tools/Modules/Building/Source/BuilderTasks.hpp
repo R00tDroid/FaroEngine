@@ -35,36 +35,33 @@ private:
 class ModuleCheckTask : public WorkerTask
 {
 public:
-    ModuleCheckTask(ModuleBuild* info, const ModuleManifest* module);
+    ModuleCheckTask(ModuleBuild* info);
 
     void runTask() override;
 
 private:
     ModuleBuild* info;
-    const ModuleManifest* module;
 };
 
 class ModuleCompileTask : public WorkerTask
 {
 public:
-    ModuleCompileTask(ModuleBuild* info, const ModuleManifest* module, std::filesystem::path file);
+    ModuleCompileTask(ModuleBuild* info, std::filesystem::path file);
 
     void runTask() override;
 
 private:
     ModuleBuild* info;
-    const ModuleManifest* module;
     std::filesystem::path file;
 };
 
 class ModuleLinkTask : public WorkerTask
 {
 public:
-    ModuleLinkTask(ModuleBuild* info, const ModuleManifest* module);
+    ModuleLinkTask(ModuleBuild* info);
 
     void runTask() override;
 
 private:
     ModuleBuild* info;
-    const ModuleManifest* module;
 };
