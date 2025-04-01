@@ -147,5 +147,32 @@ ModuleLinkTask::ModuleLinkTask(ModuleBuild* info) : info(info) {}
 
 void ModuleLinkTask::runTask()
 {
-    Utility::PrintLine("LINK");
+    ToolchainLinkInfo linkInfo = { info->buildSetup, LT_StaticLibrary };
+
+    std::string log;
+    linkInfo.userData = &log;
+    linkInfo.onLog = [](void* userData, unsigned int length, const char* string)
+    {
+        *static_cast<std::string*>(userData) += std::string(string, length);
+    };
+
+    bool status = info->toolchain->link(linkInfo);
+
+    std::string message = "> " + std::string(info->module->name());
+    if (!log.empty())
+    {
+        auto it = log.end() - 1;
+        if (*it == '\n')
+        {
+            log.erase(it);
+        }
+        message += "\n" + log;
+    }
+
+    if (!status)
+    {
+        message += "\nFailed to compile";
+    }
+
+    Utility::PrintLine(message);
 }

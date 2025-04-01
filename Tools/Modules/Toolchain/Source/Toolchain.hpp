@@ -5,6 +5,12 @@
 class ModuleManifest;
 struct Target;
 
+enum LinkType
+{
+    LT_StaticLibrary,
+    LT_Application,
+};
+
 struct FaroToolchainExports ToolchainCompileInfo
 {
     const BuildSetup& buildSetup;
@@ -21,6 +27,15 @@ struct FaroToolchainExports ToolchainCompileInfo
     void (*onLog)(void*, unsigned int, const char*) = nullptr;
 };
 
+struct FaroToolchainExports ToolchainLinkInfo
+{
+    const BuildSetup& buildSetup;
+    LinkType linkType;
+
+    void* userData = nullptr;
+    void (*onLog)(void*, unsigned int, const char*) = nullptr;
+};
+
 class FaroToolchainExports Toolchain
 {
 public:
@@ -32,6 +47,7 @@ public:
 
     virtual bool prepare(const BuildSetup& buildSetup) = 0;
     virtual bool compile(const ToolchainCompileInfo& info) const = 0;
+    virtual bool link(const ToolchainLinkInfo& info) const = 0;
 
     static unsigned int defines(const BuildSetup& buildSetup);
     static const char* define(const BuildSetup& buildSetup, unsigned int index);
