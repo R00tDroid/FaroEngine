@@ -57,3 +57,14 @@ private:
     std::filesystem::path file;
 };
 
+class ModuleLinkTask : public WorkerTask
+{
+public:
+    ModuleLinkTask(ModuleBuild* info, const ModuleManifest* module);
+
+    void runTask() override;
+
+private:
+    ModuleBuild* info;
+    const ModuleManifest* module;
+};

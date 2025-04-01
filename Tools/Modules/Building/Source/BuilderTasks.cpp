@@ -36,7 +36,8 @@ void ModuleBuild::update()
     else if (step == MBS_Build && buildStage.isDone())
     {
         step = MBS_Link;
-        //TODO Schedule link steps
+        checkStage.addTask<ModuleLinkTask>(this, module);
+        //TODO Stop on error
     }
     else if (step == MBS_Link && linkStage.isDone())
     {
@@ -140,4 +141,11 @@ void ModuleCompileTask::runTask()
     }
 
     Utility::PrintLine(message);
+}
+
+ModuleLinkTask::ModuleLinkTask(ModuleBuild* info, const ModuleManifest* module) : info(info), module(module) {}
+
+void ModuleLinkTask::runTask()
+{
+    Utility::PrintLine("LINK");
 }
