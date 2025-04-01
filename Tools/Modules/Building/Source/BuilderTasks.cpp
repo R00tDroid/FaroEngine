@@ -147,7 +147,24 @@ ModuleLinkTask::ModuleLinkTask(ModuleBuild* info) : info(info) {}
 
 void ModuleLinkTask::runTask()
 {
-    ToolchainLinkInfo linkInfo = { info->buildSetup, LT_StaticLibrary };
+    ToolchainLinkInfo linkInfo = { info->buildSetup };
+
+    switch (info->module->moduleType()) {
+        case MT_Library:
+        {
+            linkInfo.linkType = LT_StaticLibrary;
+            break;
+        }
+        case MT_Executable:
+        {
+            linkInfo.linkType = LT_Application;
+            break;
+        }
+        default:
+        {
+            Utility::PrintLine("Unknown module type");
+        }
+    }
 
     std::string log;
     linkInfo.userData = &log;
@@ -171,7 +188,7 @@ void ModuleLinkTask::runTask()
 
     if (!status)
     {
-        message += "\nFailed to compile";
+        message += "\nFailed to link";
     }
 
     Utility::PrintLine(message);
