@@ -154,3 +154,8 @@ bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
 
     return result == 0;
 }
+
+bool ToolchainMSVC::link(const ToolchainLinkInfo&) const
+{
+    return false;
+}

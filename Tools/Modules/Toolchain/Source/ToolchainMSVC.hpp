@@ -36,6 +36,7 @@ public:
     Target* target(unsigned index) override;
     bool prepare(const BuildSetup& buildSetup) override;
     bool compile(const ToolchainCompileInfo& info) const override;
+    bool link(const ToolchainLinkInfo& info) const override;
 
 private:
     MSVCVersion msvcVersion;
