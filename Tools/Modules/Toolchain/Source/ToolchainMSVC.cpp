@@ -75,6 +75,7 @@ bool ToolchainMSVC::prepare(const BuildSetup&)
 
     clExe = msvcTools.string() + "\\cl.exe";
     libExe = msvcTools.string() + "\\lib.exe";
+    linkExe = msvcTools.string() + "\\link.exe";
     msvcDrive = msvcRoot.string().substr(0, 1);
 
     includePaths = {
@@ -168,9 +169,22 @@ bool ToolchainMSVC::link(const ToolchainLinkInfo& info) const
     std::filesystem::path outputFile = info.output;
     Utility::EnsureDirectory(outputFile.parent_path().string().c_str());
 
-    //TODO Switch between linkage types
     std::string log = "";
-    int result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + libExe.string() + "\" /nologo /OUT:\"" + outputFile.string() + "\" " + objFiles, log);
+    int result = 0;
+
+    switch (info.linkType) {
+        case LT_StaticLibrary:
+        {
+            result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + libExe.string() + "\" /nologo /OUT:\"" + outputFile.string() + "\" " + objFiles, log);
+            break;
+        }
+        case LT_Application:
+        {
+            //TODO Link against modules
+            result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + linkExe.string() + "\" /nologo /OUT:\"" + outputFile.string() + "\" " + objFiles, log);
+            break;
+        }
+    }
 
     // Format, trim and print output message
     if (!log.empty())

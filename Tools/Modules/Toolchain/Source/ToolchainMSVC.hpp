@@ -52,6 +52,7 @@ private:
 
     std::filesystem::path clExe;
     std::filesystem::path libExe;
+    std::filesystem::path linkExe;
     std::filesystem::path msvcDrive;
 
     std::filesystem::path windowsSdkInclude;
