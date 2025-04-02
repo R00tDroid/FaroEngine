@@ -24,10 +24,7 @@ void ModuleBuild::update()
         for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
         {
             std::filesystem::path file = module->sourceFile(sourceIndex);
-            std::string extension = file.extension().string();
-
-            //TODO Check file type with supported source list
-            if (extension == ".cpp")
+            if (Toolchain::needsCompile(file))
             {
                 buildStage.addTask<ModuleCompileTask>(this, file);
             }
@@ -60,15 +57,19 @@ void ModuleCheckTask::runTask()
 
 ModuleCompileTask::ModuleCompileTask(ModuleBuild* info, std::filesystem::path file) : info(info), file(file) {}
 
+static std::filesystem::path getObjPath(const ModuleManifest* module, const BuildSetup& buildSetup, const Toolchain* toolchain, const std::filesystem::path& path)
+{
+    std::filesystem::path outputPath = module->faroDirectory();
+    outputPath /= "Obj";
+    outputPath /= buildSetup.identifier();
+    outputPath /= path.filename().replace_extension(toolchain->getBinExtension());
+    return outputPath;
+}
+
 void ModuleCompileTask::runTask()
 {
-    std::filesystem::path outputPath = info->module->faroDirectory();
-    outputPath /= "Obj";
-    outputPath /= info->buildSetup.identifier();
-    outputPath /= file.filename().replace_extension(".obj");
-
     std::string fileString = file.string();
-    std::string outString = outputPath.string();
+    std::string outString = getObjPath(info->module, info->buildSetup, info->toolchain, file).string();
     ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str(), outString.c_str() };
 
     std::vector<std::string> includeStrings;
@@ -163,6 +164,16 @@ void ModuleLinkTask::runTask()
         default:
         {
             Utility::PrintLine("Unknown module type");
+        }
+    }
+
+    std::vector<std::string> objFiles;
+    for (unsigned int sourceIndex = 0; sourceIndex < info->module->sourceFiles(); sourceIndex++)
+    {
+        std::filesystem::path file = info->module->sourceFile(sourceIndex);
+        if (Toolchain::needsCompile(file))
+        {
+            objFiles.push_back(getObjPath(info->module, info->buildSetup, info->toolchain, file).string());
         }
     }
 
