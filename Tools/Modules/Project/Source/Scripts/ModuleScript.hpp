@@ -49,6 +49,8 @@ public:
     ScriptObjectFunction(ScriptModuleConfig, addDependency);
     ScriptObjectFunction(ScriptModuleConfig, setSolutionLocation);
 
+    void addSourceFile(const std::string& file);
+
     std::string name = "";
     std::vector<std::string> sourceFiles;
     ModuleType type = MT_Library;

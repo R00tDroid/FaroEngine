@@ -71,6 +71,15 @@ duk_ret_t ScriptModuleConfig::setSolutionLocation(duk_context* context)
     return 0;
 }
 
+void ScriptModuleConfig::addSourceFile(const std::string& file)
+{
+    auto it = std::find(sourceFiles.begin(), sourceFiles.end(), file);
+    if (it == sourceFiles.end())
+    {
+        sourceFiles.push_back(file);
+    }
+}
+
 duk_ret_t ScriptModuleBase::addLinkerLibrary(duk_context* context)
 {
     std::string library = duk_safe_to_string(context, 0);
@@ -101,7 +110,7 @@ duk_ret_t ScriptModuleConfig::addSource(duk_context* context)
     path = weakly_canonical(path);
     std::string pathString = path.string();
 
-    sourceFiles.push_back(pathString);
+    addSourceFile(pathString);
 
     return 0;
 }
@@ -173,7 +182,7 @@ duk_ret_t ScriptModuleConfig::scanSource(duk_context* context)
         {
             file = std::filesystem::weakly_canonical(file);
             std::string fileString = file.string();
-            sourceFiles.push_back(fileString);
+            addSourceFile(fileString);
         }
     }
 
