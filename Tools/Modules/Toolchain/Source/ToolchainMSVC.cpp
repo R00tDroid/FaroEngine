@@ -159,3 +159,20 @@ bool ToolchainMSVC::link(const ToolchainLinkInfo&) const
 {
     return false;
 }
+
+char* ToolchainMSVC::getBinExtension() const
+{
+    return ".obj";
+}
+
+char* ToolchainMSVC::getLinkExtension(LinkType type) const
+{
+    switch (type)
+    {
+    case LT_StaticLibrary:
+        return ".lib";
+    case LT_Application:
+        return ".exe";
+    }
+    return nullptr;
+}

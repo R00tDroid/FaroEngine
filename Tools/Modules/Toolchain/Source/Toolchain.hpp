@@ -1,5 +1,6 @@
 #pragma once
 #include "BuildSetup.hpp"
+#include <filesystem>
 #include "FaroToolchainExports.generated.h"
 
 class ModuleManifest;
@@ -49,8 +50,17 @@ public:
     virtual bool compile(const ToolchainCompileInfo& info) const = 0;
     virtual bool link(const ToolchainLinkInfo& info) const = 0;
 
+    virtual char* getBinExtension() const = 0;
+    virtual char* getLinkExtension(LinkType type) const = 0;
+
     static unsigned int defines(const BuildSetup& buildSetup);
     static const char* define(const BuildSetup& buildSetup, unsigned int index);
+
+    static bool needsCompile(const std::filesystem::path& path)
+    {
+        std::string extension = path.extension().string();
+        return  extension == ".cpp";
+    }
 };
 
 extern FaroToolchainExports unsigned int buildSetups();
