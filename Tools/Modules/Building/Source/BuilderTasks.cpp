@@ -66,6 +66,14 @@ static std::filesystem::path getObjPath(const ModuleManifest* module, const Buil
     return outputPath;
 }
 
+static std::filesystem::path getBinPath(const ModuleManifest* module, const BuildSetup& buildSetup, const Toolchain* toolchain, LinkType type)
+{
+    std::filesystem::path outputPath = module->faroDirectory();
+    outputPath /= "Bin";
+    outputPath /= std::string(buildSetup.identifier()) + toolchain->getLinkExtension(type);
+    return outputPath;
+}
+
 void ModuleCompileTask::runTask()
 {
     std::string fileString = file.string();
@@ -184,6 +192,9 @@ void ModuleLinkTask::runTask()
     }
     linkInfo.objFilesPtr = objFilesPaths.data();
     linkInfo.objFiles = static_cast<unsigned int>(objFilesPaths.size());
+
+    std::string outputPath = getBinPath(info->module, info->buildSetup, info->toolchain, linkInfo.linkType).string();
+    linkInfo.output = outputPath.c_str();
 
     std::string log;
     linkInfo.userData = &log;

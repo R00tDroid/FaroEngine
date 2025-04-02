@@ -35,6 +35,7 @@ struct FaroToolchainExports ToolchainLinkInfo
 
     unsigned int objFiles = 0;
     const char** objFilesPtr = nullptr;
+    const char* output = nullptr;
 
     void* userData = nullptr;
     void (*onLog)(void*, unsigned int, const char*) = nullptr;
