@@ -177,6 +177,14 @@ void ModuleLinkTask::runTask()
         }
     }
 
+    std::vector<const char*> objFilesPaths;
+    for (const std::string& path : objFiles)
+    {
+        objFilesPaths.push_back(path.c_str());
+    }
+    linkInfo.objFilesPtr = objFilesPaths.data();
+    linkInfo.objFiles = static_cast<unsigned int>(objFilesPaths.size());
+
     std::string log;
     linkInfo.userData = &log;
     linkInfo.onLog = [](void* userData, unsigned int length, const char* string)

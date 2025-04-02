@@ -33,6 +33,9 @@ struct FaroToolchainExports ToolchainLinkInfo
     const BuildSetup& buildSetup;
     LinkType linkType;
 
+    unsigned int objFiles = 0;
+    const char** objFilesPtr = nullptr;
+
     void* userData = nullptr;
     void (*onLog)(void*, unsigned int, const char*) = nullptr;
 };
