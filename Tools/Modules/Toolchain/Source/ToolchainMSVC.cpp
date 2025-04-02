@@ -74,6 +74,7 @@ bool ToolchainMSVC::prepare(const BuildSetup&)
     msvcTools = msvcRoot / "bin" / "Hostx64" / "x64";
 
     clExe = msvcTools.string() + "\\cl.exe";
+    libExe = msvcTools.string() + "\\lib.exe";
     msvcDrive = msvcRoot.string().substr(0, 1);
 
     includePaths = {
@@ -155,9 +156,34 @@ bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
     return result == 0;
 }
 
-bool ToolchainMSVC::link(const ToolchainLinkInfo&) const
+bool ToolchainMSVC::link(const ToolchainLinkInfo& info) const
 {
-    return false;
+    std::string objFiles = "";
+    for (unsigned i = 0; i < info.objFiles; i++)
+    {
+        const char* path = info.objFilesPtr[i];
+        objFiles += " \"" + std::string(path) + "\"";
+    }
+
+    std::filesystem::path outputFile = info.output;
+    Utility::EnsureDirectory(outputFile.parent_path().string().c_str());
+
+    //TODO Switch between linkage types
+    std::string log = "";
+    int result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + libExe.string() + "\" /nologo /OUT:\"" + outputFile.string() + "\" " + objFiles, log);
+
+    // Format, trim and print output message
+    if (!log.empty())
+    {
+        log.erase(std::remove(log.begin(), log.end(), '\r'), log.end());
+
+        if (!log.empty())
+        {
+            info.onLog(info.userData, static_cast<unsigned int>(log.length()), log.c_str());
+        }
+    }
+
+    return result == 0;
 }
 
 char* ToolchainMSVC::getBinExtension() const
