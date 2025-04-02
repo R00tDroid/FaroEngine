@@ -205,7 +205,7 @@ void ModuleLinkTask::runTask()
 
     bool status = info->toolchain->link(linkInfo);
 
-    std::string message = "> " + std::string(info->module->name());
+    std::string message = "Linking " + std::string(info->module->name());
     if (!log.empty())
     {
         auto it = log.end() - 1;
