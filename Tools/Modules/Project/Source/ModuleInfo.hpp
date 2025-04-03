@@ -3,6 +3,7 @@
 #include "BuildSetup.hpp"
 #include "FaroProjectsExports.generated.h"
 #include "ManifestInterface.hpp"
+#include <set>
 
 class ProjectManifest;
 
@@ -61,6 +62,25 @@ public:
     // List of modules this module depends on
     unsigned int dependencies() const;
     ModuleManifest* dependency(unsigned int index) const;
+
+    std::vector<ModuleManifest*> moduleDependencies() const
+    {
+        std::set<ModuleManifest*> dependencyList;
+
+        for (unsigned int i = 0; i < dependencies(); i++)
+        {
+            ModuleManifest* dependencyModule = dependency(i);
+            dependencyList.insert(dependencyModule);
+
+            std::vector<ModuleManifest*> moduleDependencies = dependency(i)->moduleDependencies();
+            for (ModuleManifest* moduleDependency : moduleDependencies)
+            {
+                dependencyList.insert(moduleDependency);
+            }
+        }
+
+        return { dependencyList.begin(), dependencyList.end()};
+    }
 
     unsigned int includePaths(AccessDomain type) const;
     const char* includePath(AccessDomain type, unsigned int index) const;
