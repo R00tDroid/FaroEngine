@@ -35,6 +35,13 @@ struct FaroToolchainExports ToolchainLinkInfo
 
     unsigned int objFiles = 0;
     const char** objFilesPtr = nullptr;
+
+    unsigned int linkLibs = 0;
+    const char** linkLibsPtr = nullptr;
+
+    unsigned int libPaths = 0;
+    const char** libPathsPtr = nullptr;
+
     const char* output = nullptr;
 
     void* userData = nullptr;

@@ -1,4 +1,5 @@
 #include "BuilderTasks.hpp"
+#include <assert.h>
 #include "Toolchain.hpp"
 #include "Utility.hpp"
 
@@ -154,26 +155,23 @@ void ModuleCompileTask::runTask()
 
 ModuleLinkTask::ModuleLinkTask(ModuleBuild* info) : info(info) {}
 
+LinkType getModuleLinkType(ModuleType type)
+{
+    switch (type) {
+    case MT_Library:
+        return LT_StaticLibrary;
+    case MT_Executable:
+        return LT_Application;
+    }
+
+    assert(false);
+    return LT_StaticLibrary;
+}
+
 void ModuleLinkTask::runTask()
 {
     ToolchainLinkInfo linkInfo = { info->buildSetup };
-
-    switch (info->module->moduleType()) {
-        case MT_Library:
-        {
-            linkInfo.linkType = LT_StaticLibrary;
-            break;
-        }
-        case MT_Executable:
-        {
-            linkInfo.linkType = LT_Application;
-            break;
-        }
-        default:
-        {
-            Utility::PrintLine("Unknown module type");
-        }
-    }
+    linkInfo.linkType = getModuleLinkType(info->module->moduleType());
 
     std::vector<std::string> objFiles;
     for (unsigned int sourceIndex = 0; sourceIndex < info->module->sourceFiles(); sourceIndex++)
@@ -184,7 +182,6 @@ void ModuleLinkTask::runTask()
             objFiles.push_back(getObjPath(info->module, info->buildSetup, info->toolchain, file).string());
         }
     }
-
     std::vector<const char*> objFilesPaths;
     for (const std::string& path : objFiles)
     {
@@ -192,6 +189,23 @@ void ModuleLinkTask::runTask()
     }
     linkInfo.objFilesPtr = objFilesPaths.data();
     linkInfo.objFiles = static_cast<unsigned int>(objFilesPaths.size());
+
+    std::vector<std::string> linkLibs;
+    std::vector<ModuleManifest*> dependencies = info->module->moduleDependencies();
+    for (ModuleManifest* dependency : dependencies)
+    {
+        //TODO Add linker libs from manifest
+        linkLibs.push_back(getBinPath(dependency, info->buildSetup, info->toolchain, getModuleLinkType(dependency->moduleType())).string());
+    }
+    std::vector<const char*> linkLibsPaths;
+    for (const std::string& path : linkLibs)
+    {
+        linkLibsPaths.push_back(path.c_str());
+    }
+    linkInfo.linkLibsPtr = linkLibsPaths.data();
+    linkInfo.linkLibs = static_cast<unsigned int>(linkLibsPaths.size());
+
+    //TODO Register lib directories
 
     std::string outputPath = getBinPath(info->module, info->buildSetup, info->toolchain, linkInfo.linkType).string();
     linkInfo.output = outputPath.c_str();
