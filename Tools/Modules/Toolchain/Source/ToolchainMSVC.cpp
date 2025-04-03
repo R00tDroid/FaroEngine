@@ -54,6 +54,8 @@ ToolchainMSVC::ToolchainMSVC()
 
     windowsSdkInclude = root / "Include" / version;
     windowsSdkLib = root / "Lib" / version;
+    windowsUmLib = root / "Lib" / version / "um" / "x64";
+    windowsUcrtLib = root / "Lib" / version / "ucrt" / "x64";
 
     configurations.push_back(TargetMSVC("Windows", "windowsx64", this));
 }
@@ -72,6 +74,7 @@ bool ToolchainMSVC::prepare(const BuildSetup&)
 {
     msvcRoot = msvcVersion.root;
     msvcTools = msvcRoot / "bin" / "Hostx64" / "x64";
+    msvcLib = msvcRoot / "lib" / "x64";
 
     clExe = msvcTools.string() + "\\cl.exe";
     libExe = msvcTools.string() + "\\lib.exe";
@@ -166,8 +169,29 @@ bool ToolchainMSVC::link(const ToolchainLinkInfo& info) const
         objFiles += " \"" + std::string(path) + "\"";
     }
 
+    std::string libs = "";
+    for (unsigned i = 0; i < info.linkLibs; i++)
+    {
+        const char* path = info.linkLibsPtr[i];
+        libs += " \"" + std::string(path) + "\""; //TODO Should be wholearchive?
+    }
+
+    std::string libDirs;
+    libDirs += " /LIBPATH:\"" + msvcLib.string() + "\""; //TODO Expose this from the toolchain
+    libDirs += " /LIBPATH:\"" + windowsSdkLib.string() + "\"";
+    libDirs += " /LIBPATH:\"" + windowsUmLib.string() + "\"";
+    libDirs += " /LIBPATH:\"" + windowsUcrtLib.string() + "\"";
+
+    for (unsigned i = 0; i < info.libPaths; i++)
+    {
+        const char* path = info.libPathsPtr[i];
+        libDirs += " /LIBPATH:\"" + std::string(path) + "\"";
+    }
+
     std::filesystem::path outputFile = info.output;
     Utility::EnsureDirectory(outputFile.parent_path().string().c_str());
+
+    std::string flags = "/NOLOGO /SUBSYSTEM:CONSOLE /WX /MACHINE:X64";
 
     std::string log = "";
     int result = 0;
@@ -181,7 +205,7 @@ bool ToolchainMSVC::link(const ToolchainLinkInfo& info) const
         case LT_Application:
         {
             //TODO Link against modules
-            result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + linkExe.string() + "\" /nologo /OUT:\"" + outputFile.string() + "\" " + objFiles, log);
+            result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + linkExe.string() + "\" " + flags + " /OUT:\"" + outputFile.string() + "\" " + libDirs + " " + libs + " " + objFiles, log);
             break;
         }
     }

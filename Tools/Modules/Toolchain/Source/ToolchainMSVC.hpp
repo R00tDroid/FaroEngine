@@ -49,6 +49,7 @@ private:
 
     std::filesystem::path msvcRoot;
     std::filesystem::path msvcTools;
+    std::filesystem::path msvcLib;
 
     std::filesystem::path clExe;
     std::filesystem::path libExe;
@@ -57,4 +58,6 @@ private:
 
     std::filesystem::path windowsSdkInclude;
     std::filesystem::path windowsSdkLib;
+    std::filesystem::path windowsUmLib;
+    std::filesystem::path windowsUcrtLib;
 };
