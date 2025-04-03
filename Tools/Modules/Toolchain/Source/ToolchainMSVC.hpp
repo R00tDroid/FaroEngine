@@ -47,6 +47,9 @@ private:
     std::vector<std::string> includePaths;
     std::vector<std::string> defines;
 
+    std::vector<std::string> libFolders;
+    std::vector<std::string> libs;
+
     std::filesystem::path msvcRoot;
     std::filesystem::path msvcTools;
     std::filesystem::path msvcLib;

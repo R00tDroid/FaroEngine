@@ -89,6 +89,19 @@ bool ToolchainMSVC::prepare(const BuildSetup&)
         (windowsSdkInclude / "um").string(),
     };
 
+    libs = {
+        "user32.lib", //TODO Define in windows module
+        "libucrtd.lib",
+        "libvcruntimed.lib" //TODO Find use debug variants in release mode
+    };
+
+    libFolders = {
+        msvcLib.string(),
+        windowsSdkLib.string(),
+        windowsUmLib.string(),
+        windowsUcrtLib.string()
+    };
+
     defines = {
         //TODO Set toolchain defines
     };
@@ -169,19 +182,22 @@ bool ToolchainMSVC::link(const ToolchainLinkInfo& info) const
         objFiles += " \"" + std::string(path) + "\"";
     }
 
-    std::string libs = "";
+    std::string libList = "";
+    for (const std::string& lib : libs)
+    {
+        libList += " \"" + lib + "\"";
+    }
     for (unsigned i = 0; i < info.linkLibs; i++)
     {
         const char* path = info.linkLibsPtr[i];
-        libs += " \"" + std::string(path) + "\""; //TODO Should be wholearchive?
+        libList += " /WHOLEARCHIVE:\"" + std::string(path) + "\""; //TODO Should be wholearchive?
     }
 
     std::string libDirs;
-    libDirs += " /LIBPATH:\"" + msvcLib.string() + "\""; //TODO Expose this from the toolchain
-    libDirs += " /LIBPATH:\"" + windowsSdkLib.string() + "\"";
-    libDirs += " /LIBPATH:\"" + windowsUmLib.string() + "\"";
-    libDirs += " /LIBPATH:\"" + windowsUcrtLib.string() + "\"";
-
+    for (const std::string& path : libFolders)
+    {
+        libDirs += " /LIBPATH:\"" + path + "\"";
+    }
     for (unsigned i = 0; i < info.libPaths; i++)
     {
         const char* path = info.libPathsPtr[i];
@@ -205,7 +221,7 @@ bool ToolchainMSVC::link(const ToolchainLinkInfo& info) const
         case LT_Application:
         {
             //TODO Link against modules
-            result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + linkExe.string() + "\" " + flags + " /OUT:\"" + outputFile.string() + "\" " + libDirs + " " + libs + " " + objFiles, log);
+            result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + linkExe.string() + "\" " + flags + " /OUT:\"" + outputFile.string() + "\" " + libDirs + " " + libList + " " + objFiles, log);
             break;
         }
     }
