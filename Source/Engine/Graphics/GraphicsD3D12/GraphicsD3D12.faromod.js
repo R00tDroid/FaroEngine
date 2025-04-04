@@ -18,5 +18,8 @@ function configureModule(module) {
 }
 
 function configureSetup(setup, module) {
-    //TODO Link D3D12.lib and DXGI.lib
+    if (setup.getTarget().includes("windows")) {
+        module.addLinkerLibrary("dxgi.lib");
+        module.addLinkerLibrary("d3d12.lib");
+    }
 }

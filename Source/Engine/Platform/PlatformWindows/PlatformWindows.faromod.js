@@ -15,5 +15,18 @@ function configureModule(module) {
 }
 
 function configureSetup(setup, module) {
+    if (setup.getTarget().includes("windows")) {
+        
+        module.addLinkerLibrary("user32.lib");
+
+        if (setup.getConfig() == "release") {
+            module.addLinkerLibrary("libucrt.lib");
+            module.addLinkerLibrary("libvcruntime.lib");
+        }
+        else {
+            module.addLinkerLibrary("libucrtd.lib");
+            module.addLinkerLibrary("libvcruntimed.lib");
+        }
+    }
 }
 
