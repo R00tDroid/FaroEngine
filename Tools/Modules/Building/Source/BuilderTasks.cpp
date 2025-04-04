@@ -190,20 +190,29 @@ void ModuleLinkTask::runTask()
     linkInfo.objFilesPtr = objFilesPaths.data();
     linkInfo.objFiles = static_cast<unsigned int>(objFilesPaths.size());
 
-    std::vector<std::string> linkLibs;
+    std::vector<std::string> moduleLibs;
+    std::vector<const char*> linkLibs;
     std::vector<ModuleManifest*> dependencies = info->module->moduleDependencies();
     for (ModuleManifest* dependency : dependencies)
     {
-        //TODO Add linker libs from manifest
-        linkLibs.push_back(getBinPath(dependency, info->buildSetup, info->toolchain, getModuleLinkType(dependency->moduleType())).string());
+        moduleLibs.push_back(getBinPath(dependency, info->buildSetup, info->toolchain, getModuleLinkType(dependency->moduleType())).string());
+
+        for (unsigned int i = 0; i < dependency->linkerLibraries(); i++)
+        {
+            linkLibs.push_back(dependency->linkerLibrary(i));
+        }
     }
-    std::vector<const char*> linkLibsPaths;
-    for (const std::string& path : linkLibs)
+
+    std::vector<const char*> moduleLibPaths;
+    for (const std::string& path : moduleLibs)
     {
-        linkLibsPaths.push_back(path.c_str());
+        moduleLibPaths.push_back(path.c_str());
     }
-    linkInfo.linkLibsPtr = linkLibsPaths.data();
-    linkInfo.linkLibs = static_cast<unsigned int>(linkLibsPaths.size());
+    linkInfo.moduleLibsPtr = moduleLibPaths.data();
+    linkInfo.moduleLibs = static_cast<unsigned int>(moduleLibPaths.size());
+
+    linkInfo.linkLibsPtr = linkLibs.data();
+    linkInfo.linkLibs = static_cast<unsigned int>(linkLibs.size());
 
     //TODO Register lib directories
 

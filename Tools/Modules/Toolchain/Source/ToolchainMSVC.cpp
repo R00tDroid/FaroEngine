@@ -89,12 +89,6 @@ bool ToolchainMSVC::prepare(const BuildSetup&)
         (windowsSdkInclude / "um").string(),
     };
 
-    libs = {
-        "user32.lib", //TODO Define in windows module
-        "libucrtd.lib",
-        "libvcruntimed.lib" //TODO Find use debug variants in release mode
-    };
-
     libFolders = {
         msvcLib.string(),
         windowsSdkLib.string(),
@@ -183,13 +177,13 @@ bool ToolchainMSVC::link(const ToolchainLinkInfo& info) const
     }
 
     std::string libList = "";
-    for (const std::string& lib : libs)
-    {
-        libList += " \"" + lib + "\"";
-    }
     for (unsigned i = 0; i < info.linkLibs; i++)
     {
-        const char* path = info.linkLibsPtr[i];
+        libList += " \"" + std::string(info.linkLibsPtr[i]) + "\"";
+    }
+    for (unsigned i = 0; i < info.moduleLibs; i++)
+    {
+        const char* path = info.moduleLibsPtr[i];
         libList += " /WHOLEARCHIVE:\"" + std::string(path) + "\""; //TODO Should be wholearchive?
     }
 
