@@ -45,7 +45,7 @@ void ModuleLinkTask::runTask()
     std::vector<ModuleManifest*> dependencies = info->module->moduleDependencies();
     for (ModuleManifest* dependency : dependencies)
     {
-        moduleLibs.push_back(info->module->getBinPath(info->buildSetup, info->toolchain, getModuleLinkType(dependency->moduleType())).string());
+        moduleLibs.push_back(dependency->getBinPath(info->buildSetup, info->toolchain, getModuleLinkType(dependency->moduleType())).string());
 
         for (unsigned int i = 0; i < dependency->linkerLibraries(); i++)
         {
