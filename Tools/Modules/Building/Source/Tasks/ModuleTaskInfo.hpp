@@ -1,5 +1,4 @@
 #pragma once
-#include <filesystem>
 #include "ModuleInfo.hpp"
 #include "Worker.hpp"
 
@@ -30,38 +29,4 @@ private:
     TaskGroup checkStage;
     TaskGroup buildStage;
     TaskGroup linkStage;
-};
-
-class ModuleCheckTask : public WorkerTask
-{
-public:
-    ModuleCheckTask(ModuleBuild* info);
-
-    void runTask() override;
-
-private:
-    ModuleBuild* info;
-};
-
-class ModuleCompileTask : public WorkerTask
-{
-public:
-    ModuleCompileTask(ModuleBuild* info, std::filesystem::path file);
-
-    void runTask() override;
-
-private:
-    ModuleBuild* info;
-    std::filesystem::path file;
-};
-
-class ModuleLinkTask : public WorkerTask
-{
-public:
-    ModuleLinkTask(ModuleBuild* info);
-
-    void runTask() override;
-
-private:
-    ModuleBuild* info;
 };

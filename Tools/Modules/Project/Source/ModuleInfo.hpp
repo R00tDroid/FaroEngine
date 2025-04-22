@@ -3,6 +3,7 @@
 #include "BuildSetup.hpp"
 #include "FaroProjectsExports.generated.h"
 #include "ManifestInterface.hpp"
+#include "Toolchain.hpp"
 #include <set>
 
 class ProjectManifest;
@@ -109,6 +110,23 @@ public:
 
     bool prebuild(const BuildSetup& setup) const;
     bool postbuild(const BuildSetup& setup) const;
+
+    std::filesystem::path getObjPath(const BuildSetup& buildSetup, const Toolchain* toolchain, const std::filesystem::path& path) const
+    {
+        std::filesystem::path outputPath = faroDirectory();
+        outputPath /= "Obj";
+        outputPath /= buildSetup.identifier();
+        outputPath /= path.filename().replace_extension(toolchain->getBinExtension());
+        return outputPath;
+    }
+
+    std::filesystem::path getBinPath(const BuildSetup& buildSetup, const Toolchain* toolchain, LinkType type) const
+    {
+        std::filesystem::path outputPath = faroDirectory();
+        outputPath /= "Bin";
+        outputPath /= std::string(buildSetup.identifier()) + toolchain->getLinkExtension(type);
+        return outputPath;
+    }
 
 private:
     std::vector<std::filesystem::path> treeIncludes() const

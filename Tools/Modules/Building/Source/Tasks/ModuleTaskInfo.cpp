@@ -1,0 +1,51 @@
+#include "ModuleTaskInfo.hpp"
+#include "CompileTask.hpp"
+#include "LinkTask.hpp"
+#include "ModuleTask.hpp"
+#include "Toolchain.hpp"
+#include "Utility.hpp"
+
+ModuleBuild::ModuleBuild(WorkerPool& pool, const BuildSetup& buildSetup, const Toolchain* toolchain, const ModuleManifest* module) :
+    pool(pool),
+    buildSetup(buildSetup),
+    toolchain(toolchain),
+    module(module),
+    checkStage(pool),
+    buildStage(pool),
+    linkStage(pool)
+{
+    checkStage.addTask<ModuleCheckTask>(this);
+}
+
+void ModuleBuild::update()
+{
+    if (step == MBS_Check && checkStage.isDone())
+    {
+        //TODO Skip early if nothing needs to be updated
+        step = MBS_Build;
+
+        for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
+        {
+            std::filesystem::path file = module->sourceFile(sourceIndex);
+            if (Toolchain::needsCompile(file))
+            {
+                buildStage.addTask<ModuleCompileTask>(this, file);
+            }
+        }
+    }
+    else if (step == MBS_Build && buildStage.isDone())
+    {
+        step = MBS_Link;
+        checkStage.addTask<ModuleLinkTask>(this);
+        //TODO Stop on error
+    }
+    else if (step == MBS_Link && linkStage.isDone())
+    {
+        step = MBS_Done;
+    }
+}
+
+bool ModuleBuild::isDone()
+{
+    return step == MBS_Done;
+}

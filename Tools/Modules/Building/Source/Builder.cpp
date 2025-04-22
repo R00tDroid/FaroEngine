@@ -1,11 +1,11 @@
 #include "Builder.hpp"
 #include <map>
-#include "BuilderTasks.hpp"
 #include "ModuleInfo.hpp"
 #include "ProjectInfo.hpp"
 #include "Toolchain.hpp"
 #include "Utility.hpp"
 #include "Worker.hpp"
+#include "Tasks/ModuleTaskInfo.hpp"
 
 bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project, unsigned int moduleCount, const ModuleManifest** moduleList)
 {
