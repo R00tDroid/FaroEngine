@@ -26,6 +26,10 @@ public:
     ModuleBuildSteps step = MBS_Check;
 
 private:
+    void startCheck();
+    void startBuild();
+    void startLink();
+
     TaskGroup checkStage;
     TaskGroup buildStage;
     TaskGroup linkStage;

@@ -14,30 +14,18 @@ ModuleBuild::ModuleBuild(WorkerPool& pool, const BuildSetup& buildSetup, const T
     buildStage(pool),
     linkStage(pool)
 {
-    checkStage.addTask<ModuleCheckTask>(this);
+    startCheck();
 }
 
 void ModuleBuild::update()
 {
     if (step == MBS_Check && checkStage.isDone())
     {
-        //TODO Skip early if nothing needs to be updated
-        step = MBS_Build;
-
-        for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
-        {
-            std::filesystem::path file = module->sourceFile(sourceIndex);
-            if (Toolchain::needsCompile(file))
-            {
-                buildStage.addTask<ModuleCompileTask>(this, file);
-            }
-        }
+        startBuild();
     }
     else if (step == MBS_Build && buildStage.isDone())
     {
-        step = MBS_Link;
-        checkStage.addTask<ModuleLinkTask>(this);
-        //TODO Stop on error
+        startLink();
     }
     else if (step == MBS_Link && linkStage.isDone())
     {
@@ -48,4 +36,31 @@ void ModuleBuild::update()
 bool ModuleBuild::isDone()
 {
     return step == MBS_Done;
+}
+
+void ModuleBuild::startCheck()
+{
+    checkStage.addTask<ModuleCheckTask>(this);
+}
+
+void ModuleBuild::startBuild()
+{
+    //TODO Skip early if nothing needs to be updated
+    step = MBS_Build;
+
+    for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
+    {
+        std::filesystem::path file = module->sourceFile(sourceIndex);
+        if (Toolchain::needsCompile(file))
+        {
+            buildStage.addTask<ModuleCompileTask>(this, file);
+        }
+    }
+}
+
+void ModuleBuild::startLink()
+{
+    step = MBS_Link;
+    checkStage.addTask<ModuleLinkTask>(this);
+    //TODO Stop on error
 }
