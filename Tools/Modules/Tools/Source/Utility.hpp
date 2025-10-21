@@ -58,6 +58,9 @@ namespace Utility
 
     //TODO Don't use stl containers
     bool FaroToolsExports ReadEnvVariable(std::string variableName, std::string& value);
+
+    bool FaroToolsExports IsSourceFile(const char* file);
+    bool FaroToolsExports IsIncludeFile(const char* file);
 }
 
 class FaroToolsExports PerformanceTimer

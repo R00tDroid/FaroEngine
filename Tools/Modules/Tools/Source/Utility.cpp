@@ -231,6 +231,23 @@ bool Utility::ReadEnvVariable(std::string variableName, std::string& value)
     return true;
 }
 
+static std::vector<std::string> sourceExtensions = { ".cpp", ".c", ".hlsl" };
+static std::vector<std::string> includeExtensions = { ".hpp", ".h", ".hlsli" };
+
+bool Utility::IsSourceFile(const char* file)
+{
+    std::string extension = std::filesystem::path(file).extension().string();
+    extension = ToLower(extension);
+    return std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
+}
+
+bool Utility::IsIncludeFile(const char* file)
+{
+    std::string extension = std::filesystem::path(file).extension().string();
+    extension = ToLower(extension);
+    return std::find(includeExtensions.begin(), includeExtensions.end(), extension) != includeExtensions.end();
+}
+
 struct PerformanceTimerStatic
 {
     std::chrono::high_resolution_clock::time_point appStart;

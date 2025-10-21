@@ -445,11 +445,24 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& project)
         std::vector<std::filesystem::path> sourceFiles = project.getSourceFiles();
         for (std::filesystem::path& file : sourceFiles)
         {
-            std::string extension = file.extension().string();
-            extension = Utility::ToLower(extension);
-            bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
-            tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
-            fileElement->SetAttribute("Include", file.string().c_str());
+            tinyxml2::XMLElement* fileElement = nullptr;
+            if (Utility::IsSourceFile(file.string().c_str()))
+            {
+                fileElement = itemGroup->InsertNewChildElement("ClCompile");
+            }
+            else if (Utility::IsIncludeFile(file.string().c_str()))
+            {
+                fileElement = itemGroup->InsertNewChildElement("ClInclude");
+            }
+            else
+            {
+                Utility::PrintLine("Failed to determine source file type: " + file.string());
+            }
+
+            if (fileElement != nullptr)
+            {
+                fileElement->SetAttribute("Include", file.string().c_str());
+            }
         }
     }
 
@@ -562,12 +575,24 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& project)
                 }
             }
 
-            std::string extension = file.extension().string();
-            extension = Utility::ToLower(extension);
-            bool shouldCompile = std::find(sourceExtensions.begin(), sourceExtensions.end(), extension) != sourceExtensions.end();
+            tinyxml2::XMLElement* fileElement = nullptr;
+            if (Utility::IsSourceFile(file.string().c_str()))
+            {
+                fileElement = itemGroup->InsertNewChildElement("ClCompile");
+            }
+            else if (Utility::IsIncludeFile(file.string().c_str()))
+            {
+                fileElement = itemGroup->InsertNewChildElement("ClInclude");
+            }
+            else
+            {
+                Utility::PrintLine("Failed to determine source file type: " + file.string());
+            }
 
-            tinyxml2::XMLElement* fileElement = itemGroup->InsertNewChildElement(shouldCompile ? "ClCompile" : "ClInclude");
-            fileElement->SetAttribute("Include", file.string().c_str());
+            if (fileElement != nullptr)
+            {
+                fileElement->SetAttribute("Include", file.string().c_str());
+            }
 
             tinyxml2::XMLElement* filterElement = fileElement->InsertNewChildElement("Filter");
             filterElement->SetText(directory.string().c_str());

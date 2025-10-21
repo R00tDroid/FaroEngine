@@ -1,7 +1,7 @@
 #include "ModuleTaskInfo.hpp"
 #include "CompileTask.hpp"
 #include "LinkTask.hpp"
-#include "ModuleTask.hpp"
+#include "CheckTask.hpp"
 #include "Toolchain.hpp"
 #include "Utility.hpp"
 

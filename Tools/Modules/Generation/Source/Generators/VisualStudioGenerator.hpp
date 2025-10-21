@@ -70,8 +70,6 @@ public:
 private:
     std::string vsPlatformVersion = "";
 
-    std::vector<std::string> sourceExtensions = { ".cpp", ".c", ".hlsl" };
-
     void writeProjectFile(const VSProjectInfo& vsProjectInfo);
 
     void writeProjectUserFile(const VSProjectInfo& vsProjectInfo);
