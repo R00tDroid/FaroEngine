@@ -51,7 +51,7 @@ void ModuleBuild::startBuild()
     for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
     {
         std::filesystem::path file = module->sourceFile(sourceIndex);
-        if (Toolchain::needsCompile(file))
+        if (Utility::IsSourceFile(file.string().c_str())) //TODO Get files to build from check stage
         {
             buildStage.addTask<ModuleCompileTask>(this, file);
         }

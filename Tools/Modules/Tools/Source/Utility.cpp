@@ -231,7 +231,7 @@ bool Utility::ReadEnvVariable(std::string variableName, std::string& value)
     return true;
 }
 
-static std::vector<std::string> sourceExtensions = { ".cpp", ".c", ".hlsl" };
+static std::vector<std::string> sourceExtensions = { ".cpp", ".c" }; //TODO Sort shader files (.hlsl)
 static std::vector<std::string> includeExtensions = { ".hpp", ".h", ".hlsli" };
 
 bool Utility::IsSourceFile(const char* file)

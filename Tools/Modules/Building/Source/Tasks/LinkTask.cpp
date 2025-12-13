@@ -27,7 +27,7 @@ void ModuleLinkTask::runTask()
     for (unsigned int sourceIndex = 0; sourceIndex < info->module->sourceFiles(); sourceIndex++)
     {
         std::filesystem::path file = info->module->sourceFile(sourceIndex);
-        if (Toolchain::needsCompile(file))
+        if (Utility::IsSourceFile(file.string().c_str()))
         {
             objFiles.push_back(info->module->getObjPath(info->buildSetup, info->toolchain, file).string());
         }

@@ -592,10 +592,10 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& project)
             if (fileElement != nullptr)
             {
                 fileElement->SetAttribute("Include", file.string().c_str());
-            }
 
-            tinyxml2::XMLElement* filterElement = fileElement->InsertNewChildElement("Filter");
-            filterElement->SetText(directory.string().c_str());
+                tinyxml2::XMLElement* filterElement = fileElement->InsertNewChildElement("Filter");
+                filterElement->SetText(directory.string().c_str());
+            }
         }
     }
 

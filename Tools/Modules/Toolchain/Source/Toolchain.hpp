@@ -69,12 +69,6 @@ public:
 
     static unsigned int defines(const BuildSetup& buildSetup);
     static const char* define(const BuildSetup& buildSetup, unsigned int index);
-
-    static bool needsCompile(const std::filesystem::path& path)
-    {
-        std::string extension = path.extension().string();
-        return  extension == ".cpp";
-    }
 };
 
 extern FaroToolchainExports unsigned int buildSetups();
