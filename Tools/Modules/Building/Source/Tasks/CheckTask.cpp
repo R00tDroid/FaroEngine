@@ -18,14 +18,25 @@ void ModuleCheckTask::runTask()
         if (Utility::IsSourceFile(file.string().c_str()))
         {
             Utility::PrintLineD("Checking source " + file.string());
+
+            std::filesystem::path binary = info->module->getObjPath(info->buildSetup, info->toolchain, file);
+            if (std::filesystem::exists(binary))
+            {
+                //TODO Check file dates
+            }
+            else
+            {
+                Utility::PrintLineD("Binary missing for " + file.string());
+                //TODO File need to be compiled
+            }
         }
         else if (Utility::IsIncludeFile(file.string().c_str()))
         {
-            Utility::PrintLineD("Checking include " + file.string());
+            //Utility::PrintLineD("Checking include " + file.string());
         }
         else
         {
-            Utility::PrintLineD("Checking unknown " + file.string());
+            //Utility::PrintLineD("Checking unknown " + file.string());
         }
 
         //TODO Check if source object file exists
