@@ -4,15 +4,9 @@
 
 void ModuleCompileStep::start()
 {
-    const ModuleManifest* module = moduleBuild()->module;
-
-    for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
+    for (const std::filesystem::path& source : moduleBuild()->sourcesToCompile)
     {
-        std::filesystem::path file = module->sourceFile(sourceIndex);
-        if (Utility::IsSourceFile(file.string().c_str())) //TODO Get files to build from check stage
-        {
-            moduleBuild()->pool.addTask<ModuleCompileTask>(moduleBuild(), file);
-        }
+        moduleBuild()->pool.addTask<ModuleCompileTask>(moduleBuild(), source);
     }
 }
 

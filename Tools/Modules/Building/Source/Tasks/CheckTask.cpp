@@ -22,6 +22,8 @@ void ModuleCheckTask::runTask()
 
         if (Utility::IsSourceFile(file.string().c_str()))
         {
+            info->sourcesToCompile.push_back(file); //TODO Check for missing binaries or changes
+
             Utility::PrintLineD("Checking source " + file.string());
 
             std::filesystem::path binary = info->module->getObjPath(info->buildSetup, info->toolchain, file);
