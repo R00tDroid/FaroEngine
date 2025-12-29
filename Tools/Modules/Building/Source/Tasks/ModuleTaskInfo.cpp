@@ -27,17 +27,24 @@ bool ModuleBuild::isDone()
 
 void ModuleBuild::startStep()
 {
+    bool shouldContinue = true;
     if (buildStep != nullptr)
     {
-        Utility::PrintLine("Stop build step");
-        buildStep->end();
+        Utility::PrintLineD("Stop build step");
+        shouldContinue = buildStep->end();
         delete buildStep;
         buildStep = nullptr;
     }
 
+    if (!shouldContinue)
+    {
+        Utility::PrintLineD("Build steps wants to stop");
+        return;
+    }
+
     if (!buildSteps.empty())
     {
-        Utility::PrintLine("Start build step");
+        Utility::PrintLineD("Start build step");
         buildStep = buildSteps[0];
         buildSteps.erase(buildSteps.begin());
         buildStep->start();

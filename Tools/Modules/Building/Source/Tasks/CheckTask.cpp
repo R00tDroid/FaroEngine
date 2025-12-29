@@ -7,6 +7,11 @@ void ModuleCheckStep::start()
     moduleBuild()->pool.addTask<ModuleCheckTask>(moduleBuild());
 }
 
+bool ModuleCheckStep::end()
+{
+    return !moduleBuild()->sourcesToCompile.empty();
+}
+
 ModuleCheckTask::ModuleCheckTask(ModuleBuild* info) : info(info) {}
 
 void ModuleCheckTask::runTask()
@@ -22,31 +27,21 @@ void ModuleCheckTask::runTask()
 
         if (Utility::IsSourceFile(file.string().c_str()))
         {
-            info->sourcesToCompile.push_back(file); //TODO Check for missing binaries or changes
-
-            Utility::PrintLineD("Checking source " + file.string());
+            bool needsCompile = false;
 
             std::filesystem::path binary = info->module->getObjPath(info->buildSetup, info->toolchain, file);
-            if (std::filesystem::exists(binary))
+            if (!std::filesystem::exists(binary))
             {
-                //TODO Check file dates
+                Utility::PrintLineD("Binary missing for " + file.string());
+                needsCompile = true;
             }
             else
             {
-                Utility::PrintLineD("Binary missing for " + file.string());
-                //TODO File need to be compiled
+                //TODO Check for changes in include tree
+                needsCompile = true;
             }
-        }
-        else if (Utility::IsIncludeFile(file.string().c_str()))
-        {
-            //Utility::PrintLineD("Checking include " + file.string());
-        }
-        else
-        {
-            //Utility::PrintLineD("Checking unknown " + file.string());
-        }
 
-        //TODO Check if source object file exists
-        //TODO Check for changes in include tree
+            if (needsCompile) info->sourcesToCompile.push_back(file);
+        }
     }
 }

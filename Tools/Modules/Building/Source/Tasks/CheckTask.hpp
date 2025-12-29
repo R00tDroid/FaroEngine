@@ -6,7 +6,7 @@ class ModuleCheckStep : public BuildStepInterface
 public:
     ModuleCheckStep(ModuleBuild* parent) : BuildStepInterface(parent) {}
     void start() override;
-    bool end() override { return true; } //TODO Exit if no updates
+    bool end() override;
 };
 
 class ModuleCheckTask : public WorkerTask
