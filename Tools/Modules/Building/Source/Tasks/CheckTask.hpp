@@ -9,13 +9,38 @@ public:
     bool end() override;
 };
 
-class ModuleCheckTask : public WorkerTask
+class ModuleBinCheckTask : public WorkerTask
 {
 public:
-    ModuleCheckTask(ModuleBuild* info);
+    ModuleBinCheckTask(ModuleBuild* info);
 
     void runTask() override;
 
 private:
     ModuleBuild* info;
+};
+
+class ModuleDatabaseCheckTask : public WorkerTask
+{
+public:
+    ModuleDatabaseCheckTask(ModuleBuild* info);
+
+    void runTask() override;
+
+    void scheduleScans();
+
+private:
+    ModuleBuild* info;
+};
+
+class ModuleScanTask : public WorkerTask
+{
+public:
+    ModuleScanTask(ModuleBuild* info, std::filesystem::path file);
+
+    void runTask() override;
+
+private:
+    ModuleBuild* info;
+    std::filesystem::path file;
 };
