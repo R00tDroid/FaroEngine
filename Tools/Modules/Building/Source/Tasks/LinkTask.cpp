@@ -3,6 +3,11 @@
 #include "Toolchain.hpp"
 #include "Utility.hpp"
 
+void ModuleLinkStep::start()
+{
+    moduleBuild()->pool.addTask<ModuleLinkTask>(moduleBuild());
+}
+
 ModuleLinkTask::ModuleLinkTask(ModuleBuild* info) : info(info) {}
 
 LinkType getModuleLinkType(ModuleType type)

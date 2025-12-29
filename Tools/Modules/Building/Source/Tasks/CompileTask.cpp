@@ -2,6 +2,20 @@
 #include "Toolchain.hpp"
 #include "Utility.hpp"
 
+void ModuleCompileStep::start()
+{
+    const ModuleManifest* module = moduleBuild()->module;
+
+    for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
+    {
+        std::filesystem::path file = module->sourceFile(sourceIndex);
+        if (Utility::IsSourceFile(file.string().c_str())) //TODO Get files to build from check stage
+        {
+            moduleBuild()->pool.addTask<ModuleCompileTask>(moduleBuild(), file);
+        }
+    }
+}
+
 ModuleCompileTask::ModuleCompileTask(ModuleBuild* info, std::filesystem::path file) : info(info), file(file) {}
 
 void ModuleCompileTask::runTask()

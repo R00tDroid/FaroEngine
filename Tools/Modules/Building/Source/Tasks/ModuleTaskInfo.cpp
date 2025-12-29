@@ -9,58 +9,37 @@ ModuleBuild::ModuleBuild(WorkerPool& pool, const BuildSetup& buildSetup, const T
     pool(pool),
     buildSetup(buildSetup),
     toolchain(toolchain),
-    module(module),
-    checkStage(pool),
-    buildStage(pool),
-    linkStage(pool)
+    module(module)
 {
-    startCheck();
+    buildSteps = { new ModuleCheckStep(this), new ModuleCompileStep(this), new ModuleLinkStep(this) };
+    startStep();
 }
 
 void ModuleBuild::update()
 {
-    if (step == MBS_Check && checkStage.isDone())
-    {
-        startBuild();
-    }
-    else if (step == MBS_Build && buildStage.isDone())
-    {
-        startLink();
-    }
-    else if (step == MBS_Link && linkStage.isDone())
-    {
-        step = MBS_Done;
-    }
+    if (pool.isDone()) startStep();
 }
 
 bool ModuleBuild::isDone()
 {
-    return step == MBS_Done;
+    return pool.isDone() && buildSteps.empty() && buildStep == nullptr;
 }
 
-void ModuleBuild::startCheck()
+void ModuleBuild::startStep()
 {
-    checkStage.addTask<ModuleCheckTask>(this);
-}
-
-void ModuleBuild::startBuild()
-{
-    //TODO Skip early if nothing needs to be updated
-    step = MBS_Build;
-
-    for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
+    if (buildStep != nullptr)
     {
-        std::filesystem::path file = module->sourceFile(sourceIndex);
-        if (Utility::IsSourceFile(file.string().c_str())) //TODO Get files to build from check stage
-        {
-            buildStage.addTask<ModuleCompileTask>(this, file);
-        }
+        Utility::PrintLine("Stop build step");
+        buildStep->end();
+        delete buildStep;
+        buildStep = nullptr;
     }
-}
 
-void ModuleBuild::startLink()
-{
-    step = MBS_Link;
-    checkStage.addTask<ModuleLinkTask>(this);
-    //TODO Stop on error
+    if (!buildSteps.empty())
+    {
+        Utility::PrintLine("Start build step");
+        buildStep = buildSteps[0];
+        buildSteps.erase(buildSteps.begin());
+        buildStep->start();
+    }
 }

@@ -2,6 +2,11 @@
 #include "Toolchain.hpp"
 #include "Utility.hpp"
 
+void ModuleCheckStep::start()
+{
+    moduleBuild()->pool.addTask<ModuleCheckTask>(moduleBuild());
+}
+
 ModuleCheckTask::ModuleCheckTask(ModuleBuild* info) : info(info) {}
 
 void ModuleCheckTask::runTask()

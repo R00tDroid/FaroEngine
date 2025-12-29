@@ -2,12 +2,21 @@
 #include "ModuleInfo.hpp"
 #include "Worker.hpp"
 
-enum ModuleBuildSteps
+class ModuleBuild;
+
+class BuildStepInterface
 {
-    MBS_Check,
-    MBS_Build,
-    MBS_Link,
-    MBS_Done
+public:
+    virtual ~BuildStepInterface() = default;
+    BuildStepInterface(ModuleBuild* parent) : parent(parent) {}
+
+    virtual void start() = 0;
+    virtual bool end() = 0;
+
+    ModuleBuild* moduleBuild() const { return parent; }
+
+private:
+    ModuleBuild* parent = nullptr;
 };
 
 class ModuleBuild
@@ -23,14 +32,9 @@ public:
     void update();
     bool isDone();
 
-    ModuleBuildSteps step = MBS_Check;
-
 private:
-    void startCheck();
-    void startBuild();
-    void startLink();
+    void startStep();
 
-    TaskGroup checkStage;
-    TaskGroup buildStage;
-    TaskGroup linkStage;
+    std::vector<BuildStepInterface*> buildSteps;
+    BuildStepInterface* buildStep = nullptr;
 };
