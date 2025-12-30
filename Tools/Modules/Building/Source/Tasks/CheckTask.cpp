@@ -26,8 +26,6 @@ bool ModuleCheckStep::end()
         }
     }
 
-    //TODO Prevent duplicates
-
     // Delete cache to force the source to be compiled in case the build fails but marks the file tree as up-to-date
     for (const std::filesystem::path& source : moduleBuild()->sourcesToCompile)
     {
@@ -62,7 +60,7 @@ void ModuleBinCheckTask::runTask()
                 needsCompile = true;
             }
 
-            if (needsCompile) info->sourcesToCompile.push_back(file);
+            if (needsCompile) info->sourcesToCompile.insert(file);
         }
     }
 }

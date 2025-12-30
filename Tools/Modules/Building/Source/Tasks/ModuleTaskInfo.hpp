@@ -32,7 +32,7 @@ public:
     void update();
     bool isDone();
 
-    std::vector<std::filesystem::path> sourcesToCompile;
+    std::set<std::filesystem::path> sourcesToCompile;
 
 private:
     void startStep();
