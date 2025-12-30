@@ -26,8 +26,7 @@ LinkType getModuleLinkType(ModuleType type)
 
 void ModuleLinkTask::runTask()
 {
-    ToolchainLinkInfo linkInfo = { info->buildSetup };
-    linkInfo.linkType = getModuleLinkType(info->module->moduleType());
+    ToolchainLinkInfo linkInfo = { info->buildSetup, getModuleLinkType(info->module->moduleType()) };
 
     std::vector<std::string> objFiles;
     for (unsigned int sourceIndex = 0; sourceIndex < info->module->sourceFiles(); sourceIndex++)
