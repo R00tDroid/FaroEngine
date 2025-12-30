@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.15)
 project(FaroTools)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 set(CMAKE_CXX_STANDARD 17)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../CMake/ProjectVersion.cmake)
