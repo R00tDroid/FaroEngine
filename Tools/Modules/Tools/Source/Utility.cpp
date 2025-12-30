@@ -5,6 +5,7 @@
 #include <fstream>
 #include <mutex>
 #include <regex>
+#include <cstring>
 
 #ifdef WIN32
 #define NOMINMAX
@@ -96,7 +97,7 @@ std::string GenerateUUIDInternal()
 bool Utility::GenerateUUID(char* outUuid)
 {
     std::string uuid = GenerateUUIDInternal();
-    memset(outUuid, 0, UUID_LENGTH);
+    std::memset(outUuid, 0, UUID_LENGTH);
     memcpy(outUuid, uuid.c_str(), uuid.length());
 
     return true;
@@ -123,7 +124,7 @@ bool Utility::GetCachedUUID(const char* storageLocation, char* outUuid)
     ToUpper(uuid);
     if (uuid.length() > UUID_LENGTH) uuid.resize(UUID_LENGTH);
 
-    memset(outUuid, 0, UUID_LENGTH);
+    std::memset(outUuid, 0, UUID_LENGTH);
     memcpy(outUuid, uuid.c_str(), uuid.length());
 
     return true;

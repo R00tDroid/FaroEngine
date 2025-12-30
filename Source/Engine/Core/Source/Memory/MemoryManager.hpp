@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdlib>
+#include <cstring>
 #include "Object.hpp"
 #include "../Primitives.hpp"
 
@@ -35,7 +36,7 @@ namespace Faro
         template<class T>
         static void Set(T* address, uint8 value, uint32 amount)
         {
-            memset((void*)address, value, sizeof(T) * amount);
+            std::memset((void*)address, value, sizeof(T) * amount);
         }
 
         template<class T>
