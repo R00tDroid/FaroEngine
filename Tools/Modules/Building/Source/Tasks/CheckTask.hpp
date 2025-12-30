@@ -28,7 +28,7 @@ public:
     bool end() override;
 
     std::mutex scannedFilesLock;
-    std::vector<std::filesystem::path> scannedFiles;
+    std::set<std::filesystem::path> scannedFiles;
 
     FileTree fileTree;
 };
@@ -60,6 +60,8 @@ private:
 class ModuleScanTask : public WorkerTask
 {
 public:
+    static void scheduleScan(ModuleCheckStep* step, std::filesystem::path file);
+
     ModuleScanTask(ModuleCheckStep* step, std::filesystem::path file);
 
     void runTask() override;

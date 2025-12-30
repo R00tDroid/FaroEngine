@@ -1,6 +1,7 @@
 #include "CheckTask.hpp"
 #include "Toolchain.hpp"
 #include "Utility.hpp"
+#include <fstream>
 
 void FileTree::addFile(std::filesystem::path file, std::vector<std::filesystem::path> branches)
 {
@@ -16,7 +17,7 @@ void FileTree::addFile(std::filesystem::path file, std::vector<std::filesystem::
     {
         entry->branches.insert(branch);
 
-        auto branchIt = files.find(file);
+        auto branchIt = files.find(branch);
         if (branchIt == files.end()) { files.insert(std::pair(branch, new FileTreeEntry())); }
 
         FileTreeEntry* branchEntry = files[branch];
@@ -84,19 +85,106 @@ void ModuleDatabaseCheckTask::scheduleScans()
         if (Utility::IsSourceFile(file.string().c_str()))
         {
             Utility::PrintLineD("Schedule scan for " + std::string(file.string().c_str()));
-            step->moduleBuild()->pool.addTask<ModuleScanTask>(step, file);
+            ModuleScanTask::scheduleScan(step, file);
         }
     }
 
     //TODO Await tree and check dates
 }
 
-ModuleScanTask::ModuleScanTask(ModuleCheckStep* step, std::filesystem::path file) : step(step), file(file) {}
+void ModuleScanTask::scheduleScan(ModuleCheckStep* step, std::filesystem::path file)
+{
+    step->scannedFilesLock.lock();
+    auto it = step->scannedFiles.find(file);
+    bool alreadyScanned = it != step->scannedFiles.end();
+    step->scannedFilesLock.unlock();
+    
+    if (!alreadyScanned) step->moduleBuild()->pool.addTask<ModuleScanTask>(step, file);
+}
+
+ModuleScanTask::ModuleScanTask(ModuleCheckStep* step, std::filesystem::path file) : step(step), file(file)
+{
+    step->scannedFilesLock.lock();
+    step->scannedFiles.insert(file);
+    step->scannedFilesLock.unlock();
+}
 
 void ModuleScanTask::runTask()
 {
     Utility::PrintLineD("Scanning " + std::string(file.string().c_str()));
 
-    //TODO Scan for includes and resolve to files paths
-    step->fileTree.addFile(file, {});
+    std::set<std::string> relativeIncludes;
+    std::set<std::string> absoluteIncludes;
+
+    std::ifstream fileStream(file);
+    std::string line;
+    while (std::getline(fileStream, line))
+    {
+        if (line.find("include") == std::string::npos) continue;
+
+        std::vector<std::string> matches;
+        if (Utility::MatchPattern(line, ".*#include.*\"(.*)\".*", matches))
+        {
+            relativeIncludes.insert(matches[0]);
+            absoluteIncludes.insert(matches[0]); // Also attempt to match as absolute path
+        }
+        else if (Utility::MatchPattern(line, ".*#include.*<(.*)>.*", matches))
+        {
+            absoluteIncludes.insert(matches[0]);
+        }
+    }
+    fileStream.close();
+
+    std::set<std::filesystem::path> includes;
+
+    std::filesystem::path rootPath = file.parent_path();
+    for (const std::string& include : relativeIncludes)
+    {
+        std::filesystem::path path = rootPath / include;
+        if (std::filesystem::exists(path))
+        {
+            path.make_preferred();
+            path = std::filesystem::weakly_canonical(path);
+
+            Utility::PrintLineD("Resolved " + include + " to " + path.string());
+
+            includes.insert(path);
+        }
+        else
+        {
+            Utility::PrintLineD("Failed to resolve relative " + include);
+        }
+    }
+
+    std::vector moduleIncludes = step->moduleBuild()->module->moduleIncludes();
+    for (const std::string& include : absoluteIncludes)
+    {
+        bool found = false;
+        for (const std::filesystem::path& moduleInclude : moduleIncludes)
+        {
+            std::filesystem::path path = moduleInclude / include;
+            if (std::filesystem::exists(path))
+            {
+                found = true;
+                path.make_preferred();
+
+                Utility::PrintLineD("Resolved " + include + " to " + path.string());
+
+                includes.insert(path);
+                break;
+            }
+        }
+
+        if (!found)
+        {
+            Utility::PrintLineD("Failed to resolve absolute " + include);
+        }
+    }
+
+    for (const std::filesystem::path& include : includes)
+    {
+        scheduleScan(step, include);
+    }
+
+    step->fileTree.addFile(file, std::vector(includes.begin(), includes.end()));
 }
