@@ -126,7 +126,6 @@ void ModuleScanTask::runTask()
         if (Utility::MatchPattern(line, ".*#include.*\"(.*)\".*", matches))
         {
             relativeIncludes.insert(matches[0]);
-            absoluteIncludes.insert(matches[0]); // Also attempt to match as absolute path
         }
         else if (Utility::MatchPattern(line, ".*#include.*<(.*)>.*", matches))
         {
@@ -152,7 +151,7 @@ void ModuleScanTask::runTask()
         }
         else
         {
-            Utility::PrintLineD("Failed to resolve relative " + include);
+            absoluteIncludes.insert(include); // Try to resolve as an absolute path instead
         }
     }
 
