@@ -9,7 +9,11 @@ add_library(FaroTools SHARED ${SourceFiles})
 if(MSVC)
     target_link_libraries(FaroTools Rpcrt4.lib)
 else()
-    target_link_libraries(FaroTools uuid)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(UUID REQUIRED uuid)
+
+    target_link_libraries(FaroTools PRIVATE ${UUID_LIBRARIES})
+    target_include_directories(FaroTools PRIVATE ${UUID_INCLUDE_DIRS})
 endif()
 
 target_include_directories(FaroTools PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Source)
