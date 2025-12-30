@@ -4,6 +4,8 @@
 
 void ModuleCompileStep::start()
 {
+    Utility::PrintLineD("Compiling " + std::string(moduleBuild()->module->name()));
+
     moduleBuild()->sourcesToCompileLock.lock();
     for (const std::filesystem::path& source : moduleBuild()->sourcesToCompile)
     {

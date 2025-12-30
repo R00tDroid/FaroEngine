@@ -5,6 +5,7 @@
 
 void ModuleLinkStep::start()
 {
+    Utility::PrintLineD("Linking " + std::string(moduleBuild()->module->name()));
     moduleBuild()->pool.addTask<ModuleLinkTask>(moduleBuild());
 }
 

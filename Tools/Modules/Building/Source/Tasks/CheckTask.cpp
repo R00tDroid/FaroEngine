@@ -8,6 +8,7 @@ std::set<std::filesystem::path> ModuleCheckStep::scannedFiles;
 
 void ModuleCheckStep::start()
 {
+    Utility::PrintLineD("Checking for changes in " + std::string(moduleBuild()->module->name()));
     moduleBuild()->pool.addTask<ModuleBinCheckTask>(moduleBuild());
     moduleBuild()->pool.addTask<ModuleDatabaseCheckTask>(this);
 }
@@ -37,7 +38,15 @@ bool ModuleCheckStep::end()
         }
     }
     moduleBuild()->sourcesToCompileLock.unlock();
-    return !moduleBuild()->sourcesToCompile.empty();
+
+    bool anyChanges = !moduleBuild()->sourcesToCompile.empty();
+
+    if (!anyChanges)
+    {
+        Utility::PrintLine("No changes detected in " + std::string(moduleBuild()->module->name()));
+    }
+
+    return anyChanges;
 }
 
 ModuleBinCheckTask::ModuleBinCheckTask(ModuleBuild* info) : info(info) {}
