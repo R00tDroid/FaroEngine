@@ -195,9 +195,6 @@ jobs:
     - name: Configure
       run: Bin/FaroCLI.exe -configure -path Source/FaroEngine.faroproject.json
 
-    - name: Generate
-      run: Bin/FaroCLI.exe -generate -path Source/FaroEngine.faroproject.json
-
     - name: Build
       run: Bin/FaroCLI.exe -build -platform ${{ matrix.platform }} -${{ matrix.config }} -path Source/FaroEngine.faroproject.json
 
