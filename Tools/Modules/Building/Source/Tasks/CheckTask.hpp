@@ -2,24 +2,6 @@
 #include <map>
 #include "ModuleTaskInfo.hpp"
 
-struct FileTreeEntry
-{
-    std::filesystem::path file;
-
-    std::set<std::filesystem::path> branches;
-    std::set<std::filesystem::path> trunks;
-};
-
-class FileTree
-{
-public:
-    void addFile(std::filesystem::path file, std::vector<std::filesystem::path> branches);
-
-private:
-    std::mutex filesLock;
-    std::map<std::filesystem::path, FileTreeEntry*> files;
-};
-
 class ModuleCheckStep : public BuildStepInterface
 {
 public:
@@ -27,10 +9,8 @@ public:
     void start() override;
     bool end() override;
 
-    std::mutex scannedFilesLock;
-    std::set<std::filesystem::path> scannedFiles;
-
-    FileTree fileTree;
+    static std::mutex scannedFilesLock;
+    static std::set<std::filesystem::path> scannedFiles;
 };
 
 class ModuleBinCheckTask : public WorkerTask

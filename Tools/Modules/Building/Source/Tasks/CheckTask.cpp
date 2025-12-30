@@ -2,30 +2,10 @@
 #include "Toolchain.hpp"
 #include "Utility.hpp"
 #include <fstream>
+#include "FileTree.hpp"
 
-void FileTree::addFile(std::filesystem::path file, std::vector<std::filesystem::path> branches)
-{
-    filesLock.lock();
-
-    auto it = files.find(file);
-    if (it == files.end()) { files.insert(std::pair(file, new FileTreeEntry())); }
-
-    FileTreeEntry* entry = files[file];
-    entry->file = file;
-
-    for (const std::filesystem::path& branch : branches)
-    {
-        entry->branches.insert(branch);
-
-        auto branchIt = files.find(branch);
-        if (branchIt == files.end()) { files.insert(std::pair(branch, new FileTreeEntry())); }
-
-        FileTreeEntry* branchEntry = files[branch];
-        branchEntry->trunks.insert(file);
-    }
-
-    filesLock.unlock();
-}
+std::mutex ModuleCheckStep::scannedFilesLock;
+std::set<std::filesystem::path> ModuleCheckStep::scannedFiles;
 
 void ModuleCheckStep::start()
 {
@@ -35,7 +15,19 @@ void ModuleCheckStep::start()
 
 bool ModuleCheckStep::end()
 {
+    //TODO Check tree scan results
     //TODO Prevent duplicates
+
+    // Delete cache to force the source to be compiled in case the build fails but marks the file tree as up-to-date
+    for (const std::filesystem::path& source : moduleBuild()->sourcesToCompile)
+    {
+        std::filesystem::path binary = moduleBuild()->module->getObjPath(moduleBuild()->buildSetup, moduleBuild()->toolchain, source);
+        if (std::filesystem::exists(binary))
+        {
+            std::filesystem::remove(binary);
+        }
+    }
+
     return !moduleBuild()->sourcesToCompile.empty();
 }
 
@@ -88,25 +80,23 @@ void ModuleDatabaseCheckTask::scheduleScans()
             ModuleScanTask::scheduleScan(step, file);
         }
     }
-
-    //TODO Await tree and check dates
 }
 
 void ModuleScanTask::scheduleScan(ModuleCheckStep* step, std::filesystem::path file)
 {
-    step->scannedFilesLock.lock();
-    auto it = step->scannedFiles.find(file);
-    bool alreadyScanned = it != step->scannedFiles.end();
-    step->scannedFilesLock.unlock();
+    ModuleCheckStep::scannedFilesLock.lock();
+    auto it = ModuleCheckStep::scannedFiles.find(file);
+    bool alreadyScanned = it != ModuleCheckStep::scannedFiles.end();
+    ModuleCheckStep::scannedFilesLock.unlock();
     
     if (!alreadyScanned) step->moduleBuild()->pool.addTask<ModuleScanTask>(step, file);
 }
 
 ModuleScanTask::ModuleScanTask(ModuleCheckStep* step, std::filesystem::path file) : step(step), file(file)
 {
-    step->scannedFilesLock.lock();
-    step->scannedFiles.insert(file);
-    step->scannedFilesLock.unlock();
+    ModuleCheckStep::scannedFilesLock.lock();
+    ModuleCheckStep::scannedFiles.insert(file);
+    ModuleCheckStep::scannedFilesLock.unlock();
 }
 
 void ModuleScanTask::runTask()
@@ -185,5 +175,5 @@ void ModuleScanTask::runTask()
         scheduleScan(step, include);
     }
 
-    step->fileTree.addFile(file, std::vector(includes.begin(), includes.end()));
+    fileTree.addFile(file, std::vector(includes.begin(), includes.end()));
 }
