@@ -15,7 +15,17 @@ void ModuleCheckStep::start()
 
 bool ModuleCheckStep::end()
 {
-    //TODO Check tree scan results
+    for (unsigned int sourceIndex = 0; sourceIndex < moduleBuild()->module->sourceFiles(); sourceIndex++)
+    {
+        std::filesystem::path file = moduleBuild()->module->sourceFile(sourceIndex);
+
+        if (Utility::IsSourceFile(file.string().c_str()))
+        {
+            std::vector branches = fileTree.branches(file);
+            //TODO Check for changes
+        }
+    }
+
     //TODO Prevent duplicates
 
     // Delete cache to force the source to be compiled in case the build fails but marks the file tree as up-to-date

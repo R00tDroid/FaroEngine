@@ -15,7 +15,9 @@ struct FileTreeEntry
 class FileTree
 {
 public:
-    void addFile(std::filesystem::path file, std::vector<std::filesystem::path> branches);
+    void addFile(const std::filesystem::path& file, std::vector<std::filesystem::path> branches);
+
+    std::vector<std::filesystem::path> branches(const std::filesystem::path& file);
 
 private:
     std::mutex filesLock;
