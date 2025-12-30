@@ -50,13 +50,19 @@ int main(int argc, char** argv)
             setup.target = nullptr;
             setup.configuration = taskInfo.config;
 
+            std::string requestedTarget = taskInfo.platformName;
+            std::transform(requestedTarget.begin(), requestedTarget.end(), requestedTarget.begin(), [](char c) { return static_cast<char>(std::tolower(c)); });
+
             for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
             {
                 Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
                 for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
                 {
                     Target* target = toolchain->target(targetIndex);
-                    if (taskInfo.platformName == target->identifier())
+                    std::string targetId = target->identifier();
+                    std::transform(targetId.begin(), targetId.end(), targetId.begin(), [](char c) { return static_cast<char>(std::tolower(c)); });
+
+                    if (requestedTarget == targetId)
                     {
                         setup.target = target;
                         break;
