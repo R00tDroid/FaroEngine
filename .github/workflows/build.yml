@@ -158,6 +158,11 @@ jobs:
     - name: List files
       run: ls -R
 
+    - name: Install Dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y uuid-dev
+
     - name: Generate
       run: cmake ./Tools
 
