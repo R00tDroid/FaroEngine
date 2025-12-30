@@ -5,6 +5,7 @@
 #include "ManifestInterface.hpp"
 #include "Toolchain.hpp"
 #include <set>
+#include <vector>
 
 class ProjectManifest;
 

@@ -126,6 +126,7 @@ unsigned int ModuleManifest::defines(AccessDomain type) const
         return static_cast<unsigned int>(impl->privateDefines().size());
     case AD_Public:
         return static_cast<unsigned int>(impl->publicDefines().size());
+    default: break;
     }
     return 0;
 }
@@ -137,6 +138,7 @@ const char* ModuleManifest::define(AccessDomain type, unsigned int index) const
         return impl->privateDefines()[index].c_str();
     case AD_Public:
         return impl->publicDefines()[index].c_str();
+    default: break;
     }
     return nullptr;
 }

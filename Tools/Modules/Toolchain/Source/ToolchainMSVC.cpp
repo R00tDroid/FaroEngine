@@ -136,7 +136,6 @@ bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
         case C_Development: { compilerFlags = " /DDEBUG /D_DEBUG /D_MT /D_CRTDBG_MAP_ALLOC /MTd /Od /Zi"; break; }
         case C_Release: { compilerFlags = " /D_MT /D_CRTDBG_MAP_ALLOC /MT /O2"; break; }
 
-        case C_ENUMSIZE:;
         default:;
     }
 

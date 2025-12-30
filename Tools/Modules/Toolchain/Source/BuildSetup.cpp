@@ -8,8 +8,10 @@ const char* configurationToString(Configuration configuration)
         case C_Debug: return "debug";
         case C_Development: return "development";
         case C_Release: return "release";
-        default: return nullptr;
+        default: break;
     }
+
+    return nullptr;
 }
 
 Configuration configurationFromString(const char* name)
