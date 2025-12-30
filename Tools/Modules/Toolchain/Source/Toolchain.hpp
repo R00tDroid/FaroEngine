@@ -64,8 +64,8 @@ public:
     virtual bool compile(const ToolchainCompileInfo& info) const = 0;
     virtual bool link(const ToolchainLinkInfo& info) const = 0;
 
-    virtual char* getBinExtension() const = 0;
-    virtual char* getLinkExtension(LinkType type) const = 0;
+    virtual const char* getBinExtension() const = 0;
+    virtual const char* getLinkExtension(LinkType type) const = 0;
 
     static unsigned int defines(const BuildSetup& buildSetup);
     static const char* define(const BuildSetup& buildSetup, unsigned int index);

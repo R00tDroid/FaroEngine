@@ -234,12 +234,12 @@ bool ToolchainMSVC::link(const ToolchainLinkInfo& info) const
     return result == 0;
 }
 
-char* ToolchainMSVC::getBinExtension() const
+const char* ToolchainMSVC::getBinExtension() const
 {
     return ".obj";
 }
 
-char* ToolchainMSVC::getLinkExtension(LinkType type) const
+const char* ToolchainMSVC::getLinkExtension(LinkType type) const
 {
     switch (type)
     {

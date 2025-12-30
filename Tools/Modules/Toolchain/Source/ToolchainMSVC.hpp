@@ -37,8 +37,8 @@ public:
     bool prepare(const BuildSetup& buildSetup) override;
     bool compile(const ToolchainCompileInfo& info) const override;
     bool link(const ToolchainLinkInfo& info) const override;
-    char* getBinExtension() const override;
-    char* getLinkExtension(LinkType type) const override;
+    const char* getBinExtension() const override;
+    const char* getLinkExtension(LinkType type) const override;
 
 private:
     MSVCVersion msvcVersion;
