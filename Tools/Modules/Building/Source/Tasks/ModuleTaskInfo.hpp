@@ -32,6 +32,7 @@ public:
     void update();
     bool isDone();
 
+    std::mutex sourcesToCompileLock;
     std::set<std::filesystem::path> sourcesToCompile;
 
 private:
@@ -39,4 +40,5 @@ private:
 
     std::vector<BuildStepInterface*> buildSteps;
     BuildStepInterface* buildStep = nullptr;
+    bool shouldContinue = true;
 };

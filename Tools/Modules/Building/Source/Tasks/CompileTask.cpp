@@ -4,10 +4,12 @@
 
 void ModuleCompileStep::start()
 {
+    moduleBuild()->sourcesToCompileLock.lock();
     for (const std::filesystem::path& source : moduleBuild()->sourcesToCompile)
     {
         moduleBuild()->pool.addTask<ModuleCompileTask>(moduleBuild(), source);
     }
+    moduleBuild()->sourcesToCompileLock.unlock();
 }
 
 ModuleCompileTask::ModuleCompileTask(ModuleBuild* info, std::filesystem::path file) : info(info), file(file) {}

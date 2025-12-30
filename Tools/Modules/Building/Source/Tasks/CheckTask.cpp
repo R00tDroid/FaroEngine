@@ -1,5 +1,4 @@
 #include "CheckTask.hpp"
-#include "Toolchain.hpp"
 #include "Utility.hpp"
 #include <fstream>
 #include "FileTree.hpp"
@@ -15,6 +14,7 @@ void ModuleCheckStep::start()
 
 bool ModuleCheckStep::end()
 {
+    //TODO Only scan if needed. Should be skipped if bins are existing and early change scan succeeded.
     for (unsigned int sourceIndex = 0; sourceIndex < moduleBuild()->module->sourceFiles(); sourceIndex++)
     {
         std::filesystem::path file = moduleBuild()->module->sourceFile(sourceIndex);
@@ -22,11 +22,12 @@ bool ModuleCheckStep::end()
         if (Utility::IsSourceFile(file.string().c_str()))
         {
             std::vector branches = fileTree.branches(file);
-            //TODO Check for changes
+            //TODO Check for changes in tree
         }
     }
 
     // Delete cache to force the source to be compiled in case the build fails but marks the file tree as up-to-date
+    moduleBuild()->sourcesToCompileLock.lock();
     for (const std::filesystem::path& source : moduleBuild()->sourcesToCompile)
     {
         std::filesystem::path binary = moduleBuild()->module->getObjPath(moduleBuild()->buildSetup, moduleBuild()->toolchain, source);
@@ -35,7 +36,7 @@ bool ModuleCheckStep::end()
             std::filesystem::remove(binary);
         }
     }
-
+    moduleBuild()->sourcesToCompileLock.unlock();
     return !moduleBuild()->sourcesToCompile.empty();
 }
 
@@ -60,7 +61,12 @@ void ModuleBinCheckTask::runTask()
                 needsCompile = true;
             }
 
-            if (needsCompile) info->sourcesToCompile.insert(file);
+            if (needsCompile)
+            {
+                info->sourcesToCompileLock.lock();
+                info->sourcesToCompile.insert(file);
+                info->sourcesToCompileLock.unlock();
+            }
         }
     }
 }

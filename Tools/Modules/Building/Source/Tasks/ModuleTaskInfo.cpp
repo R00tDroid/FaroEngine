@@ -22,31 +22,37 @@ void ModuleBuild::update()
 
 bool ModuleBuild::isDone()
 {
-    return pool.isDone() && buildSteps.empty() && buildStep == nullptr;
+    return pool.isDone() && buildStep == nullptr && !shouldContinue;
 }
 
 void ModuleBuild::startStep()
 {
-    bool shouldContinue = true;
+    if (!shouldContinue) return;
+
     if (buildStep != nullptr)
     {
         Utility::PrintLineD("Stop build step");
         shouldContinue = buildStep->end();
         delete buildStep;
         buildStep = nullptr;
+
+        if (!shouldContinue)
+        {
+            Utility::PrintLineD("Build steps wants to stop");
+            return;
+        }
     }
 
-    if (!shouldContinue)
+    if (buildSteps.empty())
     {
-        Utility::PrintLineD("Build steps wants to stop");
+        shouldContinue = false;
+        Utility::PrintLineD("All steps complete");
         return;
     }
-
-    if (!buildSteps.empty())
-    {
-        Utility::PrintLineD("Start build step");
-        buildStep = buildSteps[0];
-        buildSteps.erase(buildSteps.begin());
-        buildStep->start();
-    }
+    
+    Utility::PrintLineD("Start build step");
+    buildStep = buildSteps[0];
+    buildSteps.erase(buildSteps.begin());
+    buildStep->start();
+    
 }
