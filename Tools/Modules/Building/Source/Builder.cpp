@@ -88,6 +88,7 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
 
     toolchain->prepare(buildSetup);
 
+    bool anyError = false;
     for (size_t stageId = 0; stageId < buildStages.size(); stageId++)
     {
         const std::vector<const ModuleManifest*>& buildStage = buildStages[stageId];
@@ -116,11 +117,12 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
 
         for (ModuleBuild* moduleBuild : moduleBuilds)
         {
+            if (moduleBuild->error) anyError = true;
             delete moduleBuild;
         }
     }
 
     workerPool.stop();
 
-    return false;
+    return !anyError;
 }

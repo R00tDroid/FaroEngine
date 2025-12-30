@@ -24,6 +24,10 @@ bool ModuleCheckStep::end()
         {
             std::vector branches = fileTree.branches(file);
             //TODO Check for changes in tree
+
+            moduleBuild()->sourcesToCompileLock.lock();
+            moduleBuild()->sourcesToCompile.insert(file);
+            moduleBuild()->sourcesToCompileLock.unlock();
         }
     }
 

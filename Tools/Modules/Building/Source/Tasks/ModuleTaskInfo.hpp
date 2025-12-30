@@ -35,6 +35,9 @@ public:
     std::mutex sourcesToCompileLock;
     std::set<std::filesystem::path> sourcesToCompile;
 
+    std::mutex errorLock;
+    bool error = false;
+
 private:
     void startStep();
 

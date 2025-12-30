@@ -4,18 +4,22 @@
 class ModuleLinkStep : public BuildStepInterface
 {
 public:
-    ModuleLinkStep(ModuleBuild* parent) : BuildStepInterface(parent) {}
+    ModuleLinkStep(ModuleBuild* parent) : BuildStepInterface(parent), info(parent) {}
     void start() override;
-    bool end() override { return true; }
+    bool end() override { return success; }
+
+    ModuleBuild* info;
+
+    bool success = true;
 };
 
 class ModuleLinkTask : public WorkerTask
 {
 public:
-    ModuleLinkTask(ModuleBuild* info);
+    ModuleLinkTask(ModuleLinkStep* info);
 
     void runTask() override;
 
 private:
-    ModuleBuild* info;
+    ModuleLinkStep* info;
 };

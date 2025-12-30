@@ -93,6 +93,10 @@ void ModuleCompileTask::runTask()
         info->resultLock.lock();
         info->success = false;
         info->resultLock.unlock();
+
+        info->moduleBuild()->errorLock.lock();
+        info->moduleBuild()->error = true;
+        info->moduleBuild()->errorLock.unlock();
     }
 
     Utility::PrintLine(message);

@@ -6,10 +6,10 @@
 void ModuleLinkStep::start()
 {
     Utility::PrintLineD("Linking " + std::string(moduleBuild()->module->name()));
-    moduleBuild()->pool.addTask<ModuleLinkTask>(moduleBuild());
+    moduleBuild()->pool.addTask<ModuleLinkTask>(this);
 }
 
-ModuleLinkTask::ModuleLinkTask(ModuleBuild* info) : info(info) {}
+ModuleLinkTask::ModuleLinkTask(ModuleLinkStep* info) : info(info) {}
 
 LinkType getModuleLinkType(ModuleType type)
 {
@@ -26,15 +26,15 @@ LinkType getModuleLinkType(ModuleType type)
 
 void ModuleLinkTask::runTask()
 {
-    ToolchainLinkInfo linkInfo = { info->buildSetup, getModuleLinkType(info->module->moduleType()) };
+    ToolchainLinkInfo linkInfo = { info->info->buildSetup, getModuleLinkType(info->info->module->moduleType()) };
 
     std::vector<std::string> objFiles;
-    for (unsigned int sourceIndex = 0; sourceIndex < info->module->sourceFiles(); sourceIndex++)
+    for (unsigned int sourceIndex = 0; sourceIndex < info->info->module->sourceFiles(); sourceIndex++)
     {
-        std::filesystem::path file = info->module->sourceFile(sourceIndex);
+        std::filesystem::path file = info->info->module->sourceFile(sourceIndex);
         if (Utility::IsSourceFile(file.string().c_str()))
         {
-            objFiles.push_back(info->module->getObjPath(info->buildSetup, info->toolchain, file).string());
+            objFiles.push_back(info->info->module->getObjPath(info->info->buildSetup, info->info->toolchain, file).string());
         }
     }
     std::vector<const char*> objFilesPaths;
@@ -47,10 +47,10 @@ void ModuleLinkTask::runTask()
 
     std::vector<std::string> moduleLibs;
     std::vector<const char*> linkLibs;
-    std::vector<ModuleManifest*> dependencies = info->module->moduleDependencies();
+    std::vector<ModuleManifest*> dependencies = info->info->module->moduleDependencies();
     for (ModuleManifest* dependency : dependencies)
     {
-        moduleLibs.push_back(dependency->getBinPath(info->buildSetup, info->toolchain, getModuleLinkType(dependency->moduleType())).string());
+        moduleLibs.push_back(dependency->getBinPath(info->info->buildSetup, info->info->toolchain, getModuleLinkType(dependency->moduleType())).string());
 
         for (unsigned int i = 0; i < dependency->linkerLibraries(); i++)
         {
@@ -71,7 +71,7 @@ void ModuleLinkTask::runTask()
 
     //TODO Register lib directories
 
-    std::string outputPath = info->module->getBinPath(info->buildSetup, info->toolchain, linkInfo.linkType).string();
+    std::string outputPath = info->info->module->getBinPath(info->info->buildSetup, info->info->toolchain, linkInfo.linkType).string();
     linkInfo.output = outputPath.c_str();
 
     std::string log;
@@ -81,9 +81,9 @@ void ModuleLinkTask::runTask()
         *static_cast<std::string*>(userData) += std::string(string, length);
     };
 
-    bool status = info->toolchain->link(linkInfo);
+    bool status = info->info->toolchain->link(linkInfo);
 
-    std::string message = "Linking " + std::string(info->module->name());
+    std::string message = "Linking " + std::string(info->info->module->name());
     if (!log.empty())
     {
         auto it = log.end() - 1;
@@ -97,6 +97,12 @@ void ModuleLinkTask::runTask()
     if (!status)
     {
         message += "\nFailed to link";
+
+        info->success = false;
+
+        info->moduleBuild()->errorLock.lock();
+        info->moduleBuild()->error = true;
+        info->moduleBuild()->errorLock.unlock();
     }
 
     Utility::PrintLine(message);
