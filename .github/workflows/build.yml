@@ -192,11 +192,14 @@ jobs:
       with:
         name: FaroEngine
 
+    - name: Configure
+      run: Bin/FaroCLI.exe -configure -path Source/FaroEngine.faroproject.json
+
     - name: Generate
-      run: Bin/FaroBuildTool.exe -generate -project Source/FaroEngine.faroproject.json
+      run: Bin/FaroCLI.exe -generate -path Source/FaroEngine.faroproject.json
 
     - name: Build
-      run: Bin/FaroCLI.exe -configure -build -platform ${{ matrix.platform }} -${{ matrix.config }} -path Source/FaroEngine.faroproject.json
+      run: Bin/FaroCLI.exe -build -platform ${{ matrix.platform }} -${{ matrix.config }} -path Source/FaroEngine.faroproject.json
 
   PublishDocumentation:
     runs-on: ubuntu-latest
