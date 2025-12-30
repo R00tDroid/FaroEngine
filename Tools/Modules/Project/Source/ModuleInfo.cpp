@@ -175,6 +175,7 @@ unsigned int ModuleManifest::includePaths(AccessDomain type) const
         return static_cast<unsigned int>(impl->privateIncludes().size());
     case AD_Public:
         return static_cast<unsigned int>(impl->publicIncludes().size());
+    default: break;
     }
     return 0;
 }
@@ -186,6 +187,7 @@ const char* ModuleManifest::includePath(AccessDomain type, unsigned int index) c
         return impl->privateIncludes()[index].c_str();
     case AD_Public:
         return impl->publicIncludes()[index].c_str();
+    default: break;
     }
     return nullptr;
 }
