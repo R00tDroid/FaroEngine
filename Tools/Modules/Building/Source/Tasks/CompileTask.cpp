@@ -9,21 +9,21 @@ void ModuleCompileStep::start()
     moduleBuild()->sourcesToCompileLock.lock();
     for (const std::filesystem::path& source : moduleBuild()->sourcesToCompile)
     {
-        moduleBuild()->pool.addTask<ModuleCompileTask>(moduleBuild(), source);
+        moduleBuild()->pool.addTask<ModuleCompileTask>(this, source);
     }
     moduleBuild()->sourcesToCompileLock.unlock();
 }
 
-ModuleCompileTask::ModuleCompileTask(ModuleBuild* info, std::filesystem::path file) : info(info), file(file) {}
+ModuleCompileTask::ModuleCompileTask(ModuleCompileStep* info, std::filesystem::path file) : info(info), file(file) {}
 
 void ModuleCompileTask::runTask()
 {
     std::string fileString = file.string();
-    std::string outString = info->module->getObjPath(info->buildSetup, info->toolchain, file).string();
-    ToolchainCompileInfo compileInfo = { info->buildSetup, fileString.c_str(), outString.c_str() };
+    std::string outString = info->info->module->getObjPath(info->info->buildSetup, info->info->toolchain, file).string();
+    ToolchainCompileInfo compileInfo = { info->info->buildSetup, fileString.c_str(), outString.c_str() };
 
     std::vector<std::string> includeStrings;
-    for (const std::filesystem::path& include : info->module->moduleIncludes())
+    for (const std::filesystem::path& include : info->info->module->moduleIncludes())
     {
         includeStrings.push_back(include.string());
     }
@@ -36,9 +36,9 @@ void ModuleCompileTask::runTask()
     compileInfo.includePathsPtr = includePaths.data();
 
     std::vector<std::string> defineStrings;
-    for (unsigned int i = 0; i < Toolchain::defines(info->buildSetup); i++)
+    for (unsigned int i = 0; i < Toolchain::defines(info->info->buildSetup); i++)
     {
-        defineStrings.push_back(Toolchain::define(info->buildSetup, i));
+        defineStrings.push_back(Toolchain::define(info->info->buildSetup, i));
     }
 
     for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
@@ -47,7 +47,7 @@ void ModuleCompileTask::runTask()
         for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
         {
             Target* target = toolchain->target(targetIndex);
-            bool isCurrent = target == info->buildSetup.target;
+            bool isCurrent = target == info->info->buildSetup.target;
 
             for (unsigned int defineIndex = 0; defineIndex < target->defines(); defineIndex++)
             {
@@ -73,7 +73,7 @@ void ModuleCompileTask::runTask()
         *static_cast<std::string*>(userData) += std::string(string, length);
     };
 
-    bool status = info->toolchain->compile(compileInfo);
+    bool status = info->info->toolchain->compile(compileInfo);
 
     std::string message = "> " + fileString;
     if (!log.empty()) 
@@ -89,6 +89,10 @@ void ModuleCompileTask::runTask()
     if (!status)
     {
         message += "\nFailed to compile";
+
+        info->resultLock.lock();
+        info->success = false;
+        info->resultLock.unlock();
     }
 
     Utility::PrintLine(message);
