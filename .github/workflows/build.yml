@@ -82,7 +82,7 @@ jobs:
 
     - name: Test
       shell: cmd
-      run: OpenCppCoverage.exe --config_file Tools\CoverageConfig.txt --working_dir .\ --verbose --export_type=cobertura:Documentation/html/Coverage/Coverage.xml --export_type=html:Documentation/html/Coverage --optimized_build Bin\FaroBuildTool_Test.exe
+      run: OpenCppCoverage.exe --config_file Tools\CoverageConfig.txt --working_dir .\ --verbose --export_type=cobertura:Documentation/html/Coverage/Coverage.xml --export_type=html:Documentation/html/Coverage --optimized_build Bin\FaroToolsTest.exe
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4

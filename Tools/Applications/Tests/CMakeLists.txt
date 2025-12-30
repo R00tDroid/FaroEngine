@@ -4,10 +4,10 @@ file(GLOB_RECURSE SourceFiles
     ${CMAKE_CURRENT_LIST_DIR}/Source/*.*
 )
 
-add_executable(Tests ${SourceFiles})
+add_executable(FaroToolsTest ${SourceFiles})
 
-target_include_directories(Tests PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Source)
+target_include_directories(FaroToolsTest PUBLIC ${CMAKE_CURRENT_LIST_DIR}/Source)
 
-target_link_libraries(Tests PUBLIC gtest FaroTools FaroProjects FaroGeneration)
+target_link_libraries(FaroToolsTest PUBLIC gtest FaroTools FaroProjects FaroGeneration)
 
-ModuleExports(Tests ${CMAKE_CURRENT_LIST_DIR}/Source)
+ModuleExports(FaroToolsTest ${CMAKE_CURRENT_LIST_DIR}/Source)
