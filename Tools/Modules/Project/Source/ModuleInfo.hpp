@@ -6,6 +6,7 @@
 #include "Toolchain.hpp"
 #include <set>
 #include <vector>
+#include "Utility.hpp"
 
 class ProjectManifest;
 
@@ -127,6 +128,41 @@ public:
         outputPath /= "Bin";
         outputPath /= std::string(buildSetup.identifier()) + toolchain->getLinkExtension(type);
         return outputPath;
+    }
+
+    std::filesystem::path getConfigDirectory() const
+    {
+        std::filesystem::path cacheFolder = cacheDirectory();
+        std::filesystem::path configsFolder = cacheFolder / "Config";
+        return configsFolder;
+    }
+
+    std::filesystem::path getBuildDirectory(const BuildSetup& setup) const
+    {
+        std::string setupName = setup.identifier();
+        std::filesystem::path cacheFolder = cacheDirectory();
+        std::filesystem::path configsFolder = cacheFolder / "Build" / setupName;
+        return configsFolder;
+    }
+
+    std::filesystem::path getModuleConfigDirectory() const
+    {
+        std::filesystem::path configsFolder = getConfigDirectory() / "Module";
+        Utility::EnsureDirectory(configsFolder.string().c_str());
+        return configsFolder;
+    }
+
+    std::filesystem::path getSetupConfigDirectory(const BuildSetup& setup) const
+    {
+        std::string setupName = setup.identifier();
+        std::filesystem::path configsFolder = getConfigDirectory() / ("Setup_" + setupName);
+        Utility::EnsureDirectory(configsFolder.string().c_str());
+        return configsFolder;
+    }
+
+    std::filesystem::path getChangeDB(const BuildSetup& buildSetup) const
+    {
+        return getBuildDirectory(buildSetup) / "Changes.bin";
     }
 
 private:

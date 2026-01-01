@@ -1,5 +1,7 @@
 #include "ChangeDatabase.hpp"
 
+ChangeDB::ChangeDB(const std::filesystem::path&& database) : database(database) {}
+
 void ChangeDB::save(const std::set<std::filesystem::path>&) const
 {
     //TODO Save DB

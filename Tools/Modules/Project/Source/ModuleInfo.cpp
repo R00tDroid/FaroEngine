@@ -245,27 +245,7 @@ bool ModuleManifest::configure()
     return true;
 }
 
-std::filesystem::path getConfigDirectory(const ModuleManifest* module)
-{
-    std::filesystem::path cacheFolder = module->cacheDirectory();
-    std::filesystem::path configsFolder = cacheFolder / "Config";
-    return configsFolder;
-}
 
-std::filesystem::path getModuleConfigDirectory(const ModuleManifest* module)
-{
-    std::filesystem::path configsFolder = getConfigDirectory(module) / "Module";
-    Utility::EnsureDirectory(configsFolder.string().c_str());
-    return configsFolder;
-}
-
-std::filesystem::path getSetupConfigDirectory(const ModuleManifest* module, const BuildSetup& setup)
-{
-    std::string setupName = setup.identifier();
-    std::filesystem::path configsFolder = getConfigDirectory(module) / ("Setup_" + setupName);
-    Utility::EnsureDirectory(configsFolder.string().c_str());
-    return configsFolder;
-}
 
 bool ModuleManifest::Impl::configureModule(const ModuleManifest* manifest, ModuleScript& vm)
 {
@@ -277,7 +257,7 @@ bool ModuleManifest::Impl::configureModule(const ModuleManifest* manifest, Modul
 
     //TODO Save solution location
 
-    std::filesystem::path cacheFolder = getModuleConfigDirectory(manifest);
+    std::filesystem::path cacheFolder = manifest->getModuleConfigDirectory();
 
     std::ofstream filesList(cacheFolder / "Source.txt");
     for (std::string& path : buildModule.sourceFiles)
@@ -353,7 +333,7 @@ bool ModuleManifest::Impl::configureSetup(const ModuleManifest* manifest, Module
         return false;
     }
 
-    std::filesystem::path cacheFolder = getSetupConfigDirectory(manifest, configureSetup);
+    std::filesystem::path cacheFolder = manifest->getSetupConfigDirectory(configureSetup);
 
     std::ofstream publicIncludeList(cacheFolder / "PublicIncludes.txt");
     for (std::string& path : buildModule.includesPublic)
@@ -448,8 +428,8 @@ void readLines(std::filesystem::path path, std::vector<std::string>& array)
 
 bool ModuleManifest::loadCache(const BuildSetup& config)
 {
-    std::filesystem::path cacheFolderModule = getModuleConfigDirectory(this);
-    std::filesystem::path cacheFolderSetup = getSetupConfigDirectory(this, config);
+    std::filesystem::path cacheFolderModule = getModuleConfigDirectory();
+    std::filesystem::path cacheFolderSetup = getSetupConfigDirectory(config);
 
     std::string line;
 

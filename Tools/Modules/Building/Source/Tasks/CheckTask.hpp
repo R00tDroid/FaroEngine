@@ -6,7 +6,7 @@
 class ModuleCheckStep : public BuildStepInterface
 {
 public:
-    ModuleCheckStep(ModuleBuild* parent) : BuildStepInterface(parent) {}
+    ModuleCheckStep(ModuleBuild* parent);
     void start() override;
     bool end() override;
 

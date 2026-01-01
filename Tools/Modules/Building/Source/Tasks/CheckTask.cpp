@@ -37,6 +37,8 @@ void ModuleCheckStep::scheduleChangeCheck()
     moduleBuild()->pool.addTask<ModuleDatabaseCheckTask>(this);
 }
 
+ModuleCheckStep::ModuleCheckStep(ModuleBuild* parent) : BuildStepInterface(parent), changes(parent->module->getChangeDB(parent->buildSetup)) {}
+
 void ModuleCheckStep::start()
 {
     Utility::PrintLineD("Checking for changes in " + std::string(moduleBuild()->module->name()));
