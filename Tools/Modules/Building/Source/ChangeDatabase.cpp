@@ -1,10 +1,33 @@
 #include "ChangeDatabase.hpp"
+#include "Utility.hpp"
+#include <fstream>
 
 ChangeDB::ChangeDB(const std::filesystem::path&& database) : database(database) {}
 
-void ChangeDB::save(const std::set<std::filesystem::path>&) const
+void ChangeDB::save(const std::set<std::filesystem::path>& files) const
 {
-    //TODO Save DB
+    std::filesystem::path directory = database.parent_path();
+    Utility::EnsureDirectory(directory.string().c_str());
+
+    std::ofstream stream(database, std::ios::binary);
+    if (!stream.is_open())
+    {
+        Utility::PrintLine("Failed to save change database");
+        return;
+    }
+
+    for (const std::filesystem::path& file : files)
+    {
+        std::string path = file.string();
+        unsigned int pathLength = (unsigned int)path.size();
+        stream.write(reinterpret_cast<const char*>(&pathLength), sizeof(unsigned int));
+        stream.write(path.c_str(), pathLength);
+
+        ChangeDBTime fileTime = getFileTime(file);
+        stream.write(reinterpret_cast<const char*>(&fileTime), sizeof(ChangeDBTime));
+    }
+
+    stream.close();
 }
 
 bool ChangeDB::load()
