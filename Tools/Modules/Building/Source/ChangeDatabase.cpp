@@ -34,8 +34,41 @@ void ChangeDB::save(const std::set<std::filesystem::path>& files) const
 
 bool ChangeDB::load()
 {
-    //TODO Load DB
-    return false;
+    dbTimes.clear();
+
+    if (!std::filesystem::exists(database))
+    {
+        Utility::PrintLineD("Missing change database");
+        return false;
+    }
+
+    std::ifstream stream(database, std::ios::binary);
+    if (!stream.is_open())
+    {
+        Utility::PrintLine("Failed to read change database");
+        return false;
+    }
+
+    while (!stream.eof()) 
+    {
+        //TODO Add safety checks to ensure enough data is available
+        ChangeDBLength length = 0;
+        stream.read(reinterpret_cast<char*>(&length), sizeof(ChangeDBLength));
+        std::string pathString;
+        pathString.resize(length);
+        stream.read(pathString.data(), length);
+
+        std::filesystem::path path(pathString);
+
+        ChangeDBTime timestamp = 0;
+        stream.read(reinterpret_cast<char*>(&timestamp), sizeof(ChangeDBTime));
+
+        dbTimes.insert(std::pair(path, timestamp));
+    }
+
+    stream.close();
+
+    return true;
 }
 
 bool ChangeDB::hasChanged(const std::filesystem::path& file) const
