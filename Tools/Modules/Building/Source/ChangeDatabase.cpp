@@ -4,6 +4,8 @@
 
 typedef unsigned int ChangeDBLength;
 
+#define BreakOnDataLack(size) if (streamLength - stream.tellg() < size) { Utility::PrintLineD("Ran out of DB data"); break; }
+
 ChangeDB::ChangeDB(const std::filesystem::path&& database) : database(database) {}
 
 void ChangeDB::save(const std::set<std::filesystem::path>& files) const
@@ -49,16 +51,28 @@ bool ChangeDB::load()
         return false;
     }
 
-    while (!stream.eof()) 
+    stream.seekg(0, std::ifstream::end);
+    size_t streamLength = stream.tellg();
+    stream.seekg(0, std::ifstream::beg);
+
+    while (true) 
     {
-        //TODO Add safety checks to ensure enough data is available
+        BreakOnDataLack(sizeof(ChangeDBLength));
+
         ChangeDBLength length = 0;
         stream.read(reinterpret_cast<char*>(&length), sizeof(ChangeDBLength));
+
+        if (streamLength - stream.tellg() < length) { Utility::PrintLineD("Ran out of DB data"); break; }
+
+        BreakOnDataLack(length);
+
         std::string pathString;
         pathString.resize(length);
         stream.read(pathString.data(), length);
 
         std::filesystem::path path(pathString);
+
+        BreakOnDataLack(sizeof(ChangeDBTime));
 
         ChangeDBTime timestamp = 0;
         stream.read(reinterpret_cast<char*>(&timestamp), sizeof(ChangeDBTime));
