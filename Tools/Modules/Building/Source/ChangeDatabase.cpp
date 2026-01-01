@@ -81,7 +81,7 @@ bool ChangeDB::hasChanged(const std::filesystem::path& file) const
     return dbTime != currentTime;
 }
 
-bool ChangeDB::anyChanges()
+bool ChangeDB::anyChanges() const
 {
     for (const auto& it : dbTimes)
     {

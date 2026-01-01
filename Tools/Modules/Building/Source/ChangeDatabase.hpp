@@ -14,7 +14,7 @@ public:
     bool load();
 
     bool hasChanged(const std::filesystem::path& file) const;
-    bool anyChanges();
+    bool anyChanges() const;
 
 private:
     ChangeDBTime getFileTime(const std::filesystem::path& file) const;

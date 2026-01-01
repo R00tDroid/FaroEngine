@@ -49,7 +49,6 @@ void ModuleCheckStep::start()
 bool ModuleCheckStep::end()
 {
     std::set<std::filesystem::path> files = {};
-    //TODO Only scan if needed. Should be skipped if bins are existing and early change scan succeeded.
     for (unsigned int sourceIndex = 0; sourceIndex < moduleBuild()->module->sourceFiles(); sourceIndex++)
     {
         std::filesystem::path file = moduleBuild()->module->sourceFile(sourceIndex);
@@ -144,8 +143,11 @@ void ModuleDatabaseCheckTask::runTask()
     ChangeDB& changes = step->changes;
     if (changes.load())
     {
-        if (!changes.anyChanges())
+        if (changes.anyChanges())
         {
+            Utility::PrintLineD("Found changes in database");
+        }
+        else {
             Utility::PrintLineD("No changes in database found");
             return;
         }
