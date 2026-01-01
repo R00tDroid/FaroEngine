@@ -77,8 +77,6 @@ bool ModuleCheckStep::end()
         }
     }
 
-    changes.save(files);
-
     // Delete cache to force the source to be compiled in case the build fails but marks the file tree as up-to-date
     moduleBuild()->sourcesToCompileLock.lock();
     for (const std::filesystem::path& source : moduleBuild()->sourcesToCompile)
@@ -93,8 +91,11 @@ bool ModuleCheckStep::end()
 
     bool anyChanges = !moduleBuild()->sourcesToCompile.empty();
 
-    if (!anyChanges)
+    if (anyChanges)
     {
+        changes.save(files);
+    }
+    else {
         Utility::PrintLine("No changes detected in " + std::string(moduleBuild()->module->name()));
     }
 
