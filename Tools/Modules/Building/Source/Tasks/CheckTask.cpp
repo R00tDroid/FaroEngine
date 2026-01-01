@@ -56,17 +56,24 @@ bool ModuleCheckStep::end()
 
         if (Utility::IsSourceFile(file.string().c_str()))
         {
+            bool anyChanged = false;
             std::vector branches = fileTree.branches(file);
             for (const std::filesystem::path& branch : branches)
             {
                 files.insert(branch);
+
+                if (changes.hasChanged(branch))
+                {
+                    Utility::PrintLineD("Change detected in " + branch.string() + " for " + file.string());
+                    anyChanged = true;
+                }
             }
 
-            //TODO Check for changes in tree
-
-            moduleBuild()->sourcesToCompileLock.lock();
-            moduleBuild()->sourcesToCompile.insert(file);
-            moduleBuild()->sourcesToCompileLock.unlock();
+            if (anyChanged) {
+                moduleBuild()->sourcesToCompileLock.lock();
+                moduleBuild()->sourcesToCompile.insert(file);
+                moduleBuild()->sourcesToCompileLock.unlock();
+            }
         }
     }
 
