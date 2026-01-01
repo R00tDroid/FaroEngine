@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include "ChangeDatabase.hpp"
 #include "ModuleTaskInfo.hpp"
 
 class ModuleCheckStep : public BuildStepInterface
@@ -11,17 +12,27 @@ public:
 
     static std::mutex scannedFilesLock;
     static std::set<std::filesystem::path> scannedFiles;
+
+    ChangeDB changes;
+
+    void scheduleTreeScan();
+    void scheduleBinCheck();
+    void scheduleChangeCheck();
+
+private:
+    std::mutex treeScannedLock;
+    bool treeScanned = false;
 };
 
 class ModuleBinCheckTask : public WorkerTask
 {
 public:
-    ModuleBinCheckTask(ModuleBuild* info);
+    ModuleBinCheckTask(ModuleCheckStep* step);
 
     void runTask() override;
 
 private:
-    ModuleBuild* info;
+    ModuleCheckStep* step;
 };
 
 class ModuleDatabaseCheckTask : public WorkerTask
@@ -30,8 +41,6 @@ public:
     ModuleDatabaseCheckTask(ModuleCheckStep* step);
 
     void runTask() override;
-
-    void scheduleScans();
 
 private:
     ModuleCheckStep* step;

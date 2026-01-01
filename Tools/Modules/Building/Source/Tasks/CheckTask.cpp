@@ -6,15 +6,47 @@
 std::mutex ModuleCheckStep::scannedFilesLock;
 std::set<std::filesystem::path> ModuleCheckStep::scannedFiles;
 
+void ModuleCheckStep::scheduleTreeScan()
+{
+    treeScannedLock.lock();
+    bool alreadyScanned = treeScanned;
+    treeScanned = true;
+    treeScannedLock.unlock();
+
+    if (alreadyScanned) return;
+
+    for (unsigned int sourceIndex = 0; sourceIndex < moduleBuild()->module->sourceFiles(); sourceIndex++)
+    {
+        std::filesystem::path file = moduleBuild()->module->sourceFile(sourceIndex);
+
+        if (Utility::IsSourceFile(file.string().c_str()))
+        {
+            Utility::PrintLineD("Schedule scan for " + std::string(file.string().c_str()));
+            ModuleScanTask::scheduleScan(this, file);
+        }
+    }
+}
+
+void ModuleCheckStep::scheduleBinCheck()
+{
+    moduleBuild()->pool.addTask<ModuleBinCheckTask>(this);
+}
+
+void ModuleCheckStep::scheduleChangeCheck()
+{
+    moduleBuild()->pool.addTask<ModuleDatabaseCheckTask>(this);
+}
+
 void ModuleCheckStep::start()
 {
     Utility::PrintLineD("Checking for changes in " + std::string(moduleBuild()->module->name()));
-    moduleBuild()->pool.addTask<ModuleBinCheckTask>(moduleBuild());
-    moduleBuild()->pool.addTask<ModuleDatabaseCheckTask>(this);
+    scheduleBinCheck();
+    scheduleChangeCheck();
 }
 
 bool ModuleCheckStep::end()
 {
+    std::set<std::filesystem::path> files = {};
     //TODO Only scan if needed. Should be skipped if bins are existing and early change scan succeeded.
     for (unsigned int sourceIndex = 0; sourceIndex < moduleBuild()->module->sourceFiles(); sourceIndex++)
     {
@@ -23,6 +55,11 @@ bool ModuleCheckStep::end()
         if (Utility::IsSourceFile(file.string().c_str()))
         {
             std::vector branches = fileTree.branches(file);
+            for (const std::filesystem::path& branch : branches)
+            {
+                files.insert(branch);
+            }
+
             //TODO Check for changes in tree
 
             moduleBuild()->sourcesToCompileLock.lock();
@@ -30,6 +67,8 @@ bool ModuleCheckStep::end()
             moduleBuild()->sourcesToCompileLock.unlock();
         }
     }
+
+    changes.save(files);
 
     // Delete cache to force the source to be compiled in case the build fails but marks the file tree as up-to-date
     moduleBuild()->sourcesToCompileLock.lock();
@@ -53,21 +92,21 @@ bool ModuleCheckStep::end()
     return anyChanges;
 }
 
-ModuleBinCheckTask::ModuleBinCheckTask(ModuleBuild* info) : info(info) {}
+ModuleBinCheckTask::ModuleBinCheckTask(ModuleCheckStep* step) : step(step) {}
 
 void ModuleBinCheckTask::runTask()
 {
-    Utility::PrintLineD("Check module binaries " + std::string(info->module->name()));
+    Utility::PrintLineD("Check module binaries " + std::string(step->moduleBuild()->module->name()));
 
-    for (unsigned int sourceIndex = 0; sourceIndex < info->module->sourceFiles(); sourceIndex++)
+    for (unsigned int sourceIndex = 0; sourceIndex < step->moduleBuild()->module->sourceFiles(); sourceIndex++)
     {
-        std::filesystem::path file = info->module->sourceFile(sourceIndex);
+        std::filesystem::path file = step->moduleBuild()->module->sourceFile(sourceIndex);
 
         if (Utility::IsSourceFile(file.string().c_str()))
         {
             bool needsCompile = false;
 
-            std::filesystem::path binary = info->module->getObjPath(info->buildSetup, info->toolchain, file);
+            std::filesystem::path binary = step->moduleBuild()->module->getObjPath(step->moduleBuild()->buildSetup, step->moduleBuild()->toolchain, file);
             if (!std::filesystem::exists(binary))
             {
                 Utility::PrintLineD("Binary missing for " + file.string());
@@ -76,9 +115,11 @@ void ModuleBinCheckTask::runTask()
 
             if (needsCompile)
             {
-                info->sourcesToCompileLock.lock();
-                info->sourcesToCompile.insert(file);
-                info->sourcesToCompileLock.unlock();
+                step->moduleBuild()->sourcesToCompileLock.lock();
+                step->moduleBuild()->sourcesToCompile.insert(file);
+                step->moduleBuild()->sourcesToCompileLock.unlock();
+
+                step->scheduleTreeScan();
             }
         }
     }
@@ -88,25 +129,23 @@ ModuleDatabaseCheckTask::ModuleDatabaseCheckTask(ModuleCheckStep* step) : step(s
 
 void ModuleDatabaseCheckTask::runTask()
 {
-    //TODO Check for saved database
     Utility::PrintLineD("Check module changes " + std::string(step->moduleBuild()->module->name()));
 
-    //TODO If no database, or changes detected, scan tree
-    scheduleScans();
-}
-
-void ModuleDatabaseCheckTask::scheduleScans()
-{
-    for (unsigned int sourceIndex = 0; sourceIndex < step->moduleBuild()->module->sourceFiles(); sourceIndex++)
+    ChangeDB& changes = step->changes;
+    if (changes.load())
     {
-        std::filesystem::path file = step->moduleBuild()->module->sourceFile(sourceIndex);
-
-        if (Utility::IsSourceFile(file.string().c_str()))
+        if (!changes.anyChanges())
         {
-            Utility::PrintLineD("Schedule scan for " + std::string(file.string().c_str()));
-            ModuleScanTask::scheduleScan(step, file);
+            Utility::PrintLineD("No changes in database found");
+            return;
         }
     }
+    else
+    {
+        Utility::PrintLineD("No change database");
+    }
+
+    step->scheduleTreeScan();
 }
 
 void ModuleScanTask::scheduleScan(ModuleCheckStep* step, std::filesystem::path file)
