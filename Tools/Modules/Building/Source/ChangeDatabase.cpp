@@ -2,6 +2,8 @@
 #include "Utility.hpp"
 #include <fstream>
 
+typedef unsigned int ChangeDBLength;
+
 ChangeDB::ChangeDB(const std::filesystem::path&& database) : database(database) {}
 
 void ChangeDB::save(const std::set<std::filesystem::path>& files) const
@@ -19,8 +21,8 @@ void ChangeDB::save(const std::set<std::filesystem::path>& files) const
     for (const std::filesystem::path& file : files)
     {
         std::string path = file.string();
-        unsigned int pathLength = (unsigned int)path.size();
-        stream.write(reinterpret_cast<const char*>(&pathLength), sizeof(unsigned int));
+        ChangeDBLength pathLength = static_cast<ChangeDBLength>(path.size());
+        stream.write(reinterpret_cast<const char*>(&pathLength), sizeof(ChangeDBLength));
         stream.write(path.c_str(), pathLength);
 
         ChangeDBTime fileTime = getFileTime(file);
