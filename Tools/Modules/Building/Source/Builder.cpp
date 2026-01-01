@@ -120,6 +120,8 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
             if (moduleBuild->error) anyError = true;
             delete moduleBuild;
         }
+
+        if (anyError) break;
     }
 
     workerPool.stop();
