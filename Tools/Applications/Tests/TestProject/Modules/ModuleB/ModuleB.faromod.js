@@ -12,5 +12,5 @@ function configureModule(module) {
     module.addDependency("ModuleA");
 }
 
-function configureSetup(setup, module) {
+function configureSetup(_setup, _module) {
 }
