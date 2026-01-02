@@ -15,5 +15,5 @@ function configureModule(module) {
     module.setSolutionLocation("Graphics");
 }
 
-function configureSetup(setup, module) {
+function configureSetup(_setup, _module) {
 }

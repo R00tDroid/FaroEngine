@@ -12,6 +12,6 @@ function configureModule(module) {
     module.addDependency("PlatformBase");
 }
 
-function configureSetup(setup, module) {
+function configureSetup(_setup, _module) {
 }
 

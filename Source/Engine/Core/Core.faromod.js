@@ -11,5 +11,5 @@ function configureModule(module) {
     module.addSource(source + "/EngineVersion.generated.cpp");
 }
 
-function configureSetup(setup, module) {
+function configureSetup(_setup, _module) {
 }
