@@ -56,7 +56,6 @@ void Utility::PrintLineD(const char* log)
     writeLog(log);
     writeLog("\n");
     logLock.unlock();
-
 }
 #endif
 
