@@ -17,19 +17,21 @@ struct VSProjectInfo
 
     std::vector<std::string> dependencyUuids;
 
-    virtual bool hasSourceFiles();
-    virtual std::vector<std::filesystem::path> getSourceFiles() const;
-    virtual std::vector<std::filesystem::path> getIncludePaths() const;
+    virtual bool hasSourceFiles() const { return false; }
+    virtual std::vector<std::filesystem::path> getSourceFiles() const { return {}; }
+    virtual std::vector<std::filesystem::path> getIncludePaths() const { return {}; }
 
     virtual std::string getBuildCommand() const = 0;
     virtual std::string getRebuildCommand() const = 0;
     virtual std::string getCleanCommand() const = 0;
 
-    virtual std::filesystem::path getOutputExecutable(const Toolchain*, const BuildSetup&) const;
+    virtual std::filesystem::path getOutputExecutable(const Toolchain*, const BuildSetup&) const { return {}; }
 
-    virtual std::filesystem::path getRootDirectory() const;
+    virtual std::filesystem::path getRootDirectory() const { return {}; }
 
-    virtual ModuleManifest* getModuleManifest() const;
+    const ProjectManifest* getProjectManifest() const;
+
+    const ProjectManifest* project = nullptr;
 };
 
 struct VSCustomCommandInfo : VSProjectInfo
@@ -49,15 +51,13 @@ struct VSModuleInfo : VSProjectInfo
 
     std::string getCleanCommand() const override;
 
-    bool hasSourceFiles() override;
+    bool hasSourceFiles() const override;
 
     std::vector<std::filesystem::path> getSourceFiles() const override;
     std::vector<std::filesystem::path> getIncludePaths() const override;
     std::filesystem::path getRootDirectory() const override;
 
     std::filesystem::path getOutputExecutable(const Toolchain*, const BuildSetup&) const override;
-
-    ModuleManifest* getModuleManifest() const override;
 
     ModuleManifest* module = nullptr;
 };

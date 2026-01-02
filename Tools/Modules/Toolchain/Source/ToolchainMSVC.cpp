@@ -213,7 +213,6 @@ bool ToolchainMSVC::link(const ToolchainLinkInfo& info) const
         }
         case LT_Application:
         {
-            //TODO Link against modules
             result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + linkExe.string() + "\" " + flags + " /OUT:\"" + outputFile.string() + "\" " + libDirs + " " + libList + " " + objFiles, log);
             break;
         }

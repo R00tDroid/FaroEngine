@@ -31,7 +31,7 @@ void getLocations()
         toolsBin.make_preferred();
         toolsBin = weakly_canonical(toolsBin);
 
-        std::filesystem::path buildTool = toolsBin / "FaroBuild";
+        std::filesystem::path buildTool = toolsBin / "FaroCLI";
 
         locations.toolsBin = toolsBin.string();
         locations.buildTool = buildTool.string();

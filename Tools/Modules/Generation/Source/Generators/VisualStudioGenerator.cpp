@@ -8,67 +8,42 @@
 #include "MSVCInfo/MSVCInfo.hpp"
 #include "Toolchain.hpp"
 
-bool VSProjectInfo::hasSourceFiles()
+const ProjectManifest* VSProjectInfo::getProjectManifest() const
 {
-    return true; //TODO Implement
-}
-
-std::vector<std::filesystem::path> VSProjectInfo::getSourceFiles() const
-{
-    return {}; //TODO Implement
-}
-
-std::vector<std::filesystem::path> VSProjectInfo::getIncludePaths() const
-{
-    return {};
-}
-
-std::filesystem::path VSProjectInfo::getOutputExecutable(const Toolchain*, const BuildSetup&) const
-{
-    return {}; //TODO Implement
-}
-
-std::filesystem::path VSProjectInfo::getRootDirectory() const
-{
-    return {}; //TODO Implement
-}
-
-ModuleManifest* VSProjectInfo::getModuleManifest() const
-{
-    return {}; //TODO Implement
+    return project;
 }
 
 std::string VSCustomCommandInfo::getBuildCommand() const
 {
-    return {}; //TODO Implement
+    return "\"" + std::string(FaroLocation::buildTool()) + "\" -build";
 }
 
 std::string VSCustomCommandInfo::getRebuildCommand() const
 {
-    return {}; //TODO Implement
+    return "\"" + std::string(FaroLocation::buildTool()) + "\" -clean -build";
 }
 
 std::string VSCustomCommandInfo::getCleanCommand() const
 {
-    return {}; //TODO Implement
+    return "\"" + std::string(FaroLocation::buildTool()) + "\" -clean";
 }
 
 std::string VSModuleInfo::getBuildCommand() const
 {
-    return {}; //TODO Implement
+    return "\"" + std::string(FaroLocation::buildTool()) + "\" -build -module " + module->name();
 }
 
 std::string VSModuleInfo::getRebuildCommand() const
 {
-    return {}; //TODO Implement
+    return "\"" + std::string(FaroLocation::buildTool()) + "\" -clean -build -module " + module->name();
 }
 
 std::string VSModuleInfo::getCleanCommand() const
 {
-    return {}; //TODO Implement
+    return "\"" + std::string(FaroLocation::buildTool()) + "\" -clean -module " + module->name();
 }
 
-bool VSModuleInfo::hasSourceFiles()
+bool VSModuleInfo::hasSourceFiles() const
 {
     return module->sourceFiles() > 0;
 }
@@ -96,11 +71,6 @@ std::filesystem::path VSModuleInfo::getRootDirectory() const
 }
 
 std::filesystem::path VSModuleInfo::getOutputExecutable(const Toolchain*, const BuildSetup&) const
-{
-    return {}; //TODO Implement
-}
-
-ModuleManifest* VSModuleInfo::getModuleManifest() const
 {
     return {}; //TODO Implement
 }
@@ -141,6 +111,7 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
     Utility::GetCachedUUID(idFile.c_str(), commandInfo->uuid.data());
     commandInfo->projectPath = projectPath.c_str();
     commandInfo->solutionPath = "Project/Actions";
+    commandInfo->project = project;
     projectInfoList.push_back(commandInfo);
 
     commandInfo = new VSCustomCommandInfo();
@@ -154,6 +125,7 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
     Utility::GetCachedUUID(idFile.c_str(), commandInfo->uuid.data());
     commandInfo->projectPath = projectPath.c_str();
     commandInfo->solutionPath = "Project/Actions";
+    commandInfo->project = project;
     projectInfoList.push_back(commandInfo);
 
     Utility::PrintLine("Performing module generation...");
@@ -171,6 +143,7 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
         moduleInfo->solutionPath = "Project/Modules";
         moduleInfo->buildByDefault = false;
         moduleInfo->debuggable = moduleManifest->moduleType() == MT_Executable;
+        moduleInfo->project = project;
         if (moduleManifest->solutionLocation() != nullptr)
         {
             moduleInfo->solutionPath /= moduleManifest->solutionLocation();
@@ -339,17 +312,16 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, const VSProjectInf
         element = propertyGroup->InsertNewChildElement("IntDir");
         element->SetText("$(ProjectDir)\\Intermediate");
 
+        std::string config = std::string(" -platform ") + setup.target->identifier() + " -" + configurationToString(setup.configuration) + " -path \"" + project.getProjectManifest()->manifestPath() + "\"";
+
         element = propertyGroup->InsertNewChildElement("NMakeBuildCommandLine");
-        //TODO Implement
-        //element->SetText((VSProjectInfo.getBuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
+        element->SetText((project.getBuildCommand() + config).c_str());
 
         element = propertyGroup->InsertNewChildElement("NMakeReBuildCommandLine");
-        //TODO Implement
-        //element->SetText((VSProjectInfo.getRebuildCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
+        element->SetText((project.getRebuildCommand() + config).c_str());
 
         element = propertyGroup->InsertNewChildElement("NMakeCleanCommandLine");
-        //TODO Implement
-        //element->SetText((VSProjectInfo.getCleanCommand() + " -platform " + platform->platformName + " -" + buildTypeName).c_str());
+        element->SetText((project.getCleanCommand() + config).c_str());
 
         element = propertyGroup->InsertNewChildElement("NMakeOutput");
 
