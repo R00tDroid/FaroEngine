@@ -610,9 +610,36 @@ void VisualStudioGenerator::writeSolutionFile(const ProjectManifest* project, st
         }
     }
 
+    std::map<std::string, std::vector<VSProjectInfo*>> folders;
     for (VSProjectInfo* projectInfo : projectInfoList)
     {
-        writeSolutionProjectConfig(solutionElement, projectInfo);
+        folders[projectInfo->solutionPath.string()].push_back(projectInfo);
+    }
+
+    for (auto& it : folders)
+    {
+        std::filesystem::path folderPath = it.first;
+        while (true)
+        {
+            if (!folderPath.has_parent_path()) break;
+            folderPath = folderPath.parent_path();
+
+            if (folders.find(folderPath.string()) == folders.end())
+            {
+                folders[folderPath.string()] = {};
+            }
+        }
+    }
+
+    for (auto& it : folders)
+    {
+        tinyxml2::XMLElement* folderElement = solutionElement->InsertNewChildElement("Folder");
+        folderElement->SetAttribute("Name", ("/" + it.first + "/").c_str());
+
+        for (VSProjectInfo* projectInfo : it.second)
+        {
+            writeSolutionProjectConfig(folderElement, projectInfo);
+        }
     }
 
     doc.SaveFile(path.string().c_str());
