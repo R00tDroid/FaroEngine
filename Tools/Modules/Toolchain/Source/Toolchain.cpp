@@ -1,5 +1,4 @@
 #include "Toolchain.hpp"
-#include <vector>
 #include "ToolchainMSVC.hpp"
 
 std::vector<Toolchain*> toolchainList()

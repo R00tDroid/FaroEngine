@@ -1,6 +1,7 @@
 #pragma once
 #include "BuildSetup.hpp"
 #include <filesystem>
+#include <vector>
 #include "FaroToolchainExports.generated.h"
 
 class ModuleManifest;
