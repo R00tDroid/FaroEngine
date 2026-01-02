@@ -31,7 +31,6 @@ int main(int argc, char** argv)
         taskInfo.runClean ||
         taskInfo.runDeploy)
     {
-
         if (taskInfo.runConfigure)
         {
             if (!project.configure())
