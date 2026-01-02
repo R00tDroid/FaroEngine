@@ -36,6 +36,8 @@ struct VSProjectInfo
 
     const ProjectManifest* getProjectManifest() const;
 
+    virtual std::vector<std::string> getDefines() const { return {}; }
+
     const ProjectManifest* project = nullptr;
 };
 
@@ -63,6 +65,7 @@ struct VSModuleInfo : VSProjectInfo
     std::filesystem::path getRootDirectory() const override;
 
     std::filesystem::path getOutputExecutable(const Toolchain*, const BuildSetup&) const override;
+    std::vector<std::string> getDefines() const override;
 
     ModuleManifest* module = nullptr;
 };
