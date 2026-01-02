@@ -1,5 +1,4 @@
 #include "Utility.hpp"
-
 #include <map>
 #include <iostream>
 #include <fstream>
