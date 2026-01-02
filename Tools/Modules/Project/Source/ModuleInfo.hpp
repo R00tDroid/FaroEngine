@@ -98,6 +98,16 @@ public:
         return includes;
     }
 
+    std::vector<std::string> moduleDefines() const
+    {
+        std::vector<std::string> includes = treeDefines();
+        for (unsigned int i = 0; i < defines(AD_Private); i++)
+        {
+            includes.push_back(define(AD_Private, i));
+        }
+        return includes;
+    }
+
     unsigned int sourceFiles() const;
     const char* sourceFile(unsigned int index) const;
 
@@ -188,6 +198,26 @@ private:
         for (unsigned int i = 0; i < includePaths(AD_Public); i++)
         {
             includes.push_back(includePath(AD_Public, i));
+        }
+        return includes;
+    }
+
+    std::vector<std::string> treeDefines() const
+    {
+        std::vector<std::string> includes;
+
+        for (unsigned int i = 0; i < dependencies(); i++)
+        {
+            std::vector<std::string> dependencyIncludes = dependency(i)->treeDefines();
+            for (const std::string& include : dependencyIncludes)
+            {
+                includes.push_back(include);
+            }
+        }
+
+        for (unsigned int i = 0; i < defines(AD_Public); i++)
+        {
+            includes.push_back(define(AD_Public, i));
         }
         return includes;
     }

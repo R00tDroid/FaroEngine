@@ -17,5 +17,8 @@ function configureModule(module) {
     module.setSolutionLocation("Graphics");
 }
 
-function configureSetup(_modulesetup, _module) {
+function configureSetup(setup, module) {
+    if (setup.getTarget().includes("windows")) {
+        module.addDefinePublic("VK_USE_PLATFORM_WIN32_KHR");
+    }
 }
