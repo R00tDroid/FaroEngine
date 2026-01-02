@@ -83,7 +83,6 @@ namespace Faro
         }
         else if (GetBufferType() == BT_Remote) 
         {
-
             if (GetDesc().texture.renderTarget && GetDesc().renderTarget.swapchain != nullptr)
             {
                 GraphicsSwapchainD3D12* swapchain = static_cast<GraphicsSwapchainD3D12*>(GetDesc().renderTarget.swapchain);
