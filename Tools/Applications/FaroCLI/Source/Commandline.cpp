@@ -5,7 +5,7 @@ void printHelp()
 {
     Utility::Print("Faro Engine build tool " + std::string(EngineVersion) + "\n\n");
     Utility::Print("Tasks:\n");
-    Utility::Print("-configure    Generate Visual Studio project\n");
+    Utility::Print("-configure    Generate project files\n");
     Utility::Print("-project    Generate Visual Studio project\n");
     Utility::Print("-build    Compile the specified source\n");
     Utility::Print("-clean        Clean intermediates\n");

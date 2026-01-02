@@ -93,8 +93,16 @@ int main(int argc, char** argv)
 
             if (taskInfo.runClean)
             {
-                //TODO Pass specific modules
-                if (!Builder::clean(setup, &project, 0, nullptr))
+                std::vector<ModuleManifest*> modules;
+                if (!taskInfo.modules.empty())
+                {
+                    if (!project.findModules(taskInfo.modules, modules))
+                    {
+                        return -1;
+                    }
+                }
+                ModuleManifest** modulesPtr = modules.empty() ? nullptr : modules.data();
+                if (!Builder::clean(setup, &project, static_cast<unsigned int>(modules.size()), const_cast<const ModuleManifest**>(modulesPtr)))
                 {
                     Utility::PrintLine("Error while cleaning");
                     return -1;
@@ -103,8 +111,16 @@ int main(int argc, char** argv)
 
             if (taskInfo.runBuild)
             {
-                //TODO Pass specific modules
-                if (!Builder::build(setup, &project, 0, nullptr))
+                std::vector<ModuleManifest*> modules;
+                if (!taskInfo.modules.empty())
+                {
+                    if (!project.findModules(taskInfo.modules, modules))
+                    {
+                        return -1;
+                    }
+                }
+                ModuleManifest** modulesPtr = modules.empty() ? nullptr : modules.data();
+                if (!Builder::build(setup, &project, static_cast<unsigned int>(modules.size()), const_cast<const ModuleManifest**>(modulesPtr)))
                 {
                     Utility::PrintLine("Error while building");
                     return -1;
