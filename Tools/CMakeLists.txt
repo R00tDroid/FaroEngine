@@ -34,13 +34,13 @@ AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Toolchain")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Project")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Generation")
-#AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Shaders")
+#AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Shaders") #TODO Port shader compiler
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Building")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroCLI")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/Tests")
 
 #if(MSVC)
-#    AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroGUI")
+#    AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroGUI") #TODO Reimplement shader compiler
 #endif()
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.cpp.in ${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.generated.cpp @ONLY)
