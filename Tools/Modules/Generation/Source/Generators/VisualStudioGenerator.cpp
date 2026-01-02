@@ -15,17 +15,17 @@ const ProjectManifest* VSProjectInfo::getProjectManifest() const
 
 std::string VSCustomCommandInfo::getBuildCommand() const
 {
-    return "\"" + std::string(FaroLocation::buildTool()) + "\" -build";
+    return buildCommand;
 }
 
 std::string VSCustomCommandInfo::getRebuildCommand() const
 {
-    return "\"" + std::string(FaroLocation::buildTool()) + "\" -clean -build";
+    return rebuildCommand;
 }
 
 std::string VSCustomCommandInfo::getCleanCommand() const
 {
-    return "\"" + std::string(FaroLocation::buildTool()) + "\" -clean";
+    return cleanCommand;
 }
 
 std::string VSModuleInfo::getBuildCommand() const
@@ -109,9 +109,9 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
     std::string idFile = (vsProjectInfo / (commandInfo->name + "Id.txt")).string();
     std::string projectPath = (projectDirectory / ("Action_" + commandInfo->name + ".vcxproj")).string();
     commandInfo->buildByDefault = false;
-    commandInfo->buildCommand = faroBuildTool + " -build -project " + project->manifestPath();
-    commandInfo->cleanCommand = faroBuildTool + " -clean -project " + project->manifestPath();
-    commandInfo->rebuildCommand = faroBuildTool + " -clean -build -project " + project->manifestPath();
+    commandInfo->buildCommand = faroBuildTool + " -build";
+    commandInfo->cleanCommand = faroBuildTool + " -clean";
+    commandInfo->rebuildCommand = faroBuildTool + " -clean -build";
     commandInfo->uuid.resize(UUID_LENGTH);
     Utility::GetCachedUUID(idFile.c_str(), commandInfo->uuid.data());
     commandInfo->projectPath = projectPath.c_str();
@@ -124,8 +124,8 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
     idFile = (vsProjectInfo / (commandInfo->name + "Id.txt")).string();
     projectPath = (projectDirectory / ("Action_" + commandInfo->name + ".vcxproj")).string();
     commandInfo->buildByDefault = false;
-    commandInfo->buildCommand = faroBuildTool + " -generate -project " + project->manifestPath();
-    commandInfo->rebuildCommand = faroBuildTool + " -generate -build -project " + project->manifestPath();
+    commandInfo->buildCommand = faroBuildTool + " -configure -project";
+    commandInfo->rebuildCommand = faroBuildTool + " -configure -project";
     commandInfo->uuid.resize(UUID_LENGTH);
     Utility::GetCachedUUID(idFile.c_str(), commandInfo->uuid.data());
     commandInfo->projectPath = projectPath.c_str();
