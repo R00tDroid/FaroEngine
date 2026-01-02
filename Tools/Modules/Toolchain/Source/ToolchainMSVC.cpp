@@ -129,12 +129,12 @@ bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
         definesString += " /D" + std::string(define);
     }
 
-    std::string compilerFlags;
+    std::string compilerFlags = "/D_MT /D_CRTDBG_MAP_ALLOC";
     switch (info.buildSetup.configuration)
     {
         case C_Debug:
-        case C_Development: { compilerFlags = " /DDEBUG /D_DEBUG /D_MT /D_CRTDBG_MAP_ALLOC /MTd /Od /Zi"; break; }
-        case C_Release: { compilerFlags = " /D_MT /D_CRTDBG_MAP_ALLOC /MT /O2"; break; }
+        case C_Development: { compilerFlags += " /MTd /Od /DDEBUG /D_DEBUG /Z7"; break; }
+        case C_Release: { compilerFlags += " /MT /O2"; break; }
 
         default:;
     }
@@ -142,9 +142,8 @@ bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
     std::filesystem::path outputFile = info.output;
     Utility::EnsureDirectory(outputFile.parent_path().string().c_str());
 
-    //TODO Fix pdb path, and check if we need /FS
     std::string log = "";
-    int result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + clExe.string() + "\" /c /FC /FS /nologo /EHsc " + definesString + " " + compilerFlags + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includesString, log);
+    int result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + clExe.string() + "\" /c /FC /nologo /EHsc " + definesString + " " + compilerFlags + " " + sourceFile.string() + " /Fo\"" + outputFile.string() + "\" " + includesString, log);
 
     // Format, trim and print output message
     if (!log.empty())
@@ -213,6 +212,13 @@ bool ToolchainMSVC::link(const ToolchainLinkInfo& info) const
         }
         case LT_Application:
         {
+            switch (info.buildSetup.configuration)
+            {
+                case C_Debug:
+                case C_Development: { flags += " /DEBUG"; }
+                default: break;
+            }
+
             result = Utility::ExecuteCommand(msvcDrive.string() + ": & \"" + linkExe.string() + "\" " + flags + " /OUT:\"" + outputFile.string() + "\" " + libDirs + " " + libList + " " + objFiles, log);
             break;
         }
