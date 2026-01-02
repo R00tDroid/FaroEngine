@@ -19,7 +19,6 @@ _deps
 Bin/*
 Tools/Build
 Docs/Doxygen
-Source/Engine/Graphics/GraphicsVK/Thirdparty/GLAD
 
 !.github
 !Bin/Templates
