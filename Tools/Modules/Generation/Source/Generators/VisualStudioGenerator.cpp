@@ -3,7 +3,6 @@
 #include "Utility.hpp"
 #include <fstream>
 #include <map>
-
 #include "FaroLocation.hpp"
 #include "MSVCInfo/MSVCInfo.hpp"
 #include "Toolchain.hpp"
@@ -70,9 +69,9 @@ std::filesystem::path VSModuleInfo::getRootDirectory() const
     return module->manifestDirectory();
 }
 
-std::filesystem::path VSModuleInfo::getOutputExecutable(const Toolchain*, const BuildSetup&) const
+std::filesystem::path VSModuleInfo::getOutputExecutable(const Toolchain* toolchain, const BuildSetup& setup) const
 {
-    return {}; //TODO Implement
+    return module->getBinPath(setup, toolchain, LinkType::LT_Application);
 }
 
 std::filesystem::path projectFilePath(const std::filesystem::path& directory, const ModuleManifest* moduleManifest)
@@ -470,7 +469,7 @@ void VisualStudioGenerator::writeProjectUserFile(const VSProjectInfo& project)
                     propGroup->SetAttribute("Condition", ("'$(Configuration)|$(Platform)'=='" + buildSetup.identifier() + "|Win32'").c_str());
 
                     tinyxml2::XMLElement* element = propGroup->InsertNewChildElement("LocalDebuggerCommand");
-                    element->SetText(project.getOutputExecutable(toolchain, buildSetup).c_str());
+                    element->SetText(project.getOutputExecutable(toolchain, buildSetup).string().c_str());
                     element = propGroup->InsertNewChildElement("DebuggerFlavor");
                     element->SetText("WindowsLocalDebugger");
                 }
