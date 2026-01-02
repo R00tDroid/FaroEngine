@@ -1,6 +1,8 @@
 #pragma once
 #include "ModuleTaskInfo.hpp"
 
+extern LinkType getModuleLinkType(ModuleType type);
+
 class ModuleLinkStep : public BuildStepInterface
 {
 public:

@@ -113,11 +113,17 @@ public:
     bool prebuild(const BuildSetup& setup) const;
     bool postbuild(const BuildSetup& setup) const;
 
-    std::filesystem::path getObjPath(const BuildSetup& buildSetup, const Toolchain* toolchain, const std::filesystem::path& path) const
+    std::filesystem::path getObjDirectory(const BuildSetup& buildSetup) const
     {
         std::filesystem::path outputPath = faroDirectory();
         outputPath /= "Obj";
         outputPath /= buildSetup.identifier();
+        return outputPath;
+    }
+
+    std::filesystem::path getObjPath(const BuildSetup& buildSetup, const Toolchain* toolchain, const std::filesystem::path& path) const
+    {
+        std::filesystem::path outputPath = getObjDirectory(buildSetup);
         outputPath /= path.filename().replace_extension(toolchain->getBinExtension());
         return outputPath;
     }

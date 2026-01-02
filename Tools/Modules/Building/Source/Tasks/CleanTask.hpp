@@ -4,10 +4,10 @@
 class ModuleCleanTask : public WorkerTask
 {
 public:
-    ModuleCleanTask(const ModuleClean* moduleClean);
+    ModuleCleanTask(ModuleClean* moduleClean);
 
     void runTask() override;
 
 private:
-    const ModuleClean* moduleClean;
+    ModuleClean* moduleClean;
 };
