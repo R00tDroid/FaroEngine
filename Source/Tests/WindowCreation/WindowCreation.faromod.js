@@ -22,5 +22,5 @@ function configureModule(module) {
     module.setSolutionLocation("Tests");
 }
 
-function configureSetup(setup, module) {
+function configureSetup(_setup, _module) {
 }

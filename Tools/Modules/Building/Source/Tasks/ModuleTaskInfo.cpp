@@ -54,7 +54,6 @@ void ModuleBuild::startStep()
     buildStep = buildSteps[0];
     buildSteps.erase(buildSteps.begin());
     buildStep->start();
-    
 }
 
 ModuleClean::ModuleClean(const BuildSetup& buildSetup, const Toolchain* toolchain, const ModuleManifest* module) :
