@@ -31,7 +31,7 @@ var searchData=
   ['platformwindowslog_2ecpp_28',['PlatformWindowsLog.cpp',['../PlatformWindowsLog_8cpp.html',1,'']]],
   ['platformwindowslog_2ehpp_29',['PlatformWindowsLog.hpp',['../PlatformWindowsLog_8hpp.html',1,'']]],
   ['points_30',['points',['../structFaro_1_1IRect.html#a3689d36075acf7d69c18f0c0af48fa20',1,'Faro::IRect']]],
-  ['present_31',['Present',['../classFaro_1_1GraphicsSwapchain.html#a1749e14f137fa0e71e778ec7c532fa45',1,'Faro::GraphicsSwapchain']]],
+  ['present_31',['present',['../classFaro_1_1GraphicsSwapchain.html#a1749e14f137fa0e71e778ec7c532fa45',1,'Faro::GraphicsSwapchain::Present()'],['../classFaro_1_1GraphicsSwapchainVK.html#ac45d9b255c82c09bd4395323dfd59fb5',1,'Faro::GraphicsSwapchainVK::Present()']]],
   ['primitives_2ehpp_32',['Primitives.hpp',['../Primitives_8hpp.html',1,'']]],
   ['processshaderbinary_33',['ProcessShaderBinary',['../namespaceFaro.html#ab297e6d7e75d780afe3deca0cdc1a1fe',1,'Faro']]],
   ['processshaderstage_34',['ProcessShaderStage',['../namespaceFaro.html#a36636f2aa9d31d7a72429e2073911c14',1,'Faro']]],

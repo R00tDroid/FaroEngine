@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.dbd0479 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7bb7bba (main)</span>
    </div>
   </td>
  </tr>
@@ -89,8 +89,9 @@ Inheritance diagram for Faro::GraphicsCommandList:</div>
  <div class="center">
   <img src="classFaro_1_1GraphicsCommandList.png" usemap="#Faro::GraphicsCommandList_map" alt=""/>
   <map id="Faro::GraphicsCommandList_map" name="Faro::GraphicsCommandList_map">
-<area href="classFaro_1_1IGraphicsAdapterChild.html" alt="Faro::IGraphicsAdapterChild" shape="rect" coords="0,56,173,80"/>
-<area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="0,0,173,24"/>
+<area href="classFaro_1_1IGraphicsAdapterChild.html" alt="Faro::IGraphicsAdapterChild" shape="rect" coords="0,56,187,80"/>
+<area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="0,0,187,24"/>
+<area href="classFaro_1_1GraphicsCommandListVK.html" alt="Faro::GraphicsCommandListVK" shape="rect" coords="0,168,187,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -98,8 +99,8 @@ Inheritance diagram for Faro::GraphicsCommandList:</div>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:adee7e181b4f3e5865f57d923370dff1a" id="r_adee7e181b4f3e5865f57d923370dff1a"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsCommandList.html#adee7e181b4f3e5865f57d923370dff1a">Reset</a> ()=0</td></tr>
 <tr class="separator:adee7e181b4f3e5865f57d923370dff1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a15fb0f9c2c284928236942a9ae78e117" id="r_a15fb0f9c2c284928236942a9ae78e117"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsCommandList.html#a15fb0f9c2c284928236942a9ae78e117">Execute</a> ()=0</td></tr>
-<tr class="separator:a15fb0f9c2c284928236942a9ae78e117"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a57e2698b9404b7603e9214a1bd84f38d" id="r_a57e2698b9404b7603e9214a1bd84f38d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsCommandList.html#a57e2698b9404b7603e9214a1bd84f38d">Execute</a> (<a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1GraphicsSemaphore.html">GraphicsSemaphore</a> * &gt; waitForSemaphores={})=0</td></tr>
+<tr class="separator:a57e2698b9404b7603e9214a1bd84f38d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2bf981a040ed260a340251e0bf07cf19" id="r_a2bf981a040ed260a340251e0bf07cf19"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsCommandList.html#a2bf981a040ed260a340251e0bf07cf19">SetResourceState</a> (<a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *buffer, <a class="el" href="namespaceFaro.html#a522c5fdebbf0027741199b5159a30e81">GraphicsResourceState</a> state)=0</td></tr>
 <tr class="separator:a2bf981a040ed260a340251e0bf07cf19"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9aae1f168bf23ff68efe515f06c1fdcc" id="r_a9aae1f168bf23ff68efe515f06c1fdcc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsCommandList.html#a9aae1f168bf23ff68efe515f06c1fdcc">CopyBuffer</a> (<a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *source, <a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *destination)=0</td></tr>
@@ -159,6 +160,8 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsCommandListVK.html#a4c6ed4ab4c4054333708066168f528fc">Faro::GraphicsCommandListVK</a>.</p>
+
 </div>
 </div>
 <a id="a9aae1f168bf23ff68efe515f06c1fdcc" name="a9aae1f168bf23ff68efe515f06c1fdcc"></a>
@@ -195,6 +198,8 @@ Protected Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsCommandListVK.html#a427e8f0b69ebb135aa7e3c32410f4daa">Faro::GraphicsCommandListVK</a>.</p>
+
 </div>
 </div>
 <a id="a9857533599d648736a644773bfd80268" name="a9857533599d648736a644773bfd80268"></a>
@@ -223,12 +228,12 @@ Protected Member Functions</h2></td></tr>
 <p>Run the destruction logic of this class. This also frees its memory. </p>
 <dl class="section warning"><dt>Warning</dt><dd>When overriding, the super call must be performed <b>last</b> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">Faro::DataStream</a>, <a class="el" href="classFaro_1_1DataStreamCopy.html#a6b28cfbd2c9b9d76bc89616c2d693ce2">Faro::DataStreamCopy</a>, <a class="el" href="classFaro_1_1GraphicsBufferContainer.html#a3620774a4c2949f12b4db8d4ba9a2222">Faro::GraphicsBufferContainer</a>, and <a class="el" href="classFaro_1_1GraphicsSwapchain.html#a3875e33db11acde3d12943a0584b551c">Faro::GraphicsSwapchain</a>.</p>
+<p>Reimplemented in <a class="el" href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">Faro::DataStream</a>, <a class="el" href="classFaro_1_1DataStreamCopy.html#a6b28cfbd2c9b9d76bc89616c2d693ce2">Faro::DataStreamCopy</a>, <a class="el" href="classFaro_1_1GraphicsBufferContainer.html#a3620774a4c2949f12b4db8d4ba9a2222">Faro::GraphicsBufferContainer</a>, <a class="el" href="classFaro_1_1GraphicsSwapchain.html#a3875e33db11acde3d12943a0584b551c">Faro::GraphicsSwapchain</a>, <a class="el" href="classFaro_1_1GraphicsBufferVK.html#ae28a15469c1181a058287413283cbea4">Faro::GraphicsBufferVK</a>, <a class="el" href="classFaro_1_1GraphicsCommandListVK.html#af770824b5827a04db4c6bebd508535a7">Faro::GraphicsCommandListVK</a>, <a class="el" href="classFaro_1_1GraphicsFenceVK.html#a6c43e73b0523537fb41a6ef576e93dc9">Faro::GraphicsFenceVK</a>, <a class="el" href="classFaro_1_1GraphicsPipelineVK.html#aa60719ae0b81ff3741fd5f41a96df1d5">Faro::GraphicsPipelineVK</a>, <a class="el" href="classFaro_1_1GraphicsSemaphoreVK.html#a75256a0a144051e4a746538560a1b8e4">Faro::GraphicsSemaphoreVK</a>, and <a class="el" href="classFaro_1_1GraphicsSwapchainVK.html#a1de1f405e3f2aac1e484e010ac069aa5">Faro::GraphicsSwapchainVK</a>.</p>
 
 </div>
 </div>
-<a id="a15fb0f9c2c284928236942a9ae78e117" name="a15fb0f9c2c284928236942a9ae78e117"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a15fb0f9c2c284928236942a9ae78e117">&#9670;&#160;</a></span>Execute()</h2>
+<a id="a57e2698b9404b7603e9214a1bd84f38d" name="a57e2698b9404b7603e9214a1bd84f38d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a57e2698b9404b7603e9214a1bd84f38d">&#9670;&#160;</a></span>Execute()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -239,7 +244,8 @@ Protected Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void Faro::GraphicsCommandList::Execute </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1GraphicsSemaphore.html">GraphicsSemaphore</a> * &gt;&#160;</td>
+          <td class="paramname"><em>waitForSemaphores</em> = <code>{}</code></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -249,6 +255,8 @@ Protected Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsCommandListVK.html#ac753cfd574a7c6f22728d85c49685285">Faro::GraphicsCommandListVK</a>.</p>
 
 </div>
 </div>
@@ -390,6 +398,8 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsCommandListVK.html#a77b28a74e9a036b335a5c636bcf2a86c">Faro::GraphicsCommandListVK</a>.</p>
+
 </div>
 </div>
 <a id="a2bf981a040ed260a340251e0bf07cf19" name="a2bf981a040ed260a340251e0bf07cf19"></a>
@@ -425,6 +435,8 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsCommandListVK.html#ad0986aa5e087ae52ebc9e241168d8989">Faro::GraphicsCommandListVK</a>.</p>
 
 </div>
 </div>

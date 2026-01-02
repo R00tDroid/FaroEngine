@@ -1,10 +1,12 @@
 var searchData=
 [
-  ['shaderbinarytype_5fdxil_0',['ShaderBinaryType_DXIL',['../ShaderDefinition_8hpp.html#a92025a3832e0f392313733221d024a83',1,'ShaderDefinition.hpp']]],
-  ['shaderbinarytype_5fspriv_1',['ShaderBinaryType_SPRIV',['../ShaderDefinition_8hpp.html#a930c87dcea6a821f41b1ee3023889e6a',1,'ShaderDefinition.hpp']]],
-  ['shaderpackageversion_2',['ShaderPackageVersion',['../ShaderDefinition_8hpp.html#a0f6c6fcefb4134ed177cd3b390e633e5',1,'ShaderDefinition.hpp']]],
-  ['shaderstagetype_5fgeometry_3',['ShaderStageType_Geometry',['../ShaderDefinition_8hpp.html#aaf88426c648df82b2f199f918e3ca73a',1,'ShaderDefinition.hpp']]],
-  ['shaderstagetype_5fpixel_4',['ShaderStageType_Pixel',['../ShaderDefinition_8hpp.html#a06fddc6de8c5405f7dc37cc460daefe6',1,'ShaderDefinition.hpp']]],
-  ['shaderstagetype_5fvertex_5',['ShaderStageType_Vertex',['../ShaderDefinition_8hpp.html#a0d3d3549d2e7870ebb25779c357c4ff5',1,'ShaderDefinition.hpp']]],
-  ['sscanf_6',['SSCANF',['../Color_8hpp.html#a26322ca1613f09e983e5b67fbeeec6ea',1,'Color.hpp']]]
+  ['register_5fclass_0',['REGISTER_CLASS',['../ClassRegistry_8hpp.html#aa5ea1f931a8c105b996139ca2433b3f6',1,'ClassRegistry.hpp']]],
+  ['register_5fgraphics_1',['REGISTER_GRAPHICS',['../GraphicsInterface_8hpp.html#a08114387d04b4584d69c432af30ee699',1,'GraphicsInterface.hpp']]],
+  ['register_5finstance_2',['REGISTER_INSTANCE',['../ClassRegistry_8hpp.html#ac6ed08950ec32cefa5cde27b7bf124a3',1,'ClassRegistry.hpp']]],
+  ['register_5flogsink_3',['REGISTER_LOGSINK',['../Log_8hpp.html#a7a9471b61b680dd7fff8cf450c749553',1,'Log.hpp']]],
+  ['register_5fmodule_4',['REGISTER_MODULE',['../Module_8hpp.html#a4227e52e8152c977ed2b3331b2ea560a',1,'Module.hpp']]],
+  ['register_5fplatform_5',['REGISTER_PLATFORM',['../Platform_8hpp.html#ace7fd23434b87aa0a3c7c1e7c07186b3',1,'Platform.hpp']]],
+  ['requiresubclass_6',['RequireSubClass',['../Assert_8hpp.html#a601225aa94d7866a0b5f8715c7aec40a',1,'Assert.hpp']]],
+  ['resourcemount_5fengine_7',['ResourceMount_Engine',['../ResourcePackage_8hpp.html#afb5f63e6018b750cf3569e2cd5b84529',1,'ResourcePackage.hpp']]],
+  ['resourcemount_5fgame_8',['ResourceMount_Game',['../ResourcePackage_8hpp.html#acde0f4fd0bfa2ee1d3f96b719345f587',1,'ResourcePackage.hpp']]]
 ];

@@ -18,7 +18,7 @@ var searchData=
   ['replace_15',['Replace',['../classFaro_1_1String.html#af767f7d9918cdc2a3aeb8d67dd99906e',1,'Faro::String']]],
   ['report_16',['Report',['../classFaro_1_1LiveObjectTracker.html#a21d7a66a03eae265ce61200306a42d0f',1,'Faro::LiveObjectTracker']]],
   ['requeststop_17',['RequestStop',['../classFaro_1_1IThread.html#a5a05f608af1c35fd1ba4c8ae4c52e552',1,'Faro::IThread']]],
-  ['reset_18',['Reset',['../classFaro_1_1GraphicsCommandList.html#adee7e181b4f3e5865f57d923370dff1a',1,'Faro::GraphicsCommandList']]],
+  ['reset_18',['reset',['../classFaro_1_1GraphicsCommandList.html#adee7e181b4f3e5865f57d923370dff1a',1,'Faro::GraphicsCommandList::Reset()'],['../classFaro_1_1GraphicsCommandListVK.html#a77b28a74e9a036b335a5c636bcf2a86c',1,'Faro::GraphicsCommandListVK::Reset()']]],
   ['resize_19',['resize',['../classFaro_1_1Array.html#ace93eb281704590e06a468a297c59cfa',1,'Faro::Array::Resize()'],['../classFaro_1_1String.html#a9d9cfdf4ad676ead9c7ea56880456975',1,'Faro::String::Resize()']]],
   ['resolvemoduledependencies_20',['ResolveModuleDependencies',['../namespaceFaro.html#aac6d14a8222d2153dd03feb79c637fb2',1,'Faro']]],
   ['resourcedirectorypackage_21',['ResourceDirectoryPackage',['../classFaro_1_1ResourceDirectoryPackage.html#a7bcb082efffafd6d211cb81f23595d20',1,'Faro::ResourceDirectoryPackage']]],

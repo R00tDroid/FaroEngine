@@ -7,7 +7,10 @@ var searchData=
   ['blue_4',['Blue',['../structFaro_1_1IColor.html#ac99a831f624951ba0d62496dd6974522',1,'Faro::IColor']]],
   ['bottomright_5',['bottomRight',['../structFaro_1_1IRect.html#a7bd37ef7e0b5fddb5c58c29be1e54c97',1,'Faro::IRect']]],
   ['branch_6',['branch',['../structFaro_1_1Version.html#a446a2a93c2c80b8fc494e70c03f83d94',1,'Faro::Version']]],
-  ['byte_7',['Byte',['../structFaro_1_1GraphicsFormat.html#a1a00555a6809308abbbf1f876858381a',1,'Faro::GraphicsFormat']]],
-  ['byte2_8',['Byte2',['../structFaro_1_1GraphicsFormat.html#a1fdb1593abedee50a741cc72e5eb9db5',1,'Faro::GraphicsFormat']]],
-  ['byte4_9',['Byte4',['../structFaro_1_1GraphicsFormat.html#a4d65c955993cbe9fb41d29b26ab3fd08',1,'Faro::GraphicsFormat']]]
+  ['bufferdesc_7',['bufferDesc',['../structFaro_1_1GraphicsBufferCreateDesc.html#a7edd1558db502e45dd8bd149e88bc131',1,'Faro::GraphicsBufferCreateDesc']]],
+  ['bufferreadysync_8',['bufferReadySync',['../classFaro_1_1GraphicsSwapchain.html#a1a98150dded6792f90202ee57080c32c',1,'Faro::GraphicsSwapchain']]],
+  ['buffertype_9',['bufferType',['../structFaro_1_1GraphicsBufferCreateDesc.html#ad14c934f1eaa6b9f43a67d2d979b5b7e',1,'Faro::GraphicsBufferCreateDesc']]],
+  ['byte_10',['Byte',['../structFaro_1_1GraphicsFormat.html#a1a00555a6809308abbbf1f876858381a',1,'Faro::GraphicsFormat']]],
+  ['byte2_11',['Byte2',['../structFaro_1_1GraphicsFormat.html#a1fdb1593abedee50a741cc72e5eb9db5',1,'Faro::GraphicsFormat']]],
+  ['byte4_12',['Byte4',['../structFaro_1_1GraphicsFormat.html#a4d65c955993cbe9fb41d29b26ab3fd08',1,'Faro::GraphicsFormat']]]
 ];

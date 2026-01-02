@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.dbd0479 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7bb7bba (main)</span>
    </div>
   </td>
  </tr>
@@ -82,6 +82,15 @@ $(function() {
 <div class="contents">
 
 <p><code>#include &lt;<a class="el" href="GraphicsAdapter_8hpp_source.html">GraphicsAdapter.hpp</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Faro::GraphicsAdapter:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="classFaro_1_1GraphicsAdapter.png" usemap="#Faro::GraphicsAdapter_map" alt=""/>
+  <map id="Faro::GraphicsAdapter_map" name="Faro::GraphicsAdapter_map">
+<area href="classFaro_1_1GraphicsAdapterVK.html" alt="Faro::GraphicsAdapterVK" shape="rect" coords="0,56,158,80"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -91,23 +100,25 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad9a130fa61e10db34e17700af58b2e04"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3fb577e6c5b553ab42a6ffeff5e050cb" id="r_a3fb577e6c5b553ab42a6ffeff5e050cb"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsCommandList.html">GraphicsCommandList</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a3fb577e6c5b553ab42a6ffeff5e050cb">CreateCommandList</a> ()=0</td></tr>
 <tr class="separator:a3fb577e6c5b553ab42a6ffeff5e050cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a60ef6847d9afb3e816dde5b682ae543f" id="r_a60ef6847d9afb3e816dde5b682ae543f"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a60ef6847d9afb3e816dde5b682ae543f">CreateBuffer</a> (<a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a> type, <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a> desc)=0</td></tr>
-<tr class="separator:a60ef6847d9afb3e816dde5b682ae543f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6a978780208ac0957cba8fcb88a10a45" id="r_a6a978780208ac0957cba8fcb88a10a45"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
-<tr class="memitem:a6a978780208ac0957cba8fcb88a10a45"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a6a978780208ac0957cba8fcb88a10a45">CreateBufferContainer</a> (<a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a> type, <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a> desc)</td></tr>
-<tr class="separator:a6a978780208ac0957cba8fcb88a10a45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1e89262ddd6a22506d7c8de3658bc063" id="r_a1e89262ddd6a22506d7c8de3658bc063"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1GraphicsBufferContainer.html">GraphicsBufferContainer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a1e89262ddd6a22506d7c8de3658bc063">CreateBufferContainer</a> (<a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a> type, <a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a> desc)</td></tr>
-<tr class="separator:a1e89262ddd6a22506d7c8de3658bc063"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afe627b9fb16bd958a41130d1795d4079" id="r_afe627b9fb16bd958a41130d1795d4079"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#afe627b9fb16bd958a41130d1795d4079">CreateBuffer</a> (<a class="el" href="structFaro_1_1GraphicsBufferCreateDesc.html">GraphicsBufferCreateDesc</a> createDesc)=0</td></tr>
+<tr class="separator:afe627b9fb16bd958a41130d1795d4079"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3259f40be49942f9ab1abb7ffffba4e5" id="r_a3259f40be49942f9ab1abb7ffffba4e5"><td class="memTemplParams" colspan="2">template&lt;class T &gt; </td></tr>
+<tr class="memitem:a3259f40be49942f9ab1abb7ffffba4e5"><td class="memTemplItemLeft" align="right" valign="top">T *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a3259f40be49942f9ab1abb7ffffba4e5">CreateBufferContainer</a> (<a class="el" href="structFaro_1_1GraphicsBufferCreateDesc.html">GraphicsBufferCreateDesc</a> createDesc)</td></tr>
+<tr class="separator:a3259f40be49942f9ab1abb7ffffba4e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade47f779791745f708d71ce24ff4ca2f" id="r_ade47f779791745f708d71ce24ff4ca2f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1GraphicsBufferContainer.html">GraphicsBufferContainer</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#ade47f779791745f708d71ce24ff4ca2f">CreateBufferContainer</a> (<a class="el" href="structFaro_1_1GraphicsBufferCreateDesc.html">GraphicsBufferCreateDesc</a> createDesc)</td></tr>
+<tr class="separator:ade47f779791745f708d71ce24ff4ca2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a08799be5ae3845fde6cd5922339933f6" id="r_a08799be5ae3845fde6cd5922339933f6"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsFence.html">GraphicsFence</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a08799be5ae3845fde6cd5922339933f6">CreateFence</a> ()=0</td></tr>
 <tr class="separator:a08799be5ae3845fde6cd5922339933f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9ba98f2e514934f6a22a99792c6c6306" id="r_a9ba98f2e514934f6a22a99792c6c6306"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsSwapchain.html">GraphicsSwapchain</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a9ba98f2e514934f6a22a99792c6c6306">CreateSwapchain</a> (<a class="el" href="classFaro_1_1Window.html">Window</a> *window)=0</td></tr>
 <tr class="separator:a9ba98f2e514934f6a22a99792c6c6306"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7a59ed3ccbb7c2fe3b10a6d0dba99e41" id="r_a7a59ed3ccbb7c2fe3b10a6d0dba99e41"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsPipeline.html">GraphicsPipeline</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a7a59ed3ccbb7c2fe3b10a6d0dba99e41">CreatePipeline</a> (<a class="el" href="structFaro_1_1GraphicsPipelineDesc.html">GraphicsPipelineDesc</a> desc)=0</td></tr>
 <tr class="separator:a7a59ed3ccbb7c2fe3b10a6d0dba99e41"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a266c163a2391bd10e59e8646795fbe54" id="r_a266c163a2391bd10e59e8646795fbe54"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="classFaro_1_1GraphicsSemaphore.html">GraphicsSemaphore</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsAdapter.html#a266c163a2391bd10e59e8646795fbe54">CreateSyncPoint</a> ()</td></tr>
+<tr class="separator:a266c163a2391bd10e59e8646795fbe54"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a60ef6847d9afb3e816dde5b682ae543f" name="a60ef6847d9afb3e816dde5b682ae543f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a60ef6847d9afb3e816dde5b682ae543f">&#9670;&#160;</a></span>CreateBuffer()</h2>
+<a id="afe627b9fb16bd958a41130d1795d4079" name="afe627b9fb16bd958a41130d1795d4079"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afe627b9fb16bd958a41130d1795d4079">&#9670;&#160;</a></span>CreateBuffer()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -118,19 +129,9 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual <a class="el" href="classFaro_1_1GraphicsBuffer.html">GraphicsBuffer</a> * Faro::GraphicsAdapter::CreateBuffer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a>&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="structFaro_1_1GraphicsBufferCreateDesc.html">GraphicsBufferCreateDesc</a>&#160;</td>
+          <td class="paramname"><em>createDesc</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a>&#160;</td>
-          <td class="paramname"><em>desc</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -140,10 +141,12 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterVK.html#a8ae0f647b45b0df186ff7fdef737a1f8">Faro::GraphicsAdapterVK</a>.</p>
+
 </div>
 </div>
-<a id="a6a978780208ac0957cba8fcb88a10a45" name="a6a978780208ac0957cba8fcb88a10a45"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6a978780208ac0957cba8fcb88a10a45">&#9670;&#160;</a></span>CreateBufferContainer() <span class="overload">[1/2]</span></h2>
+<a id="a3259f40be49942f9ab1abb7ffffba4e5" name="a3259f40be49942f9ab1abb7ffffba4e5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3259f40be49942f9ab1abb7ffffba4e5">&#9670;&#160;</a></span>CreateBufferContainer() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,19 +159,9 @@ template&lt;class T &gt; </div>
         <tr>
           <td class="memname">T * Faro::GraphicsAdapter::CreateBufferContainer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a>&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="structFaro_1_1GraphicsBufferCreateDesc.html">GraphicsBufferCreateDesc</a>&#160;</td>
+          <td class="paramname"><em>createDesc</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a>&#160;</td>
-          <td class="paramname"><em>desc</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -180,8 +173,8 @@ template&lt;class T &gt; </div>
 
 </div>
 </div>
-<a id="a1e89262ddd6a22506d7c8de3658bc063" name="a1e89262ddd6a22506d7c8de3658bc063"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e89262ddd6a22506d7c8de3658bc063">&#9670;&#160;</a></span>CreateBufferContainer() <span class="overload">[2/2]</span></h2>
+<a id="ade47f779791745f708d71ce24ff4ca2f" name="ade47f779791745f708d71ce24ff4ca2f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ade47f779791745f708d71ce24ff4ca2f">&#9670;&#160;</a></span>CreateBufferContainer() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -192,19 +185,9 @@ template&lt;class T &gt; </div>
         <tr>
           <td class="memname"><a class="el" href="classFaro_1_1GraphicsBufferContainer.html">GraphicsBufferContainer</a> * Faro::GraphicsAdapter::CreateBufferContainer </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="namespaceFaro.html#a5fe2c45acb84f75c2d61733b4001770f">GraphicsBufferType</a>&#160;</td>
-          <td class="paramname"><em>type</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype"><a class="el" href="structFaro_1_1GraphicsBufferCreateDesc.html">GraphicsBufferCreateDesc</a>&#160;</td>
+          <td class="paramname"><em>createDesc</em></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="structFaro_1_1GraphicsBufferDesc.html">GraphicsBufferDesc</a>&#160;</td>
-          <td class="paramname"><em>desc</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -239,6 +222,8 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterVK.html#a7117f2a3975f3e6617c6f151fee96187">Faro::GraphicsAdapterVK</a>.</p>
+
 </div>
 </div>
 <a id="a08799be5ae3845fde6cd5922339933f6" name="a08799be5ae3845fde6cd5922339933f6"></a>
@@ -263,6 +248,8 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterVK.html#a14f782354106407e6443358bedf1c8b0">Faro::GraphicsAdapterVK</a>.</p>
 
 </div>
 </div>
@@ -290,6 +277,8 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterVK.html#a500f9aa76e63ed5a647812340fc88116">Faro::GraphicsAdapterVK</a>.</p>
+
 </div>
 </div>
 <a id="a9ba98f2e514934f6a22a99792c6c6306" name="a9ba98f2e514934f6a22a99792c6c6306"></a>
@@ -316,6 +305,35 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterVK.html#a6aa893cf4c8ccaf8576bd29fa2080ae6">Faro::GraphicsAdapterVK</a>.</p>
+
+</div>
+</div>
+<a id="a266c163a2391bd10e59e8646795fbe54" name="a266c163a2391bd10e59e8646795fbe54"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a266c163a2391bd10e59e8646795fbe54">&#9670;&#160;</a></span>CreateSyncPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1GraphicsSemaphore.html">GraphicsSemaphore</a> * Faro::GraphicsAdapter::CreateSyncPoint </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Reimplemented in <a class="el" href="classFaro_1_1GraphicsAdapterVK.html#a74bb79fb89dd8f8a4f6aae8d3d8b61e3">Faro::GraphicsAdapterVK</a>.</p>
+
 </div>
 </div>
 <a id="ad9a130fa61e10db34e17700af58b2e04" name="ad9a130fa61e10db34e17700af58b2e04"></a>
@@ -340,6 +358,8 @@ template&lt;class T &gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterVK.html#afedf542024e75d8f221092d739489afa">Faro::GraphicsAdapterVK</a>.</p>
 
 </div>
 </div>
@@ -367,10 +387,13 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsAdapterVK.html#acaaa12d99c14300c454b6cfb9b37179e">Faro::GraphicsAdapterVK</a>.</p>
+
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
+<hr/>The documentation for this class was generated from the following files:<ul>
 <li>/github/workspace/Source/Engine/Graphics/GraphicsBase/Source/<a class="el" href="GraphicsAdapter_8hpp_source.html">GraphicsAdapter.hpp</a></li>
+<li>/github/workspace/Source/Engine/Graphics/GraphicsBase/Source/<a class="el" href="GraphicsAdapter_8cpp.html">GraphicsAdapter.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

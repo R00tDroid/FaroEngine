@@ -18,7 +18,8 @@ var searchData=
   ['totype_15',['totype',['../structFaro_1_1IRect.html#a787053ae6eeac4f6d74e2cc8f9dddbf4',1,'Faro::IRect::ToType()'],['../structFaro_1_1Vector2.html#a64a6c6f49556342765395c9c74af2363',1,'Faro::Vector2::ToType()'],['../structFaro_1_1Vector3.html#a9477536029c31015938912e251781613',1,'Faro::Vector3::ToType()'],['../structFaro_1_1Vector4.html#a354fb043bca29ab6084d1a4f89132a38',1,'Faro::Vector4::ToType()']]],
   ['toupper_16',['ToUpper',['../classFaro_1_1String.html#a78912a90b6f2deba92e8b69ee426cd05',1,'Faro::String']]],
   ['transformdirectionvector_17',['TransformDirectionVector',['../structFaro_1_1Matrix44.html#a9f359344060d90580ebe261f802924a3',1,'Faro::Matrix44']]],
-  ['transpose_18',['Transpose',['../structFaro_1_1Matrix44.html#a7844ed380376853c94e3b2d702bcbfc8',1,'Faro::Matrix44']]],
-  ['transposed_19',['Transposed',['../structFaro_1_1Matrix44.html#a9ee07226f9ce939da7f902f4898be719',1,'Faro::Matrix44']]],
-  ['trigger_20',['Trigger',['../classFaro_1_1GraphicsFence.html#a61e16d791da24fa62a02b21be6a3666a',1,'Faro::GraphicsFence']]]
+  ['transitionresource_18',['TransitionResource',['../classFaro_1_1GraphicsBufferVK.html#af8caad07977678015ac9edff8898d47c',1,'Faro::GraphicsBufferVK']]],
+  ['transpose_19',['Transpose',['../structFaro_1_1Matrix44.html#a7844ed380376853c94e3b2d702bcbfc8',1,'Faro::Matrix44']]],
+  ['transposed_20',['Transposed',['../structFaro_1_1Matrix44.html#a9ee07226f9ce939da7f902f4898be719',1,'Faro::Matrix44']]],
+  ['trigger_21',['trigger',['../classFaro_1_1GraphicsFence.html#a61e16d791da24fa62a02b21be6a3666a',1,'Faro::GraphicsFence::Trigger()'],['../classFaro_1_1GraphicsFenceVK.html#a1c1d292fc854b5516f3e6f8a189100ce',1,'Faro::GraphicsFenceVK::Trigger()']]]
 ];

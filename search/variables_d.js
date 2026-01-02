@@ -1,12 +1,10 @@
 var searchData=
 [
-  ['r_0',['r',['../structFaro_1_1IColor.html#a10c5003dbdc7a30a8295645e70e7377f',1,'Faro::IColor']]],
-  ['red_1',['Red',['../structFaro_1_1IColor.html#abb6e85944f395f598e0d988d76fd84a1',1,'Faro::IColor']]],
-  ['registeredthread_2',['registeredThread',['../namespaceFaro.html#aee300cc5bd2efa74d9da9214bc0a1e6f',1,'Faro']]],
-  ['rendertarget_3',['rendertarget',['../structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html#ae8af64663f88b6b862f9dec86359a59b',1,'Faro::GraphicsBufferDesc::TextureDesc::renderTarget'],['../structFaro_1_1GraphicsBufferDesc.html#a3ed2f7e29b77ebb04086cd2045a03056',1,'Faro::GraphicsBufferDesc::renderTarget']]],
-  ['rendertargets_4',['renderTargets',['../structFaro_1_1GraphicsPipelineDesc.html#ab7af0e6c6b4c46a4a60b2c7da44b1191',1,'Faro::GraphicsPipelineDesc']]],
-  ['resolution_5',['resolution',['../structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html#afe425a3245de9e201c2b5aa77c29cba0',1,'Faro::GraphicsBufferDesc::TextureDesc']]],
-  ['resources_6',['resources',['../classFaro_1_1GraphicsBufferContainer.html#ac514f945cc2d2ca1b09c9c690390a0dd',1,'Faro::GraphicsBufferContainer']]],
-  ['resourcetype_7',['resourceType',['../structFaro_1_1GraphicsBufferDesc.html#a3080b9ac7c3d6b153152a6c8d37d04f9',1,'Faro::GraphicsBufferDesc']]],
-  ['right_8',['Right',['../structFaro_1_1Vector3.html#a6a31b7c7a02d6f7a55f63cc0f19dcf59',1,'Faro::Vector3']]]
+  ['patch_0',['patch',['../structFaro_1_1Version.html#a5b4123ee85808b6c6c4cca05602d348e',1,'Faro::Version']]],
+  ['payload_1',['payload',['../structFaro_1_1GraphicsAdapterDesc.html#a0eab334468c854b133c46a298f516717',1,'Faro::GraphicsAdapterDesc']]],
+  ['pi_2',['pi',['../MathUtil_8cpp.html#a9cb0638a7b1d7af8ff421d2dc025d3a8',1,'MathUtil.cpp']]],
+  ['pixel_3',['pixel',['../structShaderBinary.html#a340218bba2b9d482ce0f9dc928053813',1,'ShaderBinary']]],
+  ['points_4',['points',['../structFaro_1_1IRect.html#a3689d36075acf7d69c18f0c0af48fa20',1,'Faro::IRect']]],
+  ['psdata_5',['psData',['../structFaro_1_1GraphicsPipelineDesc.html#ae89f2c2c3ba2878ef762ffe0bf42811f',1,'Faro::GraphicsPipelineDesc']]],
+  ['pssize_6',['psSize',['../structFaro_1_1GraphicsPipelineDesc.html#a347f235223fbd2dc65b2a91054437cce',1,'Faro::GraphicsPipelineDesc']]]
 ];

@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.dbd0479 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7bb7bba (main)</span>
    </div>
   </td>
  </tr>
@@ -105,13 +105,13 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
 <div class="foldopen" id="foldopen00020" data-start="{" data-end="}">
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classFaro_1_1MemoryManager.html#a30a02551575d59b16e4970bc0b3d2cd5">   20</a></span>        <span class="keyword">static</span> T* <a class="code hl_function" href="classFaro_1_1MemoryManager.html#a30a02551575d59b16e4970bc0b3d2cd5">Alloc</a>(<a class="code hl_typedef" href="namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93">uint32</a> amount)</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="classFaro_1_1MemoryManager.html#a30a02551575d59b16e4970bc0b3d2cd5">   20</a></span>        <span class="keyword">static</span> T* <a class="code hl_function" href="classFaro_1_1MemoryManager.html#a30a02551575d59b16e4970bc0b3d2cd5">Alloc</a>(<a class="code hl_typedef" href="namespaceFaro.html#ab84f3659b50f35adc896cd6595f6ba02">uint32</a> amount)</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        {</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>            <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span>T*<span class="keyword">&gt;</span>(<a class="code hl_function" href="classFaro_1_1MemoryManager.html#a30a02551575d59b16e4970bc0b3d2cd5">Alloc</a>(<span class="keyword">sizeof</span>(T) * amount));</div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        }</div>
 </div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code hl_function" href="classFaro_1_1MemoryManager.html#a30a02551575d59b16e4970bc0b3d2cd5">Alloc</a>(<a class="code hl_typedef" href="namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93">uint32</a> size);</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>        <span class="keyword">static</span> <span class="keywordtype">void</span>* <a class="code hl_function" href="classFaro_1_1MemoryManager.html#a30a02551575d59b16e4970bc0b3d2cd5">Alloc</a>(<a class="code hl_typedef" href="namespaceFaro.html#ab84f3659b50f35adc896cd6595f6ba02">uint32</a> size);</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1MemoryManager.html#a19e28e95b0364afb13a3f58a94c9909b">Free</a>(<span class="keywordtype">void</span>* address);</div>
 <div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
@@ -126,7 +126,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
 <div class="foldopen" id="foldopen00037" data-start="{" data-end="}">
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classFaro_1_1MemoryManager.html#a1ef609b8762f9a32441af05221275613">   37</a></span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1MemoryManager.html#a1ef609b8762f9a32441af05221275613">Set</a>(T* address, <a class="code hl_typedef" href="namespaceFaro.html#ad2c0f3261ab209e8901c67f099fe7c81">uint8</a> value, <a class="code hl_typedef" href="namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93">uint32</a> amount)</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno"><a class="line" href="classFaro_1_1MemoryManager.html#a1ef609b8762f9a32441af05221275613">   37</a></span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1MemoryManager.html#a1ef609b8762f9a32441af05221275613">Set</a>(T* address, <a class="code hl_typedef" href="namespaceFaro.html#ac18e1f426a4b79ddd223bca6387a496b">uint8</a> value, <a class="code hl_typedef" href="namespaceFaro.html#ab84f3659b50f35adc896cd6595f6ba02">uint32</a> amount)</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        {</div>
 <div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>            std::memset((<span class="keywordtype">void</span>*)address, value, <span class="keyword">sizeof</span>(T) * amount);</div>
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        }</div>
@@ -134,7 +134,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
 <div class="foldopen" id="foldopen00043" data-start="{" data-end="}">
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classFaro_1_1MemoryManager.html#abcf0080f87231e98147b4c9b4eabe7c2">   43</a></span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1MemoryManager.html#abcf0080f87231e98147b4c9b4eabe7c2">Zero</a>(T* address, <a class="code hl_typedef" href="namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93">uint32</a> amount = 1)</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="classFaro_1_1MemoryManager.html#abcf0080f87231e98147b4c9b4eabe7c2">   43</a></span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1MemoryManager.html#abcf0080f87231e98147b4c9b4eabe7c2">Zero</a>(T* address, <a class="code hl_typedef" href="namespaceFaro.html#ab84f3659b50f35adc896cd6595f6ba02">uint32</a> amount = 1)</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        {</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            Set&lt;T&gt;(address, 0, amount);</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>        }</div>
@@ -154,7 +154,7 @@ $(document).ready(function() { init_codefold(0); });
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
 <div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</div>
 <div class="foldopen" id="foldopen00059" data-start="{" data-end="}">
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classFaro_1_1MemoryManager.html#a178ae92d0ee32a9a3412f8474d881a76">   59</a></span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1MemoryManager.html#a178ae92d0ee32a9a3412f8474d881a76">Copy</a>(T* source, T* destination, <a class="code hl_typedef" href="namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93">uint32</a> elementCount = 1)</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="classFaro_1_1MemoryManager.html#a178ae92d0ee32a9a3412f8474d881a76">   59</a></span>        <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="classFaro_1_1MemoryManager.html#a178ae92d0ee32a9a3412f8474d881a76">Copy</a>(T* source, T* destination, <a class="code hl_typedef" href="namespaceFaro.html#ab84f3659b50f35adc896cd6595f6ba02">uint32</a> elementCount = 1)</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        {</div>
 <div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>            memcpy((<span class="keywordtype">void</span>*)destination, (<span class="keywordtype">void</span>*)source, <span class="keyword">sizeof</span>(T) * elementCount);</div>
 <div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>        }</div>
@@ -173,8 +173,8 @@ $(document).ready(function() { init_codefold(0); });
 <div class="ttc" id="aclassFaro_1_1MemoryManager_html_abcf0080f87231e98147b4c9b4eabe7c2"><div class="ttname"><a href="classFaro_1_1MemoryManager.html#abcf0080f87231e98147b4c9b4eabe7c2">Faro::MemoryManager::Zero</a></div><div class="ttdeci">static void Zero(T *address, uint32 amount=1)</div><div class="ttdef"><b>Definition</b> MemoryManager.hpp:43</div></div>
 <div class="ttc" id="aclassFaro_1_1MemoryManager_html_afb0c021386940f52bf4acdf23594afe3"><div class="ttname"><a href="classFaro_1_1MemoryManager.html#afb0c021386940f52bf4acdf23594afe3">Faro::MemoryManager::New</a></div><div class="ttdeci">static T * New(Args... args)</div><div class="ttdef"><b>Definition</b> MemoryManager.hpp:13</div></div>
 <div class="ttc" id="anamespaceFaro_html"><div class="ttname"><a href="namespaceFaro.html">Faro</a></div><div class="ttdef"><b>Definition</b> Array.hpp:8</div></div>
-<div class="ttc" id="anamespaceFaro_html_a4a53b0e111a248234da4d3c7c23e6f93"><div class="ttname"><a href="namespaceFaro.html#a4a53b0e111a248234da4d3c7c23e6f93">Faro::uint32</a></div><div class="ttdeci">unsigned int uint32</div><div class="ttdef"><b>Definition</b> Primitives.hpp:12</div></div>
-<div class="ttc" id="anamespaceFaro_html_ad2c0f3261ab209e8901c67f099fe7c81"><div class="ttname"><a href="namespaceFaro.html#ad2c0f3261ab209e8901c67f099fe7c81">Faro::uint8</a></div><div class="ttdeci">unsigned char uint8</div><div class="ttdef"><b>Definition</b> Primitives.hpp:6</div></div>
+<div class="ttc" id="anamespaceFaro_html_ab84f3659b50f35adc896cd6595f6ba02"><div class="ttname"><a href="namespaceFaro.html#ab84f3659b50f35adc896cd6595f6ba02">Faro::uint32</a></div><div class="ttdeci">uint32_t uint32</div><div class="ttdef"><b>Definition</b> Primitives.hpp:12</div></div>
+<div class="ttc" id="anamespaceFaro_html_ac18e1f426a4b79ddd223bca6387a496b"><div class="ttname"><a href="namespaceFaro.html#ac18e1f426a4b79ddd223bca6387a496b">Faro::uint8</a></div><div class="ttdeci">uint8_t uint8</div><div class="ttdef"><b>Definition</b> Primitives.hpp:6</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

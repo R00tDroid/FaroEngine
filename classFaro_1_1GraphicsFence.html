@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.dbd0479 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7bb7bba (main)</span>
    </div>
   </td>
  </tr>
@@ -94,6 +94,7 @@ Inheritance diagram for Faro::GraphicsFence:</div>
   <map id="Faro::GraphicsFence_map" name="Faro::GraphicsFence_map">
 <area href="classFaro_1_1IGraphicsAdapterChild.html" alt="Faro::IGraphicsAdapterChild" shape="rect" coords="0,56,173,80"/>
 <area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="0,0,173,24"/>
+<area href="classFaro_1_1GraphicsFenceVK.html" alt="Faro::GraphicsFenceVK" shape="rect" coords="0,168,173,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -155,7 +156,7 @@ Protected Member Functions</h2></td></tr>
 <p>Run the destruction logic of this class. This also frees its memory. </p>
 <dl class="section warning"><dt>Warning</dt><dd>When overriding, the super call must be performed <b>last</b> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">Faro::DataStream</a>, <a class="el" href="classFaro_1_1DataStreamCopy.html#a6b28cfbd2c9b9d76bc89616c2d693ce2">Faro::DataStreamCopy</a>, <a class="el" href="classFaro_1_1GraphicsBufferContainer.html#a3620774a4c2949f12b4db8d4ba9a2222">Faro::GraphicsBufferContainer</a>, and <a class="el" href="classFaro_1_1GraphicsSwapchain.html#a3875e33db11acde3d12943a0584b551c">Faro::GraphicsSwapchain</a>.</p>
+<p>Reimplemented in <a class="el" href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">Faro::DataStream</a>, <a class="el" href="classFaro_1_1DataStreamCopy.html#a6b28cfbd2c9b9d76bc89616c2d693ce2">Faro::DataStreamCopy</a>, <a class="el" href="classFaro_1_1GraphicsBufferContainer.html#a3620774a4c2949f12b4db8d4ba9a2222">Faro::GraphicsBufferContainer</a>, <a class="el" href="classFaro_1_1GraphicsSwapchain.html#a3875e33db11acde3d12943a0584b551c">Faro::GraphicsSwapchain</a>, <a class="el" href="classFaro_1_1GraphicsBufferVK.html#ae28a15469c1181a058287413283cbea4">Faro::GraphicsBufferVK</a>, <a class="el" href="classFaro_1_1GraphicsCommandListVK.html#af770824b5827a04db4c6bebd508535a7">Faro::GraphicsCommandListVK</a>, <a class="el" href="classFaro_1_1GraphicsFenceVK.html#a6c43e73b0523537fb41a6ef576e93dc9">Faro::GraphicsFenceVK</a>, <a class="el" href="classFaro_1_1GraphicsPipelineVK.html#aa60719ae0b81ff3741fd5f41a96df1d5">Faro::GraphicsPipelineVK</a>, <a class="el" href="classFaro_1_1GraphicsSemaphoreVK.html#a75256a0a144051e4a746538560a1b8e4">Faro::GraphicsSemaphoreVK</a>, and <a class="el" href="classFaro_1_1GraphicsSwapchainVK.html#a1de1f405e3f2aac1e484e010ac069aa5">Faro::GraphicsSwapchainVK</a>.</p>
 
 </div>
 </div>
@@ -238,6 +239,8 @@ template&lt;class T &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>true The marker has been hit </dd>
 <dd>
 false The marker has not been hit yet </dd></dl>
+
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsFenceVK.html#a669947601f68c6830e1841d752fc2c04">Faro::GraphicsFenceVK</a>.</p>
 
 </div>
 </div>
@@ -329,6 +332,8 @@ false The marker has not been hit yet </dd></dl>
 
 <p>Place a synchronization marker on the command queue of the related <a class="el" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a>. </p>
 
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsFenceVK.html#a1c1d292fc854b5516f3e6f8a189100ce">Faro::GraphicsFenceVK</a>.</p>
+
 </div>
 </div>
 <a id="a12c14ac1a407b895cffd762ecd3dd9e2" name="a12c14ac1a407b895cffd762ecd3dd9e2"></a>
@@ -355,6 +360,8 @@ false The marker has not been hit yet </dd></dl>
 </div><div class="memdoc">
 
 <p>Wait for the previously marker (Triggered by <a class="el" href="classFaro_1_1GraphicsFence.html#a61e16d791da24fa62a02b21be6a3666a" title="Place a synchronization marker on the command queue of the related GraphicsAdapter.">GraphicsFence::Trigger</a>) to be hit. </p>
+
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsFenceVK.html#aeb3f84f70ac61e388cc324ed096b7e26">Faro::GraphicsFenceVK</a>.</p>
 
 </div>
 </div>

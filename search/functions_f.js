@@ -9,7 +9,7 @@ var searchData=
   ['seteuleraxis_6',['SetEulerAxis',['../structFaro_1_1Matrix44.html#a6b98aaf7a8bc309fbb239fdcadb7f984',1,'Faro::Matrix44']]],
   ['setorientation_7',['SetOrientation',['../structFaro_1_1Matrix44.html#a60cfca31fa5117e43557f162dad0aaae',1,'Faro::Matrix44']]],
   ['setpiprecision_8',['SetPIPrecision',['../namespaceFaro.html#a45765c03aad848332bf8f9dfd230760f',1,'Faro']]],
-  ['setresourcestate_9',['setresourcestate',['../classFaro_1_1GraphicsBuffer.html#add08dac116d464beef3ad73ee9e37837',1,'Faro::GraphicsBuffer::SetResourceState()'],['../classFaro_1_1GraphicsCommandList.html#a2bf981a040ed260a340251e0bf07cf19',1,'Faro::GraphicsCommandList::SetResourceState()']]],
+  ['setresourcestate_9',['setresourcestate',['../classFaro_1_1GraphicsCommandList.html#a2bf981a040ed260a340251e0bf07cf19',1,'Faro::GraphicsCommandList::SetResourceState()'],['../classFaro_1_1GraphicsCommandListVK.html#ad0986aa5e087ae52ebc9e241168d8989',1,'Faro::GraphicsCommandListVK::SetResourceState()'],['../classFaro_1_1GraphicsBuffer.html#add08dac116d464beef3ad73ee9e37837',1,'Faro::GraphicsBuffer::SetResourceState()']]],
   ['settitle_10',['SetTitle',['../classFaro_1_1Window.html#a5dfd0fd3417ee9dfc861117af890c940',1,'Faro::Window']]],
   ['settranslation_11',['SetTranslation',['../structFaro_1_1Matrix44.html#af382fcc157cd43d4db4cb8161f3af6df',1,'Faro::Matrix44']]],
   ['setwindowstate_12',['SetWindowState',['../classFaro_1_1Window.html#a30342ced1e1919a7635fc42c4be1435c',1,'Faro::Window']]],

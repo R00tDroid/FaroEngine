@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.dbd0479 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7bb7bba (main)</span>
    </div>
   </td>
  </tr>
@@ -78,6 +78,7 @@ $(function() {
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-attribs">Public Attributes</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
+<a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classFaro_1_1GraphicsSwapchain-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Faro::GraphicsSwapchain Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
@@ -90,8 +91,9 @@ Inheritance diagram for Faro::GraphicsSwapchain:</div>
  <div class="center">
   <img src="classFaro_1_1GraphicsSwapchain.png" usemap="#Faro::GraphicsSwapchain_map" alt=""/>
   <map id="Faro::GraphicsSwapchain_map" name="Faro::GraphicsSwapchain_map">
-<area href="classFaro_1_1IGraphicsAdapterChild.html" alt="Faro::IGraphicsAdapterChild" shape="rect" coords="0,56,173,80"/>
-<area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="0,0,173,24"/>
+<area href="classFaro_1_1IGraphicsAdapterChild.html" alt="Faro::IGraphicsAdapterChild" shape="rect" coords="0,56,175,80"/>
+<area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="0,0,175,24"/>
+<area href="classFaro_1_1GraphicsSwapchainVK.html" alt="Faro::GraphicsSwapchainVK" shape="rect" coords="0,168,175,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -104,6 +106,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a3875e33db11acde3d12943a0584b551c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1749e14f137fa0e71e778ec7c532fa45" id="r_a1749e14f137fa0e71e778ec7c532fa45"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsSwapchain.html#a1749e14f137fa0e71e778ec7c532fa45">Present</a> ()=0</td></tr>
 <tr class="separator:a1749e14f137fa0e71e778ec7c532fa45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae54282f2759c0c8bb022364b9bdf567a" id="r_ae54282f2759c0c8bb022364b9bdf567a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1GraphicsSemaphore.html">GraphicsSemaphore</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsSwapchain.html#ae54282f2759c0c8bb022364b9bdf567a">GetSyncPoint</a> (<a class="el" href="namespaceFaro.html#ac18e1f426a4b79ddd223bca6387a496b">uint8</a> imageIndex)</td></tr>
+<tr class="separator:ae54282f2759c0c8bb022364b9bdf567a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af73af7d9d8d9e994743c90ddace80782" id="r_af73af7d9d8d9e994743c90ddace80782"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#af73af7d9d8d9e994743c90ddace80782">Init</a> (<a class="el" href="classFaro_1_1GraphicsAdapter.html">GraphicsAdapter</a> *adapter)</td></tr>
 <tr class="memdesc:af73af7d9d8d9e994743c90ddace80782"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize this as a child object for an adapter. Also invokes <a class="el" href="classFaro_1_1IObject.html#a058a901f8ad2e5767a2b778dfadecea5" title="Run the initialization logic of this object. Should be overriden by deriving classes.">IObject::Init</a>, derived classes should use that for initialization.  <br /></td></tr>
 <tr class="separator:af73af7d9d8d9e994743c90ddace80782"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -125,6 +129,11 @@ Protected Member Functions</h2></td></tr>
 <tr class="memitem:a3ce0df28383cb7dc73ff6425b019f99e" id="r_a3ce0df28383cb7dc73ff6425b019f99e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1IGraphicsAdapterChild.html#a3ce0df28383cb7dc73ff6425b019f99e">Init</a> () override</td></tr>
 <tr class="memdesc:a3ce0df28383cb7dc73ff6425b019f99e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Run the initialization logic of this object. Should be overriden by deriving classes.  <br /></td></tr>
 <tr class="separator:a3ce0df28383cb7dc73ff6425b019f99e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
+Protected Attributes</h2></td></tr>
+<tr class="memitem:a1a98150dded6792f90202ee57080c32c" id="r_a1a98150dded6792f90202ee57080c32c"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt; <a class="el" href="classFaro_1_1GraphicsSemaphore.html">GraphicsSemaphore</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classFaro_1_1GraphicsSwapchain.html#a1a98150dded6792f90202ee57080c32c">bufferReadySync</a></td></tr>
+<tr class="separator:a1a98150dded6792f90202ee57080c32c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="ad534791f7206530ab244652d8c8351e5" name="ad534791f7206530ab244652d8c8351e5"></a>
@@ -180,6 +189,8 @@ Protected Member Functions</h2></td></tr>
 
 <p>Reimplemented from <a class="el" href="classFaro_1_1IObject.html#a9857533599d648736a644773bfd80268">Faro::IObject</a>.</p>
 
+<p>Reimplemented in <a class="el" href="classFaro_1_1GraphicsSwapchainVK.html#a1de1f405e3f2aac1e484e010ac069aa5">Faro::GraphicsSwapchainVK</a>.</p>
+
 </div>
 </div>
 <a id="a1c73ba86c25f27f80383d0e7a44d55c1" name="a1c73ba86c25f27f80383d0e7a44d55c1"></a>
@@ -203,6 +214,24 @@ Protected Member Functions</h2></td></tr>
 <span class="mlabels"><span class="mlabel">inherited</span></span>  </td>
   </tr>
 </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae54282f2759c0c8bb022364b9bdf567a" name="ae54282f2759c0c8bb022364b9bdf567a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae54282f2759c0c8bb022364b9bdf567a">&#9670;&#160;</a></span>GetSyncPoint()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1GraphicsSemaphore.html">GraphicsSemaphore</a> * Faro::GraphicsSwapchain::GetSyncPoint </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceFaro.html#ac18e1f426a4b79ddd223bca6387a496b">uint8</a>&#160;</td>
+          <td class="paramname"><em>imageIndex</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
 </div><div class="memdoc">
 
 </div>
@@ -331,6 +360,8 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Reimplemented in <a class="el" href="classFaro_1_1GraphicsSwapchainVK.html#a0bce64abdfe7a2db104dbbe2a79654e0">Faro::GraphicsSwapchainVK</a>.</p>
+
 </div>
 </div>
 <a id="a1749e14f137fa0e71e778ec7c532fa45" name="a1749e14f137fa0e71e778ec7c532fa45"></a>
@@ -356,6 +387,8 @@ template&lt;class T &gt; </div>
 </table>
 </div><div class="memdoc">
 
+<p>Implemented in <a class="el" href="classFaro_1_1GraphicsSwapchainVK.html#ac45d9b255c82c09bd4395323dfd59fb5">Faro::GraphicsSwapchainVK</a>.</p>
+
 </div>
 </div>
 <h2 class="groupheader">Member Data Documentation</h2>
@@ -369,6 +402,28 @@ template&lt;class T &gt; </div>
           <td class="memname"><a class="el" href="classFaro_1_1GraphicsSwapchainImageContainer.html">GraphicsSwapchainImageContainer</a>* Faro::GraphicsSwapchain::backbuffer = nullptr</td>
         </tr>
       </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a1a98150dded6792f90202ee57080c32c" name="a1a98150dded6792f90202ee57080c32c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a98150dded6792f90202ee57080c32c">&#9670;&#160;</a></span>bufferReadySync</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classFaro_1_1Array.html">Array</a>&lt;<a class="el" href="classFaro_1_1GraphicsSemaphore.html">GraphicsSemaphore</a>*&gt; Faro::GraphicsSwapchain::bufferReadySync</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 
 </div>

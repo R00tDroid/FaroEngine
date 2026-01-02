@@ -1,7 +1,7 @@
 var searchData=
 [
   ['w_0',['w',['../structFaro_1_1Vector4.html#a4098793e0e8030d27fc45fb6ed94b609',1,'Faro::Vector4']]],
-  ['waitforfinish_1',['WaitForFinish',['../classFaro_1_1GraphicsFence.html#a12c14ac1a407b895cffd762ecd3dd9e2',1,'Faro::GraphicsFence']]],
+  ['waitforfinish_1',['waitforfinish',['../classFaro_1_1GraphicsFenceVK.html#aeb3f84f70ac61e388cc324ed096b7e26',1,'Faro::GraphicsFenceVK::WaitForFinish()'],['../classFaro_1_1GraphicsFence.html#a12c14ac1a407b895cffd762ecd3dd9e2',1,'Faro::GraphicsFence::WaitForFinish()']]],
   ['waitforstop_2',['WaitForStop',['../classFaro_1_1IThread.html#af65a39ccbed31a9baa1a3012f985c2f4',1,'Faro::IThread']]],
   ['warnings_3',['Warnings',['../md_Style.html#autotoc_md8',1,'']]],
   ['white_4',['White',['../structFaro_1_1IColor.html#a2553857653a64d229fc4963f4735835c',1,'Faro::IColor']]],

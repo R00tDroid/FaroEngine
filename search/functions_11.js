@@ -5,6 +5,6 @@ var searchData=
   ['unlock_2',['unlock',['../classFaro_1_1Mutex.html#a5dd30ecaf255a69fc13b39b6ad4c825e',1,'Faro::Mutex::Unlock()'],['../classFaro_1_1ThreadSafe.html#abf4eebd276f240fe7f63017a1cadbae5',1,'Faro::ThreadSafe::Unlock()']]],
   ['unregisterthread_3',['UnregisterThread',['../classFaro_1_1IThreadInterface.html#ab06d6d68d594b51fdfbe93eeec771dac',1,'Faro::IThreadInterface']]],
   ['update_4',['update',['../classFaro_1_1Application.html#a30257945c189d05ab955818201eaf5ba',1,'Faro::Application::Update()'],['../classFaro_1_1ModuleManager.html#a7b5ad7f6468a684f35cb794e8aa3ef99',1,'Faro::ModuleManager::Update()']]],
-  ['upload_5',['Upload',['../classFaro_1_1GraphicsBuffer.html#a226e1df2dffe35799901535fd4fa262e',1,'Faro::GraphicsBuffer']]],
+  ['upload_5',['upload',['../classFaro_1_1GraphicsBuffer.html#a226e1df2dffe35799901535fd4fa262e',1,'Faro::GraphicsBuffer::Upload()'],['../classFaro_1_1GraphicsBufferVK.html#afc48951a0f52f6f819226ed0c9f2a903',1,'Faro::GraphicsBufferVK::Upload()']]],
   ['upper_6',['Upper',['../classFaro_1_1String.html#a4f1993158ac7d66c28d194ef1d09bf2d',1,'Faro::String']]]
 ];

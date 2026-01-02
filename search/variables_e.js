@@ -1,9 +1,12 @@
 var searchData=
 [
-  ['semanticindex_0',['semanticIndex',['../structFaro_1_1GraphicsPipelineDesc_1_1InputLayoutElement.html#afbe2671fa5bd3a3760cad931dcae2367',1,'Faro::GraphicsPipelineDesc::InputLayoutElement']]],
-  ['shaderresource_1',['shaderResource',['../structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html#ad20ac50ecdd9d0004417aa5624dd2fe2',1,'Faro::GraphicsBufferDesc::TextureDesc']]],
-  ['spirv_2',['spirV',['../structShader.html#a16a930a1370c9d513ce0dfdc7d75c9f0',1,'Shader']]],
-  ['stride_3',['stride',['../structFaro_1_1GraphicsBufferDesc.html#a723f159235f4d65f3516ed844f202024',1,'Faro::GraphicsBufferDesc']]],
-  ['swapchain_4',['swapchain',['../structFaro_1_1GraphicsBufferDesc_1_1RenderTargetDesc.html#a576e667d3f6e9489365914078e2a981e',1,'Faro::GraphicsBufferDesc::RenderTargetDesc']]],
-  ['swapchainimageindex_5',['swapchainImageIndex',['../structFaro_1_1GraphicsBufferDesc_1_1RenderTargetDesc.html#ab29e287c1fd8799eac1d81764275af45',1,'Faro::GraphicsBufferDesc::RenderTargetDesc']]]
+  ['r_0',['r',['../structFaro_1_1IColor.html#a10c5003dbdc7a30a8295645e70e7377f',1,'Faro::IColor']]],
+  ['red_1',['Red',['../structFaro_1_1IColor.html#abb6e85944f395f598e0d988d76fd84a1',1,'Faro::IColor']]],
+  ['registeredthread_2',['registeredThread',['../namespaceFaro.html#aee300cc5bd2efa74d9da9214bc0a1e6f',1,'Faro']]],
+  ['rendertarget_3',['rendertarget',['../structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html#ae8af64663f88b6b862f9dec86359a59b',1,'Faro::GraphicsBufferDesc::TextureDesc::renderTarget'],['../structFaro_1_1GraphicsBufferDesc.html#a3ed2f7e29b77ebb04086cd2045a03056',1,'Faro::GraphicsBufferDesc::renderTarget']]],
+  ['rendertargets_4',['renderTargets',['../structFaro_1_1GraphicsPipelineDesc.html#ab7af0e6c6b4c46a4a60b2c7da44b1191',1,'Faro::GraphicsPipelineDesc']]],
+  ['resolution_5',['resolution',['../structFaro_1_1GraphicsBufferDesc_1_1TextureDesc.html#afe425a3245de9e201c2b5aa77c29cba0',1,'Faro::GraphicsBufferDesc::TextureDesc']]],
+  ['resources_6',['resources',['../classFaro_1_1GraphicsBufferContainer.html#ac514f945cc2d2ca1b09c9c690390a0dd',1,'Faro::GraphicsBufferContainer']]],
+  ['resourcetype_7',['resourceType',['../structFaro_1_1GraphicsBufferDesc.html#a3080b9ac7c3d6b153152a6c8d37d04f9',1,'Faro::GraphicsBufferDesc']]],
+  ['right_8',['Right',['../structFaro_1_1Vector3.html#a6a31b7c7a02d6f7a55f63cc0f19dcf59',1,'Faro::Vector3']]]
 ];

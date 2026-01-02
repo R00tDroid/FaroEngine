@@ -22,7 +22,7 @@
  <tr id="projectrow">
   <td id="projectlogo"><img alt="Logo" src="Logo_55.png"/></td>
   <td id="projectalign">
-   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.dbd0479 (main)</span>
+   <div id="projectname">Faro Engine<span id="projectnumber">&#160;0.0.0.7bb7bba (main)</span>
    </div>
   </td>
  </tr>
@@ -89,14 +89,21 @@ Inheritance diagram for Faro::IGraphicsAdapterChild:</div>
  <div class="center">
   <img src="classFaro_1_1IGraphicsAdapterChild.png" usemap="#Faro::IGraphicsAdapterChild_map" alt=""/>
   <map id="Faro::IGraphicsAdapterChild_map" name="Faro::IGraphicsAdapterChild_map">
-<area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="640,0,886,24"/>
+<area href="classFaro_1_1IObject.html" title="Base class for dynamically allocated objects." alt="Faro::IObject" shape="rect" coords="768,0,1014,24"/>
 <area href="classFaro_1_1GraphicsBuffer.html" title="A buffer storing graphics related data. Created by GraphicsAdapter::CreateBuffer." alt="Faro::GraphicsBuffer" shape="rect" coords="0,112,246,136"/>
 <area href="classFaro_1_1GraphicsBufferContainer.html" alt="Faro::GraphicsBufferContainer" shape="rect" coords="256,112,502,136"/>
 <area href="classFaro_1_1GraphicsCommandList.html" alt="Faro::GraphicsCommandList" shape="rect" coords="512,112,758,136"/>
 <area href="classFaro_1_1GraphicsFence.html" title="Marker to be placed on an adapter command queue. Allows for synchronization between CPU and graphics ..." alt="Faro::GraphicsFence" shape="rect" coords="768,112,1014,136"/>
 <area href="classFaro_1_1GraphicsPipeline.html" title="Graphics pipeline state object." alt="Faro::GraphicsPipeline" shape="rect" coords="1024,112,1270,136"/>
-<area href="classFaro_1_1GraphicsSwapchain.html" alt="Faro::GraphicsSwapchain" shape="rect" coords="1280,112,1526,136"/>
+<area href="classFaro_1_1GraphicsSemaphore.html" alt="Faro::GraphicsSemaphore" shape="rect" coords="1280,112,1526,136"/>
+<area href="classFaro_1_1GraphicsSwapchain.html" alt="Faro::GraphicsSwapchain" shape="rect" coords="1536,112,1782,136"/>
+<area href="classFaro_1_1GraphicsBufferVK.html" alt="Faro::GraphicsBufferVK" shape="rect" coords="0,168,246,192"/>
 <area href="classFaro_1_1GraphicsSwapchainImageContainer.html" alt="Faro::GraphicsSwapchainImageContainer" shape="rect" coords="256,168,502,192"/>
+<area href="classFaro_1_1GraphicsCommandListVK.html" alt="Faro::GraphicsCommandListVK" shape="rect" coords="512,168,758,192"/>
+<area href="classFaro_1_1GraphicsFenceVK.html" alt="Faro::GraphicsFenceVK" shape="rect" coords="768,168,1014,192"/>
+<area href="classFaro_1_1GraphicsPipelineVK.html" alt="Faro::GraphicsPipelineVK" shape="rect" coords="1024,168,1270,192"/>
+<area href="classFaro_1_1GraphicsSemaphoreVK.html" alt="Faro::GraphicsSemaphoreVK" shape="rect" coords="1280,168,1526,192"/>
+<area href="classFaro_1_1GraphicsSwapchainVK.html" alt="Faro::GraphicsSwapchainVK" shape="rect" coords="1536,168,1782,192"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -147,7 +154,7 @@ Protected Member Functions</h2></td></tr>
 <p>Run the destruction logic of this class. This also frees its memory. </p>
 <dl class="section warning"><dt>Warning</dt><dd>When overriding, the super call must be performed <b>last</b> </dd></dl>
 
-<p>Reimplemented in <a class="el" href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">Faro::DataStream</a>, <a class="el" href="classFaro_1_1DataStreamCopy.html#a6b28cfbd2c9b9d76bc89616c2d693ce2">Faro::DataStreamCopy</a>, <a class="el" href="classFaro_1_1GraphicsBufferContainer.html#a3620774a4c2949f12b4db8d4ba9a2222">Faro::GraphicsBufferContainer</a>, and <a class="el" href="classFaro_1_1GraphicsSwapchain.html#a3875e33db11acde3d12943a0584b551c">Faro::GraphicsSwapchain</a>.</p>
+<p>Reimplemented in <a class="el" href="classFaro_1_1DataStream.html#a3f1895d151c081fee5344b15e879534c">Faro::DataStream</a>, <a class="el" href="classFaro_1_1DataStreamCopy.html#a6b28cfbd2c9b9d76bc89616c2d693ce2">Faro::DataStreamCopy</a>, <a class="el" href="classFaro_1_1GraphicsBufferContainer.html#a3620774a4c2949f12b4db8d4ba9a2222">Faro::GraphicsBufferContainer</a>, <a class="el" href="classFaro_1_1GraphicsSwapchain.html#a3875e33db11acde3d12943a0584b551c">Faro::GraphicsSwapchain</a>, <a class="el" href="classFaro_1_1GraphicsBufferVK.html#ae28a15469c1181a058287413283cbea4">Faro::GraphicsBufferVK</a>, <a class="el" href="classFaro_1_1GraphicsCommandListVK.html#af770824b5827a04db4c6bebd508535a7">Faro::GraphicsCommandListVK</a>, <a class="el" href="classFaro_1_1GraphicsFenceVK.html#a6c43e73b0523537fb41a6ef576e93dc9">Faro::GraphicsFenceVK</a>, <a class="el" href="classFaro_1_1GraphicsPipelineVK.html#aa60719ae0b81ff3741fd5f41a96df1d5">Faro::GraphicsPipelineVK</a>, <a class="el" href="classFaro_1_1GraphicsSemaphoreVK.html#a75256a0a144051e4a746538560a1b8e4">Faro::GraphicsSemaphoreVK</a>, and <a class="el" href="classFaro_1_1GraphicsSwapchainVK.html#a1de1f405e3f2aac1e484e010ac069aa5">Faro::GraphicsSwapchainVK</a>.</p>
 
 </div>
 </div>
