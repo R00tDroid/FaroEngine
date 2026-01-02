@@ -45,3 +45,16 @@ private:
     BuildStepInterface* buildStep = nullptr;
     bool shouldContinue = true;
 };
+
+class ModuleClean
+{
+public:
+    ModuleClean(const BuildSetup& buildSetup, const Toolchain* toolchain, const ModuleManifest* module);
+
+    const BuildSetup& buildSetup;
+    const Toolchain* toolchain;
+    const ModuleManifest* module;
+
+    std::mutex errorLock;
+    bool error = false;
+};

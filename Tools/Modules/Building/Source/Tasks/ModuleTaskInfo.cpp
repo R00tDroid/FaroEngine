@@ -17,7 +17,7 @@ ModuleBuild::ModuleBuild(WorkerPool& pool, const BuildSetup& buildSetup, const T
 
 void ModuleBuild::update()
 {
-    if (pool.isDone()) startStep();
+    if (pool.isDone()) startStep(); //TODO Should use TaskGroup?
 }
 
 bool ModuleBuild::isDone()
@@ -55,4 +55,11 @@ void ModuleBuild::startStep()
     buildSteps.erase(buildSteps.begin());
     buildStep->start();
     
+}
+
+ModuleClean::ModuleClean(const BuildSetup& buildSetup, const Toolchain* toolchain, const ModuleManifest* module) :
+    buildSetup(buildSetup),
+    toolchain(toolchain),
+    module(module)
+{
 }

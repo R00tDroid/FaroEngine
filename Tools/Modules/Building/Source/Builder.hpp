@@ -8,4 +8,5 @@ class ModuleManifest;
 namespace Builder
 {
     bool FaroBuildingExports build(const BuildSetup& buildSetup, const ProjectManifest* project, unsigned int moduleCount, const ModuleManifest** modules);
+    bool FaroBuildingExports clean(const BuildSetup& buildSetup, const ProjectManifest* project, unsigned int moduleCount, const ModuleManifest** modules);
 };

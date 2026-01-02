@@ -5,6 +5,7 @@
 #include "Toolchain.hpp"
 #include "Utility.hpp"
 #include "Worker.hpp"
+#include "Tasks/CleanTask.hpp"
 #include "Tasks/ModuleTaskInfo.hpp"
 
 bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project, unsigned int moduleCount, const ModuleManifest** moduleList)
@@ -122,6 +123,66 @@ bool Builder::build(const BuildSetup& buildSetup, const ProjectManifest* project
         }
 
         if (anyError) break;
+    }
+
+    workerPool.stop();
+
+    return !anyError;
+}
+
+bool Builder::clean(const BuildSetup& buildSetup, const ProjectManifest* project, unsigned int moduleCount, const ModuleManifest** moduleList)
+{
+    if (buildSetup.target == nullptr)
+    {
+        Utility::PrintLine("Invalid build target");
+        return false;
+    }
+
+    Toolchain* toolchain = buildSetup.target->toolchain();
+    if (toolchain == nullptr)
+    {
+        Utility::PrintLine("Invalid toolchain for build target");
+        return false;
+    }
+
+    std::vector<const ModuleManifest*> modules;
+    if (moduleCount == 0)
+    {
+        for (unsigned int i = 0; i < project->modules(); i++)
+        {
+            modules.push_back(project->module(i));
+        }
+    }
+    else
+    {
+        for (unsigned int i = 0; i < moduleCount; i++)
+        {
+            modules.push_back(moduleList[i]);
+        }
+    }
+
+    WorkerPool workerPool;
+    workerPool.start();
+
+    toolchain->prepare(buildSetup);
+
+    bool anyError = false;
+
+    std::vector<ModuleClean*> ModuleCleans;
+
+    for (const ModuleManifest* module : modules)
+    {
+        ModuleClean* moduleClean = new ModuleClean(buildSetup, toolchain, module);
+        workerPool.addTask<ModuleCleanTask>(moduleClean);
+        ModuleCleans.push_back(moduleClean);
+    }
+
+    workerPool.waitForCompletion();
+
+    for (ModuleClean* moduleBuild : ModuleCleans)
+    {
+        if (moduleBuild->error) anyError = true;
+        delete moduleBuild;
     }
 
     workerPool.stop();

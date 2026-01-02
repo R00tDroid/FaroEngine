@@ -91,7 +91,15 @@ int main(int argc, char** argv)
                 }
             }
 
-            //TODO Run clean
+            if (taskInfo.runClean)
+            {
+                //TODO Pass specific modules
+                if (!Builder::clean(setup, &project, 0, nullptr))
+                {
+                    Utility::PrintLine("Error while cleaning");
+                    return -1;
+                }
+            }
 
             if (taskInfo.runBuild)
             {
