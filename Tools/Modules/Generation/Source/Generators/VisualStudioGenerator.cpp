@@ -75,6 +75,11 @@ std::filesystem::path VSModuleInfo::getOutputExecutable(const Toolchain*, const 
     return {}; //TODO Implement
 }
 
+std::filesystem::path projectFilePath(const std::filesystem::path& directory, const ModuleManifest* moduleManifest)
+{
+    return directory / ("Module_" + std::string(moduleManifest->name()) + ".vcxproj");
+}
+
 bool VisualStudioGenerator::generate(const ProjectManifest* project)
 {
     Utility::PrintLine("Performing module generation...");
@@ -103,7 +108,7 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
     commandInfo->name = "Build";
     std::string idFile = (vsProjectInfo / (commandInfo->name + "Id.txt")).string();
     std::string projectPath = (projectDirectory / ("Action_" + commandInfo->name + ".vcxproj")).string();
-    commandInfo->buildByDefault = true;
+    commandInfo->buildByDefault = false;
     commandInfo->buildCommand = faroBuildTool + " -build -project " + project->manifestPath();
     commandInfo->cleanCommand = faroBuildTool + " -clean -project " + project->manifestPath();
     commandInfo->rebuildCommand = faroBuildTool + " -clean -build -project " + project->manifestPath();
@@ -139,9 +144,9 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
         moduleInfo->name = moduleManifest->name();
         moduleInfo->module = moduleManifest;
         moduleInfo->uuid = moduleManifest->uuid();
-        moduleInfo->projectPath = projectDirectory / ("Module_" + std::string(moduleManifest->name()) + ".vcxproj");
+        moduleInfo->projectPath = projectFilePath(projectDirectory, moduleManifest);
         moduleInfo->solutionPath = "Project/Modules";
-        moduleInfo->buildByDefault = false;
+        moduleInfo->buildByDefault = true;
         moduleInfo->debuggable = moduleManifest->moduleType() == MT_Executable;
         moduleInfo->project = project;
         if (moduleManifest->solutionLocation() != nullptr)
@@ -152,7 +157,7 @@ bool VisualStudioGenerator::generate(const ProjectManifest* project)
         for (unsigned int dependencyIndex = 0; dependencyIndex < moduleManifest->dependencies(); dependencyIndex++)
         {
             ModuleManifest* dependency = moduleManifest->dependency(dependencyIndex);
-            moduleInfo->dependencyUuids.push_back(dependency->uuid());
+            moduleInfo->dependencyProjects.push_back(projectFilePath(projectDirectory, dependency));
         }
 
         projectInfoList.push_back(moduleInfo);
@@ -575,55 +580,17 @@ void VisualStudioGenerator::writeFilterFile(const VSProjectInfo& project)
 
 void VisualStudioGenerator::writeSolutionFile(const ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList)
 {
-    std::ofstream stream(std::filesystem::path(project->manifestDirectory()) / (std::string(project->projectName()) + ".sln"));
+    tinyxml2::XMLDocument doc(false);
+    std::filesystem::path path = std::filesystem::path(project->manifestDirectory()) / (std::string(project->projectName()) + ".slnx");
 
-    stream << "Microsoft Visual Studio Solution File, Format Version 12.00\n";
-    stream << "# Visual Studio 16\n";
-    stream << "MinimumVisualStudioVersion = 10.0.40219.1\n";
+    tinyxml2::XMLElement* solutionElement = doc.NewElement("Solution");
+    doc.InsertEndChild(solutionElement);
 
-    for (VSProjectInfo* VSProjectInfo : projectInfoList)
-    {
-        stream << "Project(\"{" + std::string(project->uuid()) + "}\") = \"" + VSProjectInfo->name + "\", \"" + (VSProjectInfo->projectPath.string()) + "\", \"{" + VSProjectInfo->uuid + "}\"\n";
-        if (!VSProjectInfo->dependencyUuids.empty())
-        {
-            stream << "\tProjectSection(ProjectDependencies) = postProject\n";
-            for (std::string& dependency : VSProjectInfo->dependencyUuids)
-            {
-                stream << "\t\t{" << dependency << "} = {" << dependency << "}\n";
-            }
-            stream << "\tEndProjectSection\n";
-        }
-        stream << "EndProject\n";
-    }
+    tinyxml2::XMLElement* configurationsElement = solutionElement->InsertNewChildElement("Configurations");
 
-    std::map<std::filesystem::path, std::string> solutionDirectories;
-    for (VSProjectInfo* VSProjectInfo : projectInfoList)
-    {
-        VSProjectInfo->solutionPath.make_preferred();
-        VSProjectInfo->solutionPath = std::filesystem::weakly_canonical(VSProjectInfo->solutionPath);
+    tinyxml2::XMLElement* platformElement = configurationsElement->InsertNewChildElement("Platform");
+    platformElement->SetAttribute("Name", "x86");
 
-        std::vector<std::filesystem::path> tree = getDirectoryTree(VSProjectInfo->solutionPath);
-        for (std::filesystem::path& solutionDir : tree)
-        {
-            auto it = solutionDirectories.find(solutionDir);
-            if (it == solutionDirectories.end())
-            {
-                std::string uuidPath = (std::filesystem::path(project->manifestDirectory()) / "VSProjectInfo" / ("Dir" + solutionDir.filename().string() + "Id.txt")).string();
-                char uuid[UUID_LENGTH];
-                Utility::GetCachedUUID(uuidPath.c_str(), uuid);
-                solutionDirectories.insert(std::pair<std::filesystem::path, std::string>(solutionDir, std::string(uuid, UUID_LENGTH)));
-            }
-        }
-    }
-
-    for (auto& it : solutionDirectories)
-    {
-        stream << "Project(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\") = \"" + it.first.filename().string() + "\", \"" + it.first.filename().string() + "\", \"{" + it.second + "}\"\n";
-        stream << "EndProject\n";
-    }
-
-    stream << "Global\n";
-    stream << "\tGlobalSection(SolutionConfigurationPlatforms) = preSolution\n";
     for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
     {
         Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
@@ -637,62 +604,58 @@ void VisualStudioGenerator::writeSolutionFile(const ProjectManifest* project, st
                 std::string configName = configurationToString(configuration);
                 std::string displayName = targetName + " " + configName;
 
-                stream << "\t\t" << displayName << "|x86 = " << displayName << "|x86\n";
+                tinyxml2::XMLElement* buildTypeElement = configurationsElement->InsertNewChildElement("BuildType");
+                buildTypeElement->SetAttribute("Name", displayName.c_str());
             }
         }
     }
-    stream << "\tEndGlobalSection\n";
 
-    stream << "\tGlobalSection(ProjectConfigurationPlatforms) = postSolution\n";
-    for (VSProjectInfo* VSProjectInfo : projectInfoList)
+    for (VSProjectInfo* projectInfo : projectInfoList)
     {
-        writeSolutionProjectConfig(stream, *VSProjectInfo);
+        writeSolutionProjectConfig(solutionElement, projectInfo);
     }
-    stream << "\tEndGlobalSection\n";
 
-    stream << "\tGlobalSection(NestedProjects) = preSolution\n";
-    for (VSProjectInfo* VSProjectInfo : projectInfoList)
-    {
-        stream << "\t\t{" << VSProjectInfo->uuid << "} = {" << solutionDirectories[VSProjectInfo->solutionPath] << "}\n";
-    }
-    for (auto& it : solutionDirectories)
-    {
-        std::filesystem::path parent = it.first.parent_path();
-        if (!parent.empty())
-        {
-            stream << "\t\t{" << it.second << "} = {" << solutionDirectories[parent] << "}\n";
-        }
-    }
-    stream << "\tEndGlobalSection\n";
-
-    stream << "EndGlobal\n";
-
-    stream.close();
+    doc.SaveFile(path.string().c_str());
 }
 
-void VisualStudioGenerator::writeSolutionProjectConfig(std::ofstream& stream, const VSProjectInfo& project)
+void VisualStudioGenerator::writeSolutionProjectConfig(tinyxml2::XMLElement* solutionElement, const VSProjectInfo* projectInfo)
 {
+    tinyxml2::XMLElement* projectElement = solutionElement->InsertNewChildElement("Project");
+    projectElement->SetAttribute("Path", projectInfo->projectPath.string().c_str());
+    projectElement->SetAttribute("Id", projectInfo->uuid.c_str());
+
     for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
     {
         Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
         for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
         {
             BuildSetup setup;
-            setup.target = toolchain->target(targetIndex);;
+            setup.target = toolchain->target(targetIndex);
 
             for (int configurationIndex = 0; configurationIndex < Configuration::C_ENUMSIZE; configurationIndex++)
             {
-                setup.configuration = static_cast<Configuration>(configurationIndex);;
+                setup.configuration = static_cast<Configuration>(configurationIndex);
                 std::string configName = configurationToString(setup.configuration);
                 std::string setupName = setup.identifier();
                 std::string displayName = std::string(setup.target->displayName()) + " " + configName;
 
-                stream << "\t\t{" << project.uuid << "}." << setupName << "|x86.ActiveCfg = " << displayName << "|Win32\n";
-                if (project.buildByDefault)
-                {
-                    stream << "\t\t{" << project.uuid << "}." << setupName << "|x86.Build.0 = " << displayName << "|Win32\n";
-                }
+                tinyxml2::XMLElement* buildTypeElement = projectElement->InsertNewChildElement("BuildType");
+                buildTypeElement->SetAttribute("Solution", (displayName + "|*").c_str());
+                buildTypeElement->SetAttribute("Project", setupName.c_str());
             }
         }
+    }
+
+    if (!projectInfo->buildByDefault)
+    {
+        tinyxml2::XMLElement* buildElement = projectElement->InsertNewChildElement("Build");
+        buildElement->SetAttribute("Solution", "*|*");
+        buildElement->SetAttribute("Project", "false");
+    }
+
+    for (const std::filesystem::path& dependency : projectInfo->dependencyProjects)
+    {
+        tinyxml2::XMLElement* dependencyElement = projectElement->InsertNewChildElement("BuildDependency");
+        dependencyElement->SetAttribute("Project", dependency.string().c_str());
     }
 }

@@ -6,6 +6,11 @@
 #include "MSVCInfo/MSVCInfo.hpp"
 #include "Toolchain.hpp"
 
+namespace tinyxml2
+{
+    class XMLElement;
+}
+
 struct VSProjectInfo
 {
     std::string name;
@@ -15,7 +20,7 @@ struct VSProjectInfo
     std::filesystem::path solutionPath;
     bool debuggable = false;
 
-    std::vector<std::string> dependencyUuids;
+    std::vector<std::filesystem::path> dependencyProjects;
 
     virtual bool hasSourceFiles() const { return false; }
     virtual std::vector<std::filesystem::path> getSourceFiles() const { return {}; }
@@ -82,7 +87,7 @@ private:
 
     void writeSolutionFile(const ProjectManifest* project, std::vector<VSProjectInfo*> projectInfoList);
 
-    inline static void writeSolutionProjectConfig(std::ofstream& stream, const VSProjectInfo& vsProjectInfo);
+    inline static void writeSolutionProjectConfig(tinyxml2::XMLElement* solutionElement, const VSProjectInfo* projectInfo);
 
     MSVCVersion msvcVersion;
 };
