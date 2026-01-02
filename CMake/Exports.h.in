@@ -1,0 +1,15 @@
+#pragma once
+
+#if defined(_WIN32) || defined(__CYGWIN__)
+    #ifdef @ModuleName@_Impl
+        #define @ModuleName@Exports __declspec(dllexport)
+    #else
+        #define @ModuleName@Exports __declspec(dllimport)
+    #endif
+#else
+    #if __GNUC__ >= 4
+        #define @ModuleName@Exports __attribute__ ((visibility ("default")))
+    #else
+        #define @ModuleName@Exports
+    #endif
+#endif

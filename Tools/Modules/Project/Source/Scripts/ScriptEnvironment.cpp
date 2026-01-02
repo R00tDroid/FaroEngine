@@ -1,0 +1,143 @@
+#include "ScriptEnvironment.hpp"
+#include "Utility.hpp"
+#include <fstream>
+
+bool ScriptEnvironment::init(std::filesystem::path file)
+{
+    context = duk_create_heap_default();
+
+    if (!loadFromFile(file)) return false;
+
+    if (!bindEnvironment()) return false;
+
+    return true;
+}
+
+bool ScriptEnvironment::bindEnvironment()
+{
+    duk_push_c_function(context, &ScriptEnvironment::print, 1);
+    duk_put_global_string(context, "print");
+
+    return true;
+}
+
+void ScriptEnvironment::destroy()
+{
+    duk_destroy_heap(context);
+    context = nullptr;
+}
+
+void scriptPrint(std::string&& string)
+{
+    Utility::PrintLine("> " + string);
+}
+
+duk_ret_t ScriptEnvironment::print(duk_context* context)
+{
+    if (duk_is_string(context, 0) || duk_is_number(context, 0) || duk_is_boolean(context, 0))
+    {
+        scriptPrint(std::string(duk_to_string(context, 0)));
+        return 0;
+    }
+    else if (duk_is_array(context, 0))
+    {
+        std::string log;
+
+        duk_size_t length = duk_get_length(context, 0);
+        for (duk_size_t index = 0; index < length; index++)
+        {
+            if (!log.empty()) log += ", ";
+
+            duk_get_prop_index(context, -1, static_cast<duk_uarridx_t>(index));
+            if (duk_is_string(context, -1) || duk_is_number(context, -1) || duk_is_boolean(context, -1))
+            {
+                log += std::string(duk_to_string(context, -1));
+            }
+            else
+            {
+                log += "?";
+            }
+
+            duk_pop(context);
+        }
+
+        scriptPrint("Array: [" + log + "]");
+
+        return 0;
+    }
+    else if (duk_is_object(context, 0))
+    {
+        if (duk_get_prop_string(context, 0, "ptr"))
+        {
+            void* ptr = duk_get_pointer(context, -1);
+            ScriptObject* instance = static_cast<ScriptObject*>(ptr);
+            std::string objectLog = instance->print();
+            scriptPrint("Object: " + objectLog);
+            return 0;
+        }
+    }
+
+    Utility::PrintLine("Invalid type to print");
+    return -1;
+}
+
+void ScriptEnvironment::dumpStack(duk_context* context)
+{
+    duk_push_context_dump(context);
+    Utility::PrintLineD(std::string(duk_to_string(context, -1)));
+    duk_pop(context);
+}
+
+bool ScriptEnvironment::loadFromFile(const std::filesystem::path& file)
+{
+    std::ifstream stream(file);
+    std::string string((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
+    stream.close();
+
+    return loadFromString(string);
+}
+
+bool ScriptEnvironment::loadFromString(const std::string& string)
+{
+    duk_push_lstring(context, string.c_str(), string.length());
+
+    if (duk_peval(context) != 0)
+    {
+        Utility::PrintLine(std::string(duk_safe_to_string(context, -1)));
+        destroy();
+        return false;
+    }
+
+    duk_pop(context);
+
+    return true;
+}
+
+void ScriptObject::bind(duk_context* context) const
+{
+    duk_push_object(context);
+
+    duk_push_pointer(context, (void*)this);
+    duk_put_prop_string(context, -2, "ptr");
+
+    for (const auto& function : functions)
+    {
+        duk_push_c_function(context, function.second.function, function.second.args);
+        duk_put_prop_string(context, -2, function.first);
+    }
+}
+
+std::string ScriptObject::print() const
+{
+    std::string log;
+    for (auto& it : functions)
+    {
+        if (!log.empty())
+        {
+            log += ", ";
+        }
+        log += it.first;
+    }
+
+    return log;
+}
