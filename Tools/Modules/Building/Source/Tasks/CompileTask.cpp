@@ -35,28 +35,7 @@ void ModuleCompileTask::runTask()
     compileInfo.includePaths = static_cast<unsigned int>(includePaths.size());
     compileInfo.includePathsPtr = includePaths.data();
 
-    std::vector<std::string> defineStrings;
-    for (unsigned int i = 0; i < Toolchain::defines(info->info->buildSetup); i++)
-    {
-        defineStrings.push_back(Toolchain::define(info->info->buildSetup, i));
-    }
-
-    for (unsigned int toolchainIndex = 0; toolchainIndex < Toolchain::toolchains(); toolchainIndex++)
-    {
-        Toolchain* toolchain = Toolchain::toolchain(toolchainIndex);
-        for (unsigned int targetIndex = 0; targetIndex < toolchain->targets(); targetIndex++)
-        {
-            Target* target = toolchain->target(targetIndex);
-            bool isCurrent = target == info->info->buildSetup.target;
-
-            for (unsigned int defineIndex = 0; defineIndex < target->defines(); defineIndex++)
-            {
-                std::string define = target->define(defineIndex);
-                defineStrings.push_back(define + "=" + (isCurrent ? "1" : "0"));
-            }
-        }
-    }
-
+    std::vector<std::string> defineStrings = Toolchain::getSetupDefines(info->info->buildSetup);
     std::vector<const char*> defines;
     for (const std::string& define : defineStrings)
     {

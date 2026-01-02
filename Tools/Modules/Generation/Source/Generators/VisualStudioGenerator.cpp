@@ -373,14 +373,12 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, const VSProjectInf
 
         element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
 
-        //TODO Get toolchain info
-        /*std::string preprocessorDefines;
-        for (std::string& path : toolchain->GetPreprocessorDefines(project.GetModuleManifest(), platform, buildType))
+        std::string preprocessorDefines;
+        for (const std::string& define : Toolchain::getSetupDefines(setup))
         {
-            preprocessorDefines += path + ";";
+            preprocessorDefines += define + ";";
         }
-
-        element->SetText(preprocessorDefines.c_str());*/
+        element->SetText(preprocessorDefines.c_str());
     }
 }
 
