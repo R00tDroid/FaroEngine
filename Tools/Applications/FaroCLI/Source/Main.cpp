@@ -146,8 +146,6 @@ int main(int argc, char** argv)
             if (!runTasks(taskInfo, project, setup)) {
                 return -1;
             }
-
-            
         }
 
         return 0;

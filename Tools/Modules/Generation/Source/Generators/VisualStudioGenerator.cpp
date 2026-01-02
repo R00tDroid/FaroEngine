@@ -74,6 +74,11 @@ std::filesystem::path VSModuleInfo::getOutputExecutable(const Toolchain* toolcha
     return module->getBinPath(setup, toolchain, LinkType::LT_Application);
 }
 
+std::vector<std::string> VSModuleInfo::getDefines() const
+{
+    return module->moduleDefines();
+}
+
 std::filesystem::path projectFilePath(const std::filesystem::path& directory, const ModuleManifest* moduleManifest)
 {
     return directory / ("Module_" + std::string(moduleManifest->name()) + ".vcxproj");
@@ -342,6 +347,10 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, const VSProjectInf
 
         std::string preprocessorDefines;
         for (const std::string& define : Toolchain::getSetupDefines(setup))
+        {
+            preprocessorDefines += define + ";";
+        }
+        for (const std::string& define : project.getDefines())
         {
             preprocessorDefines += define + ";";
         }

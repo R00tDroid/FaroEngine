@@ -2,6 +2,7 @@
 #include <GraphicsAdapterChild.hpp>
 #include <GraphicsBuffer.hpp>
 #include <Math/Color.hpp>
+#include <GraphicsSemaphore.hpp>
 
 namespace Faro
 {
@@ -9,7 +10,7 @@ namespace Faro
     {
     public:
         virtual void Reset() = 0;
-        virtual void Execute() = 0;
+        virtual void Execute(Array<GraphicsSemaphore*> waitForSemaphores = {}) = 0;
 
         virtual void SetResourceState(GraphicsBuffer* buffer, GraphicsResourceState state) = 0;
 

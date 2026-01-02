@@ -36,6 +36,9 @@ void ModuleCompileTask::runTask()
     compileInfo.includePathsPtr = includePaths.data();
 
     std::vector<std::string> defineStrings = Toolchain::getSetupDefines(info->info->buildSetup);
+    std::vector<std::string> moduleDefines = info->info->module->moduleDefines();
+    defineStrings.insert(defineStrings.end(), moduleDefines.begin(), moduleDefines.end());
+
     std::vector<const char*> defines;
     for (const std::string& define : defineStrings)
     {
