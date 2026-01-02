@@ -67,6 +67,9 @@ public:
     virtual const char* getBinExtension() const = 0;
     virtual const char* getLinkExtension(LinkType type) const = 0;
 
+    virtual unsigned includePaths() const = 0;
+    virtual const char* includePath(unsigned index) const = 0;
+
     static std::vector<std::string> getSetupDefines(const BuildSetup& buildSetup) {
         std::vector<std::string> defineStrings;
 

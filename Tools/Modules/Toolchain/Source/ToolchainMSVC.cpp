@@ -81,7 +81,7 @@ bool ToolchainMSVC::prepare(const BuildSetup&)
     linkExe = msvcTools.string() + "\\link.exe";
     msvcDrive = msvcRoot.string().substr(0, 1);
 
-    includePaths = {
+    includeDirectories = {
         (msvcRoot / "include").string(),
         (windowsSdkInclude / "shared").string(),
         (windowsSdkInclude / "ucrt").string(),
@@ -108,7 +108,7 @@ bool ToolchainMSVC::compile(const ToolchainCompileInfo& info) const
     std::filesystem::path sourceFile(info.file);
 
     std::string includesString = "";
-    for (const std::string& include : includePaths)
+    for (const std::string& include : includeDirectories)
     {
         includesString += " /I\"" + include + "\"";
     }
@@ -248,4 +248,14 @@ const char* ToolchainMSVC::getLinkExtension(LinkType type) const
         return ".exe";
     }
     return nullptr;
+}
+
+unsigned int ToolchainMSVC::includePaths() const
+{
+    return static_cast<unsigned int>(includeDirectories.size());
+}
+
+const char* ToolchainMSVC::includePath(unsigned int index) const
+{
+    return includeDirectories[index].c_str();
 }

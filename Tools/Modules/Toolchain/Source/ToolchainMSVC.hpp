@@ -39,12 +39,14 @@ public:
     bool link(const ToolchainLinkInfo& info) const override;
     const char* getBinExtension() const override;
     const char* getLinkExtension(LinkType type) const override;
+    unsigned includePaths() const override;
+    const char* includePath(unsigned index) const override;
 
 private:
     MSVCVersion msvcVersion;
     std::vector<TargetMSVC> configurations;
 
-    std::vector<std::string> includePaths;
+    std::vector<std::string> includeDirectories;
     std::vector<std::string> defines;
 
     std::vector<std::string> libFolders;

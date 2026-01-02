@@ -312,27 +312,18 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, const VSProjectInf
     {
         tinyxml2::XMLElement* element = propertyGroup->InsertNewChildElement("IncludePath");
 
-        std::string includePaths;
+        std::string includeDirectories;
 
-        //TODO Get toolchain info
-        /*ModuleManifest* moduleManifest = project.getModuleManifest();
-        if (moduleManifest != nullptr)
+        for (unsigned int i = 0; i < toolchain->includePaths(); i++)
         {
-            toolchain->prepareModuleForBuild(*project.getModuleManifest(), platform, buildType);
-            std::vector<std::filesystem::path> toolchainIncludes = toolchain->getToolchainIncludes(platform, buildType);
-
-            for (std::filesystem::path& path : toolchainIncludes)
-            {
-                includePaths += path + ";";
-            }
-        }*/
-
+            includeDirectories += std::string(toolchain->includePath(i)) + ";";
+        }
         for (std::filesystem::path& path : project.getIncludePaths())
         {
-            includePaths += path.string() + ";";
+            includeDirectories += path.string() + ";";
         }
 
-        element->SetText(includePaths.c_str());
+        element->SetText(includeDirectories.c_str());
 
         propertyGroup->InsertNewChildElement("ReferencePath");
         propertyGroup->InsertNewChildElement("LibraryPath");
@@ -369,7 +360,7 @@ void writeConfigSection(tinyxml2::XMLElement* projectElement, const VSProjectInf
         }
 
         element = propertyGroup->InsertNewChildElement("NMakeIncludeSearchPath");
-        element->SetText(includePaths.c_str());
+        element->SetText(includeDirectories.c_str());
 
         element = propertyGroup->InsertNewChildElement("NMakePreprocessorDefinitions");
 
@@ -421,6 +412,7 @@ void VisualStudioGenerator::writeProjectFile(const VSProjectInfo& project)
 
             for (int ConfigurationIndex = 0; ConfigurationIndex < Configuration::C_ENUMSIZE; ConfigurationIndex++)
             {
+                toolchain->prepare(buildSetup);
                 buildSetup.configuration = static_cast<Configuration>(ConfigurationIndex);
                 Utility::PrintLineD(buildSetup.identifier());
                 writeConfigSection(projectElement, project, buildSetup, toolchain);
