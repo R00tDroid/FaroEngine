@@ -2,8 +2,6 @@
 
 namespace Faro
 {
-    IMPLEMENT_INSTANCE_REGISTRY(GraphicsInterface, Faro::GraphicsInterface)
-
     GraphicsInterface* GGraphics = nullptr;
 
     String GraphicsInterface::VendorCodeToString(uint32 vendorCode)
@@ -29,6 +27,6 @@ namespace Faro
 
     Array<GraphicsInterface*> GetGraphicsInterfaces()
     {
-        return InstanceRegistry_GraphicsInterface::Get().GetValues();
+        return {};// InstanceRegistry_GraphicsInterface::Get().GetValues();
     }
 }
