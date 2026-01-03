@@ -3,6 +3,10 @@
 #include <typeinfo>
 #include <Memory/MemoryManager.hpp>
 
+#define Class() class
+#define Property()
+#define ClassBody() public: static void GetType() {}
+
 namespace Faro
 {
     struct ClassReflection;
