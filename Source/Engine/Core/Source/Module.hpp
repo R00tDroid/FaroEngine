@@ -5,8 +5,9 @@
 
 namespace Faro
 {
-    class IModule
+    Class() IModule
     {
+    //IModule_BODY()
     public:
         virtual void Load() = 0;
         virtual void Unload() = 0;
@@ -14,10 +15,10 @@ namespace Faro
         virtual Array<String> GetRuntimeDependencies() = 0;
 
         uint32 loadOrder = 0;
+
+        Property()
+        int test;
     };
 
     extern Array<IModule*> GetRegisteredModules();
-
-    //DEFINE_INSTANCE_REGISTRY(Module, Faro::IModule)
-#define REGISTER_MODULE(MODULE) REGISTER_CLASS(MODULE)
 }
