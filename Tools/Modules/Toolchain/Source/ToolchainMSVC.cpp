@@ -35,12 +35,33 @@ ToolchainMSVC& ToolchainMSVC::instance()
 ToolchainMSVC::ToolchainMSVC()
 {
     unsigned int msvcVersions = msvcInstallations();
-    if (msvcVersions == 0)
+    for (unsigned int i = 0; i < msvcVersions; i++)
+    {
+        msvcVersion = msvcInstallation(i);
+
+        msvcRoot = msvcVersion.root;
+        msvcTools = msvcRoot / "bin" / "Hostx64" / "x64";
+        msvcLib = msvcRoot / "lib" / "x64";
+
+        clExe = msvcTools.string() + "\\cl.exe";
+        libExe = msvcTools.string() + "\\lib.exe";
+        linkExe = msvcTools.string() + "\\link.exe";
+
+        if (std::filesystem::exists(clExe) &&
+            std::filesystem::exists(libExe) &&
+            std::filesystem::exists(linkExe))
+        {
+            break;
+        }
+
+        msvcVersion = {};
+    }
+
+    if (msvcVersion.root.empty())
     {
         Utility::PrintLine("MSVC not found. Toolchain not available");
         return;
     }
-    msvcVersion = msvcInstallation(0);
 
     unsigned int windowsKitVersions = windowsKits();
     if (windowsKitVersions == 0)
@@ -72,13 +93,6 @@ Target* ToolchainMSVC::target(unsigned int index)
 
 bool ToolchainMSVC::prepare(const BuildSetup&)
 {
-    msvcRoot = msvcVersion.root;
-    msvcTools = msvcRoot / "bin" / "Hostx64" / "x64";
-    msvcLib = msvcRoot / "lib" / "x64";
-
-    clExe = msvcTools.string() + "\\cl.exe";
-    libExe = msvcTools.string() + "\\lib.exe";
-    linkExe = msvcTools.string() + "\\link.exe";
     msvcDrive = msvcRoot.string().substr(0, 1);
 
     includeDirectories = {
