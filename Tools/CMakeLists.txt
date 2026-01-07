@@ -34,6 +34,7 @@ AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Toolchain")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Project")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Generation")
+AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Reflection")
 #AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Shaders") #TODO Port shader compiler
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Building")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/FaroCLI")

@@ -81,6 +81,5 @@ namespace Faro
         static Array<ILogSink*> logSinks;
     };
 
-    DEFINE_INSTANCE_REGISTRY(LogSinks, Faro::ILogSink)
-    #define REGISTER_LOGSINK(SINK) REGISTER_INSTANCE(LogSinks, SINK)
+    #define REGISTER_LOGSINK(SINK) REGISTER_CLASS(SINK)
 }
