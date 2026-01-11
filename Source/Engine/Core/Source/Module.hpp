@@ -5,7 +5,7 @@
 
 namespace Faro
 {
-    Class() IModule
+    Reflect(classFlag) class IModule
     {
     //IModule_BODY()
     public:
@@ -16,8 +16,10 @@ namespace Faro
 
         uint32 loadOrder = 0;
 
-        Property()
+        Reflect()
         int test;
+
+        inline int test() { return 4; }
     };
 
     extern Array<IModule*> GetRegisteredModules();

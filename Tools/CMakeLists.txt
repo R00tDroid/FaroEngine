@@ -3,7 +3,7 @@ project(FaroTools)
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 include(${CMAKE_CURRENT_LIST_DIR}/../CMake/ProjectVersion.cmake)
 include(${CMAKE_CURRENT_LIST_DIR}/../CMake/ModuleExports.cmake)
@@ -29,6 +29,8 @@ set(BUILD_GMOCK FALSE)
 set(INSTALL_GTEST FALSE)
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/duktape")
+AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/tree-sitter")
+AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/tree-sitter-cpp")
 
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Toolchain")
@@ -45,3 +47,5 @@ AddModule("${CMAKE_CURRENT_LIST_DIR}/Applications/Tests")
 #endif()
 
 configure_file(${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.cpp.in ${CMAKE_CURRENT_LIST_DIR}/../Source/Engine/Core/Source/EngineVersion.generated.cpp @ONLY)
+
+
