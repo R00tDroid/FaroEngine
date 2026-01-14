@@ -3,6 +3,8 @@
 
 namespace Faro
 {
+    REGISTER_MODULE(ResourcesModule)
+
     LOG_DECLARATION(ResourceLog, Resources)
 
     void ResourcesModule::Load()

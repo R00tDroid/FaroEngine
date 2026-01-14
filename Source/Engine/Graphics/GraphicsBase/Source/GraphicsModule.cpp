@@ -5,6 +5,8 @@
 
 namespace Faro
 {
+    REGISTER_MODULE(GraphicsModule)
+
     void GraphicsModule::Load()
     {
         Logger::Log(GraphicsLog, LC_Debug, "Loading GGraphics");

@@ -27,7 +27,5 @@ namespace Faro
         IDXGIFactory4* dxgiFactory = nullptr;
         Array<GraphicsAdapterDesc> adapterDescs;
     };
-
-    REGISTER_GRAPHICS(GraphicsInterfaceD3D12)
 }
 #endif
