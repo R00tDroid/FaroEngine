@@ -29,6 +29,7 @@ set(BUILD_GMOCK FALSE)
 set(INSTALL_GTEST FALSE)
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/googletest")
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/duktape")
+set(BUILD_SHARED_LIBS FALSE)
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/tree-sitter")
 AddDependency("${CMAKE_CURRENT_LIST_DIR}/Shared/tree-sitter-cpp")
 
