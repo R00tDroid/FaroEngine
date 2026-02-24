@@ -17,9 +17,9 @@ namespace Faro
         uint32 loadOrder = 0;
 
         Reflect()
-        int test;
+        int testInt;
 
-        inline int test() { return 4; }
+        inline int testFunction() { return 4; }
     };
 
     extern Array<IModule*> GetRegisteredModules();

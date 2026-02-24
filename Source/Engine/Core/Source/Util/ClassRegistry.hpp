@@ -3,7 +3,7 @@
 #include <typeinfo>
 #include <Memory/MemoryManager.hpp>
 
-#define Reflect()
+#define Reflect(...)
 #define ClassBody() public: static void GetType() {}
 
 namespace Faro
