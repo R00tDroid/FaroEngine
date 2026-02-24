@@ -19,6 +19,7 @@ namespace Faro
         Reflect()
         int testInt;
 
+        Reflect(functionFlag)
         inline int testFunction() { return 4; }
     };
 
