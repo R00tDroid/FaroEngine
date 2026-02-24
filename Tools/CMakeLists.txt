@@ -36,6 +36,7 @@ add_library(tree-sitter-cpp
     "${CMAKE_CURRENT_LIST_DIR}/Shared/tree-sitter-cpp/src/parser.c"
     "${CMAKE_CURRENT_LIST_DIR}/Shared/tree-sitter-cpp/src/scanner.c"
 )
+RegisterDependency(tree-sitter-cpp)
 
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Tools")
 AddModule("${CMAKE_CURRENT_LIST_DIR}/Modules/Toolchain")
