@@ -159,6 +159,9 @@ bool FileReflector::Implementation::find_reflection_header(ReflectionInfo& info,
 
 ReflectedEntry* FileReflector::Implementation::reflect_type(ReflectionInfo& info, TSNode& node, const ReflectHeader&)
 {
+    //TODO Handle arguments from header
+    //TODO Handle parent relationship (class/struct members)
+
     std::string nodeType = ts_node_type(node);
     if (nodeType == "class_specifier")
     {
