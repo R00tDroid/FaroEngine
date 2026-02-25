@@ -147,7 +147,7 @@ void print_node(TSNode& node, unsigned int indentation, std::string& fileBuffer)
         text = fileBuffer.substr(textStart, textEnd - textStart);
     }
 
-    Utility::PrintLineD(std::string(indentation * 2, ' ') + " -" + nodeType + " (" + std::to_string(start.row) + ", " + std::to_string(start.column) + ") " + text);
+    //Utility::PrintLineD(std::string(indentation * 2, ' ') + " -" + nodeType + " (" + std::to_string(start.row) + ", " + std::to_string(start.column) + ") " + text);
 
     uint32_t child_count = ts_node_named_child_count(node);
     bool reflecting = false;
@@ -156,14 +156,13 @@ void print_node(TSNode& node, unsigned int indentation, std::string& fileBuffer)
     for (uint32_t i = 0; i < child_count; i++) {
         TSNode child = ts_node_named_child(node, i);
 
-        print_node(child, indentation + 1, fileBuffer);
-
         if (reflecting)
         {
             ReflectedEntry entry;
-            if (reflect_type(node, entry, fileBuffer))
+            if (reflect_type(child, entry, fileBuffer))
             {
                 Utility::PrintLineD("Reflected " + entry.name);
+                //TODO Save reflected type
             }
             else
             {
@@ -174,12 +173,7 @@ void print_node(TSNode& node, unsigned int indentation, std::string& fileBuffer)
         header = {};
         reflecting = parse_reflect_header(child, header, fileBuffer);
 
-        if (reflecting)
-        {
-            TSPoint reflectMarker = ts_node_start_point(node);
-	        Utility::PrintLineD("Reflecting " + std::to_string(reflectMarker.row) + ", " + std::to_string(reflectMarker.column));
-            //TODO Save reflected type
-        }
+        print_node(child, indentation + 1, fileBuffer);
     }
 }
 
