@@ -63,7 +63,7 @@ bool FileReflector::Implementation::reflect(const std::string& file, std::vector
 
     ReflectionInfo info = {
         file,
-	    entries
+        entries
     };
 
     bool result = reflect_node(info, root);
@@ -81,9 +81,10 @@ bool FileReflector::Implementation::reflect_node(ReflectionInfo& info, TSNode& n
 
     for (uint32_t i = 0; i < child_count; i++) {
         TSNode child = ts_node_named_child(node, i);
+        ReflectedEntry* reflected = nullptr;
         if (has_header)
         {
-            ReflectedEntry* reflected = reflect_type(info, child, header);
+            reflected = reflect_type(info, child, header);
             if (reflected == nullptr)
             {
                 Utility::PrintLine("Failed to reflect"); //TODO Log file location
@@ -95,10 +96,22 @@ bool FileReflector::Implementation::reflect_node(ReflectionInfo& info, TSNode& n
             }
         }
 
+        if (reflected != nullptr && (reflected->type == RT_Class || reflected->type == RT_Struct))
+        {
+            std::vector<ReflectedEntry*>& targetEntries = (reflected->type == RT_Class) ?
+                dynamic_cast<ReflectedClass*>(reflected)->members :
+                dynamic_cast<ReflectedStruct*>(reflected)->members;
+
+            ReflectionInfo childInfo = { info.file, targetEntries };
+            reflect_node(childInfo, child);
+        }
+        else
+        {
+            reflect_node(info, child);
+        }
+
         header = {};
         has_header = find_reflection_header(info, child, header);
-
-        reflect_node(info, child);
     }
 
     return true;
@@ -160,15 +173,17 @@ bool FileReflector::Implementation::find_reflection_header(ReflectionInfo& info,
 ReflectedEntry* FileReflector::Implementation::reflect_type(ReflectionInfo& info, TSNode& node, const ReflectHeader&)
 {
     //TODO Handle arguments from header
-    //TODO Handle parent relationship (class/struct members)
 
     std::string nodeType = ts_node_type(node);
-    if (nodeType == "class_specifier")
+    if (nodeType == "class_specifier" || nodeType == "struct_specifier")
     {
         TSNode id;
         if (expect_child_node(node, "type_identifier", id))
         {
-            ReflectedClass* entry = new ReflectedClass();
+            ReflectedEntry* entry = nullptr;
+            if (nodeType == "class_specifier") entry = new ReflectedClass();
+            else entry = new ReflectedStruct();
+
             entry->name = get_node_text(id, info.file);
             return entry;
         }

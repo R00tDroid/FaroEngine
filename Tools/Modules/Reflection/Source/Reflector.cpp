@@ -26,10 +26,11 @@ bool Reflector::generateFileReflection(const ModuleManifest* moduleManifest, uns
     if (!entries.empty())
     {
         //TODO Process reflected types
-	    
+
         for (const ReflectedEntry* entry : entries)
         {
             Utility::PrintLineD("Reflected " + entry->name);
+            delete entry;
         }
     }
 
