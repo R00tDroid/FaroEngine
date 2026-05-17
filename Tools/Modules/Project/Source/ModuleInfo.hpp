@@ -181,6 +181,13 @@ public:
         return getBuildDirectory(buildSetup) / "Changes.bin";
     }
 
+    std::filesystem::path getGeneratedDirectory() const
+    {
+        std::filesystem::path cacheFolder = cacheDirectory();
+        std::filesystem::path generatedFolder = cacheFolder / "Generated";
+        return generatedFolder;
+    }
+
 private:
     std::vector<std::filesystem::path> treeIncludes() const
     {
