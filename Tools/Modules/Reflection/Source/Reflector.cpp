@@ -109,7 +109,7 @@ bool Reflector::generateFileReflection(const ModuleManifest* moduleManifest, uns
             reflectEntry(entry, outStream);
         }
 
-        outStream << "\nstd::vector<const ReflectedType*> " + std::string(moduleManifest->name()) + "_Reflection() const {\n\treturn {\n";
+        outStream << "\nstd::vector<const ReflectedType*> " + std::string(moduleManifest->name()) + "_Reflection() const {\n\treturn {\n"; //TODO Call registration on startup
     	
         for (const ReflectedEntry* entry : entries)
         {
