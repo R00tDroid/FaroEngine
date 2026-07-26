@@ -16,15 +16,11 @@ void ModuleCheckStep::scheduleTreeScan()
 
     if (alreadyScanned) return;
 
+    Reflector::generateModuleReflection(moduleBuild()->module);
+
     for (unsigned int sourceIndex = 0; sourceIndex < moduleBuild()->module->sourceFiles(); sourceIndex++)
     {
         std::filesystem::path file = moduleBuild()->module->sourceFile(sourceIndex);
-
-        //TODO Only reflect when data is missing or outdated
-        if (Utility::IsIncludeFile(file.string().c_str()))
-        {
-            Reflector::generateFileReflection(moduleBuild()->module, sourceIndex);
-        }
 
         if (Utility::IsSourceFile(file.string().c_str()))
         {
