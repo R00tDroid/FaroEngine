@@ -93,7 +93,9 @@ bool Reflector::generateFileReflection(const ModuleManifest* moduleManifest, uns
         create_directories(generatedFolder);
     }
 
-    std::filesystem::path filePath = generatedFolder / ("Reflection" + file.filename().string() + ".cpp");
+    auto filename = file.filename().replace_extension(".generated.hpp");
+
+    std::filesystem::path filePath = generatedFolder / filename;
 
     std::ofstream outStream(filePath);
 
@@ -117,7 +119,7 @@ bool Reflector::generateFileReflection(const ModuleManifest* moduleManifest, uns
         }
     }
 
-    outStream << "\t}\n;}";
+    outStream << "\t};\n}";
 
     //TODO Generate class header
 
