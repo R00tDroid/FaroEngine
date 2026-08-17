@@ -3,7 +3,6 @@
 #include <fstream>
 #include "ModuleInfo.hpp"
 #include <string>
-#include <string_view>
 #include "FileParser.hpp"
 
 static void reflectEntry(const ReflectedEntry* entry, std::ofstream& file);
@@ -69,6 +68,26 @@ static void reflectEntry(const ReflectedEntry* entry, std::ofstream& file)
     }
 }
 
+std::string string_hash(const std::string& string)
+{
+    std::hash<std::string> hasher;
+    auto hashed = hasher(string);
+    return std::to_string(hashed);
+}
+
+void get_reflection_paths(const ModuleManifest* moduleManifest, const std::filesystem::path& path, std::filesystem::path& header, std::filesystem::path& source, std::string& hash)
+{
+    std::filesystem::path generatedFolder = moduleManifest->getGeneratedDirectory();
+    if (!std::filesystem::exists(generatedFolder))
+    {
+        create_directories(generatedFolder);
+    }
+
+    header = generatedFolder / path.filename().replace_extension(".generated.hpp");
+    source = generatedFolder / path.filename().replace_extension(".generated.cpp");
+
+    hash = string_hash(path.string());
+}
 
 bool Reflector::generateFileReflection(const ModuleManifest* moduleManifest, unsigned int fileIndex)
 {
@@ -87,15 +106,9 @@ bool Reflector::generateFileReflection(const ModuleManifest* moduleManifest, uns
         return false;
     }
 
-    std::filesystem::path generatedFolder = moduleManifest->getGeneratedDirectory();
-    if (!std::filesystem::exists(generatedFolder))
-    {
-        create_directories(generatedFolder);
-    }
-
-    auto filename = file.filename().replace_extension(".generated.hpp");
-
-    std::filesystem::path filePath = generatedFolder / filename;
+    std::filesystem::path _header, filePath;
+    std::string hash;
+    get_reflection_paths(moduleManifest, file, _header, filePath, hash);
 
     std::ofstream outStream(filePath);
 
@@ -106,7 +119,7 @@ bool Reflector::generateFileReflection(const ModuleManifest* moduleManifest, uns
         reflectEntry(entry, outStream);
     }
 
-    outStream << "std::vector<const ReflectedType*> " + std::string(moduleManifest->name()) + "_Reflection() const {\n\treturn {\n";
+    outStream << "std::vector<const ReflectedType*> Reflect" + hash + "() const {\n\treturn {\n";
 
     if (!entries.empty())
     {    	
