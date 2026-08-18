@@ -9,12 +9,12 @@ class ReflectedClassMember : public ReflectedType {
 
 };
 
-class ReflectedClassMemberVariable : public ReflectedType {
+class ReflectedClassMemberVariable : public ReflectedClassMember {
 public:
     ReflectedClassMemberVariable(char* name) {}
 };
 
-class ReflectedClassMemberFunction : public ReflectedType {
+class ReflectedClassMemberFunction : public ReflectedClassMember {
 public:
     ReflectedClassMemberFunction(char* name) {}
 };
