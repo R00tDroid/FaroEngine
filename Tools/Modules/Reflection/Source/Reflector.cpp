@@ -172,7 +172,7 @@ bool Reflector::generateModuleReflection(const ModuleManifest* module)
 
     for (const std::string& hash : hashes)
     {
-        outStream << "extern std::vector<const ReflectedType*> Reflect" << hash << ";\n";
+        outStream << "extern std::vector<const ReflectedType*> Reflect" << hash << "();\n";
     }
 
     outStream << "std::vector<std::vector<const ReflectedType*>(*)()> moduleReflectionsMembers = {";
@@ -180,11 +180,11 @@ bool Reflector::generateModuleReflection(const ModuleManifest* module)
     {
         outStream << "Reflect" << hash << ",";
     }
-    outStream << "}\n\n";
+    outStream << "};\n\n";
 
-    outStream << "std::vector<const ReflectedType*> Reflect" + std::string(module->name()) + "() const {\n" \
+    outStream << "std::vector<const ReflectedType*> Reflect" + std::string(module->name()) + "() {\n" \
     "\tstd::vector<const ReflectedType*> types;\n" \
-    "\tfor (std::vector<const ReflectedType*>(*)() memberRegistration : moduleReflectionsMembers) {\n" \
+    "\tfor (auto memberRegistration : moduleReflectionsMembers) {\n" \
     "\t\tfor (const ReflectedType* moduleType : memberRegistration()) {\n" \
     "\t\t\ttypes.push_back(moduleType);\n" \
     "\t\t}\n" \
