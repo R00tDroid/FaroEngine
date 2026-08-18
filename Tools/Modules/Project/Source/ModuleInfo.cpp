@@ -255,6 +255,8 @@ bool ModuleManifest::Impl::configureModule(const ModuleManifest* manifest, Modul
         return false;
     }
 
+    buildModule.includesPublic.push_back(manifest->getGeneratedDirectory().string());
+
     //TODO Save solution location
 
     std::filesystem::path cacheFolder = manifest->getModuleConfigDirectory();

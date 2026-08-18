@@ -3,6 +3,7 @@
 #include <fstream>
 #include "FileTree.hpp"
 #include "Reflector.hpp"
+#include <glob/glob.hpp>
 
 std::mutex ModuleCheckStep::scannedFilesLock;
 std::set<std::filesystem::path> ModuleCheckStep::scannedFiles;
@@ -17,6 +18,18 @@ void ModuleCheckStep::scheduleTreeScan()
     if (alreadyScanned) return;
 
     Reflector::generateModuleReflection(moduleBuild()->module);
+
+    std::string generatedDirectory = (moduleBuild()->module->getGeneratedDirectory() / "*").string();
+    for (auto file : glob::rglob(generatedDirectory))
+    {
+        file = std::filesystem::weakly_canonical(file);
+
+        if (Utility::IsSourceFile(file.string().c_str()))
+        {
+            Utility::PrintLineD("Schedule scan for " + std::string(file.string().c_str()));
+            ModuleScanTask::scheduleScan(this, file);
+        }
+    }
 
     for (unsigned int sourceIndex = 0; sourceIndex < moduleBuild()->module->sourceFiles(); sourceIndex++)
     {
