@@ -35,7 +35,7 @@ namespace Faro
             std::cout << string.Data() << std::endl;
         }
     };
-    REGISTER_LOGSINK(LogCout)
+    //REGISTER_LOGSINK(LogCout)
 
     class LogDebugOutput : public ILogSink
     {
@@ -46,7 +46,7 @@ namespace Faro
             OutputDebugStringA((string + "\n").Data());
         }
     };
-    REGISTER_LOGSINK(LogDebugOutput)
+    //REGISTER_LOGSINK(LogDebugOutput)
 
     void PlatformWindows::Init()
     {

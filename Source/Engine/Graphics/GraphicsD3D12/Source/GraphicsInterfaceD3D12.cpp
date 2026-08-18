@@ -10,7 +10,7 @@
 
 namespace Faro
 {
-    REGISTER_GRAPHICS(GraphicsInterfaceD3D12)
+    //REGISTER_GRAPHICS(GraphicsInterfaceD3D12)
 
     bool GraphicsInterfaceD3D12::Init()
     {

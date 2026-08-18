@@ -33,5 +33,5 @@ namespace Faro
 
     extern Array<Platform*> GetRegisteredPlatforms();
 
-#define REGISTER_PLATFORM(TYPE) REGISTER_CLASS(TYPE)
+//#define REGISTER_PLATFORM(TYPE) REGISTER_CLASS(TYPE)
 }

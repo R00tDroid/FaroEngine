@@ -13,5 +13,5 @@ namespace Faro
         Array<String> GetRuntimeDependencies() override;
     };
 
-    REGISTER_MODULE(ModuleB)
+    //REGISTER_MODULE(ModuleB)
 }

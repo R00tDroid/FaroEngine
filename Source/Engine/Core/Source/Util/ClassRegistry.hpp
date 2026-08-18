@@ -82,5 +82,5 @@ namespace Faro
 #define IMPLEMENT_INSTANCE_REGISTRY(NAME, TYPE) void InstanceRegistrationFunction_##NAME(Faro::String name, TYPE* ptr){ InstanceRegistry_##NAME::Get().Add(name, ptr); }
 #define REGISTER_INSTANCE(NAME, CLASS) namespace { volatile InstanceRegistration_##NAME<CLASS> NAME##_##CLASS##_instance_reg(#CLASS); };
 
-#define DEFINE_CLASS_REGISTRY(NAME, TYPE) namespace ClassRegistry_##NAME { static Map<String, std::function<TYPE*(void)>> & Get() { static Map<String,  std::function<TYPE*(void)>> instances; return instances; } static TYPE* Instantiate(String id) { if(!Get().Contains(id)) return nullptr; else return Get()[id](); } } template<class T> struct ClassRegistration_##NAME { ClassRegistration_##NAME(String id){ ClassRegistry_##NAME::Get().Add(id, [](){ return new T(); }); } };*/
-#define REGISTER_CLASS(CLASS) namespace { TypedClassReflection<CLASS> Reflection_##CLASS; }
+#define DEFINE_CLASS_REGISTRY(NAME, TYPE) namespace ClassRegistry_##NAME { static Map<String, std::function<TYPE*(void)>> & Get() { static Map<String,  std::function<TYPE*(void)>> instances; return instances; } static TYPE* Instantiate(String id) { if(!Get().Contains(id)) return nullptr; else return Get()[id](); } } template<class T> struct ClassRegistration_##NAME { ClassRegistration_##NAME(String id){ ClassRegistry_##NAME::Get().Add(id, [](){ return new T(); }); } };
+#define REGISTER_CLASS(CLASS) namespace { TypedClassReflection<CLASS> Reflection_##CLASS; }*/

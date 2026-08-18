@@ -4,7 +4,7 @@
 
 namespace Faro
 {
-    REGISTER_MODULE(PlatformModule)
+    //REGISTER_MODULE(PlatformModule)
 
     LOG_DECLARATION(PlatformLog, Platform)
 

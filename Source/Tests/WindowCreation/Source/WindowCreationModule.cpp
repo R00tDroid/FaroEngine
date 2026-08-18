@@ -6,7 +6,7 @@
 
 namespace Faro
 {
-    REGISTER_MODULE(WindowCreationModule)
+    //REGISTER_MODULE(WindowCreationModule)
 
     LOG_DECLARATION(LogWindowCreationTest, TestWindowcreation);
 

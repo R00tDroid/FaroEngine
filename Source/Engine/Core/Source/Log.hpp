@@ -81,5 +81,5 @@ namespace Faro
         static Array<ILogSink*> logSinks;
     };
 
-    #define REGISTER_LOGSINK(SINK) REGISTER_CLASS(SINK)
+    //#define REGISTER_LOGSINK(SINK) REGISTER_CLASS(SINK)
 }

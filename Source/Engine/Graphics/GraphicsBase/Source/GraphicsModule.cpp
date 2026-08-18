@@ -5,7 +5,7 @@
 
 namespace Faro
 {
-    REGISTER_MODULE(GraphicsModule)
+    //REGISTER_MODULE(GraphicsModule)
 
     void GraphicsModule::Load()
     {

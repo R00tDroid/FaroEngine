@@ -21,6 +21,6 @@ namespace Faro
         Array<Path> FindSubPaths(Path rootPath, bool recursive, String filter) override;
     };
 
-    REGISTER_PLATFORM(PlatformWindows)
+    //REGISTER_PLATFORM(PlatformWindows)
 }
 #endif

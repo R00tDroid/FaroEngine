@@ -30,5 +30,5 @@ namespace Faro
         VkInstance instance = nullptr;
     };
 
-    REGISTER_GRAPHICS(GraphicsInterfaceVK)
+    //REGISTER_GRAPHICS(GraphicsInterfaceVK)
 }

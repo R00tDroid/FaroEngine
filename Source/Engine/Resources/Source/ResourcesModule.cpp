@@ -3,7 +3,7 @@
 
 namespace Faro
 {
-    REGISTER_MODULE(ResourcesModule)
+    //REGISTER_MODULE(ResourcesModule)
 
     LOG_DECLARATION(ResourceLog, Resources)
 
