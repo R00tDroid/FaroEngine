@@ -22,7 +22,7 @@ namespace Faro
 
     bool Application::Init()
     {
-        initReflection();
+        GReflection.init();
 
         Logger::Init();
 

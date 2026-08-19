@@ -1,25 +1,36 @@
 #pragma once
 #include <vector>
 
-class ReflectedType { 
-    
+class ReflectedType {
+protected:
+    ReflectedType(const char* name): name(name) {}
+
+private:
+    const char* name;
+
+public:
+    const char* GetName() const
+    {
+        return name;
+    }
 };
 
 class ReflectedClassMember : public ReflectedType {
-
+public:
+    ReflectedClassMember(const char* name): ReflectedType(name) {}
 };
 
 class ReflectedClassMemberVariable : public ReflectedClassMember {
 public:
-    ReflectedClassMemberVariable(char* name) {}
+    ReflectedClassMemberVariable(const char* name): ReflectedClassMember(name) {}
 };
 
 class ReflectedClassMemberFunction : public ReflectedClassMember {
 public:
-    ReflectedClassMemberFunction(char* name) {}
+    ReflectedClassMemberFunction(const char* name): ReflectedClassMember(name) {}
 };
 
-class ReflectedClass : public ReflectedType { //TODO Implement member registration
+class ReflectedClass : public ReflectedType {
 public:
-    ReflectedClass(char* name, std::vector<ReflectedClassMember*> members) {}
+    ReflectedClass(const char* name, std::vector<ReflectedClassMember*> members) : ReflectedType(name) {}
 };
