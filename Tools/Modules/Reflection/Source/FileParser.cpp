@@ -2,8 +2,6 @@
 #include <tree_sitter/api.h>
 #include "Utility.hpp"
 
-FileReflector fileReflector;
-
 struct ReflectHeader
 {
     std::vector<std::string> arguments;

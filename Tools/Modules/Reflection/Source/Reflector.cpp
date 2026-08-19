@@ -102,6 +102,8 @@ bool Reflector::generateFileReflection(const ModuleManifest* moduleManifest, uns
     fileStream.read(fileBuffer.data(), size);
 
     std::vector<ReflectedEntry*> entries;
+
+    FileReflector fileReflector;
     if (!fileReflector.reflect(fileBuffer, entries))
     {
         return false;

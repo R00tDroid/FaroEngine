@@ -62,5 +62,3 @@ private:
     struct Implementation;
     Implementation* impl = nullptr;
 };
-
-extern FileReflector fileReflector;
