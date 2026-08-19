@@ -176,7 +176,7 @@ bool Reflector::generateModuleReflection(const ModuleManifest* module)
         outStream << "extern std::vector<const ReflectedType*> Reflect" << hash << "();\n";
     }
 
-    outStream << "std::vector<std::vector<const ReflectedType*>(*)()> moduleReflectionsMembers = {";
+    outStream << "std::vector<std::vector<const ReflectedType*>(*)()> " + std::string(module->name()) + "ReflectionMembers = {";
     for (const std::string& hash : hashes)
     {
         outStream << "Reflect" << hash << ",";
@@ -185,7 +185,7 @@ bool Reflector::generateModuleReflection(const ModuleManifest* module)
 
     outStream << "std::vector<const ReflectedType*> Reflect" + std::string(module->name()) + "() {\n" \
     "\tstd::vector<const ReflectedType*> types;\n" \
-    "\tfor (auto memberRegistration : moduleReflectionsMembers) {\n" \
+    "\tfor (auto memberRegistration : " + std::string(module->name()) + "ReflectionMembers) {\n" \
     "\t\tfor (const ReflectedType* moduleType : memberRegistration()) {\n" \
     "\t\t\ttypes.push_back(moduleType);\n" \
     "\t\t}\n" \
@@ -195,21 +195,15 @@ bool Reflector::generateModuleReflection(const ModuleManifest* module)
 
     if (module->moduleType() == MT_Executable)
     {
-        ProjectManifest* project = module->project();
+        std::vector<std::string> moduleFunctions = { "Reflect" + std::string(module->name()) };
 
-        std::vector<std::string> moduleFunctions;
-        for (unsigned int i = 0; i < project->modules(); i++)
+        std::vector<ModuleManifest*> dependencies = module->moduleDependencies();
+        for (ModuleManifest* dependency : dependencies)
         {
-            ModuleManifest* dependency = project->module(i);
             std::string name = "Reflect" + std::string(dependency->name());
             moduleFunctions.push_back(name);
-
-            if (dependency != module) {
-                outStream << "\nextern std::vector<const ReflectedType*> " << name << "();";
-            }
+            outStream << "\nextern std::vector<const ReflectedType*> " << name << "();";
         }
-
-
 
         outStream << "\n\nstd::vector<std::vector<const ReflectedType*>(*)()> GlobalReflectionTypeFunctions = {";
         for (const std::string& function : moduleFunctions)
