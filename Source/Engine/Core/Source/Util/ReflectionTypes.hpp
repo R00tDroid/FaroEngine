@@ -23,5 +23,3 @@ class ReflectedClass : public ReflectedType { //TODO Implement member registrati
 public:
     ReflectedClass(char* name, std::vector<ReflectedClassMember*> members) {}
 };
-
-extern std::vector<const ReflectedType*> registerReflectionTypes();

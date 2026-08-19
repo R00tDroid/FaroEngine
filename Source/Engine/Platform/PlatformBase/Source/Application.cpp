@@ -2,6 +2,7 @@
 #include <Log.hpp>
 #include "ModuleManager.hpp"
 #include "EngineVersion.hpp"
+#include "Util/Reflection.hpp"
 
 namespace Faro
 {
@@ -21,6 +22,8 @@ namespace Faro
 
     bool Application::Init()
     {
+        initReflection();
+
         Logger::Init();
 
         Logger::Log(AppLog, LC_Info, "Faro Engine %s", GEngineVersion.GetFullVersion().Data());
