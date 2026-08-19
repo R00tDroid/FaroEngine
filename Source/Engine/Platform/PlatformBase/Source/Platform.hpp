@@ -7,7 +7,7 @@
 
 namespace Faro
 {
-    class Platform
+    Reflect(classflag) class Platform
     {
     public:
         virtual void Init() = 0;

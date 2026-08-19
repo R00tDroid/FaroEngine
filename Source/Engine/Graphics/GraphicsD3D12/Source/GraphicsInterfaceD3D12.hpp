@@ -5,7 +5,7 @@
 
 namespace Faro
 {
-    class GraphicsInterfaceD3D12 : public GraphicsInterface
+    Reflect(classflag) class GraphicsInterfaceD3D12 : public GraphicsInterface
     {
     public:
         bool Init() override;

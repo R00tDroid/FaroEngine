@@ -5,7 +5,7 @@
 
 namespace Faro
 {
-    class GraphicsInterface
+    Reflect(classflag) class GraphicsInterface
     {
     public:
         virtual bool Init() = 0;
