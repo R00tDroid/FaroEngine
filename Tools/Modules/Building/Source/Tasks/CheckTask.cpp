@@ -5,8 +5,7 @@
 #include "Reflector.hpp"
 #include <glob/glob.hpp>
 
-// This function return all source files for a module. This includes the usual source files, but also any generated sources.
-static std::vector<std::filesystem::path> getModuleSourceFiles(const ModuleManifest* module)
+std::vector<std::filesystem::path> getModuleSourceFiles(const ModuleManifest* module)
 {
     std::vector<std::filesystem::path> files;
 

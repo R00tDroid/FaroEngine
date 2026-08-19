@@ -1,5 +1,7 @@
 #include "LinkTask.hpp"
 #include <assert.h>
+
+#include "CheckTask.hpp"
 #include "Toolchain.hpp"
 #include "Utility.hpp"
 
@@ -29,9 +31,8 @@ void ModuleLinkTask::runTask()
     ToolchainLinkInfo linkInfo = { info->info->buildSetup, getModuleLinkType(info->info->module->moduleType()) };
 
     std::vector<std::string> objFiles;
-    for (unsigned int sourceIndex = 0; sourceIndex < info->info->module->sourceFiles(); sourceIndex++)
+    for (std::filesystem::path& file : getModuleSourceFiles(info->info->module))
     {
-        std::filesystem::path file = info->info->module->sourceFile(sourceIndex);
         if (Utility::IsSourceFile(file.string().c_str()))
         {
             objFiles.push_back(info->info->module->getObjPath(info->info->buildSetup, info->info->toolchain, file).string());

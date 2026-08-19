@@ -58,3 +58,6 @@ private:
     ModuleCheckStep* step;
     std::filesystem::path file;
 };
+
+// This function return all source files for a module. This includes the usual source files, but also any generated sources.
+extern std::vector<std::filesystem::path> getModuleSourceFiles(const ModuleManifest* module);
