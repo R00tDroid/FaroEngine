@@ -4,7 +4,7 @@
 
 namespace Faro
 {
-    class PlatformWeb : public Platform
+    Reflect() class PlatformWeb : public Platform
     {
     public:
         void Init() override;

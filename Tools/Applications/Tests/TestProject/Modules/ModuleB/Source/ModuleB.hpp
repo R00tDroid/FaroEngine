@@ -4,7 +4,7 @@
 
 namespace Faro
 {
-    class ModuleB : public IModule
+    Reflect() class ModuleB : public IModule
     {
     public:
         void Load() override;

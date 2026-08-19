@@ -5,7 +5,7 @@
 
 namespace Faro
 {
-    Reflect(classFlag) class IModule
+    Reflect() class IModule
     {
     //IModule_BODY()
     public:
