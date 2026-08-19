@@ -4,6 +4,7 @@
 #include "ModuleInfo.hpp"
 #include <string>
 #include "FileParser.hpp"
+#include "ProjectInfo.hpp"
 
 static void reflectEntry(const ReflectedEntry* entry, std::ofstream& file);
 
@@ -192,8 +193,41 @@ bool Reflector::generateModuleReflection(const ModuleManifest* module)
     "\treturn types;\n" \
     "}\n";
 
-    //TODO Add global registration call for application module
-    //TODO Add generated file to source for compilation
+    if (module->moduleType() == MT_Executable)
+    {
+        ProjectManifest* project = module->project();
+
+        std::vector<std::string> moduleFunctions;
+        for (unsigned int i = 0; i < project->modules(); i++)
+        {
+            ModuleManifest* dependency = project->module(i);
+            std::string name = "Reflect" + std::string(dependency->name());
+            moduleFunctions.push_back(name);
+
+            if (dependency != module) {
+                outStream << "\nextern std::vector<const ReflectedType*> " << name << "();";
+            }
+        }
+
+
+
+        outStream << "\n\nstd::vector<std::vector<const ReflectedType*>(*)()> GlobalReflectionTypeFunctions = {";
+        for (const std::string& function : moduleFunctions)
+        {
+            outStream << function << ",";
+        }
+        outStream << "};\n\n";
+
+        outStream << "std::vector<const ReflectedType*> registerReflectionTypes() {\n" \
+            "\tstd::vector<const ReflectedType*> types;\n" \
+            "\tfor (auto memberRegistration : GlobalReflectionTypeFunctions) {\n" \
+            "\t\tfor (const ReflectedType* moduleType : memberRegistration()) {\n" \
+            "\t\t\ttypes.push_back(moduleType);\n" \
+            "\t\t}\n" \
+            "\t}\n" \
+            "\treturn types;\n" \
+            "}\n";
+    }
 
     return true;
 }
