@@ -42,7 +42,7 @@ class FaroProjectsExports ModuleManifest : public IManifest
 public:
     static const char* moduleManifestExtension();
 
-    ModuleManifest(const char* manifestLocation);
+    ModuleManifest(const char* manifestLocation, ProjectManifest* project);
     ~ModuleManifest() override;
 
     // Name of the module
