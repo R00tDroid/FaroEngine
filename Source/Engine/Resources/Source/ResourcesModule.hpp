@@ -6,7 +6,7 @@ namespace Faro
 {
     LOG_DEFINITION(ResourceLog)
 
-    Reflect() class ResourcesModule : public IModule
+    Reflect(classflag) class ResourcesModule : public IModule
     {
     public:
         void Load() override;

@@ -4,7 +4,7 @@
 
 namespace Faro
 {
-    Reflect() class PlatformWindows : public Platform
+    Reflect(classflag) class PlatformWindows : public Platform
     {
     public:
         void Init() override;

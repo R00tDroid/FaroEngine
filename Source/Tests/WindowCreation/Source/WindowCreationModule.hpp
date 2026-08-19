@@ -5,7 +5,7 @@
 
 namespace Faro
 {
-    Reflect() class WindowCreationModule : public IModule
+    Reflect(classflag) class WindowCreationModule : public IModule
     {
     public:
         void Load() override;

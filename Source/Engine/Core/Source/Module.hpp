@@ -5,7 +5,7 @@
 
 namespace Faro
 {
-    Reflect() class IModule
+    Reflect(classflag) class IModule
     {
     //IModule_BODY()
     public:
@@ -16,7 +16,7 @@ namespace Faro
 
         uint32 loadOrder = 0;
 
-        Reflect()
+        Reflect(classflag)
         int testInt;
 
         Reflect(functionFlag)
