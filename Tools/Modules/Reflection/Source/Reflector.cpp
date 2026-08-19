@@ -84,8 +84,8 @@ void get_reflection_paths(const ModuleManifest* moduleManifest, const std::files
         create_directories(generatedFolder);
     }
 
-    header = generatedFolder / path.filename().replace_extension(".generated.hpp");
-    source = generatedFolder / path.filename().replace_extension(".generated.cpp");
+    header = generatedFolder / path.filename().replace_extension(".reflection.hpp");
+    source = generatedFolder / path.filename().replace_extension(".reflection.cpp");
 
     hash = string_hash(path.string());
 }
