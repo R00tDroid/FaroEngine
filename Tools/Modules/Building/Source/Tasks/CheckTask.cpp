@@ -4,6 +4,7 @@
 #include "FileTree.hpp"
 #include "Reflector.hpp"
 #include <glob/glob.hpp>
+#include "LinkTask.hpp"
 
 std::vector<std::filesystem::path> getModuleSourceFiles(const ModuleManifest* module)
 {
@@ -69,6 +70,7 @@ void ModuleCheckStep::start()
 
 bool ModuleCheckStep::end()
 {
+    // Check for changes in source tree, and mark source files for compilation
     std::set<std::filesystem::path> files = {};
     for (auto file : getModuleSourceFiles(moduleBuild()->module)) 
     {
@@ -109,6 +111,14 @@ bool ModuleCheckStep::end()
 
     bool anyChanges = !moduleBuild()->sourcesToCompile.empty();
 
+    // Check if linker artifacts exist. Otherwise, mark next steps (compiling and linking) as required.
+    std::filesystem::path binary = moduleBuild()->module->getBinPath(moduleBuild()->buildSetup, moduleBuild()->toolchain, getModuleLinkType(moduleBuild()->module->moduleType()));
+    if (!std::filesystem::exists(binary))
+    {
+        Utility::PrintLineD("Missing linker object for module");
+        anyChanges = true;
+    }
+
     if (anyChanges)
     {
         changes.save(files);
@@ -128,7 +138,6 @@ void ModuleBinCheckTask::runTask()
 
     for (auto file : getModuleSourceFiles(step->moduleBuild()->module))
     {
-
         if (Utility::IsSourceFile(file.string().c_str()))
         {
             bool needsCompile = false;
