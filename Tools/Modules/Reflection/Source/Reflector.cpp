@@ -10,7 +10,14 @@ static void reflectEntry(const ReflectedEntry* entry, std::ofstream& file);
 
 static void reflectClass(const ReflectedClass* entry, std::ofstream& file)
 {
-    file << "ReflectedClass " + entry->name + "(\"" + entry->name + "\", {\n";
+    file << "ReflectedClass " + entry->name + "(\"" + entry->name + "\", {";
+    
+    for (const std::string& base : entry->baseClasses)
+    {
+        file << "\"" << base << "\",";
+    }
+
+    file << "}, {\n";
 
     for (auto member : entry->members)
     {

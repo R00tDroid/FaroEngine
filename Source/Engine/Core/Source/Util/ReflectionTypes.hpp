@@ -32,5 +32,7 @@ public:
 
 class ReflectedClass : public ReflectedType {
 public:
-    ReflectedClass(const char* name, std::vector<ReflectedClassMember*> members) : ReflectedType(name) {}
+    ReflectedClass(const char* name, std::vector<const char*> baseTypes, std::vector<ReflectedClassMember*> members) : ReflectedType(name), baseTypes(baseTypes) {}
+
+    std::vector<const char*> baseTypes;
 };
