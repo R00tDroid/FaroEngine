@@ -190,13 +190,6 @@ ReflectedEntry* FileReflector::Implementation::reflect_type(ReflectionInfo& info
             if (nodeType == "class_specifier") entry = new ReflectedClass(baseClasses);
             else entry = new ReflectedStruct(baseClasses);
 
-            entry->name = get_node_text(id, info.file);
-
-            if (entry->name == "PlatformWindows")
-            {
-                Utility::PrintLineD("");
-            }
-
             return entry;
         }
     }
