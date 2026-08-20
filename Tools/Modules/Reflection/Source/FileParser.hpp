@@ -21,7 +21,7 @@ struct ReflectedEntry
 
 struct ReflectedClass : ReflectedEntry
 {
-    ReflectedClass() : ReflectedEntry(RT_Class) {}
+    ReflectedClass(std::vector<std::string> baseClasses) : ReflectedEntry(RT_Class), baseClasses(baseClasses) {}
     ~ReflectedClass() override { for (auto* entry : members) delete entry; }
 
     std::vector<ReflectedEntry*> members;
@@ -30,7 +30,7 @@ struct ReflectedClass : ReflectedEntry
 
 struct ReflectedStruct : ReflectedEntry
 {
-    ReflectedStruct() : ReflectedEntry(RT_Struct) {}
+    ReflectedStruct(std::vector<std::string> baseStructs) : ReflectedEntry(RT_Struct), baseStructs(baseStructs) {}
     ~ReflectedStruct() override { for (auto* entry : members) delete entry; }
 
     std::vector<ReflectedEntry*> members;

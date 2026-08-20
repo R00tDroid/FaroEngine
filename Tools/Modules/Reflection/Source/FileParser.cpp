@@ -27,6 +27,7 @@ struct FileReflector::Implementation
 
     bool expect_child_node(const TSNode& parent, const char* nodeType, TSNode& node) const;
     std::string get_node_text(const TSNode& node, const std::string& fileBuffer) const;
+    std::vector<std::string> get_node_base_classes(const TSNode& node, const std::string& fileBuffer) const;
 };
 
 FileReflector::FileReflector() : impl(new Implementation)
@@ -178,11 +179,24 @@ ReflectedEntry* FileReflector::Implementation::reflect_type(ReflectionInfo& info
         TSNode id;
         if (expect_child_node(node, "type_identifier", id))
         {
+            std::vector<std::string> baseClasses;
+            TSNode baseClassesList;
+            if (expect_child_node(node, "base_class_clause", baseClassesList))
+            {
+                baseClasses = get_node_base_classes(baseClassesList, info.file);
+            }
+
             ReflectedEntry* entry = nullptr;
-            if (nodeType == "class_specifier") entry = new ReflectedClass();
-            else entry = new ReflectedStruct();
+            if (nodeType == "class_specifier") entry = new ReflectedClass(baseClasses);
+            else entry = new ReflectedStruct(baseClasses);
 
             entry->name = get_node_text(id, info.file);
+
+            if (entry->name == "PlatformWindows")
+            {
+                Utility::PrintLineD("");
+            }
+
             return entry;
         }
     }
@@ -235,4 +249,24 @@ std::string FileReflector::Implementation::get_node_text(const TSNode& node, con
     uint32_t textStart = ts_node_start_byte(node);
     uint32_t textEnd = ts_node_end_byte(node);
     return fileBuffer.substr(textStart, textEnd - textStart);
+}
+
+std::vector<std::string> FileReflector::Implementation::get_node_base_classes(const TSNode& node, const std::string& fileBuffer) const
+{
+    std::vector<std::string> baseClasses;
+
+    unsigned int childCount = ts_node_child_count(node);
+    for (unsigned int i = 0; i< childCount; i++)
+    {
+        TSNode child = ts_node_child(node, i);
+
+        std::string nodeType = ts_node_type(child);
+        if (nodeType == "type_identifier")
+        {
+            std::string baseClass = get_node_text(child, fileBuffer);
+            baseClasses.push_back(baseClass);
+        }
+    }
+
+    return baseClasses;
 }
