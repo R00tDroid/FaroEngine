@@ -26,7 +26,7 @@ namespace Faro
         return FormatString("[%-15s](%s) %s", tag.name.Data(), categoryLabel.Data(), message.Data());
     }
 
-    class LogCout : public ILogSink
+    Reflect(classFlag) class LogCout : public ILogSink
     {
     public:
         void Log(const LogMessage& message) override
@@ -37,7 +37,7 @@ namespace Faro
     };
     //REGISTER_LOGSINK(LogCout)
 
-    class LogDebugOutput : public ILogSink
+    Reflect(classFlag) class LogDebugOutput : public ILogSink
     {
     public:
         void Log(const LogMessage& message) override

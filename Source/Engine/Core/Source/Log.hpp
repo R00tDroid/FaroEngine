@@ -44,7 +44,7 @@ namespace Faro
         String message;
     };
 
-    class ILogSink
+    Reflect(classFlag) class ILogSink
     {
     public:
         /// @brief Logging callback that is executed by Logger.
