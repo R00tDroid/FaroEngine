@@ -10,7 +10,7 @@ static void reflectEntry(const ReflectedEntry* entry, std::ofstream& file);
 
 static void reflectClass(const ReflectedClass* entry, std::ofstream& file)
 {
-    file << "ReflectedClass " + entry->name + "(\"" + entry->name + "\", {";
+    file << "Faro::ReflectedClass " + entry->name + "(\"" + entry->name + "\", {";
     
     for (const std::string& base : entry->baseClasses)
     {
@@ -39,12 +39,12 @@ static void reflectStruct(const ReflectedClass* entry, std::ofstream& file)
 
 static void reflectFunction(const ReflectedFunction* entry, std::ofstream& file)
 {
-    file << "\tnew ReflectedClassMemberFunction(\"" << entry->name << "\"),\n";
+    file << "\tnew Faro::ReflectedClassMemberFunction(\"" << entry->name << "\"),\n";
 }
 
 static void reflectVariable(const ReflectedVariable* entry, std::ofstream& file)
 {
-    file << "\tnew ReflectedClassMemberVariable(\"" << entry->name << "\"),\n";
+    file << "\tnew Faro::ReflectedClassMemberVariable(\"" << entry->name << "\"),\n";
 }
 
 
@@ -128,7 +128,7 @@ bool Reflector::generateFileReflection(const ModuleManifest* moduleManifest, uns
         reflectEntry(entry, outStream);
     }
 
-    outStream << "std::vector<const ReflectedType*> Reflect" + hash + "() {\n\treturn {\n";
+    outStream << "std::vector<Faro::ReflectedType*> Reflect" + hash + "() {\n\treturn {\n";
 
     if (!entries.empty())
     {    	
@@ -182,20 +182,20 @@ bool Reflector::generateModuleReflection(const ModuleManifest* module)
 
     for (const std::string& hash : hashes)
     {
-        outStream << "extern std::vector<const ReflectedType*> Reflect" << hash << "();\n";
+        outStream << "extern std::vector<Faro::ReflectedType*> Reflect" << hash << "();\n";
     }
 
-    outStream << "std::vector<std::vector<const ReflectedType*>(*)()> " + std::string(module->name()) + "ReflectionMembers = {";
+    outStream << "std::vector<std::vector<Faro::ReflectedType*>(*)()> " + std::string(module->name()) + "ReflectionMembers = {";
     for (const std::string& hash : hashes)
     {
         outStream << "Reflect" << hash << ",";
     }
     outStream << "};\n\n";
 
-    outStream << "std::vector<const ReflectedType*> Reflect" + std::string(module->name()) + "() {\n" \
-    "\tstd::vector<const ReflectedType*> types;\n" \
+    outStream << "std::vector<Faro::ReflectedType*> Reflect" + std::string(module->name()) + "() {\n" \
+    "\tstd::vector<Faro::ReflectedType*> types;\n" \
     "\tfor (auto memberRegistration : " + std::string(module->name()) + "ReflectionMembers) {\n" \
-    "\t\tfor (const ReflectedType* moduleType : memberRegistration()) {\n" \
+    "\t\tfor (Faro::ReflectedType* moduleType : memberRegistration()) {\n" \
     "\t\t\ttypes.push_back(moduleType);\n" \
     "\t\t}\n" \
     "\t}\n" \
@@ -211,20 +211,20 @@ bool Reflector::generateModuleReflection(const ModuleManifest* module)
         {
             std::string name = "Reflect" + std::string(dependency->name());
             moduleFunctions.push_back(name);
-            outStream << "\nextern std::vector<const ReflectedType*> " << name << "();";
+            outStream << "\nextern std::vector<Faro::ReflectedType*> " << name << "();";
         }
 
-        outStream << "\n\nstd::vector<std::vector<const ReflectedType*>(*)()> GlobalReflectionTypeFunctions = {";
+        outStream << "\n\nstd::vector<std::vector<Faro::ReflectedType*>(*)()> GlobalReflectionTypeFunctions = {";
         for (const std::string& function : moduleFunctions)
         {
             outStream << function << ",";
         }
         outStream << "};\n\n";
 
-        outStream << "std::vector<const ReflectedType*> registerReflectionTypes() {\n" \
-            "\tstd::vector<const ReflectedType*> types;\n" \
+        outStream << "std::vector<Faro::ReflectedType*> registerReflectionTypes() {\n" \
+            "\tstd::vector<Faro::ReflectedType*> types;\n" \
             "\tfor (auto memberRegistration : GlobalReflectionTypeFunctions) {\n" \
-            "\t\tfor (const ReflectedType* moduleType : memberRegistration()) {\n" \
+            "\t\tfor (Faro::ReflectedType* moduleType : memberRegistration()) {\n" \
             "\t\t\ttypes.push_back(moduleType);\n" \
             "\t\t}\n" \
             "\t}\n" \

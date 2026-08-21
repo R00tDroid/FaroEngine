@@ -1,51 +1,56 @@
 #pragma once
-#include <vector>
+#include "Containers/Array.hpp"
 
-enum ReflectionTypeId
+namespace Faro
 {
-    Class,
-    ClassVariable,
-    ClassFunction,
-};
-
-class ReflectedType {
-protected:
-    ReflectedType(const char* name, ReflectionTypeId typeId): name(name), typeId(typeId) {}
-
-private:
-    const char* name;
-    ReflectionTypeId typeId;
-
-public:
-    const char* GetName() const
+    enum ReflectionTypeId
     {
-        return name;
-    }
+        Class,
+        ClassVariable,
+        ClassFunction,
+    };
 
-    ReflectionTypeId GetTypeId() const
-    {
-        return typeId;
-    }
-};
+    class ReflectedType {
+    protected:
+        ReflectedType(const char* name, ReflectionTypeId typeId) : name(name), typeId(typeId) {}
 
-class ReflectedClassMember : public ReflectedType {
-public:
-    ReflectedClassMember(const char* name, ReflectionTypeId typeId): ReflectedType(name, typeId) {}
-};
+    private:
+        const char* name;
+        ReflectionTypeId typeId;
 
-class ReflectedClassMemberVariable : public ReflectedClassMember {
-public:
-    ReflectedClassMemberVariable(const char* name): ReflectedClassMember(name, ClassVariable) {}
-};
+    public:
+        const char* GetName() const
+        {
+            return name;
+        }
 
-class ReflectedClassMemberFunction : public ReflectedClassMember {
-public:
-    ReflectedClassMemberFunction(const char* name): ReflectedClassMember(name, ClassFunction) {}
-};
+        ReflectionTypeId GetTypeId() const
+        {
+            return typeId;
+        }
+    };
 
-class ReflectedClass : public ReflectedType {
-public:
-    ReflectedClass(const char* name, std::vector<const char*> baseTypes, std::vector<ReflectedClassMember*> members) : ReflectedType(name, Class), baseTypes(baseTypes) {}
+    class ReflectedClassMember : public ReflectedType {
+    public:
+        ReflectedClassMember(const char* name, ReflectionTypeId typeId) : ReflectedType(name, typeId) {}
+    };
 
-    std::vector<const char*> baseTypes;
-};
+    class ReflectedClassMemberVariable : public ReflectedClassMember {
+    public:
+        ReflectedClassMemberVariable(const char* name) : ReflectedClassMember(name, ClassVariable) {}
+    };
+
+    class ReflectedClassMemberFunction : public ReflectedClassMember {
+    public:
+        ReflectedClassMemberFunction(const char* name) : ReflectedClassMember(name, ClassFunction) {}
+    };
+
+    class ReflectedClass : public ReflectedType {
+    public:
+        ReflectedClass(const char* name, Faro::Array<const char*> baseTypes, Faro::Array<ReflectedClassMember*> members) : ReflectedType(name, Class), baseTypeNames(baseTypes) {}
+
+        Array<const char*> baseTypeNames;
+        Array<ReflectedClass*> baseTypes;
+        Array<ReflectedClass*> childTypes;
+    };
+}
