@@ -11,8 +11,8 @@ namespace Faro
         bool init();
 
     private:
-        Array<const ReflectedType*> reflectionTypes;
-        Map<const char*, const ReflectedType*> reflectionNames;
+        Array<ReflectedType*> reflectionTypes;
+        Map<const char*, ReflectedType*> reflectionNames;
     };
 
     extern Reflection GReflection;
