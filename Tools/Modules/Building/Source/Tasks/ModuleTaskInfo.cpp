@@ -22,19 +22,19 @@ void ModuleBuild::update()
 
 bool ModuleBuild::isDone()
 {
-    return pool.isDone() && buildStep == nullptr && !shouldContinue;
+    return pool.isDone() && currentStep == nullptr && !shouldContinue;
 }
 
 void ModuleBuild::startStep()
 {
     if (!shouldContinue) return;
 
-    if (buildStep != nullptr)
+    if (currentStep != nullptr)
     {
         Utility::PrintLineD("Stop build step");
-        shouldContinue = buildStep->end();
-        delete buildStep;
-        buildStep = nullptr;
+        shouldContinue = currentStep->end();
+        delete currentStep;
+        currentStep = nullptr;
 
         if (!shouldContinue)
         {
@@ -51,9 +51,9 @@ void ModuleBuild::startStep()
     }
     
     Utility::PrintLineD("Start build step");
-    buildStep = buildSteps[0];
+    currentStep = buildSteps[0];
     buildSteps.erase(buildSteps.begin());
-    buildStep->start();
+    currentStep->start();
 }
 
 ModuleClean::ModuleClean(const BuildSetup& buildSetup, const Toolchain* toolchain, const ModuleManifest* module) :

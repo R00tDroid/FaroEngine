@@ -42,7 +42,7 @@ class FaroProjectsExports ModuleManifest : public IManifest
 public:
     static const char* moduleManifestExtension();
 
-    ModuleManifest(const char* manifestLocation);
+    ModuleManifest(const char* manifestLocation, ProjectManifest* project);
     ~ModuleManifest() override;
 
     // Name of the module
@@ -179,6 +179,13 @@ public:
     std::filesystem::path getChangeDB(const BuildSetup& buildSetup) const
     {
         return getBuildDirectory(buildSetup) / "Changes.bin";
+    }
+
+    std::filesystem::path getGeneratedDirectory() const
+    {
+        std::filesystem::path cacheFolder = cacheDirectory();
+        std::filesystem::path generatedFolder = cacheFolder / "Generated";
+        return generatedFolder;
     }
 
 private:

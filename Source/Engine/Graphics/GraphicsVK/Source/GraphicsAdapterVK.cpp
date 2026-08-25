@@ -9,6 +9,7 @@
 #include "GraphicsPipelineVK.hpp"
 #include "GraphicsSwapchainVK.hpp"
 #include "GraphicsSemaphoreVK.hpp"
+#include "Containers/Map.hpp"
 
 static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT severity, VkDebugUtilsMessageTypeFlagsEXT, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void*)
 {

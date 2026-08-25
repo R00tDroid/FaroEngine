@@ -4,7 +4,7 @@
 
 namespace Faro
 {
-    class PlatformWindows : public Platform
+    Reflect(classflag) class PlatformWindows : public Platform
     {
     public:
         void Init() override;
@@ -21,6 +21,6 @@ namespace Faro
         Array<Path> FindSubPaths(Path rootPath, bool recursive, String filter) override;
     };
 
-    REGISTER_PLATFORM(PlatformWindows)
+    //REGISTER_PLATFORM(PlatformWindows)
 }
 #endif

@@ -4,7 +4,7 @@
 
 namespace Faro
 {
-    class ModuleB : public IModule
+    Reflect(classflag) class ModuleB : public IModule
     {
     public:
         void Load() override;
@@ -13,5 +13,5 @@ namespace Faro
         Array<String> GetRuntimeDependencies() override;
     };
 
-    REGISTER_MODULE(ModuleB)
+    //REGISTER_MODULE(ModuleB)
 }

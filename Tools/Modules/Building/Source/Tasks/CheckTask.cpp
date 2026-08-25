@@ -2,6 +2,29 @@
 #include "Utility.hpp"
 #include <fstream>
 #include "FileTree.hpp"
+#include "Reflector.hpp"
+#include <glob/glob.hpp>
+#include "LinkTask.hpp"
+
+std::vector<std::filesystem::path> getModuleSourceFiles(const ModuleManifest* module)
+{
+    std::vector<std::filesystem::path> files;
+
+    std::string generatedDirectory = (module->getGeneratedDirectory() / "*").string();
+    for (auto file : glob::rglob(generatedDirectory))
+    {
+        file = std::filesystem::weakly_canonical(file);
+        files.push_back(file);
+    }
+
+    for (unsigned int sourceIndex = 0; sourceIndex < module->sourceFiles(); sourceIndex++)
+    {
+        std::filesystem::path file = module->sourceFile(sourceIndex);
+        files.push_back(file);
+    }
+
+    return files;
+}
 
 std::mutex ModuleCheckStep::scannedFilesLock;
 std::set<std::filesystem::path> ModuleCheckStep::scannedFiles;
@@ -15,13 +38,12 @@ void ModuleCheckStep::scheduleTreeScan()
 
     if (alreadyScanned) return;
 
-    for (unsigned int sourceIndex = 0; sourceIndex < moduleBuild()->module->sourceFiles(); sourceIndex++)
-    {
-        std::filesystem::path file = moduleBuild()->module->sourceFile(sourceIndex);
+    Reflector::generateModuleReflection(moduleBuild()->module);
 
+    for (auto file : getModuleSourceFiles(moduleBuild()->module))
+    {
         if (Utility::IsSourceFile(file.string().c_str()))
         {
-            Utility::PrintLineD("Schedule scan for " + std::string(file.string().c_str()));
             ModuleScanTask::scheduleScan(this, file);
         }
     }
@@ -48,11 +70,10 @@ void ModuleCheckStep::start()
 
 bool ModuleCheckStep::end()
 {
+    // Check for changes in source tree, and mark source files for compilation
     std::set<std::filesystem::path> files = {};
-    for (unsigned int sourceIndex = 0; sourceIndex < moduleBuild()->module->sourceFiles(); sourceIndex++)
+    for (auto file : getModuleSourceFiles(moduleBuild()->module)) 
     {
-        std::filesystem::path file = moduleBuild()->module->sourceFile(sourceIndex);
-
         if (Utility::IsSourceFile(file.string().c_str()))
         {
             bool anyChanged = false;
@@ -90,6 +111,14 @@ bool ModuleCheckStep::end()
 
     bool anyChanges = !moduleBuild()->sourcesToCompile.empty();
 
+    // Check if linker artifacts exist. Otherwise, mark next steps (compiling and linking) as required.
+    std::filesystem::path binary = moduleBuild()->module->getBinPath(moduleBuild()->buildSetup, moduleBuild()->toolchain, getModuleLinkType(moduleBuild()->module->moduleType()));
+    if (!std::filesystem::exists(binary))
+    {
+        Utility::PrintLineD("Missing linker object for module");
+        anyChanges = true;
+    }
+
     if (anyChanges)
     {
         changes.save(files);
@@ -107,10 +136,8 @@ void ModuleBinCheckTask::runTask()
 {
     Utility::PrintLineD("Check module binaries " + std::string(step->moduleBuild()->module->name()));
 
-    for (unsigned int sourceIndex = 0; sourceIndex < step->moduleBuild()->module->sourceFiles(); sourceIndex++)
+    for (auto file : getModuleSourceFiles(step->moduleBuild()->module))
     {
-        std::filesystem::path file = step->moduleBuild()->module->sourceFile(sourceIndex);
-
         if (Utility::IsSourceFile(file.string().c_str()))
         {
             bool needsCompile = false;
@@ -162,6 +189,8 @@ void ModuleDatabaseCheckTask::runTask()
 
 void ModuleScanTask::scheduleScan(ModuleCheckStep* step, std::filesystem::path file)
 {
+    Utility::PrintLineD("Schedule scan for " + std::string(file.string().c_str()));
+
     ModuleCheckStep::scannedFilesLock.lock();
     auto it = ModuleCheckStep::scannedFiles.find(file);
     bool alreadyScanned = it != ModuleCheckStep::scannedFiles.end();

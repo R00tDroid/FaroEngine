@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdarg>
 #include <cstdlib>
 #include <cstring>
 #include "Object.hpp"
@@ -14,6 +15,13 @@ namespace Faro
         {
             T* obj = static_cast<T*>(Alloc(sizeof(T)));
             return new (obj) T(args...);
+        }
+
+        template<class T, typename... Args>
+        static T* NewArgList(va_list args)
+        {
+            T* obj = static_cast<T*>(Alloc(sizeof(T)));
+            return new (obj) T(args);
         }
 
         template<class T>

@@ -4,7 +4,7 @@
 
 namespace Faro
 {
-    class PlatformAndroid : public Platform
+    Reflect(classflag) class PlatformAndroid : public Platform
     {
     public:
         void Init() override;

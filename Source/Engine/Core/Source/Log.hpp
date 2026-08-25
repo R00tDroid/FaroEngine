@@ -44,7 +44,7 @@ namespace Faro
         String message;
     };
 
-    class ILogSink
+    Reflect(classFlag) class ILogSink
     {
     public:
         /// @brief Logging callback that is executed by Logger.
@@ -81,6 +81,5 @@ namespace Faro
         static Array<ILogSink*> logSinks;
     };
 
-    DEFINE_INSTANCE_REGISTRY(LogSinks, Faro::ILogSink)
-    #define REGISTER_LOGSINK(SINK) REGISTER_INSTANCE(LogSinks, SINK)
+    //#define REGISTER_LOGSINK(SINK) REGISTER_CLASS(SINK)
 }

@@ -3,6 +3,7 @@
 #include <Log.hpp>
 #include <Memory/MemoryManager.hpp>
 #include <Math/MathUtil.hpp>
+#include <Containers/Map.hpp>
 
 namespace Faro
 {
@@ -24,6 +25,16 @@ namespace Faro
     bool ModuleManager::Init()
     {
         modules = GetRegisteredModules();
+
+        const Array<ClassReflection*>& classes = ReflectionManager::Get().GetClasses();
+
+        for (ClassReflection* classReflection : classes)
+        {
+            if (classReflection->typeName == "")
+            {
+                return { nullptr };
+            }
+        }
 
         if (!SortModules()) return false;
 

@@ -114,7 +114,7 @@ jobs:
       run: cmake ./Docs
 
     - name: Build
-      uses: mattnotmitt/doxygen-action@v1.9.8
+      uses: mattnotmitt/doxygen-action@v1.12.0
       with:
         doxyfile-path: 'Doxygen'
         working-directory: 'Docs'

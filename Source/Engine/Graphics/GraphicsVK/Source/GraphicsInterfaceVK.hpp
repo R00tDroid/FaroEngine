@@ -4,7 +4,7 @@
 
 namespace Faro
 {
-    class GraphicsInterfaceVK : public GraphicsInterface
+    Reflect(classflag) class GraphicsInterfaceVK : public GraphicsInterface
     {
     public:
         bool Init() override;
@@ -30,5 +30,5 @@ namespace Faro
         VkInstance instance = nullptr;
     };
 
-    REGISTER_GRAPHICS(GraphicsInterfaceVK)
+    //REGISTER_GRAPHICS(GraphicsInterfaceVK)
 }

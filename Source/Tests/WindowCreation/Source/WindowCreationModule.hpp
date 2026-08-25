@@ -5,7 +5,7 @@
 
 namespace Faro
 {
-    class WindowCreationModule : public IModule
+    Reflect(classflag) class WindowCreationModule : public IModule
     {
     public:
         void Load() override;
@@ -24,6 +24,4 @@ namespace Faro
         GraphicsBuffer* remoteBuffer = nullptr;
         GraphicsPipeline* pipeline = nullptr;
     };
-
-    REGISTER_MODULE(WindowCreationModule)
 }

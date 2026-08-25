@@ -64,6 +64,8 @@ struct ModuleManifest::Impl
 
     bool configureModule(const ModuleManifest* module, ModuleScript& vm);
     bool configureSetup(const ModuleManifest* module, ModuleScript& vm, const BuildSetup& setup);
+
+    ProjectManifest* project;
 };
 
 FolderMount::FolderMount(const char* location, const char* mountPoint)
@@ -93,9 +95,10 @@ const char* ModuleManifest::moduleManifestExtension()
     return ".faromod.js";
 }
 
-ModuleManifest::ModuleManifest(const char* manifestLocation) : IManifest(manifestLocation)
+ModuleManifest::ModuleManifest(const char* manifestLocation, ProjectManifest* project) : IManifest(manifestLocation)
 {
     impl = new Impl();
+    impl->project = project;
 }
 
 ModuleManifest::~ModuleManifest()
@@ -116,7 +119,7 @@ const char* ModuleManifest::solutionLocation() const
 
 ProjectManifest* ModuleManifest::project() const
 {
-    return nullptr; //TODO Return project
+    return impl->project;
 }
 
 unsigned int ModuleManifest::defines(AccessDomain type) const
@@ -254,6 +257,8 @@ bool ModuleManifest::Impl::configureModule(const ModuleManifest* manifest, Modul
     {
         return false;
     }
+
+    buildModule.includesPublic.push_back(manifest->getGeneratedDirectory().string());
 
     //TODO Save solution location
 

@@ -42,7 +42,7 @@ private:
     void startStep();
 
     std::vector<BuildStepInterface*> buildSteps;
-    BuildStepInterface* buildStep = nullptr;
+    BuildStepInterface* currentStep = nullptr;
     bool shouldContinue = true;
 };
 

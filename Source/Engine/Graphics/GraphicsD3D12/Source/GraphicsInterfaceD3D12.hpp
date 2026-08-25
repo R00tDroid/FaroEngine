@@ -5,7 +5,7 @@
 
 namespace Faro
 {
-    class GraphicsInterfaceD3D12 : public GraphicsInterface
+    Reflect(classflag) class GraphicsInterfaceD3D12 : public GraphicsInterface
     {
     public:
         bool Init() override;
@@ -27,7 +27,5 @@ namespace Faro
         IDXGIFactory4* dxgiFactory = nullptr;
         Array<GraphicsAdapterDesc> adapterDescs;
     };
-
-    REGISTER_GRAPHICS(GraphicsInterfaceD3D12)
 }
 #endif

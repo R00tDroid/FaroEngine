@@ -116,7 +116,7 @@ bool parseModules(ProjectManifest::Impl& impl, ProjectManifest& project, picojso
                     std::string path = entry.path().string().substr();
                     if (path.length() > extension.length() && path.substr(path.length() - extension.length()) == extension)
                     {
-                        impl.modules.push_back(new ModuleManifest(path.c_str()));
+                        impl.modules.push_back(new ModuleManifest(path.c_str(), &project));
                         foundManifest = true;
                         break;
                     }
@@ -212,7 +212,7 @@ bool ProjectManifest::load(const BuildSetup& buildSetup)
     std::string moduleFilePath;
     while (std::getline(moduleList, moduleFilePath))
     {
-        impl->modules.push_back(new ModuleManifest(moduleFilePath.c_str()));
+        impl->modules.push_back(new ModuleManifest(moduleFilePath.c_str(), this));
     }
     moduleList.close();
 
