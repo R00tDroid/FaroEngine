@@ -56,7 +56,7 @@ void ModuleCleanTask::runTask()
             }
         }
     }
-    catch (std::exception e)
+    catch (std::exception& e)
     {
         Utility::PrintLine("Unknown exception during clean command: " + std::string(e.what()));
         anyError = true;
