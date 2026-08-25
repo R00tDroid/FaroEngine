@@ -27,3 +27,6 @@ INPUT += Modules.md
 INPUT += Toolchain.md
 INPUT += Building.md
 INPUT += ProjectSetup.md
+
+MACRO_EXPANSION = YES
+PREDEFINED = Reflect(flags)=
